@@ -40,40 +40,16 @@
 <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script> -->
 <!-- https://code.jquery.com/jquery-3.5.1.js -->
 
+
 <!-- //ajouter par neda le 18/04/2023:pour ajouter les boutons pour exporter(print,excel,pdf) -->
-
- <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" ></script>
-        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js" ></script>
-        <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js" ></script>
-        <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js" ></script>
-
-
-
-
-        <script src="https://cdn.datatables.net/select/1.3.2/js/dataTables.select.min.js"></script>
-        <script src="https://cdn.datatables.net/datetime/1.0.2/js/dataTables.dateTime.min.js"></script>
-        <script src="https://cdn.datatables.net/colreorder/1.5.3/js/dataTables.colReorder.min.js
-        "></script>
-        <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js
-        "></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js
-        "></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js
-        "></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js
-        "></script>
-
-        <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js
-        "></script>
-        <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js "></script>
-
-
-
-
-
-
-
-
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.bootstrap4.min.js
+"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.colVis.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
