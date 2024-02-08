@@ -1,0 +1,7 @@
+upload/
+application/config/config.php
+application/config/database.php
+*202*
+*old*
+*.zip*
+application/logs/
