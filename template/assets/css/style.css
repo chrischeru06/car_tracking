@@ -30,6 +30,7 @@ a:hover {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Nunito", sans-serif;
+  
 }
 
 /*--------------------------------------------------------------
@@ -217,7 +218,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .card-header, .card-footer {
   border-color: #ebeef4;
-  background-color: #fff;
+/*  background-color: #fff;*/
+  background-color: cadetblue;
+
   color: #798eb3;
   padding: 15px;
 }
@@ -269,7 +272,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .accordion-button:not(.collapsed) {
   color: #012970;
-  background-color: #f6f9ff;
+/*  background-color: #f6f9ff;*/
+  background-color: cadetblue;
+
 }
 
 .accordion-flush .accordion-button {
@@ -322,7 +327,9 @@ h1, h2, h3, h4, h5, h6 {
   color: #4154f1;
 }
 .nav-tabs-bordered .nav-link.active {
-  background-color: #fff;
+/*  background-color: #fff;*/
+  background-color: cadetblue;
+
   color: #4154f1;
   border-bottom: 2px solid #4154f1;
 }
@@ -354,7 +361,9 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 997;
   height: 60px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-  background-color: #fff;
+/*  background-color: #fff;*/
+  background-color: cadetblue;
+
   padding-left: 20px;
   /* Toggle Sidebar Button */
   /* Search Bar */
@@ -520,7 +529,9 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 0;
 }
 .header-nav .profile .dropdown-item:hover {
-  background-color: #f6f9ff;
+/*  background-color: #f6f9ff;*/
+  background-color: cadetblue;
+  
 }
 
 /*--------------------------------------------------------------

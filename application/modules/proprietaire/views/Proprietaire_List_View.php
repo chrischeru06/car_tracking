@@ -4,6 +4,72 @@
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
+  <style type="text/css">
+
+    /* The switch - the box around the slider */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
 </head>
 
 <body>
@@ -17,39 +83,37 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-
     <div class="pagetitle">
-
-      <h1>Véhicule</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Véhicule</a></li>
-          <li class="breadcrumb-item active">Liste</li>
-        </ol>
-      </nav>
-
-      <!-- <div class="col-md-3"> -->
-        <div class="text-nowrap w-100 justify-content-sm-end d-flex">
-          <a class="btn btn-secondary" href="<?=base_url('proprietaire/Proprietaire/index')?>" class="nav-link position-relative"><i class="fa fa-plus"></i> Nouveau</a>
+      <div class="row">
+        <div class="col-md-6">
+          <h1>Propriétaires</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index.html">Propriétaire</a></li>
+              <li class="breadcrumb-item active">Liste</li>
+            </ol>
+          </nav>
         </div>
-      <!-- </div> -->
-    </div><!-- End Page Title -->
+        <div class="col-md-6">
 
-    <section class="section dashboard">
+          <div class="justify-content-sm-end d-flex">
+            <a class="btn btn-secondary" href="<?=base_url('proprietaire/Proprietaire/index')?>"><i class="bi bi-plus"></i> Nouveau</a>
+          </div>
+        </div><!-- End Page Title -->
+      </div>
+    </div>
+    <section class="section">
       <div class="row">
 
         <!-- Left side columns -->
         <div class="col-lg-12">
           <div class="row">
-
-
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-
-
-                <div class="card-body">
-                 <div class="row text-dark">
+           <!-- Reports -->
+           <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <br>
+                <div class="row text-dark">
                   <div class="col-md-12">
                     <div class="row text-dark">
 
@@ -96,8 +160,9 @@
                     </div>
 
                   </div>
-                  
+
                 </div>
+                <br>
                 <div class="table-responsive" style="padding-top: 20px;">
                   <table id="mytable" class="table table-hover" >
                     <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
@@ -108,8 +173,8 @@
                         <th class="text-dark">Personne de Référence</th>
                         <th class="text-dark">Email</th>
                         <th class="text-dark">Téléphone</th>
-
-                        <th class="text-dark">Action</th>
+                        <th class="text-dark">Statut</th>
+                        <th class="text-dark">Option</th>
                       </tr>
                     </thead>
                     <tbody class="text-dark">
@@ -137,28 +202,23 @@
 <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
-<!------------------------ Modal detail proprietaire' ------------------------>
-<div class="row">
-  <div class="modal" id="myModal" role="dialog" >
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color: darkgreen;">
-         <h5> </h5>
-         <div >    
-          <i class="close fa fa-remove float-left text-primary" data-dismiss="modal"></i>  
+<!------------------------ Modal detail proprietaire type physique' ------------------------>
 
-        </div>
+
+<div class="modal fade" id="myModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="table-responsive">
           <div class="row">
             <div class='col-md-6' id="div_info">
-
             </div>
             <div class='col-md-6'>
               <table class="table table-hover text-dark">
-                <thead>
-                </thead>
                 <tr>            
                   <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
                   <td><a id="DESC_TYPE_PROPRIETAIRE"></a></td>
@@ -196,18 +256,66 @@
 
         </div>
 
-
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div>
   </div>
-</div>
-</div>
+</div><!-- End Modal-->
 
+<!------------------------ Modal detail proprietaire type moral' ------------------------>
+
+<div class="modal fade" id="myModal_Modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <div class="row">
+            <table class="table table-hover text-dark">
+              <tr>            
+                <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
+                <td><a id="DESC_TYPE_PROPRIETAIRE_MORAL"></a></td>
+              </tr>
+              <tr>
+                <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Personne de référence</td>
+                <td><a id="PERSONNE_REFERENCE_MORAL"></a></td>
+              </tr>
+
+              <tr>
+                <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
+                <td><a id="TELEPHONE_MORAL"></a></td>
+              </tr>
+              <tr>
+                <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
+                <td><a id="EMAIL_MORAL"></a></td>
+              </tr>
+              <tr>
+                <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                <td><a id="ADRESSE_MORAL"></a></td>
+              </tr>
+            </table>          
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div><!-- End Modal-->
 <script>
   // Fonction pour le chargement de donnees par defaut
   $(document).ready( function ()
   {
     liste($('#TYPE_PROPRIETAIRE_ID').val(),0,0,$('#IS_ACTIVE').val());
+
+    
 
   });
   
@@ -262,6 +370,8 @@
 
   function liste(TYPE_PROPRIETAIRE_ID,PROVINCE_ID,COMMUNE_ID,IS_ACTIVE)
   {
+
+    var row_count = 10000;
     $('#message').delay('slow').fadeOut(3000);
     $("#mytable").DataTable(
     {
@@ -280,13 +390,13 @@
       },
       lengthMenu:
       [
-        [10, 50, 100, -1],
+        [10, 50, 100, row_count],
         [10, 50, 100, "All"]
         ],
       pageLength: 10,
       "columnDefs": [
       {
-        "targets": [4],
+        "targets": [],
         "orderable": false
       }],
       dom: 'Bfrtlip',
@@ -338,6 +448,33 @@
       $('#div_info').html(data.div_info);
       $('#ADRESSE').html(data.ADRESSE);
 
+    },
+
+  });
+
+
+ }
+
+ function get_detail_pers_moral(PROPRIETAIRE_ID) {
+
+
+   $("#myModal_Modal").modal("show");
+   $.ajax({
+    url: "<?= base_url() ?>proprietaire/Proprietaire/get_detail/" + PROPRIETAIRE_ID,
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
+
+      // alert(data.CNI)
+
+      // $('#IDENTITE').html(data.CNI);
+      $('#TELEPHONE_MORAL').html(data.TELEPHONE);
+      $('#EMAIL_MORAL').html(data.EMAIL);
+      $('#DESC_TYPE_PROPRIETAIRE_MORAL').html(data.DESC_TYPE_PROPRIETAIRE);
+      $('#PERSONNE_REFERENCE_MORAL').html(data.PERSONNE_REFERENCE);
+      // $('#div_info').html(data.div_info);
+      $('#ADRESSE_MORAL').html(data.ADRESSE);
+
 
 
 
@@ -346,8 +483,62 @@
 
   });
 
-
  }
+
+ function myFunction(PROPRIETAIRE_ID) {
+  // Get the checkbox
+  var checkBox = document.getElementById("myCheck");
+  // Get the output text
+
+  var status=$('#status').val();
+  status=2;
+  var form_data = new FormData($("#myform_checked")[0]);
+  $.ajax(
+  {
+    url:"<?=base_url()?>proprietaire/Proprietaire/active_desactive/"+status+'/'+PROPRIETAIRE_ID,
+
+    type: 'POST',
+    dataType:'JSON',
+    data: form_data ,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function(data)
+    {
+      window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste';
+
+    }
+  });
+
+}
+
+function myFunction_desactive(PROPRIETAIRE_ID) {
+  // Get the checkbox
+  var checkBox = document.getElementById("myCheck");
+  // Get the output text
+
+  var status=$('#status').val();
+
+  status=1;
+
+  var form_data = new FormData($("#myform_check")[0]);
+  $.ajax(
+  {
+    url:"<?=base_url()?>proprietaire/Proprietaire/active_desactive/"+status+'/'+PROPRIETAIRE_ID,
+
+    type: 'POST',
+    dataType:'JSON',
+    data: form_data ,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function(data)
+    {
+      window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste';
+    }
+  });
+
+}
 </script>
 
 </html>

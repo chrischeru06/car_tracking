@@ -197,12 +197,10 @@ class Login extends CI_Controller
 
 					if ($this->session->userdata('CODE_PROFIL') == "ADMIN") 
 						redirect(base_url('Dashboard'));
-					if ($this->session->userdata('CODE_PROFIL') == "AGENT") 
-						redirect(base_url('plaintes/plaintes/affiche_liste'));
-					if ($this->session->userdata('CODE_PROFIL') == "CLIENT") 
-						redirect(base_url('client/Vehicules'));
-					if ($this->session->userdata('CODE_PROFIL') == "SUPERVISEUR") 
-						redirect(base_url('agent/Agent/index'));
+					
+					if ($this->session->userdata('CODE_PROFIL') == "PROPRIETAIRE") 
+						redirect(base_url('proprietaire/Proprietaire_vehicule'));
+				
 
 					
 

@@ -35,11 +35,13 @@ class Proprietaire extends CI_Controller
 		{
 			$data['btn']="Modifier";
 			$data['title']="MODIFICATION D'UN proprietaire";
-			// $proprietaire=$this->Model->getRequeteOne("SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,TYPE_SOCIETE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE FROM proprietaire WHERE md5(PROPRIETAIRE_ID)='".$PROPRIETAIRE_ID."'");
+			
 
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
-			$my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,TYPE_SOCIETE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
-			$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprio);
+			// $my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
+			// $proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprio);
+
+			$proprietaire=$this->Model->getRequeteOne("SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE FROM proprietaire WHERE md5(PROPRIETAIRE_ID)='".$PROPRIETAIRE_ID."'");
 
 
 			if (empty($proprietaire)) redirect(base_url('Login/logout'));
@@ -194,7 +196,7 @@ class Proprietaire extends CI_Controller
 						'IDENTIFICATION'=>$this->input->post('NOM_PROPRIETAIRE'),
 						'USER_NAME'=>$this->input->post('EMAIL'),
 						'PASSWORD'=>md5($password),
-						'PROFIL_ID'=>4,
+						'PROFIL_ID'=>2,
 						'TELEPHONE'=>$this->input->post('TELEPHONE'),
 						'PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID,
 
@@ -243,7 +245,7 @@ class Proprietaire extends CI_Controller
 						'IDENTIFICATION'=>$this->input->post('NOM_PROPRIETAIRE'),
 						'USER_NAME'=>$this->input->post('EMAIL'),
 						'PASSWORD'=>md5($password),
-						'PROFIL_ID'=>4,
+						'PROFIL_ID'=>2,
 						'TELEPHONE'=>$this->input->post('TELEPHONE'),
 						'PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID,
 
@@ -439,7 +441,7 @@ class Proprietaire extends CI_Controller
 			$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
 		}
 		$order_by='';
-		$order_column=array('NOM_PROPRIETAIRE','CNI_OU_NIF','PERSONNE_REFERENCE','EMAIL','TELEPHONE','DATE_INSERTION');
+		$order_column=array('','NOM_PROPRIETAIRE','PERSONNE_REFERENCE','EMAIL','TELEPHONE','','');
 		if ($_POST['order']['0']['column'] != 0) {
 			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_MESURES_CLIMATIQUES DESC';
 		}
@@ -453,258 +455,15 @@ class Proprietaire extends CI_Controller
 			OR PERSONNE_REFERENCE LIKE "%' . $var_search . '%" OR EMAIL LIKE "%' . $var_search . '%" OR TELEPHONE LIKE "%' . $var_search . '%"
 			OR DATE_FORMAT(`DATE_INSERTION`,"%d-%m-%Y") LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT FROM proprietaire WHERE 1';
+		$query_principal='SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT FROM proprietaire WHERE 1';
 
         //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
 
         // condition pour le query filter
 		$conditionsfilter = $critaire . ' ' . $group;
-
-
 		$requetedebase=$query_principal.$conditions;
 		$requetedebasefilter=$query_principal.$conditionsfilter;
-
-
-
-		$query_secondaire = "CALL `getTable`('".$requetedebase."');";
-        // echo $query_secondaire;
-		$fetch_data = $this->ModelPs->datatable($query_secondaire);
-		$data = array();
-		$i=1;
-
-		foreach ($fetch_data as $row) {
-			$i=$i+1;
-
-			$sub_array=array();
-			$sub_array[]=$i;
-
-
-				// $sub_array[]=$row->info_personne;
-			$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->PROPRIETAIRE_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>&nbsp;&nbsp;<a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')">
-			<span class="fa fa-eye text-dark"></span>
-
-
-			</a>';
-
-			if (!empty($row->PERSONNE_REFERENCE)) 
-			{
-				$sub_array[]=$row->PERSONNE_REFERENCE;	
-			}else{
-				$sub_array[]='N/A';	
-			}
-			if (!empty($row->EMAIL)) 
-			{
-				$sub_array[]=$row->EMAIL;	
-			}else{
-				$sub_array[]='N/A';	
-			}						
-			$sub_array[]=$row->TELEPHONE;
-
-
-
-
-			$option = '<div class="dropdown ">
-			<a class="btn btn-secondary text-white btn-sm" data-toggle="dropdown">
-			<i class="bi bi-justify"></i>
-			
-			<span class="caret"></span></a>
-			<ul class="dropdown-menu dropdown-menu-left">
-			';
-
-
-			$desc_button='';
-
-			if($row->IS_ACTIVE==1)
-			{
-				$desc_button='Désactiver';
-
-				$option .= "<li><a hre='#' data-toggle='modal'
-				data-target='#myStatus" . $row->PROPRIETAIRE_ID . "'><font color='black'>&nbsp;&nbsp;Désactiver</font></a></li>";
-			}
-			else
-			{
-				$desc_button='Activer';
-
-				$option .= "<li><a hre='#' data-toggle='modal'
-				data-target='#myStatus" . $row->PROPRIETAIRE_ID . "'><font color='black'>&nbsp;&nbsp;Activer</font></a></li>";
-			}
-
-			$option .= "<li><a class='btn-md' href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><label class='text-dark'>&nbsp;&nbsp;Modifier</label></a></li>";
-			$option .= "<li><a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><label class='text-dark text-dark'>&nbsp;&nbsp;Détail</label></a></li>";
-			$option .= " </ul>
-			</div>
-			<div class='modal fade' id='myStatus" .  $row->PROPRIETAIRE_ID . "'>
-			<div class='modal-dialog'>
-			<div class='modal-content'>
-
-			<div class='modal-body'>
-			<center><h5><strong>Voulez-vous vraiment $desc_button le propriétaire </strong> <br><b style='background-color:prink;color:green;'><i>" .$row->info_personne."</i></b></h5><strong> ?</strong></center>
-			</div>
-
-			<div class='modal-footer'>
-			<a class='btn btn-danger btn-md' href='" . base_url('proprietaire/Proprietaire/changer_statut/'.$row->PROPRIETAIRE_ID). "'>$desc_button </a>
-			<button class='btn btn-secondary btn-md' data-dismiss='modal'>Quitter</button>
-			</div>
-
-			</div>
-			</div>
-			</div>";
-			$option .="
-			</div>
-			<div class='modal fade' id='mypicture" .$row->PROPRIETAIRE_ID."'>
-			<div class='modal-dialog'>
-			<div class='modal-content'>
-			<div class='modal-body'>
-			<img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%' >
-			</div>
-			<div class='modal-footer'>
-			<button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
-			</div>
-			</div>
-			</div>
-			</div>";
-
-			$sub_array[]=$option;
-			$data[]=$sub_array;
-		}
-		$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
-		$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
-		$output = array(
-			"draw" => intval($_POST['draw']),
-			"recordsTotal" => count($recordsTotal),
-			"recordsFiltered" => count($recordsFiltered),
-			"data" => $data,
-		);
-		echo json_encode($output);
-
-
-	}
-
-
-//Fonction pour recuperer les donnes d'un proprietaire
-	function get_detail($PROPRIETAIRE_ID){
-
-
-		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID WHERE 1 AND proprietaire.PROPRIETAIRE_ID='".$PROPRIETAIRE_ID."'");
-
-		if(empty($proprietaire['PERSONNE_REFERENCE'])){
-
-			$PERSONNE_REFERENCE='N/A';
-		}else{
-			$PERSONNE_REFERENCE=$proprietaire['PERSONNE_REFERENCE'];
-		}
-
-
-
-		$fichier = base_url().'upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'].'';
-
-		$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
-
-		$output = array(
-			"CNI" => $proprietaire['CNI_OU_NIF'],
-			"TELEPHONE" => $proprietaire['TELEPHONE'],
-			"EMAIL" => $proprietaire['EMAIL'],
-			"DESC_TYPE_PROPRIETAIRE" => $proprietaire['DESC_TYPE_PROPRIETAIRE'],
-			"PERSONNE_REFERENCE" => $PERSONNE_REFERENCE,
-			"div_info"=>$div_info,
-			"ADRESSE"=>$proprietaire['ADRESSE'],
-
-
-
-		);
-		echo json_encode($output);
-	}
-
-		    //Fonction pour modifier le statut
-	function changer_statut($id)
-	{
-		$USER_ID = $this->session->userdata('USER_ID');
-		$get_status=$this->Model->getOne('proprietaire',array('PROPRIETAIRE_ID'=>$id));
-		$today = date('Y-m-d H:s');
-		$desc_status='';
-		if($get_status['IS_ACTIVE']==1)
-		{
-			$desc_status='La Désactivation';
-			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>2));
-		}
-		else
-		{
-			$desc_status='L\'Activation';
-
-			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>1));
-		}
-
-		$data['message']='<div class="alert alert-success text-center" id="message">'."$desc_status".' '." effectuée avec succès".'</div>';
-		$this->session->set_flashdata($data);
-		redirect(base_url('proprietaire/Proprietaire/liste/'));
-	}
-
-	//function pour l'affichage de la page de detail
-	function Detail(){
-		$PROPRIETAIRE_ID=$this->uri->segment(4);
-		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
-
-		
-		$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
-		
-		$data['proprietaire']=$proprietaire;
-		$data['desactive']=$desactive;
-		$data['PROPRIETAIRE_ID'] = $data['proprietaire']['proprietaire_ID'];
-		// print_r($data['proprietaire_ID']);die();
-		$data['dte'] =date("d-m-Y H:i:s", strtotime($proprietaire['DATE_INSERTION']));
-
-		$this->load->view('Detail_proprietaire_view',$data);
-
-	}
-
-	//Fonction pour le detail de tous les vehicules d'un client
-	function detail_vehicule_client(){
-
-		$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
-	
-		$critaire = '' ;
-
-		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-		$var_search = str_replace("'", "\'", $var_search);
-		$group = "";
-		
-		$limit = 'LIMIT 0,1000';
-		if ($_POST['length'] != -1) {
-			$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
-		}
-		$order_by='';
-		$order_column=array('NOM_PROPRIETAIRE','CNI_OU_NIF','PERSONNE_REFERENCE','EMAIL','TELEPHONE','DATE_INSERTION');
-
-		$order_column=array('1','DESC_MARQUE','DESC_MODELE','PLAQUE');
-		
-		
-
-
-		if ($_POST['order']['0']['column'] != 0) {
-			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' DESC_MARQUE ASC';
-		}
-		
-		
-
-		$search = !empty($_POST['search']['value']) ? (' AND (`DESC_MARQUE` LIKE "%' . $var_search . '%" OR DESC_MODELE LIKE "%' . $var_search . '%"
-			OR PLAQUE LIKE "%' . $var_search . '%" )') : '';
-
-		
-		$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
-
-        //condition pour le query principale
-		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
-
-        // condition pour le query filter
-		$conditionsfilter = $critaire . ' ' . $group;
-
-
-		$requetedebase=$query_principal.$conditions;
-		$requetedebasefilter=$query_principal.$conditionsfilter;
-
-
-
 		$query_secondaire = "CALL `getTable`('".$requetedebase."');";
         // echo $query_secondaire;
 		$fetch_data = $this->ModelPs->datatable($query_secondaire);
@@ -713,53 +472,274 @@ class Proprietaire extends CI_Controller
 
 		foreach ($fetch_data as $row) {
 			$i=$i+1;
-
 			$sub_array=array();
 			$sub_array[]=$i;
-			$sub_array[]=$row->DESC_MARQUE;
-			$sub_array[]=$row->DESC_MODELE;
-			$sub_array[]=$row->COULEUR;
-			$sub_array[]=$row->PLAQUE;
-			$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->VEHICULE_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/photo_vehicule/').$row->PHOTO.'"></a></td><td></td></tr></tbody></a>
-			<div class="dropdown">
-			</div>
-			<div class="modal fade" id="mypicture' .$row->VEHICULE_ID.'">
-			<div class="modal-dialog">
-			<div class="modal-content">
-			<div class="modal-body">
-			<img src = "'.base_url('upload/photo_vehicule/'.$row->PHOTO).'" height="100%"  width="100%" >
-			</div>
-			<div class="modal-footer">
-			<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-			</div>
-			</div>
-			</div>
-			</div>';
+
+			if($row->TYPE_PROPRIETAIRE_ID == 1){
+				$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" class=" bi bi-bank text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
+				';
+
+			}else{
+
+		// $sub_array[]=$row->info_personne;
+				$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+				
+				<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-body">
+				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
+				</div>
+				<div class="modal-footer">
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				</div>
+				</div>
+				</div>
+				</div>';
+			}
+			
+
+			if (!empty($row->PERSONNE_REFERENCE)) 
+			{
+				$sub_array[]=$row->PERSONNE_REFERENCE;	
+				}else{
+					$sub_array[]='N/A';	
+				}
+				if (!empty($row->EMAIL)) 
+				{
+					$sub_array[]=$row->EMAIL;	
+					}else{
+						$sub_array[]='N/A';	
+					}						
+					$sub_array[]=$row->TELEPHONE;
+
+					if($row->IS_ACTIVE==1){
+						$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+						<label class="switch"> 
+						<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->PROPRIETAIRE_ID . ')" checked>
+						<span class="slider round"></span>
+						</label>
+						</form>
+
+						';
+						}else{
+							$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+							<label class="switch"> 
+							<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->PROPRIETAIRE_ID . ')">
+							<span class="slider round"></span>
+							</label>
+							</form>
+
+							';
+						}
+
+						$sub_array[]="<a  href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil'></span></a>&nbsp;&nbsp; <a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><span class='bi bi-table'></span></a>";
+						
+						$data[]=$sub_array;
+					}
+					$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+					$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+					$output = array(
+						"draw" => intval($_POST['draw']),
+						"recordsTotal" => count($recordsTotal),
+						"recordsFiltered" => count($recordsFiltered),
+						"data" => $data,
+					);
+					echo json_encode($output);
+
+
+				}
+
+
+//Fonction pour recuperer les donnes d'un proprietaire
+				function get_detail($PROPRIETAIRE_ID){
+
+
+		// $proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID WHERE 1 AND proprietaire.PROPRIETAIRE_ID='".$PROPRIETAIRE_ID."'");
+
+					$proce_requete = "CALL `getRequete`(?,?,?,?);";
+					$my_select_proprietaire = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
+					$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprietaire);
+
+					if(empty($proprietaire['PERSONNE_REFERENCE'])){
+
+						$PERSONNE_REFERENCE='N/A';
+					}else{
+						$PERSONNE_REFERENCE=$proprietaire['PERSONNE_REFERENCE'];
+					}
+
+					$fichier = base_url().'upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'].'';
+					$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
+
+					$output = array(
+						"CNI" => $proprietaire['CNI_OU_NIF'],
+						"TELEPHONE" => $proprietaire['TELEPHONE'],
+						"EMAIL" => $proprietaire['EMAIL'],
+						"DESC_TYPE_PROPRIETAIRE" => $proprietaire['DESC_TYPE_PROPRIETAIRE'],
+						"PERSONNE_REFERENCE" => $PERSONNE_REFERENCE,
+						"div_info"=>$div_info,
+						"ADRESSE"=>$proprietaire['ADRESSE'],
+
+					);
+					echo json_encode($output);
+				}
+
+	//Fonction pour modifier le statut
+				function changer_statut($id)
+				{
+					$USER_ID = $this->session->userdata('USER_ID');
+					$get_status=$this->Model->getOne('proprietaire',array('PROPRIETAIRE_ID'=>$id));
+					$today = date('Y-m-d H:s');
+					$desc_status='';
+					if($get_status['IS_ACTIVE']==1)
+					{
+						$desc_status='La Désactivation';
+						$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>2));
+					}
+					else
+					{
+						$desc_status='L\'Activation';
+
+						$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>1));
+					}
+
+					$data['message']='<div class="alert alert-success text-center" id="message">'."$desc_status".' '." effectuée avec succès".'</div>';
+					$this->session->set_flashdata($data);
+					redirect(base_url('proprietaire/Proprietaire/liste/'));
+				}
+
+	//function pour l'affichage de la page de detail
+				function Detail(){
+					$PROPRIETAIRE_ID=$this->uri->segment(4);
+					$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+
+
+					$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+
+					$data['proprietaire']=$proprietaire;
+					$data['desactive']=$desactive;
+					$data['PROPRIETAIRE_ID'] = $data['proprietaire']['proprietaire_ID'];
+		// print_r($data['proprietaire_ID']);die();
+					$data['dte'] =date("d-m-Y H:i:s", strtotime($proprietaire['DATE_INSERTION']));
+
+					$this->load->view('Detail_proprietaire_view',$data);
+
+				}
+
+	//Fonction pour le detail de tous les vehicules d'un client
+				function detail_vehicule_client(){
+
+					$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
+
+					$critaire = '' ;
+
+					$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+					$var_search = str_replace("'", "\'", $var_search);
+					$group = "";
+
+					$limit = 'LIMIT 0,1000';
+					if ($_POST['length'] != -1) {
+						$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+					}
+					$order_by='';
+					$order_column=array('NOM_PROPRIETAIRE','CNI_OU_NIF','PERSONNE_REFERENCE','EMAIL','TELEPHONE','DATE_INSERTION');
+
+					$order_column=array('1','DESC_MARQUE','DESC_MODELE','COULEUR','PLAQUE');
+
+					if ($_POST['order']['0']['column'] != 0) {
+						$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' DESC_MARQUE ASC';
+					}
+
+
+
+					$search = !empty($_POST['search']['value']) ? (' AND (`DESC_MARQUE` LIKE "%' . $var_search . '%" OR DESC_MODELE LIKE "%' . $var_search . '%"
+						OR PLAQUE LIKE "%' . $var_search . '%" )') : '';
+
+
+					$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
+
+        //condition pour le query principale
+					$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+
+        // condition pour le query filter
+					$conditionsfilter = $critaire . ' ' . $group;
+
+
+					$requetedebase=$query_principal.$conditions;
+					$requetedebasefilter=$query_principal.$conditionsfilter;
+
+
+
+					$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+        // echo $query_secondaire;
+					$fetch_data = $this->ModelPs->datatable($query_secondaire);
+					$data = array();
+					$i=0;
+
+					foreach ($fetch_data as $row) {
+						$i=$i+1;
+
+						$sub_array=array();
+						$sub_array[]=$i;
+						$sub_array[]=$row->DESC_MARQUE;
+						$sub_array[]=$row->DESC_MODELE;
+						$sub_array[]=$row->COULEUR;
+						$sub_array[]=$row->PLAQUE;
+						$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->VEHICULE_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/photo_vehicule/').$row->PHOTO.'"></a></td><td></td></tr></tbody></a>
+						<div class="dropdown">
+						</div>
+						<div class="modal fade" id="mypicture' .$row->VEHICULE_ID.'">
+						<div class="modal-dialog">
+						<div class="modal-content">
+						<div class="modal-body">
+						<img src = "'.base_url('upload/photo_vehicule/'.$row->PHOTO).'" height="100%"  width="100%" >
+						</div>
+						<div class="modal-footer">
+						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+						</div>
+						</div>
+						</div>
+						</div>';
 
 
 
 			// $sub_array[]=$option;
-			$data[]=$sub_array;
-		}
-		$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
-		$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
-		$output = array(
-			"draw" => intval($_POST['draw']),
-			"recordsTotal" => count($recordsTotal),
-			"recordsFiltered" => count($recordsFiltered),
-			"data" => $data,
-		);
-		echo json_encode($output);
+						$data[]=$sub_array;
+					}
+					$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+					$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+					$output = array(
+						"draw" => intval($_POST['draw']),
+						"recordsTotal" => count($recordsTotal),
+						"recordsFiltered" => count($recordsFiltered),
+						"data" => $data,
+					);
+					echo json_encode($output);
 
 
-	}
+				}
+
+	//Fonction pour activer/desactiver un proprietaire
+				function active_desactive($status,$PROPRIETAIRE_ID){
+
+					if($status==1){
+						$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>2));
+
+					}else if($status==2){
+						$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>1));
+					}
+
+					echo json_encode(array('status'=>$status));
+
+
+				}
 	// Recuperation des photos passeports
-	public function upload_document_nomdocument($nom_file,$nom_champ,$nomdocument)
-	{
-		$rep_doc =FCPATH.'upload/proprietaire/photopassport/';
-		$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
-		$file_extension = strtolower($file_extension);
-		$valid_ext = array('pdf');
+				public function upload_document_nomdocument($nom_file,$nom_champ,$nomdocument)
+				{
+					$rep_doc =FCPATH.'upload/proprietaire/photopassport/';
+					$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
+					$file_extension = strtolower($file_extension);
+					$valid_ext = array('pdf');
 		if(!is_dir($rep_doc)) //crée un dossier s'il n'existe pas déja   
 		{
 			mkdir($rep_doc,0777,TRUE);
@@ -774,8 +754,7 @@ class Proprietaire extends CI_Controller
 	function get_communes($PROVINCE_ID)
 	{
 		$html="<option value=''>Séléctionner</option>";
-		// $communes=$this->Model->getRequete("SELECT COMMUNE_ID,COMMUNE_NAME FROM communes WHERE PROVINCE_ID=".$PROVINCE_ID." ORDER BY COMMUNE_NAME ASC");
-
+		
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 		$my_select_communes = $this->getBindParms('COMMUNE_ID,COMMUNE_NAME', 'communes', '1 AND PROVINCE_ID='.$PROVINCE_ID.'', '`COMMUNE_NAME` ASC');
@@ -791,8 +770,6 @@ class Proprietaire extends CI_Controller
 	function get_zones($COMMUNE_ID)
 	{
 		$html='<option value="">Séléctionner</option>';
-		// $zones=$this->Model->getRequete("SELECT ZONE_ID,ZONE_NAME FROM zones WHERE COMMUNE_ID=".$COMMUNE_ID." ORDER BY ZONE_NAME ASC");
-
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_zones = $this->getBindParms('ZONE_ID,ZONE_NAME', 'zones', '1 AND COMMUNE_ID='.$COMMUNE_ID.'', '`ZONE_NAME` ASC');
 		$zones = $this->ModelPs->getRequete($proce_requete, $my_select_zones);
@@ -810,8 +787,7 @@ class Proprietaire extends CI_Controller
 	function get_collines($ZONE_ID)
 	{
 		$html='<option value="">Séléctionner</option>';
-		// $collines=$this->Model->getRequete("SELECT COLLINE_ID,COLLINE_NAME FROM collines WHERE ZONE_ID=".$ZONE_ID." ORDER BY COLLINE_NAME ASC");
-
+		
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME', 'collines', '1 AND ZONE_ID='.$ZONE_ID.'', '`COLLINE_NAME` ASC');
 		$collines = $this->ModelPs->getRequete($proce_requete, $my_select_collines);
