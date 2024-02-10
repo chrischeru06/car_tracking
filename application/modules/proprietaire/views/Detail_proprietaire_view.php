@@ -42,18 +42,22 @@
               <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
 
               <?php
-              if(!empty($proprietaire['PHOTO_PASSPORT']))
+              if(!empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)
               {
                 ?>
                 <img  class="rounded-circle" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'])?>">
                 <?php
               }
-              else
+              else if(empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)
               {
                 ?>
                 <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
                 <?php
-              }
+              }else  if($proprietaire['TYPE_PROPRIETAIRE_ID']==1){?>
+
+                <span width="200px" height="auto" class="bi bi-bank"></span>
+
+             <?php }
               ?>
               <h2><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></h2>
               <!-- <h3>Web Designer</h3> -->
