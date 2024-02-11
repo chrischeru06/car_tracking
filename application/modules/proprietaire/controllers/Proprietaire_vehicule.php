@@ -27,7 +27,7 @@ class Proprietaire_vehicule extends CI_Controller
 			redirect(base_url('Login'));
 
 		}else{
-		$critaire = ' AND users.USER_ID='.$USER_ID ;
+			$critaire = ' AND users.USER_ID='.$USER_ID ;
 			
 		}
 
@@ -60,6 +60,11 @@ class Proprietaire_vehicule extends CI_Controller
 		$data=array();
 		foreach ($fetch_data as $row)
 		{
+			
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+			$my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
+			$chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
+
 			$sub_array=array();
 			$sub_array[]=$row->CODE;
 			$sub_array[]=$row->DESC_MARQUE;
@@ -70,6 +75,35 @@ class Proprietaire_vehicule extends CI_Controller
 			}else{
 
 				$sub_array[]=$row->COULEUR;
+
+			}
+
+			if(!empty($chauffeur)){
+
+				// $sub_array[]=$chauffeur['NAME_CHAUFFEUR'];
+
+				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $chauffeur['CHAUFFEUR_ID']. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/photopassport/').$chauffeur['PHOTO_PASSPORT'].'"></a></td><td> '.'     '.' ' . $chauffeur['NOM'] . ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
+				<a  href="' . base_url("tracking/Dashboard/tracking_chauffeur/".$chauffeur['CODE']) . '"><font style="float: right;"><span class="bi bi-eye"></span></font></a>
+
+				<div class="modal fade" id="mypicture' .$chauffeur['CHAUFFEUR_ID'].'">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-body">
+				<img src = "'.base_url('upload/photo_vehicule/'.$chauffeur['PHOTO_PASSPORT']).'" height="100%"  width="100%" >
+				</div>
+				<div class="modal-footer">
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				</div>
+				</div>
+				</div>
+				</div>';
+
+
+			}else{
+
+				$sub_array[]='N/A';
+
+
 
 			}
 
@@ -123,6 +157,19 @@ class Proprietaire_vehicule extends CI_Controller
 			"data" => $data
 		);
 		echo json_encode($output);
+	}
+
+		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
+	public function getBindParms($columnselect, $table, $where, $orderby)
+	{
+        // code...
+		$bindparams = array(
+			'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+			'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+			'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+			'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+		);
+		return $bindparams;
 	}
 }
 

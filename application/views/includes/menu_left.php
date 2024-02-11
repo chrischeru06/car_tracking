@@ -67,7 +67,7 @@ if ($this->session->PROFIL_ID == 1) {
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="tables-general.html">
+              <a href="<?=base_url()?>traceur_FMB920/Map">
               <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
             </a>
           </li>
@@ -96,7 +96,7 @@ if ($this->session->PROFIL_ID == 2) {
 
   <aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'template/images/sidebar123-01s.png'; ?>')">
 
-    <ul class="sidebar-nav" id="sidebar-nav" style="background-color: cadetblue">
+    <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
         <a class="nav-link " href="<?=base_url()?>Dashboard">
@@ -127,7 +127,8 @@ if ($this->session->PROFIL_ID == 2) {
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="tables-general.html">
+              <a href="<?=base_url()?>traceur_FMB920/Map">
+              
               <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
             </a>
           </li>

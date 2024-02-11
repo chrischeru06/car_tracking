@@ -53,7 +53,7 @@
                           <th class="text-dark">Modèle</th>
                           <th class="text-dark">Plaque</th>
                           <th class="text-dark">Couleur</th>
-                          <!-- <th class="text-dark">Propriétaire</th> -->
+                          <th class="text-dark">Chauffeur</th>
                           <th class="text-dark">Enregistré le</th>
                           <!-- <th class="text-dark">Action</th> -->
                         </tr>
