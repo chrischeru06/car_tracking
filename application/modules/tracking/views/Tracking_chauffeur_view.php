@@ -190,32 +190,44 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Carte</h5>
+              <h6 class="card-title"> &nbsp;&nbsp;  Carte</h6>
 
               <br>
               <br>
 
-              <div id="map2" style="width: 100%;height: 720px;">
-                <pre id="coordinates" class="coordinates"></pre>
+              <div id="map2" style="width: 100%;height: 720px;"> </div>
+                <br>
 
-              </div>
+                 <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+
+                <div id="menu"> 
+
+                  <?php $carte2; ?>
+
+
+                  <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
+
+                  <label for="satellite-streets-v12">satellite</label>
+
+                  <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
+                  <label for="streets-v12">streets</label>
+
+
+                  <br>
+                  <br>
+
+                  <!-- <img style="width: 100%;height: 150px;" src="<?= base_url() ?>upload/mbx2.jpeg">          -->
+
+                </div>
+              </form>
+
+             
               <div id="animation-phase-container">
 
 <!--   Temps :
   <div id="animation-phase"></div> -->
 
 
-  <div id="menu">
-    <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite">
-    <!-- See a list of Mapbox-hosted public styles at -->
-    <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-    <label for="satellite-streets-v12">satellite</label>
-
-    <input id="streets-v12" type="radio" name="rtoggle" value="streets" checked="checked">
-    <label for="streets-v12">streets</label>
-
-
-  </div>
 </div>
 
 </div>
@@ -329,26 +341,7 @@
       );
 
 
-    map.on('click', 'iss', (e) => {
-        // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
-
-        // Ensure that if the map is zoomed out such that multiple
-        // copies of the feature are visible, the popup appears
-        // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
-
-      new mapboxgl.Popup()
-      .setLngLat(coordinates)
-      // .setHTML("TOYOTA TI :: C3625A<hr>Driver   <b>Donatien Ndahishimiye</b><br><a style='text-decoration:none' href='<?= base_url() ?>traceur_FMB920/Map/trajet'>Voir le trajet du Véhicule</a>")
-      .addTo(map);
-
-
-    });
-
+   
 
 // TOYOTA TI C3625A
 
@@ -363,7 +356,7 @@
     async function getLocation(updateSource) {
             // Make a GET request to the API and return the location of the ISS.
       try {
-  var CODE = $('#CODE').val(); 
+        var CODE = $('#CODE').val(); 
 
         const response = await fetch(
           '<?= base_url() ?>tracking/Dashboard/getmap/'+CODE,
@@ -407,7 +400,7 @@ map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
   "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
   const map2 = new mapboxgl.Map({
   container: "map2", // container ID
-  style: "mapbox://styles/mapbox/streets-v12", // style URL
+  style: "mapbox://styles/mapbox/<?= $carte2; ?>", // style URL
   bounds: [29.384095,-3.3830083, 29.3838133,-3.3844883],
   projection: "globe" // display the map as a 3D globe
 });
@@ -448,22 +441,7 @@ map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
     });
   map2.setFog({}); // Set the default atmosphere style
 
-  const marker = new mapboxgl.Marker({
-draggable: true
-})
-.setLngLat(<?php echo $arret; ?>)
-.addTo(map2);
-
  
-function onDragEnd() {
-const lngLat = marker.getLngLat();
-coordinates.style.display = 'block';
-coordinates.innerHTML = ` `;
-
-}
- 
-marker.on('dragend', onDragEnd);
-
   let startTime;
   const duration = 16000;
 
@@ -515,6 +493,65 @@ marker.on('dragend', onDragEnd);
 
 
 
+
+
+
+
+  map2.on('load', () => {
+map2.addSource('places', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features': [<?= $arret; ?>]
+}
+});
+// Add a layer showing the places.
+map2.addLayer({
+'id': 'places',
+'type': 'circle',
+'source': 'places',
+'paint': {
+'circle-color': '#FF0000',
+'circle-radius': 6,
+'circle-stroke-width': 2,
+'circle-stroke-color': '#ffffff'
+}
+});
+ 
+// Create a popup, but don't add it to the map yet.
+const popup = new mapboxgl.Popup({
+closeButton: false,
+closeOnClick: false
+});
+ 
+map2.on('mouseenter', 'places', (e) => {
+// Change the cursor style as a UI indicator.
+map2.getCanvas().style.cursor = 'pointer';
+ 
+// Copy coordinates array.
+const coordinates = e.features[0].geometry.coordinates.slice();
+const description = e.features[0].properties.description;
+ 
+// Ensure that if the map is zoomed out such that multiple
+// copies of the feature are visible, the popup appears
+// over the copy being pointed to.
+while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+}
+ 
+// Populate the popup and set its coordinates
+// based on the feature found.
+popup.setLngLat(coordinates).setHTML(description).addTo(map2);
+});
+ 
+map2.on('mouseleave', 'places', () => {
+map2.getCanvas().style.cursor = '';
+popup.remove();
+});
+});
+
+
+
 </script>
 <script>
 
@@ -523,24 +560,26 @@ marker.on('dragend', onDragEnd);
 
   var DATE = $('#DATE').val(); 
   var CODE = $('#CODE').val(); 
-  
-  var form_data = new FormData($("#myform_checked")[0]);
+//  alert(CODE)
   $.ajax(
   {
     url:"<?=base_url()?>tracking/Dashboard/tracking_chauffeur/"+CODE,
 
     type: 'POST',
     dataType:'JSON',
-    data: form_data ,
-    contentType: false,
+  
     cache: false,
-    processData: false,
+    data: {
+        DATE:DATE,
+        CODE:CODE,
+      },
     success: function(data)
     {
 
       $('#CODE').html(data.CODE);
-      $('#CODE').html(data.CODE);
-      window.location.href='<?=base_url('')?>tracking/Dashboard/tracking_chauffeur/'+CODE;
+      $('#DATE').html(data.DATE);
+
+      // window.location.href='<?=base_url('')?>tracking/Dashboard/tracking_chauffeur/'+CODE;
 
     }
   });
