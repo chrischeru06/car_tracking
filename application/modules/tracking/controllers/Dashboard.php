@@ -17,6 +17,10 @@ class Dashboard extends CI_Controller
 
 	//Fonction pour afficher le dashbboard pour tracker le chauffeur 
 	function tracking_chauffeur($CODE){
+
+		// echo sqrt(9);
+		// echo pow(9,3);
+
 		$fontinfo = $this->input->post('rtoggle');
 		$DATE_SELECT = $this->input->post('DATE');
 		// $DATE_SELECT = '2024-02-10';
@@ -44,10 +48,11 @@ class Dashboard extends CI_Controller
 		$CODE=$this->uri->segment(4);
 		$data['CODE']=$CODE;
 
+		//chauffeur
 
+		$get_chauffeur = $this->Model->getRequeteOne("SELECT `CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE FROM `chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE WHERE 1 AND chauffeur_vehicule.CODE = ".$CODE);
 
 			//trajet
-
 		$get_data = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition` FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
 
 // date_format(tracking_data.date,'%Y-%m-%d')
@@ -138,6 +143,10 @@ class Dashboard extends CI_Controller
 				$data['vit_moy'] = $vit_moy;
 				$data['date_debfin'] = $date_debfin;
 				$data['arret'] = $arret;
+				$data['get_chauffeur'] = $get_chauffeur;
+				$data['get_arret'] = $get_arret;
+				
+
 
 				$this->load->view('Tracking_chauffeur_view',$data);
 

@@ -42,7 +42,52 @@
     display: none !important;
   }
 
-  
+  /* Activity */
+  .dashboard .activity {
+    font-size: 14px;
+  }
+  .dashboard .activity .activity-item .activite-label {
+    color: #888;
+    position: relative;
+    flex-shrink: 0;
+    flex-grow: 0;
+    min-width: 64px;
+  }
+  .dashboard .activity .activity-item .activite-label::before {
+    content: "";
+    position: absolute;
+    right: -11px;
+    width: 4px;
+    top: 0;
+    bottom: 0;
+    background-color: #eceefe;
+  }
+  .dashboard .activity .activity-item .activity-badge {
+    margin-top: 3px;
+    z-index: 1;
+    font-size: 11px;
+    line-height: 0;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 3px solid #fff;
+    flex-grow: 0;
+  }
+  .dashboard .activity .activity-item .activity-content {
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+  .dashboard .activity .activity-item:first-child .activite-label::before {
+    top: 5px;
+  }
+  .dashboard .activity .activity-item:last-child .activity-content {
+    padding-bottom: 0;
+  }
+
+  .scroller {
+        height: 300px;
+        overflow-y: scroll;
+        border-radius: 10px;
+    }
 
 </style>
 
@@ -87,23 +132,56 @@
     <input type="hidden" name="CODE" id="CODE" value="<?=$CODE?>">
     <section class="section">
       <div class="row align-items-top">
-        <div class="col-lg-6">
+        <div class="col-md-6">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Default</h5>
+              <h5 class="card-title">Informations générales</h5>
+
+
+
               <div class="row">
                 <div class="col-lg-6">
 
 
                   <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Distance parcourue</h5>
+                    <div class="card-body profile-card pt-4 d-flex flex-column">
+
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle">
+                          <!-- <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>"> -->
+
+                          <?php
+                          if(!empty($get_chauffeur['PHOTO_PASSPORT']))
+                          {
+                            ?>
+                            <img  class="rounded-circle" src="<?=base_url('/upload/proprietaire/photopassport/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
+                            <?php
+                          }
+                          else if(empty($get_chauffeur['PHOTO_PASSPORT']))
+                          {
+                            ?>
+                            <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/phavatar.png')?>">
+                            <?php
+                          }?>
+
+                        </div>
+                        <div class="ps-3">
+                        </div>
+                        <div class="ps-3">
+                        </div>
+                        <div class="ps-3">
+                        </div>
+                        <div class="ps-3">
+                          <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NOM'].' '. $get_chauffeur['PRENOM']?></span><br>
+                          <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>
+                          <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>
+                          <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>
 
 
+                        </div>
 
-
-
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -112,117 +190,198 @@
 
 
                   <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Carburant</h5>
+                   <div class="card-body profile-card pt-4 d-flex flex-column">
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle">
+                        <!-- <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>"> -->
+
+                        <?php
+                        if(!empty($get_chauffeur['PHOTO']))
+                        {
+                          ?>
+                          <img  class="rounded-circle" src="<?=base_url('/upload/photo_vehicule/'.$get_chauffeur['PHOTO'])?>">
+                          <?php
+                        }
+                        else if(empty($get_chauffeur['PHOTO_PASSPORT']))
+                        {
+                          ?>
+                          <img style="background-color: white;border-radius: 0%" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/car_icon.png')?>">
+                          <?php
+                        }?>
+
+                      </div>
+                      <div class="ps-3">
+                      </div>
+                      <div class="ps-3">
+                      </div>
+                      <div class="ps-3">
+                      </div>
+                      <div class="ps-3">
+                        <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['DESC_MARQUE'].' / '. $get_chauffeur['DESC_MODELE']?></span><br>
+                        <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>
+                        <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>
+                        <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>
 
 
+                      </div>
 
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-lg-12">
-
-
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Excès de vitesse </h5>
+            </div>
 
 
 
+
+
+
+            <div class="row">
+              <div class="col-lg-6">
+
+
+                <div class="card info-card revenue-card">
+                  <div class="card-body">
+                    <h5 class="card-title">Distance parcourue <span>| Km</span></h5>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle" style="width: 15%;height: 30px;">
+                        <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                      </div>
+                      <div class="ps-3">
+                        <h6>$3,264</h6>
+                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-
-            </div>
-          </div>
+              <div class="col-lg-6">
 
 
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Carburant <span>| écoulé</span></h5>
 
-        </div>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle" style="width: 15%;height: 30px;">
+                        <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/fuel_icon.png')?>">
+                      </div>
+                      <div class="ps-3">
+                        <h6>$3,264</h6>
+                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
-        <div class="col-lg-6">
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Position de la voiture</h5>
-
-
-              <br>
-              <br>
-
-              <div id="map" style="width: 100%;height: 420px;"></div>
-
-
-              <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
-
-                <div id="menu"> 
-
-                  <?php $carte; ?>
-
-
-                  <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte = 'satellite-streets-v12'; ?>>
-
-                  <label for="satellite-streets-v12">satellite</label>
-
-                  <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte = 'streets-v12'; ?> >
-                  <label for="streets-v12">streets</label>
-
-
-                  <br>
-                  <br>
-
-                  <!-- <img style="width: 100%;height: 150px;" src="<?= base_url() ?>upload/mbx2.jpeg">          -->
-
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </form>
+              </div>
             </div>
-          </div>
+            <div class="row">
+              <div class="col-lg-12">
 
+
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Excès de vitesse </h5>
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
         </div>
+
+
+
       </div>
 
-      <div class="row align-items-top">
-        <div class="col-lg-12">
+      <div class="col-lg-6">
 
-          <div class="card">
-            <div class="card-body">
-              <h6 class="card-title"> &nbsp;&nbsp;  Carte</h6>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Position de la voiture</h5>
 
-              <br>
-              <br>
 
-              <div id="map2" style="width: 100%;height: 720px;"> </div>
+            <br>
+            <br>
+
+            <div id="map" style="width: 100%;height: 420px;"></div>
+
+
+            <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+
+              <div id="menu"> 
+
+                <?php $carte; ?>
+
+
+                <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte = 'satellite-streets-v12'; ?>>
+
+                <label for="satellite-streets-v12">satellite</label>
+
+                <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte = 'streets-v12'; ?> >
+                <label for="streets-v12">streets</label>
+
+
+                <br>
                 <br>
 
-                 <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+                <!-- <img style="width: 100%;height: 150px;" src="<?= base_url() ?>upload/mbx2.jpeg">          -->
 
-                <div id="menu"> 
+              </div>
+            </form>
+          </div>
+        </div>
 
-                  <?php $carte2; ?>
+      </div>
+    </div>
+
+    <div class="row align-items-top">
+      <div class="col-lg-9">
+
+        <div class="card">
+          <div class="card-body">
+            <h6 class="card-title"> &nbsp;&nbsp;  Carte</h6>
+
+            <br>
+            <br>
+
+            <div id="map2" style="width: 100%;height: 720px;"> </div>
+            <br>
+
+            <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+
+              <div id="menu"> 
+
+                <?php $carte2; ?>
 
 
-                  <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
+                <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
 
-                  <label for="satellite-streets-v12">satellite</label>
+                <label for="satellite-streets-v12">satellite</label>
 
-                  <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
-                  <label for="streets-v12">streets</label>
+                <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
+                <label for="streets-v12">streets</label>
 
 
-                  <br>
-                  <br>
+                <br>
+                <br>
 
-                  <!-- <img style="width: 100%;height: 150px;" src="<?= base_url() ?>upload/mbx2.jpeg">          -->
+                <!-- <img style="width: 100%;height: 150px;" src="<?= base_url() ?>upload/mbx2.jpeg">          -->
 
-                </div>
-              </form>
+              </div>
+            </form>
 
-             
-              <div id="animation-phase-container">
+
+            <div id="animation-phase-container">
 
 <!--   Temps :
   <div id="animation-phase"></div> -->
@@ -236,6 +395,41 @@
 
 
 </div>
+
+<div class="col-lg-3">
+  <section class="section dashboard">
+
+    <div class="card">
+
+     <div class="card-body">
+      <h5 class="card-title">Points d'arrêt <span>| Today</span></h5>
+      <div class="scroller">
+
+        <div class="activity">
+
+          <?php
+
+          foreach ($get_arret as $key_get_arret) {
+          // code...
+            ?>
+
+            <div class="activity-item d-flex">
+              <div class="activite-label"><?=$key_get_arret['heure']?></div>
+              <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+              <div class="activity-content">
+                 <a href="#" class="fw-bold text-dark">[<?=$key_get_arret['latitude']?>,<?=$key_get_arret['longitude']?>]</a> 
+              </div>
+            </div><!-- End activity item-->
+          <?php }?>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+
 </div>
 </section>
 
@@ -341,7 +535,7 @@
       );
 
 
-   
+
 
 // TOYOTA TI C3625A
 
@@ -389,7 +583,7 @@
     }
   });
 
-map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
+  map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
 
 
 </script>
@@ -441,7 +635,7 @@ map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
     });
   map2.setFog({}); // Set the default atmosphere style
 
- 
+
   let startTime;
   const duration = 16000;
 
@@ -498,57 +692,57 @@ map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
 
 
   map2.on('load', () => {
-map2.addSource('places', {
-'type': 'geojson',
-'data': {
-'type': 'FeatureCollection',
-'features': [<?= $arret; ?>]
-}
-});
+    map2.addSource('places', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': [<?= $arret; ?>]
+      }
+    });
 // Add a layer showing the places.
-map2.addLayer({
-'id': 'places',
-'type': 'circle',
-'source': 'places',
-'paint': {
-'circle-color': '#FF0000',
-'circle-radius': 6,
-'circle-stroke-width': 2,
-'circle-stroke-color': '#ffffff'
-}
-});
- 
+    map2.addLayer({
+      'id': 'places',
+      'type': 'circle',
+      'source': 'places',
+      'paint': {
+        'circle-color': '#FF0000',
+        'circle-radius': 6,
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ffffff'
+      }
+    });
+
 // Create a popup, but don't add it to the map yet.
-const popup = new mapboxgl.Popup({
-closeButton: false,
-closeOnClick: false
-});
- 
-map2.on('mouseenter', 'places', (e) => {
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false
+    });
+
+    map2.on('mouseenter', 'places', (e) => {
 // Change the cursor style as a UI indicator.
-map2.getCanvas().style.cursor = 'pointer';
- 
+      map2.getCanvas().style.cursor = 'pointer';
+
 // Copy coordinates array.
-const coordinates = e.features[0].geometry.coordinates.slice();
-const description = e.features[0].properties.description;
- 
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const description = e.features[0].properties.description;
+
 // Ensure that if the map is zoomed out such that multiple
 // copies of the feature are visible, the popup appears
 // over the copy being pointed to.
-while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-}
- 
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
 // Populate the popup and set its coordinates
 // based on the feature found.
-popup.setLngLat(coordinates).setHTML(description).addTo(map2);
-});
- 
-map2.on('mouseleave', 'places', () => {
-map2.getCanvas().style.cursor = '';
-popup.remove();
-});
-});
+      popup.setLngLat(coordinates).setHTML(description).addTo(map2);
+    });
+
+    map2.on('mouseleave', 'places', () => {
+      map2.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+  });
 
 
 
@@ -567,12 +761,12 @@ popup.remove();
 
     type: 'POST',
     dataType:'JSON',
-  
+
     cache: false,
     data: {
-        DATE:DATE,
-        CODE:CODE,
-      },
+      DATE:DATE,
+      CODE:CODE,
+    },
     success: function(data)
     {
 
