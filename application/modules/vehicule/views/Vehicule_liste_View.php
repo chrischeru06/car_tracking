@@ -18,15 +18,34 @@
 
   <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Véhicule</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Véhicule</a></li>
-          <li class="breadcrumb-item active">Liste</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+    <div class="row page-titles mx-0">
+          <div class="col-sm-10 p-md-0">
+            <div class="welcome-text">
+             <table>
+              <tr>
+                <td> 
+                  <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
+                </td>
+                <td>  
+                  <h4 class="text-dark">Véhicule</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
+                      <li class="breadcrumb-item"><a href="#">Liste</a></li>
+                      <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
+                    </ol>
+                  </nav>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-2">
+
+        <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+
+       </div>
+     </div>
 
     <section class="section dashboard">
       <div class="row">
@@ -39,22 +58,22 @@
             <!-- Reports -->
             <div class="col-12">
               <div class="card">
-
-
                 <div class="card-body">
 
-                  <div class="table-responsive" style="padding-top: 20px;">
-                    <table id="mytable" class="table table-hover" >
+                  <?= $this->session->flashdata('message'); ?>
+
+                  <div class="table-responsive">
+                    <table id="mytable" class="table table-hover" style="width: 100%;">
                       <thead >
                         <tr>
-                          <th class="text-dark">Code</th>
-                          <th class="text-dark">Marque</th>
-                          <th class="text-dark">Modèle</th>
-                          <th class="text-dark">Plaque</th>
-                          <th class="text-dark">Couleur</th>
-                          <th class="text-dark">Propriétaire</th>
-                          <th class="text-dark">Enregistré le</th>
-                          <th class="text-dark">Action</th>
+                          <th class="">CODE</th>
+                          <th class="">MARQUE</th>
+                          <th class="">MODELE</th>
+                          <th class="">PLAQUE</th>
+                          <th class="">COULEUR</th>
+                          <th class="">PROPRIETAIRE</th>
+                          <th class="">DATE&nbsp;ENREGISTREMENT</th>
+                          <th class="">ACTION</th>
                         </tr>
                       </thead>
                       <tbody class="text-dark">

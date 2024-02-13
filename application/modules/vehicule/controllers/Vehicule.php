@@ -18,7 +18,7 @@
 		{
 			if(empty($this->session->userdata('USER_ID')))
 			{
-				redirect(base_url('Login/logout'));
+				//redirect(base_url('Login/logout'));
 
 			}
 		}
@@ -36,7 +36,7 @@
 
 			$critaire = '' ;
 
-			$query_principal='SELECT VEHICULE_ID,CODE,DESC_MARQUE,DESC_NOM,PLAQUE,COULEUR,PHOTO,if(`TYPE_CLIENT_ID`=2,CONCAT(NOM_CLIENT," ",PRENOM),NOM_CLIENT) AS desc_client,PHOTO_PASSPORT,client.EMAIL,client.ADRESSE,client.TELEPHONE,DATE_SAVE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_nom ON vehicule_nom.ID_NOM = vehicule.ID_NOM JOIN client ON client.CLIENT_ID = vehicule.CLIENT_ID WHERE 1';
+			$query_principal='SELECT VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID WHERE 1';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -47,13 +47,13 @@
 			}
 
 			$order_by='';
-			$order_column=array('CODE','DESC_MARQUE','DESC_NOM','PLAQUE','COULEUR','PHOTO','DATE_SAVE');
+			$order_column=array('CODE','DESC_MARQUE','DESC_MODELE','PLAQUE','COULEUR','PHOTO','DATE_SAVE');
 
 			$order_by=isset($_POST['order']) ? ' ORDER BY '.$order_column[$_POST['order']['0']['column']].' ' .$_POST['order']['0']['dir'] : ' ORDER BY VEHICULE_ID DESC';
 
 			$order_by = ' ORDER BY VEHICULE_ID DESC';
 
-			$search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_NOM LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR CONCAT(NOM_CLIENT,' ',PRENOM) LIKE '%$var_search%' OR NOM_CLIENT LIKE '%$var_search%' OR DATE_SAVE LIKE '%$var_search%' )"):'';
+			$search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%' OR DATE_SAVE LIKE '%$var_search%' )"):'';
 
 			$query_secondaire=$query_principal.''.$critaire.''.$search.''.$order_by. ''. $limit;
 
@@ -67,19 +67,19 @@
 				$sub_array=array();
 				$sub_array[]=$row->CODE;
 				$sub_array[]=$row->DESC_MARQUE;
-				$sub_array[]=$row->DESC_NOM;
+				$sub_array[]=$row->DESC_MODELE;
 				$sub_array[]=$row->PLAQUE;
 				$sub_array[]=$row->COULEUR;
 
 				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
 
-				$sub_array[]=' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/client/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->desc_client . '</td></tr></tbody></a>';
+				$sub_array[]=' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->desc_proprio . '</td></tr></tbody></a>';
 
-				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><label class='text-center bi bi-eye'></a>";
+				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><b class='text-center bi bi-eye'></b></a>";
 
 				$option = '<div class="dropdown ">
-				<a class="btn btn-secondary text-white btn-sm" data-toggle="dropdown">
-				<i class="bi bi-justify"></i>
+				<a class="text-dark btn-sm" data-toggle="dropdown">
+				<i class="bx bx-dots-vertical-rounded float-right"></i>
 				
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu dropdown-menu-left">
@@ -87,11 +87,18 @@
 
 				$option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><label class='text-dark'><i class='fa fa-edit'>&nbsp;&nbsp;Modifier</i></label></a></li>";
 
+
+
 				$option .="
 				</div>
-				<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."'>
-				<div class='modal-dialog'>
+				<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."' style='border-radius:40%;'>
+				<div class='modal-dialog modal-lg'>
 				<div class='modal-content'>
+
+				<div class='modal-header' style='background:#f6f9ff;'>
+                      <h5 class='modal-title'>Véhicule</h5>
+                      <button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
+                    </div>
 				<div class='modal-body'>
 
 				<h4 class=''></h4>
@@ -99,40 +106,65 @@
 				<div class='row'>
 
 				<div class='col-md-6'>
-				<img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='100%'  width='100%' >
+				<img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='100%'  width='100%'  style= 'border-radius:5%;'>
 				</div>
 
 				<div class='col-md-6'>
 
 				<h4></h4>
 
-				<p><label class='fa fa'>Code &nbsp;&nbsp;<strong>".$row->CODE."</strong></label></p>
-				<p><label class='fa fa'>Marque &nbsp;&nbsp; <strong>".$row->DESC_MARQUE."</strong></label></p>
-				<p><label class='fa fa'>Modèle &nbsp;&nbsp; <strong>".$row->DESC_NOM."</strong></label></p>
-				<p><label class='fa fa'>Plaque &nbsp;&nbsp; <strong>".$row->PLAQUE."</strong></label></p>
-				<p><label class='fa fa'>Couleur &nbsp;&nbsp;<strong>".$row->COULEUR."</strong></label></p>
-				<p><label class='fa fa'>propriétaire &nbsp;&nbsp; <img src = '".base_url('upload/client/photopassport/'.$row->PHOTO_PASSPORT)."' height='5%'  width='10%'  style= 'border-radius:50%;'><strong>".$row->desc_client."</strong></label></p>
+				<table class='table table-borderless'>
 
+				<tr>
+				<td class='btn-sm'>Code</td>
+				<th class='btn-sm'>".$row->CODE."</th>
+				</tr>
 
+				<tr>
+				<td class='btn-sm'>Marque</td>
+				<th class='btn-sm'>".$row->DESC_MARQUE."</th>
+				</tr>
+
+				<tr class='btn-sm'>
+				<td>Modèle</td>
+				<th class='btn-sm'>".$row->DESC_MODELE."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Plaque</td>
+				<th class='btn-sm'>".$row->PLAQUE."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Couleur</td>
+				<th class='btn-sm'>".$row->COULEUR."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>propriétaire</td>
+				<th class='btn-sm'><img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='5%'  width='10%'  style= 'border-radius:50%;'><strong>".$row->desc_proprio."</strong></th>
+				</tr>
+
+				</table>
 
 				</div>
-
-
 				</div>
-				<div class='modal-footer'>
-				<button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
-				</div>
+				
 				</div>
 				</div>
 				</div>";
 
 
-
 				$option .="
 				</div>
-				<div class='modal fade' id='proprio" .$row->VEHICULE_ID."'>
-				<div class='modal-dialog'>
+				<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:30%;'>
+				<div class='modal-dialog modal-lg'>
 				<div class='modal-content'>
+
+				<div class='modal-header' style='background:#f6f9ff;'>
+                      <h5 class='modal-title'>Propriétaire</h5>
+                      <button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
+                    </div>
 				<div class='modal-body'>
 
 				<h4 class=''></h4>
@@ -140,25 +172,49 @@
 				<div class='row'>
 
 				<div class='col-md-6'>
-				<img src = '".base_url('upload/client/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
+				<img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
 				</div>
 
 				<div class='col-md-6'>
 
 				<h4></h4>
 
-				<p><label class='fa fa'>Nom &nbsp;&nbsp;<strong>".$row->desc_client."</strong></label></p>
-				<p><label class='fa fa'>Adresse &nbsp;&nbsp; <strong>".$row->ADRESSE."</strong></label></p>
-				<p><label class='fa fa-message'>Email &nbsp;&nbsp; <strong>".$row->EMAIL."</strong></label></p>
-				<p><label class='fa fa-phone'>téléphone  &nbsp;&nbsp;<strong>".$row->TELEPHONE."</strong></label></p>
+				<table class='table table-borderless'>
+
+				<tr>
+				<td class='btn-sm'>Nom</td>
+				</tr>
+
+				<tr>
+				<th class='btn-sm'>".$row->desc_proprio."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Adresse</td>
+				</tr>
+				<tr>
+				<th class='btn-sm'>".$row->ADRESSE."</th>
+				</tr>
+
+				<tr class='btn-sm'>
+				<td>Email</td>
+				</tr>
+				<tr>
+				<th class='btn-sm'>".$row->EMAIL."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Téléphone</td>
+				</tr>
+				<tr>
+				<th class='btn-sm'>".$row->TELEPHONE."</th>
+				</tr>
+
+				</table>
 
 				</div>
-
-
 				</div>
-				<div class='modal-footer'>
-				<button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
-				</div>
+				
 				</div>
 				</div>
 				</div>";
@@ -184,47 +240,49 @@
 			$data['btn'] = "Enregistrer";
 			$data['title']="Enregistrement du véhicule";
 
-			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_NOM'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'PHOTO'=>NULL,'CLIENT_ID'=>NULL);
+			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL);
 
 			$marque = $this->Model->getRequete('SELECT ID_MARQUE,DESC_MARQUE FROM vehicule_marque WHERE 1 ORDER BY DESC_MARQUE ASC');
 
-			$nom_vehicule = $this->Model->getRequete("SELECT ID_NOM ,DESC_NOM FROM vehicule_nom WHERE 1 ORDER BY DESC_NOM ASC");
+			$modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE 1 ORDER BY DESC_MODELE ASC");
 
-			$client = $this->Model->getRequete('SELECT CLIENT_ID,if(`TYPE_CLIENT_ID`=2,CONCAT(NOM_CLIENT," ",PRENOM),NOM_CLIENT) AS client_desc FROM client WHERE 1 ORDER BY client_desc ASC');
+			$proprio = $this->Model->getRequete('SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc FROM proprietaire WHERE 1 ORDER BY proprio_desc ASC');
+
+			//print_r($proprio);die();
 
 			if(!empty($VEHICULE_ID))
 			{
 				$data['btn'] = "Modifier";
 				$data['title'] = "Modification du véhicule";
 
-				$vehicule = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_NOM,CODE,PLAQUE,COULEUR,PHOTO,CLIENT_ID FROM vehicule WHERE md5(VEHICULE_ID)='".$VEHICULE_ID."'");
+				$vehicule = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,PHOTO,PROPRIETAIRE_ID FROM vehicule WHERE md5(VEHICULE_ID)='".$VEHICULE_ID."'");
 
 				if (empty($vehicule)) redirect(base_url('Login/logout'));
 
 				$marque = $this->Model->getRequete("SELECT ID_MARQUE,DESC_MARQUE FROM vehicule_marque WHERE 1 ORDER BY DESC_MARQUE ASC");
 
-				$nom_vehicule = $this->Model->getRequete("SELECT ID_NOM ,DESC_NOM FROM vehicule_nom WHERE ID_MARQUE = ".$vehicule["ID_MARQUE"]." ORDER BY DESC_NOM ASC");
+				$modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE ID_MARQUE = ".$vehicule["ID_MARQUE"]." ORDER BY DESC_MODELE ASC");
 
-				$client = $this->Model->getRequete('SELECT CLIENT_ID,if(`TYPE_CLIENT_ID`=2,CONCAT(NOM_CLIENT," ",PRENOM),NOM_CLIENT) AS client_desc FROM client WHERE 1 ORDER BY client_desc ASC');
+				$proprio = $this->Model->getRequete('SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc FROM proprietaire WHERE 1 ORDER BY proprio_desc ASC');
 			}
 
 			$data['vehicule'] = $vehicule;
 			$data['marque'] = $marque;
-			$data['nom_vehicule'] = $nom_vehicule;
-			$data['client'] = $client;
+			$data['modele'] = $modele;
+			$data['proprio'] = $proprio;
 
 
 			$this->load->view('Vehicule_add_View',$data);
 		}
 
        //Selection des noms des vehicules
-		function get_nom_vehicule($ID_MARQUE)
+		function get_modele($ID_MARQUE)
 		{
 			$html="<option value=''>-- Séléctionner --</option>";
-			$nom_vehicule = $this->Model->getRequete("SELECT ID_NOM ,DESC_NOM FROM vehicule_nom WHERE ID_MARQUE=".$ID_MARQUE." ORDER BY DESC_NOM ASC");
-			foreach ($nom_vehicule as $nom_vehicule)
+			$modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE ID_MARQUE=".$ID_MARQUE." ORDER BY DESC_MODELE ASC");
+			foreach ($modele as $modele)
 			{
-				$html.="<option value='".$nom_vehicule['ID_NOM']."'>".$nom_vehicule['DESC_NOM']."</option>";
+				$html.="<option value='".$modele['ID_MODELE']."'>".$modele['DESC_MODELE']."</option>";
 			}
 			echo json_encode($html);
 		}
@@ -259,7 +317,7 @@
 		//Fonction pour l'enregistrement de données dans la base de données ainsi que la mise à jour
 		function save()
 		{
-			$VEHICULE_ID=$this->input->post('VEHICULE_ID');
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 
 			if(empty($VEHICULE_ID))   //Controle d'enregistrement
 			{
@@ -268,13 +326,13 @@
 
 				$this->form_validation->set_rules('ID_MARQUE','ID_MARQUE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('ID_NOM','ID_NOM','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('ID_MODELE','ID_MODELE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules("PLAQUE"," ","trim|required|is_unique[vehicule.PLAQUE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le plaque existe déjà !</font>'));
 
 				$this->form_validation->set_rules('COULEUR','COULEUR','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('CLIENT_ID','CLIENT_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('PROPRIETAIRE_ID','PROPRIETAIRE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				if (empty($_FILES['PHOTO_OUT']['name']))
 				{
@@ -292,11 +350,11 @@
 					(
 						'CODE'=>$this->input->post('CODE'),
 						'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
-						'ID_NOM'=>$this->input->post('ID_NOM'),
+						'ID_MODELE'=>$this->input->post('ID_MODELE'),
 						'PLAQUE'=>$this->input->post('PLAQUE'),
 						'COULEUR'=>$this->input->post('COULEUR'),
 						'PHOTO'=>$PHOTO,
-						'CLIENT_ID'=>$this->input->post('CLIENT_ID'),
+						'PROPRIETAIRE_ID'=>$this->input->post('PROPRIETAIRE_ID'),
 					);
 
 					$table = "vehicule";
@@ -322,17 +380,18 @@
 
 			}else // Controle de mise à jour
 			{
+
 				// $this->form_validation->set_rules("CODE"," ","trim|required|is_unique[vehicule.CODE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le code existe déjà !</font>'));
 
 				$this->form_validation->set_rules('ID_MARQUE','ID_MARQUE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('ID_NOM','ID_NOM','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('ID_MODELE','ID_MODELE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				// $this->form_validation->set_rules("PLAQUE"," ","trim|required|is_unique[vehicule.PLAQUE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le plaque existe déjà !</font>'));
 
 				$this->form_validation->set_rules('COULEUR','COULEUR','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('CLIENT_ID','CLIENT_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('PROPRIETAIRE_ID','PROPRIETAIRE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				if($this->form_validation->run() == FALSE)
 				{
@@ -342,7 +401,7 @@
 				{
 					$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 
-					$check_existe = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_NOM,CODE,PLAQUE,CLIENT_ID FROM vehicule WHERE VEHICULE_ID != '".$VEHICULE_ID."'");
+					$check_existe = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID FROM vehicule WHERE VEHICULE_ID != '".$VEHICULE_ID."'");
 
 					if(!empty($check_existe) && $check_existe['CODE'] == $this->input->post('CODE'))
 					{
@@ -368,11 +427,11 @@
 						(
 							'CODE'=>$this->input->post('CODE'),
 							'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
-							'ID_NOM'=>$this->input->post('ID_NOM'),
+							'ID_MODELE'=>$this->input->post('ID_MODELE'),
 							'PLAQUE'=>$this->input->post('PLAQUE'),
 							'COULEUR'=>$this->input->post('COULEUR'),
 							'PHOTO'=>$PHOTO,
-							'CLIENT_ID'=>$this->input->post('CLIENT_ID'),
+							'PROPRIETAIRE_ID'=>$this->input->post('PROPRIETAIRE_ID'),
 						);
 
 						$table = "vehicule";
