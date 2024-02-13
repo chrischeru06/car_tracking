@@ -1,75 +1,46 @@
-<style type="text/css">
-  .mapboxgl-popup {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    will-change: transform;
-    pointer-events: none;
-    z-index: 1;
-  }
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-  .school-popup {
-    color: #fff;
-    z-index: 1;
-  }
-</style>
 
-<style>
-  .legend label,
-  .legend span {
-    display:block;
-    float:right;
-    height:15px;
-    width:20%;
-    text-align:center;
-    font-size:9px;
-    color:#808080;
-  }
 
-  .mapbox-improve-map{
-    display: none;
-    z-index: 1;
-  }
-  .leaflet-control-attribution{
-    display: none !important;
-    z-index: 1;
-  }
-  .leaflet-control-attribution{
-    display: none !important;
-    z-index: 1;
-  }
-  .mapbox-logo {
-    display: none !important;
-    z-index: 1;
-  }
-  #moncercles{
-    background:#3e4676;
-    border-radius:50%;
-    width:15px;
-    height:15px;
-    border:2px solid #3e4676; 
-  }
 
-  #moncercle{
-    background:#EB821C;
-    border-radius:50%;
-    width:15px;
-    height:15px;
-    border:2px solid #EB821C; 
-  }
+            <div id="map2" style="width: 100%;height: 720px;"> </div>
+            <br>
 
-</style>
+            <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
 
-<style>
-  #hover_compte:hover{
-    background:#A000fB;
-  }
+              <div id="menu"> 
 
-</style>
-<div class="col-lg-8"> 
- <div style=" z-index: 1" id="map2"></div>
+                <?php $carte2; ?>
+
+
+                <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
+
+                <label for="satellite-streets-v12">satellite</label>
+
+                <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
+                <label for="streets-v12">streets</label>
+
+
+                <br>
+                <br>
+
+                <!-- <img style="width: 100%;height: 150px;" src="<?= base_url() ?>upload/mbx2.jpeg">          -->
+
+              </div>
+            </form>
+
+
+            <div id="animation-phase-container">
+
+<!--   Temps :
+  <div id="animation-phase"></div> -->
+
+
 </div>
+
 
 <script type="text/javascript">
 

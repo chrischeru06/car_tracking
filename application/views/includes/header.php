@@ -25,7 +25,7 @@
   <link href="<?= base_url()?>/template/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="<?= base_url()?>/template/assets/css/style.css" rel="stylesheet">
+  <link href="<?= base_url()?>template/assets/css/style.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.2
