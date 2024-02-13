@@ -84,10 +84,10 @@
   }
 
   .scroller {
-        height: 300px;
-        overflow-y: scroll;
-        border-radius: 10px;
-    }
+    height: 300px;
+    overflow-y: scroll;
+    border-radius: 10px;
+  }
 
 </style>
 
@@ -173,7 +173,7 @@
                         <div class="ps-3">
                         </div>
                         <div class="ps-3">
-                          <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NOM'].' '. $get_chauffeur['PRENOM']?></span><br>
+                          <span class="text-muted small pt-2 ps-1"><b><?=$get_chauffeur['NOM'].' '. $get_chauffeur['PRENOM']?></b></span><br>
                           <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>
                           <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>
                           <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>
@@ -218,10 +218,11 @@
                       <div class="ps-3">
                       </div>
                       <div class="ps-3">
-                        <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['DESC_MARQUE'].' / '. $get_chauffeur['DESC_MODELE']?></span><br>
-                        <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>
-                        <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>
-                        <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>
+                        <span class="text-muted small pt-2 ps-1"><b><?=$get_chauffeur['DESC_MARQUE'].' / '. $get_chauffeur['DESC_MODELE']?></b></span><br>
+                        <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['PLAQUE']?></span><br>
+                        <i class="bi bi-palette"></i><span class="text-muted small pt-2 ps-1"><?php if(empty($get_chauffeur['COULEUR'])){?> N/A <?php } ?>
+                        <?php if(!empty($get_chauffeur['COULEUR'])){?>  <?= $get_chauffeur['COULEUR']?> <?php } ?></span><br>
+                        
 
 
                       </div>
@@ -246,12 +247,12 @@
                     <h5 class="card-title">Distance parcourue <span>| Km</span></h5>
 
                     <div class="d-flex align-items-center">
-                      <div class="card-icon rounded-circle" style="width: 15%;height: 30px;">
+                      <div class="card-icon rounded-circle" >
                         <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
                       </div>
                       <div class="ps-3">
-                        <h6>$3,264</h6>
-                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                        <h6><span class="text-success small pt-1 fw-bold"><?=$distance_finale?></span></h6>
+                        
 
                       </div>
                     </div>
@@ -267,12 +268,12 @@
                     <h5 class="card-title">Carburant <span>| écoulé</span></h5>
 
                     <div class="d-flex align-items-center">
-                      <div class="card-icon rounded-circle" style="width: 15%;height: 30px;">
+                      <div class="card-icon rounded-circle">
                         <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/fuel_icon.png')?>">
                       </div>
                       <div class="ps-3">
-                        <h6>$3,264</h6>
-                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                        <h6><span class="text-success small pt-1 fw-bold"><?=$carburant?> litres</span></h6>
+                        
 
                       </div>
                     </div>
@@ -417,15 +418,15 @@
               <div class="activite-label"><?=$key_get_arret['heure']?></div>
               <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
               <div class="activity-content">
-                 <a href="#" class="fw-bold text-dark">[<?=$key_get_arret['latitude']?>,<?=$key_get_arret['longitude']?>]</a> 
-              </div>
-            </div><!-- End activity item-->
-          <?php }?>
+               <a href="#" class="fw-bold text-dark">[<?=$key_get_arret['latitude']?>,<?=$key_get_arret['longitude']?>]</a> 
+             </div>
+           </div><!-- End activity item-->
+         <?php }?>
 
-        </div>
-      </div>
-    </div>
-  </div>
+       </div>
+     </div>
+   </div>
+ </div>
 </section>
 </div>
 
@@ -750,35 +751,66 @@
 <script>
 
 
- function change_carte() {
+//  function change_carte() {
 
-  var DATE = $('#DATE').val(); 
-  var CODE = $('#CODE').val(); 
-//  alert(CODE)
-  $.ajax(
-  {
-    url:"<?=base_url()?>tracking/Dashboard/tracking_chauffeur/"+CODE,
+//   var DATE = $('#DATE').val(); 
+//   var CODE = $('#CODE').val(); 
+// //  alert(CODE)
+//   $.ajax(
+//   {
+//     url:"<?=base_url()?>tracking/Dashboard/tracking_chauffeur/"+CODE,
 
-    type: 'POST',
-    dataType:'JSON',
+//     type: 'POST',
+//     dataType:'JSON',
 
-    cache: false,
+//     cache: false,
+//     data: {
+//       DATE:DATE,
+//       CODE:CODE,
+//     },
+//     success: function(data)
+//     {
+
+//       $('#CODE').html(data.CODE);
+//       $('#DATE').html(data.DATE);
+
+//       // window.location.href='<?=base_url('')?>tracking/Dashboard/tracking_chauffeur/'+CODE;
+
+//     }
+//   });
+
+// }
+
+  function change_carte(){
+
+   var DATE = $('#DATE').val(); 
+   var CODE = $('#CODE').val(); 
+
+   $.ajax({
+    url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur/"+CODE,
+
+    type : "POST",
+    dataType: "JSON",
+    cache:false,
     data: {
       DATE:DATE,
       CODE:CODE,
     },
-    success: function(data)
-    {
+    beforeSend:function() {
 
-      $('#CODE').html(data.CODE);
+
+    },
+    success:function(data) {
+
+      $('#mapview').html(data.carte_view);
       $('#DATE').html(data.DATE);
+      $('#CODE').html(data.CODE);
 
-      // window.location.href='<?=base_url('')?>tracking/Dashboard/tracking_chauffeur/'+CODE;
-
-    }
+    },
   });
+ }
 
-}
+
 </script>
 
 

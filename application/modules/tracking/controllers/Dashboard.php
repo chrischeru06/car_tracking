@@ -48,6 +48,31 @@ class Dashboard extends CI_Controller
 		$CODE=$this->uri->segment(4);
 		$data['CODE']=$CODE;
 
+
+		//Distance parcourue
+
+		// $get_distance = $this->Model->getRequete("SELECT `latitude`,`longitude`,`ignition` FROM `tracking_data` WHERE 1");
+
+		// $dist1='';
+		// $dist2='';
+
+
+
+		// foreach ($get_distance as $key_dist) {
+
+
+		// 		$dist1=$key_dist['longitude'];
+		// 		$dist2=$key_dist['latitude'];
+
+
+		// }
+
+		// // print_r($dist1);die();
+
+		// $dist_cal = $this->Model->calcule_distance($dist1,$dist2);
+
+		// print_r($dist_cal);die();
+
 		//chauffeur
 
 		$get_chauffeur = $this->Model->getRequeteOne("SELECT `CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE FROM `chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE WHERE 1 AND chauffeur_vehicule.CODE = ".$CODE);
@@ -55,17 +80,51 @@ class Dashboard extends CI_Controller
 			//trajet
 		$get_data = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition` FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
 
-// date_format(tracking_data.date,'%Y-%m-%d')
-		// $proce_requete = "CALL `getRequete`(?,?,?,?);";
-		// $my_select_get_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`', '`tracking_data`', '1 AND device_uid='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT. '"' , '`id` ASC');
-		// $get_data = $this->ModelPs->getRequete($proce_requete, $my_select_get_data);
-		// $get_data = str_replace("\'", "'", $get_data);
 
 
+		$get_arret = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`device_uid`,`ignition`,date_format(tracking_data.date,'%H:%i') as heure,ignition FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
 
-		$get_arret = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`device_uid`,`ignition`,date_format(tracking_data.date,'%H:%i') as heure FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
+		//Calcul de la distance
+		if(!empty($get_data)){
+
+			$distance=0;
+
+			$i=0;
+			foreach ($get_data as $value_get_arret) {
+				if ($value_get_arret['ignition']==1) {
+            // code...
+					if ($i==0) {
+						$pointdepart=[$value_get_arret['latitude'],$value_get_arret['longitude']];
+
+					}else{
+						$pointactuel=[$value_get_arret['latitude'],$value_get_arret['longitude']];
 
 
+						$distance+=$this->Model->getDistance($pointdepart['0'],$pointdepart['1'],$pointactuel['0'],$pointactuel['1']);
+
+					}
+
+				}else{
+					$pointdepart=[$value_get_arret['latitude'],$value_get_arret['longitude']];
+
+				}
+				$i++;
+
+			}
+
+			$distance_finale=$distance;
+
+		}
+
+
+	
+
+		//calcul du carburant consommé
+
+		$carburant = 1 * $distance_finale;
+
+
+		//carte
 		$arret = '';
 
 
@@ -107,7 +166,6 @@ class Dashboard extends CI_Controller
 
 				$arret = str_replace('', "", $arret);
 
-  // print_r($arret);die();
 
 				$vit_moy = $this->Model->getRequeteOne('SELECT AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid = '.$CODE.' AND date_format(`date`,"%Y-%m-%d") = '.$DATE_SELECT);
 
@@ -145,8 +203,10 @@ class Dashboard extends CI_Controller
 				$data['arret'] = $arret;
 				$data['get_chauffeur'] = $get_chauffeur;
 				$data['get_arret'] = $get_arret;
-				
+				$data['distance_finale'] = $distance_finale;
+				$data['carburant'] = $carburant;
 
+				
 
 				$this->load->view('Tracking_chauffeur_view',$data);
 
