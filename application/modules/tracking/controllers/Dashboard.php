@@ -23,6 +23,8 @@ class Dashboard extends CI_Controller
 
 		$fontinfo = $this->input->post('rtoggle');
 		$DATE_SELECT = $this->input->post('DATE');
+
+		$distance_arrondie=0;
 		// $DATE_SELECT = '2024-02-10';
 
 		if(empty($DATE_SELECT)){
@@ -220,15 +222,15 @@ class Dashboard extends CI_Controller
 				//Fonction pour les filtres
 			function tracking_chauffeur_filtres(){
 
-		// echo sqrt(9);
-		// echo pow(9,3);
-
 				$fontinfo = $this->input->post('rtoggle');
 				$DATE_SELECT = $this->input->post('DATE_DAT');
 
+				// print_r($DATE_SELECT);die();
+
 				$CODE = $this->input->post('CODE');
 				$distance_finale=0;
-				// print_r($DATE_SELECT);die();
+				$distance_arrondie=0;
+				$distance=0;
 				
 
 				$info = '';
@@ -245,26 +247,24 @@ class Dashboard extends CI_Controller
 				$data['info'] = $info;
 				
 
-		//chauffeur
+					//chauffeur
 
 				$get_chauffeur = $this->Model->getRequeteOne("SELECT `CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE FROM `chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE WHERE 1 AND chauffeur_vehicule.CODE = ".$CODE);
 
-			//trajet
+				//trajet
 				$get_data = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition` FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
 
 
 
 				$get_arret = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`device_uid`,`ignition`,date_format(tracking_data.date,'%H:%i') as heure,ignition FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
 
-		//Calcul de la distance
+				//Calcul de la distance
 				if(!empty($get_data)){
-
-					$distance=0;
 
 					$i=0;
 					foreach ($get_data as $value_get_arret) {
 						if ($value_get_arret['ignition']==1) {
-            // code...
+
 							if ($i==0) {
 								$pointdepart=[$value_get_arret['latitude'],$value_get_arret['longitude']];
 
@@ -301,7 +301,7 @@ class Dashboard extends CI_Controller
 		//carte
 				$arret = '';
 
-
+				$ligne_arret='';
 				if(!empty($get_arret)){
 
 
@@ -312,7 +312,7 @@ class Dashboard extends CI_Controller
 							'type': 'Feature',
 							'properties': {
 								'description':
-								'<i class=\'fa fa-watch\'></i><p>".$key_arret['heure']."</p>'
+								'<p><strong><i class=\'bi bi-stopwatch\'></i></strong>  ".$key_arret['heure']."</p>'
 								},
 								'geometry': {
 									'type': 'Point',
@@ -322,7 +322,13 @@ class Dashboard extends CI_Controller
 								";
 
 
-
+								$ligne_arret.=" <div class='activity-item d-flex'>
+								<div class='activite-label'>".$key_arret['heure']."</div>
+								<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+								<div class='activity-content'>
+								<a href='#' class='fw-bold text-dark'>[".$key_arret['latitude'].",".$key_arret['longitude']."]</a> 
+								</div>
+								</div>";
 
 							}
 
@@ -332,6 +338,7 @@ class Dashboard extends CI_Controller
 							$number='1';
 
 							$arret.='['.$number.','.$number.'],';
+							$ligne_arret.='pas d\'arret';
 
 
 						}
@@ -392,8 +399,11 @@ class Dashboard extends CI_Controller
 							"carburant" => $carburant,
 							"DATE"=>$DATE_SELECT,
 							"CODE"=>$CODE,
-							"map_filtre"=>$map_filtre
+							"map_filtre"=>$map_filtre,
+							"ligne_arret"=>$ligne_arret
 						);
+
+						// print_r($output);die();
 
 
 						echo json_encode($output);
@@ -402,7 +412,7 @@ class Dashboard extends CI_Controller
 
 					}
 
-	//Fonction pour afficher la position de la voiture
+					//Fonction pour afficher la position de la voiture
 					function getmap($CODE){
 
 						$get_data = $this->Model->getRequeteOne('SELECT * FROM `tracking_data` WHERE device_uid = '.$CODE.' AND `id` = (SELECT MAX(`id`) FROM tracking_data );');
