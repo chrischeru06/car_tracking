@@ -374,20 +374,7 @@
 
         <div class="activity">
 
-          <?php
-
-          foreach ($get_arret as $key_get_arret) {
-          // code...
-            ?>
-
-            <div class="activity-item d-flex">
-              <div class="activite-label"><?=$key_get_arret['heure']?></div>
-              <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-              <div class="activity-content">
-               <a href="#" class="fw-bold text-dark">[<?=$key_get_arret['latitude']?>,<?=$key_get_arret['longitude']?>]</a> 
-             </div>
-           </div><!-- End activity item-->
-         <?php }?>
+          <div id="ligne_arret"></div>
 
        </div>
      </div>
@@ -593,7 +580,11 @@
         $('#carburant').html(data.carburant);
         $('#DATE_DAT').html(data.DATE);
         $('#CODE').html(data.CODE);
+        // alert(data.distance_finale)
         $('#map_filtre').html(data.map_filtre);
+        $('#ligne_arret').html(data.ligne_arret);
+        
+        
 
       },
       error:function() {
