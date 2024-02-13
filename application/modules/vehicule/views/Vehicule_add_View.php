@@ -18,26 +18,48 @@
 
   <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Véhicule</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Véhicule</a></li>
-          <li class="breadcrumb-item active">Liste</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+     <div class="row page-titles mx-0">
+          <div class="col-sm-10 p-md-0">
+            <div class="welcome-text">
+             <table>
+              <tr>
+                <td> 
+                  <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
+                </td>
+                <td>  
+                  <h4 class="text-dark">Véhicule</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
+                      <li class="breadcrumb-item"><a href="#">Liste</a></li>
+                      <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
+                    </ol>
+                  </nav>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-2">
 
-    <section class="section dashboard">
-       <div class="container text-center">
+         <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a>
+
+       </div>
+     </div>
+
+
+    <section class="section">
+       <!-- <div class="container text-center"> -->
         <div class="row">
           <div class="text-left col-sm-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title lead"> <?=$title?></h4>
+            <div class="card" style="border-radius: 20px;">
+              <div class="card-header" style="border-radius: 20px;">
+                <h4 class="card-title"> <small><?=$title?></small></h4>
               </div>
+
+              <br>
               
-              <div class="card-body text-left">
+              <div class="card-body">
 
                 <?= $this->session->flashdata('message'); ?>
 
@@ -48,7 +70,7 @@
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label style="font-weight: 1000; color:#454545"><b>Code</b><span  style="color:red;">*</span></label>
+                          <label ><small> Code</small><span  style="color:red;">*</span></label>
                           <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule['VEHICULE_ID']?>">
 
                           <input class="form-control" type='text' name="CODE" id="CODE" placeholder='code du vehicule' value="<?=$vehicule['CODE']?>"/>
@@ -60,9 +82,9 @@
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label style="font-weight: 1000; color:#454545"><b>Marque</b><span  style="color:red;">*</span></label>
+                          <label ><small>Marque</small><span  style="color:red;">*</span></label>
 
-                          <select class="form-control" name="ID_MARQUE" id="ID_MARQUE" onchange="get_nom_vehicule();">
+                          <select class="form-control" name="ID_MARQUE" id="ID_MARQUE" onchange="get_modele();">
                             <option value="" selected>-- Séléctionner --</option>
                             <?php
                             foreach ($marque as $marque)
@@ -80,29 +102,29 @@
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label style="font-weight: 1000; color:#454545"><b>Modèle</b><span  style="color:red;">*</span></label>
+                          <label><small>Modèle</small><span  style="color:red;">*</span></label>
 
-                          <select class="form-control" name="ID_NOM" id="ID_NOM">
+                          <select class="form-control" name="ID_MODELE" id="ID_MODELE">
                             <option value="" selected>-- Séléctionner --</option>
 
                             <?php
-                            foreach ($nom_vehicule as $nom_vehicule)
+                            foreach ($modele as $modele)
                             {
                               ?>
-                              <option value="<?=$nom_vehicule['ID_NOM']?>"<?php if($nom_vehicule['ID_NOM']==$vehicule['ID_NOM']) echo " selected";?>><?=$nom_vehicule['DESC_NOM']?></option>
+                              <option value="<?=$modele['ID_MODELE']?>"<?php if($modele['ID_MODELE']==$vehicule['ID_MODELE']) echo " selected";?>><?=$modele['DESC_MODELE']?></option>
                               <?php
                             }
                             ?>
 
                           </select>
                         </div>
-                        <span id="errorID_NOM" class="text-danger"></span>
-                        <?php echo form_error('ID_NOM', '<div class="text-danger">', '</div>'); ?>
+                        <span id="errorDESC_MODELE" class="text-danger"></span>
+                        <?php echo form_error('ID_MODELE', '<div class="text-danger">', '</div>'); ?>
                       </div>
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label style="font-weight: 1000; color:#454545"><b>Plaque</b><span  style="color:red;">*</span></label>
+                          <label ><small>Plaque</small><span  style="color:red;">*</span></label>
 
                           <input class="form-control" type='text' name="PLAQUE" id="PLAQUE" placeholder='plaque du vehicule' value="<?=$vehicule['PLAQUE']?>"/>
 
@@ -113,7 +135,7 @@
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label style="font-weight: 1000; color:#454545"><b>Couleur</b><span  style="color:red;">*</span></label>
+                          <label ><small>Couleur</small><span  style="color:red;">*</span></label>
 
                           <input class="form-control" type='text' name="COULEUR" id="COULEUR" placeholder='couleur du vehicule' value="<?=$vehicule['COULEUR']?>"/>
 
@@ -123,7 +145,7 @@
                       </div>
 
                       <div class="col-md-4">
-                        <label>Photo </label>
+                        <label> <small>Photo</small> </label>
 
                         <input class="form-control" type="hidden" name="PHOTO" id="PHOTO"  value="<?=$vehicule['PHOTO'];?>">
 
@@ -134,28 +156,28 @@
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label style="font-weight: 1000; color:#454545"><b>propriétaire</b><span  style="color:red;">*</span></label>
+                          <label><small>propriétaire</small><span  style="color:red;">*</span></label>
 
-                          <select class="form-control" name="CLIENT_ID" id="CLIENT_ID">
+                          <select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID">
                             <option value="" selected>-- Séléctionner --</option>
                             <?php
-                            foreach ($client as $client)
+                            foreach ($proprio as $proprio)
                             {
                               ?>
-                              <option value="<?=$client['CLIENT_ID']?>"<?php if($client['CLIENT_ID']==$vehicule['CLIENT_ID']) echo " selected";?>><?=$client['client_desc']?></option>
+                              <option value="<?=$proprio['PROPRIETAIRE_ID']?>"<?php if($proprio['PROPRIETAIRE_ID']==$vehicule['PROPRIETAIRE_ID']) echo " selected";?>><?=$proprio['proprio_desc']?></option>
                               <?php
                             }
                             ?>
                           </select>
                         </div>
-                        <span id="errorCLIENT_ID" class="text-danger"></span>
-                        <?php echo form_error('CLIENT_ID', '<div class="text-danger">', '</div>'); ?>
+                        <span id="errorPROPRIETAIRE_ID" class="text-danger"></span>
+                        <?php echo form_error('PROPRIETAIRE_ID', '<div class="text-danger">', '</div>'); ?>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-12">
-                        <button type="button" style="float: right;" class="btn btn-secondary" onclick="submit_form();"><i class="fa fa-save"> <?=$btn?></i></button>
+                        <button type="button" style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><i class="bi bi-check"> <?=$btn?></i></button>
                       </div>
                     </div>
 
@@ -166,7 +188,7 @@
               </div>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
     </section>
 
   </main><!-- End #main -->
@@ -187,23 +209,23 @@
 
       if(VEHICULE_ID == "")
       {
-       $('#ID_NOM').html('<option value="">-- Séléctionner --</option>');
+       $('#ID_MODELE').html('<option value="">-- Séléctionner --</option>');
      }  
 
    });
-    function get_nom_vehicule()
+    function get_modele()
     {
 
       if($('#ID_MARQUE').val()!='')
       {
         $.ajax(
         {
-          url:"<?=base_url('vehicule/Vehicule/get_nom_vehicule/')?>"+$('#ID_MARQUE').val(),
+          url:"<?=base_url('vehicule/Vehicule/get_modele/')?>"+$('#ID_MARQUE').val(),
           type: "GET",
           dataType:"JSON",
           success: function(data)
           {
-            $('#ID_NOM').html(data);
+            $('#ID_MODELE').html(data);
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
@@ -213,7 +235,7 @@
       }
       else
       {
-        $('#ID_NOM').html('<option value="">-- Séléctionner --</option>');
+        $('#ID_MODELE').html('<option value="">-- Séléctionner --</option>');
       }
     }
   </script>
@@ -236,11 +258,11 @@
         $('#errorID_MARQUE').html('Le champ est obligatoire');
       }else{$('#errorID_MARQUE').html('');}
 
-      if($('#ID_NOM').val()=='')
+      if($('#ID_MODELE').val()=='')
       {
         statut=2;
-        $('#errorID_NOM').html('Le champ est obligatoire');
-      }else{$('#errorID_NOM').html('');}
+        $('#errorID_MODELE').html('Le champ est obligatoire');
+      }else{$('#errorID_MODELE').html('');}
 
       if($('#PLAQUE').val()=='')
       {
@@ -263,11 +285,11 @@
         }else{$('#errorPHOTO_OUT').html('');}
       }
 
-      if($('#CLIENT_ID').val()=='')
+      if($('#PROPRIETAIRE_ID').val()=='')
       {
         statut=2;
-        $('#errorCLIENT_ID').html('Le champ est obligatoire');
-      }else{$('#errorCLIENT_ID').html('');}
+        $('#errorPROPRIETAIRE_ID').html('Le champ est obligatoire');
+      }else{$('#errorPROPRIETAIRE_ID').html('');}
 
 
       var VEHICULE_ID = $('#VEHICULE_ID').val();

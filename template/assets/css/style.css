@@ -21,15 +21,21 @@ body {
 a {
   color: #4154f1;
   text-decoration: none;
+
+  font-weight: 10;
+  font-size: 0.875rem;
+  font-family: Arial;
+
 }
 
 a:hover {
   color: #717ff5;
   text-decoration: none;
+
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Nunito", sans-serif;
+  font-family: Arial;
 }
 
 /*--------------------------------------------------------------
@@ -72,7 +78,7 @@ h1, h2, h3, h4, h5, h6 {
   background: #4154f1;
   width: 40px;
   height: 40px;
-  border-radius: 4px;
+  border-radius: 100% 100%;
   transition: all 0.4s;
 }
 .back-to-top i {
