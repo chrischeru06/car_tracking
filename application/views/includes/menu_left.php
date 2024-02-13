@@ -1,6 +1,15 @@
-<aside id="sidebar" class="sidebar">
+<?php 
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+        // # Codes profil
+        // ADMIN : Admin systeme
+
+
+if ($this->session->PROFIL_ID == 1) { 
+  ?>
+
+<aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'template/images/sidebar123-01s.png'; ?>')">
+
+    <ul class="sidebar-nav" id="sidebar-nav" >
 
       <li class="nav-item">
         <a class="nav-link " href="<?=base_url()?>Dashboard">
@@ -34,7 +43,7 @@
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="<?=base_url()?>proprietaire/Proprietaire">
+            <a href="<?=base_url()?>proprietaire/Proprietaire/liste">
               <i class="bi bi-circle"></i><span>Propriétaires</span>
             </a>
           </li>
@@ -54,12 +63,12 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Tracking voitures</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-layout-text-window-reverse"></i><span>Tracking véhicules</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="tables-general.html">
-              <i class="bi bi-circle"></i><span>Voiture en temps réel</span>
+              <a href="<?=base_url()?>traceur_FMB920/Map">
+              <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
             </a>
           </li>
           
@@ -70,3 +79,68 @@
     </ul>
 
   </aside>
+
+   <?php 
+}
+?>
+
+<?php 
+
+        // # Codes profil
+        // Proprietaire 
+
+
+if ($this->session->PROFIL_ID == 2) { 
+  ?>
+
+
+  <aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'template/images/sidebar123-01s.png'; ?>')">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="<?=base_url()?>Dashboard">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>IHM</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        
+          <li>
+            <a href="<?=base_url()?>proprietaire/Proprietaire_vehicule">
+              <i class="bi bi-circle"></i><span>Vehicules</span>
+            </a>
+          </li>
+        
+          
+        </ul>
+      </li><!-- End Forms Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Tracking véhicules</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+              <a href="<?=base_url()?>traceur_FMB920/Map">
+              
+              <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li><!-- End Tables Nav -->
+
+
+    </ul>
+
+  </aside>
+
+   <?php 
+}
+?>
