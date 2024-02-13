@@ -112,7 +112,9 @@ class Dashboard extends CI_Controller
 
 			}
 
+
 			$distance_finale=$distance;
+			$distance_arrondie=round($distance_finale);
 
 		}
 
@@ -121,7 +123,7 @@ class Dashboard extends CI_Controller
 
 		//calcul du carburant consommé
 
-		$carburant = 1 * $distance_finale;
+		$carburant = 1 * $distance_arrondie;
 
 
 		//carte
@@ -203,7 +205,7 @@ class Dashboard extends CI_Controller
 				$data['arret'] = $arret;
 				$data['get_chauffeur'] = $get_chauffeur;
 				$data['get_arret'] = $get_arret;
-				$data['distance_finale'] = $distance_finale;
+				$data['distance_finale'] = $distance_arrondie;
 				$data['carburant'] = $carburant;
 
 				
@@ -225,7 +227,7 @@ class Dashboard extends CI_Controller
 				$DATE_SELECT = $this->input->post('DATE_DAT');
 
 				$CODE = $this->input->post('CODE');
-					$distance_finale=0;
+				$distance_finale=0;
 				// print_r($DATE_SELECT);die();
 				
 
@@ -283,6 +285,8 @@ class Dashboard extends CI_Controller
 					}
 
 					$distance_finale=$distance;
+					$distance_arrondie=round($distance_finale);
+
 
 				}
 
@@ -291,7 +295,7 @@ class Dashboard extends CI_Controller
 
 		//calcul du carburant consommé
 
-				$carburant = 1 * $distance_finale;
+				$carburant = 1 * $distance_arrondie;
 
 
 		//carte
@@ -308,7 +312,7 @@ class Dashboard extends CI_Controller
 							'type': 'Feature',
 							'properties': {
 								'description':
-								'<strong>Heure:</strong><p>".$key_arret['heure']."</p>'
+								'<i class=\'fa fa-watch\'></i><p>".$key_arret['heure']."</p>'
 								},
 								'geometry': {
 									'type': 'Point',
@@ -373,15 +377,18 @@ class Dashboard extends CI_Controller
 						$data['arret'] = $arret;
 						$data['get_chauffeur'] = $get_chauffeur;
 						$data['get_arret'] = $get_arret;
-						$data['distance_finale'] = $distance_finale;
+						$data['distance_finale'] = $distance_arrondie;
 						$data['carburant'] = $carburant;
+						$data['CODE'] = $CODE;
+						$data['DATE'] = $DATE_SELECT;
 
 
 
-					$map_filtre = $this->load->view('Maptracking_view',$data);
+
+						$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
 
 						$output = array(
-							"distance_finale" => $distance_finale,
+							"distance_finale" => $distance_arrondie,
 							"carburant" => $carburant,
 							"DATE"=>$DATE_SELECT,
 							"CODE"=>$CODE,

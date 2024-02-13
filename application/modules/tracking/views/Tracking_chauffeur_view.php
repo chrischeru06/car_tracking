@@ -410,9 +410,7 @@
 
   $(document).ready(function(){
 
-    change_carte();
-
-    
+    change_carte();   
 
   });
 
@@ -421,14 +419,11 @@
       change_carte();
 
 
-
     });
 
     $("#DATE_DAT").change(function() {
 
       change_carte();
-
-
 
     });
 
