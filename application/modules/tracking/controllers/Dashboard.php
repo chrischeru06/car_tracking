@@ -231,6 +231,7 @@ class Dashboard extends CI_Controller
 				$distance_finale=0;
 				$distance_arrondie=0;
 				$distance=0;
+				$score_finale=0;
 				
 
 				$info = '';
@@ -292,6 +293,37 @@ class Dashboard extends CI_Controller
 
 
 
+				$score=20;
+				//Calcul du score
+				if(!empty($get_data)){
+
+					$u=0;
+					foreach ($get_data as $value_get_arret) {
+
+
+						
+						if ($value_get_arret['vitesse']>60) {
+
+							
+							$score-=1;
+
+						}else{
+							$score-=0;
+							
+
+						}
+
+						$u++;
+
+					}
+
+					$score_finale=$score;
+
+
+				}
+
+
+
 
 		//calcul du carburant consommé
 
@@ -312,7 +344,7 @@ class Dashboard extends CI_Controller
 							'type': 'Feature',
 							'properties': {
 								'description':
-								'<p><strong><i class=\'bi bi-stopwatch\'></i></strong>  ".$key_arret['heure']."</p>'
+								'<img src=\'".base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'70px\' height=\'70px\'><hr>Chauffeur <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b><br>Voiture <b>".$get_chauffeur['DESC_MODELE']." / ".$get_chauffeur['DESC_MARQUE']."</b><br>Plaque <b>".$get_chauffeur['PLAQUE']."</b><br>'
 								},
 								'geometry': {
 									'type': 'Point',
@@ -338,7 +370,7 @@ class Dashboard extends CI_Controller
 							$number='1';
 
 							$arret.='['.$number.','.$number.'],';
-							$ligne_arret.='pas d\'arret';
+							$ligne_arret.='<b>pas d\'arret</b>';
 
 
 						}
@@ -351,6 +383,18 @@ class Dashboard extends CI_Controller
 						$vit_moy = $this->Model->getRequeteOne('SELECT AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid = '.$CODE.' AND date_format(`date`,"%Y-%m-%d") = '.$DATE_SELECT);
 
 						$date_debfin = $this->Model->getRequeteOne('SELECT MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid='.$CODE.' AND date_format(`date`,"%Y-%m-%d")='.$DATE_SELECT);
+
+						
+
+						$vitesse_max = $this->Model->getRequeteOne("SELECT MAX(vitesse) AS max_vitesse FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
+						if(empty($vitesse_max['max_vitesse']))
+
+						{
+							$vitesse_max['max_vitesse']=0;
+						}
+
+
+
 
 						$track = '';
 
@@ -388,8 +432,7 @@ class Dashboard extends CI_Controller
 						$data['carburant'] = $carburant;
 						$data['CODE'] = $CODE;
 						$data['DATE'] = $DATE_SELECT;
-
-
+						$data['score'] = $score_finale;
 
 
 						$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
@@ -400,7 +443,11 @@ class Dashboard extends CI_Controller
 							"DATE"=>$DATE_SELECT,
 							"CODE"=>$CODE,
 							"map_filtre"=>$map_filtre,
-							"ligne_arret"=>$ligne_arret
+							"ligne_arret"=>$ligne_arret,
+							"score"=>$score_finale,
+							"vitesse_max"=>$vitesse_max['max_vitesse']
+
+
 						);
 
 						// print_r($output);die();
@@ -415,7 +462,14 @@ class Dashboard extends CI_Controller
 					//Fonction pour afficher la position de la voiture
 					function getmap($CODE){
 
-						$get_data = $this->Model->getRequeteOne('SELECT * FROM `tracking_data` WHERE device_uid = '.$CODE.' AND `id` = (SELECT MAX(`id`) FROM tracking_data );');
+						$DATE_SELECT = $this->input->post('DATE_DAT');
+
+
+						
+
+						$get_data = $this->Model->getRequeteOne('SELECT * FROM `tracking_data` WHERE device_uid = '.$CODE.'  AND `id` = (SELECT MAX(`id`) FROM tracking_data );');
+
+						
 
 		// print_r($get_data);die();
 

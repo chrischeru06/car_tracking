@@ -125,7 +125,7 @@
     </div><!-- End Page Title -->
     <div class="form-group col-md-6 py-2">
       <label class="form-label">Date</label>
-      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>">
+      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();" onclick="change_carte();">
 
     </div>
     <br>
@@ -147,36 +147,34 @@
                   <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column">
 
-                      <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle">
+                      <div>
+                        <div >
                           <!-- <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>"> -->
 
                           <?php
                           if(!empty($get_chauffeur['PHOTO_PASSPORT']))
                           {
                             ?>
-                            <img  class="rounded-circle" src="<?=base_url('/upload/proprietaire/photopassport/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
+                            <img  class="card-icon rounded-circle" style="border-radius: 50%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">&nbsp;&nbsp;
+
                             <?php
                           }
                           else if(empty($get_chauffeur['PHOTO_PASSPORT']))
                           {
                             ?>
-                            <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/phavatar.png')?>">
+                            <img class="card-icon rounded-circle" style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/phavatar.png')?>">&nbsp;&nbsp;
                             <?php
                           }?>
 
+                          <span class="text-muted small pt-2 ps-1"><b><?=$get_chauffeur['NOM'].' '. $get_chauffeur['PRENOM']?></b></span><br><br>&nbsp;&nbsp;
+                          <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>&nbsp;&nbsp;
+                          <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>&nbsp;&nbsp;
+                          <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>&nbsp;&nbsp;
                         </div>
-                        <div class="ps-3">
-                        </div>
-                        <div class="ps-3">
-                        </div>
-                        <div class="ps-3">
-                        </div>
-                        <div class="ps-3">
-                          <span class="text-muted small pt-2 ps-1"><b><?=$get_chauffeur['NOM'].' '. $get_chauffeur['PRENOM']?></b></span><br>
-                          <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>
-                          <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>
-                          <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>
+                        
+                        <div>
+
+                          
 
 
                         </div>
@@ -187,41 +185,40 @@
                 </div>
 
                 <div class="col-lg-6">
-
-
                   <div class="card">
                    <div class="card-body profile-card pt-4 d-flex flex-column">
 
-                    <div class="d-flex align-items-center">
-                      <div class="card-icon rounded-circle">
-                        <!-- <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>"> -->
+                    <div>
+                      <div >
+
 
                         <?php
                         if(!empty($get_chauffeur['PHOTO']))
                         {
                           ?>
-                          <img  class="rounded-circle" src="<?=base_url('/upload/photo_vehicule/'.$get_chauffeur['PHOTO'])?>">
+                          
+                          <img  class="card-icon rounded-circle" style="background-color: #829b35;border-radius: 50%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/photo_vehicule/'.$get_chauffeur['PHOTO'])?>">&nbsp;&nbsp;
                           <?php
                         }
-                        else if(empty($get_chauffeur['PHOTO_PASSPORT']))
+                        else if(empty($get_chauffeur['PHOTO']))
                         {
                           ?>
-                          <img style="background-color: white;border-radius: 0%" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/car_icon.png')?>">
+                          <img class="card-icon rounded-circle" style="border-radius: 50%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/car_icon.png')?>">&nbsp;&nbsp;
+
+
+
                           <?php
                         }?>
 
-                      </div>
-                      <div class="ps-3">
-                      </div>
-                      <div class="ps-3">
-                      </div>
-                      <div class="ps-3">
-                      </div>
-                      <div class="ps-3">
                         <span class="text-muted small pt-2 ps-1"><b><?=$get_chauffeur['DESC_MARQUE'].' / '. $get_chauffeur['DESC_MODELE']?></b></span><br>
                         <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['PLAQUE']?></span><br>
                         <i class="bi bi-palette"></i><span class="text-muted small pt-2 ps-1"><?php if(empty($get_chauffeur['COULEUR'])){?> N/A <?php } ?>
                         <?php if(!empty($get_chauffeur['COULEUR'])){?>  <?= $get_chauffeur['COULEUR']?> <?php } ?></span><br>
+
+                      </div>
+                      
+                      <div >
+                        
                         
 
 
@@ -248,7 +245,7 @@
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle" >
-                        <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                        <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
                       </div>
                       <div class="ps-3">
                         <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
@@ -269,7 +266,7 @@
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle">
-                        <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/fuel_icon.png')?>">
+                        <img style="background-color: #829b35;" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/fuel_icon.png')?>">
                       </div>
                       <div class="ps-3">
                         <h6><span class="text-success small pt-1 fw-bold"> <a id="carburant"></a> litres</span></h6>
@@ -282,18 +279,51 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-12">
+              <!-- <div class="col-lg-12"> -->
+
+                <div class="col-lg-6">
 
 
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Excès de vitesse </h5>
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Vitesse <span>| Max</span></h5>
+
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle">
+                          <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
+                        </div>
+                        <div class="ps-3">
+                          <h6><span class="text-success small pt-1 fw-bold"> <a id="vitesse_max"></a> Km/h</span></h6>
 
 
-
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+
+                  <div class="col-lg-6">
+
+
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Score <span>| Points</span></h5>
+
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle">
+                          <img style="background-color: #829b35;" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/score.png')?>">
+                        </div>
+                        <div class="ps-3">
+                          <h6><span class="text-success small pt-1 fw-bold"> <a id="score"></a> Points</span></h6>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              <!-- </div> -->
             </div>
 
 
@@ -314,7 +344,7 @@
             <br>
             <br>
 
-            <div id="map" style="width: 100%;height: 420px;"></div>
+            <div id="map" style="width: 100%;height: 635px;"></div>
 
 
             <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
@@ -354,37 +384,37 @@
 
             <br>
             <br>
-<div id="map_filtre"></div>
+            <div id="map_filtre"></div>
 
-</div>
-</div>
-
-
-
-</div>
-
-<div class="col-lg-3">
-  <section class="section dashboard">
-
-    <div class="card">
-
-     <div class="card-body">
-      <h5 class="card-title">Points d'arrêt <span>| Today</span></h5>
-      <div class="scroller">
-
-        <div class="activity">
-
-          <div id="ligne_arret"></div>
-
-       </div>
-     </div>
-   </div>
- </div>
-</section>
-</div>
+          </div>
+        </div>
 
 
-</div>
+
+      </div>
+
+      <div class="col-lg-3">
+        <section class="section dashboard">
+
+          <div class="card">
+
+           <div class="card-body">
+            <h5 class="card-title">Points d'arrêt <span>| Today</span></h5>
+            <div class="scroller">
+
+              <div class="activity">
+
+                <div id="ligne_arret"></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+  </div>
 </section>
 
 </main><!-- End #main -->
@@ -401,18 +431,7 @@
 
   });
 
-  $("#DATE_DAT").click(function() {
-
-      change_carte();
-
-
-    });
-
-    $("#DATE_DAT").change(function() {
-
-      change_carte();
-
-    });
+  
 
   mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc0dnBzNzA3c3gzZmx2bnpqb2NwNXgifQ.D6Fm6UO9bWViernvxZFW_A';
   const map = new mapboxgl.Map({
@@ -573,9 +592,13 @@
 
       },
       beforeSend:function () { 
+
       },
       success:function(data) {
-      // alert(data.carburant)
+
+        // alert(data.vitesse_max)
+
+
         $('#distance_finale').html(data.distance_finale);
         $('#carburant').html(data.carburant);
         $('#DATE_DAT').html(data.DATE);
@@ -583,6 +606,10 @@
         // alert(data.distance_finale)
         $('#map_filtre').html(data.map_filtre);
         $('#ligne_arret').html(data.ligne_arret);
+        $('#score').html(data.score);
+        $('#vitesse_max').html(data.vitesse_max);
+
+
         
         
 
