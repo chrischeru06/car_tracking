@@ -130,7 +130,7 @@ input:checked + .slider:before {
                         <label class="text-dark" style="font-weight: 1000; color:#454545">Statut propriétaire</label>
                         <select class="form-control" id="IS_ACTIVE" name="IS_ACTIVE" onchange="change_activation();">
                           <option value="">Sélectionner</option>
-                          <option value="0">Désactivés</option>
+                          <option value="2">Désactivés</option>
                           <option value="1">Activés</option>
                         </select>
                       </div>
@@ -170,9 +170,9 @@ input:checked + .slider:before {
                         <th class="text-dark">#</th>
 
                         <th class="text-dark">Identification</th>
-                        <th class="text-dark">Personne de Référence</th>
                         <th class="text-dark">Email</th>
                         <th class="text-dark">Téléphone</th>
+                        <th class="text-dark">Statut</th>
                         <th class="text-dark">Statut</th>
                         <th class="text-dark">Option</th>
                       </tr>

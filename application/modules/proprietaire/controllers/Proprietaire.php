@@ -499,247 +499,249 @@ class Proprietaire extends CI_Controller
 			}
 			
 
-			if (!empty($row->PERSONNE_REFERENCE)) 
+			
+			if (!empty($row->EMAIL)) 
 			{
-				$sub_array[]=$row->PERSONNE_REFERENCE;	
-				}else{
-					$sub_array[]='N/A';	
-				}
-				if (!empty($row->EMAIL)) 
-				{
-					$sub_array[]=$row->EMAIL;	
-					}else{
-						$sub_array[]='N/A';	
-					}						
-					$sub_array[]=$row->TELEPHONE;
+				$sub_array[]=$row->EMAIL;	
+			}else{
+				$sub_array[]='N/A';	
+			}						
+			$sub_array[]=$row->TELEPHONE;
 
-					if($row->IS_ACTIVE==1){
-						$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
-						<label class="switch"> 
-						<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->PROPRIETAIRE_ID . ')" checked>
-						<span class="slider round"></span>
-						</label>
-						</form>
+			if (($row->IS_ACTIVE==1)) 
+			{
+				$sub_array[]='<a style="color:blue;">Activé</a>';	
+			}else{
+				$sub_array[]='<a style="color:red;">Désactivé</a>';	
+			}
 
-						';
-						}else{
-							$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
-							<label class="switch"> 
-							<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->PROPRIETAIRE_ID . ')">
-							<span class="slider round"></span>
-							</label>
-							</form>
+			if($row->IS_ACTIVE==1){
+				$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+				<label class="switch"> 
+				<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->PROPRIETAIRE_ID . ')" checked>
+				<span class="slider round"></span>
+				</label>
+				</form>
 
-							';
-						}
+				';
+			}else{
+				$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+				<label class="switch"> 
+				<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->PROPRIETAIRE_ID . ')">
+				<span class="slider round"></span>
+				</label>
+				</form>
 
-						$sub_array[]="<a  href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil'></span></a>&nbsp;&nbsp; <a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><span class='bi bi-table'></span></a>";
-						
-						$data[]=$sub_array;
-					}
-					$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
-					$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
-					$output = array(
-						"draw" => intval($_POST['draw']),
-						"recordsTotal" => count($recordsTotal),
-						"recordsFiltered" => count($recordsFiltered),
-						"data" => $data,
-					);
-					echo json_encode($output);
+				';
+			}
+
+			$sub_array[]="<a  href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil h5'></span></a>&nbsp;&nbsp; <a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i></a>";
+
+			$data[]=$sub_array;
+		}
+		$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+		$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+		$output = array(
+			"draw" => intval($_POST['draw']),
+			"recordsTotal" => count($recordsTotal),
+			"recordsFiltered" => count($recordsFiltered),
+			"data" => $data,
+		);
+		echo json_encode($output);
 
 
-				}
+	}
 
 
 //Fonction pour recuperer les donnes d'un proprietaire
-				function get_detail($PROPRIETAIRE_ID){
+	function get_detail($PROPRIETAIRE_ID){
 
 
 		// $proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID WHERE 1 AND proprietaire.PROPRIETAIRE_ID='".$PROPRIETAIRE_ID."'");
 
-					$proce_requete = "CALL `getRequete`(?,?,?,?);";
-					$my_select_proprietaire = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
-					$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprietaire);
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+		$my_select_proprietaire = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
+		$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprietaire);
 
-					if(empty($proprietaire['PERSONNE_REFERENCE'])){
+		if(empty($proprietaire['PERSONNE_REFERENCE'])){
 
-						$PERSONNE_REFERENCE='N/A';
-					}else{
-						$PERSONNE_REFERENCE=$proprietaire['PERSONNE_REFERENCE'];
-					}
+			$PERSONNE_REFERENCE='N/A';
+		}else{
+			$PERSONNE_REFERENCE=$proprietaire['PERSONNE_REFERENCE'];
+		}
 
-					$fichier = base_url().'upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'].'';
-					$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
+		$fichier = base_url().'upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'].'';
+		$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
 
-					$output = array(
-						"CNI" => $proprietaire['CNI_OU_NIF'],
-						"TELEPHONE" => $proprietaire['TELEPHONE'],
-						"EMAIL" => $proprietaire['EMAIL'],
-						"DESC_TYPE_PROPRIETAIRE" => $proprietaire['DESC_TYPE_PROPRIETAIRE'],
-						"PERSONNE_REFERENCE" => $PERSONNE_REFERENCE,
-						"div_info"=>$div_info,
-						"ADRESSE"=>$proprietaire['ADRESSE'],
+		$output = array(
+			"CNI" => $proprietaire['CNI_OU_NIF'],
+			"TELEPHONE" => $proprietaire['TELEPHONE'],
+			"EMAIL" => $proprietaire['EMAIL'],
+			"DESC_TYPE_PROPRIETAIRE" => $proprietaire['DESC_TYPE_PROPRIETAIRE'],
+			"PERSONNE_REFERENCE" => $PERSONNE_REFERENCE,
+			"div_info"=>$div_info,
+			"ADRESSE"=>$proprietaire['ADRESSE'],
 
-					);
-					echo json_encode($output);
-				}
+		);
+		echo json_encode($output);
+	}
 
 	//Fonction pour modifier le statut
-				function changer_statut($id)
-				{
-					$USER_ID = $this->session->userdata('USER_ID');
-					$get_status=$this->Model->getOne('proprietaire',array('PROPRIETAIRE_ID'=>$id));
-					$today = date('Y-m-d H:s');
-					$desc_status='';
-					if($get_status['IS_ACTIVE']==1)
-					{
-						$desc_status='La Désactivation';
-						$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>2));
-					}
-					else
-					{
-						$desc_status='L\'Activation';
+	function changer_statut($id)
+	{
+		$USER_ID = $this->session->userdata('USER_ID');
+		$get_status=$this->Model->getOne('proprietaire',array('PROPRIETAIRE_ID'=>$id));
+		$today = date('Y-m-d H:s');
+		$desc_status='';
+		if($get_status['IS_ACTIVE']==1)
+		{
+			$desc_status='La Désactivation';
+			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>2));
+		}
+		else
+		{
+			$desc_status='L\'Activation';
 
-						$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>1));
-					}
+			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>1));
+		}
 
-					$data['message']='<div class="alert alert-success text-center" id="message">'."$desc_status".' '." effectuée avec succès".'</div>';
-					$this->session->set_flashdata($data);
-					redirect(base_url('proprietaire/Proprietaire/liste/'));
-				}
+		$data['message']='<div class="alert alert-success text-center" id="message">'."$desc_status".' '." effectuée avec succès".'</div>';
+		$this->session->set_flashdata($data);
+		redirect(base_url('proprietaire/Proprietaire/liste/'));
+	}
 
 	//function pour l'affichage de la page de detail
-				function Detail(){
-					$PROPRIETAIRE_ID=$this->uri->segment(4);
-					$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+	function Detail(){
+		$PROPRIETAIRE_ID=$this->uri->segment(4);
+		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
 
 
-					$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+		$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
 
-					$data['proprietaire']=$proprietaire;
-					$data['desactive']=$desactive;
-					$data['PROPRIETAIRE_ID'] = $data['proprietaire']['proprietaire_ID'];
+		$data['proprietaire']=$proprietaire;
+		$data['desactive']=$desactive;
+		$data['PROPRIETAIRE_ID'] = $data['proprietaire']['proprietaire_ID'];
 		// print_r($data['proprietaire_ID']);die();
-					$data['dte'] =date("d-m-Y H:i:s", strtotime($proprietaire['DATE_INSERTION']));
+		$data['dte'] =date("d-m-Y H:i:s", strtotime($proprietaire['DATE_INSERTION']));
 
-					$this->load->view('Detail_proprietaire_view',$data);
+		$this->load->view('Detail_proprietaire_view',$data);
 
-				}
+	}
 
 	//Fonction pour le detail de tous les vehicules d'un client
-				function detail_vehicule_client(){
+	function detail_vehicule_client(){
 
-					$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
+		$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
 
-					$critaire = '' ;
+		$critaire = '' ;
 
-					$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-					$var_search = str_replace("'", "\'", $var_search);
-					$group = "";
+		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+		$var_search = str_replace("'", "\'", $var_search);
+		$group = "";
 
-					$limit = 'LIMIT 0,1000';
-					if ($_POST['length'] != -1) {
-						$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
-					}
-					$order_by='';
-					$order_column=array('NOM_PROPRIETAIRE','CNI_OU_NIF','PERSONNE_REFERENCE','EMAIL','TELEPHONE','DATE_INSERTION');
+		$limit = 'LIMIT 0,1000';
+		if ($_POST['length'] != -1) {
+			$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+		}
+		$order_by='';
+		$order_column=array('NOM_PROPRIETAIRE','CNI_OU_NIF','PERSONNE_REFERENCE','EMAIL','TELEPHONE','DATE_INSERTION');
 
-					$order_column=array('1','DESC_MARQUE','DESC_MODELE','COULEUR','PLAQUE');
+		$order_column=array('1','DESC_MARQUE','DESC_MODELE','COULEUR','PLAQUE');
 
-					if ($_POST['order']['0']['column'] != 0) {
-						$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' DESC_MARQUE ASC';
-					}
-
-
-
-					$search = !empty($_POST['search']['value']) ? (' AND (`DESC_MARQUE` LIKE "%' . $var_search . '%" OR DESC_MODELE LIKE "%' . $var_search . '%"
-						OR PLAQUE LIKE "%' . $var_search . '%" )') : '';
+		if ($_POST['order']['0']['column'] != 0) {
+			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' DESC_MARQUE ASC';
+		}
 
 
-					$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
+
+		$search = !empty($_POST['search']['value']) ? (' AND (`DESC_MARQUE` LIKE "%' . $var_search . '%" OR DESC_MODELE LIKE "%' . $var_search . '%"
+			OR PLAQUE LIKE "%' . $var_search . '%" )') : '';
+
+
+		$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
 
         //condition pour le query principale
-					$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
 
         // condition pour le query filter
-					$conditionsfilter = $critaire . ' ' . $group;
+		$conditionsfilter = $critaire . ' ' . $group;
 
 
-					$requetedebase=$query_principal.$conditions;
-					$requetedebasefilter=$query_principal.$conditionsfilter;
+		$requetedebase=$query_principal.$conditions;
+		$requetedebasefilter=$query_principal.$conditionsfilter;
 
 
 
-					$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+		$query_secondaire = "CALL `getTable`('".$requetedebase."');";
         // echo $query_secondaire;
-					$fetch_data = $this->ModelPs->datatable($query_secondaire);
-					$data = array();
-					$i=0;
+		$fetch_data = $this->ModelPs->datatable($query_secondaire);
+		$data = array();
+		$i=0;
 
-					foreach ($fetch_data as $row) {
-						$i=$i+1;
+		foreach ($fetch_data as $row) {
+			$i=$i+1;
 
-						$sub_array=array();
-						$sub_array[]=$i;
-						$sub_array[]=$row->DESC_MARQUE;
-						$sub_array[]=$row->DESC_MODELE;
-						$sub_array[]=$row->COULEUR;
-						$sub_array[]=$row->PLAQUE;
-						$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->VEHICULE_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/photo_vehicule/').$row->PHOTO.'"></a></td><td></td></tr></tbody></a>
-						<div class="dropdown">
-						</div>
-						<div class="modal fade" id="mypicture' .$row->VEHICULE_ID.'">
-						<div class="modal-dialog">
-						<div class="modal-content">
-						<div class="modal-body">
-						<img src = "'.base_url('upload/photo_vehicule/'.$row->PHOTO).'" height="100%"  width="100%" >
-						</div>
-						<div class="modal-footer">
-						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-						</div>
-						</div>
-						</div>
-						</div>';
+			$sub_array=array();
+			$sub_array[]=$i;
+			$sub_array[]=$row->DESC_MARQUE;
+			$sub_array[]=$row->DESC_MODELE;
+			$sub_array[]=$row->COULEUR;
+			$sub_array[]=$row->PLAQUE;
+			$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->VEHICULE_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/photo_vehicule/').$row->PHOTO.'"></a></td><td></td></tr></tbody></a>
+			<div class="dropdown">
+			</div>
+			<div class="modal fade" id="mypicture' .$row->VEHICULE_ID.'">
+			<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-body">
+			<img src = "'.base_url('upload/photo_vehicule/'.$row->PHOTO).'" height="100%"  width="100%" >
+			</div>
+			<div class="modal-footer">
+			<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+			</div>
+			</div>
+			</div>
+			</div>';
 
 
 
 			// $sub_array[]=$option;
-						$data[]=$sub_array;
-					}
-					$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
-					$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
-					$output = array(
-						"draw" => intval($_POST['draw']),
-						"recordsTotal" => count($recordsTotal),
-						"recordsFiltered" => count($recordsFiltered),
-						"data" => $data,
-					);
-					echo json_encode($output);
+			$data[]=$sub_array;
+		}
+		$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+		$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+		$output = array(
+			"draw" => intval($_POST['draw']),
+			"recordsTotal" => count($recordsTotal),
+			"recordsFiltered" => count($recordsFiltered),
+			"data" => $data,
+		);
+		echo json_encode($output);
 
 
-				}
+	}
 
 	//Fonction pour activer/desactiver un proprietaire
-				function active_desactive($status,$PROPRIETAIRE_ID){
+	function active_desactive($status,$PROPRIETAIRE_ID){
 
-					if($status==1){
-						$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>2));
+		if($status==1){
+			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>2));
 
-					}else if($status==2){
-						$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>1));
-					}
+		}else if($status==2){
+			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>1));
+		}
 
-					echo json_encode(array('status'=>$status));
+		echo json_encode(array('status'=>$status));
 
 
-				}
+	}
 	// Recuperation des photos passeports
-				public function upload_document_nomdocument($nom_file,$nom_champ,$nomdocument)
-				{
-					$rep_doc =FCPATH.'upload/proprietaire/photopassport/';
-					$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
-					$file_extension = strtolower($file_extension);
-					$valid_ext = array('pdf');
+	public function upload_document_nomdocument($nom_file,$nom_champ,$nomdocument)
+	{
+		$rep_doc =FCPATH.'upload/proprietaire/photopassport/';
+		$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
+		$file_extension = strtolower($file_extension);
+		$valid_ext = array('pdf');
 		if(!is_dir($rep_doc)) //crée un dossier s'il n'existe pas déja   
 		{
 			mkdir($rep_doc,0777,TRUE);

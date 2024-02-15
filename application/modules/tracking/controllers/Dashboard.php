@@ -24,11 +24,12 @@ class Dashboard extends CI_Controller
 		$fontinfo = $this->input->post('rtoggle');
 		$DATE_SELECT = $this->input->post('DATE');
 		$distance_arrondie=0;
-		// $DATE_SELECT = '2024-02-10';
 
-		if(empty($DATE_SELECT)){
+		$distance_arrondie=0;
+	if(empty($DATE_SELECT)){
 
 			$DATE_SELECT=date('Y-m-d');
+
 
 
 		}
@@ -229,6 +230,8 @@ class Dashboard extends CI_Controller
 				$CODE = $this->input->post('CODE');
 				$distance_finale=0;
 				$distance_arrondie=0;
+				$score_finale=0;
+				// print_r($DATE_SELECT);die();
 				
 
 				$info = '';
@@ -258,8 +261,6 @@ class Dashboard extends CI_Controller
 
 				//Calcul de la distance
 				if(!empty($get_data)){
-
-					$distance=0;
 
 					$i=0;
 					foreach ($get_data as $value_get_arret) {
@@ -291,6 +292,53 @@ class Dashboard extends CI_Controller
 				}
 
 
+				//score
+
+				if(!empty($get_arret)){
+
+					$data_arret=array();
+
+					foreach ($get_arret as $keyget_arret) {
+						$donnes=array();
+						$donnes[]=$keyget_arret['date'];
+
+						$data_arret[]=$donnes;
+					}
+
+					print_r($donnes);die();
+				}
+
+
+				$score=20;
+				//Calcul du score
+				if(!empty($get_data)){
+
+					$u=0;
+					foreach ($get_data as $value_get_arret) {
+
+
+						
+						if ($value_get_arret['vitesse']>60) {
+
+							
+							$score-=1;
+
+						}else{
+							$score-=0;
+							
+
+						}
+
+						$u++;
+
+					}
+
+					$score_finale=$score;
+
+
+				}
+
+
 
 
 		//calcul du carburant consommé
@@ -312,7 +360,7 @@ class Dashboard extends CI_Controller
 							'type': 'Feature',
 							'properties': {
 								'description':
-								'<p><strong><i class=\'bi bi-stopwatch\'></i></strong>  ".$key_arret['heure']."</p>'
+								'<i class=\'fa fa-watch\'></i><p>".$key_arret['heure']."</p>'
 								},
 								'geometry': {
 									'type': 'Point',
@@ -338,7 +386,9 @@ class Dashboard extends CI_Controller
 							$number='1';
 
 							$arret.='['.$number.','.$number.'],';
-							$ligne_arret.='pas d\'arret';
+							$ligne_arret.=" 
+								Pas d'arret
+								";
 
 
 						}
@@ -351,6 +401,18 @@ class Dashboard extends CI_Controller
 						$vit_moy = $this->Model->getRequeteOne('SELECT AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid = '.$CODE.' AND date_format(`date`,"%Y-%m-%d") = '.$DATE_SELECT);
 
 						$date_debfin = $this->Model->getRequeteOne('SELECT MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid='.$CODE.' AND date_format(`date`,"%Y-%m-%d")='.$DATE_SELECT);
+
+						
+
+						$vitesse_max = $this->Model->getRequeteOne("SELECT MAX(vitesse) AS max_vitesse FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
+						if(empty($vitesse_max['max_vitesse']))
+
+						{
+							$vitesse_max['max_vitesse']=0;
+						}
+
+
+
 
 						$track = '';
 
@@ -388,8 +450,7 @@ class Dashboard extends CI_Controller
 						$data['carburant'] = $carburant;
 						$data['CODE'] = $CODE;
 						$data['DATE'] = $DATE_SELECT;
-
-
+						$data['score'] = $score_finale;
 
 
 						$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
@@ -400,7 +461,14 @@ class Dashboard extends CI_Controller
 							"DATE"=>$DATE_SELECT,
 							"CODE"=>$CODE,
 							"map_filtre"=>$map_filtre,
+							"score_finale"=>$score_finale,
+							"vitesse_max"=>$vitesse_max['max_vitesse'],
 							"ligne_arret"=>$ligne_arret
+
+
+
+							
+
 						);
 
 						// print_r($output);die();
@@ -415,7 +483,14 @@ class Dashboard extends CI_Controller
 					//Fonction pour afficher la position de la voiture
 					function getmap($CODE){
 
-						$get_data = $this->Model->getRequeteOne('SELECT * FROM `tracking_data` WHERE device_uid = '.$CODE.' AND `id` = (SELECT MAX(`id`) FROM tracking_data );');
+						$DATE_SELECT = $this->input->post('DATE_DAT');
+
+
+						
+
+						$get_data = $this->Model->getRequeteOne('SELECT * FROM `tracking_data` WHERE device_uid = '.$CODE.'  AND `id` = (SELECT MAX(`id`) FROM tracking_data );');
+
+						
 
 		// print_r($get_data);die();
 

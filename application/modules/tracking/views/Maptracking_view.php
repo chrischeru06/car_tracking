@@ -1,9 +1,4 @@
-
-
-
-
-
-            <div id="map_map" style="width: 100%;height: 720px;"> </div>
+<div id="map_maps" style="width: 100%;height: 720px;"> </div>
             <br>
 
             <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
@@ -43,8 +38,8 @@
 
   mapboxgl.accessToken =
   "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
-  const map_map = new mapboxgl.Map({
-  container: "map_map", // container ID
+  var map_map = new mapboxgl.Map({
+  container: "map_maps", // container ID
   style: "mapbox://styles/mapbox/<?= $carte2; ?>", // style URL
   bounds: [29.384095,-3.3830083, 29.3838133,-3.3844883],
   projection: "globe" // display the map as a 3D globe
@@ -126,8 +121,8 @@
 
 
 
-  const layerList = document.getElementById('menu');
-  const inputs = layerList.getElementsByTagName('input');
+  var layerList = document.getElementById('menu');
+  var inputs = layerList.getElementsByTagName('input');
 
   for (const input of inputs) {
     input.onclick = (layer) => {
