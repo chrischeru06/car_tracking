@@ -31,6 +31,7 @@ class Dashboard extends CI_Controller
 			$DATE_SELECT=date('Y-m-d');
 
 
+
 		}
 
 
@@ -228,6 +229,8 @@ class Dashboard extends CI_Controller
 
 				$CODE = $this->input->post('CODE');
 				$distance_finale=0;
+				$distance_arrondie=0;
+				$score_finale=0;
 				// print_r($DATE_SELECT);die();
 				
 
@@ -288,6 +291,22 @@ class Dashboard extends CI_Controller
 
 				}
 
+
+				//score
+
+				if(!empty($get_arret)){
+
+					$data_arret=array();
+
+					foreach ($get_arret as $keyget_arret) {
+						$donnes=array();
+						$donnes[]=$keyget_arret['date'];
+
+						$data_arret[]=$donnes;
+					}
+
+					print_r($donnes);die();
+				}
 
 
 				$score=20;
@@ -367,6 +386,9 @@ class Dashboard extends CI_Controller
 							$number='1';
 
 							$arret.='['.$number.','.$number.'],';
+							$ligne_arret.=" 
+								Pas d'arret
+								";
 
 
 						}
@@ -438,7 +460,15 @@ class Dashboard extends CI_Controller
 							"carburant" => $carburant,
 							"DATE"=>$DATE_SELECT,
 							"CODE"=>$CODE,
-							"map_filtre"=>$map_filtre
+							"map_filtre"=>$map_filtre,
+							"score_finale"=>$score_finale,
+							"vitesse_max"=>$vitesse_max['max_vitesse'],
+							"ligne_arret"=>$ligne_arret
+
+
+
+							
+
 						);
 
 						// print_r($output);die();

@@ -607,7 +607,7 @@
         // alert(data.distance_finale)
         $('#map_filtre').html(data.map_filtre);
         $('#ligne_arret').html(data.ligne_arret);
-        $('#score').html(data.score);
+        $('#score').html(data.score_finale);
         $('#vitesse_max').html(data.vitesse_max);
 
 
