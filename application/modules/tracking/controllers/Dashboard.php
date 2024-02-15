@@ -23,11 +23,10 @@ class Dashboard extends CI_Controller
 
 		$fontinfo = $this->input->post('rtoggle');
 		$DATE_SELECT = $this->input->post('DATE');
+		$distance_arrondie=0;
 
 		$distance_arrondie=0;
-		// $DATE_SELECT = '2024-02-10';
-
-		if(empty($DATE_SELECT)){
+	if(empty($DATE_SELECT)){
 
 			$DATE_SELECT=date('Y-m-d');
 
@@ -229,9 +228,7 @@ class Dashboard extends CI_Controller
 
 				$CODE = $this->input->post('CODE');
 				$distance_finale=0;
-				$distance_arrondie=0;
-				$distance=0;
-				$score_finale=0;
+				// print_r($DATE_SELECT);die();
 				
 
 				$info = '';
@@ -344,7 +341,7 @@ class Dashboard extends CI_Controller
 							'type': 'Feature',
 							'properties': {
 								'description':
-								'<img src=\'".base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'70px\' height=\'70px\'><hr>Chauffeur <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b><br>Voiture <b>".$get_chauffeur['DESC_MODELE']." / ".$get_chauffeur['DESC_MARQUE']."</b><br>Plaque <b>".$get_chauffeur['PLAQUE']."</b><br>'
+								'<i class=\'fa fa-watch\'></i><p>".$key_arret['heure']."</p>'
 								},
 								'geometry': {
 									'type': 'Point',
@@ -370,7 +367,6 @@ class Dashboard extends CI_Controller
 							$number='1';
 
 							$arret.='['.$number.','.$number.'],';
-							$ligne_arret.='<b>pas d\'arret</b>';
 
 
 						}
@@ -442,12 +438,7 @@ class Dashboard extends CI_Controller
 							"carburant" => $carburant,
 							"DATE"=>$DATE_SELECT,
 							"CODE"=>$CODE,
-							"map_filtre"=>$map_filtre,
-							"ligne_arret"=>$ligne_arret,
-							"score"=>$score_finale,
-							"vitesse_max"=>$vitesse_max['max_vitesse']
-
-
+							"map_filtre"=>$map_filtre
 						);
 
 						// print_r($output);die();

@@ -414,6 +414,7 @@
     </div>
 
 
+
   </div>
 </section>
 
@@ -608,6 +609,7 @@
         $('#ligne_arret').html(data.ligne_arret);
         $('#score').html(data.score);
         $('#vitesse_max').html(data.vitesse_max);
+
 
 
         
