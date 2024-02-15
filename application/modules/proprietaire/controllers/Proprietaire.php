@@ -476,7 +476,7 @@ class Proprietaire extends CI_Controller
 			$sub_array[]=$i;
 
 			if($row->TYPE_PROPRIETAIRE_ID == 1){
-				$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" class=" bi bi-bank text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
+				$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
 				';
 
 			}else{
@@ -535,7 +535,24 @@ class Proprietaire extends CI_Controller
 				';
 			}
 
-			$sub_array[]="<a  href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil h5'></span></a>&nbsp;&nbsp; <a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i></a>";
+			// $sub_array[]="<a  href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil h5'></span></a>&nbsp;&nbsp; <a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i></a>";
+			$action = '<div class="dropdown text-center" style="color:#fff;">
+			<a class=" btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown"><i class="bi bi-three-dots h5" style="color:blue;"></i>  <span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">';
+
+			$action .="<li>
+
+			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a>
+			</li>"; 
+
+			$action .="<li>
+
+			 <a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détail</a>
+			</a>
+			</li>";
+
+			$sub_array[]=$action;
 
 			$data[]=$sub_array;
 		}

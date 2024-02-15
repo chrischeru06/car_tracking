@@ -26,7 +26,7 @@ class Dashboard extends CI_Controller
 		$distance_arrondie=0;
 
 		$distance_arrondie=0;
-	if(empty($DATE_SELECT)){
+		if(empty($DATE_SELECT)){
 
 			$DATE_SELECT=date('Y-m-d');
 
@@ -142,7 +142,7 @@ class Dashboard extends CI_Controller
 					'type': 'Feature',
 					'properties': {
 						'description':
-						'<strong>Heure:</strong><p>".$key_arret['heure']."</p>'
+						''
 						},
 						'geometry': {
 							'type': 'Point',
@@ -255,10 +255,21 @@ class Dashboard extends CI_Controller
 				//trajet
 				$get_data = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition` FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
 
+				//tempsarret
+				// $heure_av=array();
+				// foreach ($get_data as $keyget_data) {
+				// 	if($keyget_data['ignition']==0){
 
 
-				$get_arret = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`device_uid`,`ignition`,date_format(tracking_data.date,'%H:%i') as heure,ignition FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
+				// 		$heure_av=$this->Model->getRequete('SELECT MAX(id) FROM tracking_data WHERE ignition=1');
+				// 	}
+				// }
+				// print_r($heure_av);die();
 
+
+
+				$get_arret = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`device_uid`,`ignition`,tracking_data.date,date_format(tracking_data.date,'%H:%i') as heure,ignition FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
+				$distance=0;
 				//Calcul de la distance
 				if(!empty($get_data)){
 
@@ -293,19 +304,52 @@ class Dashboard extends CI_Controller
 
 
 				//score
+				$get_arret_date = $this->Model->getRequete("SELECT id,tracking_data.date FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
 
-				if(!empty($get_arret)){
+				$min_arret = $this->Model->getRequeteOne("SELECT MIN(id) FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
+
+
+
+				$point_point=20;
+				if(!empty($get_arret_date)){
 
 					$data_arret=array();
 
-					foreach ($get_arret as $keyget_arret) {
-						$donnes=array();
-						$donnes[]=$keyget_arret['date'];
 
-						$data_arret[]=$donnes;
+					foreach ($get_arret_date as $keyget_arret) {
+						$data_arret[]=$keyget_arret['id'];
+
 					}
 
-					print_r($donnes);die();
+					$nbre=count($data_arret);
+
+					$valeur_valeur=array();
+					for($i=0,$j=1;$i<$nbre,$j<$nbre;$i++,$j++){
+
+
+						$requete=$this->Model->getRequete('SELECT count(id) FROM tracking_data WHERE vitesse>60 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"');
+
+
+						$valeur_valeur=$requete;
+
+
+					}
+
+					// print_r($valeur_valeur);die();
+
+
+					foreach ($valeur_valeur as $keyvaleur_valeur) {
+
+
+						if($keyvaleur_valeur>0){
+
+							$point_point=$point_point-1;
+						}
+					}
+
+
+					$point_final=$point_point;
+					// print_r($point_final);die();
 				}
 
 
@@ -360,7 +404,7 @@ class Dashboard extends CI_Controller
 							'type': 'Feature',
 							'properties': {
 								'description':
-								'<i class=\'fa fa-watch\'></i><p>".$key_arret['heure']."</p>'
+								'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'50px\' height=\'50px\' alt=\'\'></center><hr>Chauffeur   <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b><br>Téléphone   <b>".$get_chauffeur['NUMERO_TELEPHONE']."</b><br>E-mail   <b>".$get_chauffeur['ADRESSE_MAIL']."</b><br>'
 								},
 								'geometry': {
 									'type': 'Point',
@@ -387,8 +431,8 @@ class Dashboard extends CI_Controller
 
 							$arret.='['.$number.','.$number.'],';
 							$ligne_arret.=" 
-								Pas d'arret
-								";
+							Pas d'arret
+							";
 
 
 						}
@@ -461,7 +505,7 @@ class Dashboard extends CI_Controller
 							"DATE"=>$DATE_SELECT,
 							"CODE"=>$CODE,
 							"map_filtre"=>$map_filtre,
-							"score_finale"=>$score_finale,
+							"score_finale"=>$point_final,
 							"vitesse_max"=>$vitesse_max['max_vitesse'],
 							"ligne_arret"=>$ligne_arret
 
