@@ -211,7 +211,7 @@
                         }?>
 
                         <span class="text-muted small pt-2 ps-1"><b><?=$get_chauffeur['DESC_MARQUE'].' / '. $get_chauffeur['DESC_MODELE']?></b></span><br>
-                        <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['PLAQUE']?></span><br>
+                        <i class="bi bi-square-o"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['PLAQUE']?></span><br>
                         <i class="bi bi-palette"></i><span class="text-muted small pt-2 ps-1"><?php if(empty($get_chauffeur['COULEUR'])){?> N/A <?php } ?>
                         <?php if(!empty($get_chauffeur['COULEUR'])){?>  <?= $get_chauffeur['COULEUR']?> <?php } ?></span><br>
 

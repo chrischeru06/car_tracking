@@ -24,6 +24,16 @@ function pluralize( $count, $text )
 }
 }
 
+  function date_manage($nb_jr = 0,$date_semi=0){
+
+    $your_date = strtotime("+".$nb_jr." day", strtotime($date_semi));
+
+    $new_date = date("Y-m-d", $your_date++);
+
+
+    return date('d-m-Y',strtotime($new_date));
+}
+
 function ago($date1,$date2)
 {
 
