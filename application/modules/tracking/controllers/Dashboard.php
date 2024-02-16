@@ -30,8 +30,6 @@ class Dashboard extends CI_Controller
 
 			$DATE_SELECT=date('Y-m-d');
 
-
-
 		}
 
 
@@ -50,51 +48,79 @@ class Dashboard extends CI_Controller
 		$CODE=$this->uri->segment(4);
 		$data['CODE']=$CODE;
 
-
-		//Distance parcourue
-
-		// $get_distance = $this->Model->getRequete("SELECT `latitude`,`longitude`,`ignition` FROM `tracking_data` WHERE 1");
-
-		// $dist1='';
-		// $dist2='';
+		
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+		$my_selectget_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CODE ='.$CODE.'', '`PROPRIETAIRE_ID` ASC');
+		$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
 
 
 
-		// foreach ($get_distance as $key_dist) {
+		$data['get_chauffeur']=$get_chauffeur;
 
 
-		// 		$dist1=$key_dist['longitude'];
-		// 		$dist2=$key_dist['latitude'];
+		$this->load->view('Tracking_chauffeur_view',$data);
 
 
-		// }
-
-		// // print_r($dist1);die();
-
-		// $dist_cal = $this->Model->calcule_distance($dist1,$dist2);
-
-		// print_r($dist_cal);die();
-
-		//chauffeur
-
-		$get_chauffeur = $this->Model->getRequeteOne("SELECT `CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE FROM `chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE WHERE 1 AND chauffeur_vehicule.CODE = ".$CODE);
-
-			//trajet
-		$get_data = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition` FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
+	}
 
 
 
-		$get_arret = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`device_uid`,`ignition`,date_format(tracking_data.date,'%H:%i') as heure,ignition FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
+	//Fonction pour les filtres
+	function tracking_chauffeur_filtres(){
 
-		//Calcul de la distance
+		$fontinfo = $this->input->post('rtoggle');
+		$DATE_SELECT = $this->input->post('DATE_DAT');
+		$CODE = $this->input->post('CODE');
+		$distance_finale=0;
+		$distance_arrondie=0;
+		$score_finale=0;
+
+
+		$info = '';
+
+		if($fontinfo == ''){
+
+			$info = 'streets';
+
+		}else{
+
+			$info = $fontinfo;
+		}
+
+		$data['info'] = $info;
+
+		// requete pour recuperer le chauffeur
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+		$my_selectget_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CODE ='.$CODE.'', '`PROPRIETAIRE_ID` ASC');
+		$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
+
+				
+		//requete pour recuperer tout le trajet parcouru
+		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
+		$my_selectget_data=str_replace('\n', '', $my_selectget_data);
+		$my_selectget_data=str_replace('\"', '', $my_selectget_data);
+
+		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
+
+
+
+		//requete pour recuperer les arrets
+		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`device_uid`,`ignition`,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure,ignition', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" AND ignition=0' , '`id` ASC');
+		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
+		$my_selectget_arret=str_replace('\n', '', $my_selectget_arret);
+		$my_selectget_arret=str_replace('\"', '', $my_selectget_arret);
+
+		$get_arret = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret);
+		$distance=0;
+		
+		//Calcul de la distance parcourue
 		if(!empty($get_data)){
-
-			$distance=0;
 
 			$i=0;
 			foreach ($get_data as $value_get_arret) {
 				if ($value_get_arret['ignition']==1) {
-            // code...
+
 					if ($i==0) {
 						$pointdepart=[$value_get_arret['latitude'],$value_get_arret['longitude']];
 
@@ -114,9 +140,103 @@ class Dashboard extends CI_Controller
 
 			}
 
-
 			$distance_finale=$distance;
 			$distance_arrondie=round($distance_finale);
+
+
+		}
+
+
+		//score			
+		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" AND ignition=0' , '`id` ASC');
+		$my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
+		$my_selectget_arret_date=str_replace('\n', '', $my_selectget_arret_date);
+		$my_selectget_arret_date=str_replace('\"', '', $my_selectget_arret_date);
+
+		$get_arret_date = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret_date);
+
+
+		$my_selectmin_arret = $this->getBindParms('MIN(id)', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+		$my_selectmin_arret=str_replace('\"', '"', $my_selectmin_arret);
+		$my_selectmin_arret=str_replace('\n', '', $my_selectmin_arret);
+		$my_selectmin_arret=str_replace('\"', '', $my_selectmin_arret);
+
+		$min_arret = $this->ModelPs->getRequete($proce_requete, $my_selectmin_arret);
+
+		$point_final=0;
+
+		$point_point=20;
+		if(!empty($get_arret_date)){
+
+			$data_arret=array();
+
+
+			foreach ($get_arret_date as $keyget_arret) {
+				$data_arret[]=$keyget_arret['id'];
+
+			}
+
+			$nbre=count($data_arret);
+
+			$valeur_valeur=array();
+			for($i=0,$j=1;$i<$nbre,$j<$nbre;$i++,$j++){
+
+
+				$my_selectrequete = $this->getBindParms('count(id)', 'tracking_data', '1 AND vitesse>60 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"' , '`id` ASC');
+				$my_selectrequete=str_replace('\"', '"', $my_selectrequete);
+				$my_selectrequete=str_replace('\n', '', $my_selectrequete);
+				$my_selectrequete=str_replace('\"', '', $my_selectrequete);
+
+				$requete = $this->ModelPs->getRequete($proce_requete, $my_selectrequete);
+
+
+				$valeur_valeur=$requete;
+
+
+			}
+
+
+
+			foreach ($valeur_valeur as $keyvaleur_valeur) {
+
+
+				if($keyvaleur_valeur>0){
+
+					$point_point=$point_point-1;
+				}
+			}
+
+
+			$point_final=$point_point;
+		}
+
+
+		$score=20;
+		//Calcul du score
+		if(!empty($get_data)){
+
+			$u=0;
+			foreach ($get_data as $value_get_arret) {
+
+
+
+				if ($value_get_arret['vitesse']>60) {
+
+
+					$score-=1;
+
+				}else{
+					$score-=0;
+
+
+				}
+
+				$u++;
+
+			}
+
+			$score_finale=$score;
+
 
 		}
 
@@ -131,7 +251,7 @@ class Dashboard extends CI_Controller
 		//carte
 		$arret = '';
 
-
+		$ligne_arret='';
 		if(!empty($get_arret)){
 
 
@@ -142,7 +262,7 @@ class Dashboard extends CI_Controller
 					'type': 'Feature',
 					'properties': {
 						'description':
-						''
+						'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$key_arret['heure']."'
 						},
 						'geometry': {
 							'type': 'Point',
@@ -152,7 +272,13 @@ class Dashboard extends CI_Controller
 						";
 
 
-
+						$ligne_arret.=" <div class='activity-item d-flex'>
+						<div class='activite-label'>".$key_arret['heure']."</div>
+						<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+						<div class='activity-content'>
+						<a href='#' class='fw-bold text-dark'>[".$key_arret['latitude'].",".$key_arret['longitude']."]</a> 
+						</div>
+						</div>";
 
 					}
 
@@ -162,6 +288,9 @@ class Dashboard extends CI_Controller
 					$number='1';
 
 					$arret.='['.$number.','.$number.'],';
+					$ligne_arret.=" 
+					Pas d'arret
+					";
 
 
 				}
@@ -171,9 +300,36 @@ class Dashboard extends CI_Controller
 				$arret = str_replace('', "", $arret);
 
 
-				$vit_moy = $this->Model->getRequeteOne('SELECT AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid = '.$CODE.' AND date_format(`date`,"%Y-%m-%d") = '.$DATE_SELECT);
 
-				$date_debfin = $this->Model->getRequeteOne('SELECT MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid='.$CODE.' AND date_format(`date`,"%Y-%m-%d")='.$DATE_SELECT);
+				$my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+				$my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
+				$my_selectvit_moy=str_replace('\n', '', $my_selectvit_moy);
+				$my_selectvit_moy=str_replace('\"', '', $my_selectvit_moy);
+
+				$vit_moy = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvit_moy);
+				$my_selectdate_debfin = $this->getBindParms('id,MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+				$my_selectdate_debfin=str_replace('\"', '"', $my_selectdate_debfin);
+				$my_selectdate_debfin=str_replace('\n', '', $my_selectdate_debfin);
+				$my_selectdate_debfin=str_replace('\"', '', $my_selectdate_debfin);
+
+				$date_debfin = $this->ModelPs->getRequeteOne($proce_requete, $my_selectdate_debfin);
+
+
+				$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+				$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
+				$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
+				$my_selectvitesse_max=str_replace('\"', '', $my_selectvitesse_max);
+
+				$vitesse_max = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvitesse_max);
+
+				if(empty($vitesse_max['max_vitesse']))
+
+				{
+					$vitesse_max['max_vitesse']=0;
+				}
+
+
+
 
 				$track = '';
 
@@ -209,353 +365,72 @@ class Dashboard extends CI_Controller
 				$data['get_arret'] = $get_arret;
 				$data['distance_finale'] = $distance_arrondie;
 				$data['carburant'] = $carburant;
-
+				$data['CODE'] = $CODE;
+				$data['DATE'] = $DATE_SELECT;
+				$data['score'] = $score_finale;
+				$data['ligne_arret'] = $ligne_arret;
 				
 
-				$this->load->view('Tracking_chauffeur_view',$data);
+
+				$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
+
+				$output = array(
+					"distance_finale" => $distance_arrondie,
+					"carburant" => $carburant,
+					"DATE"=>$DATE_SELECT,
+					"CODE"=>$CODE,
+					"map_filtre"=>$map_filtre,
+					"score_finale"=>$point_final,
+					"vitesse_max"=>$vitesse_max['max_vitesse'],
+					"ligne_arret"=>$ligne_arret
+
+
+
+
+
+				);
+
+
+
+				echo json_encode($output);
+
 
 
 			}
 
+			//Fonction pour afficher la position de la voiture
+			function getmap($CODE){
 
-
-				//Fonction pour les filtres
-			function tracking_chauffeur_filtres(){
-
-				$fontinfo = $this->input->post('rtoggle');
 				$DATE_SELECT = $this->input->post('DATE_DAT');
 
-				// print_r($DATE_SELECT);die();
+				$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-				$CODE = $this->input->post('CODE');
-				$distance_finale=0;
-				$distance_arrondie=0;
-				$score_finale=0;
-				// print_r($DATE_SELECT);die();
-				
+				$my_selectget_data= $this->getBindParms(' id,latitude,longitude', 'tracking_data', '1 AND device_uid ='.$CODE.' AND `id` = (SELECT MAX(`id`) FROM tracking_data ) ' , '`id` ASC');
+				$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
+				$my_selectget_data=str_replace('\n', '', $my_selectget_data);
+				$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
-				$info = '';
+				$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
 
-				if($fontinfo == ''){
 
-					$info = 'streets';
+				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"velocity":27556.638607061,"visibility":"eclipsed","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
 
-				}else{
 
-					$info = $fontinfo;
-				}
 
-				$data['info'] = $info;
-				
-
-					//chauffeur
-
-				$get_chauffeur = $this->Model->getRequeteOne("SELECT `CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE FROM `chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE WHERE 1 AND chauffeur_vehicule.CODE = ".$CODE);
-
-				//trajet
-				$get_data = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition` FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
-
-				//tempsarret
-				// $heure_av=array();
-				// foreach ($get_data as $keyget_data) {
-				// 	if($keyget_data['ignition']==0){
-
-
-				// 		$heure_av=$this->Model->getRequete('SELECT MAX(id) FROM tracking_data WHERE ignition=1');
-				// 	}
-				// }
-				// print_r($heure_av);die();
-
-
-
-				$get_arret = $this->Model->getRequete("SELECT `id`,`latitude`,`longitude`,`device_uid`,`ignition`,tracking_data.date,date_format(tracking_data.date,'%H:%i') as heure,ignition FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
-				$distance=0;
-				//Calcul de la distance
-				if(!empty($get_data)){
-
-					$i=0;
-					foreach ($get_data as $value_get_arret) {
-						if ($value_get_arret['ignition']==1) {
-
-							if ($i==0) {
-								$pointdepart=[$value_get_arret['latitude'],$value_get_arret['longitude']];
-
-							}else{
-								$pointactuel=[$value_get_arret['latitude'],$value_get_arret['longitude']];
-
-
-								$distance+=$this->Model->getDistance($pointdepart['0'],$pointdepart['1'],$pointactuel['0'],$pointactuel['1']);
-
-							}
-
-						}else{
-							$pointdepart=[$value_get_arret['latitude'],$value_get_arret['longitude']];
-
-						}
-						$i++;
-
-					}
-
-					$distance_finale=$distance;
-					$distance_arrondie=round($distance_finale);
-
-
-				}
-
-
-				//score
-				$get_arret_date = $this->Model->getRequete("SELECT id,tracking_data.date FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."' AND ignition=0");
-
-				$min_arret = $this->Model->getRequeteOne("SELECT MIN(id) FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
-
-				$point_final=0;
-
-				$point_point=20;
-				if(!empty($get_arret_date)){
-
-					$data_arret=array();
-
-
-					foreach ($get_arret_date as $keyget_arret) {
-						$data_arret[]=$keyget_arret['id'];
-
-					}
-
-					$nbre=count($data_arret);
-
-					$valeur_valeur=array();
-					for($i=0,$j=1;$i<$nbre,$j<$nbre;$i++,$j++){
-
-
-						$requete=$this->Model->getRequete('SELECT count(id) FROM tracking_data WHERE vitesse>60 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"');
-
-
-						$valeur_valeur=$requete;
-
-
-					}
-
-					// print_r($valeur_valeur);die();
-
-
-					foreach ($valeur_valeur as $keyvaleur_valeur) {
-
-
-						if($keyvaleur_valeur>0){
-
-							$point_point=$point_point-1;
-						}
-					}
-
-
-					$point_final=$point_point;
-					// print_r($point_final);die();
-				}
-
-
-				$score=20;
-				//Calcul du score
-				if(!empty($get_data)){
-
-					$u=0;
-					foreach ($get_data as $value_get_arret) {
-
-
-						
-						if ($value_get_arret['vitesse']>60) {
-
-							
-							$score-=1;
-
-						}else{
-							$score-=0;
-							
-
-						}
-
-						$u++;
-
-					}
-
-					$score_finale=$score;
-
-
-				}
-
-
-
-
-		//calcul du carburant consommé
-
-				$carburant = 1 * $distance_arrondie;
-
-
-		//carte
-				$arret = '';
-
-				$ligne_arret='';
-				if(!empty($get_arret)){
-
-
-					foreach ($get_arret as $key_arret) {
-
-
-						$arret.="{
-							'type': 'Feature',
-							'properties': {
-								'description':
-								'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'50px\' height=\'50px\' alt=\'\'></center><hr>Chauffeur   <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b><br>Téléphone   <b>".$get_chauffeur['NUMERO_TELEPHONE']."</b><br>E-mail   <b>".$get_chauffeur['ADRESSE_MAIL']."</b><br>'
-								},
-								'geometry': {
-									'type': 'Point',
-									'coordinates': [".$key_arret['longitude'].", ".$key_arret['latitude']."]
-								}
-								},
-								";
-
-
-								$ligne_arret.=" <div class='activity-item d-flex'>
-								<div class='activite-label'>".$key_arret['heure']."</div>
-								<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-								<div class='activity-content'>
-								<a href='#' class='fw-bold text-dark'>[".$key_arret['latitude'].",".$key_arret['longitude']."]</a> 
-								</div>
-								</div>";
-
-							}
-
-
-
-						}else{
-							$number='1';
-
-							$arret.='['.$number.','.$number.'],';
-							$ligne_arret.=" 
-							Pas d'arret
-							";
-
-
-						}
-
-						$arret.='';
-
-						$arret = str_replace('', "", $arret);
-
-
-						$vit_moy = $this->Model->getRequeteOne('SELECT AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid = '.$CODE.' AND date_format(`date`,"%Y-%m-%d") = '.$DATE_SELECT);
-
-						$date_debfin = $this->Model->getRequeteOne('SELECT MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base FROM `tracking_data` WHERE 1 AND device_uid='.$CODE.' AND date_format(`date`,"%Y-%m-%d")='.$DATE_SELECT);
-
-						
-
-						$vitesse_max = $this->Model->getRequeteOne("SELECT MAX(vitesse) AS max_vitesse FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
-						if(empty($vitesse_max['max_vitesse']))
-
-						{
-							$vitesse_max['max_vitesse']=0;
-						}
-
-
-
-
-						$track = '';
-
-
-						if(!empty($get_data)){
-
-
-							foreach ($get_data as $key) {
-
-								$track.='['.$key['longitude'].','.$key['latitude'].'],';
-							}
-
-
-
-						}else{
-							$number='1';
-
-							$track.='['.$number.','.$number.'],';
-
-
-						}
-						$track.='@';
-
-						$track = str_replace(',@', "", $track);
-
-
-
-						$data['track'] = $track;
-						$data['vit_moy'] = $vit_moy;
-						$data['date_debfin'] = $date_debfin;
-						$data['arret'] = $arret;
-						$data['get_chauffeur'] = $get_chauffeur;
-						$data['get_arret'] = $get_arret;
-						$data['distance_finale'] = $distance_arrondie;
-						$data['carburant'] = $carburant;
-						$data['CODE'] = $CODE;
-						$data['DATE'] = $DATE_SELECT;
-						$data['score'] = $score_finale;
-
-
-						$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
-
-						$output = array(
-							"distance_finale" => $distance_arrondie,
-							"carburant" => $carburant,
-							"DATE"=>$DATE_SELECT,
-							"CODE"=>$CODE,
-							"map_filtre"=>$map_filtre,
-							"score_finale"=>$point_final,
-							"vitesse_max"=>$vitesse_max['max_vitesse'],
-							"ligne_arret"=>$ligne_arret
-
-
-
-							
-
-						);
-
-						// print_r($output);die();
-
-
-						echo json_encode($output);
-
-
-
-					}
-
-					//Fonction pour afficher la position de la voiture
-					function getmap($CODE){
-
-						$DATE_SELECT = $this->input->post('DATE_DAT');
-
-
-						
-
-						$get_data = $this->Model->getRequeteOne('SELECT * FROM `tracking_data` WHERE device_uid = '.$CODE.'  AND `id` = (SELECT MAX(`id`) FROM tracking_data );');
-
-						
-
-		// print_r($get_data);die();
-
-						$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"velocity":27556.638607061,"visibility":"eclipsed","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
-
-
-
-						echo $data;
-					}
+				echo $data;
+			}
 
 
 				//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
-					public function getBindParms($columnselect, $table, $where, $orderby)
-					{
+			public function getBindParms($columnselect, $table, $where, $orderby)
+			{
         // code...
-						$bindparams = array(
-							'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
-							'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
-							'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
-							'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
-						);
-						return $bindparams;
-					}
-				}?>
+				$bindparams = array(
+					'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+					'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+					'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+					'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+				);
+				return $bindparams;
+			}
+		}?>

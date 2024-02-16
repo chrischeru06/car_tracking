@@ -1,38 +1,67 @@
-<div id="map_maps" style="width: 100%;height: 720px;"> </div>
-            <br>
-
-            <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
-
-              <div id="menu"> 
-
-                <?php $carte2; ?>
+<style>
+  .mapboxgl-popup {
+    max-width: 400px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  }
 
 
-                <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
-
-                <label for="satellite-streets-v12">satellite</label>
-
-                <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
-                <label for="streets-v12">streets</label>
+</style>
 
 
-                <br>
-                <br>
+<div id="map_maps" style="width: 100%;height: 720px;"> 
 
-                <!-- <img style="width: 100%;height: 150px;" src="<?= base_url() ?>upload/mbx2.jpeg">          -->
+</div>
+<br>
 
+<!-- <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+
+ 
+</form> -->
+
+
+<div id="animation-phase-container">
+
+ <div id="menu"> 
+
+  <?php $carte2; ?>
+<br>
+<br>
+<br>
+<br>
+
+  <br>
+  <section class="section dashboard">
+
+            <!-- <div class="card"> -->
+
+             <!-- <div class="card-body"> -->
+              <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
+              <div class="scroller">
+
+                <div class="activity">
+
+                  <?=$ligne_arret?>
+
+                </div>
               </div>
-            </form>
-
-
-            <div id="animation-phase-container">
-
-<!--   Temps :
-  <div id="animation-phase"></div> -->
-
+            <!-- </div> -->
+          <!-- </div> -->
+        </section> 
 
 </div>
 
+
+</div>
+<div id="menu">
+
+
+  <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
+
+  <label for="satellite-streets-v12">satellite</label>
+
+  <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
+  <label for="streets-v12">streets</label>
+</div>
 
 <script type="text/javascript">
 
@@ -46,6 +75,8 @@
 });
 
   map_map.addControl(new mapboxgl.NavigationControl());
+
+
 
   map_map.on("style.load", () => {
   // https://en.wikipedia.org/wiki/Transpeninsular_Line
@@ -187,6 +218,36 @@
     map_map.on('mouseleave', 'places', () => {
       map_map.getCanvas().style.cursor = '';
       popup.remove();
+    });
+
+     // When a click event occurs on a feature in the places layer, open a popup at the
+        // location of the feature, with description HTML from its properties.
+    map_map.on('click', 'places', (e) => {
+            // Copy coordinates array.
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(description)
+      .addTo(map_map);
+    });
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+    map_map.on('mouseenter', 'places', () => {
+      map_map.getCanvas().style.cursor = 'pointer';
+    });
+
+        // Change it back to a pointer when it leaves.
+    map_map.on('mouseleave', 'places', () => {
+      map_map.getCanvas().style.cursor = '';
     });
   });
 

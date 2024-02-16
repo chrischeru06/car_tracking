@@ -53,7 +53,7 @@ if ($this->session->PROFIL_ID == 1) {
             </a>
           </li>
           <li>
-            <a href="<?=base_url()?>agent/Agent">
+            <a href="<?=base_url()?>chauffeur/Chauffeur">
               <i class="bi bi-circle"></i><span>Chauffeurs</span>
             </a>
           </li>
