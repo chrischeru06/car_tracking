@@ -191,7 +191,7 @@
                         {
                           ?>
                           
-                          <img  class="card-icon" style="background-color: #829b35;border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/photo_vehicule/'.$get_chauffeur['PHOTO'])?>">&nbsp;&nbsp;
+                          <img  class="card-icon" style="background-color: white;border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/photo_vehicule/'.$get_chauffeur['PHOTO'])?>">&nbsp;&nbsp;
                           <?php
                         }
                         else if(empty($get_chauffeur['PHOTO']))
@@ -226,7 +226,7 @@
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle" >
-                        <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                        <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
                       </div>
                       <div class="ps-3">
                         <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
