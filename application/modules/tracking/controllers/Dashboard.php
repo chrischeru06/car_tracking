@@ -308,7 +308,7 @@ class Dashboard extends CI_Controller
 
 				$min_arret = $this->Model->getRequeteOne("SELECT MIN(id) FROM `tracking_data` WHERE device_uid = ".$CODE." AND date_format(tracking_data.date,'%Y-%m-%d') = '".$DATE_SELECT."'");
 
-
+				$point_final=0;
 
 				$point_point=20;
 				if(!empty($get_arret_date)){
