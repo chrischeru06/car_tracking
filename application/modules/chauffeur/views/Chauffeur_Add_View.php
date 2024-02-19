@@ -244,6 +244,14 @@
                     <font id="error_file_permis" color="red"></font>
                     <?php echo form_error('file_permis', '<div class="text-danger">', '</div>'); ?> 
                   </div>
+                   <div class="col-md-4">
+                      <label for="date_expiration" class="text-dark" style="font-weight: 1000; color:#454545">Date expiration permis <font color="red">*</font></label>
+                      <input type="date" name="date_expiration" autocomplete="off" id="date_expiration" value="<?= set_value('date_expiration') ?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
+
+                      <font id="error_date_expiration" color="red"></font>
+                      <?php echo form_error('date_expiration', '<div class="text-danger">', '</div>'); ?>
+                    </div>
+
 
                   <div class="col-md-4">
                     <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
@@ -446,6 +454,13 @@
         statut=2;
         $('#error_date_naissance').text("Le champ est obligatoire");
       }
+
+      
+      if($('#date_expiration').val()==''){
+        statut=2;
+        $('#error_date_expiration').text("Le champ est obligatoire");
+      }
+      
 
       if($('#GENRE_ID').val()==''){
         statut=2;
