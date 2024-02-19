@@ -169,7 +169,9 @@ class Details_Chauffeur extends CI_Controller
   function detail_vehicule_chauffeur($CHAUFFEUR_ID)
   {
     
-    $query_principal=$this->Model->getRequeteOne('SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_nom.DESC_NOM,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_nom ON vehicule_nom.ID_NOM=vehicule.ID_NOM JOIN agent_card ON vehicule.CODE=agent_card.CARD_UID JOIN chauffeur ON agent_card.CODE_AGENT=chauffeur.CODE_AGENT WHERE chauffeur.CHAUFFEUR_ID ='.$CHAUFFEUR_ID);
+
+    $query_principal=$this->Model->getRequeteOne('SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_nom.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_nom ON vehicule_nom.ID_NOM=vehicule.ID_NOM JOIN agent_card ON vehicule.CODE=agent_card.CARD_UID JOIN chauffeur ON agent_card.CODE_AGENT=chauffeur.CODE_AGENT WHERE chauffeur.CHAUFFEUR_ID ='.$CHAUFFEUR_ID);
+
     // print_r($query_principal)
      
    $fichier = base_url().'upload/photo_vehicule/'.$query_principal['PHOTO'].'';
@@ -177,7 +179,9 @@ class Details_Chauffeur extends CI_Controller
     $div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
         $output = array(
 
-      "DESC_NOM" =>$query_principal['DESC_NOM'] ,
+
+      "DESC_MODELE" =>$query_principal['DESC_MODELE'] ,
+
       "PLAQUE" =>$query_principal['PLAQUE'] ,
       "COULEUR" =>$query_principal['COULEUR'] ,
       "PHOTO" =>$div_info ,

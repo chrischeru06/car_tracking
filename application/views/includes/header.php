@@ -16,6 +16,7 @@
   <link href="<?= base_url()?>/template/link/link1.css" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
+  <link rel="stylesheet" href="<?= base_url()?>/node_modules/bootstrap-icons/bootstrap-icons.min.css">
   <link href="<?= base_url()?>/template/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?= base_url()?>/template/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="<?= base_url()?>/template/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -25,7 +26,7 @@
   <link href="<?= base_url()?>/template/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="<?= base_url()?>/template/assets/css/style.css" rel="stylesheet">
+  <link href="<?= base_url()?>template/assets/css/style.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.2

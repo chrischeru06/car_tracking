@@ -67,9 +67,22 @@ class Model extends CI_Model{
     {
        $this->db->where('TYPE_ACTEUR_ID', $id);
        $this->db->update('ch_type_acteur', $data);
+
+       
     }
 
-    
+    function getDistance($latitude1, $longitude1, $latitude2, $longitude2) {
+    $earth_radius = 6371;
+
+    $dLat = deg2rad($latitude2 - $latitude1);
+    $dLon = deg2rad($longitude2 - $longitude1);
+
+    $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * sin($dLon/2) * sin($dLon/2);
+    $c = 2 * asin(sqrt($a));
+    $distance = $earth_radius * $c;
+
+    return $distance;
+}
 
     function calcule_distance($point1,$point2,$unite="km",$precision=2) {
         //recuperation de l'instance de codeigniter
