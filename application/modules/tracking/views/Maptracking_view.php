@@ -3,10 +3,6 @@
     max-width: 400px;
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   }
-#menu {
-
-float: right;
-}
 
 </style>
 
@@ -24,7 +20,7 @@ float: right;
 
 <div id="animation-phase-container">
 
- <div id="menu" > 
+ <div id="menu" style="float:right;" > 
 
   <?php $carte2; ?>
   <br>
@@ -34,7 +30,7 @@ float: right;
 
   <br>
 
-  <section class="section dashboard">
+  <section class="section dashboard" id="liste">
 
 
     <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
@@ -75,8 +71,9 @@ float: right;
   projection: "globe" // display the map as a 3D globe
 });
 
-  var nav = new mapboxgl.NavigationControl();
-  map_map.addControl(nav, "top-left");
+  // var nav = new mapboxgl.NavigationControl();
+  // map_map.addControl(nav, "top-left");
+   map_map.addControl(new mapboxgl.NavigationControl());
 
 
   map_map.on("style.load", () => {

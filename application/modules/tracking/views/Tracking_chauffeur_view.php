@@ -123,10 +123,43 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-    <div class="form-group col-md-6 py-2">
-      <label class="form-label">Date</label>
-      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();" onclick="change_carte();">
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label class="form-label">Date</label>
+        <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();" onclick="change_carte();">
+      </div>
+      <div class="form-group col-md-3">
+        <label class="form-label">Heure1</label>
+        <select class="form-control" name="HEURE1" id="HEURE1">
+          <option value="">Séléctionner</option>
+          <?php
+          foreach ($heure_trajet as $key_heure_trajet)
+          {
+            ?>
+            <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+            <?php
+          }
+          ?>
+        </select>
 
+      </div>
+
+
+      <div class="form-group col-md-3">
+        <label class="form-label">Heure2</label>
+       <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
+          <option value="">Séléctionner</option>
+          <?php
+          foreach ($heure_trajet as $key_heure_trajet)
+          {
+            ?>
+            <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+            <?php
+          }
+          ?>
+        </select>
+
+      </div>
     </div>
     <br>
     <input type="hidden" name="CODE" id="CODE" value="<?=$CODE?>">
@@ -137,9 +170,6 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Informations générales</h5>
-
-
-
               <div class="row">
                 <div class="col-lg-6">
                   <div class="card" style="border-radius: 10%; background-color: rgba(128,128,128,0.05);">
@@ -319,12 +349,9 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Position de la voiture</h5>
-
-
                 <br>
                 <br>
-
-                <div id="map" style="width: 100%;height: 635px;"></div>
+                <div id="map" style="width: 100%;height: 550px;"></div>
 
 
                 <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
@@ -340,12 +367,6 @@
 
                     <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte = 'streets-v12'; ?> >
                     <label for="streets-v12">streets</label>
-
-
-                    <br>
-                    <br>
-
-                    <!-- <img style="width: 100%;height: 150px;" src="<?= base_url() ?>upload/mbx2.jpeg">          -->
 
                   </div>
                 </form>
@@ -560,6 +581,9 @@
   function change_carte() {
     var DATE_DAT = $('#DATE_DAT').val(); 
     var CODE = $('#CODE').val(); 
+    var HEURE1 = $('#HEURE1').val(); 
+    var HEURE2 = $('#HEURE2').val(); 
+    
 
 
     $.ajax({
@@ -569,7 +593,10 @@
       cache:false,
       data: {
         DATE_DAT:DATE_DAT,
-        CODE:CODE
+        CODE:CODE,
+        HEURE1:HEURE1,
+        HEURE2:HEURE2,
+
 
       },
       beforeSend:function () { 
