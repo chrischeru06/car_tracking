@@ -252,6 +252,7 @@
                       <?php echo form_error('date_expiration', '<div class="text-danger">', '</div>'); ?>
                     </div>
 
+
                   <div class="col-md-4">
                     <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
                     <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= set_value('photo_passport') ?>"  class="form-control">
@@ -453,6 +454,7 @@
         statut=2;
         $('#error_date_naissance').text("Le champ est obligatoire");
       }
+
       
       if($('#date_expiration').val()==''){
         statut=2;
