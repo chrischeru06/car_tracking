@@ -270,6 +270,7 @@ class Dashboard extends CI_Controller
 
 		}
 
+		$ligne_arret='';
 
 		//temps d\'arret'
 		if(!empty($get_data)){
@@ -294,6 +295,28 @@ class Dashboard extends CI_Controller
 				}
 
 			}
+
+		if (!empty($tabl)) {
+			foreach ($tabl as $keytabl) {
+
+			$ligne_arret.=" <div class='activity-item d-flex'>
+						<div class='activite-label'></div>
+						<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+						<div class='activity-content'>
+						<a href='#' class='fw-bold text-dark'>".$keytabl."</a> 
+						</div>
+						</div>";
+			// code...
+		}
+		}else{
+
+			$ligne_arret.=" 
+					Pas d'arret
+					";
+
+
+		}
+		
 			// print_r($tabl);die();
 
 
@@ -307,7 +330,6 @@ class Dashboard extends CI_Controller
 		//carte
 		$arret = '';
 
-		$ligne_arret='';
 		if(!empty($get_arret)){
 
 
@@ -327,13 +349,7 @@ class Dashboard extends CI_Controller
 						},
 						";
 
-						$ligne_arret.=" <div class='activity-item d-flex'>
-						<div class='activite-label'>".$key_arret['heure']."</div>
-						<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-						<div class='activity-content'>
-						<a href='#' class='fw-bold text-dark'>[".$key_arret['latitude'].",".$key_arret['longitude']."]</a> 
-						</div>
-						</div>";
+						
 
 					}
 
@@ -343,9 +359,7 @@ class Dashboard extends CI_Controller
 					$number='1';
 
 					$arret.='['.$number.','.$number.'],';
-					$ligne_arret.=" 
-					Pas d'arret
-					";
+					
 
 
 				}
