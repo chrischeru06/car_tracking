@@ -62,9 +62,6 @@
 
 			 $query_principal='SELECT CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
 
-
-        // $query_principal='SELECT DISTINCT(chauffeur.CHAUFFEUR_ID),chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO,chauffeur.DATE_NAISSANCE,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE  FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID   join chauffeur_vehicule on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join  vehicule on chauffeur_vehicule.CODE=vehicule.CODE join vehicule_marque on vehicule.ID_MARQUE=vehicule_marque.ID_MARQUE join vehicule_modele on vehicule.ID_MODELE=vehicule_modele.ID_MODELE WHERE 1';
-
             //condition pour le query principale
 			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
 
@@ -82,7 +79,27 @@
 				$sub_array=array();
 				$sub_array[]=$u++;
 				
-			$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/agent/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>';
+			$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
+			
+			</div>
+				<div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID.'">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-body">
+				<img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" >
+				</div>
+				<div class="modal-footer">
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				</div>
+				</div>
+				</div>
+				</div>';
+
+			
+				//fin modal
+
+
+
 				// $sub_array[] = $row->ADRESSE_PHYSIQUE;
 				$sub_array[] = $row->PROVINCE_NAME;
 				$sub_array[] = $row->COMMUNE_NAME;
@@ -93,11 +110,14 @@
 				// $sub_array[] = $row->NUMERO_CARTE_IDENTITE;
 				// $sub_array[] = $row->PERSONNE_CONTACT_TELEPHONE;
 				// $sub_array[] = $row->DATE_INSERTION;
+				if (($row->IS_ACTIVE==1)) 
+			  {
+				$sub_array[]='<a style="color:blue;">Activé</a>';	
+			  }else{
+				$sub_array[]='<a style="color:red;">Désactivé</a>';	
+			  }
 
-				// $sub_array[]=' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->CHAUFFEUR_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/client/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> </td></tr></tbody></a>';
-
-				// $sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><label class='text-center bi bi-eye'></a>";
-
+		
 				$option = '<div class="dropdown ">
 				<a class=" text-black btn-sm" data-toggle="dropdown">
 				<i class="bx bx-dots-vertical-rounded"></i>
@@ -110,6 +130,7 @@
 				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><font color='green'><label class='text-info text-dark'>&nbsp;&nbsp;Modifier</label></font></a></li>";
 
 				// $option.='<li><a class="btn-md" onClick="attribue_voiture(\''.$row->CHAUFFEUR_ID.'\')"><label class="text-dark"style="font-weight:bold">&nbsp;&nbsp;Attribuer la voiture</label></a></li>';
+			$option.= "<li><a hre='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "' style = 'margin-left:50px;text-decoration:none;color:black;' ><b class='text-dark' >Détail</b></a></li>";
 
 	        if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 			{
@@ -121,6 +142,7 @@
 		      $option .= "<li><a data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><label class='text-dark'style='font-weight:bold'>&nbsp;&nbsp;Retirer la voiture</label></a></li>";
 
 			}
+			//pour activer desactiver
 			if($row->IS_ACTIVE==1){
 				$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 				<label class="switch"> 
@@ -138,8 +160,9 @@
 				</label>
 				</form>';
 			}
+			//fin activer desactiver
 
-			$option.= "<a hre='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "' style = 'margin-left:50px;text-decoration:none;color:black;' ><b class='text-dark' >Détail</b></a>";
+			// $option.= "<a hre='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "' style = 'margin-left:50px;text-decoration:none;color:black;' ><b class='text-dark' >Détail</b></a>";
         		//modal pour retirer la voiture
 			$option .= " </ul>
 			</div>
@@ -270,7 +293,6 @@
  }
     
 
-
 				$sub_array[]=$option;
 				
 				$data[] = $sub_array;
@@ -378,9 +400,24 @@
 				$html.='<option value="'.$key['CODE'].'">'.$key['DESC_MARQUE'].'-'.$key['DESC_MODELE'].'  /'.$key['PLAQUE'].' </option>';
 			}
 		}
-		echo json_encode($html);
-	}
 
+	   $all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
+
+		$html1='<option value="">--- Sélectionner ----</option>';
+		if(!empty($all_zone_affectation))
+		{
+			foreach($all_zone_affectation as $key1)
+			{
+				$html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+			}
+		}
+		$ouput= array(
+         'html'=>$html,
+         'html1'=>$html1,
+		);
+		echo json_encode($ouput);
+	}
+	
 
 	function save_voiture()
 	{
@@ -391,8 +428,13 @@
 		// $CODE= $this->input->post('code_vehicule');
 		$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 		$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID');
+		$CHAUFF_ZONE_AFFECTATION_ID = $this->input->post('CHAUFF_ZONE_AFFECTATION_ID');
+		$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION');
+		$DATE_FIN_AFFECTATION = $this->input->post('DATE_FIN_AFFECTATION');
 
-		$data = array('CODE'=>$VEHICULE_ID,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'STATUT_AFFECT'=>1);
+
+
+		$data = array('CODE'=>$VEHICULE_ID,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'CHAUFF_ZONE_AFFECTATION_ID'=>$CHAUFF_ZONE_AFFECTATION_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'STATUT_AFFECT'=>1);
 
 		$CHAUFFEUR_VEH = $this->Model->create('chauffeur_vehicule',$data);
 		$result = $this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('STATUT_VEHICULE'=>2));
@@ -488,6 +530,7 @@
 
 
 		$this->form_validation->set_rules('date_naissance','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('date_expiration','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 		$this->form_validation->set_rules('GENRE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 
 		if(!isset($_FILES['fichier_carte_identite']) || empty($_FILES['fichier_carte_identite']['name']))
@@ -530,7 +573,7 @@
 				'ZONE_ID' => $this->input->post('ZONE_ID'),
 				'COLLINE_ID' => $this->input->post('COLLINE_ID'),
 				'DATE_NAISSANCE' => $this->input->post('date_naissance'),
-				// 'ETHNIE_ID' => $this->input->post('ETHNIE_ID'),
+				 'DATE_EXPIRATION_PERMIS' => $this->input->post('date_expiration'),
 				'GENRE_ID' => $this->input->post('GENRE_ID')
 			);
 			
