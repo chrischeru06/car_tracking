@@ -3,7 +3,10 @@
     max-width: 400px;
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   }
+#menu {
 
+float: right;
+}
 
 </style>
 
@@ -21,32 +24,30 @@
 
 <div id="animation-phase-container">
 
- <div id="menu"> 
+ <div id="menu" > 
 
   <?php $carte2; ?>
-<br>
-<br>
-<br>
-<br>
+  <br>
+  <br>
+  <br>
+  <br>
 
   <br>
+
   <section class="section dashboard">
 
-            <!-- <div class="card"> -->
 
-             <!-- <div class="card-body"> -->
-              <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
-              <div class="scroller">
+    <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
+    <div class="scroller">
 
-                <div class="activity">
+      <div class="activity">
 
-                  <?=$ligne_arret?>
+        <?=$ligne_arret?>
 
-                </div>
-              </div>
-            <!-- </div> -->
-          <!-- </div> -->
-        </section> 
+      </div>
+    </div>
+
+  </section> 
 
 </div>
 
@@ -74,8 +75,8 @@
   projection: "globe" // display the map as a 3D globe
 });
 
-  map_map.addControl(new mapboxgl.NavigationControl());
-
+  var nav = new mapboxgl.NavigationControl();
+  map_map.addControl(nav, "top-left");
 
 
   map_map.on("style.load", () => {
@@ -153,6 +154,7 @@
 
 
   var layerList = document.getElementById('menu');
+
   var inputs = layerList.getElementsByTagName('input');
 
   for (const input of inputs) {
@@ -188,6 +190,7 @@
         'circle-stroke-color': '#ffffff'
       }
     });
+
 
 // Create a popup, but don't add it to the map yet.
     const popup = new mapboxgl.Popup({
