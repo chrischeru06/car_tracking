@@ -10,7 +10,7 @@
       position: relative;
       display: inline-block;
       width: 60px;
-      height: 34px;
+      height: 26px;
     }
 
 /* Hide default HTML checkbox */
@@ -122,11 +122,28 @@ input:checked + .slider:before {
               <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
               <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
 
-              <div class="col-md-12">
+              <div class="col-md-6">
                 <label for="description" class="text-dark">Voiture</label>
                 <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
                 </select>
                 <span id="errorVEHICULE_ID" class="text-danger"></span>
+              </div>
+              <div class="col-md-6">
+                <label for="description" class="text-dark">Zone d'affectation</label>
+                <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID" name="CHAUFF_ZONE_AFFECTATION_ID">
+                </select>
+                <span id="errorCHAUFF_ZONE_AFFECTATION_ID" class="text-danger"></span>
+              </div>
+
+               <div class="col-md-6">
+                <label type="date" class="text-dark">Date début</label>
+                <input type="date" name="DATE_DEBUT_AFFECTATION" autocomplete="off" id="DATE_DEBUT_AFFECTATION" value="<?= set_value('DATE_DEBUT_AFFECTATION') ?>"  class="form-control"  min="<?= date('Y-m-d')?>">
+                <span id="errorDATE_DEBUT_AFFECTATION" class="text-danger"></span>
+              </div>
+               <div class="col-md-6">
+                <label type="date" class="text-dark">Date fin</label>
+                <input type="date" name="DATE_FIN_AFFECTATION" autocomplete="off" id="DATE_FIN_AFFECTATION" value="<?= set_value('DATE_FIN_AFFECTATION') ?>"  class="form-control"  min="<?= date('Y-m-d')?>">
+                <span id="errorDATE_FIN_AFFECTATION" class="text-danger"></span>
               </div>
             </div>
           </div>
@@ -157,21 +174,23 @@ input:checked + .slider:before {
 
                 <div class="card-body">
 
-                  <div class="table-responsive" style="padding-top: 20px;">
+                  <div class="table-responsive" style="padding-top: 60px;">
                     <table id="mytable" class="table table-hover" >
                       <thead >
                         <tr>
+    
                           <th class="text-dark">#</th>
-                          <th class="text-dark">CHAUFFEUR</th>
+                          <th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                       
                           <!-- <th class="text-dark">ADRESSE</th> -->
-                          <th class="text-dark">PROVINCE</th>
-                          <th class="text-dark">COMMUNE</th>
-                          <th class="text-dark">ZONNE</th>
-                          <th class="text-dark">COLLINE</th>
-                          <th class="text-dark">TELEPHONE</th>
-                          <th class="text-dark">EMAL</th>
-                          <th class="text-dark">STATUT</th>
+                          <th class="text-dark">PROVINCE&nbsp;&nbsp;</th>
+                          <th class="text-dark">COMMUNE&nbsp;&nbsp;</th>
+                          <th class="text-dark">ZONNE&nbsp;&nbsp;</th>
+                          <th class="text-dark">COLLINE&nbsp;&nbsp;</th>
+                          <th class="text-dark">TELEPHONE&nbsp;&nbsp;</th>
+                          <th class="text-dark">EMAL&nbsp;&nbsp;</th>
+                          <th class="text-dark">STATUT&nbsp;&nbsp;</th>
+                          <th class="text-dark">STATUT&nbsp;&nbsp;</th>
                           <!-- <th class="text-dark">IDENTITE</th> -->
 
                           <!-- <th class="text-dark">TEL DE PERSONNE DE CONTACT</th> -->
@@ -280,9 +299,14 @@ input:checked + .slider:before {
   {
     // alert(CHAUFFEUR_ID)
     // var CHAUFFEUR_ID = $CHAUFFEUR_ID;
-         $('#CHAUFFEUR_ID').val(CHAUFFEUR_ID);
-    
+    $('#CHAUFFEUR_ID').val(CHAUFFEUR_ID);
+    $('#CHAUFF_ZONE_AFFECTATION_ID').val(CHAUFF_ZONE_AFFECTATION_ID);
+
+
     $('#errorVEHICULE_ID').html('');
+     $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
+    $('#errorDATE_DEBUT_AFFECTATION').html('');
+    $('#errorDATE_FIN_AFFECTATION').html('');
     $.ajax(
     {
       // url : "<?php echo base_url('chauffeur/Chauffeur/get_all_voiture')?>",
@@ -293,7 +317,9 @@ input:checked + .slider:before {
       success: function(data)
       {
 
-        $('#VEHICULE_ID').html(data);
+        $('#VEHICULE_ID').html(data.html);
+        $('#CHAUFF_ZONE_AFFECTATION_ID').html(data.html1);
+
 
         // $('#code_vehicule').val(CODE);
         $('#carteModal').modal('show');
@@ -310,6 +336,10 @@ input:checked + .slider:before {
 
     var statut=1;
     $('#errorVEHICULE_ID').html('');
+    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
+    $('#errorDATE_DEBUT_AFFECTATION').html('');
+    $('#errorDATE_FIN_AFFECTATION').html('');
+
     if($('#code_vehicule').val()=='')
     {
       $('#errorVEHICULE_ID').html('Actualise ta page');
@@ -319,6 +349,19 @@ input:checked + .slider:before {
     if($('#VEHICULE_ID').val()=='')
     {
       $('#errorVEHICULE_ID').html('Le champ est obligatoire');
+      statut=2;
+    }
+     if($('#CHAUFF_ZONE_AFFECTATION_ID').val()=='')
+    {
+      $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('Le champ est obligatoire');
+      statut=2;
+    } if($('#DATE_DEBUT_AFFECTATION').val()=='')
+    {
+      $('#errorDATE_DEBUT_AFFECTATION').html('Le champ est obligatoire');
+      statut=2;
+    } if($('#DATE_FIN_AFFECTATION').val()=='')
+    {
+      $('#errorDATE_FIN_AFFECTATION').html('Le champ est obligatoire');
       statut=2;
     }
 
