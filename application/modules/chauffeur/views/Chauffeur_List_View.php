@@ -105,7 +105,7 @@ input:checked + .slider:before {
    
 
     <!-- End Page Title -->
-    <!--******** Debut Modal pour attribue un carte *********-->
+    <!--******** Debut Modal pour attribue une voiture *********-->
 <div class="modal fade" id="carteModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
@@ -157,7 +157,56 @@ input:checked + .slider:before {
     </div>
   </div>
 </div>
-<!--******** Fin Modal pour attribue un carte ***********-->
+<!--******** Fin Modal pour attribue un voiture ***********-->
+
+   <!--******** Debut Modal pour modifier l'affectation du chauffeur a une voiture *********-->
+<div class="modal fade" id="modifvoitureModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title text-center" id="exampleModalLabel2">Modifier l'affectation du chauffeur</h3>
+        <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div>
+        <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
+          <div class="modal-body mb-1">
+            <div class="row">
+              <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
+              <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
+
+              <div class="col-md-6">
+                <label for="description" class="text-dark">Zone d'affectation</label>
+                <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID_MOD" name="CHAUFF_ZONE_AFFECTATION_ID_MOD">
+                </select>
+                
+                <span id="errorCHAUFF_ZONE_AFFECTATION_ID_MOD" class="text-danger"></span>
+              </div>
+
+               <div class="col-md-6">
+                <label type="date" class="text-dark">Date début</label>
+                <input type="date" name="DATE_DEBUT_AFFECTATION_MOD" autocomplete="off" id="DATE_DEBUT_AFFECTATION_MOD"  value="<?= set_value('DATE_DEBUT_AFFECTATION_MOD') ?>"   class="form-control"  min="<?= date('Y-m-d')?>">
+                <span id="errorDATE_DEBUT_AFFECTATION_MOD" class="text-danger"></span>
+              </div>
+               <div class="col-md-6">
+                <label type="date" class="text-dark">Date fin</label>
+                <input type="date" name="DATE_FIN_AFFECTATION_MOD" autocomplete="off" id="DATE_FIN_AFFECTATION_MOD" value="<?= set_value('DATE_FIN_AFFECTATION_MOD') ?>" class="form-control"  min="<?= date('Y-m-d')?>">
+                <span id="errorDATE_FIN_AFFECTATION_MOD" class="text-danger"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="button" class="btn btn-secondary" type="button" id="btn_add" value="Modifier" onclick="save_modif_chauffeur();" />
+            <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
+            
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--******** Fin Modal pour modifier l'affectation du chauffeur a une voiture  ***********-->
 
     <section class="section dashboard">
       <div class="row">
@@ -180,22 +229,19 @@ input:checked + .slider:before {
                         <tr>
     
                           <th class="text-dark">#</th>
-                          <th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">Chauffeur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                       
                           <!-- <th class="text-dark">ADRESSE</th> -->
-                          <th class="text-dark">PROVINCE&nbsp;&nbsp;</th>
-                          <th class="text-dark">COMMUNE&nbsp;&nbsp;</th>
-                          <th class="text-dark">ZONNE&nbsp;&nbsp;</th>
-                          <th class="text-dark">COLLINE&nbsp;&nbsp;</th>
-                          <th class="text-dark">TELEPHONE&nbsp;&nbsp;</th>
-                          <th class="text-dark">EMAL&nbsp;&nbsp;</th>
-                          <th class="text-dark">STATUT&nbsp;&nbsp;</th>
-                          <th class="text-dark">STATUT&nbsp;&nbsp;</th>
-                          <!-- <th class="text-dark">IDENTITE</th> -->
-
-                          <!-- <th class="text-dark">TEL DE PERSONNE DE CONTACT</th> -->
-                          <!-- <th class="text-dark">DATE INSERTION</th> -->
-                          <th class="text-dark">Action</th>
+                          <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">Telephone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;</th>
+  
+                          <th class="text-dark">Option</th>
                         </tr>
                       </thead>
                       <tbody class="text-dark">
@@ -301,8 +347,6 @@ input:checked + .slider:before {
     // var CHAUFFEUR_ID = $CHAUFFEUR_ID;
     $('#CHAUFFEUR_ID').val(CHAUFFEUR_ID);
     $('#CHAUFF_ZONE_AFFECTATION_ID').val(CHAUFF_ZONE_AFFECTATION_ID);
-
-
     $('#errorVEHICULE_ID').html('');
      $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
     $('#errorDATE_DEBUT_AFFECTATION').html('');
@@ -316,11 +360,8 @@ input:checked + .slider:before {
       dataType: "JSON",
       success: function(data)
       {
-
         $('#VEHICULE_ID').html(data.html);
         $('#CHAUFF_ZONE_AFFECTATION_ID').html(data.html1);
-
-
         // $('#code_vehicule').val(CODE);
         $('#carteModal').modal('show');
       },
@@ -330,7 +371,6 @@ input:checked + .slider:before {
       }
     });
   }
-
    function save_vehicule()
   {
 
@@ -399,7 +439,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'L’agent possède déjà une carte ',
+              text: 'Le chauffeur possède déjà une voiture ',
               timer: 1500,
             }).then(() =>
             {
@@ -413,6 +453,122 @@ input:checked + .slider:before {
               icon: 'success',
               title: 'Success',
               text: 'Attribution échouée',
+              timer: 1500,
+            }).then(() =>
+            {
+              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+            });
+          }
+        }
+      });
+    }
+  }
+
+  function modif_affectation(CHAUFFEUR_ID)
+
+  {
+    // alert(CHAUFFEUR_ID)
+     var CHAUFFEUR_ID = CHAUFFEUR_ID;
+    $('#CHAUFFEUR_ID_MOD').val(CHAUFFEUR_ID);
+    $('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val(CHAUFF_ZONE_AFFECTATION_ID);
+    $('#errorVEHICULE_ID').html('');
+     $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('');
+    $('#errorDATE_DEBUT_AFFECTATION_MOD').html('');
+    $('#errorDATE_FIN_AFFECTATION_MOD').html('');
+    $.ajax(
+    {
+     url: "<?= base_url() ?>chauffeur/Chauffeur/get_zone_affect/"+CHAUFFEUR_ID,
+
+      type: "GET",
+      dataType: "JSON",
+      success: function(data)
+      {
+        //alert(data.htmldbut)
+        $('#CHAUFF_ZONE_AFFECTATION_ID_MOD').html(data.html1);
+        $('#DATE_DEBUT_AFFECTATION_MOD').val(data.htmldbut);
+        $('#DATE_FIN_AFFECTATION_MOD').val(data.htmlfin);
+
+        // $('#code_vehicule').val(CODE);
+        $('#modifvoitureModal').modal('show');
+      },
+      error: function (jqXHR, textStatus, errorThrown)
+      {
+        alert('Erreur');
+      }
+    });
+  }
+
+  //save modification affectation chauffeur
+    function save_modif_chauffeur()
+  {
+
+    var statut=1;
+    $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('');
+    $('#errorDATE_DEBUT_AFFECTATION_MOD').html('');
+    $('#errorDATE_FIN_AFFECTATION_MOD').html('');
+
+     if($('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val()=='')
+    {
+      $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('Le champ est obligatoire');
+      statut=2;
+    } if($('#DATE_DEBUT_AFFECTATION_MOD').val()=='')
+    {
+      $('#errorDATE_DEBUT_AFFECTATION_MOD').html('Le champ est obligatoire');
+      statut=2;
+    } if($('#DATE_FIN_AFFECTATION_MOD').val()=='')
+    {
+      $('#errorDATE_FIN_AFFECTATION_MOD').html('Le champ est obligatoire');
+      statut=2;
+    }
+
+    if(statut<2)
+    {
+      var form_data = new FormData($("#modf_affect_form")[0]);
+      var url="<?= base_url('chauffeur/Chauffeur/save_modif_chauff')?>";
+      $.ajax(
+      {
+        url: url,
+        type: 'POST',
+        dataType:'JSON',
+        data: form_data ,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function(data)
+        {
+          if(data==1)
+          {
+            Swal.fire(
+            {
+              icon: 'success',
+              title: 'Success',
+              text: 'Modification affectation faite avec succès',
+              timer: 1500,
+            }).then(() =>
+            {
+              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+            });
+          }
+          else if(data==2)
+          {
+            Swal.fire(
+            {
+              icon: 'success',
+              title: 'Success',
+              text: 'Le chauffeur a une autre voiture ',
+              timer: 1500,
+            }).then(() =>
+            {
+              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+            });
+          }
+          else
+          {
+            Swal.fire(
+            {
+              icon: 'success',
+              title: 'Success',
+              text: 'Modificationde l\'affectation échouée',
               timer: 1500,
             }).then(() =>
             {

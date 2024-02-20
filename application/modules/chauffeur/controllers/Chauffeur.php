@@ -117,29 +117,26 @@
 				$sub_array[]='<a style="color:red;">Désactivé</a>';	
 			  }
 
-		
 				$option = '<div class="dropdown ">
 				<a class=" text-black btn-sm" data-toggle="dropdown">
-				<i class="bx bx-dots-vertical-rounded"></i>
-				
-				
+				<i class="bi bi-three-dots h5" style="color:blue;"></i>
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu dropdown-menu-left">
 				';
 
-				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><font color='green'><label class='text-info text-dark'>&nbsp;&nbsp;Modifier</label></font></a></li>";
+				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><font color='green'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</label></font></a></li>";
 
-				// $option.='<li><a class="btn-md" onClick="attribue_voiture(\''.$row->CHAUFFEUR_ID.'\')"><label class="text-dark"style="font-weight:bold">&nbsp;&nbsp;Attribuer la voiture</label></a></li>';
-			$option.= "<li><a hre='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "' style = 'margin-left:50px;text-decoration:none;color:black;' ><b class='text-dark' >Détail</b></a></li>";
+			 $option.= "<li><a hre='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "' style = 'margin-left:50px;text-decoration:none;color:black;' ><b class='text-dark' >Détail</b></a></li>";
 
-	        if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
-			{
+	         if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
+			 {
 			  $option.='<li><a class="btn-md" onClick="attribue_voiture(\''.$row->CHAUFFEUR_ID.'\')"><label class="text-dark"style="font-weight:bold">&nbsp;&nbsp;Attribuer la voiture</label></a></li>';
-			}
+			 }
 
-			if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
-			{
+			 if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
+			 {
 		      $option .= "<li><a data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><label class='text-dark'style='font-weight:bold'>&nbsp;&nbsp;Retirer la voiture</label></a></li>";
+		      $option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><label class="text-dark"style="font-weight:bold">&nbsp;&nbsp;Modifier l\'affectation</label></a></li>';
 
 			}
 			//pour activer desactiver
@@ -183,15 +180,13 @@
 			</div>";
 			//fin modal retire voiture
 
-
-
      //debut Detail cahuffeur
-    $option .="
-    </div>
-    <div class='modal fade' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
-    <div class='modal-dialog'>
-    <div class='modal-content'>
-    <div class='modal-body'>
+     $option .="
+     </div>
+     <div class='modal fade' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
+     <div class='modal-dialog'>
+     <div class='modal-content'>
+     <div class='modal-body'>
 
      <center><h3>Détail du chauffeur</h3></center>
 
@@ -225,8 +220,6 @@
     <td>Information du vehicule</td>
     <th><a hre='#' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
     </tr>
-
-
     </table>
     </div>
     <div class='modal-footer'>
@@ -287,10 +280,10 @@
     </div>";
      //fin modal de info voiture(id=info_voitu)
 
- }else
- {
+    }else
+    {
       $option .="";
- }
+    }
     
 
 				$sub_array[]=$option;
@@ -417,6 +410,63 @@
 		);
 		echo json_encode($ouput);
 	}
+
+	  function get_zone_affect($CHAUFFEUR_ID)
+	{
+	  $zone_affect=$this->ModelPs->getRequeteOne('SELECT chauffeur_zone_affectation.`CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION`,chauffeur.CHAUFFEUR_ID,chauffeur_vehicule.DATE_DEBUT_AFFECTATION,chauffeur_vehicule.DATE_FIN_AFFECTATION FROM `chauffeur_zone_affectation` join chauffeur_vehicule on chauffeur_zone_affectation.CHAUFF_ZONE_AFFECTATION_ID=chauffeur_vehicule.CHAUFF_ZONE_AFFECTATION_ID JOIN chauffeur on chauffeur_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID WHERE chauffeur.CHAUFFEUR_ID='.$CHAUFFEUR_ID);
+
+	   // print_r($zone_affect);exit();
+	   $all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
+
+		$html1='<option value="">--- Sélectionner ----</option>';
+		if(!empty($all_zone_affectation))
+		{
+			foreach($all_zone_affectation as $key1)
+			{
+				if ($key1['CHAUFF_ZONE_AFFECTATION_ID']==$zone_affect['CHAUFF_ZONE_AFFECTATION_ID']) 
+				{
+				 $html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'" selected>'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+				}else
+				{
+             $html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+				}
+				
+			}
+		}
+		$ouput=array(
+			'htmldbut'=>$zone_affect['DATE_DEBUT_AFFECTATION'],
+			'htmlfin'=>$zone_affect['DATE_FIN_AFFECTATION'],
+			'html1'=>$html1,
+
+		);
+
+		
+		echo json_encode($ouput);
+	}
+	
+	function save_modif_chauff()
+	{
+		// $statut=1 attribution avec succes;
+		// $statut=2:possedent une autre voiture qu'on l'a deja attribuée;
+		// $statut=3: attribution echoue
+		$statut=3;
+		$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID_MOD');
+		$CHAUFF_ZONE_AFFECTATION_ID = $this->input->post('CHAUFF_ZONE_AFFECTATION_ID_MOD');
+		$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION_MOD');
+		$DATE_FIN_AFFECTATION = $this->input->post('DATE_FIN_AFFECTATION_MOD');
+	    $today = date('Y-m-d H:i:s');
+
+		$result = $this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('CHAUFF_ZONE_AFFECTATION_ID'=>$CHAUFF_ZONE_AFFECTATION_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'DATE_INSERTION'=>$today));
+	
+		if($result==true )
+		{
+		 $statut=1;
+		}else
+		{
+		  $statut=2;
+	   }
+		echo json_encode($statut);
+	}
 	
 
 	function save_voiture()
@@ -473,42 +523,16 @@
 	//Fonction pour activer/desactiver un proprietaire
     function active_desactive($status,$CHAUFFEUR_ID)
     {
+    	if($status==1){
+    		$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>2));
 
-    if($status==1){
-      $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>2));
+    	}else if($status==2){
+    		$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>1));
+    	}
 
-    }else if($status==2){
-      $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>1));
+    	echo json_encode(array('status'=>$status));
     }
-    
-     echo json_encode(array('status'=>$status));
-   }
 
-
-
-
-	// // Recuperation des fichiers et le nommer au nom que tu vais
-	// public function upload_document_nomdocument($nom_file,$nom_champ,$nomdocument)
-	// {
-	// 	$rep_doc =FCPATH.'upload/agent/photopassport/';
-	// 	$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
-	// 	$file_extension = strtolower($file_extension);
-	// 	$valid_ext = array('pdf');
-	// 	if(!is_dir($rep_doc)) //crée un dossier s'il n'existe pas déja   
-	// 	{
-	// 		mkdir($rep_doc,0777,TRUE);
-	// 	}
-	// 	unlink(base_url()."upload/agent/photopassport/".$nomdocument.".".$file_extension);
-	// 	move_uploaded_file($nom_file, $rep_doc.$nomdocument.".".$file_extension);
-	// 	$pathfile=$nomdocument.".".$file_extension;
-	// 	return $pathfile;
-	// }
-
-
-
-
-
-      
   	//Fonction pour inserer dans la BD
 	function add()
 	{
@@ -688,189 +712,27 @@
 			redirect(base_url('chauffeur/Chauffeur/index'));
 		}
 	}
+	//Fonction pour le detail du chauffeur
+	function detail_chauffeur($CHAUFFEUR_ID)
+	{
+		$query_principal=$this->Model->getRequeteOne('SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_nom.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_nom ON vehicule_nom.ID_NOM=vehicule.ID_NOM JOIN agent_card ON vehicule.CODE=agent_card.CARD_UID JOIN chauffeur ON agent_card.CODE_AGENT=chauffeur.CODE_AGENT WHERE chauffeur.CHAUFFEUR_ID ='.$CHAUFFEUR_ID);
+     // print_r($query_principal)
+
+		$fichier = base_url().'upload/photo_vehicule/'.$query_principal['PHOTO'].'';
+
+		$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
+		$output = array(
+
+			"DESC_MODELE" =>$query_principal['DESC_MODELE'] ,
+			"PLAQUE" =>$query_principal['PLAQUE'] ,
+			"COULEUR" =>$query_principal['COULEUR'] ,
+			"PHOTO" =>$div_info ,
+
+		);
+		echo json_encode($output);
 
 
-	//Fonction pour le detail de tous les vehicules d'un client
-  function detail_chauffeur($CHAUFFEUR_ID)
-  {
-    
-    $query_principal=$this->Model->getRequeteOne('SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_nom.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_nom ON vehicule_nom.ID_NOM=vehicule.ID_NOM JOIN agent_card ON vehicule.CODE=agent_card.CARD_UID JOIN chauffeur ON agent_card.CODE_AGENT=chauffeur.CODE_AGENT WHERE chauffeur.CHAUFFEUR_ID ='.$CHAUFFEUR_ID);
-    // print_r($query_principal)
-     
-   $fichier = base_url().'upload/photo_vehicule/'.$query_principal['PHOTO'].'';
-
-    $div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
-        $output = array(
-
-      "DESC_MODELE" =>$query_principal['DESC_MODELE'] ,
-      "PLAQUE" =>$query_principal['PLAQUE'] ,
-      "COULEUR" =>$query_principal['COULEUR'] ,
-      "PHOTO" =>$div_info ,
-     
-    );
-    echo json_encode($output);
-
-
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-		
-		// //Fonction pour l'enregistrement de données dans la base de données ainsi que la mise à jour
-		// function save()
-		// {
-		// 	$VEHICULE_ID=$this->input->post('VEHICULE_ID');
-
-		// 	if(empty($VEHICULE_ID))   //Controle d'enregistrement
-		// 	{
-
-		// 		$this->form_validation->set_rules("CODE"," ","trim|required|is_unique[vehicule.CODE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le code existe déjà !</font>'));
-
-		// 		$this->form_validation->set_rules('ID_MARQUE','ID_MARQUE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-		// 		$this->form_validation->set_rules('ID_NOM','ID_NOM','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-		// 		$this->form_validation->set_rules("PLAQUE"," ","trim|required|is_unique[vehicule.PLAQUE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le plaque existe déjà !</font>'));
-
-		// 		$this->form_validation->set_rules('COULEUR','COULEUR','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-		// 		$this->form_validation->set_rules('CLIENT_ID','CLIENT_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-		// 		if (empty($_FILES['PHOTO_OUT']['name']))
-		// 		{
-		// 			$this->form_validation->set_rules('PHOTO_OUT','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
-		// 		}
-
-		// 		if($this->form_validation->run() == FALSE)
-		// 		{
-		// 			$this->ajouter();
-		// 		}
-		// 		else
-		// 		{
-		// 			$PHOTO = $this->upload_file('PHOTO_OUT');
-		// 			$data = array
-		// 			(
-		// 				'CODE'=>$this->input->post('CODE'),
-		// 				'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
-		// 				'ID_NOM'=>$this->input->post('ID_NOM'),
-		// 				'PLAQUE'=>$this->input->post('PLAQUE'),
-		// 				'COULEUR'=>$this->input->post('COULEUR'),
-		// 				'PHOTO'=>$PHOTO,
-		// 				'CLIENT_ID'=>$this->input->post('CLIENT_ID'),
-		// 			);
-
-		// 			$table = "vehicule";
-
-		// 			$creation=$this->ModelPs->create($table,$data);
-
-		// 			if ($creation)
-		// 			{
-		// 				$message['message']='<div class="alert alert-success text-center" id="message">Enregistrement du vehicule avec succès</div>';
-		// 				$this->session->set_flashdata($message);
-		// 				redirect(base_url('vehicule/Vehicule'));
-
-		// 			}else
-		// 			{
-		// 				$message['message']='<div class="alert alert-danger text-center" id="message">Echec d\'enregistrement </div>';
-		// 				$this->session->set_flashdata($message);
-		// 				redirect(base_url('vehicule/Vehicule'));
-
-		// 			}
-
-		// 		}
-
-
-		// 	}else // Controle de mise à jour
-		// 	{
-		// 		// $this->form_validation->set_rules("CODE"," ","trim|required|is_unique[vehicule.CODE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le code existe déjà !</font>'));
-
-		// 		$this->form_validation->set_rules('ID_MARQUE','ID_MARQUE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-		// 		$this->form_validation->set_rules('ID_NOM','ID_NOM','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-		// 		// $this->form_validation->set_rules("PLAQUE"," ","trim|required|is_unique[vehicule.PLAQUE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le plaque existe déjà !</font>'));
-
-		// 		$this->form_validation->set_rules('COULEUR','COULEUR','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-		// 		$this->form_validation->set_rules('CLIENT_ID','CLIENT_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-		// 		if($this->form_validation->run() == FALSE)
-		// 		{
-		// 			$this->ajouter();
-		// 		}
-		// 		else
-		// 		{
-		// 			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
-
-		// 			$check_existe = $this->ModelPs->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_NOM,CODE,PLAQUE,CLIENT_ID FROM vehicule WHERE VEHICULE_ID != '".$VEHICULE_ID."'");
-
-		// 			if(!empty($check_existe) && $check_existe['CODE'] == $this->input->post('CODE'))
-		// 			{
-		// 				$message['message']='<div class="alert alert-danger text-center" id="message">le code existe déjà !</div>';
-		// 				$this->session->set_flashdata($message);
-		// 				redirect(base_url('vehicule/Vehicule/ajouter'));
-		// 			}
-		// 			else if(!empty($check_existe) && $check_existe['PLAQUE'] == $this->input->post('PLAQUE'))
-		// 			{
-		// 				$message['message']='<div class="alert alert-danger text-center" id="message">le plaque existe déjà !</div>';
-		// 				$this->session->set_flashdata($message);
-		// 				redirect(base_url('vehicule/Vehicule/ajouter'));
-		// 			}
-		// 			else
-		// 			{
-		// 				if (!empty($_FILES["PHOTO_OUT"]["tmp_name"])) {
-		// 					$PHOTO=$this->upload_file('PHOTO_OUT');
-		// 				}else{
-		// 					$PHOTO=$this->input->post('PHOTO');
-		// 				}
-
-		// 				$data=array
-		// 				(
-		// 					'CODE'=>$this->input->post('CODE'),
-		// 					'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
-		// 					'ID_NOM'=>$this->input->post('ID_NOM'),
-		// 					'PLAQUE'=>$this->input->post('PLAQUE'),
-		// 					'COULEUR'=>$this->input->post('COULEUR'),
-		// 					'PHOTO'=>$PHOTO,
-		// 					'CLIENT_ID'=>$this->input->post('CLIENT_ID'),
-		// 				);
-
-		// 				$table = "vehicule";
-
-		// 				$update=$this->ModelPs->update($table,array('VEHICULE_ID'=>$VEHICULE_ID),$data);
-
-		// 				if ($update)
-		// 				{
-		// 					$message['message']='<div class="alert alert-success text-center" id="message">Modification du vehicule avec succès</div>';
-		// 					$this->session->set_flashdata($message);
-		// 					redirect(base_url('vehicule/Vehicule'));
-
-		// 				}else
-		// 				{
-		// 					$message['message']='<div class="alert alert-danger text-center" id="message">Echec de modification </div>';
-		// 					$this->session->set_flashdata($message);
-		// 					redirect(base_url('vehicule/Vehicule'));
-
-		// 				}
-						
-		// 			}
-
-					
-
-		// 		}
-		// 	}
-
-			
-		// }
+	}
 
 
 
