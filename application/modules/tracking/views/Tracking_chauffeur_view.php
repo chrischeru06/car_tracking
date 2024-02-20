@@ -115,7 +115,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Tracking</h1>
+      <h1>Résumé du parcours</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
@@ -172,7 +172,7 @@
               <h5 class="card-title">Informations générales</h5>
               <div class="row">
                 <div class="col-lg-6">
-                  <div class="card" style="border-radius: 10%; background-color: rgba(128,128,128,0.05);">
+                  <div class="card" style="border-radius: 10%;">
                     <div class="card-body profile-card pt-4 d-flex flex-column">
 
                       <div>
@@ -210,7 +210,7 @@
                   </div>
 
                   <div class="col-lg-6">
-                    <div class="card" style="border-radius: 10%">
+                    <div class="card" style="border-radius: 10%;" >
                      <div class="card-body profile-card pt-4 d-flex flex-column">
 
                       <div>
@@ -220,7 +220,6 @@
                           if(!empty($get_chauffeur['PHOTO']))
                           {
                             ?>
-
                             <img  class="card-icon" style="background-color: white;border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/photo_vehicule/'.$get_chauffeur['PHOTO'])?>">&nbsp;&nbsp;
                             <?php
                           }
@@ -229,15 +228,13 @@
                             ?>
                             <img class="card-icon" style="border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/voiture_icon.png')?>">&nbsp;&nbsp;
 
-
-
                             <?php
                           }?>
                           <font style="float: right;">
-                            <span class="text-muted small pt-2 ps-1"><b><?=$get_chauffeur['DESC_MARQUE'].' / '. $get_chauffeur['DESC_MODELE']?></b></span><br>
-                            <i class="bi bi-textarea-resize"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['PLAQUE']?></span><br>
+                            <span class="text-muted small pt-2 ps-1"></span><b><?=$get_chauffeur['DESC_MARQUE'].' / '. $get_chauffeur['DESC_MODELE']?></b><br>&nbsp;&nbsp;
+                            <i class="bi bi-textarea-resize"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['PLAQUE']?></span><br>&nbsp;&nbsp;
                             <i class="bi bi-palette"></i><span class="text-muted small pt-2 ps-1"><?php if(empty($get_chauffeur['COULEUR'])){?> N/A <?php } ?>
-                            <?php if(!empty($get_chauffeur['COULEUR'])){?>  <?= $get_chauffeur['COULEUR']?> <?php } ?></span><br><br>
+                            <?php if(!empty($get_chauffeur['COULEUR'])){?>  <?= $get_chauffeur['COULEUR']?> <?php } ?></span><br>&nbsp;&nbsp;
                           </font>
 
                         </div>
@@ -576,16 +573,12 @@
 
 <script>
 
-
-
   function change_carte() {
     var DATE_DAT = $('#DATE_DAT').val(); 
     var CODE = $('#CODE').val(); 
     var HEURE1 = $('#HEURE1').val(); 
     var HEURE2 = $('#HEURE2').val(); 
-    
-
-
+  
     $.ajax({
       url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
       type : "POST",

@@ -270,6 +270,7 @@ class Dashboard extends CI_Controller
 
 		}
 
+		$ligne_arret='';
 
 		//temps d\'arret'
 		if(!empty($get_data)){
@@ -283,7 +284,11 @@ class Dashboard extends CI_Controller
 
 					$id2=$value_get_arret['id']+1;
 
-					$date_compare2=$this->Model->getRequete('SELECT tracking_data.date FROM tracking_data WHERE id='.$id2);
+					// $date_compare2=$this->Model->getRequete('SELECT tracking_data.date FROM tracking_data WHERE id='.$id2);
+
+					$my_select_date_compare2 = $this->getBindParms('tracking_data.date', 'tracking_data', 'id='.$id2, 'id ASC');
+					$date_compare2 = $this->ModelPs->getRequete($proce_requete, $my_select_date_compare2);
+
 
 					foreach ($date_compare2 as $keydate_compare2) {
 						$tabl[]=$this->notifications->ago($date_compare1,$keydate_compare2['date']);
@@ -294,6 +299,32 @@ class Dashboard extends CI_Controller
 				}
 
 			}
+
+
+				
+			
+
+			if (!empty($tabl)) {
+				foreach ($tabl as $keytabl) {
+
+					$ligne_arret.=" <div class='activity-item d-flex'>
+					<div class='activite-label'>".$keytabl."</div>
+					<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+					<div class='activity-content'>
+					<a href='#' class='fw-bold text-dark'>".$keytabl."</a> 
+					</div>
+					</div>";
+			
+				}
+			}else{
+
+				$ligne_arret.=" 
+				Pas d'arret
+				";
+
+
+			}
+
 			// print_r($tabl);die();
 
 
@@ -307,7 +338,6 @@ class Dashboard extends CI_Controller
 		//carte
 		$arret = '';
 
-		$ligne_arret='';
 		if(!empty($get_arret)){
 
 
@@ -327,13 +357,7 @@ class Dashboard extends CI_Controller
 						},
 						";
 
-						$ligne_arret.=" <div class='activity-item d-flex'>
-						<div class='activite-label'>".$key_arret['heure']."</div>
-						<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-						<div class='activity-content'>
-						<a href='#' class='fw-bold text-dark'>[".$key_arret['latitude'].",".$key_arret['longitude']."]</a> 
-						</div>
-						</div>";
+						
 
 					}
 
@@ -343,9 +367,7 @@ class Dashboard extends CI_Controller
 					$number='1';
 
 					$arret.='['.$number.','.$number.'],';
-					$ligne_arret.=" 
-					Pas d'arret
-					";
+					
 
 
 				}
@@ -410,8 +432,6 @@ class Dashboard extends CI_Controller
 
 				$track = str_replace(',@', "", $track);
 
-
-
 				$data['track'] = $track;
 				$data['vit_moy'] = $vit_moy;
 				$data['date_debfin'] = $date_debfin;
@@ -425,7 +445,6 @@ class Dashboard extends CI_Controller
 				$data['score'] = $score_finale;
 				$data['ligne_arret'] = $ligne_arret;
 				
-
 
 				$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
 
