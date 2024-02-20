@@ -17,7 +17,7 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
-                  <img src="<?= base_url()?>/uploads/car.png" alt="" style="width: 50px;height: 100px;">
+                  <img src="<?= base_url()?>/upload/car.png" alt="" style="width: 50px;height: 100px;">
                   <span class="d-none d-lg-block">CAR TRACKING</span>
                 </a>
               </div><!-- End Logo -->

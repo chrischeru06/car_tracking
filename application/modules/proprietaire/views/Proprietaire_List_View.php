@@ -169,12 +169,12 @@ input:checked + .slider:before {
                       <tr>
                         <th class="text-dark">#</th>
 
-                        <th class="text-dark">Identification</th>
-                        <th class="text-dark">Email</th>
-                        <th class="text-dark">Téléphone</th>
-                        <th class="text-dark">Statut</th>
-                        <th class="text-dark">Statut</th>
-                        <th class="text-dark">Option</th>
+                        <th class="text-dark">Identification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Téléphone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                       </tr>
                     </thead>
                     <tbody class="text-dark">
@@ -464,6 +464,7 @@ input:checked + .slider:before {
     type: "POST",
     dataType: "JSON",
     success: function(data) {
+
 
       // alert(data.CNI)
 
