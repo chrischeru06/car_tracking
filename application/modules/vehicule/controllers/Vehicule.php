@@ -100,7 +100,7 @@
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
-                      
+
 					<table>
 					<td><label class="text-danger">Désactivé</label></td>
 					<td><label class="switch"> 
@@ -174,6 +174,11 @@
 				<tr>
 				<td class='btn-sm'>Couleur</td>
 				<th class='btn-sm'>".$row->COULEUR."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Consommation / km</td>
+				<th class='btn-sm'>".$row->KILOMETRAGE."</th>
 				</tr>
 
 				<tr>
@@ -295,11 +300,27 @@
 
 			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL);
 
-			$marque = $this->Model->getRequete('SELECT ID_MARQUE,DESC_MARQUE FROM vehicule_marque WHERE 1 ORDER BY DESC_MARQUE ASC');
+			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
-			$modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE 1 ORDER BY DESC_MODELE ASC");
+			$marque = $this->getBindParms('ID_MARQUE,DESC_MARQUE','vehicule_marque',' 1 ','DESC_MARQUE ASC');
+			$marque = $this->ModelPs->getRequete($psgetrequete, $marque);
 
-			$proprio = $this->Model->getRequete('SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc FROM proprietaire WHERE 1 ORDER BY proprio_desc ASC');
+			$modele = $this->getBindParms('ID_MODELE ,DESC_MODELE','vehicule_modele',' 1 ','DESC_MODELE ASC');
+			$modele = $this->ModelPs->getRequete($psgetrequete, $modele);
+
+			$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
+
+			$proprio=str_replace('\"', '"', $proprio);
+			$proprio=str_replace('\n', '', $proprio);
+			$proprio=str_replace('\"', '', $proprio);
+
+			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+
+			// $marque = $this->Model->getRequete('SELECT ID_MARQUE,DESC_MARQUE FROM vehicule_marque WHERE 1 ORDER BY DESC_MARQUE ASC');
+
+			// $modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE 1 ORDER BY DESC_MODELE ASC");
+
+			// $proprio = $this->Model->getRequete('SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc FROM proprietaire WHERE 1 ORDER BY proprio_desc ASC');
 
 			//print_r($proprio);die();
 
@@ -315,11 +336,25 @@
 				// 	redirect(base_url('Login/logout'));
 				// }
 
-				$marque = $this->Model->getRequete("SELECT ID_MARQUE,DESC_MARQUE FROM vehicule_marque WHERE 1 ORDER BY DESC_MARQUE ASC");
+				$marque = $this->getBindParms('ID_MARQUE,DESC_MARQUE','vehicule_marque',' 1 ','DESC_MARQUE ASC');
+				$marque = $this->ModelPs->getRequete($psgetrequete, $marque);
 
-				$modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE ID_MARQUE = ".$vehicule["ID_MARQUE"]." ORDER BY DESC_MODELE ASC");
+				$modele = $this->getBindParms('ID_MODELE ,DESC_MODELE','vehicule_modele',' 1 ','DESC_MODELE ASC');
+				$modele = $this->ModelPs->getRequete($psgetrequete, $modele);
 
-				$proprio = $this->Model->getRequete('SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc FROM proprietaire WHERE 1 ORDER BY proprio_desc ASC');
+				$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
+
+				$proprio=str_replace('\"', '"', $proprio);
+				$proprio=str_replace('\n', '', $proprio);
+				$proprio=str_replace('\"', '', $proprio);
+
+				$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+
+				// $marque = $this->Model->getRequete("SELECT ID_MARQUE,DESC_MARQUE FROM vehicule_marque WHERE 1 ORDER BY DESC_MARQUE ASC");
+
+				//$modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE ID_MARQUE = ".$vehicule["ID_MARQUE"]." ORDER BY DESC_MODELE ASC");
+
+				// $proprio = $this->Model->getRequete('SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc FROM proprietaire WHERE 1 ORDER BY proprio_desc ASC');
 			}
 
 			$data['vehicule'] = $vehicule;
@@ -335,7 +370,14 @@
 		function get_modele($ID_MARQUE)
 		{
 			$html="<option value=''>-- Séléctionner --</option>";
-			$modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE ID_MARQUE=".$ID_MARQUE." ORDER BY DESC_MODELE ASC");
+
+			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+			$modele = $this->getBindParms('ID_MODELE ,DESC_MODELE','vehicule_modele',' ID_MARQUE='.$ID_MARQUE.'','DESC_MODELE ASC');
+			$modele = $this->ModelPs->getRequete($psgetrequete, $modele);
+
+			// $modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE ID_MARQUE=".$ID_MARQUE." ORDER BY DESC_MODELE ASC");
+
 			foreach ($modele as $modele)
 			{
 				$html.="<option value='".$modele['ID_MODELE']."'>".$modele['DESC_MODELE']."</option>";
@@ -460,7 +502,12 @@
 				{
 					$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 
-					$check_existe = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID FROM vehicule WHERE VEHICULE_ID != '".$VEHICULE_ID."'");
+					// $check_existe = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID FROM vehicule WHERE VEHICULE_ID != '".$VEHICULE_ID."'");
+
+					$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+					$check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.'','VEHICULE_ID ASC');
+					$check_existe = $this->ModelPs->getRequete($psgetrequete, $check_existe);
 
 					if(!empty($check_existe) && $check_existe['CODE'] == $this->input->post('CODE'))
 					{
@@ -520,6 +567,20 @@
 			}
 
 			
+		}
+
+
+		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
+		public function getBindParms($columnselect, $table, $where, $orderby)
+		{
+        // code...
+			$bindparams = array(
+				'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+				'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+				'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+				'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+			);
+			return $bindparams;
 		}
 
 

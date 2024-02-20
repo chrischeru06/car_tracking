@@ -67,7 +67,7 @@
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label ><small> Code</small><span  style="color:red;">*</span></label>
+                          <label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
                           <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule['VEHICULE_ID']?>">
 
                           <input class="form-control" type='text' name="CODE" id="CODE" placeholder='code du vehicule' value="<?=$vehicule['CODE']?>"/>
