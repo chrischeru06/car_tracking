@@ -4,7 +4,7 @@
         // ADMIN : Admin systeme
 
 
-if ($this->session->PROFIL_ID == 1) { 
+if ($this->session->PROFIL_ID == 1) {
   ?>
 
 <aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'template/images/sidebar123-01s.png'; ?>')">
@@ -82,15 +82,10 @@ if ($this->session->PROFIL_ID == 1) {
 
    <?php 
 }
-?>
-
-<?php 
-
         // # Codes profil
         // Proprietaire 
 
-
-if ($this->session->PROFIL_ID == 2) { 
+else if ($this->session->PROFIL_ID == 2) { 
   ?>
 
 
@@ -142,5 +137,9 @@ if ($this->session->PROFIL_ID == 2) {
   </aside>
 
    <?php 
+}
+else
+{
+  redirect(base_url('Login/logout'));
 }
 ?>
