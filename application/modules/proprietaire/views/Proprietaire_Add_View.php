@@ -64,7 +64,7 @@
                 <div class="col-md-4" id="div_PRENOM_PROPRIETAIRE"<?=$div_personne_physique?>>
                   <div class="form-group">
                     <label style="font-weight: 1000; color:#454545"><b>Prénom</b><span  style="color:red;">*</span></label>
-                    <input class="form-control" name="PRENOM_PROPRIETAIRE" type="text" onkeydown="return/[a-z]/i.test(event.key)" id="PRENOM_PROPRIETAIRE" placeholder='Prénom' value="<?=$proprietaire['PRENOM_PROPRIETAIRE']?>"/>
+                    <input class="form-control" name="PRENOM_PROPRIETAIRE" type="text" id="PRENOM_PROPRIETAIRE" placeholder='Prénom' value="<?=$proprietaire['PRENOM_PROPRIETAIRE']?>"/>
                   </div>
                   <span id="errorPRENOM_PROPRIETAIRE" class="text-danger"></span>
                   <?php echo form_error('PRENOM_PROPRIETAIRE', '<div class="text-danger">', '</div>'); ?>
@@ -219,7 +219,7 @@
                 <div class="col-md-4" id="div_photo">
                   <label for="FName" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
                   <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= $proprietaire['PHOTO_PASSPORT'] ?>"  class="form-control">
-                  <input type="text"  name="photo_passport_old" id="photo_passport_old" value="<?=$proprietaire['PHOTO_PASSPORT']?>">
+                  <input type="hidden"  name="photo_passport_old" id="photo_passport_old" value="<?=$proprietaire['PHOTO_PASSPORT']?>">
                   <font id="error_photo_passport" color="red"></font>
                   <?php echo form_error('photo_passport', '<div class="text-danger">', '</div>'); ?> 
                 </div>
@@ -232,7 +232,7 @@
           <br>
           <div class="row">
             <div class="col-md-12">
-              <button style="float: right;" class="btn btn-secondary" onclick="submit_form();"><i class="fa fa-save"> <?=$btn?></i></button>
+              <button style="float: right;" class="btn btn-outline-primary" onclick="submit_form();"><i class="fa fa-save"> <?=$btn?></i></button>
             </div>
           </div>
 
@@ -562,7 +562,7 @@ function submit_form()
 
   $("#NOM_PROPRIETAIRE,#PRENOM_PROPRIETAIRE,#PERSONNE_REFERENCE").on('input', function()
   {
-    $(this).val($(this).val().replace(/[^a-z-\s]/gi, '').toUpperCase());
+    $(this).val($(this).val().toUpperCase());
   });
 
   $("#RC,#CNI_OU_NIF").on('input', function()
