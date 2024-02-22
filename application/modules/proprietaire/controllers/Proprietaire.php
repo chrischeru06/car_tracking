@@ -24,6 +24,17 @@ class Proprietaire extends CI_Controller
 		$my_select_provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', '`PROVINCE_NAME` ASC');
 		$provinces = $this->ModelPs->getRequete($proce_requete, $my_select_provinces);
 		$data['provinces']=$provinces;
+		$pay = $this->getBindParms('CommonName,COUNTRY_ID', 'countries', '1', 'CommonName ASC');
+		$data['pays'] =$this->ModelPs->getRequete($proce_requete, $pay);
+
+		// $countries1=$this->Model->getRequete('SELECT COUNTRY_ID,CommonName,`ITU-T_Telephone_Code` FROM `countries` WHERE `ITU-T_Telephone_Code` <> "" ORDER BY `CommonName` ASC');
+
+		$countries1 = $this->getBindParms('COUNTRY_ID,CommonName,`ITU-T_Telephone_Code`', 'countries', '`ITU-T_Telephone_Code` <> "" ', 'CommonName ASC');
+		$countries1=str_replace('\"', '"', $countries1);
+		$countries1=str_replace('\n', '', $countries1);
+		$countries1=str_replace('\"', '', $countries1);
+		$data['countries1'] =$this->ModelPs->getRequete($proce_requete, $countries1);
+
 		$communes=array();
 		$zones=array();
 		$collines=array();
@@ -78,7 +89,7 @@ class Proprietaire extends CI_Controller
 		$data['zones']=$zones;
 		$data['collines']=$collines;
 		$data['proprietaire']=$proprietaire;
-			
+
 		$this->load->view('Proprietaire_Add_View',$data);
 	}
 
@@ -105,13 +116,24 @@ class Proprietaire extends CI_Controller
 
 				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('COUNTRY_ID','COUNTRY_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$COUNTRY_ID=$this->input->post('COUNTRY_ID');
+				if($COUNTRY_ID==28){
 
-				$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+
+				}
+
+
+				
 
 				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
@@ -144,14 +166,22 @@ class Proprietaire extends CI_Controller
 				$this->form_validation->set_rules('CONFIRMATION_EMAIL', 'Email Confirmation', 'required|matches[EMAIL]');
 
 				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('COUNTRY_ID','COUNTRY_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$COUNTRY_ID=$this->input->post('COUNTRY_ID');
+				if($COUNTRY_ID==28){
 
-				$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+
+				}
+
 
 				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 			}
@@ -179,6 +209,7 @@ class Proprietaire extends CI_Controller
 						'PERSONNE_REFERENCE'=>$this->input->post('PERSONNE_REFERENCE'),
 						'EMAIL'=>$this->input->post('EMAIL'),
 						'TELEPHONE'=>$this->input->post('TELEPHONE'),
+						'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
 						'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
 						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
@@ -236,6 +267,7 @@ class Proprietaire extends CI_Controller
 						'CNI_OU_NIF'=>$this->input->post('CNI_OU_NIF'),
 						'EMAIL'=>$this->input->post('EMAIL'),
 						'TELEPHONE'=>$this->input->post('TELEPHONE'),
+						'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
 						'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
 						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
@@ -283,18 +315,24 @@ class Proprietaire extends CI_Controller
 			$TYPE_PROPRIETAIRE_ID=$this->input->post('TYPE_PROPRIETAIRE_ID');
 			if ($TYPE_PROPRIETAIRE_ID==1) 
 			{
-					
+
 				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$COUNTRY_ID=$this->input->post('COUNTRY_ID');
+				if($COUNTRY_ID==28){
 
-				$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+
+				}
 
 				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
@@ -315,13 +353,19 @@ class Proprietaire extends CI_Controller
 
 				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$COUNTRY_ID=$this->input->post('COUNTRY_ID');
+				if($COUNTRY_ID==28){
 
-				$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-				$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+
+				}
 
 				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 			}
@@ -347,6 +391,7 @@ class Proprietaire extends CI_Controller
 						'PERSONNE_REFERENCE'=>$this->input->post('PERSONNE_REFERENCE'),
 						'EMAIL'=>$this->input->post('EMAIL'),
 						'TELEPHONE'=>$this->input->post('TELEPHONE'),
+						'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
 						'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
 						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
@@ -380,6 +425,7 @@ class Proprietaire extends CI_Controller
 						'CNI_OU_NIF'=>$this->input->post('CNI_OU_NIF'),
 						'EMAIL'=>$this->input->post('EMAIL'),
 						'TELEPHONE'=>$this->input->post('TELEPHONE'),
+						'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
 						'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
 						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
@@ -413,7 +459,14 @@ class Proprietaire extends CI_Controller
 
 	//fonction pour l'affichage de la liste
 	function liste(){
-		$data['provinces']=$this->Model->getRequete('SELECT PROVINCE_ID,PROVINCE_NAME FROM provinces WHERE 1 ORDER BY PROVINCE_NAME ASC');
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+		$pay = $this->getBindParms('CommonName,COUNTRY_ID', 'countries', '1', 'CommonName ASC');
+		$data['pays'] = $this->ModelPs->getRequete($proce_requete, $pay);
+
+		$provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', 'PROVINCE_NAME ASC');
+		$data['provinces'] = $this->ModelPs->getRequete($proce_requete, $provinces);
+		// $data['provinces']=$this->Model->getRequete('SELECT PROVINCE_ID,PROVINCE_NAME FROM provinces WHERE 1 ORDER BY PROVINCE_NAME ASC');
 		$this->load->view('Proprietaire_List_View',$data);
 	}
 
@@ -425,8 +478,10 @@ class Proprietaire extends CI_Controller
 		$PROVINCE_ID=$this->input->post('PROVINCE_ID');
 		$TYPE_PROPRIETAIRE_ID=$this->input->post('TYPE_PROPRIETAIRE_ID');
 		$IS_ACTIVE=$this->input->post('IS_ACTIVE');
+		$COUNTRY_ID=$this->input->post('COUNTRY_ID');
 
-		$critaire = '' ;
+
+		$critaire = '';
 
 		if($TYPE_PROPRIETAIRE_ID != '' && $IS_ACTIVE != '')
 		{
@@ -442,8 +497,14 @@ class Proprietaire extends CI_Controller
 			$critaire=" AND IS_ACTIVE=".$IS_ACTIVE;
 		}
 
+
+
 		if($PROVINCE_ID>0) $critaire.=" AND PROVINCE_ID=".$PROVINCE_ID;
 		if($COMMUNE_ID>0) $critaire.=" AND COMMUNE_ID=".$COMMUNE_ID;
+		if($COUNTRY_ID>0) $critaire.=" AND COUNTRY_ID=".$COUNTRY_ID;
+
+		
+
 
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 		$var_search = str_replace("'", "\'", $var_search);
@@ -468,7 +529,7 @@ class Proprietaire extends CI_Controller
 			OR PERSONNE_REFERENCE LIKE "%' . $var_search . '%" OR EMAIL LIKE "%' . $var_search . '%" OR TELEPHONE LIKE "%' . $var_search . '%"
 			OR DATE_FORMAT(`DATE_INSERTION`,"%d-%m-%Y") LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT FROM proprietaire WHERE 1';
+		$query_principal='SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT,COUNTRY_ID FROM proprietaire WHERE 1';
 
         //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -524,34 +585,34 @@ class Proprietaire extends CI_Controller
 			if($row->IS_ACTIVE==1){
 				$sub_array[]='<form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
-					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
-					<table>
-					<td><label class="text-primary">Activé</label></td>
-					<td><label class="switch"> 
-					<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->PROPRIETAIRE_ID . ')" checked>
-					<span class="slider round"></span>
-					</label></td>
-					</table>
+				<table>
+				<td><label class="text-primary">Activé</label></td>
+				<td><label class="switch"> 
+				<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->PROPRIETAIRE_ID . ')" checked>
+				<span class="slider round"></span>
+				</label></td>
+				</table>
 
-					
-					
-					</form>
+
+
+				</form>
 
 				';
 			}else{
 				$sub_array[]='<form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
-					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
-					<table>
-					<td><label class="text-danger">Désactivé</label></td>
-					<td><label class="switch"> 
-					<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->PROPRIETAIRE_ID . ')">
-					<span class="slider round"></span>
-					</label></td>
-					</table>
-					</form>
+				<table>
+				<td><label class="text-danger">Désactivé</label></td>
+				<td><label class="switch"> 
+				<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->PROPRIETAIRE_ID . ')">
+				<span class="slider round"></span>
+				</label></td>
+				</table>
+				</form>
 
 				';
 			}
