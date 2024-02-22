@@ -6,13 +6,13 @@
 
   <style type="text/css">
 
-    /* The switch - the box around the slider */
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
-    }
+   /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+  }
 
 /* Hide default HTML checkbox */
 .switch input {
@@ -34,13 +34,20 @@
   transition: .4s;
 }
 
+.dropdown-toggle{
+
+  cursor: pointer;
+  
+
+}
+
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 20px;
+  width: 20px;
+  left: -8px;
+  bottom: 0px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -97,7 +104,7 @@ input:checked + .slider:before {
         <div class="col-md-6">
 
           <div class="justify-content-sm-end d-flex">
-            <a class="btn btn-secondary" href="<?=base_url('proprietaire/Proprietaire/index')?>"><i class="bi bi-plus"></i> Nouveau</a>
+            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire/index')?>"><i class="bi bi-plus"></i> Nouveau</a>
           </div>
         </div><!-- End Page Title -->
       </div>
@@ -172,8 +179,7 @@ input:checked + .slider:before {
                         <th class="text-dark">Identification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                         <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                         <th class="text-dark">Téléphone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                        <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                        <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th>Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                         <th class="text-dark">Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                       </tr>
                     </thead>

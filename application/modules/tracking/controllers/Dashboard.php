@@ -120,7 +120,7 @@ class Dashboard extends CI_Controller
 		$data['info'] = $info;
 
 		// requete pour recuperer le chauffeur
-		$my_selectget_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CODE ='.$CODE.'', '`PROPRIETAIRE_ID` ASC');
+		$my_selectget_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE,KILOMETRAGE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CODE ='.$CODE.'', '`PROPRIETAIRE_ID` ASC');
 		$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
 
 
@@ -133,8 +133,6 @@ class Dashboard extends CI_Controller
 		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
 
 		
-
-
 		//requete pour recuperer les arrets
 		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`device_uid`,`ignition`,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure,ignition', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" AND ignition=0'.$critere.'' , '`id` ASC');
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
@@ -177,7 +175,7 @@ class Dashboard extends CI_Controller
 		}
 
 
-		//score			
+		//calcul du score			
 		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND device_uid ='.$CODE.' AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" AND ignition=0' , '`id` ASC');
 		$my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
 		$my_selectget_arret_date=str_replace('\n', '', $my_selectget_arret_date);
@@ -212,67 +210,48 @@ class Dashboard extends CI_Controller
 			for($i=0,$j=1;$i<$nbre,$j<$nbre;$i++,$j++){
 
 
-				$my_selectrequete = $this->getBindParms('count(id)', 'tracking_data', '1 AND vitesse>60 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"' , '`id` ASC');
+				$my_selectrequete = $this->getBindParms('count(id) as idsup', 'tracking_data', '1 AND vitesse>60 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"' , '`id` ASC');
 				$my_selectrequete=str_replace('\"', '"', $my_selectrequete);
 				$my_selectrequete=str_replace('\n', '', $my_selectrequete);
 				$my_selectrequete=str_replace('\"', '', $my_selectrequete);
 
 				$requete = $this->ModelPs->getRequete($proce_requete, $my_selectrequete);
 
-
-				$valeur_valeur=$requete;
+				$valeur_valeur[]=$requete;
 
 
 			}
 
 
+			$add=0;
 
 			foreach ($valeur_valeur as $keyvaleur_valeur) {
 
+				foreach ($keyvaleur_valeur as $keykeyvaleur_valeur) {
 
-				if($keyvaleur_valeur>0){
 
-					$point_point=$point_point-1;
+					foreach ($keykeyvaleur_valeur as $final_final) {
+
+						if($final_final>0){
+
+							$add=$add+1;
+						}
+					}
+
 				}
+				
 			}
 
+			$point_final=$point_point-$add;
 
-			$point_final=$point_point;
 		}
 
 
-		$score=20;
-		//Calcul du score
-		if(!empty($get_data)){
 
-			$u=0;
-			foreach ($get_data as $value_get_arret) {
-
-
-
-				if ($value_get_arret['vitesse']>60) {
-
-
-					$score-=1;
-
-				}else{
-					$score-=0;
-
-
-				}
-
-				$u++;
-
-			}
-
-			$score_finale=$score;
-
-
-		}
 
 		$ligne_arret='';
 
-		//temps d\'arret'
+		//calcul du temps d'arret
 		if(!empty($get_data)){
 
 			$tabl=array();
@@ -284,7 +263,6 @@ class Dashboard extends CI_Controller
 
 					$id2=$value_get_arret['id']+1;
 
-					// $date_compare2=$this->Model->getRequete('SELECT tracking_data.date FROM tracking_data WHERE id='.$id2);
 
 					$my_select_date_compare2 = $this->getBindParms('tracking_data.date', 'tracking_data', 'id='.$id2, 'id ASC');
 					$date_compare2 = $this->ModelPs->getRequete($proce_requete, $my_select_date_compare2);
@@ -300,10 +278,6 @@ class Dashboard extends CI_Controller
 
 			}
 
-
-				
-			
-
 			if (!empty($tabl)) {
 				foreach ($tabl as $keytabl) {
 
@@ -314,7 +288,7 @@ class Dashboard extends CI_Controller
 					<a href='#' class='fw-bold text-dark'>".$keytabl."</a> 
 					</div>
 					</div>";
-			
+
 				}
 			}else{
 
@@ -325,14 +299,22 @@ class Dashboard extends CI_Controller
 
 			}
 
-			// print_r($tabl);die();
 
 
 		}
 
 		//calcul du carburant consommé
+		if(!empty($get_chauffeur['KILOMETRAGE'])){
 
-		$carburant = 1 * $distance_arrondie;
+			$carburant = $get_chauffeur['KILOMETRAGE'] * $distance_arrondie;
+
+
+
+		}else{
+
+			$carburant='N/A  ';
+		}
+		
 
 
 		//carte
@@ -355,21 +337,15 @@ class Dashboard extends CI_Controller
 							'coordinates': [".$key_arret['longitude'].", ".$key_arret['latitude']."]
 						}
 						},
-						";
-
-						
+						";					
 
 					}
-
-
 
 				}else{
 					$number='1';
 
 					$arret.='['.$number.','.$number.'],';
 					
-
-
 				}
 
 				$arret.='';
@@ -495,10 +471,9 @@ class Dashboard extends CI_Controller
 			}
 
 
-				//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
+			//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 			public function getBindParms($columnselect, $table, $where, $orderby)
 			{
-        // code...
 				$bindparams = array(
 					'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
 					'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
