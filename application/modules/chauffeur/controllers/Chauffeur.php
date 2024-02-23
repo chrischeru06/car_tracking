@@ -1,9 +1,10 @@
 <?php
 /*
-	Auteur    : Mushagalusa Byamungu Pacifique
-	Email     : byamungu.pacifique@mediabox.bi
-	Telephone : +25772496057
-	Date      : 30/01/2024
+	Auteur    : NIYOMWUNGERE Ella Dancilla
+	Email     : ella_dancilla@mediabox.bi
+	Telephone : +25771379943
+	Date      : 06-09/02/2024
+	crud des chauffeurs
 */
 	class Chauffeur extends CI_Controller
 	{
@@ -33,7 +34,7 @@
 		//Fonction pour l'affichage
 		function listing()
 		{
-		  $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 			$var_search = str_replace("'", "\'", $var_search);
 			$group = "";
 			$critaire = "";
@@ -44,7 +45,7 @@
 			$order_by = '';
 
 			$order_column = array('','chauffeur.NOM','chauffeur.PRENOM','chauffeur.ADRESSE_PHYSIQUE ','provinces.PROVINCE_NAME','communes.COMMUNE_NAME','zones.ZONE_NAME','collines.COLLINE_NAME','chauffeur.NUMERO_TELEPHONE','chauffeur.ADRESSE_MAIL','chauffeur.NUMERO_CARTE_IDENTITE','chauffeur.PERSONNE_CONTACT_TELEPHONE','chauffeur.DATE_INSERTION');
-		 
+
 			if ($_POST['order']['0']['column'] != 0) {
 				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : 'chauffeur.CHAUFFEUR_ID ASC';
 			}
@@ -60,7 +61,7 @@
 				OR chauffeur.NUMERO_CARTE_IDENTITE LIKE "%' . $var_search . '%"
 				OR chauffeur.DATE_INSERTION LIKE "%' . $var_search . '%")') : '';
 
-			 $query_principal='SELECT CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
+			$query_principal='SELECT CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
 
             //condition pour le query principale
 			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -75,13 +76,13 @@
 			$fetch_data = $this->ModelPs->datatable($query_secondaire);
 			$data = array();
 			$u=1;
-			foreach ($fetch_data as $row) {
+			foreach ($fetch_data as $row) 
+			{
 				$sub_array=array();
 				$sub_array[]=$u++;
-				
-			$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
+				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
 			
-			</div>
+				</div>
 				<div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID.'">
 				<div class="modal-dialog">
 				<div class="modal-content">
@@ -95,10 +96,8 @@
 				</div>
 				</div>';
 
-			
+
 				//fin modal
-
-
 
 				// $sub_array[] = $row->ADRESSE_PHYSIQUE;
 				$sub_array[] = $row->PROVINCE_NAME;
@@ -107,15 +106,6 @@
 				$sub_array[] = $row->COLLINE_NAME;
 				$sub_array[] = $row->NUMERO_TELEPHONE;
 				$sub_array[] = $row->ADRESSE_MAIL;
-				// $sub_array[] = $row->NUMERO_CARTE_IDENTITE;
-				// $sub_array[] = $row->PERSONNE_CONTACT_TELEPHONE;
-				// $sub_array[] = $row->DATE_INSERTION;
-				if (($row->IS_ACTIVE==1)) 
-			  {
-				$sub_array[]='<a style="color:blue;">Activé</a>';	
-			  }else{
-				$sub_array[]='<a style="color:red;">Désactivé</a>';	
-			  }
 
 				$option = '<div class="dropdown ">
 				<a class=" text-black btn-sm" data-toggle="dropdown">
@@ -124,173 +114,250 @@
 				<ul class="dropdown-menu dropdown-menu-left">
 				';
 
-				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><font color='green'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</label></font></a></li>";
+				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a></li>";
 
-			 $option.= "<li><a hre='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "' style = 'margin-left:50px;text-decoration:none;color:black;' ><b class='text-dark' >Détail</b></a></li>";
+				$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détail</a></li>";
 
-	         if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
-			 {
-			  $option.='<li><a class="btn-md" onClick="attribue_voiture(\''.$row->CHAUFFEUR_ID.'\')"><label class="text-dark"style="font-weight:bold">&nbsp;&nbsp;Attribuer la voiture</label></a></li>';
-			 }
 
-			 if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
-			 {
-		      $option .= "<li><a data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><label class='text-dark'style='font-weight:bold'>&nbsp;&nbsp;Retirer la voiture</label></a></li>";
-		      $option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><label class="text-dark"style="font-weight:bold">&nbsp;&nbsp;Modifier l\'affectation</label></a></li>';
+				if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
+				{
+					$option.='<li><a class="btn-md" onClick="attribue_voiture(\''.$row->CHAUFFEUR_ID.'\')"><i class="bi bi-plus h5" ></i>&nbsp;&nbsp;Attribuer la voiture</a></li>';
+				}
+				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
+					{
+						$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='bi bi-plus h5' ></span>&nbsp;&nbsp;Retirer la voiture</a></li>";
 
-			}
-			//pour activer desactiver
-			if($row->IS_ACTIVE==1){
-				$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
-				<label class="switch"> 
-				<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->CHAUFFEUR_ID . ')" checked>
-				<span class="slider round"></span>
-				</label>
-				</form>
+						$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
 
-				';
-			}else{
-				$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
-				<label class="switch"> 
-				<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->CHAUFFEUR_ID . ')">
-				<span class="slider round"></span>
-				</label>
-				</form>';
-			}
-			//fin activer desactiver
+					}
+			    //pour activer desactiver
+					// if($row->IS_ACTIVE==1){
+					// 	$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+					// 	<label class="switch"> 
+					// 	<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->CHAUFFEUR_ID . ','.$row->STATUT_VEHICULE.')" checked>
+					// 	<span class="slider round"></span>
+					// 	</label>
+					// 	</form>
 
-			// $option.= "<a hre='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "' style = 'margin-left:50px;text-decoration:none;color:black;' ><b class='text-dark' >Détail</b></a>";
-        		//modal pour retirer la voiture
-			$option .= " </ul>
-			</div>
-			<div class='modal fade' id='modal_retirer" .$row->CHAUFFEUR_ID. "'>
-			<div class='modal-dialog'>
-			<div class='modal-content'>
-			
-			<div class='modal-body'>
-			<center><h5><strong style='color:black'>Voulez-vous retirer la voiture de</strong> <br><b style='background-color:prink;color:green;'><i>" . $row->NOM .' '.$row->PRENOM. "</i> ? </b></h5></center>
-			<div class='modal-footer'>
-			<a class='btn btn-danger btn-md' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
-			
-			<button class='btn btn-primary btn-md' data-dismiss='modal'>Quitter</button>
-			</div>
+					// 	';
+					// }else
+					// {
+					// 	$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+					// 	<label class="switch"> 
+					// 	<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->CHAUFFEUR_ID . ')">
+					// 	<span class="slider round"></span>
+					// 	</label>
+					// 	</form>';
+					// }
 
-			</div>
-			</div>
-			</div>";
-			//fin modal retire voiture
+						if($row->IS_ACTIVE==1){
+					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
-     //debut Detail cahuffeur
-     $option .="
-     </div>
-     <div class='modal fade' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
-     <div class='modal-dialog'>
-     <div class='modal-content'>
-     <div class='modal-body'>
+					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
-     <center><h3>Détail du chauffeur</h3></center>
+					<table>
+					<td><label class="text-primary">Activé</label></td>
+					<td><label class="switch"> 
+					<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->CHAUFFEUR_ID . ','.$row->STATUT_VEHICULE.')" checked>
+					<span class="slider round"></span>
+					</label></td>
+					</table>
+					
+					</form>
 
-    <table class= 'table table-striped'>
-     <tr>
-    <td>Carte d'identité</td>
-    <th>".$row->NUMERO_CARTE_IDENTITE."</th>
-    </tr>
+					';
+				}else{
+					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
-    <tr>
-    <td>Email</td>
-    <th>".$row->ADRESSE_MAIL."</th>
-    </tr>
+					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
-    <tr>
-    <td>Téléphone</td>
-    <th>".$row->NUMERO_TELEPHONE."</th>
-    </tr>
+					<table>
+					<td><label class="text-danger">Désactivé</label></td>
+					<td><label class="switch"> 
+					<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->CHAUFFEUR_ID . ')">
+					<span class="slider round"></span>
+					</label></td>
+					</table>
+					</form>
 
-    <tr>
-    <td>Date naissance</td>
-    <th>".$row->DATE_NAISSANCE."</th>
-    </tr>
+					';
+				}
 
-    <tr>
-    <td>Aresse physique</td>
-    <th>".$row->ADRESSE_PHYSIQUE."</th>
-    </tr>
 
-    <tr>
-    <td>Information du vehicule</td>
-    <th><a hre='#' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
-    </tr>
-    </table>
-    </div>
-    <div class='modal-footer'>
-    <button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
-    </div>
-    </div>
-    </div>
-    </div>";
-    //fin debut Detail cahuffeur
-    $info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID.'');
-  if(!empty($info_vehicul))
-  {
 
-   //debut modal de info voiture(id=info_voitu)
-    $option .="
-    </div>
-    <div class='modal fade' id='info_voitu" .$row->CHAUFFEUR_ID. "'>
-    <div class='modal-dialog'>
-    <div class='modal-content'>
-    <div class='modal-body'>
-    <center><h3>Détail du vehicule </h3></center>
-    <div class='row'>
-    <div class='col-md-6' >
-    <img src = '".base_url('upload/photo_vehicule/').$info_vehicul['PHOTO']."' height='100%' width='100%' >
-    </div>
-    <div class='col-md-6'>
-    <table class='table table-hover text-dark'>
-    
-     <tr>
-    <td>Marque
-    <th>".$info_vehicul['DESC_MARQUE']."</th>
-    </tr>
 
-    <tr>
-    <td>Modèle</td>
-    <th>".$info_vehicul['DESC_MODELE']."</th>
-    </tr>
 
-    <tr>
-    <td>Couleur</td>
-    <th>".$info_vehicul['COULEUR']."</th>
-    </tr>
 
-    <tr>
-    <td>Plaque</td>
-    <th>".$info_vehicul['PLAQUE']."</th>
-    </tr>
-    </table>
-    </div>
-    </div>
+					//fin activer desactiver
+					//DEBUT modal pour retirer la voiture
+					$option .= " </ul>
+					</div>
+					<div class='modal fade' id='modal_retirer" .$row->CHAUFFEUR_ID. "'>
+					<div class='modal-dialog'>
+					<div class='modal-content'>
 
-    </div>
-    <div class='modal-footer'>
-    <button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
-    </div>
-    </div>
-    </div>
-    </div>";
-     //fin modal de info voiture(id=info_voitu)
+					<div class='modal-body'>
+					<center><h5><strong style='color:black'>Voulez-vous retirer la voiture de</strong> <br><b style='background-color:prink;color:green;'><i>" . $row->NOM .' '.$row->PRENOM. "</i> ? </b></h5></center>
+					<div class='modal-footer'>
+					<a class='btn btn-danger btn-md' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
 
-    }else
-    {
-      $option .="";
-    }
-    
+					<button class='btn btn-primary btn-md' data-dismiss='modal'>Quitter</button>
+					</div>
 
-				$sub_array[]=$option;
-				
-				$data[] = $sub_array;
-			}
-			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+					</div>
+					</div>
+					</div>";
+					//fin modal retire voiture
+					//debut Detail cahuffeur
+					if ($row->STATUT_VEHICULE==2)
+						{
+							$option .="
+							</div>
+							<div class='modal fade' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
+							<div class='modal-dialog'>
+							<div class='modal-content'>
+							<div class='modal-body'>
+
+							<center><h3>Détail du chauffeur</h3></center>
+							<table class= 'table table-striped'>
+							<tr>
+							<td>Carte d'identité</td>
+							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
+							</tr>
+
+							<tr>
+							<td>Email</td>
+							<th>".$row->ADRESSE_MAIL."</th>
+							</tr>
+
+							<tr>
+							<td>Téléphone</td>
+							<th>".$row->NUMERO_TELEPHONE."</th>
+							</tr>
+
+							<tr>
+							<td>Date naissance</td>
+							<th>".$row->DATE_NAISSANCE."</th>
+							</tr>
+
+							<tr>
+							<td>Aresse physique</td>
+							<th>".$row->ADRESSE_PHYSIQUE."</th>
+							</tr>
+
+							<tr>
+							<td>Information du vehicule</td>
+							<th><a hre='#' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
+							</tr>
+							</table>
+							</div>
+							<div class='modal-footer'>
+							<button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
+							</div>
+							</div>
+							</div>
+							</div>";
+						}else
+						{
+							$option .="
+							</div>
+							<div class='modal fade' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
+							<div class='modal-dialog'>
+							<div class='modal-content'>
+							<div class='modal-body'>
+
+							<center><h3>Détail du chauffeur</h3></center>
+
+							<table class= 'table table-striped'>
+							<tr>
+							<td>Carte d'identité</td>
+							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
+							</tr>
+
+							<tr>
+							<td>Email</td>
+							<th>".$row->ADRESSE_MAIL."</th>
+							</tr>
+
+							<tr>
+							<td>Téléphone</td>
+							<th>".$row->NUMERO_TELEPHONE."</th>
+							</tr>
+
+							<tr>
+							<td>Date naissance</td>
+							<th>".$row->DATE_NAISSANCE."</th>
+							</tr>
+
+							<tr>
+							<td>Aresse physique</td>
+							<th>".$row->ADRESSE_PHYSIQUE."</th>
+							</tr>
+							</table>
+							</div>
+							<div class='modal-footer'>
+							<button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
+							</div>
+							</div>
+							</div>
+							</div>";
+						}
+						//fin debut Detail cahuffeur
+						$info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID.'');
+						//debut modal de info voiture(id=info_voitu)
+						if (!empty($info_vehicul)) 
+						{
+							$option .="
+						</div>
+						<div class='modal fade' id='info_voitu" .$row->CHAUFFEUR_ID. "'>
+						<div class='modal-dialog'>
+						<div class='modal-content'>
+						<div class='modal-body'>
+						<center><h3>Détail du véhicule </h3></center>
+						<div class='row'>
+						<div class='col-md-6' >
+						<img src = '".base_url('upload/photo_vehicule/').$info_vehicul['PHOTO']."' height='100%' width='100%' >
+						</div>
+						<div class='col-md-6'>
+						<table class='table table-hover text-dark'>
+
+						<tr>
+						<td>Marque
+						<th>".$info_vehicul['DESC_MARQUE']."</th>
+						</tr>
+
+						<tr>
+						<td>Modèle</td>
+						<th>".$info_vehicul['DESC_MODELE']."</th>
+						</tr>
+
+						<tr>
+						<td>Couleur</td>
+						<th>".$info_vehicul['COULEUR']."</th>
+						</tr>
+
+						<tr>
+						<td>Plaque</td>
+						<th>".$info_vehicul['PLAQUE']."</th>
+						</tr>
+						</table>
+						</div>
+						</div>
+
+						</div>
+						<div class='modal-footer'>
+						<button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
+						</div>
+						</div>
+						</div>
+						</div>";
+						}
+						
+						//fin modal de info voiture(id=info_voitu)
+						$sub_array[]=$option;
+						$data[] = $sub_array;
+					}
+					$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
 			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
 			$output = array(
 				"draw" => intval($_POST['draw']),
@@ -499,6 +566,14 @@
 	   }
 		echo json_encode($statut);
 	}
+
+	function retirer_voiture()
+	{
+		$statut=2;
+
+		echo json_encode($statut);
+	}
+
 
 		//fonction pour retirer la carte à un agent
 	public function retirer_voit($CHAUFFEUR_ID)
