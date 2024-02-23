@@ -93,7 +93,7 @@ input:checked + .slider:before {
     <div class="pagetitle">
       <div class="row">
         <div class="col-md-6">
-          <h1>Propriétaires</h1>
+          <i class="bi bi-user-plus"></i> <h1>Propriétaires</h1>
           <nav>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="index.html">Propriétaire</a></li>
@@ -201,9 +201,9 @@ input:checked + .slider:before {
                     <tr>
                       <th class="text-dark">#</th>
 
-                      <th class="text-dark">Identification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th class="text-dark">Identification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                       <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th class="text-dark">Téléphone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th class="text-dark">Téléphone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                       <th>Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                       <th class="text-dark">Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                     </tr>
