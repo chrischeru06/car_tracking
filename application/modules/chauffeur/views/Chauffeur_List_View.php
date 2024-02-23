@@ -5,13 +5,14 @@
   <?php include VIEWPATH . 'includes/header.php'; ?>
   <style type="text/css">
 
+
     /* The switch - the box around the slider */
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 26px;
-    }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+  }
 
 /* Hide default HTML checkbox */
 .switch input {
@@ -36,10 +37,10 @@
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 20px;
+  width: 20px;
+  left: -8px;
+  bottom: 0px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -83,195 +84,217 @@ input:checked + .slider:before {
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-     <span style="margin-right: 15px">
-      <div class="col-sm-3" style="float:right;">
-        <a href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" style="width: 100px;" class='btn btn-primary btn-sm float-right'>
-          <i class="fa fa-plus"></i>
-          Nouveau
-        </a>
-      </div>
-    </span>
-
-
-    <div class="pagetitle">
-      <h1>Chauffeur</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
-          <li class="breadcrumb-item active">Liste</li>
-        </ol>
-      </nav>
+   <span style="margin-right: 15px">
+    <div class="col-sm-3" style="float:right;">
+      <a href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" style="width: 100px;" class='btn btn-primary btn-sm float-right'>
+        <i class="fa fa-plus"></i>
+        Nouveau
+      </a>
     </div>
-   
+  </span>
 
-    <!-- End Page Title -->
-    <!--******** Debut Modal pour attribue une voiture *********-->
-<div class="modal fade" id="carteModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title text-center" id="exampleModalLabel">Attribution d'une voiture</h3>
-        <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div>
-        <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
-          <div class="modal-body mb-1">
-            <div class="row">
-              <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
-              <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
 
-              <div class="col-md-6">
-                <label for="description" class="text-dark">Voiture</label>
-                <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
-                </select>
-                <span id="errorVEHICULE_ID" class="text-danger"></span>
-              </div>
-              <div class="col-md-6">
-                <label for="description" class="text-dark">Zone d'affectation</label>
-                <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID" name="CHAUFF_ZONE_AFFECTATION_ID">
-                </select>
-                <span id="errorCHAUFF_ZONE_AFFECTATION_ID" class="text-danger"></span>
-              </div>
+  <div class="pagetitle">
+    <h1>Chauffeur</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
+        <li class="breadcrumb-item active">Liste</li>
+      </ol>
+    </nav>
+  </div>
 
-               <div class="col-md-6">
-                <label type="date" class="text-dark">Date début</label>
-                <input type="date" name="DATE_DEBUT_AFFECTATION" autocomplete="off" id="DATE_DEBUT_AFFECTATION" value="<?= set_value('DATE_DEBUT_AFFECTATION') ?>"  class="form-control"  min="<?= date('Y-m-d')?>">
-                <span id="errorDATE_DEBUT_AFFECTATION" class="text-danger"></span>
+
+  <!-- End Page Title -->
+  <!--******** Debut Modal pour attribue une voiture *********-->
+  <div class="modal fade" id="carteModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="exampleModalLabel">Attribution d'une voiture</h3>
+          <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div>
+          <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
+            <div class="modal-body mb-1">
+              <div class="row">
+                <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
+                <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
+
+                <div class="col-md-6">
+                  <label for="description" class="text-dark">Voiture</label>
+                  <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
+                  </select>
+                  <span id="errorVEHICULE_ID" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                  <label for="description" class="text-dark">Zone d'affectation</label>
+                  <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID" name="CHAUFF_ZONE_AFFECTATION_ID">
+                  </select>
+                  <span id="errorCHAUFF_ZONE_AFFECTATION_ID" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                  <label type="date" class="text-dark">Date début</label>
+                  <input type="date" name="DATE_DEBUT_AFFECTATION" autocomplete="off" id="DATE_DEBUT_AFFECTATION" value="<?= set_value('DATE_DEBUT_AFFECTATION') ?>" onchange="get_date_fin(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
+                  <span id="errorDATE_DEBUT_AFFECTATION" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                  <label type="date" class="text-dark">Date fin</label>
+                  <input type="date" name="DATE_FIN_AFFECTATION" autocomplete="off" id="DATE_FIN_AFFECTATION" value="<?= set_value('DATE_FIN_AFFECTATION') ?>"  onchange="get_dates_deb(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
+                  <span id="errorDATE_FIN_AFFECTATION" class="text-danger"></span>
+                </div>
               </div>
-               <div class="col-md-6">
-                <label type="date" class="text-dark">Date fin</label>
-                <input type="date" name="DATE_FIN_AFFECTATION" autocomplete="off" id="DATE_FIN_AFFECTATION" value="<?= set_value('DATE_FIN_AFFECTATION') ?>"  class="form-control"  min="<?= date('Y-m-d')?>">
-                <span id="errorDATE_FIN_AFFECTATION" class="text-danger"></span>
-              </div>
+            </div> 
+            <div class="modal-footer">
+              <input type="button" class="btn btn-secondary" type="button" id="btn_add" value="Attribuer" onclick="save_vehicule();" />
+              <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
+
             </div>
-          </div>
-          <div class="modal-footer">
-            <input type="button" class="btn btn-secondary" type="button" id="btn_add" value="Attribuer" onclick="save_vehicule();" />
-            <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
-            
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!--******** Fin Modal pour attribue un voiture ***********-->
+  <!--******** Fin Modal pour attribue un voiture ***********-->
 
-   <!--******** Debut Modal pour modifier l'affectation du chauffeur a une voiture *********-->
-<div class="modal fade" id="modifvoitureModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title text-center" id="exampleModalLabel2">Modifier l'affectation du chauffeur</h3>
-        <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div>
-        <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
-          <div class="modal-body mb-1">
-            <div class="row">
-              <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
-              <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
+  <!--******** Debut Modal pour modifier l'affectation du chauffeur a une voiture *********-->
+  <div class="modal fade" id="modifvoitureModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="exampleModalLabel2">Modifier l'affectation du chauffeur</h3>
+          <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div>
+          <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
+            <div class="modal-body mb-1">
+              <div class="row">
+                <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
+                <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
 
-              <div class="col-md-6">
-                <label for="description" class="text-dark">Zone d'affectation</label>
-                <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID_MOD" name="CHAUFF_ZONE_AFFECTATION_ID_MOD">
-                </select>
-                
-                <span id="errorCHAUFF_ZONE_AFFECTATION_ID_MOD" class="text-danger"></span>
-              </div>
+                <div class="col-md-6">
+                  <label for="description" class="text-dark">Zone d'affectation</label>
+                  <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID_MOD" name="CHAUFF_ZONE_AFFECTATION_ID_MOD">
+                  </select>
 
-               <div class="col-md-6">
-                <label type="date" class="text-dark">Date début</label>
-                <input type="date" name="DATE_DEBUT_AFFECTATION_MOD" autocomplete="off" id="DATE_DEBUT_AFFECTATION_MOD"  value="<?= set_value('DATE_DEBUT_AFFECTATION_MOD') ?>"   class="form-control"  min="<?= date('Y-m-d')?>">
-                <span id="errorDATE_DEBUT_AFFECTATION_MOD" class="text-danger"></span>
-              </div>
-               <div class="col-md-6">
-                <label type="date" class="text-dark">Date fin</label>
-                <input type="date" name="DATE_FIN_AFFECTATION_MOD" autocomplete="off" id="DATE_FIN_AFFECTATION_MOD" value="<?= set_value('DATE_FIN_AFFECTATION_MOD') ?>" class="form-control"  min="<?= date('Y-m-d')?>">
-                <span id="errorDATE_FIN_AFFECTATION_MOD" class="text-danger"></span>
+                  <span id="errorCHAUFF_ZONE_AFFECTATION_ID_MOD" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                  <label type="date" class="text-dark">Date début</label>
+                  <input type="date" name="DATE_DEBUT_AFFECTATION_MOD" autocomplete="off" id="DATE_DEBUT_AFFECTATION_MOD"  value="<?= set_value('DATE_DEBUT_AFFECTATION_MOD') ?>"  onchange="get_date_fin_modif(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
+                  <span id="errorDATE_DEBUT_AFFECTATION_MOD" class="text-danger"></span>
+                </div> 
+                <div class="col-md-6">
+                  <label type="date" class="text-dark">Date fin</label>
+                  <input type="date" name="DATE_FIN_AFFECTATION_MOD" autocomplete="off" id="DATE_FIN_AFFECTATION_MOD" value="<?= set_value('DATE_FIN_AFFECTATION_MOD') ?>" onchange="get_dates_deb_modif(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
+                  <span id="errorDATE_FIN_AFFECTATION_MOD" class="text-danger"></span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <input type="button" class="btn btn-secondary" type="button" id="btn_add" value="Modifier" onclick="save_modif_chauffeur();" />
-            <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
-            
-          </div>
-        </form>
+            <div class="modal-footer">
+              <input type="button" class="btn btn-secondary" type="button" id="btn_add" value="Modifier" onclick="save_modif_chauffeur();" />
+              <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
+
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!--******** Fin Modal pour modifier l'affectation du chauffeur a une voiture  ***********-->
+  <!--******** Fin Modal pour modifier l'affectation du chauffeur a une voiture  ***********-->
 
-    <section class="section dashboard">
-      <div class="row">
 
-        <!-- Left side columns -->
-        <div class="col-lg-12">
+  <!-- fin modal pour retirer la voiture -->
+  <div class="modal fade" id="retirvoiture" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+     
+        
+            <div class="modal-body mb-1">
+             <center><h5><strong style='color:black'>Veuillez d'abord lui retirer la voiture </strong> <br><b style='background-color:prink;color:green;'> </b></h5></center>
+            </div>
+            <div class="modal-footer">
+              <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
+
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fin modal pour retirer la voiture -->
+
+  
+
+        <section class="section dashboard">
           <div class="row">
 
+            <!-- Left side columns -->
+            <div class="col-lg-12">
+              <div class="row">
 
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
+
+                <!-- Reports -->
+                <div class="col-12">
+                  <div class="card">
 
 
-                <div class="card-body">
+                    <div class="card-body">
 
-                  <div class="table-responsive" style="padding-top: 60px;">
-                    <table id="mytable" class="table table-hover" >
-                      <thead >
-                        <tr>
-    
-                          <th class="text-dark">#</th>
-                          <th class="text-dark">Chauffeur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      
-                          <!-- <th class="text-dark">ADRESSE</th> -->
-                          <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                          <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                          <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                          <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                          <th class="text-dark">Telephone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                          <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                          <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                          <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;</th>
-  
-                          <th class="text-dark">Option</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-dark">
-                      </tbody>
-                    </table>
+                      <div class="table-responsive" style="padding-top: 60px;">
+                        <table id="mytable" class="table table-hover" >
+                         <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                          <tr>
+
+                            <th class="text-dark">#</th>
+                            <th class="text-dark">Chauffeur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+                            <!-- <th class="text-dark">ADRESSE</th> -->
+                            <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Telephone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                           
+                            <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;</th>
+
+                            <th class="text-dark">Option</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-dark">
+                        </tbody>
+                      </table>
+                    </div>
+
                   </div>
 
                 </div>
-
               </div>
+
+
+
             </div>
-
-
-
           </div>
+
+
+
         </div>
+      </section>
+
+    </main><!-- End #main -->
+
+    <?php include VIEWPATH . 'includes/footer.php'; ?>
+
+  </body>
 
 
-
-      </div>
-    </section>
-
-  </main><!-- End #main -->
-
-  <?php include VIEWPATH . 'includes/footer.php'; ?>
-
-</body>
-
-
-<script>
+  <script>
 
   // Fonction pour le chargement de donnees par defaut
   $(document).ready( function ()
@@ -283,9 +306,9 @@ input:checked + .slider:before {
   function liste()
   {
     var row_count=10000;
-   $('#message').delay('slow').fadeOut(10000);
-   $(document).ready(function()
-   {
+    $('#message').delay('slow').fadeOut(10000);
+    $(document).ready(function()
+    {
     // var row_count ="1000000";
 
     $("#mytable").DataTable({
@@ -297,7 +320,7 @@ input:checked + .slider:before {
         url:"<?php echo base_url('chauffeur/Chauffeur/listing');?>",
         type:"POST", 
       },
-       lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+      lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
       //pageLength: 10,
       "columnDefs":[{
         "targets":[],
@@ -306,8 +329,8 @@ input:checked + .slider:before {
 
       dom: 'Bfrtlip',
       buttons: [
-        'pdf', 'print'
-        ],
+      'pdf', 'print'
+      ],
       language: {
         "sProcessing":     "Traitement en cours...",
         "sSearch":         "Rechercher&nbsp;:",
@@ -335,9 +358,9 @@ input:checked + .slider:before {
 
     });
   });
- }
+  }
 
- 
+
 </script>
 <script>
   function attribue_voiture(CHAUFFEUR_ID)
@@ -348,13 +371,13 @@ input:checked + .slider:before {
     $('#CHAUFFEUR_ID').val(CHAUFFEUR_ID);
     $('#CHAUFF_ZONE_AFFECTATION_ID').val(CHAUFF_ZONE_AFFECTATION_ID);
     $('#errorVEHICULE_ID').html('');
-     $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
+    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
     $('#errorDATE_DEBUT_AFFECTATION').html('');
     $('#errorDATE_FIN_AFFECTATION').html('');
     $.ajax(
     {
       // url : "<?php echo base_url('chauffeur/Chauffeur/get_all_voiture')?>",
-     url: "<?= base_url() ?>chauffeur/Chauffeur/get_all_voiture/",
+      url: "<?= base_url() ?>chauffeur/Chauffeur/get_all_voiture/",
 
       type: "GET",
       dataType: "JSON",
@@ -371,7 +394,7 @@ input:checked + .slider:before {
       }
     });
   }
-   function save_vehicule()
+  function save_vehicule()
   {
 
     var statut=1;
@@ -391,7 +414,7 @@ input:checked + .slider:before {
       $('#errorVEHICULE_ID').html('Le champ est obligatoire');
       statut=2;
     }
-     if($('#CHAUFF_ZONE_AFFECTATION_ID').val()=='')
+    if($('#CHAUFF_ZONE_AFFECTATION_ID').val()=='')
     {
       $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('Le champ est obligatoire');
       statut=2;
@@ -468,21 +491,21 @@ input:checked + .slider:before {
 
   {
     // alert(CHAUFFEUR_ID)
-     var CHAUFFEUR_ID = CHAUFFEUR_ID;
+    var CHAUFFEUR_ID = CHAUFFEUR_ID;
     $('#CHAUFFEUR_ID_MOD').val(CHAUFFEUR_ID);
     $('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val(CHAUFF_ZONE_AFFECTATION_ID);
     $('#errorVEHICULE_ID').html('');
-     $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('');
+    $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('');
     $('#errorDATE_DEBUT_AFFECTATION_MOD').html('');
     $('#errorDATE_FIN_AFFECTATION_MOD').html('');
     $.ajax(
     {
      url: "<?= base_url() ?>chauffeur/Chauffeur/get_zone_affect/"+CHAUFFEUR_ID,
 
-      type: "GET",
-      dataType: "JSON",
-      success: function(data)
-      {
+     type: "GET",
+     dataType: "JSON",
+     success: function(data)
+     {
         //alert(data.htmldbut)
         $('#CHAUFF_ZONE_AFFECTATION_ID_MOD').html(data.html1);
         $('#DATE_DEBUT_AFFECTATION_MOD').val(data.htmldbut);
@@ -499,7 +522,7 @@ input:checked + .slider:before {
   }
 
   //save modification affectation chauffeur
-    function save_modif_chauffeur()
+  function save_modif_chauffeur()
   {
 
     var statut=1;
@@ -507,7 +530,7 @@ input:checked + .slider:before {
     $('#errorDATE_DEBUT_AFFECTATION_MOD').html('');
     $('#errorDATE_FIN_AFFECTATION_MOD').html('');
 
-     if($('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val()=='')
+    if($('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val()=='')
     {
       $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('Le champ est obligatoire');
       statut=2;
@@ -581,7 +604,7 @@ input:checked + .slider:before {
   }
 
 
- function myFunction(CHAUFFEUR_ID) {
+  function myFunction(CHAUFFEUR_ID) {
   // Get the checkbox
   var checkBox = document.getElementById("myCheck");
   // Get the output text
@@ -606,11 +629,43 @@ input:checked + .slider:before {
   });
 
 }
-function myFunction_desactive(CHAUFFEUR_ID) {
+function myFunction_desactive(CHAUFFEUR_ID=0,STATUT_VEHICULE=0) {
   // Get the checkbox
-  var checkBox = document.getElementById("myCheck");
-  // Get the output text
-
+  //STATUT_VEHICULE:debut tester si le chauffeur a une voiture pour le desactiver
+  if (STATUT_VEHICULE==2) 
+  {
+      var url="<?= base_url('chauffeur/Chauffeur/retirer_voiture')?>";
+      $.ajax(
+      {
+        url: url,
+        type: 'POST',
+        dataType:'JSON',
+        // data: form_data ,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function(data)
+        {
+          if(data==2)
+          {
+            Swal.fire(
+            {
+              icon: 'error',
+              title: 'Erreur',
+              text: 'Veuillez d\'abord lui retirer la voiture',
+              timer: 3000,
+            }).then(() =>
+            {
+              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+            });
+          }
+        }
+      });
+      //STATUT_VEHICULE:fin tester si le chauffeur a une voiture pour le desactiver
+  }else
+  {
+    //debut desactiver le chauffeur
+   var checkBox = document.getElementById("myCheck");
   var status=$('#status').val();
 
   status=1;
@@ -631,9 +686,45 @@ function myFunction_desactive(CHAUFFEUR_ID) {
       window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
     }
   });
+}
+//fin desactiver le chauffeur
+
 
 }
 
+</script>
+<script type="text/javascript">
+  
+   function get_date_fin()
+  {
+    $("#DATE_FIN_AFFECTATION").prop('min',$("#DATE_DEBUT_AFFECTATION").val());
+
+  }
+  DATE_DEBUT_AFFECTATION,DATE_FIN_AFFECTATION
+
+  function get_dates_deb()
+  {
+    $("#DATE_DEBUT_AFFECTATION").prop('min',$("#DATE_FIN_AFFECTATION").val());
+
+  }
+  ///verifier dates pour la modification de l'affectation
+
+  ,,
+              ,DATE_FIN_AFFECTATION_MOD
+
+
+   function get_date_fin_modif()
+  {
+    $("#DATE_FIN_AFFECTATION_MOD").prop('min',$("#DATE_DEBUT_AFFECTATION_MOD").val());
+
+  }
+
+
+  function get_dates_deb_modif()
+  {
+    $("#DATE_DEBUT_AFFECTATION_MOD").prop('min',$("#DATE_FIN_AFFECTATION_MOD").val());
+
+  }
 </script>
 
 
