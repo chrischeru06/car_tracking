@@ -44,10 +44,15 @@ class Login extends CI_Controller
 					'STATUT'=>$user['STATUT']
 				);
 
-		  // print_r($session);die();
+		   // print_r($session);die();
 
 
 				$output = array("status"=>TRUE,'message'=>'<center>Connexion en cours ....</center>');
+				if($user['STATUT']==2){
+
+					$output = array("status"=>false,'message'=>'<center>Votre compte a été désactivé! <br> Veuillez Contacter l\'administration !</center>');
+
+				}
 				
 			}
 			else
@@ -107,8 +112,9 @@ class Login extends CI_Controller
 
 	function forgotten_pwd()
 	{
-		$this->load->view('Oublier_Password_View');
+		$this->load->view('Password_Oublier_View');
 	}
+
 
 	function forget_pwd()
 	{
@@ -200,19 +206,20 @@ class Login extends CI_Controller
 					
 					if ($this->session->userdata('CODE_PROFIL') == "PROPRIETAIRE") 
 						redirect(base_url('proprietaire/Proprietaire_vehicule'));
-				
+
 
 					
 
 				}else {
-					$sms['sms']='<br><div class="alert alert-danger text-center alert-dismissible fade in col-md-8 col-md-offset-2"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong> Oup! </strong> Contacter l\'administration ! .</div><br>' ;
-					$this->session->set_flashdata($sms) ;
+					$sms['sms']='<br><div class="alert alert-danger text-center alert-dismissible fade in col-md-8 col-md-offset-2"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong> Oup! </strong> Contacter l\'administration ! </div><br>' ;
+					$this->session->set_flashdata($sms['sms']) ;
 					redirect(base_url());
+
 				}
 
 			} else {
 				$sms['sms']='<br><div class="alert alert-danger text-center alert-dismissible fade in col-md-8 col-md-offset-2"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong> Oup! </strong> Mot de pass incorrect ! .</div><br>' ;
-				$this->session->set_flashdata($sms) ;
+				$this->session->set_flashdata($sms['sms']) ;
 				redirect(base_url());
 			}
 

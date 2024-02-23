@@ -27,26 +27,18 @@
   <br>
   <br>
   <br>
-
   <br>
-
   <section class="section dashboard" id="liste">
-
-
     <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
     <div class="scroller">
-
       <div class="activity">
 
         <?=$ligne_arret?>
 
       </div>
     </div>
-
   </section> 
-
 </div>
-
 
 </div>
 <div id="menu">
@@ -73,7 +65,9 @@
 
   // var nav = new mapboxgl.NavigationControl();
   // map_map.addControl(nav, "top-left");
-   map_map.addControl(new mapboxgl.NavigationControl());
+  map_map.addControl(new mapboxgl.NavigationControl());
+
+  map_map.addControl(new mapboxgl.FullscreenControl());
 
 
   map_map.on("style.load", () => {
