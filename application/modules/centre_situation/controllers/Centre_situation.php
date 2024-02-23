@@ -29,11 +29,22 @@
 
 			$critere = ' ';
 
+			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
+
+			$filtre_pro = $this->Model->getOne('proprietaire',array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID));
+
 			$USER_ID = $this->session->userdata('USER_ID');
 
 			if($this->session->userdata('PROFIL_ID') != 1)
 			{
 				$critere.= ' AND users.USER_ID = '.$USER_ID;
+			}
+			else
+			{
+				if(!empty($PROPRIETAIRE_ID))
+				{
+					$critere.= ' AND proprietaire.PROPRIETAIRE_ID = '.$PROPRIETAIRE_ID;
+				}
 			}
 
 			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
@@ -134,9 +145,10 @@
 				}
 			}
 
-			$data['proprio']=$proprio;
-			$data['donnees_vehicule']=$donnees_vehicule;
-			$data['nbrVehicule']=$nbrVehicule;
+			$data['proprio'] = $proprio;
+			$data['filtre_pro'] = $filtre_pro;
+			$data['donnees_vehicule'] = $donnees_vehicule;
+			$data['nbrVehicule'] = $nbrVehicule;
 
 			$this->load->view('Centre_situation_View',$data);
 		}
