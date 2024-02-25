@@ -4,7 +4,7 @@
         // ADMIN : Admin systeme
 
 
-if ($this->session->PROFIL_ID == 1) { 
+if ($this->session->PROFIL_ID == 1) {
   ?>
 
 <aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'template/images/sidebar123-01s.png'; ?>')">
@@ -24,7 +24,7 @@ if ($this->session->PROFIL_ID == 1) {
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="<?=base_url()?>administration/Profils">
+            <a href="<?=base_url()?>administration/Profil">
               <i class="bi bi-circle"></i><span>Profils</span>
             </a>
           </li>
@@ -53,7 +53,7 @@ if ($this->session->PROFIL_ID == 1) {
             </a>
           </li>
           <li>
-            <a href="<?=base_url()?>agent/Agent">
+            <a href="<?=base_url()?>chauffeur/Chauffeur">
               <i class="bi bi-circle"></i><span>Chauffeurs</span>
             </a>
           </li>
@@ -67,7 +67,7 @@ if ($this->session->PROFIL_ID == 1) {
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-              <a href="<?=base_url()?>traceur_FMB920/Map">
+              <a href="#">
               <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
             </a>
           </li>
@@ -82,15 +82,10 @@ if ($this->session->PROFIL_ID == 1) {
 
    <?php 
 }
-?>
-
-<?php 
-
         // # Codes profil
         // Proprietaire 
 
-
-if ($this->session->PROFIL_ID == 2) { 
+else if ($this->session->PROFIL_ID == 2) { 
   ?>
 
 
@@ -127,7 +122,7 @@ if ($this->session->PROFIL_ID == 2) {
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-              <a href="<?=base_url()?>traceur_FMB920/Map">
+              <a href="#">
               
               <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
             </a>
@@ -142,5 +137,9 @@ if ($this->session->PROFIL_ID == 2) {
   </aside>
 
    <?php 
+}
+else
+{
+  redirect(base_url('Login/logout'));
 }
 ?>

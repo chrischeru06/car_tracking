@@ -6,13 +6,13 @@
 
   <style type="text/css">
 
-   /* The switch - the box around the slider */
-   .switch {
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 20px;
-  }
+    /* The switch - the box around the slider */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
 
 /* Hide default HTML checkbox */
 .switch input {
@@ -34,20 +34,13 @@
   transition: .4s;
 }
 
-.dropdown-toggle{
-
-  cursor: pointer;
-  
-
-}
-
 .slider:before {
   position: absolute;
   content: "";
-  height: 20px;
-  width: 20px;
-  left: -8px;
-  bottom: 0px;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -93,7 +86,7 @@ input:checked + .slider:before {
     <div class="pagetitle">
       <div class="row">
         <div class="col-md-6">
-          <i class="bi bi-user-plus"></i> <h1>Propriétaires</h1>
+          <h1>Propriétaires</h1>
           <nav>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="index.html">Propriétaire</a></li>
@@ -104,7 +97,7 @@ input:checked + .slider:before {
         <div class="col-md-6">
 
           <div class="justify-content-sm-end d-flex">
-            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire/index')?>"><i class="bi bi-plus"></i> Nouveau</a>
+            <a class="btn btn-secondary" href="<?=base_url('proprietaire/Proprietaire/index')?>"><i class="bi bi-plus"></i> Nouveau</a>
           </div>
         </div><!-- End Page Title -->
       </div>
@@ -143,90 +136,66 @@ input:checked + .slider:before {
                       </div>
 
                       <div class="col-md-3">
-                        <label style="font-weight: 1000; color:#454545">Pays</label>
-                        <div class="input-group has-validation">
-
-                          <select onchange="localisation();"  class="form-control" name="COUNTRY_ID" id="COUNTRY_ID">
-                           <option value="">Sélectionner</option>
-
-                           <?php
-                           foreach($pays as $key) { 
-                            if ($key['COUNTRY_ID']==set_value('COUNTRY_ID')) { 
-                             echo "<option value='".$key['COUNTRY_ID']."' selected>".$key['CommonName']."</option>";
-                           }  else{
-                             echo "<option value='".$key['COUNTRY_ID']."' >".$key['CommonName']."</option>"; 
-                           } }?>
-                         </select>
-
-                         <div class="valid-feedback">
-                         </div>
-                       </div>
-                       <span class="text-danger" id="errorcountry"></span>
-                       <?php echo form_error('COUNTRY_ID','<div class="text-danger">', '</div>'); ?>
-
-
-                     </div>
-
-                     <div class="col-md-3" id="div_prov">
-                      <label class="text-dark" style="font-weight: 1000; color:#454545">Province</label>
-                      <select class="form-control" id="PROVINCE_ID" name="PROVINCE_ID" onchange="change_province()">
-                        <option value="0">Sélectionner</option>
-                        <?php
-                        foreach ($provinces as $key)
-                        {
-                          ?>
-                          <option value="<?=$key['PROVINCE_ID']?>"><?=$key['PROVINCE_NAME']?></option>
+                        <label class="text-dark" style="font-weight: 1000; color:#454545">Province</label>
+                        <select class="form-control" id="PROVINCE_ID" name="PROVINCE_ID" onchange="change_province()">
+                          <option value="0">Sélectionner</option>
                           <?php
-                        }
-                        ?>
-                      </select>
-                    </div>
+                          foreach ($provinces as $key)
+                          {
+                            ?>
+                            <option value="<?=$key['PROVINCE_ID']?>"><?=$key['PROVINCE_NAME']?></option>
+                            <?php
+                          }
+                          ?>
+                        </select>
+                      </div>
 
-                    <div class="col-md-3" id="div_com">
-                      <label class="text-dark" style="font-weight: 1000; color:#454545">Commune</label>
-                      <select class="form-control" id="COMMUNE_ID" name="COMMUNE_ID" onchange="change_commune();">
-                        <option value="">Sélectionner</option>
-                      </select>
+                      <div class="col-md-3">
+                        <label class="text-dark" style="font-weight: 1000; color:#454545">Commune</label>
+                        <select class="form-control" id="COMMUNE_ID" name="COMMUNE_ID" onchange="change_commune();">
+                          <option value="">Sélectionner</option>
+                        </select>
+                      </div>
+
                     </div>
 
                   </div>
 
                 </div>
+                <br>
+                <div class="table-responsive" style="padding-top: 20px;">
+                  <table id="mytable" class="table table-hover" >
+                    <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                      <tr>
+                        <th class="text-dark">#</th>
 
-              </div>
-              <br>
-              <div class="table-responsive" style="padding-top: 20px;">
-                <table id="mytable" class="table table-hover" style="min-width: 100%">
-                  <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
-                    <tr>
-                      <th class="text-dark">#</th>
+                        <th class="text-dark">Identification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Téléphone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                    </tbody>
+                  </table>
+                </div>
 
-                      <th class="text-dark">Identification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th class="text-dark">Téléphone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th>Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th class="text-dark">Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-dark">
-                  </tbody>
-                </table>
               </div>
 
             </div>
-
           </div>
+
+
+
         </div>
-
-
-
       </div>
+
+
+
     </div>
-
-
-
-  </div>
-</section>
+  </section>
 
 </main><!-- End #main -->
 
@@ -344,31 +313,11 @@ input:checked + .slider:before {
   // Fonction pour le chargement de donnees par defaut
   $(document).ready( function ()
   {
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),0,0,$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
-    $('#div_prov').attr('hidden',true); 
-    $('#div_com').attr('hidden',true);  
+    liste($('#TYPE_PROPRIETAIRE_ID').val(),0,0,$('#IS_ACTIVE').val());
+
     
 
   });
-
-
-  function localisation(){
-    var COUNTRY_ID=$('#COUNTRY_ID').val();
-    
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
-
-    if (COUNTRY_ID==28) {
-     $('#div_prov').attr('hidden',false);
-     $('#div_com').attr('hidden',false);
-
-
-   }else{
-    $('#div_prov').attr('hidden',true); 
-    $('#div_com').attr('hidden',true);  
-
-
-  }
-}
   
   //Fonction de filtrage de clients selon le type de personne
   function change_type_personne()
@@ -376,14 +325,14 @@ input:checked + .slider:before {
 
 
 
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
+    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val());
   }
 
    //Fonction de filtrage de clients selon le statut
   function change_activation()
   {
 
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
+    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val());
   }
 
   function get_commune(PROVINCE_ID)
@@ -394,7 +343,7 @@ input:checked + .slider:before {
   function change_province()
   {
     get_commune($('#PROVINCE_ID').val());
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),0,$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
+    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),0,$('#IS_ACTIVE').val());
 
     $.ajax(
     {
@@ -416,10 +365,10 @@ input:checked + .slider:before {
 
   function change_commune()
   {
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
+    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val());
   }
 
-  function liste(TYPE_PROPRIETAIRE_ID,PROVINCE_ID,COMMUNE_ID,IS_ACTIVE,COUNTRY_ID)
+  function liste(TYPE_PROPRIETAIRE_ID,PROVINCE_ID,COMMUNE_ID,IS_ACTIVE)
   {
 
     var row_count = 10000;
@@ -434,7 +383,7 @@ input:checked + .slider:before {
       {
         url: "<?php echo base_url('proprietaire/Proprietaire/listing'); ?>",
         type: "POST",
-        data: {TYPE_PROPRIETAIRE_ID:TYPE_PROPRIETAIRE_ID,PROVINCE_ID:PROVINCE_ID,COMMUNE_ID:COMMUNE_ID,IS_ACTIVE:IS_ACTIVE,COUNTRY_ID:COUNTRY_ID},
+        data: {TYPE_PROPRIETAIRE_ID:TYPE_PROPRIETAIRE_ID,PROVINCE_ID:PROVINCE_ID,COMMUNE_ID:COMMUNE_ID,IS_ACTIVE:IS_ACTIVE},
         beforeSend: function()
         {
         }

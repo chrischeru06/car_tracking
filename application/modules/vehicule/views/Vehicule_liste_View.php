@@ -1,6 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<style type="text/css">
+  #eye{
+    color: black;
+  }
+  #eye:hover {
+    color: blue;
+  }
+
+  /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+  }
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: -8px;
+  bottom: 0px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
@@ -19,86 +91,88 @@
   <main id="main" class="main">
 
     <div class="row page-titles mx-0">
-          <div class="col-sm-10 p-md-0">
-            <div class="welcome-text">
-             <table>
-              <tr>
-                <td> 
-                  <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
-                </td>
-                <td>  
-                  <h4 class="text-dark">Véhicule</h4>
-                  <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
-                      <li class="breadcrumb-item"><a href="#">Liste</a></li>
-                      <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
-                    </ol>
-                  </nav>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="col-md-2">
+      <div class="col-sm-10 p-md-0">
+        <div class="welcome-text">
+         <table>
+          <tr>
+            <td> 
+              <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
+            </td>
+            <td>  
+              <h4 class="text-dark">Véhicule</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
+                  <li class="breadcrumb-item"><a href="#">Liste</a></li>
+                  <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
+                </ol>
+              </nav>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-2">
 
-        <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
 
-       </div>
-     </div>
+    </div>
+  </div>
 
-    <section class="section dashboard">
-      <div class="row">
+  <section class="section dashboard">
+    <div class="row">
 
-        <!-- Left side columns -->
-        <div class="col-lg-12">
-          <div class="row">
+      <!-- Left side columns -->
+      <div class="col-lg-12">
+        <div class="row">
 
 
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-                <div class="card-body">
+          <!-- Reports -->
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
 
-                  <?= $this->session->flashdata('message'); ?>
+                <?= $this->session->flashdata('message'); ?>
 
-                  <div class="table-responsive">
-                    <table id="mytable" class="table table-hover" style="width: 100%;">
-                      <thead >
-                        <tr>
-                          <th class="">CODE</th>
-                          <th class="">MARQUE</th>
-                          <th class="">MODELE</th>
-                          <th class="">PLAQUE</th>
-                          <th class="">COULEUR</th>
-                          <th class="">PROPRIETAIRE</th>
-                          <th class="">DATE&nbsp;ENREGISTREMENT</th>
-                          <th class="">ACTION</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-dark">
-                      </tbody>
-                    </table>
-                  </div>
-
+                <div class="table-responsive">
+                  <table id="mytable" class="table table-hover" style="width:100%;">
+                    <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                      <tr>
+                        <th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="">MARQUE</th>
+                        <th class="">MODELE</th>
+                        <th class="">PLAQUE</th>
+                        <th class="">COULEUR</th>
+                        <th class="">CONSOMMATION&nbsp;/&nbsp;KM</th>
+                        <th class="">PROPRIETAIRE</th>
+                        <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
+                        <th class="">STATUT</th>
+                        <th class="">ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                    </tbody>
+                  </table>
                 </div>
 
               </div>
+
             </div>
-
-
-
           </div>
+
+
+
         </div>
-
-
-
       </div>
-    </section>
 
-  </main><!-- End #main -->
 
-  <?php include VIEWPATH . 'includes/footer.php'; ?>
+
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+<?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
 
@@ -169,6 +243,59 @@
  }
 
  
+</script>
+
+<script>
+  // Fonction pour activer le statut du véhicule
+  function statut_active(VEHICULE_ID) {
+    var checkBox = document.getElementById("myCheck");
+    var status=$('#status').val();
+    status = 2;
+
+    var form_data = new FormData($("#myform_check")[0]);
+    $.ajax(
+    {
+      url:"<?=base_url()?>vehicule/Vehicule/active_desactive/"+status+'/'+VEHICULE_ID,
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data)
+      {
+         window.location.href='<?=base_url('')?>vehicule/Vehicule';
+      }
+    });
+
+  }
+</script>
+
+<script>
+  // Fonction pour désactiver le statut du véhicule
+  function statut_desactive(VEHICULE_ID) {
+    var checkBox = document.getElementById("myCheck");
+    var status=$('#status').val();
+
+    status = 1;
+
+    var form_data = new FormData($("#myform_check")[0]);
+    $.ajax(
+    {
+      url:"<?=base_url()?>vehicule/Vehicule/active_desactive/"+status+'/'+VEHICULE_ID,
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data)
+      {
+         window.location.href='<?=base_url('')?>vehicule/Vehicule';
+      }
+    });
+
+  }
 </script>
 
 </html>

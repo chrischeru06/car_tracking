@@ -31,7 +31,7 @@
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
-                      <li class="breadcrumb-item"><a href="#">Liste</a></li>
+                      <li class="breadcrumb-item"><a href="#"><?=$title?></a></li>
                       <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
                     </ol>
                   </nav>
@@ -53,10 +53,7 @@
         <div class="row">
           <div class="text-left col-sm-12">
             <div class="card" style="border-radius: 20px;">
-              <div class="card-header" style="border-radius: 20px;">
-                <h4 class="card-title"> <small><?=$title?></small></h4>
-              </div>
-
+              
               <br>
               
               <div class="card-body">
@@ -70,7 +67,7 @@
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label ><small> Code</small><span  style="color:red;">*</span></label>
+                          <label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
                           <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule['VEHICULE_ID']?>">
 
                           <input class="form-control" type='text' name="CODE" id="CODE" placeholder='code du vehicule' value="<?=$vehicule['CODE']?>"/>
@@ -118,7 +115,7 @@
 
                           </select>
                         </div>
-                        <span id="errorDESC_MODELE" class="text-danger"></span>
+                        <span id="errorID_MODELE" class="text-danger"></span>
                         <?php echo form_error('ID_MODELE', '<div class="text-danger">', '</div>'); ?>
                       </div>
 
@@ -142,6 +139,17 @@
                         </div>
                         <span id="errorCOULEUR" class="text-danger"></span>
                         <?php echo form_error('COULEUR', '<div class="text-danger">', '</div>'); ?>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label ><small>Consommation / km</small><span  style="color:red;">*</span></label>
+
+                          <input class="form-control" type='text' name="KILOMETRAGE" id="KILOMETRAGE" placeholder='consommation / km' value="<?=$vehicule['KILOMETRAGE']?>"/>
+
+                        </div>
+                        <span id="errorKILOMETRAGE" class="text-danger"></span>
+                        <?php echo form_error('KILOMETRAGE', '<div class="text-danger">', '</div>'); ?>
                       </div>
 
                       <div class="col-md-4">
@@ -177,7 +185,7 @@
 
                     <div class="row">
                       <div class="col-md-12">
-                        <button type="button" style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><i class="bi bi-check"> <?=$btn?></i></button>
+                        <button type="button" style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><i class="bi bi-check"></i><?=$btn?></button>
                       </div>
                     </div>
 
@@ -258,7 +266,7 @@
         $('#errorID_MARQUE').html('Le champ est obligatoire');
       }else{$('#errorID_MARQUE').html('');}
 
-      if($('#ID_MODELE').val()=='')
+      if($('#ID_MODELE').val() == '')
       {
         statut=2;
         $('#errorID_MODELE').html('Le champ est obligatoire');
@@ -275,6 +283,12 @@
         statut=2;
         $('#errorCOULEUR').html('Le champ est obligatoire');
       }else{$('#errorCOULEUR').html('');}
+
+      if($('#KILOMETRAGE').val()=='')
+      {
+        statut=2;
+        $('#errorKILOMETRAGE').html('Le champ est obligatoire');
+      }else{$('#errorKILOMETRAGE').html('');}
 
       if($('#VEHICULE_ID').val() =='')
       {

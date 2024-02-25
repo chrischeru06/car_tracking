@@ -2,12 +2,14 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>CAR TRACKING</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <!-- <meta content="" name="description">
+  <meta content="" name="keywords"> -->
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- <link href="assets/img/favicon.png" rel="icon"> -->
+ <link rel="icon" type="image/png" size="16x16" href="<?= base_url() ?>/upload/car.png">
+
+  <link href="<?= base_url() ?>/upload/car.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">

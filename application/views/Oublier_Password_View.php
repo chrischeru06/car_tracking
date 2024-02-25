@@ -11,8 +11,7 @@
           <div class="authincation-content">
             <div class="row no-gutters">
               <div class="col-xl-12">
-                <div class="auth-form">
-                 
+                <div class="auth-form">           
                   <div id="message_login"></div> 
                   <form action="" id='form_mot_passe_oublie' method="post">
                     <h2>Mot de passe oublié</h2>

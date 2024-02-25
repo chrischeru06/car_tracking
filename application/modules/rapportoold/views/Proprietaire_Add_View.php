@@ -64,7 +64,7 @@
                 <div class="col-md-4" id="div_PRENOM_PROPRIETAIRE"<?=$div_personne_physique?>>
                   <div class="form-group">
                     <label style="font-weight: 1000; color:#454545"><b>Prénom</b><span  style="color:red;">*</span></label>
-                    <input class="form-control" name="PRENOM_PROPRIETAIRE" type="text" id="PRENOM_PROPRIETAIRE" placeholder='Prénom' value="<?=$proprietaire['PRENOM_PROPRIETAIRE']?>"/>
+                    <input class="form-control" name="PRENOM_PROPRIETAIRE" type="text" onkeydown="return/[a-z]/i.test(event.key)" id="PRENOM_PROPRIETAIRE" placeholder='Prénom' value="<?=$proprietaire['PRENOM_PROPRIETAIRE']?>"/>
                   </div>
                   <span id="errorPRENOM_PROPRIETAIRE" class="text-danger"></span>
                   <?php echo form_error('PRENOM_PROPRIETAIRE', '<div class="text-danger">', '</div>'); ?>
@@ -115,178 +115,136 @@
                   <span id="errorCONFIRMATION_EMAIL" class="text-danger"></span>
                   <?php echo form_error('EMAIL','<div class="text-danger">', '</div>'); ?>
                 </div>
+
                 <div class="col-md-4">
-                  <label style="font-weight: 1000; color:#454545">Pays <span style="color:red;">*</span></label>
-                  <div class="input-group has-validation">
-
-                    <select onchange="localisation();" class="form-control" name="COUNTRY_ID" id="COUNTRY_ID">
-                     <option value="">Sélectionner</option>
-
-                     <?php
-                     foreach($pays as $key) { 
-                      if ($key['COUNTRY_ID']==set_value('COUNTRY_ID')) { 
-                       echo "<option value='".$key['COUNTRY_ID']."' selected>".$key['CommonName']."</option>";
-                     }  else{
-                       echo "<option value='".$key['COUNTRY_ID']."' >".$key['CommonName']."</option>"; 
-                     } }?>
-                   </select>
-
-                   <div class="valid-feedback">
-                   </div>
-                 </div>
-                 <span class="text-danger" id="errorcountry"></span>
-                 <?php echo form_error('COUNTRY_ID','<div class="text-danger">', '</div>'); ?>
-
-
-               </div>
-               <div class="col-md-4">
-                <label style="font-weight: 1000; color:#454545">Code pays <span style="color:red;">*</span></label>
-                <select class="form-control selectize" data-live-search="true" id="ITU-T_Telephone_Code_1" name="ITU-T_Telephone_Code">
-                  <option value="" class="text-dark">Sélectionner</option>
-                  <?php
-                  
-                  foreach ($countries1 as $key) {
-                    $selected='';
-                    if($key['ITU-T_Telephone_Code']==set_value('ITU-T_Telephone_Code'))
-                    {
-                      $selected='selected';
-                    }
-                    echo '<option value="'.$key['ITU-T_Telephone_Code'].'" '.$selected.'>'.$key['CommonName'].'</option>';
-                  }
-                  ?>
-                </select>
-                <font color="red" id="errorpays"></font>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Téléphone</b><span  style="color:red;">*</span></label>
-                  <input class="form-control bg-light" type='tel' name="TELEPHONE" id="TELEPHONE" value="<?=$proprietaire['TELEPHONE']?>" pattern="^[0-9-+\s()]*$"/>
+                  <div class="form-group">
+                    <label style="font-weight: 1000; color:#454545"><b>Téléphone</b><span  style="color:red;">*</span></label>
+                    <input class="form-control" type='text' name="TELEPHONE" id="TELEPHONE" placeholder='Téléphone' value="<?=$proprietaire['TELEPHONE']?>"/>
+                  </div>
+                  <span id="errorTELEPHONE" class="text-danger"></span>
+                  <?php echo form_error('TELEPHONE','<div class="text-danger">', '</div>'); ?>
                 </div>
 
-                <span id="errorTELEPHONE" class="text-danger"></span>
-                <?php echo form_error('TELEPHONE','<div class="text-danger">', '</div>'); ?>
-              </div>
-
-              <div class="col-md-4" id="div_prov">
-                <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Province</b><span  style="color:red;">*</span></label>
-                  <select class="form-control" name="PROVINCE_ID" id="PROVINCE_ID" onchange="change_province();">
-                    <option value="" selected>-- Séléctionner --</option>
-                    <?php
-                    foreach ($provinces as $province)
-                    {
-                      ?>
-                      <option value="<?=$province['PROVINCE_ID']?>"<?php if($proprietaire['PROVINCE_ID']==$province['PROVINCE_ID']) echo " selected";?>><?=$province['PROVINCE_NAME']?></option>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label style="font-weight: 1000; color:#454545"><b>Province</b><span  style="color:red;">*</span></label>
+                    <select class="form-control" name="PROVINCE_ID" id="PROVINCE_ID" onchange="change_province();">
+                      <option value="" selected>-- Séléctionner --</option>
                       <?php
-                    }
-                    ?>
-                  </select>
-                </div>
-                <span id="errorPROVINCE_ID" class="text-danger"></span>
-                <?php echo form_error('PROVINCE_ID', '<div class="text-danger">', '</div>'); ?>
-              </div>
-              <div class="col-md-4" id="div_com">
-                <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Commune</b><span  style="color:red;">*</span></label>
-                  <select class="form-control" name="COMMUNE_ID" id="COMMUNE_ID" onchange="change_commune()">
-                    <option value="">-- Séléctionner --</option>
-                    <?php
-                    if (!empty($communes))
-                    {
-                      foreach ($communes as $commune)
+                      foreach ($provinces as $province)
                       {
                         ?>
-                        <option value="<?=$commune['COMMUNE_ID']?>"<?php if($proprietaire['COMMUNE_ID']==$commune['COMMUNE_ID']) echo " selected";?>><?=$commune['COMMUNE_NAME']?></option>
+                        <option value="<?=$province['PROVINCE_ID']?>"<?php if($proprietaire['PROVINCE_ID']==$province['PROVINCE_ID']) echo " selected";?>><?=$province['PROVINCE_NAME']?></option>
                         <?php
                       }
-                    }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
+                  <span id="errorPROVINCE_ID" class="text-danger"></span>
+                  <?php echo form_error('PROVINCE_ID', '<div class="text-danger">', '</div>'); ?>
                 </div>
-                <span id="errorCOMMUNE_ID" class="text-danger"></span>
-                <?php echo form_error('COMMUNE_ID', '<div class="text-danger">', '</div>'); ?>
-              </div>
-
-              <div class="col-md-4" id="div_zon">
-                <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Zone</b><span  style="color:red;">*</span></label>
-                  <select class="form-control" name="ZONE_ID" id="ZONE_ID" onchange="change_zone();">
-                    <option value="">-- Séléctionner --</option>
-                    <?php
-                    if (!empty($zones))
-                    {
-                      foreach ($zones as $zone)
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label style="font-weight: 1000; color:#454545"><b>Commune</b><span  style="color:red;">*</span></label>
+                    <select class="form-control" name="COMMUNE_ID" id="COMMUNE_ID" onchange="change_commune()">
+                      <option value="">-- Séléctionner --</option>
+                      <?php
+                      if (!empty($communes))
                       {
-                        ?>
-                        <option value="<?=$zone['ZONE_ID']?>"<?php if($proprietaire['ZONE_ID']==$zone['ZONE_ID']) echo " selected";?>><?=$zone['ZONE_NAME']?></option>
-                        <?php
+                        foreach ($communes as $commune)
+                        {
+                          ?>
+                          <option value="<?=$commune['COMMUNE_ID']?>"<?php if($proprietaire['COMMUNE_ID']==$commune['COMMUNE_ID']) echo " selected";?>><?=$commune['COMMUNE_NAME']?></option>
+                          <?php
+                        }
                       }
-                    }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
+                  <span id="errorCOMMUNE_ID" class="text-danger"></span>
+                  <?php echo form_error('COMMUNE_ID', '<div class="text-danger">', '</div>'); ?>
                 </div>
-                <span id="errorZONE_ID" class="text-danger"></span>
-                <?php echo form_error('ZONE_ID', '<div class="text-danger">', '</div>'); ?>
-              </div>
 
-              <div class="col-md-4" id="div_col">
-                <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Colline</b><span  style="color:red;">*</span></label>
-                  <select class="form-control" name="COLLINE_ID" id="COLLINE_ID">
-                    <option value="">-- Séléctionner --</option>
-                    <?php
-                    if (!empty($collines))
-                    {
-                      foreach ($collines as $colline)
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label style="font-weight: 1000; color:#454545"><b>Zone</b><span  style="color:red;">*</span></label>
+                    <select class="form-control" name="ZONE_ID" id="ZONE_ID" onchange="change_zone();">
+                      <option value="">-- Séléctionner --</option>
+                      <?php
+                      if (!empty($zones))
                       {
-                        ?>
-                        <option value="<?=$colline['COLLINE_ID']?>"<?php if($proprietaire['COLLINE_ID']==$colline['COLLINE_ID']) echo " selected";?>><?=$colline['COLLINE_NAME']?></option>
-                        <?php
+                        foreach ($zones as $zone)
+                        {
+                          ?>
+                          <option value="<?=$zone['ZONE_ID']?>"<?php if($proprietaire['ZONE_ID']==$zone['ZONE_ID']) echo " selected";?>><?=$zone['ZONE_NAME']?></option>
+                          <?php
+                        }
                       }
-                    }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
+                  <span id="errorZONE_ID" class="text-danger"></span>
+                  <?php echo form_error('ZONE_ID', '<div class="text-danger">', '</div>'); ?>
                 </div>
-                <span id="errorCOLLINE_ID" class="text-danger"></span>
-                <?php echo form_error('COLLINE_ID', '<div class="text-danger">', '</div>'); ?>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Adresse</b><span  style="color:red;">*</span></label>
-                  <input class="form-control" name="ADRESSE" id="ADRESSE" placeholder='Adresse' value="<?=$proprietaire['ADRESSE']?>"/>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label style="font-weight: 1000; color:#454545"><b>Colline</b><span  style="color:red;">*</span></label>
+                    <select class="form-control" name="COLLINE_ID" id="COLLINE_ID">
+                      <option value="">-- Séléctionner --</option>
+                      <?php
+                      if (!empty($collines))
+                      {
+                        foreach ($collines as $colline)
+                        {
+                          ?>
+                          <option value="<?=$colline['COLLINE_ID']?>"<?php if($proprietaire['COLLINE_ID']==$colline['COLLINE_ID']) echo " selected";?>><?=$colline['COLLINE_NAME']?></option>
+                          <?php
+                        }
+                      }
+                      ?>
+                    </select>
+                  </div>
+                  <span id="errorCOLLINE_ID" class="text-danger"></span>
+                  <?php echo form_error('COLLINE_ID', '<div class="text-danger">', '</div>'); ?>
                 </div>
-                <span id="errorADRESSE" class="text-danger"></span>
-                <?php echo form_error('ADRESSE','<div class="text-danger">', '</div>'); ?>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label style="font-weight: 1000; color:#454545"><b>Adresse</b><span  style="color:red;">*</span></label>
+                    <input class="form-control" name="ADRESSE" id="ADRESSE" placeholder='Adresse' value="<?=$proprietaire['ADRESSE']?>"/>
+                  </div>
+                  <span id="errorADRESSE" class="text-danger"></span>
+                  <?php echo form_error('ADRESSE','<div class="text-danger">', '</div>'); ?>
+                </div>
+                <div class="col-md-4" id="div_photo">
+                  <label for="FName" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
+                  <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= $proprietaire['PHOTO_PASSPORT'] ?>"  class="form-control">
+                  <input type="text"  name="photo_passport_old" id="photo_passport_old" value="<?=$proprietaire['PHOTO_PASSPORT']?>">
+                  <font id="error_photo_passport" color="red"></font>
+                  <?php echo form_error('photo_passport', '<div class="text-danger">', '</div>'); ?> 
+                </div>
               </div>
-              <div class="col-md-4" id="div_photo">
-                <label for="FName" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
-                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= $proprietaire['PHOTO_PASSPORT'] ?>"  class="form-control">
-                <input type="hidden"  name="photo_passport_old" id="photo_passport_old" value="<?=$proprietaire['PHOTO_PASSPORT']?>">
-                <font id="error_photo_passport" color="red"></font>
-                <?php echo form_error('photo_passport', '<div class="text-danger">', '</div>'); ?> 
-              </div>
-            </div>
 
-          </form><!-- End General Form Elements -->
+            </form><!-- End General Form Elements -->
 
-        </div>
-        <br>
-        <br>
-        <div class="row">
-          <div class="col-md-12">
-            <button style="float: right;" class="btn btn-outline-primary" onclick="submit_form();"><i class="fa fa-save"></i> <?=$btn?></button>
           </div>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col-md-12">
+              <button style="float: right;" class="btn btn-secondary" onclick="submit_form();"><i class="fa fa-save"> <?=$btn?></i></button>
+            </div>
+          </div>
+
+
+
         </div>
-
-
-
       </div>
-    </div>
-  </section>
+    </section>
 
-</main><!-- End #main -->
+  </main><!-- End #main -->
 
-<?php include VIEWPATH . 'includes/footer.php'; ?>
+  <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
 
@@ -305,10 +263,6 @@
 
     // $('#div_photo').hide();
     $('#label_document').html('<b>NIF/ CNI</b> <span  style="color:white;">*</span>');
-    $('#div_prov').attr('hidden',true); 
-    $('#div_com').attr('hidden',true);  
-    $('#div_zon').attr('hidden',true);  
-    $('#div_col').attr('hidden',true); 
   }
   else
   {
@@ -470,23 +424,6 @@ function submit_form()
   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   var statut=1;
 
-if ($('#ITU-T_Telephone_Code_1').val()=='') {
-    $('#errorpays').text("Le champ est obligatoire");
-    statut=2;
-}else{
-
-  $('#errorpays').html('');
-
-}
-
-  var COUNTRY_ID=$('#COUNTRY_ID').val() ;
-
-  if($('#COUNTRY_ID').val()=='')
-  {
-    statut=2;
-    $('#errorcountry').html('Le champ est obligatoire');
-  }else{$('#errorcountry').html('');}
-
   if($('#TYPE_PROPRIETAIRE_ID').val()=='')
   {
     statut=2;
@@ -573,33 +510,29 @@ if ($('#ITU-T_Telephone_Code_1').val()=='') {
     $('#errorTELEPHONE').html('Le champ est obligatoire');
   }else{$('#errorTELEPHONE').html('');}
 
-  if (COUNTRY_ID==28) {
+  if($('#PROVINCE_ID').val()=='')
+  {
+    statut=2;
+    $('#errorPROVINCE_ID').html('Le champ est obligatoire');
+  }else{$('#errorPROVINCE_ID').html('');}
 
-    if($('#PROVINCE_ID').val()=='')
-    {
-      statut=2;
-      $('#errorPROVINCE_ID').html('Le champ est obligatoire');
-    }else{$('#errorPROVINCE_ID').html('');}
+  if($('#COMMUNE_ID').val()=='')
+  {
+    statut=2;
+    $('#errorCOMMUNE_ID').html('Le champ est obligatoire');
+  }else{$('#errorCOMMUNE_ID').html('');}
 
-    if($('#COMMUNE_ID').val()=='')
-    {
-      statut=2;
-      $('#errorCOMMUNE_ID').html('Le champ est obligatoire');
-    }else{$('#errorCOMMUNE_ID').html('');}
+  if($('#ZONE_ID').val()=='')
+  {
+    statut=2;
+    $('#errorZONE_ID').html('Le champ est obligatoire');
+  }else{$('#errorZONE_ID').html('');}
 
-    if($('#ZONE_ID').val()=='')
-    {
-      statut=2;
-      $('#errorZONE_ID').html('Le champ est obligatoire');
-    }else{$('#errorZONE_ID').html('');}
-
-    if($('#COLLINE_ID').val()=='')
-    {
-      statut=2;
-      $('#errorCOLLINE_ID').html('Le champ est obligatoire');
-    }else{$('#errorCOLLINE_ID').html('');}
-
-  }
+  if($('#COLLINE_ID').val()=='')
+  {
+    statut=2;
+    $('#errorCOLLINE_ID').html('Le champ est obligatoire');
+  }else{$('#errorCOLLINE_ID').html('');}
 
   if($('#ADRESSE').val()=='')
   {
@@ -615,25 +548,6 @@ if ($('#ITU-T_Telephone_Code_1').val()=='') {
   }
 }
 
-
-function localisation(){
-  var COUNTRY_ID=$('#COUNTRY_ID').val() ;
-
-  if (COUNTRY_ID==28) {
-   $('#div_prov').attr('hidden',false);
-   $('#div_com').attr('hidden',false);
-   $('#div_zon').attr('hidden',false);
-   $('#div_col').attr('hidden',false);
-
- }else{
-  $('#div_prov').attr('hidden',true); 
-  $('#div_com').attr('hidden',true);  
-  $('#div_zon').attr('hidden',true);  
-  $('#div_col').attr('hidden',true);  
-
-}
-
-}
 </script>
 <script type="text/javascript">
   document.getElementById('CONFIRMATION_EMAIL').onpaste = function()
@@ -648,7 +562,7 @@ function localisation(){
 
   $("#NOM_PROPRIETAIRE,#PRENOM_PROPRIETAIRE,#PERSONNE_REFERENCE").on('input', function()
   {
-    $(this).val($(this).val().toUpperCase());
+    $(this).val($(this).val().replace(/[^a-z-\s]/gi, '').toUpperCase());
   });
 
   $("#RC,#CNI_OU_NIF").on('input', function()
@@ -675,68 +589,46 @@ function localisation(){
   }
 
 
- 
-</script>
-
-<script type="text/javascript">
-
-  function DoPrevent(e)
+  $('#TELEPHONE').on('input change',function()
   {
-    e.preventDefault();
-    e.stopPropagation();
-}
-
-
-
-
-$('#ITU-T_Telephone_Code_1').on('change',function()
-{
-    $('[name = "TELEPHONE"]').val(this.value);
-});
-$('#TELEPHONE').on('input change keypress',function()
-{
     $(this).val($(this).val().replace(/[^0-9]*$/gi, ''));
     $(this).val($(this).val().replace(' ', ''));
-    let tel_code = $('#ITU-T_Telephone_Code_1').val();
-    let tel_code_ln = tel_code.length;
-    var subStr = this.value.substring(0, tel_code_ln);
-    if (subStr != tel_code)
-    {
-      $('[name = "TELEPHONE"]').val(tel_code);
-  }
-  if (tel_code == '+257')
-  {
-      if ($(this).val().length == 12)
-      {
-            // Bind:
-            $('#TELEPHONE').on('keypress', DoPrevent);
-            $('#TELEPHONE').text('')
-            $('[name = "TELEPHONE"]').removeClass('is-invalid').addClass('is-valid');
-        }
-        else
-        {
+    var subStr = this.value.substring(0,1);
 
-            $('#TELEPHONE').off('keypress', DoPrevent);
-            $('#TELEPHONE').text('invalide');
-            $('[name = "TELEPHONE"]').removeClass('is-valid').addClass('is-invalid');
-        }
+    if (subStr != '+') {
+        //$('[name = "TELEPHONE"]').val('+257');
+      $('[name = "TELEPHONE"]').val('+257');
+
     }
-    else
+    if(this.value.substring(0,4)=="+257")
     {
-      if ($(this).val().length >= 10)
+      if($(this).val().length == 12)
       {
-        $('#TELEPHONE').off('keypress', DoPrevent);
-        $('#TELEPHONE').text('')
-        $('[name = "TELEPHONE"]').removeClass('is-invalid').addClass('is-valid');
+        $('#errorTELEPHONE').text('');
+      }
+      else
+      {
+        $('#errorTELEPHONE').text('Numéro de téléphone est invalide ');
+        if($(this).val().length > 12)
+        {
+          $(this).val(this.value.substring(0,12));
+          $('#errorTELEPHONE').text('');
+        }
+
+      }
     }
     else
     {
-        $('#TELEPHONE').off('keypress', DoPrevent);
-        $('#TELEPHONE').text('<?=lang('tel_invalide')?>');
-        $('[name = "TELEPHONE"]').removeClass('is-valid').addClass('is-invalid');
-    }
-}
-});
+      if ($(this).val().length > 12)
+      {
+        $('#errorTELEPHONE').text('');
+      }
+      else
+      {
+        $('#errorTELEPHONE').text('Invalide numéro de téléphone');
+      }        
+    } 
+  });
 </script>
 
 </html>
