@@ -22,7 +22,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
-          <li class="breadcrumb-item active">Ajout</li>
+          <li class="breadcrumb-item active">Modification</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -271,7 +271,7 @@
                 </form>
 
                 <div class="col-md-12" style="margin-top:50px;">
-                  <button style="float: right;" class="btn btn-secondary" onclick="submit_form();"><span class="fas "></span>Modifier</button>
+                  <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span>Modifier</button>
                 </div>
              
               
