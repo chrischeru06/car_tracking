@@ -67,7 +67,7 @@ if ($this->session->PROFIL_ID == 1) {
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-              <a href="#">
+              <a href="<?=base_url()?>centre_situation/Centre_situation">
               <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
             </a>
           </li>
@@ -122,7 +122,7 @@ else if ($this->session->PROFIL_ID == 2) {
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-              <a href="#">
+              <a  href="<?=base_url()?>centre_situation/Centre_situation">
               
               <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
             </a>

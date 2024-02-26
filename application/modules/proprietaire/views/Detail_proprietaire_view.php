@@ -57,7 +57,7 @@
 
                 <span width="200px" height="auto" class="bi bi-bank"></span>
 
-             <?php }
+              <?php }
               ?>
               <h2><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></h2>
               <!-- <h3>Web Designer</h3> -->
@@ -144,27 +144,31 @@
                 <div class="tab-pane fade pt-3" id="voitures">
 
                   <!-- <h5 class="card-title">A propos</h5> -->
-              <input type="hidden" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" value="<?=$PROPRIETAIRE_ID?>">
+                  <input type="hidden" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" value="<?=$PROPRIETAIRE_ID?>">
+
+                  <div class="table-responsive">
+
+                    <table id="mytable" class="table table-bordered table-hover text-dark" style="width:100%">
+                      <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
+                        <tr>
+                          <th class="text-dark">#</th>
+                          <th class="text-dark">MARQUE</th>
+                          <th class="text-dark">MODELE</th>
+                          <th class="text-dark">COULEUR</th>
+                          <th class="text-dark">PLAQUE</th>
+                          <th class="text-dark">PHOTO</th>
+                          <th class="text-dark">Localisation</th>
+
+                          <!-- <th class="text-dark"></th> -->
 
 
-                  <table id="mytable" class="table table-bordered table-hover text-dark" style="width:100%">
-                    <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
-                      <tr>
-                        <th class="text-dark">#</th>
-                        <th class="text-dark">MARQUE</th>
-                        <th class="text-dark">MODELE</th>
-                        <th class="text-dark">COULEUR</th>
-                        <th class="text-dark">PLAQUE</th>
-                        <th class="text-dark">PHOTO</th>
-                        <!-- <th class="text-dark"></th> -->
 
-
-
-                      </tr>
-                    </thead>
-                    <tbody class="text-dark">
-                    </tbody>
-                  </table>
+                        </tr>
+                      </thead>
+                      <tbody class="text-dark">
+                      </tbody>
+                    </table>
+                  </div>
 
                 </div>
 

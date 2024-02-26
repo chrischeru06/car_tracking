@@ -12,6 +12,7 @@ class Proprietaire extends CI_Controller
 		parent::__construct();
 	}
 
+
 	//Fonction pour l'affichage de la page d'enregistrement de proprietaires
 	function index(){
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
@@ -282,7 +283,7 @@ class Proprietaire extends CI_Controller
 					$email=$this->input->post('EMAIL');
 					$data_insert_users = array(
 
-						'IDENTIFICATION'=>$this->input->post('NOM_PROPRIETAIRE'),
+						'IDENTIFICATION'=>$this->input->post('NOM_PROPRIETAIRE')." ".$this->input->post('PRENOM_PROPRIETAIRE'),
 						'USER_NAME'=>$this->input->post('EMAIL'),
 						'PASSWORD'=>md5($password),
 						'PROFIL_ID'=>2,
@@ -754,7 +755,7 @@ class Proprietaire extends CI_Controller
 			OR PLAQUE LIKE "%' . $var_search . '%" )') : '';
 
 
-		$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
+		$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
 
         //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -798,6 +799,18 @@ class Proprietaire extends CI_Controller
 			</div>
 			</div>
 			</div>';
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+			$my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'STATUT_AFFECT=1 AND chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
+			$chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
+			if(!empty($chauffeur)){
+
+				$sub_array[] = '<a  href="' . base_url("tracking/Dashboard/tracking_chauffeur/".$row->CODE) . '" ><center><span class="bi bi-eye"></span></center></a>';
+
+			}else{
+
+				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;cette&nbsp;voiture ! </font>';
+			}
+			
 
 
 

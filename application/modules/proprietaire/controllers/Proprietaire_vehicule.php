@@ -62,7 +62,7 @@ class Proprietaire_vehicule extends CI_Controller
 		{
 			
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
-			$my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
+			$my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'STATUT_AFFECT=1 AND chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
 			$chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
 
 			$sub_array=array();
@@ -81,7 +81,6 @@ class Proprietaire_vehicule extends CI_Controller
 			if(!empty($chauffeur)){
 
 				// $sub_array[]=$chauffeur['NAME_CHAUFFEUR'];
-
 				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $chauffeur['CHAUFFEUR_ID']. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$chauffeur['PHOTO_PASSPORT'].'"></a></td><td> '.'     '.' ' . $chauffeur['NOM'] . ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
 				<a  href="' . base_url("tracking/Dashboard/tracking_chauffeur/".$chauffeur['CODE']) . '" ><font style="float: right;"><span class="bi bi-eye"></span></font></a>
 
