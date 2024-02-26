@@ -95,7 +95,7 @@ input:checked + .slider:before {
 
 
   <div class="pagetitle">
-    <h1>Chauffeur</h1>
+    <h1>Liste des chauffeurs</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
@@ -107,22 +107,20 @@ input:checked + .slider:before {
 
   <!-- End Page Title -->
   <!--******** Debut Modal pour attribue une voiture *********-->
-  <div class="modal fade" id="carteModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title text-center" id="exampleModalLabel">Attribution d'une voiture</h3>
-          <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div>
-          <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
+
+  <div class="modal fade" id="carteModal" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Attribué la voiture au chauffeur :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
             <div class="modal-body mb-1">
               <div class="row">
-                <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
                 <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
-
+              
                 <div class="col-md-6">
                   <label for="description" class="text-dark">Voiture</label>
                   <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
@@ -149,29 +147,30 @@ input:checked + .slider:before {
               </div>
             </div> 
             <div class="modal-footer">
-              <input type="button" class="btn btn-secondary" type="button" id="btn_add" value="Attribuer" onclick="save_vehicule();" />
-              <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
+              <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Attribuer" onclick="save_vehicule();" />
+             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
 
             </div>
           </form>
-        </div>
-      </div>
+       </div>
     </div>
   </div>
+</div><!-- End Modal-->
+ 
   <!--******** Fin Modal pour attribue un voiture ***********-->
 
   <!--******** Debut Modal pour modifier l'affectation du chauffeur a une voiture *********-->
-  <div class="modal fade" id="modifvoitureModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title text-center" id="exampleModalLabel2">Modifier l'affectation du chauffeur</h3>
-          <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div>
-          <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
+
+
+  <div class="modal fade" id="modifvoitureModal" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Modifier l'affectation du chauffeur </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
             <div class="modal-body mb-1">
               <div class="row">
                 <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
@@ -198,15 +197,13 @@ input:checked + .slider:before {
               </div>
             </div>
             <div class="modal-footer">
-              <input type="button" class="btn btn-secondary" type="button" id="btn_add" value="Modifier" onclick="save_modif_chauffeur();" />
-              <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
-
+              <input type="button" class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Modifier" onclick="save_modif_chauffeur();" />
             </div>
           </form>
-        </div>
-      </div>
+       </div>
     </div>
   </div>
+</div>
   <!--******** Fin Modal pour modifier l'affectation du chauffeur a une voiture  ***********-->
 
 
@@ -255,11 +252,11 @@ input:checked + .slider:before {
                             <th class="text-dark">Chauffeur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 
                             <!-- <th class="text-dark">ADRESSE</th> -->
-                            <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <!--   <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Telephone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
+                            <th class="text-dark">Téléphone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                            
                             <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;</th>
@@ -352,23 +349,23 @@ input:checked + .slider:before {
           "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
           "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
         }
-      }
-
-      
+      } 
 
     });
   });
   }
 
-
 </script>
 <script>
-  function attribue_voiture(CHAUFFEUR_ID)
+  function attribue_voiture(CHAUFFEUR_ID='',NOM='',PRENOM='')
 
   {
-    // alert(CHAUFFEUR_ID)
+      // alert(NOM)
     // var CHAUFFEUR_ID = $CHAUFFEUR_ID;
     $('#CHAUFFEUR_ID').val(CHAUFFEUR_ID);
+    $('#NOM').html(NOM);
+    $('#PRENOM').html(PRENOM);
+
     $('#CHAUFF_ZONE_AFFECTATION_ID').val(CHAUFF_ZONE_AFFECTATION_ID);
     $('#errorVEHICULE_ID').html('');
     $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
@@ -376,7 +373,7 @@ input:checked + .slider:before {
     $('#errorDATE_FIN_AFFECTATION').html('');
     $.ajax(
     {
-      // url : "<?php echo base_url('chauffeur/Chauffeur/get_all_voiture')?>",
+      
       url: "<?= base_url() ?>chauffeur/Chauffeur/get_all_voiture/",
 
       type: "GET",
