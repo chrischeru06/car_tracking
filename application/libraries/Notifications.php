@@ -54,8 +54,11 @@ function send_mail($emailTo = array(), $subjet, $cc_emails = array(), $message, 
   $config['protocol'] = 'smtp';
   $config['smtp_host'] = 'ssl://pongo.afriregister.com';
   $config['smtp_port'] = 465;
-  $config['smtp_user'] = 'alexis@mediabox.bi';
-  $config['smtp_pass'] = 'Badia@79839653';
+  // $config['smtp_user'] = 'alexis@mediabox.bi';
+  // $config['smtp_pass'] = 'Badia@79839653';
+
+  $config['smtp_user'] = 'mediatrucking@mediabox.bi';
+  $config['smtp_pass'] = 'Media@2024';
   $config['mailtype'] = 'html';
   $config['charset'] = 'UTF-8';
   $config['wordwrap'] = TRUE;
@@ -65,7 +68,7 @@ function send_mail($emailTo = array(), $subjet, $cc_emails = array(), $message, 
   $this->CI->email->set_mailtype("html");
 
   
-  $this->CI->email->from('alexis@mediabox.bi', 'notification');
+  $this->CI->email->from('mediatrucking@mediabox.bi', 'notification');
   $this->CI->email->to($emailTo);
        // $this->CI->email->bcc('ismael@mediabox.bi');
   // if (!empty($cc_emails)) {

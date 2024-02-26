@@ -12,10 +12,7 @@
 </div>
 <br>
 
-<!-- <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
 
- 
-</form> -->
 
 
 <div id="animation-phase-container">
@@ -41,7 +38,9 @@
 </div>
 
 </div>
-<div id="menu">
+<form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+
+ <div id="menu">
 
 
   <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
@@ -51,6 +50,8 @@
   <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
   <label for="streets-v12">streets</label>
 </div>
+</form>
+
 
 <script type="text/javascript">
 

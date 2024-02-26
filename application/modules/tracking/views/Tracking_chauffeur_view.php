@@ -229,7 +229,7 @@
                           else if(empty($get_chauffeur['PHOTO']))
                           {
                             ?>
-                            <img class="card-icon" style="border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/voiture_icon.png')?>">&nbsp;&nbsp;
+                            <img class="card-icon" style="border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/car.png')?>">&nbsp;&nbsp;
 
                             <?php
                           }?>
