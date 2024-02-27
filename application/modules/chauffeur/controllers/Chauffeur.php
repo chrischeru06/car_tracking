@@ -83,18 +83,20 @@
 				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
 			
 				</div>
-				<div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID.'">
-				<div class="modal-dialog">
-				<div class="modal-content">
-				<div class="modal-body">
-				<img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" >
-				</div>
-				<div class="modal-footer">
-				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-				</div>
-				</div>
-				</div>
-				</div>';
+				<div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID. '">
+              <div class="modal-dialog modal-dialog-centered ">
+              <div class="modal-content">
+              <div class="modal-header" style="background:cadetblue;color:white;">
+              <button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+              <img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" >
+              </div>
+              </div>
+              </div>
+              </div>
+
+				';
 
 
 				//fin modal
@@ -116,12 +118,12 @@
 
 				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</a></li>";
 
-				$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;Détail</a></li>";
+				$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>";
 
 
 				if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 				{
-					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;Attribuer la &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;voiture</a></li>';
+					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chauffeur</a></li>';
 					
 				}
 				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
@@ -169,21 +171,22 @@
 					//DEBUT modal pour retirer la voiture
 					$option .= " </ul>
 					</div>
-					<div class='modal fade' id='modal_retirer" .$row->CHAUFFEUR_ID. "'>
-					<div class='modal-dialog'>
-					<div class='modal-content'>
+					 <div class='modal fade' id='modal_retirer" .$row->CHAUFFEUR_ID. "'>
+					 <div class='modal-dialog modal-dialog-centered modal-lg'>
+					 <div class='modal-content'>
+					 <div class='modal-header' style='background:cadetblue;color:white;'>
+					 <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+					 </div>
+					 <div class='modal-body'>
+					 <center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
+					 <div class='modal-footer'>
+					 <a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
+					 </div>
+					 </div>
+					 </div>
+					 </div>
+					 </div>";
 
-					<div class='modal-body'>
-					<center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
-					<div class='modal-footer'>
-					<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
-
-					<button class='btn btn-outline-primary rounded-pill' data-dismiss='modal'>Quitter</button>
-					</div>
-
-					</div>
-					</div>
-					</div>";
 					//fin modal retire voiture
 					//debut Detail cahuffeur
 					if ($row->STATUT_VEHICULE==2)
@@ -191,17 +194,18 @@
 							$option .="
 							</div>
 							<div class='modal fade' tabindex='-1' data-bs-backdrop='false' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
-							<div class='modal-dialog modal-dialog-centered '>
+							<div class='modal-dialog modal-dialog-centered modal-lg'>
+
 							<div class='modal-content'>
 							<div class='modal-header' style='background:cadetblue;color:white;'>
-				      <h6 class='modal-title'>Détails du chauffeur</h6>
-				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	</div>
+							<h6 class='modal-title'>Détails du chauffeur</h6>
+							<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+							</div>
 							<div class='modal-body'>
 							<div class='table responsive'>
-							<table class= 'table table-striped'>
+							<table class= 'table'>
 							<tr>
-							<td><span class='bi bi-pencil '<span/>&nbsp;&nbsp;Carte d'identité</td>
+							<td>Carte d'identité</td>
 							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
 							</tr>
 
@@ -211,7 +215,7 @@
 							</tr>
 
 							<tr>
-							<td><span class='bi bi-pencil '<span/>&nbsp;&nbsp;Téléphone</td>
+							<td>Téléphone</td>
 							<th>".$row->NUMERO_TELEPHONE."</th>
 							</tr>
 
@@ -231,7 +235,7 @@
 
 							<tr>
 							<td>Information&nbsp;du&nbsp;vehicule</td>
-							<th><a hre='#' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
+							<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
 							</tr>
 							</table>
 							</div>
@@ -245,14 +249,14 @@
 							$option .="
 							</div>
 							<div class='modal fade' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
-							<div class='modal-dialog'>
+							<div class='modal-dialog modal-dialog-centered modal-lg'>
 							<div class='modal-content'>
 							<div class='modal-header' style='background:cadetblue;color:white;'>
 				      <h6 class='modal-title'>Détails du chauffeur</h6>
 				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	</div>
 							<div class='modal-body'>
-							<table class= 'table table-striped'>
+							<table class= 'table table'>
 							<tr>
 							<td>Carte d'identité</td>
 							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
@@ -299,7 +303,7 @@
 						<div class='modal-dialog'>
 						<div class='modal-content'>
 						<div class='modal-header' style='background:cadetblue;color:white;'>
-				      <h6 class='modal-title'>Détail du véhicule</h6>
+				      <h6 class='modal-title'>Détails du véhicule</h6>
 				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	</div>
 						<div class='modal-body'>
@@ -437,7 +441,7 @@
 
     function get_all_voiture()
 	{
-		$all_voiture = $this->Model->getRequete("SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule.ID_MODELE=vehicule_modele.ID_MODELE WHERE 1");
+		$all_voiture = $this->Model->getRequete("SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule.ID_MODELE=vehicule_modele.ID_MODELE WHERE 1 AND vehicule.STATUT=1");
 		$html='<option value="">--- Sélectionner ----</option>';
 		if(!empty($all_voiture))
 		{

@@ -98,7 +98,7 @@ input:checked + .slider:before {
     <h1>Chauffeurs</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
+        <li class="breadcrumb-item"><a href="">Chauffeur</a></li>
         <li class="breadcrumb-item active">Liste des chauffeurs</li>
       </ol>
     </nav>
@@ -160,8 +160,6 @@ input:checked + .slider:before {
   <!--******** Fin Modal pour attribue un voiture ***********-->
 
   <!--******** Debut Modal pour modifier l'affectation du chauffeur a une voiture *********-->
-
-
   <div class="modal fade" id="modifvoitureModal" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
@@ -249,19 +247,19 @@ input:checked + .slider:before {
                           <tr>
 
                             <th class="text-dark">#</th>
-                            <th class="text-dark">Chauffeur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 
                             <!-- <th class="text-dark">ADRESSE</th> -->
                           <!--   <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
-                            <th class="text-dark">Téléphone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                            
-                            <th class="text-dark">Statut&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">STATUT&nbsp;&nbsp;&nbsp;</th>
 
-                            <th class="text-dark">Option</th>
+                            <th class="text-dark">OPTIONS</th>
                           </tr>
                         </thead>
                         <tbody class="text-dark">
@@ -326,7 +324,7 @@ input:checked + .slider:before {
 
       dom: 'Bfrtlip',
       buttons: [
-      'pdf', 'print'
+      'pdf', 'print',
       ],
       language: {
         "sProcessing":     "Traitement en cours...",
@@ -446,7 +444,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Attribution faite avec succès',
+              text: 'Affectation faite avec succès',
               timer: 1500,
             }).then(() =>
             {
@@ -472,7 +470,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Attribution échouée',
+              text: 'Affectation échouée',
               timer: 1500,
             }).then(() =>
             {
