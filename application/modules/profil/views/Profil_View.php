@@ -35,6 +35,8 @@
       <div class="row">
         <div class="col-xl-4">
 
+          <input type="hidden" name="TYPE_PROPRIETAIRE_ID" id="TYPE_PROPRIETAIRE_ID" value="<?=$proprietaire['TYPE_PROPRIETAIRE_ID']?>">
+
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
               <?php
@@ -78,11 +80,7 @@
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
-                </li>
-
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Modifier le mot de passe</button>
                 </li>
 
               </ul>
@@ -187,6 +185,13 @@
                     </div>
 
                     <div class="row mb-3">
+                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Téléphone</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input class="form-control bg-light" type='tel' name="TELEPHONE" id="TELEPHONE" value="<?=$proprietaire['TELEPHONE']?>" pattern="^[0-9-+\s()]*$"/>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Personne de référence</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="job" type="text" class="form-control" id="Job" value="<?=$proprietaire['PERSONNE_REFERENCE']?>">
@@ -203,147 +208,119 @@
                     </div>
 
                     <div class="row mb-3" id="div_prov">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Province</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
+                        <select class="form-control" id="PROVINCE_ID" name="PROVINCE_ID">
+                          <?=$html2?>
+                        </select>
                       </div>
                     </div>
 
                     <div class="row mb-3" id="div_com">
-                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Commune</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                        <select class="form-control" id="COMMUNE_ID" name="COMMUNE_ID">
+                          <?=$html3?>
+                        </select>
                       </div>
                     </div>
 
                     <div class="row mb-3" id="div_zon">
-                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">zone</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                        <select class="form-control" id="ZONE_ID" name="ZONE_ID">
+                          <?=$html4?>
+                        </select>
                       </div>
                     </div>
 
                     <div class="row mb-3" id="div_col">
-                      <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
+                      <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Colline</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
+                        <select class="form-control" id="COLLINE_ID" name="COLLINE_ID">
+                          <?=$html5?>
+                        </select>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
+                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Adresse</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
-                      </div>
+                       <input class="form-control" name="ADRESSE" id="ADRESSE" placeholder='Adresse' value="<?=$proprietaire['ADRESSE']?>"/>
+
+                     </div>
+                   </div>
+
+                   <div class="row mb-3">
+                    <label for="Instagram" class="col-md-4 col-lg-3 col-form-label"><a id="CNI_NIF"></a></label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="CNI_OU_NIF" type="text" class="form-control" id="CNI_OU_NIF" value="<?=$proprietaire['CNI_OU_NIF']?>">
                     </div>
+                  </div>
 
-                    <div class="row mb-3">
-                      <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
-                      </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                  </div>
+                </form><!-- End Profile Edit Form -->
+
+              </div>
+
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+                <!-- Change Password Form -->
+                <form id="form_password" enctype="multipart/form-data" method="post" action="<?=base_url('profil/Profil/edit')?>">
+
+                  <div class="row mb-3">
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mot de passe actuel</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="PASSWORD" type="password" class="form-control" id="PASSWORD">
                     </div>
-
-                    <div class="row mb-3">
-                      <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
-                      </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="form-check ml-2">
+                      <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password()" style="border-radius:2px; float: right;">
+                      <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher mot de passe</label>
                     </div>
+                  </div>
 
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <div class="row mb-3">
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nouveau mot de passe</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="NEW_PASSWORD" type="password" class="form-control" id="NEW_PASSWORD">
                     </div>
-                  </form><!-- End Profile Edit Form -->
+                  </div>
 
-                </div>
-
-                <div class="tab-pane fade pt-3" id="profile-settings">
-
-                  <!-- Settings Form -->
-                  <form>
-
-                    <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                      <div class="col-md-8 col-lg-9">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                          <label class="form-check-label" for="changesMade">
-                            Changes made to your account
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                          <label class="form-check-label" for="newProducts">
-                            Information on new products and services
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="proOffers">
-                          <label class="form-check-label" for="proOffers">
-                            Marketing and promo offers
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                          <label class="form-check-label" for="securityNotify">
-                            Security alerts
-                          </label>
-                        </div>
-                      </div>
+                  <div class="row mb-3">
+                    <div class="form-check ml-2">
+                      <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password1()" style="border-radius:2px; float: right;">
+                      <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher mot de passe</label>
                     </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmation du nouveau mot de passe</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="NEW_NEW_PASSWORD" type="password" class="form-control" id="NEW_NEW_PASSWORD">
                     </div>
-                  </form><!-- End settings Form -->
+                  </div>
 
-                </div>
+                  <div class="text-center">
+                    <button onclick="submit_form();" class="btn btn-primary">Modifier</button>
+                  </div>
+                </form><!-- End Change Password Form -->
 
-                <div class="tab-pane fade pt-3" id="profile-change-password">
-                  <!-- Change Password Form -->
-                  <form>
+              </div>
 
-                    <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
-                      </div>
-                    </div>
+            </div><!-- End Bordered Tabs -->
 
-                    <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Change Password</button>
-                    </div>
-                  </form><!-- End Change Password Form -->
-
-                </div>
-
-              </div><!-- End Bordered Tabs -->
-
-            </div>
           </div>
-
         </div>
+
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main><!-- End #main -->
+</main><!-- End #main -->
 
-  <?php include VIEWPATH . 'includes/footer.php'; ?>
+<?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
 
@@ -362,16 +339,50 @@
     {
 
 
-    $('#div_prov').attr('hidden',true); 
-    $('#div_com').attr('hidden',true);  
-    $('#div_zon').attr('hidden',true);  
-    $('#div_col').attr('hidden',true); 
+      $('#div_prov').attr('hidden',true); 
+      $('#div_com').attr('hidden',true);  
+      $('#div_zon').attr('hidden',true);  
+      $('#div_col').attr('hidden',true); 
 
+
+    }
+
+
+    if($('#TYPE_PROPRIETAIRE_ID').val()==1)
+    {
+
+      $('#CNI_NIF').html('NIF');
+
+
+    }
+    else
+    {
+      $('#CNI_NIF').html('CNI');
 
     }
 
   });
 </script>
+<script>
+  function show_password() 
+  {
+    var x = document.getElementById("PASSWORD");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
 
+  function show_password1() 
+  {
+    var x = document.getElementById("NEW_PASSWORD");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+</script>
 
 </html>
