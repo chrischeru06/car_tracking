@@ -2,7 +2,106 @@
 <html lang="en">
 
 <head>
-    <?php include VIEWPATH . 'includes/header.php'; ?>
+  <?php include VIEWPATH . 'includes/header.php'; ?>
+
+  <style>
+   body {
+    margin: 0;
+    padding: 0;
+  }
+  #map {top:-35px;bottom:0; width:100%;height:800px;z-index: 1; }
+
+  #animation-phase-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: white;
+    padding: 10px;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+  }
+
+  #animation-phase {
+    margin-left: 5px;
+    font-weight: 600;
+    font-size: 30px;
+  }
+
+
+  .mapboxgl-ctrl-logo{
+    display: none !important;
+  }
+  
+  .mapboxgl-ctrl-attrib-inner{
+    display: none !important;
+  }
+
+  .mapboxgl-ctrl mapboxgl-ctrl-attrib{
+    display: none !important;
+  }
+
+  /* Activity */
+  .dashboard .activity {
+    font-size: 14px;
+  }
+  .dashboard .activity .activity-item .activite-label {
+    color: #888;
+    position: relative;
+    flex-shrink: 0;
+    flex-grow: 0;
+    min-width: 64px;
+  }
+  .dashboard .activity .activity-item .activite-label::before {
+    content: "";
+    position: absolute;
+    right: -11px;
+    width: 4px;
+    top: 0;
+    bottom: 0;
+    background-color: #eceefe;
+  }
+  .dashboard .activity .activity-item .activity-badge {
+    margin-top: 3px;
+    z-index: 1;
+    font-size: 11px;
+    line-height: 0;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 3px solid #fff;
+    flex-grow: 0;
+  }
+  .dashboard .activity .activity-item .activity-content {
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+  .dashboard .activity .activity-item:first-child .activite-label::before {
+    top: 5px;
+  }
+  .dashboard .activity .activity-item:last-child .activity-content {
+    padding-bottom: 0;
+  }
+
+  .scroller {
+    height: 400px;
+    overflow-y: scroll;
+    border-radius: 10px;
+  }
+
+</style>
+
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 </head>
 
@@ -13,659 +112,580 @@
   <!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-   <?php include VIEWPATH . 'includes/menu_left.php'; ?>
+  <?php include VIEWPATH . 'includes/menu_left.php'; ?>
   <!-- End Sidebar-->
 
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1><label class="fa fa-table"></label> Tableau de bord</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          <!-- <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li> -->
+          <!-- <li class="breadcrumb-item active">Liste</li> -->
         </ol>
       </nav>
     </div><!-- End Page Title -->
+    <div class="row">
 
-    <section class="section dashboard">
-      <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Propriétaire</label>
 
-        <!-- Left side columns -->
-        <div class="col-lg-8">
-          <div class="row">
+          <select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="get_vehicule()">
+            <option value="" selected>-- Séléctionner --</option>
+            <?php
+            foreach ($proprio as $key_pro)
+            {
 
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
+              if($filtre_pro['PROPRIETAIRE_ID'] == $key_pro['PROPRIETAIRE_ID']){
+                echo '<option selected value="'.$key_pro['PROPRIETAIRE_ID'].'">'.$key_pro['proprio_desc'].'</option>'; 
+              }else{
+                echo '<option value="'.$key_pro['PROPRIETAIRE_ID'].'">'.$key_pro['proprio_desc'].'</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+      </div>
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Véhicule</label>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
+          <select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID">
+            <option value="" selected>-- Séléctionner --</option>
+          </select>
+        </div>
+      </div>
 
-                <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Date</label>
+
+          <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();" onclick="change_carte();">
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Heure1</label>
+
+          <select class="form-control" name="HEURE1" id="HEURE1">
+            <option value="">Séléctionner</option>
+            <?php
+            foreach ($heure_trajet as $key_heure_trajet)
+            {
+              ?>
+              <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+              <?php
+            }
+            ?>
+          </select>
+
+        </div>
+      </div>
+
+
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Heure2</label>
+
+          <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
+          <option value="">Séléctionner</option>
+          <?php
+          foreach ($heure_trajet as $key_heure_trajet)
+          {
+            ?>
+            <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+            <?php
+          }
+          ?>
+        </select>
+          
+        </div>
+      </div>
+
+    </div>
+    <br>
+
+    <section class="section">
+      <div class="row align-items-top">
+        <div class="col-md-6">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> <label class="fa fa-info-circle"></label> Informations générales</h5>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card" style="border-radius: 10%;">
+                    <div class="card-body profile-card pt-4 d-flex flex-column">
+
+                      <div>
+                        <div >
+
+                          <div class="card-body">
+                  <h5 class="card-title"><i class="fa fa-user"></i> chauffeurs</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+                      
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <h6><i class="fa fa-shekel"></i> 145</h6>
+                      <span class="text-success small pt-1 fw-bold"><i class="fa fa-check text-dark"></i> Enregistrés</span> 
 
                     </div>
                   </div>
                 </div>
+                          </div>
 
-              </div>
-            </div><!-- End Sales Card -->
+                          <div>
 
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
+                          </div>
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
+                  <!-- vehicule -->
 
-                <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                  <div class="col-lg-6">
+                  <div class="card" style="border-radius: 10%;">
+                    <div class="card-body profile-card pt-4 d-flex flex-column">
+
+                      <div>
+                        <div >
+
+                          <div class="card-body">
+                  <h5 class="card-title"><i class="fa fa-car"></i> Véhicules</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
+                      
                     </div>
                     <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <h6><i class="fa fa-shekel"></i> 145</h6>
+                      <span class="text-success small pt-1 fw-bold"><i class="fa fa-check text-dark"></i> Enregistrés</span> 
 
                     </div>
                   </div>
                 </div>
+                          </div>
 
-              </div>
-            </div><!-- End Revenue Card -->
+                          <div>
 
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
+                          </div>
 
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
+                        </div>
+                      </div>
                     </div>
                   </div>
 
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card" style="border-radius: 10%">
+                    <div class="card-body">
+                      <h5 class="card-title">Distance parcourue <span>| Km</span></h5>
+
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle" >
+                          <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                        </div>
+                        <div class="ps-3">
+                          <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+
+
+                  <div class="card" style="border-radius: 10%">
+                    <div class="card-body">
+                      <h5 class="card-title">Carburant <span>| écoulé</span></h5>
+
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle">
+                          <img style="background-color: #829b35;" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
+                        </div>
+                        <div class="ps-3">
+                          <h6><span class="text-success small pt-1 fw-bold"> <a id="carburant"></a> litres</span></h6>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="row">
+                <!-- <div class="col-lg-12"> -->
 
-            </div><!-- End Customers Card -->
+                  <div class="col-lg-6">
 
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
+                    <div class="card" style="border-radius: 10%">
+                      <div class="card-body">
+                        <h5 class="card-title">Vitesse <span>| Max</span></h5>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle">
+                            <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
+                          </div>
+                          <div class="ps-3">
+                            <h6><span class="text-success small pt-1 fw-bold"> <a id="vitesse_max"></a> Km/h</span></h6>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+
+
+                    <div class="card" style="border-radius: 10%">
+                      <div class="card-body">
+                        <h5 class="card-title">Score <span>| Points</span></h5>
+
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle">
+                            <img style="background-color: #829b35;" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/score.png')?>">
+                          </div>
+                          <div class="ps-3">
+                            <h6><span class="text-success small pt-1 fw-bold"> <a id="score"></a> Points</span></h6>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- </div> -->
                 </div>
 
-                <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
-
-                  <!-- Line Chart -->
-                  <div id="reportsChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Sales',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenue',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Customers',
-                          data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Line Chart -->
-
-                </div>
 
               </div>
-            </div><!-- End Reports -->
+            </div>
 
-            <!-- Recent Sales -->
-            <div class="col-12">
-              <div class="card recent-sales overflow-auto">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-
-                  <table class="table table-borderless datatable">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
-            </div><!-- End Recent Sales -->
-
-            <!-- Top Selling -->
-            <div class="col-12">
-              <div class="card top-selling overflow-auto">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body pb-0">
-                  <h5 class="card-title">Top Selling <span>| Today</span></h5>
-
-                  <table class="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th scope="col">Preview</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Sold</th>
-                        <th scope="col">Revenue</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                        <td>$64</td>
-                        <td class="fw-bold">124</td>
-                        <td>$5,828</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                        <td>$46</td>
-                        <td class="fw-bold">98</td>
-                        <td>$4,508</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                        <td>$59</td>
-                        <td class="fw-bold">74</td>
-                        <td>$4,366</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                        <td>$32</td>
-                        <td class="fw-bold">63</td>
-                        <td>$2,016</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                        <td>$79</td>
-                        <td class="fw-bold">41</td>
-                        <td>$3,239</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
-            </div><!-- End Top Selling -->
 
           </div>
-        </div><!-- End Left side columns -->
 
-        <!-- Right side columns -->
-        <div class="col-lg-4">
+          <div class="col-lg-6">
 
-          <!-- Recent Activity -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Position de la voiture</h5>
+                <br>
+                <br>
+                <div id="map" style="width: 100%;height: 550px;"></div>
 
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
+
+                <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+
+                  <div id="menu"> 
+
+                    <?php $carte; ?>
+
+
+                    <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte = 'satellite-streets-v12'; ?>>
+
+                    <label for="satellite-streets-v12">satellite</label>
+
+                    <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte = 'streets-v12'; ?> >
+                    <label for="streets-v12">streets</label>
+
+                  </div>
+                </form>
+              </div>
             </div>
 
-            <div class="card-body">
-              <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+          </div>
+        </div>
 
-              <div class="activity">
+        <div class="row align-items-top">
+          <div class="col-lg-12">
 
-                <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                  <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                  </div>
-                </div><!-- End activity item-->
+            <div class="card">
+              <div class="card-body">
+                <center><h6 class="card-title">Trajet parcouru</h6></center>
 
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                  <div class="activity-content">
-                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                  </div>
-                </div><!-- End activity item-->
+                <br>
+                <br>
+                <div id="map_filtre"></div>
 
               </div>
-
-            </div>
-          </div><!-- End Recent Activity -->
-
-          <!-- Budget Report -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
             </div>
 
-            <div class="card-body pb-0">
-              <h5 class="card-title">Budget Report <span>| This Month</span></h5>
 
-              <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
 
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                    legend: {
-                      data: ['Allocated Budget', 'Actual Spending']
-                    },
-                    radar: {
-                      // shape: 'circle',
-                      indicator: [{
-                          name: 'Sales',
-                          max: 6500
-                        },
-                        {
-                          name: 'Administration',
-                          max: 16000
-                        },
-                        {
-                          name: 'Information Technology',
-                          max: 30000
-                        },
-                        {
-                          name: 'Customer Support',
-                          max: 38000
-                        },
-                        {
-                          name: 'Development',
-                          max: 52000
-                        },
-                        {
-                          name: 'Marketing',
-                          max: 25000
-                        }
-                      ]
-                    },
-                    series: [{
-                      name: 'Budget vs spending',
-                      type: 'radar',
-                      data: [{
-                          value: [4200, 3000, 20000, 35000, 50000, 18000],
-                          name: 'Allocated Budget'
-                        },
-                        {
-                          value: [5000, 14000, 28000, 26000, 42000, 21000],
-                          name: 'Actual Spending'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
+          </div>
 
-            </div>
-          </div><!-- End Budget Report -->
+       <!--  <div class="col-lg-3">
+          <section class="section dashboard">
 
-          <!-- Website Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
+            <div class="card">
 
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
+             <div class="card-body">
+              <h5 class="card-title">Points d'arrêt <span>| Today</span></h5>
+              <div class="scroller">
 
-            <div class="card-body pb-0">
-              <h5 class="card-title">Website Traffic <span>| Today</span></h5>
+                <div class="activity">
 
-              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+                  <div id="ligne_arret"></div>
 
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#trafficChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Access From',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div><!-- End Website Traffic -->
-
-          <!-- News & Updates Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
-
-              <div class="news">
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-1.jpg" alt="">
-                  <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
                 </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-2.jpg" alt="">
-                  <h4><a href="#">Quidem autem et impedit</a></h4>
-                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-3.jpg" alt="">
-                  <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-4.jpg" alt="">
-                  <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-5.jpg" alt="">
-                  <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-                </div>
-
-              </div><!-- End sidebar recent posts-->
-
+              </div>
             </div>
-          </div><!-- End News & Updates -->
+          </div>
+        </section>
+      </div> -->
 
-        </div><!-- End Right side columns -->
 
-      </div>
-    </section>
 
-  </main><!-- End #main -->
+    </div>
+  </section>
+
+</main><!-- End #main -->
 
 <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
+
+<script>
+
+  $(document).ready(function(){
+
+    change_carte();   
+
+  });
+
+  
+
+  mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc0dnBzNzA3c3gzZmx2bnpqb2NwNXgifQ.D6Fm6UO9bWViernvxZFW_A';
+  const map = new mapboxgl.Map({
+    container: 'map',
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+    style: 'mapbox://styles/mapbox/streets-v12',
+    bounds: [29.383188,-3.384438, 29.377566,-3.369615],
+    projection: "globe" // display the map as a 3D globe
+  });
+
+  map.addControl(new mapboxgl.NavigationControl());
+
+  map.on('load', async () => {
+        // Get the initial location of the International Space Station (ISS).
+    const geojson = await getLocation();
+        // Add the ISS location as a source.
+    map.addSource('iss', {
+      type: 'geojson',
+      data: geojson
+    });
+        // Add the rocket symbol layer to the map.   
+        // http://161.97.118.14/iotplatform/Map/getmap
+
+
+
+    map.loadImage(
+      '<?= base_url() ?>upload/voll.png',
+      (error, image) => {
+        if (error) throw error;
+        
+        // Add the image to the map style.
+        map.addImage('care', image);
+        
+        // Add a data source containing one point feature.
+        map.addSource('point', {
+          'type': 'geojson',
+          'data': {
+            'type': 'FeatureCollection',
+            'features': [
+            {
+              'type': 'Feature',
+              'properties': {
+                'description':
+                '<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+                'icon': 'theatre'
+              },
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [-77.4144, 25.0759]
+              }
+            }
+            ]
+          }
+        });
+        
+        // Add a layer to use the image to represent the data.
+        // map.addLayer({
+        // 'id': 'points',
+        // 'type': 'symbol',
+        // 'source': 'point', // reference the data source
+        // 'layout': {
+        // 'icon-image': 'cat', // reference the image
+        // 'icon-size': 0.25
+        // }
+        // });
+
+
+        map.addLayer({
+          'id': 'iss',
+          'type': 'symbol',
+          'source': 'iss',
+          'layout': {
+                // This icon is a part of the Mapbox Streets style.
+                // To view all images available in a Mapbox style, open
+                // the style in Mapbox Studio and click the "Images" tab.
+                // To add a new image to the style at runtime see
+                // https://docs.mapbox.com/mapbox-gl-js/example/add-image/
+            'icon-image': 'care',
+            'icon-size': 0.05
+          }
+        });
+
+      }
+      );
+
+
+
+
+// TOYOTA TI C3625A
+
+
+
+        // Update the source from the API every 2 seconds.
+    const updateSource = setInterval(async () => {
+      const geojson = await getLocation(updateSource);
+      map.getSource('iss').setData(geojson);
+    }, 2000);
+
+    async function getLocation(updateSource) {
+            // Make a GET request to the API and return the location of the ISS.
+      try {
+        var CODE = $('#CODE').val(); 
+
+        const response = await fetch(
+          '<?= base_url() ?>Dashboard/getmap/'+CODE,
+          { method: 'GET' }
+          );
+        const { latitude, longitude } = await response.json();
+                // Fly the map to the location.
+        map.flyTo({
+          center: [longitude, latitude],
+          speed: 0.5
+        });
+                // Return the location of the ISS as GeoJSON.
+        return {
+          'type': 'FeatureCollection',
+          'features': [
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [longitude, latitude]
+            }
+          }
+          ]
+        };
+      } catch (err) {
+                // If the updateSource interval is defined, clear the interval to stop updating the source.
+        if (updateSource) clearInterval(updateSource);
+        throw new Error(err);
+      }
+    }
+  });
+
+  map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
+
+
+</script>
+
+
+<script>
+
+  function change_carte() {
+    var DATE_DAT = $('#DATE_DAT').val(); 
+    var CODE = $('#CODE').val(); 
+    var HEURE1 = $('#HEURE1').val(); 
+    var HEURE2 = $('#HEURE2').val(); 
+
+    $.ajax({
+      url : "<?=base_url()?>Dashboard/tracking_chauffeur_filtres/",
+      type : "POST",
+      dataType: "JSON",
+      cache:false,
+      data: {
+        DATE_DAT:DATE_DAT,
+        CODE:CODE,
+        HEURE1:HEURE1,
+        HEURE2:HEURE2,
+
+
+      },
+      beforeSend:function () { 
+
+      },
+      success:function(data) {
+
+        // alert(data.vitesse_max)
+
+
+        $('#distance_finale').html(data.distance_finale);
+        $('#carburant').html(data.carburant);
+        $('#DATE_DAT').html(data.DATE);
+        $('#CODE').html(data.CODE);
+        // alert(data.distance_finale)
+        $('#map_filtre').html(data.map_filtre);
+        $('#ligne_arret').html(data.ligne_arret);
+        $('#score').html(data.score_finale);
+        $('#vitesse_max').html(data.vitesse_max);
+
+
+
+        
+        
+
+      },
+      error:function() {
+
+
+      }
+    });
+
+  }
+
+</script>
+
+
+<script>
+  function get_vehicule()
+  {
+     var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+
+    if (PROPRIETAIRE_ID == '') {
+      $('#VEHICULE_ID').html('<option value="">Sélectionner</option>');
+    } else {
+      $.ajax({
+        url: "<?= base_url() ?>Dashboard/get_vehicule/" + PROPRIETAIRE_ID,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+          $('#VEHICULE_ID').html(data);
+        }
+      });
+
+    }
+  }
+</script>
+
+
 
 </html>
