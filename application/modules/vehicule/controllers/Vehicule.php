@@ -122,6 +122,7 @@
 				';
 
 				$option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><label class='text-dark'><i class='bi bi-pencil'></i>&nbsp;&nbsp;Modifier</label></a></li>";
+				// $option .= "<li><a class='btn-md' href='" . base_url('tracking/Dashboard/tracking_chauffeur/'.$row->CODE) . "'><label class='text-dark'><i class='bi bi-car'></i>&nbsp;&nbsp;Suivi</label></a></li>";
 
 
 

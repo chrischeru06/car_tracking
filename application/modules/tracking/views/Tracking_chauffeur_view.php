@@ -150,7 +150,7 @@
 
       <div class="form-group col-md-3">
         <label class="form-label">Heure2</label>
-       <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
+        <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
           <option value="">Séléctionner</option>
           <?php
           foreach ($heure_trajet as $key_heure_trajet)
@@ -165,7 +165,7 @@
       </div>
     </div>
     <br>
-    <input type="hidden" name="CODE" id="CODE" value="<?=$CODE?>">
+    <input type="hidden" name="CODE" id="CODE" value="<?=$CODE_VEH?>">
     <section class="section">
       <div class="row align-items-top">
         <div class="col-md-6">
@@ -196,11 +196,23 @@
                             <img class="card-icon rounded-circle" style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/phavatar.png')?>">&nbsp;&nbsp;
                             <?php
                           }?>
-                          <font style="float: right;">
-                            <span class="text-muted small pt-2 ps-1"></span><b><?=$get_chauffeur['NOM'].' '. $get_chauffeur['PRENOM']?></b><br>&nbsp;&nbsp;
-                            <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>&nbsp;&nbsp;
-                            <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>&nbsp;&nbsp;
-                            <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>&nbsp;&nbsp;</font>
+                          <?php
+                          if(!empty($get_chauffeur)){?>
+
+                            <font style="float: right;">
+                              <span class="text-muted small pt-2 ps-1"></span><b><?=$get_chauffeur['NOM'].' '. $get_chauffeur['PRENOM']?></b><br>&nbsp;&nbsp;
+                              <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>&nbsp;&nbsp;
+                              <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>&nbsp;&nbsp;
+                              <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>&nbsp;&nbsp;</font>
+                              <?php
+                            }else{?>
+                              <font style="float: right; color: red;"> Pas de chauffeur affecté à cette voiture!
+                              </font>
+
+                              <?php
+                            }
+                            ?>
+
                           </div>
 
                           <div>
@@ -220,13 +232,13 @@
                         <div>
 
                           <?php
-                          if(!empty($get_chauffeur['PHOTO']))
+                          if(!empty($get_vehicule['PHOTO']))
                           {
                             ?>
-                            <img  class="card-icon" style="background-color: white;border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/photo_vehicule/'.$get_chauffeur['PHOTO'])?>">&nbsp;&nbsp;
+                            <img  class="card-icon" style="background-color: white;border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">&nbsp;&nbsp;
                             <?php
                           }
-                          else if(empty($get_chauffeur['PHOTO']))
+                          else if(empty($get_vehicule['PHOTO']))
                           {
                             ?>
                             <img class="card-icon" style="border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/car.png')?>">&nbsp;&nbsp;
@@ -234,10 +246,10 @@
                             <?php
                           }?>
                           <font style="float: right;">
-                            <span class="text-muted small pt-2 ps-1"></span><b><?=$get_chauffeur['DESC_MARQUE'].' / '. $get_chauffeur['DESC_MODELE']?></b><br>&nbsp;&nbsp;
-                            <i class="bi bi-textarea-resize"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['PLAQUE']?></span><br>&nbsp;&nbsp;
-                            <i class="bi bi-palette"></i><span class="text-muted small pt-2 ps-1"><?php if(empty($get_chauffeur['COULEUR'])){?> N/A <?php } ?>
-                            <?php if(!empty($get_chauffeur['COULEUR'])){?>  <?= $get_chauffeur['COULEUR']?> <?php } ?></span><br>&nbsp;&nbsp;
+                            <span class="text-muted small pt-2 ps-1"></span><b><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></b><br>&nbsp;&nbsp;
+                            <i class="bi bi-textarea-resize"></i> <span class="text-muted small pt-2 ps-1"><?=$get_vehicule['PLAQUE']?></span><br>&nbsp;&nbsp;
+                            <i class="bi bi-palette"></i><span class="text-muted small pt-2 ps-1"><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
+                            <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?></span><br>&nbsp;&nbsp;
                           </font>
 
                         </div>
@@ -317,7 +329,7 @@
 
                     <div class="card" style="border-radius: 10%">
                       <div class="card-body">
-                        <h5 class="card-title">Score <span>| Points</span></h5>
+                        <h5 class="card-title">Score <span>| 20</span></h5>
 
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle">
@@ -581,7 +593,7 @@
     var CODE = $('#CODE').val(); 
     var HEURE1 = $('#HEURE1').val(); 
     var HEURE2 = $('#HEURE2').val(); 
-  
+
     $.ajax({
       url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
       type : "POST",

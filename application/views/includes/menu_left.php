@@ -119,9 +119,9 @@ else if ($this->session->PROFIL_ID == 2) {
         </a>
       </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>IHM</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Mes véhicules</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         
@@ -133,7 +133,14 @@ else if ($this->session->PROFIL_ID == 2) {
         
           
         </ul>
-      </li><!-- End Forms Nav -->
+      </li> --><!-- End Forms Nav -->
+
+       <li class="nav-item">
+        <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_vehicule">
+          <i class="bi bi-journal-text"></i>
+          <span>Mes véhicules</span>
+        </a>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
