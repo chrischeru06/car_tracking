@@ -34,7 +34,7 @@ class Profil extends CI_Controller
 		$USER_ID=$this->session->userdata('USER_ID');
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
-		$my_select_utilisateur = $this->getBindParms('users.USER_ID,users.IDENTIFICATION,users.TELEPHONE,users.USER_NAME,profil.DESCRIPTION_PROFIL as profile,STATUT,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT,proprietaire.PROPRIETAIRE_ID,proprietaire.COUNTRY_ID,countries.CommonName,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,zones.ZONE_NAME,collines.COLLINE_NAME,proprietaire.PERSONNE_REFERENCE,proprietaire.CNI_OU_NIF', ' `users` join profil on users.PROFIL_ID=profil.PROFIL_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID JOIN countries ON countries.COUNTRY_ID=proprietaire.COUNTRY_ID JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID JOIN communes ON communes.COMMUNE_ID=proprietaire.COMMUNE_ID JOIN zones ON zones.ZONE_ID=proprietaire.ZONE_ID JOIN collines ON collines.COLLINE_ID=proprietaire.COLLINE_ID', ' users.USER_ID='.$USER_ID.'', '`USER_ID` ASC');
+		$my_select_utilisateur = $this->getBindParms('users.USER_ID,users.IDENTIFICATION,users.TELEPHONE,users.USER_NAME,profil.DESCRIPTION_PROFIL as profile,STATUT,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT,proprietaire.PROPRIETAIRE_ID,proprietaire.COUNTRY_ID,countries.CommonName,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,zones.ZONE_NAME,collines.COLLINE_NAME,proprietaire.PERSONNE_REFERENCE,proprietaire.CNI_OU_NIF,PASSWORD', ' `users` join profil on users.PROFIL_ID=profil.PROFIL_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID JOIN countries ON countries.COUNTRY_ID=proprietaire.COUNTRY_ID JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID JOIN communes ON communes.COMMUNE_ID=proprietaire.COMMUNE_ID JOIN zones ON zones.ZONE_ID=proprietaire.ZONE_ID JOIN collines ON collines.COLLINE_ID=proprietaire.COLLINE_ID', ' users.USER_ID='.$USER_ID.'', '`USER_ID` ASC');
 		$utilisateur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_utilisateur);
 
 			// $my_select_proprio= $this->getBindParms('proprietaire.PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT','proprietaire JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID','users.USER_ID='.$USER_ID.'','PROPRIETAIRE_ID ASC');
@@ -159,6 +159,56 @@ class Profil extends CI_Controller
 		$data['proprietaire']=$proprietaire;
 
 		$this->load->view('Profil_View',$data);
+	}
+
+
+	//Fonction pour modifier le mot de passe
+	function edit_pwd(){
+
+		$USER_ID=$this->session->userdata('USER_ID');
+		
+		$PASSWORD=$this->input->post('NEW_PASSWORD');
+
+// print_r($PASSWORD);die();
+
+		// $verif_pwd=$this->Model->getOne('users',array('USER_ID'=>$USER_ID));
+
+		$table='users';
+
+		$data_updaate= array(
+
+			'PASSWORD'=>md5($PASSWORD),
+		);
+
+		$update=$this->Model->update($table,array('USER_ID'=>$USER_ID),$data_updaate);
+		$message['message']='<div class="alert alert-success text-center" id="message">Votre mot de passe a été modifié avec succes</div>';
+		$this->session->set_flashdata($message);
+
+
+		redirect(base_url('profil/Profil'));
+
+
+	}
+
+	function check_pwd($PASSWORD){
+		$USER_ID=$this->session->userdata('USER_ID');
+
+
+		$verif_pwd=$this->Model->getOne('users',array('USER_ID'=>$USER_ID));
+
+		if ($verif_pwd['PASSWORD']!=md5($PASSWORD)) {
+
+			$html='Le mot de passe est incorrect!';
+
+			
+		}else{
+
+			$html='';
+		}
+
+		echo json_encode($html);
+
+
 	}
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées

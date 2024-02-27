@@ -11,12 +11,12 @@ if ($this->session->PROFIL_ID == 1) {
 
     <ul class="sidebar-nav" id="sidebar-nav" >
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link " href="<?=base_url()?>Dashboard">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li> --><!-- End Dashboard Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">

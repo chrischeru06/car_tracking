@@ -36,6 +36,7 @@
         <div class="col-xl-4">
 
           <input type="hidden" name="TYPE_PROPRIETAIRE_ID" id="TYPE_PROPRIETAIRE_ID" value="<?=$proprietaire['TYPE_PROPRIETAIRE_ID']?>">
+          <input type="hidden" name="USER_ID" id="USER_ID" value="<?=$utilisateur['USER_ID']?>">
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
@@ -65,6 +66,7 @@
         </div>
 
         <div class="col-xl-8">
+          <?=  $this->session->flashdata('message');?>
 
           <div class="card">
             <div class="card-body pt-3">
@@ -267,14 +269,18 @@
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
-                <form id="form_password" enctype="multipart/form-data" method="post" action="<?=base_url('profil/Profil/edit')?>">
-
+                <form id="form_password" enctype="multipart/form-data" method="post" action="<?=base_url('profil/Profil/edit_pwd')?>">
+                  <input type="hidden" name="PASSWORD_OLD" id="PASSWORD_OLD" value="<?=$utilisateur['PASSWORD']?>">
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mot de passe actuel</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="PASSWORD" type="password" class="form-control" id="PASSWORD">
+                      <input name="PASSWORD" type="password" class="form-control" id="PASSWORD" onchange="check_pwd();">
                     </div>
+                    <center><span id="errorPASSWORD" class="text-danger"></span></center>
+
+
                   </div>
+
                   <div class="row mb-3">
                     <div class="form-check ml-2">
                       <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password()" style="border-radius:2px; float: right;">
@@ -287,7 +293,9 @@
                     <div class="col-md-8 col-lg-9">
                       <input name="NEW_PASSWORD" type="password" class="form-control" id="NEW_PASSWORD">
                     </div>
+                    <center><span id="errorNEW_PASSWORD" class="text-danger"></span></center>
                   </div>
+                  
 
                   <div class="row mb-3">
                     <div class="form-check ml-2">
@@ -300,13 +308,23 @@
                     <div class="col-md-8 col-lg-9">
                       <input name="NEW_NEW_PASSWORD" type="password" class="form-control" id="NEW_NEW_PASSWORD">
                     </div>
+                    <center><span id="errorNEW_NEW_PASSWORD" class="text-danger"></span></center>
+                  </div>
+                  
+
+                  <div class="row mb-3">
+
+                    <div class="form-check ml-2">
+                      <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password2()" style="border-radius:2px; float: right;">
+                      <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher mot de passe</label>
+                    </div>
                   </div>
 
-                  <div class="text-center">
-                    <button onclick="submit_form();" class="btn btn-primary">Modifier</button>
-                  </div>
+                  
                 </form><!-- End Change Password Form -->
-
+                <div class="text-center">
+                  <button onclick="submit_form();" class="btn btn-outline-primary">Modifier</button>
+                </div>
               </div>
 
             </div><!-- End Bordered Tabs -->
@@ -327,6 +345,8 @@
 <script>
   $(document).ready(function()
   {
+      $('#message').delay('slow').fadeOut(3000);
+
     if($('#COUNTRY_ID').val()==28)
     {
 
@@ -382,6 +402,91 @@
     } else {
       x.type = "password";
     }
+  }
+
+  function show_password2() 
+  {
+    var x = document.getElementById("NEW_NEW_PASSWORD");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+
+
+  function submit_form()
+  {
+    const photopassport = document.getElementById('photo_passport');
+    var form = document.getElementById("form_password");
+    
+    var statut=1;
+
+    if($('#PASSWORD').val()=='')
+    {
+      statut=2;
+      $('#errorPASSWORD').html('Le champ est obligatoire');
+    }else{
+      $('#errorPASSWORD').html('');
+    }
+
+
+    if($('#NEW_PASSWORD').val()=='')
+    {
+      statut=2;
+      $('#errorNEW_PASSWORD').html('Le champ est obligatoire');
+    }else{
+      $('#errorNEW_PASSWORD').html('');
+    }
+
+    if($('#NEW_NEW_PASSWORD').val()=='')
+    {
+      statut=2;
+      $('#errorNEW_NEW_PASSWORD').html('Le champ est obligatoire');
+    }else{
+      $('#errorNEW_NEW_PASSWORD').html('');
+
+      if($('#NEW_NEW_PASSWORD').val()!=$('#NEW_PASSWORD').val())
+      {
+        statut=2;
+
+        $('#errorNEW_NEW_PASSWORD').html('Les mots de passe ne correspondent pas');
+      }
+      else
+      {
+        $('#errorNEW_NEW_PASSWORD').html('');
+      }
+
+    }
+
+      // alert(statut)
+
+    if(statut==1)
+    {
+      $('#form_password').submit();
+
+    }
+  }
+
+
+
+  function check_pwd()
+  {
+
+    $.ajax(
+    {
+      url:"<?=base_url('profil/Profil/check_pwd/')?>"+$('#PASSWORD').val(),
+      type: "GET",
+      dataType:"JSON",
+      success: function(data)
+      {
+        $('#errorPASSWORD').html(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown)
+      {
+        alert('Erreur');
+      }
+    });
   }
 </script>
 
