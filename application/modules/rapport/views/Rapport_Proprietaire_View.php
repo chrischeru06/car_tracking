@@ -26,17 +26,22 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Rapport</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item"><a href="index.html">Rapport</a></li>
+          <li class="breadcrumb-item active">Rapport véhicules par propriétaire</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
      <!--***************************** Modal datail start ***********************************-->
-    <div class="modal fade" id="myModal" role="dialog">
+    
+    <!--***************************** Modal datail end ***********************************-->
+
+    <section class="section dashboard">
+
+      <!-- <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog modal-lg" style ="width:1000px">
         <div class="modal-content  modal-lg">
           <div class="modal-header">
@@ -60,68 +65,71 @@
           </div>
         </div>
       </div>
+    </div> -->
+
+
+  <div class="modal fade" id="myModal" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">LISTE DES PROPRIETAIRES
+        </a></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <div class="table-responsive">
+              <table id='mytable' class='table table-bordered table-striped table-hover' > 
+                <thead> 
+                  <th class="text-center text-dark">#</th>
+                  <th class="text-center text-dark">Modele</th>
+                  <th class="text-center text-dark">Marque</th>
+                  <th class="text-center text-dark">Couleur</th>
+                  <th class="text-center text-dark">Plaque</th>
+                </thead>
+              </table>
+            </div>
+      
+       </div>
     </div>
-    <!--***************************** Modal datail end ***********************************-->
-
-    <section class="section dashboard">
-      <div class="row">
-
-        <!-- Left side columns -->
-        <div class="col-lg-12">
-          <div class="row">
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-
-             <!--    <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div> -->
-
-                <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
-
-                  <!-- Line Chart -->
-                <!--   <div id="reportsChart"></div> -->
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="card">
-                      <div class="card-body">
-                        <div id="container"  class="col-md-12"></div> 
-                        <div class="row">
-                          <div id="nouveau"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-  
-                  
-                  <!-- End Line Chart -->
-
-                </div>
-
-              </div>
-            </div><!-- End Reports -->
-
-        
-
-
+  </div>
+</div>
+<div class="row">
+  <!-- Left side columns -->
+  <div class="col-lg-12">
+    <div class="row">
+      <!-- Reports -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+           <div id="container"  class="col-md-12"></div> 
+           <div class="row">
+            <div id="nouveau"></div>
           </div>
-        </div><!-- End Left side columns -->
 
-       
+        </div>
 
       </div>
+    </div><!-- End Reports -->
+  </div>
+</div><!-- End Left side columns -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </section>
+
 
   </main><!-- End #main -->
 

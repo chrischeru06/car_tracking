@@ -22,7 +22,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
-          <li class="breadcrumb-item active">Modification</li>
+          <li class="breadcrumb-item active"><?=$title?></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -32,9 +32,9 @@
         <div class="row">
           <div class="text-left col-sm-12">
             <div class="card">
-              <div class="card-header">
+              <!-- <div class="card-header">
                 <h4 class="card-title lead"> <?=$title?></h4>
-              </div>
+              </div> -->
               
               <div class="card-body text-left">
 

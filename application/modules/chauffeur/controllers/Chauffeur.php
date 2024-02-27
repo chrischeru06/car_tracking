@@ -174,7 +174,7 @@
 					<div class='modal-content'>
 
 					<div class='modal-body'>
-					<center><h5><strong style='color:black'>Voulez-vous retirer la voiture de</strong> <br><b style='background-color:prink;color:green;'><i>" . $row->NOM .' '.$row->PRENOM. "</i> ? </b></h5></center>
+					<center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
 					<div class='modal-footer'>
 					<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
 

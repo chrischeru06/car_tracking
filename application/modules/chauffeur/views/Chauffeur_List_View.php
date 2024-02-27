@@ -95,11 +95,11 @@ input:checked + .slider:before {
 
 
   <div class="pagetitle">
-    <h1>Liste des chauffeurs</h1>
+    <h1>Chauffeurs</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
-        <li class="breadcrumb-item active">Liste</li>
+        <li class="breadcrumb-item active">Liste des chauffeurs</li>
       </ol>
     </nav>
   </div>

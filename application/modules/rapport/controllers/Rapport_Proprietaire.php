@@ -103,7 +103,7 @@ class Rapport_Proprietaire extends CI_Controller
        },
        title: 
        {
-         text: '<b> Rapport vehicules par proprietaire'
+         text: ''
          },
          subtitle: 
          {
@@ -145,7 +145,7 @@ class Rapport_Proprietaire extends CI_Controller
                        click: function()
                        {
                          $(\"#titre\").html(\"LISTE DES PROPRIETAIRES \");
-                         $(\"#myModal\").modal();
+                         $(\"#myModal\").modal('show');
                          var row_count ='1000000';
                          $(\"#mytable\").DataTable({
                            \"processing\":true,
@@ -204,7 +204,7 @@ class Rapport_Proprietaire extends CI_Controller
                             enabled: true,
                             format: '{point.y:f}'
                             },
-                            showInLegend: true
+                            showInLegend: false
                           }
                           }, 
                           credits: 
@@ -222,7 +222,6 @@ class Rapport_Proprietaire extends CI_Controller
 
                               });
                               </script>";
-
 
                               echo json_encode(array('rapp'=>$rapp));
                             }
