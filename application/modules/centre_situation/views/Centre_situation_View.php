@@ -275,7 +275,7 @@
 			Satellite: L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-streets-v11'),
 		};
 
-		layers.Satellite.addTo(map);
+		layers.Streets.addTo(map);
 		L.control.layers(null,layers,{position: 'topleft'}).addTo(map);
 		L.control.fullscreen().addTo(map);
 
@@ -301,7 +301,7 @@
 			});
 
 			marker.bindPopup
-			('<h3><strong class="bi bi-eye" title="Voir le détail" onclick="getDetail('+index[0]+');"></strong></h3>');
+			('<h3><strong>Détail du véhicule </strong></h3><p><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"></p> <p> <div class="table-responsive"><table class="table table-bordered table-striped table-hover"> <tr><td class="btn-sm">Véhicule</td><th class="btn-sm">'+ index[4] +'&nbsp;-&nbsp;'+ index[5] +'</th></tr> <tr><td class="btn-sm">Code(device uid)</td><th class="btn-sm">'+ index[3] +'</th></tr> <tr><td class="btn-sm">Plaque</td><th class="btn-sm">'+ index[6] +'</th></tr> <tr><td class="btn-sm">Couleur</td><th class="btn-sm">'+ index[7] +'</th></tr> <tr><td class="btn-sm">Consommation/km</td><th class="btn-sm">'+ index[8] +'</th></tr> <tr><td class="btn-sm">Propriétaire</td><th class="btn-sm">'+ index[9] +'</th></tr> </table></div></p>');
 			clusterGroup.addLayer(marker);
 
 		}

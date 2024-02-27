@@ -58,7 +58,7 @@
 			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
 
 
-			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere.' GROUP BY VEHICULE_ID ORDER BY id DESC');
+			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere.' GROUP BY VEHICULE_ID ORDER BY id DESC');
 
 			$donnees_vehicule = '';
 
@@ -132,6 +132,11 @@
 					$KILOMETRAGE = str_replace("\t","",$KILOMETRAGE);
 					$KILOMETRAGE = str_replace('"','',$KILOMETRAGE);
 					$KILOMETRAGE = str_replace("'",'',$KILOMETRAGE);
+
+					// $PHOTO = "";
+					// if(empty($key['PHOTO'])){
+					// 	$PHOTO = 'vehicule_icon.png';
+					// }
 
 					$PHOTO=trim($key['PHOTO']);
 					$PHOTO = str_replace("\n","",$PHOTO);
