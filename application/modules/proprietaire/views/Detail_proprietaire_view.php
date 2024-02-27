@@ -45,7 +45,7 @@
               if(!empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)
               {
                 ?>
-                <img  class="rounded-circle" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'])?>">
+                <img style="border-radius: 10%;" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'])?>">
                 <?php
               }
               else if(empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)
@@ -53,20 +53,24 @@
                 ?>
                 <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
                 <?php
-              }else  if($proprietaire['TYPE_PROPRIETAIRE_ID']==1){?>
+              }else  if($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && empty($proprietaire['LOGO']))
+              {?>
 
                 <span width="200px" height="auto" class="bi bi-bank"></span>
 
+              <?php }elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && !empty($proprietaire['LOGO'])) 
+              {?>
+                <img  src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>">
               <?php }
               ?>
               <h2><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></h2>
               <!-- <h3>Web Designer</h3> -->
-              <div class="social-links mt-2">
+             <!--  <div class="social-links mt-2">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                 <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
                 <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
                 <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -126,7 +130,7 @@
                   {
                     ?>
                     <div class="row">
-                      <div class="col-lg-3 col-md-4 label">CNI / NIF</div>
+                      <div class="col-lg-3 col-md-4 label"><?=$label_cni?></div>
                       <div class="col-lg-9 col-md-8"><?=$proprietaire['CNI_OU_NIF']?></div>
                     </div>
                     <?php
@@ -136,8 +140,24 @@
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['ADRESSE']?></div>
                   </div>
 
-                  
+                  <?php
+                  if ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {?>
 
+
+                    <div class="row">
+
+                      <div class="col-lg-3 col-md-4 label">File</div>
+                      <div class="col-lg-9 col-md-8"><i class="bi bi-file-o"></i></div>
+
+
+
+                    </div>
+
+                    <?php
+                  }
+
+                  ?>
+                  
                 </div>
 
 
@@ -157,7 +177,8 @@
                           <th class="text-dark">COULEUR</th>
                           <th class="text-dark">PLAQUE</th>
                           <th class="text-dark">PHOTO</th>
-                          <th class="text-dark">Localisation</th>
+                          <th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="text-dark">LOCALISATION</th>
 
                           <!-- <th class="text-dark"></th> -->
 
@@ -186,7 +207,68 @@
   <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
+<!------------------------ Modal detail proprietaire type physique' ------------------------>
 
+
+<div class="modal fade" id="myModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>            
+        <h5 class="modal-title">Détail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <div class="row">
+            <div class='col-md-6' id="div_info">
+            </div>
+            <div class='col-md-6'>
+              <table class="table table-hover text-dark">
+                <tr>            
+                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; Nom & Prénom</td>
+                  <td><a id="NOM"></a></td>
+                </tr>
+
+                <tr>
+                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Date de naissance</td>
+                  <td><a id="DATE_NAISSANCE"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; Téléphone</td>
+                  <td><a id="NUMERO_TELEPHONE"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Email</td>
+                  <td><a id="ADRESSE_MAIL"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; CNI / Passport</td>
+                  <td><a id="NUMERO_CARTE_IDENTITE"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                  <td><a id="ADRESSE_PHYSIQUE"></a></td>
+                </tr>
+
+
+              </table>
+            </div>
+          </div>
+
+
+          <!-- <div id="CNI"></div> -->
+
+
+
+        </div>
+
+      </div>
+     <!--  <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div><!-- End Modal-->
 <script >
   $(document).ready( function ()
   {
@@ -252,5 +334,33 @@
   }
 </script>
 
+<script>
+ function get_detail_chauffeur(CODE)
+ {
+   $("#myModal").modal("show");
+   $.ajax({
+    url: "<?= base_url() ?>proprietaire/Proprietaire/get_detail_chauffeur/" + CODE,
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
 
+      // alert(data.CNI)
+
+      $('#NOM').html(data.NOM);
+      $('#DATE_NAISSANCE').html(data.DATE_NAISSANCE);
+      $('#NUMERO_TELEPHONE').html(data.NUMERO_TELEPHONE);
+      $('#ADRESSE_MAIL').html(data.ADRESSE_MAIL);
+      $('#NUMERO_CARTE_IDENTITE').html(data.NUMERO_CARTE_IDENTITE);
+      $('#ADRESSE_PHYSIQUE').html(data.ADRESSE_PHYSIQUE);
+      $('#div_info').html(data.div_info);
+
+
+
+    },
+
+  });
+
+
+ }
+</script>
 </html>
