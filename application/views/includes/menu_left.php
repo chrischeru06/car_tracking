@@ -62,10 +62,10 @@ if ($this->session->PROFIL_ID == 1) {
       </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#tables-navyy" data-bs-toggle="collapse" href="#">
           <i class="bi bi-layout-text-window-reverse"></i><span>Tracking véhicules</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="tables-navyy" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
               <a href="<?=base_url()?>centre_situation/Centre_situation">
               <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
@@ -83,6 +83,11 @@ if ($this->session->PROFIL_ID == 1) {
           <li>
               <a href="<?=base_url()?>rapport/Rapport_Proprietaire">
               <i class="bi bi-circle"></i><span>Propriétaire</span>
+            </a>
+          </li>
+          <li>
+              <a href="<?=base_url()?>rapport/Rapport_Chauffeur_Statut">
+              <i class="bi bi-circle"></i><span>Chauffeur</span>
             </a>
           </li>
           
