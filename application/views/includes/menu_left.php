@@ -49,7 +49,7 @@ if ($this->session->PROFIL_ID == 1) {
           </li>
           <li>
             <a href="<?=base_url()?>vehicule/Vehicule">
-              <i class="bi bi-circle"></i><span>Vehicules</span>
+              <i class="bi bi-circle"></i><span>Véhicules</span>
             </a>
           </li>
           <li>
@@ -69,6 +69,20 @@ if ($this->session->PROFIL_ID == 1) {
           <li>
               <a href="<?=base_url()?>centre_situation/Centre_situation">
               <i class="bi bi-circle"></i><span>véhicules en temps réel</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li>
+
+       <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Rapport</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+              <a href="<?=base_url()?>rapport/Rapport_Proprietaire">
+              <i class="bi bi-circle"></i><span>Propriétaire</span>
             </a>
           </li>
           
@@ -108,7 +122,7 @@ else if ($this->session->PROFIL_ID == 2) {
         
           <li>
             <a href="<?=base_url()?>proprietaire/Proprietaire_vehicule">
-              <i class="bi bi-circle"></i><span>Vehicules</span>
+              <i class="bi bi-circle"></i><span>Véhicules</span>
             </a>
           </li>
         

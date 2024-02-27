@@ -164,12 +164,12 @@
           <?php 
           $photo=$this->Model->getRequeteOne('SELECT PHOTO_PASSPORT FROM proprietaire JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE users.USER_ID= '.$this->session->userdata('USER_ID')); ?>
           <?php 
-           if (empty($photo['PHOTO_PASSPORT'])) 
+          if (empty($photo['PHOTO_PASSPORT'])) 
             {?>
-           <img src="<?= base_url()?>/upload/phavatar.png" alt="Profile" class="rounded-circle">
-         <?php }
-         else{?>
-          <img src="<?=base_url('/upload/proprietaire/photopassport/'.$photo['PHOTO_PASSPORT'])?>" alt="Profile" class="rounded-circle">
+             <img src="<?= base_url()?>/upload/phavatar.png" alt="Profile" class="rounded-circle">
+           <?php }
+           else{?>
+            <img src="<?=base_url('/upload/proprietaire/photopassport/'.$photo['PHOTO_PASSPORT'])?>" alt="Profile" class="rounded-circle">
 
           <?php }
             // code...
@@ -186,13 +186,24 @@
           <li>
             <hr class="dropdown-divider">
           </li>
+          <?php $CODE = $this->session->userdata('CODE_PROFIL');
+          ?>
+          <?php
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="<?=base_url()?>profil/Profil">
-              <i class="bi bi-person"></i>
-              <span>Profil</span>
-            </a>
-          </li>
+          if($CODE!='ADMIN'){?>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="<?=base_url()?>profil/Profil">
+                <i class="bi bi-person"></i>
+                <span>Profil</span>
+              </a>
+            </li>
+
+
+            <?php
+          }
+          ?>
+          
           <li>
             <hr class="dropdown-divider">
           </li>

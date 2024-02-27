@@ -84,7 +84,7 @@
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures">Voitures</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules</button>
                 </li>
 
               </ul>
