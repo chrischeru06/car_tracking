@@ -2,7 +2,7 @@
 
   <div class="d-flex align-items-center justify-content-between">
     <a href="<?= base_url()?>/template/Dashboard.php" class="logo d-flex align-items-center">
-      <img src="<?= base_url()?>upload/car.png" alt="" >
+      <img src="<?= base_url()?>upload/choice logo.jpeg" alt="" >
       <span class="d-none d-lg-block">Car tracking</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -209,9 +209,9 @@
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+            <a class="dropdown-item d-flex align-items-center" href="#">
               <i class="bi bi-gear"></i>
-              <span>Account Settings</span>
+              <span>Paramètres</span>
             </a>
           </li>
           <li>
@@ -219,9 +219,9 @@
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+            <a class="dropdown-item d-flex align-items-center" href="#">
               <i class="bi bi-question-circle"></i>
-              <span>Need Help?</span>
+              <span>Besoin d'aide?</span>
             </a>
           </li>
           <li>

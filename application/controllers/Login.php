@@ -57,7 +57,7 @@ class Login extends CI_Controller
 			}
 			else
 			{
-				$output = array("status"=>false,'message'=>'<center>Utilisateur n\'existe pas dans le système</center>');
+				$output = array("status"=>false,'message'=>'<center>Mot de passe incorrect ! </center>');
 			}
 			
 		}

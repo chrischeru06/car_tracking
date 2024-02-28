@@ -13,6 +13,18 @@ class Dashboard extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->out_application();
+		$this->load->helper('email');
+
+	}
+	//Fonction pour rediriger sur la page de connexion si une fois la session est perdue
+	function out_application()
+	{
+		if(empty($this->session->userdata('USER_ID')))
+		{
+			redirect(base_url('Login/logout'));
+
+		}
 	}
 
 	//Fonction pour afficher le dashbboard pour tracker le chauffeur 
@@ -291,18 +303,20 @@ class Dashboard extends CI_Controller
 				}
 
 			}
-
+			$v=1;
 			if (!empty($tabl)) {
 				foreach ($tabl as $keytabl) {
 
+
+
 					$ligne_arret.=" <div class='activity-item d-flex'>
-					<div class='activite-label'>".$keytabl."</div>
+					<div class='activite-label'>Arrêt ".$v."</div>
 					<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
 					<div class='activity-content'>
 					<a href='#' class='fw-bold text-dark'>".$keytabl."</a> 
 					</div>
 					</div>";
-
+					$v++;
 				}
 			}else{
 

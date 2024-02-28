@@ -20,23 +20,22 @@ a:hover {
 
 <body >
 
-  <main style="background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'upload/trackingbackground.png'; ?>')">
-    <div class="container" >
+  <main>
+    <div class="container-fluid login_bg" >
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-        <div class="container">
+        <div class="container-fluid">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                <div class="d-flex justify-content-center py-4">
-                <img src="<?= base_url()?>/upload/vehicule_icon_tracking.png" height="60">
+             
                 <a href="<?=base_url('Login')?>" class="logo d-flex align-items-center w-auto" >
 
-                  <span class="d-none d-lg-block"><label style="color: white;">CAR TRACKING</label></span>
+                  <span class="d-none d-lg-block"><label style="color: white;">MEDIA TRACKING</label></span>
                 </a>
               </div><!-- End Logo -->
 
-
-              <div class="card mb-3 bg-transparent border-success" style="border-radius: 10%;">
+              <div class="card login-area mb-4">
 
 
                 <div class="card-body">
@@ -71,10 +70,10 @@ a:hover {
                       </div>
                     </div>
                     <div class="text-center">
-                      <button type="button" id="connexion" onclick="login()" class="btn btn-primary btn-block" style="width:100%; background-color:#012970; border-radius: 20px; ">Login</button>
+                      <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Login</button>
                     </div>
-                    <div class="form-group">
-                      <a href="<?=base_url('Login/forgotten_pwd')?>" style="color: white;">Avez-vous oublié votre mot de passe?</a>
+                    <div class="form-group text-center">
+                      <a class="login-link" href="<?=base_url('Login/forgotten_pwd')?> ">Avez-vous oublié votre mot de passe?</a>
                     </div>
                   </form>
 
@@ -88,12 +87,16 @@ a:hover {
       </section>
 
     </div>
+
   </main><!-- End #main -->
+  <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
-<footer>
-  <?php include VIEWPATH . 'includes/footer.php'; ?>
-</footer>
+
+
+
+
+
 
 <script>
   function show_password() 
@@ -127,7 +130,7 @@ a:hover {
       {
         if(data.status)
         {
-          $('#message_login').html("<center><span class='text text-primary'>"+data.message+"</span></center>");
+          $('#message_login').html("<center><span style='color: white;'>"+data.message+"</span></center>");
           $('#connexion').attr('disabled',true);
           
           setTimeout(function(){ 
