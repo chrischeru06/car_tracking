@@ -75,18 +75,24 @@
 		}
 
 		//Fonction pour le chargement de la carte
-		function getmap() {  
+		function getmap() {
 
-            // $nomprenom = $this->input->post('nomprenom');
 			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
 			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 
 			$coordinates = '-3.3944616,29.3726466';
 			$zoom = 9;
 
-
 			$critere_proprietaire = '';
 			$critere_vehicule = '';
+			$critere_user = '';
+
+			$USER_ID = $this->session->userdata('USER_ID');
+
+			if($this->session->userdata('PROFIL_ID') != 1)
+			{
+				$critere_user.= ' AND users.USER_ID = '.$USER_ID;
+			}
 
 			if($PROPRIETAIRE_ID > 0){
 				$critere_proprietaire.= ' AND proprietaire.PROPRIETAIRE_ID = '.$PROPRIETAIRE_ID;
@@ -103,7 +109,7 @@
 
 			// Recherche des propriétaires
 
-			$proprio = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.'','proprio_desc ASC');
+			$proprio = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.''.$critere_user.'','proprio_desc ASC');
 
 			$proprio=str_replace('\"', '"', $proprio);
 			$proprio=str_replace('\n', '', $proprio);
