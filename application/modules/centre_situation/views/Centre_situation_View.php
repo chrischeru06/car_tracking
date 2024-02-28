@@ -334,6 +334,8 @@
 
 	<script>
 
+		// Fonction pour afficher la carte
+
 		function getmap(){
 
             // var searchString = $('#search').val();ENQUETEUR_ID
