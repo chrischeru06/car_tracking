@@ -1,14 +1,10 @@
 <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>Car tracking</span></strong>. All Rights Reserved
+  <footer id="footer" class="footer py-4  align-items-center justify-content-center">
+    <div class="copyright text-center">
+   <p>   &copy; Copyright <strong><span>MEDIA TRACKING</span></strong>. All Rights Reserved </p>
     </div>
     <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed and developed by <a href="https://mediabox.bi">Mediabox <?php echo date('Y');?></a>
+      Designed and developed by <a class="footer-author" href="https://mediabox.bi">Mediabox <?php echo date('Y');?></a>
     </div>
   </footer><!-- End Footer -->
 

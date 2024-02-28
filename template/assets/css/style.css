@@ -47,6 +47,75 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+
+
+.login_bg{
+background-image: url("../img/login_bg.png");
+height: 100vh;
+background-attachment: fixed;
+background-repeat: no-repeat;
+background-position: center;
+background-size:cover;
+}
+.login_bg .login-sub-header{
+  font-weight: lighter;
+}
+.login_bg .login-area{
+
+background: rgba(255, 255, 255, 0.02);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login_bg .login-area .login-btn{
+ 
+  color:#8DFFFC;
+  border-radius: 6rem;
+  width:40%;
+  padding:.4rem 1rem;
+  margin:1.2rem auto;
+  backdrop-filter: blur(7px) saturate(74%);
+  -webkit-backdrop-filter: blur(7px) saturate(74%);
+  background-color: #003F3A;
+
+  transition: all ease-in-out 500ms;
+
+}
+.login_bg .login-area .login-btn:hover{
+backdrop-filter: blur(1px) saturate(74%);
+-webkit-backdrop-filter: blur(1px) saturate(74%);
+background-color: rgba(0, 173, 173, 0.71);
+color:  rgb(211, 255, 253);
+border: 1px solid rgba(255, 255, 255, 0.3);
+
+
+}
+
+/* .login_bg .login-area form input[type=text] , .login_bg .login-area form input[type=password]{
+
+ border-radius: 6rem !important;
+} */
+
+.login_bg .login-area a.login-link{
+ text-decoration:none;
+ color:#fff;
+ margin:auto;
+ font-size:82%;
+}
+.login_bg .login-area a.login-link:hover{
+  color:#8DFFFC;
+  background:none;
+  
+}
+
+
+.login-bg a.logo .login-header {
+ text-decoration: none;
+ color: #fff;
+}
 /*--------------------------------------------------------------
 # Page Title
 --------------------------------------------------------------*/
@@ -70,10 +139,10 @@ h1, h2, h3, h4, h5, h6 {
   right: 15px;
   bottom: 15px;
   z-index: 99999;
-  background: #4154f1;
+  background: #005652;
   width: 40px;
   height: 40px;
-  border-radius: 4px;
+  border-radius: 50% ;
   transition: all 0.4s;
 }
 .back-to-top i {
@@ -82,8 +151,8 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 0;
 }
 .back-to-top:hover {
-  background: #6776f4;
-  color: #fff;
+  background: #60d8d2;
+  color: #005652;
 }
 .back-to-top.active {
   visibility: visible;
@@ -104,7 +173,6 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   border: 0;
-  font-size: 10px;
   box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
 }
 .dropdown-menu .dropdown-header, .dropdown-menu .dropdown-footer {
@@ -567,6 +635,8 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #aab7cf;
 }
 
+
+
 @media (min-width: 1200px) {
   #main, #footer {
     margin-left: 300px;
@@ -585,6 +655,7 @@ h1, h2, h3, h4, h5, h6 {
     left: -300px;
   }
 }
+
 
 .sidebar-nav {
   padding: 0;
@@ -879,8 +950,7 @@ h1, h2, h3, h4, h5, h6 {
 # Profie Page
 --------------------------------------------------------------*/
 .profile .profile-card img {
-  max-width: 300px;
-  color: red;
+  max-width: 120px;
 }
 .profile .profile-card h2 {
   font-size: 24px;
@@ -1073,18 +1143,31 @@ h1, h2, h3, h4, h5, h6 {
 # Footer
 --------------------------------------------------------------*/
 .footer {
-  padding: 20px 0;
-  font-size: 14px;
-  transition: all 0.3s;
-  border-top: 1px solid #cddfff;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(218, 239, 234, 0.29);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  padding:2.4rem auto;
 }
 .footer .copyright {
   text-align: center;
-  color: #012970;
+  color: #5f5f5f;
 }
 .footer .credits {
   padding-top: 5px;
   text-align: center;
   font-size: 13px;
-  color: #012970;
+  color: #5f5f5f;
+}
+.footer .credits a.footer-author{
+  text-decoration:none;
+  color:#005652;
+  font-weight: 700;
+  font-size:120%;
+  transition: all ease-in-out 500ms;
+}
+
+.footer .credits a.footer-author:hover{
+  color: #60d8d2;
 }

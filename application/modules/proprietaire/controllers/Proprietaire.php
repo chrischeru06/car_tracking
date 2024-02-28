@@ -1,6 +1,8 @@
 <?php
 
 /**Fait par Nzosaba Santa Milka
+ * santa.milka@mediabox.bi
+ * 68071895
  * Le 8/2/2024
  * CRUD Proprietaire
  */
@@ -10,6 +12,18 @@ class Proprietaire extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->out_application();
+		$this->load->helper('email');
+
+	}
+	//Fonction pour rediriger sur la page de connexion si une fois la session est perdue
+	function out_application()
+	{
+		if(empty($this->session->userdata('USER_ID')))
+		{
+			redirect(base_url('Login/logout'));
+
+		}
 	}
 
 

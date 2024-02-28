@@ -8,17 +8,31 @@
  */
 class Proprietaire_vehicule extends CI_Controller
 {
+
 	
 	function __construct()
 	{
 		parent::__construct();
+		$this->out_application();
+		$this->load->helper('email');
+	}
+	//Fonction pour rediriger sur la page de connexion si une fois la session est perdue
+	function out_application()
+	{
+		if(empty($this->session->userdata('USER_ID')))
+		{
+			redirect(base_url('Login/logout'));
+
+		}
 	}
 
+	//Fonction pour rediriger sur la page de la liste des vehicules appartenant à un proprietaire
 	function index(){
 
 		$this->load->view('Proprietaire_vehicule_View');
 	}
 
+	//Fonction pour la liste
 	function listing(){
 
 		$USER_ID=$this->session->userdata('USER_ID');
