@@ -841,6 +841,27 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 5px;
   max-width: 60px;
 }
+.dashboard .table-responsive .dropdown .dropdown-menu{
+  width: 16rem;
+
+}
+.dashboard .table-responsive .dropdown .dropdown-menu  li {
+   margin: 1rem 0; 
+   padding: auto 1rem ;
+}
+.dashboard .table-responsive .dropdown .dropdown-menu  li a.btn-md{
+  font-size: 1rem;
+ padding: 0 1rem; 
+
+}
+/*.dashboard .table-responsive .dropdown .dropdown-menu  li a.btn-md .bi{
+
+ margin-right: 1rem; 
+}
+*/
+/*.modal-content .modal-body .table  td, .modal-content .modal-body .table  th{
+  border: none !important;
+}*/
 
 /*--------------------------------------------------------------
 # Icons list page
