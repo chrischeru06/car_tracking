@@ -202,10 +202,16 @@
 							<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 							</div>
 							<div class='modal-body'>
+							<div class='row'>
+							<div class='col-md-4'>
+							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+							</div>
+							<div class='col-md-8'>
+
 							<div class='table responsive'>
 							<table class='table table-borderless'>
 							<tr>
-							<td>Carte d'identitéeeee</td>
+							<td>Carte d'identité</td>
 							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
 							</tr>
 
@@ -237,7 +243,21 @@
 							<td>Information&nbsp;du&nbsp;vehicule</td>
 							<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
 							</tr>
+                          
+							<tr>
+							<td>Voir documents</td>
+						   </tr>
+							<tr>
+							<td>CNI</td>
+							<td>".$row->NUMERO_CARTE_IDENTITE."<a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							</td>
+							</tr>
+							
+
+
 							</table>
+							</div>
+							</div>
 							</div>
 							</div>
 						
@@ -256,6 +276,11 @@
 				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	</div>
 							<div class='modal-body'>
+							<div class='row'>
+							<div class='col-md-4'>
+							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+							</div>
+							<div class='col-md-8'>
 							<table class= 'table table-borderless'>
 							<tr>
 							<td>Carte d'identité</td>
@@ -285,12 +310,47 @@
 							<td>Localité</td>
 							<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
 							</tr>
+
+							<tr>
+							<td ><strong>Voir documents</strong></td>
+						   </tr>
+						   
+							<tr>
+							<td>CNI</td>
+							<td><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							</td>
+							</tr>
+
+
 							</table>
+							</div>
+							</div>
 							</div>
 							
 							</div>
 							</div>
-							</div>";
+							</div>
+                           </div>
+
+						<div class='modal fade' id='info_documa" .$row->CHAUFFEUR_ID. "'>
+						<div class='modal-dialog'>
+						<div class='modal-content'>
+						<div class='modal-header' style='background:cadetblue;color:white;'>
+				      <h6 class='modal-title'>Carte d'identité</h6>
+				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+			      	</div>
+						<div class='modal-body'>
+					
+						<class='col-md-4'>
+							<img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+						</div>
+						</div>
+						
+						</div>
+						</div>
+						</div>
+
+							";
 						}
 						//fin debut Detail cahuffeur
 						$info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID.'');
@@ -608,6 +668,11 @@
 		$this->form_validation->set_rules('numero_telephone','','trim|required|is_unique[chauffeur.numero_telephone]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le téléphone doit être unique</font>'));
     	// Gestion numero carte d'identite doit etre unique
 		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required|is_unique[chauffeur.NUMERO_CARTE_IDENTITE]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le numéro doit être unique</font>'));
+			// Gestion nmail qui doit etre unique
+		$this->form_validation->set_rules('adresse_email','','trim|required|is_unique[chauffeur.ADRESSE_MAIL]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le mail doit être unique</font>'));
+		$this->form_validation->set_rules('CONFIRMATION_EMAIL','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('personne_contact_telephone','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+
 		$this->form_validation->set_rules('NUMERO_PERMIS','','trim|required|is_unique[chauffeur.NUMERO_PERMIS]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le permis doit être unique</font>'));
 		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 

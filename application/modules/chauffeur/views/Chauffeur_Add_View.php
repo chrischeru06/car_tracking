@@ -105,16 +105,17 @@
                   </div><br><br><br>
 
                   <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Adresse email</label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Adresse email<font color="red">*</font></label>
                     <input type="text" name="adresse_email" id="adresse_email" value="<?= set_value('adresse_email') ?>"  class="form-control">
                     <font id="error_adresse_email" color="red"></font>
-                    <!-- <?php echo form_error('adresse_email', '<div class="text-danger">', '</div>'); ?> -->
+                    <?php echo form_error('adresse_email', '<div class="text-danger">', '</div>'); ?>
                   </div>
 
                   <div class="col-md-4">
-                    <label class="text-dark" style="font-weight: 1000; color:#454545">Confirmation du mail</label>
+                    <label class="text-dark" style="font-weight: 1000; color:#454545">Confirmation du mail<font color="red">*</font></label>
                     <input type="text" name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL" value="<?=set_value('CONFIRMATION_EMAIL') ?>"  class="form-control" onpaste="return false;">
-                    <!-- <font id="error_CONFIRMATION_EMAIL" color="red"></font> -->
+                    <font id="error_CONFIRMATION_EMAIL" color="red"></font>
+                    <?php echo form_error('CONFIRMATION_EMAIL', '<div class="text-danger">', '</div>'); ?>
                   </div>
 
                   <div class="col-md-4" class="text-dark">
@@ -130,6 +131,7 @@
                     <input type="text" name="personne_contact_telephone" autocomplete="off" 
                     id="personne_contact_telephone" value="<?= set_value('personne_contact_telephone') ?>"  class="form-control">
                     <font id="error_personne_contact_telephone" color="red"></font>
+                     <?php echo form_error('personne_contact_telephone', '<div class="text-danger">', '</div>'); ?>
                   </div>
 
                   <div class="col-md-4">
@@ -364,12 +366,20 @@
         statut=2;
         $('#error_prenom').html('Le champ est obligatoire');
       }
-
-      if($('#adresse_physique').val()=='')
+       if($('#personne_contact_telephone').val()=='')
       {
         statut=2;
-        $('#error_adresse_physique').html('Le champ est obligatoire');
+        $('#error_personne_contact_telephone').html('Le champ est obligatoire!!!!');
       }
+      
+
+      
+      if($('#CONFIRMATION_EMAIL').val()=='')
+      {
+        statut=2;
+        $('#error_CONFIRMATION_EMAIL').html('Le champ est obligatoire');
+      }
+      
 
       if($('#numero_telephone').val()=='')
       {
@@ -377,11 +387,11 @@
         $('#error_numero_telephone').html('Le champ est obligatoire');
       }
 
-        // if($('#adresse_email').val()=='')
-        // {
-        //   statut=2;
-        //   $('#error_adresse_email').html('Le champ est obligatoire');
-        // }
+        if($('#adresse_email').val()=='')
+        {
+          statut=2;
+          $('#error_adresse_email').html('Le champ est obligatoire');
+        }
       if($('#adresse_email').val()!='')
       {
         if(!emailReg.test($('#adresse_email').val()))
@@ -393,7 +403,7 @@
         if($('#CONFIRMATION_EMAIL').val()!=$('#adresse_email').val())
         {
           statut=2;
-          $('#error_CONFIRMATION_EMAIL').html('Les emails ne corrospondent pas');
+          $('#error_CONFIRMATION_EMAIL').html('Les emails ne correspondent pas');
         }
       }
 

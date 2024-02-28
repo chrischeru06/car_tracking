@@ -86,14 +86,13 @@ input:checked + .slider:before {
   <main id="main" class="main">
    <span style="margin-right: 15px">
     <div class="col-sm-3" style="float:right;">
-      <a href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" style="width: 100px;" class='btn btn-primary btn-sm float-right'>
+      <a href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" style="width: 100px;" class="btn btn-outline-primary rounded-pill ">
         <i class="fa fa-plus"></i>
         Nouveau
       </a>
     </div>
   </span>
-
-
+  
   <div class="pagetitle">
     <h1>Chauffeurs</h1>
     <nav>
