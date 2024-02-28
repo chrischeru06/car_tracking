@@ -18,6 +18,7 @@ class Profil extends CI_Controller
 		$this->load->helper('email');
 	}
 
+	//Fonction pour rediriger sur login en cas de perte de session
 	function out_application()
 	{
 		if(empty($this->session->userdata('USER_ID')))
@@ -27,7 +28,7 @@ class Profil extends CI_Controller
 		}
 	}
 
-
+	//Fonction pour l'affichage d'une page par defaut
 	function index()
 	{
 
@@ -181,7 +182,7 @@ class Profil extends CI_Controller
 		);
 
 		$update=$this->Model->update($table,array('USER_ID'=>$USER_ID),$data_updaate);
-		$message['message']='<div class="alert alert-success text-center" id="message">Votre mot de passe a été modifié avec succes</div>';
+		$message['message']='<div class="alert alert-success text-center" id="message">Votre mot de passe a été modifié avec succès</div>';
 		$this->session->set_flashdata($message);
 
 
@@ -207,6 +208,107 @@ class Profil extends CI_Controller
 		}
 
 		echo json_encode($html);
+
+
+	}
+
+	//Fonction pour modifier dans la BD les données d'un proprietaire 
+	function edit_info(){
+
+		$TYPE_PROPRIETAIRE_ID=$this->input->post('TYPE_PROPRIETAIRE_ID');
+		$PROPRIETAIRE_ID=$this->input->post('PROPRIETAIRE_ID');
+
+				if ($TYPE_PROPRIETAIRE_ID==1) 
+				{
+					$table='proprietaire';
+
+					// $LOGO_OLD = $this->input->post('LOGO_OLD');
+
+					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
+
+					// if(empty($_FILES['LOGO']['name']) && !empty($LOGO_OLD))
+					// {
+					// 	$file_logo = $LOGO_OLD;
+					// }elseif (!empty($_FILES['LOGO']['name']) && empty($LOGO_OLD)) {
+					// 	$file_logo = $this->upload_document_nomdocument($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
+
+					// }
+
+					$data_updaate=array(
+						'TYPE_PROPRIETAIRE_ID'=>$TYPE_PROPRIETAIRE_ID,
+						'NOM_PROPRIETAIRE'=>$this->input->post('NOM_PROPRIETAIRE'),
+						'CNI_OU_NIF'=>$this->input->post('CNI_OU_NIF'),
+						// 'RC'=>$this->input->post('RC'),
+						'PERSONNE_REFERENCE'=>$this->input->post('PERSONNE_REFERENCE'),
+						'EMAIL'=>$this->input->post('EMAIL'),
+						'TELEPHONE'=>$this->input->post('TELEPHONE'),
+						'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
+						'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
+						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
+						'ZONE_ID'=>$this->input->post('ZONE_ID'),
+						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
+						'ADRESSE'=>$this->input->post('ADRESSE')
+						// 'LOGO'=>$file_logo
+					);
+
+					$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),$data_updaate);
+
+				}else
+				{
+					$table='proprietaire';
+
+					// $photo_passport_old = $this->input->post('photo_passport_old');
+
+					// if(empty($_FILES['photo_passport']['name']) && !empty($photo_passport_old))
+					// {
+					// 	$file4 = $photo_passport_old;
+					// }elseif (!empty($_FILES['photo_passport']['name']) && empty($photo_passport_old)) {
+					// 	$file4 = $this->upload_document_nomdocument($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name'],$this->input->post('NOM_PROPRIETAIRE'));
+
+					// }elseif(!empty($_FILES['photo_passport']['name']) && !empty($photo_passport_old)){
+
+					// 	$file4 = $this->upload_document_nomdocument($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name'],$this->input->post('NOM_PROPRIETAIRE'));
+
+					// }
+
+					// $FILE_CNI_PASSPORT_OLD = $this->input->post('FILE_CNI_PASSPORT_OLD');
+
+					// if(empty($_FILES['FILE_CNI_PASSPORT']['name']) && !empty($FILE_CNI_PASSPORT_OLD))
+					// {
+					// 	$file_fil = $FILE_CNI_PASSPORT_OLD;
+					// }elseif (!empty($_FILES['FILE_CNI_PASSPORT']['name']) && empty($FILE_CNI_PASSPORT_OLD)) {
+					// 	$file_fil = $this->upload_cni($_FILES['FILE_CNI_PASSPORT']['tmp_name'],$_FILES['FILE_CNI_PASSPORT']['name'],$NOM_PROPRIETAIRE);
+
+					// }
+
+					$data_updaate=array(
+						'TYPE_PROPRIETAIRE_ID'=>$TYPE_PROPRIETAIRE_ID,
+						'NOM_PROPRIETAIRE'=>$this->input->post('NOM_PROPRIETAIRE'),
+						'PRENOM_PROPRIETAIRE'=>$this->input->post('PRENOM_PROPRIETAIRE'),
+						'CNI_OU_NIF'=>$this->input->post('CNI_OU_NIF'),
+						'EMAIL'=>$this->input->post('EMAIL'),
+						'TELEPHONE'=>$this->input->post('TELEPHONE'),
+						'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
+						'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
+						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
+						'ZONE_ID'=>$this->input->post('ZONE_ID'),
+						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
+						'ADRESSE'=>$this->input->post('ADRESSE')
+						// 'PHOTO_PASSPORT'=>$file4,
+						// 'FILE_CNI_PASSPORT'=>$file_fil
+
+					);
+
+
+
+					$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),$data_updaate);
+				}
+
+				$message['message']='<div class="alert alert-success text-center" id="message">Modification faite avec succès</div>';
+		$this->session->set_flashdata($message);
+
+
+		redirect(base_url('profil/Profil'));
 
 
 	}

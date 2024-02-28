@@ -108,7 +108,7 @@ class Proprietaire_vehicule extends CI_Controller
 
 
 
-			$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE))."&nbsp;<a href='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
+			$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
 
 			</div>
 			<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."'>

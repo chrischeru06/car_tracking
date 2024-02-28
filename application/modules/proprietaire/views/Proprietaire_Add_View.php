@@ -69,20 +69,26 @@
                   <span id="errorPRENOM_PROPRIETAIRE" class="text-danger"></span>
                   <?php echo form_error('PRENOM_PROPRIETAIRE', '<div class="text-danger">', '</div>'); ?>
                 </div>
+                <br>
+                <br>
+                <br>
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label id="label_document" style="font-weight: 1000; color:#454545"><b><?=$label_document?></b><span  style="color:white;">*</span></label>
-                    <input class="form-control" name="CNI_OU_NIF" id="CNI_OU_NIF"  type="text" placeholder='<?=$label_document?>' value="<?=$proprietaire['CNI_OU_NIF']?>"/>
+                    <label id="label_document" style="font-weight: 1000; color:#454545"><b><?=$label_document?></b><span  style="color:red;">*</span></label>
+                    <input class="form-control" name="CNI_OU_NIF" id="CNI_OU_NIF"  type="text" placeholder="<?=$label_document?>" value="<?=$proprietaire['CNI_OU_NIF']?>"/>
                   </div>
                   <span id="errorCNI_OU_NIF" class="text-danger"></span>
                   <?php echo form_error('CNI_OU_NIF','<div class="text-danger">', '</div>'); ?>
                 </div>
+                <br>
+                <br>
+                <br>
 
 
                 <div class="col-md-4" id="div_rc"<?=$div_personne_moral?>>
                   <div class="form-group">
-                    <label style="font-weight: 1000; color:#454545"><b>RC</b><span  style="color:white;">*</span></label>
+                    <label style="font-weight: 1000; color:#454545"><b>RC</b><span  style="color:red;">*</span></label>
                     <input class="form-control" name="RC" id="RC" type="text" value="<?=$proprietaire['RC']?>"/>
                   </div>
                   <span id="errorRC" class="text-danger"></span>
@@ -98,6 +104,14 @@
                   <?php echo form_error('PERSONNE_REFERENCE','<div class="text-danger">', '</div>'); ?>
                 </div>
 
+                <div class="col-md-4" id="div_fich_cni">
+                <label for="FName" style="font-weight: 1000; color:#454545">CNI/Passport <font color="red">*</font></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_CNI_PASSPORT" autocomplete="off" id="FILE_CNI_PASSPORT" value="<?= $proprietaire['FILE_CNI_PASSPORT'] ?>"  class="form-control">
+                <input type="hidden"  name="FILE_CNI_PASSPORT_OLD" id="FILE_CNI_PASSPORT_OLD" value="<?=$proprietaire['FILE_CNI_PASSPORT']?>">
+                <font id="error_FILE_CNI_PASSPORT" color="red"></font>
+                <?php echo form_error('FILE_CNI_PASSPORT', '<div class="text-danger">', '</div>'); ?> 
+              </div>
+
                 <div class="col-md-4">
                   <div class="form-group">
                     <label style="font-weight: 1000; color:#454545"><b>Email</b><span  style="color:red;">*</span></label>
@@ -106,6 +120,10 @@
                   <span id="errorEMAIL" class="text-danger"></span>
                   <?php echo form_error('EMAIL','<div class="text-danger">', '</div>'); ?>
                 </div>
+
+                <br>
+                <br>
+                <br>
 
                 <div class="col-md-4">
                   <div class="form-group">
@@ -139,6 +157,10 @@
 
 
                </div>
+
+               <br>
+               <br>
+               <br>
                <div class="col-md-4">
                 <label style="font-weight: 1000; color:#454545">Code pays <span style="color:red;">*</span></label>
                 <select class="form-control selectize" data-live-search="true" id="ITU-T_Telephone_Code_1" name="ITU-T_Telephone_Code">
@@ -171,7 +193,7 @@
                 <div class="form-group">
                   <label style="font-weight: 1000; color:#454545"><b>Province</b><span  style="color:red;">*</span></label>
                   <select class="form-control" name="PROVINCE_ID" id="PROVINCE_ID" onchange="change_province();">
-                    <option value="" selected>-- Séléctionner --</option>
+                    <option value="" selected>Séléctionner</option>
                     <?php
                     foreach ($provinces as $province)
                     {
@@ -265,6 +287,15 @@
                 <font id="error_photo_passport" color="red"></font>
                 <?php echo form_error('photo_passport', '<div class="text-danger">', '</div>'); ?> 
               </div>
+
+              <div class="col-md-4" id="div_logo">
+                <label for="FName" style="font-weight: 1000; color:#454545">Logo <font color="red">*</font></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="LOGO" autocomplete="off" id="LOGO" value="<?= $proprietaire['LOGO'] ?>"  class="form-control">
+                <input type="hidden"  name="LOGO_OLD" id="LOGO_OLD" value="<?=$proprietaire['LOGO']?>">
+                <font id="error_LOGO" color="red"></font>
+                <?php echo form_error('LOGO', '<div class="text-danger">', '</div>'); ?> 
+              </div>
+
             </div>
 
           </form><!-- End General Form Elements -->
@@ -274,7 +305,7 @@
         <br>
         <div class="row">
           <div class="col-md-12">
-            <button style="float: right;" class="btn btn-outline-primary" onclick="submit_form();"><i class="fa fa-save"></i> <?=$btn?></button>
+            <button style="float: right;" class="btn btn-outline-primary rounded-pill" onclick="submit_form();"><i class="fa fa-save"></i> <?=$btn?></button>
           </div>
         </div>
 
@@ -304,36 +335,48 @@
     $('#div_photo').prop('style','display:none;');
 
     // $('#div_photo').hide();
-    $('#label_document').html('<b>NIF/ CNI</b> <span  style="color:white;">*</span>');
+    $('#label_document').html('<b>NIF/ CNI</b> <span  style="color:red;">*</span>');
     $('#div_prov').attr('hidden',true); 
     $('#div_com').attr('hidden',true);  
     $('#div_zon').attr('hidden',true);  
     $('#div_col').attr('hidden',true); 
+    $('#div_logo').hide();
+    $('#div_fich_cni').hide();
+
+
   }
   else
   {
 
    if($('#TYPE_PROPRIETAIRE_ID').val()==1)
    {
-    $('#label_document').html('<b>NIF</b> <span  style="color:red;"> </span>');
+    $('#label_document').html('<b>NIF</b> <span  style="color:red;">*</span>');
         // $('#div_type_societe').prop('style','');
     $('#div_PRENOM_PROPRIETAIRE').prop('style','display:none;');
 
     $('#div_rc').prop('style','');
     $('#div_personne_reference').prop('style','');
     $('#div_photo').hide();
+    $('#div_logo').show();
+    $('#div_fich_cni').hide();
+
+
 
 
   }
   else
   {
-    $('#label_document').html('<b>CNI</b> <span  style="color:red;">*</span>');
+    $('#label_document').html('<b>CNI / Numéro passport</b> <span  style="color:red;">*</span>');
        // $('#div_type_societe').prop('style','display:none;');
     $('#div_PRENOM_PROPRIETAIRE').prop('style','');
 
     $('#div_rc').prop('style','display:none;');
     $('#div_personne_reference').prop('style','display:none;');
     $('#div_photo').show();
+    $('#div_logo').hide();
+    $('#div_fich_cni').show();
+
+
 
 
   }
@@ -349,31 +392,43 @@
     $('#div_rc').prop('style','display:none;');
     $('#div_personne_reference').prop('style','display:none;');
     $('#div_photo').hide();
-    $('#label_document').html('<b>NIF/ CNI</b> <span  style="color:white;">*</span>');
+    $('#label_document').html('<b>NIF/ CNI</b> <span  style="color:red;">*</span>');
+    $('#div_logo').hide();
+    $('#div_fich_cni').hide();
+
+
   }
   else
   {
     if($('#TYPE_PROPRIETAIRE_ID').val()==1)
     {
-      $('#label_document').html('<b>NIF</b> <span  style="color:red;"> </span>');
+      $('#label_document').html('<b>NIF</b> <span  style="color:red;">*</span>');
         // $('#div_type_societe').prop('style','');
       $('#div_PRENOM_PROPRIETAIRE').prop('style','display:none;');
 
       $('#div_rc').prop('style','');
       $('#div_personne_reference').prop('style','');
       $('#div_photo').hide();
+      $('#div_logo').show();
+      $('#div_fich_cni').hide();
+
+
 
 
     }
     else
     {
-      $('#label_document').html('<b>CNI</b> <span  style="color:red;">*</span>');
+      $('#label_document').html('<b>CNI / Numéro passport</b> <span  style="color:red;">*</span>');
        // $('#div_type_societe').prop('style','display:none;');
       $('#div_PRENOM_PROPRIETAIRE').prop('style','');
       
       $('#div_rc').prop('style','display:none;');
       $('#div_personne_reference').prop('style','display:none;');
       $('#div_photo').show();
+      $('#div_logo').hide();
+      $('#div_fich_cni').show();
+
+
 
 
     }
@@ -464,20 +519,25 @@ function change_zone()
 function submit_form()
 {
   const photopassport = document.getElementById('photo_passport');
+  const logo = document.getElementById('LOGO');
+  const file_cni_passport = document.getElementById('FILE_CNI_PASSPORT');
+
+  
+
   var mail = document.getElementById("EMAIL").value;
   var mail2 = document.getElementById("CONFIRMATION_EMAIL").value;
   var form = document.getElementById("add_form");
   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   var statut=1;
 
-if ($('#ITU-T_Telephone_Code_1').val()=='') {
+  if ($('#ITU-T_Telephone_Code_1').val()=='') {
     $('#errorpays').text("Le champ est obligatoire");
     statut=2;
-}else{
+  }else{
 
-  $('#errorpays').html('');
+    $('#errorpays').html('');
 
-}
+  }
 
   var COUNTRY_ID=$('#COUNTRY_ID').val() ;
 
@@ -503,6 +563,33 @@ if ($('#ITU-T_Telephone_Code_1').val()=='') {
   if($('#TYPE_PROPRIETAIRE_ID').val()==1)
   {
 
+    if($('#RC').val()=='')
+    {
+      statut=2;
+      $('#errorRC').html('Le champ est obligatoire');
+    }else{
+      $('#errorRC').html('');
+    }
+
+
+    if($('#CNI_OU_NIF').val()=='')
+    {
+      statut=2;
+      $('#errorCNI_OU_NIF').html('Le champ est obligatoire');
+    }else{
+      $('#errorCNI_OU_NIF').html('');
+    }
+
+    if(logo.files.length === 0 && $('#LOGO_OLD').val()=='')
+    {
+      statut=2;
+      $('#error_LOGO').text("Le champ est obligatoire");
+    }else{
+      $('#error_LOGO').text('');
+
+    }
+
+
 
   }
 
@@ -520,7 +607,21 @@ if ($('#ITU-T_Telephone_Code_1').val()=='') {
     {
       statut=2;
       $('#error_photo_passport').text("Le champ est obligatoire");
+    }else{
+      $('#error_photo_passport').html('');
+
     }
+
+    if(file_cni_passport.files.length === 0 && $('#FILE_CNI_PASSPORT_OLD').val()=='')
+    {
+      statut=2;
+      $('#error_FILE_CNI_PASSPORT').text("Le champ est obligatoire");
+    }else{
+      $('#error_FILE_CNI_PASSPORT').html('');
+
+    }
+
+    
   }
 
 
@@ -675,7 +776,7 @@ function localisation(){
   }
 
 
- 
+
 </script>
 
 <script type="text/javascript">
@@ -684,17 +785,17 @@ function localisation(){
   {
     e.preventDefault();
     e.stopPropagation();
-}
+  }
 
 
 
 
-$('#ITU-T_Telephone_Code_1').on('change',function()
-{
+  $('#ITU-T_Telephone_Code_1').on('change',function()
+  {
     $('[name = "TELEPHONE"]').val(this.value);
-});
-$('#TELEPHONE').on('input change keypress',function()
-{
+  });
+  $('#TELEPHONE').on('input change keypress',function()
+  {
     $(this).val($(this).val().replace(/[^0-9]*$/gi, ''));
     $(this).val($(this).val().replace(' ', ''));
     let tel_code = $('#ITU-T_Telephone_Code_1').val();
@@ -703,23 +804,23 @@ $('#TELEPHONE').on('input change keypress',function()
     if (subStr != tel_code)
     {
       $('[name = "TELEPHONE"]').val(tel_code);
-  }
-  if (tel_code == '+257')
-  {
+    }
+    if (tel_code == '+257')
+    {
       if ($(this).val().length == 12)
       {
             // Bind:
-            $('#TELEPHONE').on('keypress', DoPrevent);
-            $('#TELEPHONE').text('')
-            $('[name = "TELEPHONE"]').removeClass('is-invalid').addClass('is-valid');
-        }
-        else
-        {
+        $('#TELEPHONE').on('keypress', DoPrevent);
+        $('#TELEPHONE').text('')
+        $('[name = "TELEPHONE"]').removeClass('is-invalid').addClass('is-valid');
+      }
+      else
+      {
 
-            $('#TELEPHONE').off('keypress', DoPrevent);
-            $('#TELEPHONE').text('invalide');
-            $('[name = "TELEPHONE"]').removeClass('is-valid').addClass('is-invalid');
-        }
+        $('#TELEPHONE').off('keypress', DoPrevent);
+        $('#TELEPHONE').text('invalide');
+        $('[name = "TELEPHONE"]').removeClass('is-valid').addClass('is-invalid');
+      }
     }
     else
     {
@@ -728,15 +829,15 @@ $('#TELEPHONE').on('input change keypress',function()
         $('#TELEPHONE').off('keypress', DoPrevent);
         $('#TELEPHONE').text('')
         $('[name = "TELEPHONE"]').removeClass('is-invalid').addClass('is-valid');
-    }
-    else
-    {
+      }
+      else
+      {
         $('#TELEPHONE').off('keypress', DoPrevent);
         $('#TELEPHONE').text('<?=lang('tel_invalide')?>');
         $('[name = "TELEPHONE"]').removeClass('is-valid').addClass('is-invalid');
+      }
     }
-}
-});
+  });
 </script>
 
 </html>

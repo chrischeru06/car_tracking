@@ -322,7 +322,7 @@
 
 	</body>
 
-	<script>
+<script>
 		$(document).ready(function(){
 
 			getmap();
