@@ -13,13 +13,13 @@
 
     }
 
-       /* The switch - the box around the slider */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 20px;
-  }
+    /* The switch - the box around the slider */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 30px;
+      height: 20px;
+    }
 
 /* Hide default HTML checkbox */
 .switch input {
@@ -82,7 +82,7 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-  </style>
+</style>
 
 
 </head>
@@ -138,7 +138,8 @@ input:checked + .slider:before {
                       <tr>
                         <th class="text-dark">#</th>
                         <th class="text-dark">NOM ET PRENOM</th>
-                        <th class="text-dark">CONTACT</th>
+                        <th class="text-dark">EMAIL</th>
+                        <th class="text-dark">TELEPHONE</th>
                         <th class="text-dark">PROFIL</th>
                         <th class="text-dark">STATUT</th>
                         <th class="text-dark" style="float: right;">ACTIONS</th>
@@ -169,6 +170,113 @@ input:checked + .slider:before {
 <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
+
+<!------------------------ Modal detail proprietaire type physique' ------------------------>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>
+        <h5 class="modal-title">Détail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <div class="row">
+            <div class='col-md-6' id="div_info">
+            </div>
+            <div class='col-md-6'>
+              <table class="table table-striped">
+                <tr>            
+                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
+                  <td><a id="DESC_TYPE_PROPRIETAIRE"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-user-plus"></span>  Personne&nbsp;de&nbsp;référence</td>
+                  <td><a id="PERSONNE_REFERENCE"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; CNI</td>
+                  <td><a id="IDENTITE"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
+                  <td><a id="TELEPHONE"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
+                  <td><a id="EMAIL"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                  <td><a id="ADRESSE"></a></td>
+                </tr>
+
+
+              </table>
+            </div>
+          </div>
+
+
+          <!-- <div id="CNI"></div> -->
+
+
+
+        </div>
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div> -->
+    </div>
+  </div>
+</div><!-- End Modal-->
+
+<!------------------------ Modal detail proprietaire type moral' ------------------------>
+
+<div class="modal fade" id="myModal_Modal" tabindex="-1" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>
+        <h5 class="modal-title">Détail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <div class="row">
+            <table class="table table-striped">
+              <tr>            
+                <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
+                <td><a id="DESC_TYPE_PROPRIETAIRE_MORAL"></a></td>
+              </tr>
+              <tr>
+                <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Personne de référence</td>
+                <td><a id="PERSONNE_REFERENCE_MORAL"></a></td>
+              </tr>
+
+              <tr>
+                <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
+                <td><a id="TELEPHONE_MORAL"></a></td>
+              </tr>
+              <tr>
+                <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
+                <td><a id="EMAIL_MORAL"></a></td>
+              </tr>
+              <tr>
+                <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                <td><a id="ADRESSE_MORAL"></a></td>
+              </tr>
+            </table>          
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div> -->
+    </div>
+  </div>
+</div><!-- End Modal-->
 
 <script>
   // Fonction pour le chargement de donnees par defaut
@@ -247,7 +355,7 @@ input:checked + .slider:before {
 </script>
 
 <script>
-   function myFunction(USER_ID) {
+ function myFunction(USER_ID) {
   // Get the checkbox
   var checkBox = document.getElementById("myCheck");
   // Get the output text
@@ -275,32 +383,128 @@ input:checked + .slider:before {
 }
 
 function myFunction_desactive(USER_ID) {
-  // Get the checkbox
-  var checkBox = document.getElementById("myCheck");
+
+  if(USER_ID==1){
+
+    var url="<?= base_url('administration/Users/non_desactive_user')?>";
+    $.ajax(
+    {
+      url: url,
+      type: 'POST',
+      dataType:'JSON',
+        // data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data)
+      {
+        if(data==2)
+        {
+          Swal.fire(
+          {
+            icon: 'error',
+            title: 'Erreur',
+            text: 'Impossible de désactiver l\'Administrateur !',
+            timer: 3000,
+          }).then(() =>
+          {
+            window.location.reload('<?=base_url('administration/Users')?>');
+          });
+        }
+      }
+    });
+  }else{
+
+    // Get the checkbox
+    var checkBox = document.getElementById("myCheck");
   // Get the output text
 
-  var status=$('#status').val();
+    var status=$('#status').val();
 
-  status=1;
+    status=1;
 
-  var form_data = new FormData($("#myform_check")[0]);
-  $.ajax(
-  {
-    url:"<?=base_url()?>administration/Users/active_desactive/"+status+'/'+USER_ID,
-
-    type: 'POST',
-    dataType:'JSON',
-    data: form_data ,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data)
+    var form_data = new FormData($("#myform_check")[0]);
+    $.ajax(
     {
-      window.location.href='<?=base_url('')?>administration/Users/index';
-    }
-  });
+      url:"<?=base_url()?>administration/Users/active_desactive/"+status+'/'+USER_ID,
+
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data)
+      {
+        window.location.href='<?=base_url('')?>administration/Users/index';
+      }
+    });
+
+
+  }
+  
 
 }
-  </script>
+</script>
+
+<script>
+
+  function get_detail(PROPRIETAIRE_ID)
+  {
+   $("#myModal").modal("show");
+   $.ajax({
+    url: "<?= base_url() ?>proprietaire/Proprietaire/get_detail/" + PROPRIETAIRE_ID,
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
+
+      // alert(data.CNI)
+
+      $('#IDENTITE').html(data.CNI);
+      $('#TELEPHONE').html(data.TELEPHONE);
+      $('#EMAIL').html(data.EMAIL);
+      $('#DESC_TYPE_PROPRIETAIRE').html(data.DESC_TYPE_PROPRIETAIRE);
+      $('#PERSONNE_REFERENCE').html(data.PERSONNE_REFERENCE);
+      $('#div_info').html(data.div_info);
+      $('#ADRESSE').html(data.ADRESSE);
+
+    },
+
+  });
+
+
+ }
+
+ function get_detail_pers_moral(PROPRIETAIRE_ID) {
+
+
+   $("#myModal_Modal").modal("show");
+   $.ajax({
+    url: "<?= base_url() ?>proprietaire/Proprietaire/get_detail/" + PROPRIETAIRE_ID,
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
+
+
+      // alert(data.CNI)
+
+      // $('#IDENTITE').html(data.CNI);
+      $('#TELEPHONE_MORAL').html(data.TELEPHONE);
+      $('#EMAIL_MORAL').html(data.EMAIL);
+      $('#DESC_TYPE_PROPRIETAIRE_MORAL').html(data.DESC_TYPE_PROPRIETAIRE);
+      $('#PERSONNE_REFERENCE_MORAL').html(data.PERSONNE_REFERENCE);
+      // $('#div_info').html(data.div_info);
+      $('#ADRESSE_MORAL').html(data.ADRESSE);
+
+
+
+
+
+    },
+
+  });
+
+ }
+</script>
 
 </html>

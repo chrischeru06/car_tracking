@@ -21,8 +21,8 @@
       <h1>Chauffeur</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
-          <li class="breadcrumb-item active">Ajout</li>
+          <li class="breadcrumb-item"><a href="">Chauffeur</a></li>
+          <li class="breadcrumb-item active"><?=$title?></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -32,9 +32,9 @@
         <div class="row">
           <div class="text-left col-sm-12">
             <div class="card">
-              <div class="card-header">
+              <!-- <div class="card-header">
                 <h4 class="card-title lead"> <?=$title?></h4>
-              </div>
+              </div> -->
               
               <div class="card-body text-left">
 
@@ -64,7 +64,7 @@
 
                       <font id="error_date_naissance" color="red"></font>
                       <?php echo form_error('date_naissance', '<div class="text-danger">', '</div>'); ?>
-                    </div>
+                    </div><br><br><br>
 
                     <div class="col-md-4">
                       <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Genre <font color="red">*</font></label>
@@ -102,7 +102,7 @@
                     <input type="text" name="numero_telephone" autocomplete="off" id="numero_telephone" value="<?= set_value('numero_telephone') ?>"  class="form-control">
                     <font id="error_numero_telephone" color="red"></font>
                     <?php echo form_error('numero_telephone', '<div class="text-danger">', '</div>'); ?> 
-                  </div>
+                  </div><br><br><br>
 
                   <div class="col-md-4">
                     <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Adresse email</label>
@@ -123,7 +123,7 @@
                     id="NUMERO_CARTE_IDENTITE" value="<?= set_value('NUMERO_CARTE_IDENTITE') ?>"  class="form-control">
                     <font id="error_NUMERO_CARTE_IDENTITE" color="red"></font>
                     <?php echo form_error('NUMERO_CARTE_IDENTITE', '<div class="text-danger">', '</div>'); ?>
-                  </div>
+                  </div><br><br><br>
 
                   <div class="col-md-4">
                     <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro de la personne de contact</label>
@@ -170,7 +170,7 @@
                     </select>
                     <font id="error_com" color="red"></font>
                     <?php echo form_error('COMMUNE_ID', '<div class="text-danger">', '</div>'); ?>
-                  </div>
+                  </div><br><br><br>
 
                   <div class="col-md-4">
                     <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Zone <font color="red">*</font></label>
@@ -221,7 +221,7 @@
                     <input type="file" name="fichier_carte_identite" autocomplete="off" id="fichier_carte_identite" accept=".pdf" value="<?= set_value('fichier_carte_identite') ?>"  class="form-control">
                     <font id="error_fichier_carte_identite" color="red"></font>
                     <?php echo form_error('fichier_carte_identite', '<div class="text-danger">', '</div>'); ?> 
-                  </div>
+                  </div><br><br><br>
 
                  <!--  <div class="col-md-4">
                     <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Casier judiciaire <font color="red">*</font></label>
@@ -246,11 +246,11 @@
                   </div>
                    <div class="col-md-4">
                       <label for="date_expiration" class="text-dark" style="font-weight: 1000; color:#454545">Date expiration permis <font color="red">*</font></label>
-                      <input type="date" name="date_expiration" autocomplete="off" id="date_expiration" value="<?= set_value('date_expiration') ?>"  class="form-control"  max="<?= date('Y-m-d')?>">
+                      <input type="date" name="date_expiration" autocomplete="off" id="date_expiration" value="<?= set_value('date_expiration') ?>"  class="form-control" >
 
                       <font id="error_date_expiration" color="red"></font>
                       <?php echo form_error('date_expiration', '<div class="text-danger">', '</div>'); ?>
-                    </div>
+                    </div><br><br><br>
 
 
                   <div class="col-md-4">
@@ -262,7 +262,7 @@
                 </div>
               </form>
               <div class="col-md-12" style="margin-top:10px;">
-                <button style="float: right;" class="btn btn-secondary" onclick="submit_form();"><span class="fas "></span> Enregistrer</button>
+                <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span> Enregistrer</button>
               </div>
                   <!-- </div> -->
 

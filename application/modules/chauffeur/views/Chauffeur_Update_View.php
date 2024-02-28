@@ -21,8 +21,8 @@
       <h1>Chauffeur</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Chauffeur</a></li>
-          <li class="breadcrumb-item active">Ajout</li>
+          <li class="breadcrumb-item"><a href="">Chauffeur</a></li>
+          <li class="breadcrumb-item active"><?=$title?></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -32,9 +32,9 @@
         <div class="row">
           <div class="text-left col-sm-12">
             <div class="card">
-              <div class="card-header">
+              <!-- <div class="card-header">
                 <h4 class="card-title lead"> <?=$title?></h4>
-              </div>
+              </div> -->
               
               <div class="card-body text-left">
 
@@ -91,7 +91,7 @@
                       <input type="text" name="ADRESSE_PHYSIQUE" autocomplete="off" id="ADRESSE_PHYSIQUE" value="<?=$membre['ADRESSE_PHYSIQUE'] ?>"  class="form-control">
                       <font id="error_ADRESSE_PHYSIQUE" color="red"></font>
                       <?php echo form_error('ADRESSE_PHYSIQUE', '<div class="text-danger">', '</div>'); ?> 
-                    </div>
+                    </div><br><br><br>
 
                     <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numero de téléphone <font color="red">*</font></label>
@@ -110,7 +110,7 @@
                       <label class="text-dark" style="font-weight: 1000; color:#454545">Confirmation du mail</label>
                       <input type="text" name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL" value="<?=$membre['ADRESSE_MAIL']?>"  class="form-control">
                       <font id="error_CONFIRMATION_EMAIL" color="red"></font>
-                    </div>
+                    </div><br><br><br>
 
                     <div class="col-md-4">
                       <label for="FName" class="text-dark"style="font-weight: 1000; color:#454545">Numéro carte d'identité <font color="red">*</font></label>
@@ -150,7 +150,7 @@
                       </select>
                       <font id="error_prov" color="red"></font>
                       <?php echo form_error('PROVINCE_ID', '<div class="text-danger">', '</div>'); ?>
-                    </div>
+                    </div><br><br><br>
 
                     <div class="col-md-4">
                       <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Commune <font color="red">*</font></label>
@@ -229,7 +229,7 @@
                       </select>
                       <font id="error_col" color="red"></font>
                       <?php echo form_error('COLLINE_ID', '<div class="text-danger">', '</div>'); ?>
-                    </div>
+                    </div><br><br><br>
 
                     <div class="col-md-4">
                       <label for="description" class="text-dark" style="font-weight: 1000; color:#454545">Carte d'identité <font color="red">*</font></label>
@@ -257,7 +257,7 @@
 
                       <input type="file" class="form-control" id="file_permis" name="file_permis" value="<?=$membre['file_permis']?>">
                       <font id="file_permis_error" color="red"></font>
-                    </div>
+                    </div><br><br><br>
 
                     <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
@@ -271,7 +271,7 @@
                 </form>
 
                 <div class="col-md-12" style="margin-top:50px;">
-                  <button style="float: right;" class="btn btn-secondary" onclick="submit_form();"><span class="fas "></span>Modifier</button>
+                  <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span>Modifier</button>
                 </div>
              
               

@@ -26,6 +26,7 @@ class Users extends CI_Controller
 		}
 	}
 
+
 	//Fonction pour l'affichage de La liste des utilisateurs
 	function index(){
 
@@ -51,10 +52,10 @@ class Users extends CI_Controller
 			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' PROFIL_ID DESC';
 		}
 		
-		$search = !empty($_POST['search']['value']) ? (' AND (`IDENTIFICATION` LIKE "%' . $var_search . '%" 
-			OR TELEPHONE LIKE "%' . $var_search . '%" OR USER_NAME LIKE "%' . $var_search . '%" OR DESCRIPTION_PROFIL LIKE "%' . $var_search . '%")') : '';
+		$search = !empty($_POST['search']['value']) ? (' AND (users.IDENTIFICATION LIKE "%' . $var_search . '%" 
+			OR users.TELEPHONE LIKE "%' . $var_search . '%" OR USER_NAME LIKE "%' . $var_search . '%" OR DESCRIPTION_PROFIL LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT `USER_ID`,`IDENTIFICATION`,TELEPHONE,`USER_NAME`,`profil`.`DESCRIPTION_PROFIL` as profile,STATUT FROM `users` join profil on users.PROFIL_ID=profil.PROFIL_ID WHERE 1';
+		$query_principal='SELECT users.USER_ID,users.IDENTIFICATION,users.TELEPHONE,users.USER_NAME,profil.DESCRIPTION_PROFIL as profile,STATUT,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT,proprietaire.PROPRIETAIRE_ID FROM `users` join profil on users.PROFIL_ID=profil.PROFIL_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID WHERE 1';
 		$critaire = '' ;
 		
         //condition pour le query principale
@@ -74,42 +75,69 @@ class Users extends CI_Controller
 			$i=$i+1;
 			$sub_array=array();
 			$sub_array[]=$i;	
+			if($row->TYPE_PROPRIETAIRE_ID == 1){
+				$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->IDENTIFICATION . '</td></tr></tbody></a>
+				';
 
-			$sub_array[]=$row->IDENTIFICATION;
-			$sub_array[]=$row->USER_NAME.'<br>'.$row->TELEPHONE;
+			}elseif($row->USER_ID == 1){
+
+				$sub_array[] ='&nbsp;&nbsp;&nbsp;<i class="bi bi-person"></i>&nbsp;&nbsp;&nbsp;&nbsp;'.$row->IDENTIFICATION;
+
+
+			}else{
+
+				$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->IDENTIFICATION . '</td></tr></tbody></a>
+				
+				<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-body">
+				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
+				</div>
+				<div class="modal-footer">
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				</div>
+				</div>
+				</div>
+				</div>';
+			}
+
+			// $sub_array[]=$row->IDENTIFICATION;
+			$sub_array[]=$row->USER_NAME;
+			$sub_array[]=$row->TELEPHONE;
 			$sub_array[]=$row->profile;
 			
 			if($row->STATUT==1){
 				$sub_array[]='<form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
-					<input type = "hidden" value="'.$row->STATUT.'" id="status">
+				<input type = "hidden" value="'.$row->STATUT.'" id="status">
 
-					<table>
-					<td><label class="text-primary">Activé</label></td>
-					<td><label class="switch"> 
-					<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->USER_ID . ')" checked>
-					<span class="slider round"></span>
-					</label></td>
-					</table>
+				<table>
+				<td><label class="text-primary">Activé</label></td>
+				<td><label class="switch"> 
+				<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->USER_ID . ')" checked>
+				<span class="slider round"></span>
+				</label></td>
+				</table>
 
-					
-					
-					</form>
+
+
+				</form>
 
 				';
 			}else{
 				$sub_array[]='<form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
-					<input type = "hidden" value="'.$row->STATUT.'" id="status">
+				<input type = "hidden" value="'.$row->STATUT.'" id="status">
 
-					<table>
-					<td><label class="text-danger">Désactivé</label></td>
-					<td><label class="switch"> 
-					<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->USER_ID . ')">
-					<span class="slider round"></span>
-					</label></td>
-					</table>
-					</form>
+				<table>
+				<td><label class="text-danger">Désactivé</label></td>
+				<td><label class="switch"> 
+				<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->USER_ID . ')">
+				<span class="slider round"></span>
+				</label></td>
+				</table>
+				</form>
 
 				';
 			}
@@ -119,9 +147,17 @@ class Users extends CI_Controller
 			<span class="caret"></span></a>
 			<ul class="dropdown-menu dropdown-menu-left">
 			';
-			$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOne/'.$row->USER_ID). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a></li>";
-			$option .= "<li><a class='btn-md' href='#' data-toggle='modal'
-			data-target='#mydelete" . $row->USER_ID . "'><span class='bi bi-trash h5'></span>&nbsp;&nbsp;Supprimer</a></li>";
+			if ($row->IDENTIFICATION!='ADMIN') {
+				$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOne/'.$row->USER_ID). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a></li>";
+				$option .= "<li><a class='btn-md' href='#' data-toggle='modal'
+				data-target='#mydelete" . $row->USER_ID . "'><span class='bi bi-trash h5'></span>&nbsp;&nbsp;Supprimer</a></li>";
+				$option .="<li>
+
+				<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détail</a>
+				</a>
+				</li>";
+			}
+			
 			
 			$option .= " </ul>
 			</div>
@@ -244,6 +280,15 @@ class Users extends CI_Controller
 		$data['message']='<div class="alert alert-success text-center" id="message">Utilisateur supprimé avec succès</div>';
 		$this->session->set_flashdata($data);
 		redirect(base_url('administration/Users/index'));
+	}
+
+
+	//Fonction pour ne pas pouvoir desactiver un admin
+	function non_desactive_user()
+	{
+		$statut=2;
+
+		echo json_encode($statut);
 	}
 
 

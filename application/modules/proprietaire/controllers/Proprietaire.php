@@ -12,12 +12,13 @@ class Proprietaire extends CI_Controller
 		parent::__construct();
 	}
 
+
 	//Fonction pour l'affichage de la page d'enregistrement de proprietaires
 	function index(){
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
 		$data['btn']="Enregistrer";
 		$data['title']="NOUVEAU PROPRIETAIRE";
-		$proprietaire = array('PROPRIETAIRE_ID'=>NULL,'TYPE_PROPRIETAIRE_ID'=>NULL,'TYPE_SOCIETE_ID'=>NULL,'NOM_PROPRIETAIRE'=>NULL,'PRENOM_PROPRIETAIRE'=>NULL,'PERSONNE_REFERENCE'=>NULL,'EMAIL'=>NULL,'TELEPHONE'=>NULL,'CNI_OU_NIF'=>NULL,'RC'=>NULL,'PROVINCE_ID'=>NULL,'COMMUNE_ID'=>NULL,'ZONE_ID'=>NULL,'COLLINE_ID'=>NULL,'ADRESSE'=>NULL,'PHOTO_PASSPORT'=>NULL);
+		$proprietaire = array('PROPRIETAIRE_ID'=>NULL,'TYPE_PROPRIETAIRE_ID'=>NULL,'TYPE_SOCIETE_ID'=>NULL,'NOM_PROPRIETAIRE'=>NULL,'PRENOM_PROPRIETAIRE'=>NULL,'PERSONNE_REFERENCE'=>NULL,'EMAIL'=>NULL,'TELEPHONE'=>NULL,'CNI_OU_NIF'=>NULL,'RC'=>NULL,'PROVINCE_ID'=>NULL,'COMMUNE_ID'=>NULL,'ZONE_ID'=>NULL,'COLLINE_ID'=>NULL,'ADRESSE'=>NULL,'PHOTO_PASSPORT'=>NULL,'LOGO'=>NULL,'FILE_CNI_PASSPORT'=>NULL);
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
@@ -38,7 +39,7 @@ class Proprietaire extends CI_Controller
 		$communes=array();
 		$zones=array();
 		$collines=array();
-		$label_document="NIF/ CNI";
+		$label_document="";
 		$div_personne_moral=' style="display:none;"';
 		$div_personne_physique=' style="display:none;"';
 		$div_photo=' style="display:none;"';
@@ -50,7 +51,7 @@ class Proprietaire extends CI_Controller
 			
 
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
-			$my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)="'.$PROPRIETAIRE_ID.'"', '`PROPRIETAIRE_ID` ASC');
+			$my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT,LOGO,FILE_CNI_PASSPORT', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)="'.$PROPRIETAIRE_ID.'"', '`PROPRIETAIRE_ID` ASC');
 			$my_select_proprio=str_replace('\"', '"', $my_select_proprio);
 			$my_select_proprio=str_replace('\n', '', $my_select_proprio);
 			$my_select_proprio=str_replace('\"', '', $my_select_proprio);
@@ -75,7 +76,7 @@ class Proprietaire extends CI_Controller
 			}
 			else
 			{
-				$label_document="CNI";
+				$label_document="CNI / Numéro passport";
 				$div_personne_moral=' style="display:none;"';
 				$div_personne_physique='';
 			}
@@ -104,6 +105,13 @@ class Proprietaire extends CI_Controller
 			if ($TYPE_PROPRIETAIRE_ID==1) 
 			{
 
+				$LOGO_OLD = $this->input->post('LOGO_OLD');
+
+
+				if(empty($_FILES['LOGO']['name']) && empty($LOGO_OLD) )
+				{
+					$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				}
 
 				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
@@ -139,6 +147,14 @@ class Proprietaire extends CI_Controller
 
 			}else 
 			{
+
+				$FILE_CNI_PASSPORT_OLD = $this->input->post('FILE_CNI_PASSPORT_OLD');
+
+
+				if(empty($_FILES['FILE_CNI_PASSPORT']['name']) && empty($FILE_CNI_PASSPORT_OLD) )
+				{
+					$this->form_validation->set_rules('FILE_CNI_PASSPORT',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				}
 
 				$photo_passport_old = $this->input->post('photo_passport_old');
 
@@ -200,6 +216,19 @@ class Proprietaire extends CI_Controller
 					$email=$this->input->post('EMAIL');
 					$password=$this->notifications->generate_password(8);
 
+					$LOGO_OLD = $this->input->post('LOGO_OLD');
+
+					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
+
+					if(empty($_FILES['LOGO']['name']) && !empty($LOGO_OLD))
+					{
+						$file_logo = $LOGO_OLD;
+					}elseif (!empty($_FILES['LOGO']['name']) && empty($LOGO_OLD)) {
+						$file_logo = $this->upload_document_nomdocument($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
+
+					}
+
+
 					$data = array(
 						'TYPE_PROPRIETAIRE_ID'=>$this->input->post('TYPE_PROPRIETAIRE_ID'),
 							// 'TYPE_SOCIETE_ID'=>$this->input->post('TYPE_SOCIETE_ID'),
@@ -214,7 +243,8 @@ class Proprietaire extends CI_Controller
 						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
 						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
-						'ADRESSE'=>$this->input->post('ADRESSE')
+						'ADRESSE'=>$this->input->post('ADRESSE'),
+						'LOGO'=>$file_logo
 					);
 
 					$PROPRIETAIRE_ID=$this->Model->insert_last_id($table,$data);
@@ -258,7 +288,19 @@ class Proprietaire extends CI_Controller
 					}elseif (!empty($_FILES['photo_passport']['name']) && empty($photo_passport_old)) {
 						$file3 = $this->upload_document_nomdocument($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name'],$NOM_PROPRIETAIRE);
 
-					}		
+					}
+
+
+					$FILE_CNI_PASSPORT_OLD = $this->input->post('FILE_CNI_PASSPORT_OLD');
+
+					if(empty($_FILES['FILE_CNI_PASSPORT']['name']) && !empty($FILE_CNI_PASSPORT_OLD))
+					{
+						$file_fil = $FILE_CNI_PASSPORT_OLD;
+					}elseif (!empty($_FILES['FILE_CNI_PASSPORT']['name']) && empty($FILE_CNI_PASSPORT_OLD)) {
+						$file_fil = $this->upload_cni($_FILES['FILE_CNI_PASSPORT']['tmp_name'],$_FILES['FILE_CNI_PASSPORT']['name'],$NOM_PROPRIETAIRE);
+
+					}
+
 
 					$data = array(
 						'TYPE_PROPRIETAIRE_ID'=>$this->input->post('TYPE_PROPRIETAIRE_ID'),
@@ -273,7 +315,8 @@ class Proprietaire extends CI_Controller
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
 						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
 						'ADRESSE'=>$this->input->post('ADRESSE'),
-						'PHOTO_PASSPORT'=>$file3
+						'PHOTO_PASSPORT'=>$file3,
+						'FILE_CNI_PASSPORT'=>$file_fil
 					);
 
 					$PROPRIETAIRE_ID=$this->Model->insert_last_id($table,$data);
@@ -282,7 +325,7 @@ class Proprietaire extends CI_Controller
 					$email=$this->input->post('EMAIL');
 					$data_insert_users = array(
 
-						'IDENTIFICATION'=>$this->input->post('NOM_PROPRIETAIRE'),
+						'IDENTIFICATION'=>$this->input->post('NOM_PROPRIETAIRE')." ".$this->input->post('PRENOM_PROPRIETAIRE'),
 						'USER_NAME'=>$this->input->post('EMAIL'),
 						'PASSWORD'=>md5($password),
 						'PROFIL_ID'=>2,
@@ -316,6 +359,14 @@ class Proprietaire extends CI_Controller
 			if ($TYPE_PROPRIETAIRE_ID==1) 
 			{
 
+				$LOGO_OLD = $this->input->post('LOGO_OLD');
+
+
+				if(empty($_FILES['LOGO']['name']) && empty($LOGO_OLD))
+				{
+					$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				}
+
 				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
@@ -341,6 +392,13 @@ class Proprietaire extends CI_Controller
 				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('PRENOM_PROPRIETAIRE','PRENOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$FILE_CNI_PASSPORT_OLD = $this->input->post('FILE_CNI_PASSPORT_OLD');
+
+
+				if(empty($_FILES['FILE_CNI_PASSPORT']['name']) && empty($FILE_CNI_PASSPORT_OLD) )
+				{
+					$this->form_validation->set_rules('FILE_CNI_PASSPORT',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				}
 
 				$photo_passport_old = $this->input->post('photo_passport_old');
 
@@ -383,6 +441,18 @@ class Proprietaire extends CI_Controller
 				{
 					$table='proprietaire';
 
+					$LOGO_OLD = $this->input->post('LOGO_OLD');
+
+					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
+
+					if(empty($_FILES['LOGO']['name']) && !empty($LOGO_OLD))
+					{
+						$file_logo = $LOGO_OLD;
+					}elseif (!empty($_FILES['LOGO']['name']) && empty($LOGO_OLD)) {
+						$file_logo = $this->upload_document_nomdocument($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
+
+					}
+
 					$data_updaate=array(
 						'TYPE_PROPRIETAIRE_ID'=>$this->input->post('TYPE_PROPRIETAIRE_ID'),
 						'NOM_PROPRIETAIRE'=>$this->input->post('NOM_PROPRIETAIRE'),
@@ -396,7 +466,8 @@ class Proprietaire extends CI_Controller
 						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
 						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
-						'ADRESSE'=>$this->input->post('ADRESSE')
+						'ADRESSE'=>$this->input->post('ADRESSE'),
+						'LOGO'=>$file_logo
 					);
 
 					$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$id),$data_updaate);
@@ -418,6 +489,17 @@ class Proprietaire extends CI_Controller
 						$file4 = $this->upload_document_nomdocument($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name'],$this->input->post('NOM_PROPRIETAIRE'));
 
 					}
+
+					$FILE_CNI_PASSPORT_OLD = $this->input->post('FILE_CNI_PASSPORT_OLD');
+
+					if(empty($_FILES['FILE_CNI_PASSPORT']['name']) && !empty($FILE_CNI_PASSPORT_OLD))
+					{
+						$file_fil = $FILE_CNI_PASSPORT_OLD;
+					}elseif (!empty($_FILES['FILE_CNI_PASSPORT']['name']) && empty($FILE_CNI_PASSPORT_OLD)) {
+						$file_fil = $this->upload_cni($_FILES['FILE_CNI_PASSPORT']['tmp_name'],$_FILES['FILE_CNI_PASSPORT']['name'],$NOM_PROPRIETAIRE);
+
+					}
+
 					$data_updaate=array(
 						'TYPE_PROPRIETAIRE_ID'=>$this->input->post('TYPE_PROPRIETAIRE_ID'),
 						'NOM_PROPRIETAIRE'=>$this->input->post('NOM_PROPRIETAIRE'),
@@ -431,7 +513,9 @@ class Proprietaire extends CI_Controller
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
 						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
 						'ADRESSE'=>$this->input->post('ADRESSE'),
-						'PHOTO_PASSPORT'=>$file4
+						'PHOTO_PASSPORT'=>$file4,
+						'FILE_CNI_PASSPORT'=>$file_fil
+
 					);
 
 
@@ -529,7 +613,7 @@ class Proprietaire extends CI_Controller
 			OR PERSONNE_REFERENCE LIKE "%' . $var_search . '%" OR EMAIL LIKE "%' . $var_search . '%" OR TELEPHONE LIKE "%' . $var_search . '%"
 			OR DATE_FORMAT(`DATE_INSERTION`,"%d-%m-%Y") LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT,COUNTRY_ID FROM proprietaire WHERE 1';
+		$query_principal='SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT,COUNTRY_ID,LOGO FROM proprietaire WHERE 1';
 
         //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -549,9 +633,26 @@ class Proprietaire extends CI_Controller
 			$sub_array=array();
 			$sub_array[]=$i;
 
-			if($row->TYPE_PROPRIETAIRE_ID == 1){
+			if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
 				$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
 				';
+
+			}elseif(!empty($row->LOGO)){
+
+				$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+				
+				<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-body">
+				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
+				</div>
+				<div class="modal-footer">
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				</div>
+				</div>
+				</div>
+				</div>';
 
 			}else{
 
@@ -629,7 +730,7 @@ class Proprietaire extends CI_Controller
 
 			$action .="<li>
 
-			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détail</a>
+			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détails</a>
 			</a>
 			</li>";
 
@@ -656,7 +757,7 @@ class Proprietaire extends CI_Controller
 
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
-		$my_select_proprietaire = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
+		$my_select_proprietaire = $this->getBindParms('proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE,LOGO', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
 		$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprietaire);
 
 		if(empty($proprietaire['PERSONNE_REFERENCE'])){
@@ -666,7 +767,17 @@ class Proprietaire extends CI_Controller
 			$PERSONNE_REFERENCE=$proprietaire['PERSONNE_REFERENCE'];
 		}
 
-		$fichier = base_url().'upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'].'';
+		if($proprietaire['TYPE_PROPRIETAIRE_ID']==1){
+
+			$fichier = base_url().'upload/proprietaire/photopassport/'.$proprietaire['LOGO'].'';
+
+		}else{
+
+			$fichier = base_url().'upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'].'';
+
+		}
+
+		
 		$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
 
 		$output = array(
@@ -677,6 +788,35 @@ class Proprietaire extends CI_Controller
 			"PERSONNE_REFERENCE" => $PERSONNE_REFERENCE,
 			"div_info"=>$div_info,
 			"ADRESSE"=>$proprietaire['ADRESSE'],
+
+		);
+		echo json_encode($output);
+	}
+
+	//Fonction pour recuperer les donnes d'un chauffeur
+	function get_detail_chauffeur($CODE){
+
+
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";	
+		$my_select_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CODE ="'.$CODE.'"', '`CHAUFFEUR_VEHICULE_ID` ASC');
+		$my_select_chauffeur=str_replace('\"', '"', $my_select_chauffeur);
+		$my_select_chauffeur=str_replace('\n', '', $my_select_chauffeur);
+		$my_select_chauffeur=str_replace('\"', '', $my_select_chauffeur);
+		$chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
+
+		$fichier = base_url().'upload/chauffeur/'.$chauffeur['PHOTO_PASSPORT'].'';
+
+		
+		$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
+		$output = array(
+			"NOM" => $chauffeur['NOM'].' '.$chauffeur['PRENOM'],
+			"DATE_NAISSANCE" => $chauffeur['DATE_NAISSANCE'],
+			"NUMERO_TELEPHONE" => $chauffeur['NUMERO_TELEPHONE'],
+			"ADRESSE_MAIL" => $chauffeur['ADRESSE_MAIL'],
+			"NUMERO_CARTE_IDENTITE" => $chauffeur['NUMERO_CARTE_IDENTITE'],
+			"ADRESSE_PHYSIQUE" => $chauffeur['ADRESSE_PHYSIQUE'],
+			"div_info"=>$div_info,
+			
 
 		);
 		echo json_encode($output);
@@ -709,12 +849,21 @@ class Proprietaire extends CI_Controller
 	//function pour l'affichage de la page de detail
 	function Detail(){
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
-		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
 
 
 		$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+		if ($proprietaire['TYPE_PROPRIETAIRE_ID']==1) {
+			
+			$label_cni='NIF';
+		}elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {
+			$label_cni='CNI / Numéro passport';
+			
+		}
 
 		$data['proprietaire']=$proprietaire;
+		$data['label_cni']=$label_cni;
+
 		$data['desactive']=$desactive;
 		$data['PROPRIETAIRE_ID'] = $data['proprietaire']['proprietaire_ID'];
 		// print_r($data['proprietaire_ID']);die();
@@ -754,7 +903,7 @@ class Proprietaire extends CI_Controller
 			OR PLAQUE LIKE "%' . $var_search . '%" )') : '';
 
 
-		$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
+		$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
 
         //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -776,6 +925,12 @@ class Proprietaire extends CI_Controller
 
 		foreach ($fetch_data as $row) {
 			$i=$i+1;
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";	
+			$my_select_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CODE ="'.$row->CODE.'"', '`CHAUFFEUR_VEHICULE_ID` ASC');
+			$my_select_chauffeur=str_replace('\"', '"', $my_select_chauffeur);
+			$my_select_chauffeur=str_replace('\n', '', $my_select_chauffeur);
+			$my_select_chauffeur=str_replace('\"', '', $my_select_chauffeur);
+			$chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
 
 			$sub_array=array();
 			$sub_array[]=$i;
@@ -798,6 +953,29 @@ class Proprietaire extends CI_Controller
 			</div>
 			</div>
 			</div>';
+			// $proce_requete = "CALL `getRequete`(?,?,?,?);";
+			// $my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'STATUT_AFFECT=1 AND chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
+			// $chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
+
+			if(!empty($chauffeur)){
+
+				// $sub_array[] = '<a  href="' . base_url("tracking/Dashboard/position_voiture/".$row->CODE) . '" ><center><span class="bi bi-eye"></span></center></a>';
+
+				$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail_chauffeur(\'' .$row->CODE . '\')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$chauffeur['PHOTO_PASSPORT'].'"></a></td>&nbsp;<td> '.'  '.' ' . $chauffeur['NOM']. ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
+				';
+			}else{
+
+				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;cette&nbsp;voiture ! </font>';
+			}
+			if(!empty($chauffeur)){
+
+				$sub_array[] = '<a  href="' . base_url("tracking/Dashboard/position_voiture/".$row->CODE) . '" ><center><span class="bi bi-eye"></span></center></a>';
+
+			}else{
+
+				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;cette&nbsp;voiture ! </font>';
+			}
+			
 
 
 
@@ -844,6 +1022,25 @@ class Proprietaire extends CI_Controller
 			mkdir($rep_doc,0777,TRUE);
 		}
 		unlink(base_url()."upload/proprietaire/photopassport/".$code.$nomdocument.".".$file_extension);
+		move_uploaded_file($nom_file, $rep_doc.$code.$nomdocument.".".$file_extension);
+		$pathfile=$code.$nomdocument.".".$file_extension;
+		return $pathfile;
+	}
+
+		// Recuperation des cni ou passport
+	public function upload_cni($nom_file,$nom_champ,$nomdocument)
+	{
+		$rep_doc =FCPATH.'upload/proprietaire/piece_identite/';
+		$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
+		$file_extension = strtolower($file_extension);
+		$valid_ext = array('pdf');
+		$code=uniqid();
+
+		if(!is_dir($rep_doc)) //crée un dossier s'il n'existe pas déja   
+		{
+			mkdir($rep_doc,0777,TRUE);
+		}
+		unlink(base_url()."upload/proprietaire/piece_identite/".$code.$nomdocument.".".$file_extension);
 		move_uploaded_file($nom_file, $rep_doc.$code.$nomdocument.".".$file_extension);
 		$pathfile=$code.$nomdocument.".".$file_extension;
 		return $pathfile;

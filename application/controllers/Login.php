@@ -202,10 +202,10 @@ class Login extends CI_Controller
 
 
 					if ($this->session->userdata('CODE_PROFIL') == "ADMIN") 
-						redirect(base_url('Dashboard'));
+						redirect(base_url('centre_situation/Centre_situation'));
 					
 					if ($this->session->userdata('CODE_PROFIL') == "PROPRIETAIRE") 
-						redirect(base_url('proprietaire/Proprietaire_vehicule'));
+						redirect(base_url('centre_situation/Centre_situation'));
 
 
 					
