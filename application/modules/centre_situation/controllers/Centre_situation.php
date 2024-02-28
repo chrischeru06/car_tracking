@@ -56,16 +56,147 @@
 			$proprio=str_replace('\"', '', $proprio);
 
 			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+			$data['proprio'] = $proprio;
+
+			$this->load->view('Centre_situation_View',$data);
+		}
+
+		//Fonction pour la selection des provinces
+		function get_vehicule($PROPRIETAIRE_ID)
+		{
+			$html="<option value=''> Séléctionner </option>";
+			$vehicules=$this->Model->getRequete("SELECT VEHICULE_ID,PLAQUE FROM vehicule WHERE PROPRIETAIRE_ID =".$PROPRIETAIRE_ID." ORDER BY PLAQUE ASC");
+
+			foreach ($vehicules as $value)
+			{
+				$html.="<option value='".$value['VEHICULE_ID']."'>".$value['PLAQUE']."</option>";
+			}
+			echo json_encode($html);
+		}
+
+		//Fonction pour le chargement de la carte
+		function getmap() {  
+
+            // $nomprenom = $this->input->post('nomprenom');
+			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+
+			$coordinates = '-3.3944616,29.3726466';
+			$zoom = 9;
 
 
-			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere.' GROUP BY VEHICULE_ID ORDER BY id DESC');
+			$critere_proprietaire = '';
+			$critere_vehicule = '';
+
+			if($PROPRIETAIRE_ID > 0){
+				$critere_proprietaire.= ' AND proprietaire.PROPRIETAIRE_ID = '.$PROPRIETAIRE_ID;
+				$zoom = 10; 
+			}
+
+			if($VEHICULE_ID > 0){
+				$critere_vehicule.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+				$zoom = 11; 
+			}
+
+			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+
+			// Recherche des propriétaires
+
+			$proprio = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.'','proprio_desc ASC');
+
+			$proprio=str_replace('\"', '"', $proprio);
+			$proprio=str_replace('\n', '', $proprio);
+			$proprio=str_replace('\"', '', $proprio);
+
+			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+           
+            // Recherche des chauffeurs
+
+			$nbrChauffeur = $this->getBindParms('CHAUFFEUR_VEHICULE_ID','chauffeur_vehicule JOIN vehicule ON vehicule.CODE = chauffeur_vehicule.CODE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.'','CHAUFFEUR_VEHICULE_ID ASC');
+
+			$nbrChauffeur = $this->ModelPs->getRequeteOne($psgetrequete, $nbrChauffeur);
+
+			if(!empty($nbrChauffeur)){
+				$nbrChauffeur = count($nbrChauffeur);
+			}
+			else{$nbrChauffeur = 0;}
+
+			// Recherche des vehicules actifs
+
+			$vehiculeActif = $this->getBindParms('vehicule.VEHICULE_ID','vehicule JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID',' 1  AND vehicule.IS_ACTIVE = 1 '.$critere_proprietaire.'','vehicule.VEHICULE_ID ASC');
+
+			$vehiculeActif = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeActif);
+
+
+			if(!empty($vehiculeActif)){
+				$vehiculeActif = count($vehiculeActif);
+			}
+			else{$vehiculeActif = 0;}
+
+			// Recherche des vehicules en mouvement
+
+			$vehiculeMouvement = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID ',' 1  AND tracking_data.mouvement = 1 '.$critere_proprietaire.'','id ASC');
+
+			$vehiculeMouvement = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeMouvement);
+
+
+			if(!empty($vehiculeMouvement)){
+				$vehiculeMouvement = count($vehiculeMouvement);
+			}
+			else{$vehiculeMouvement = 0;}
+
+
+			// Recherche des vehicules en stationnement
+
+			$vehiculeStationnement = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID ',' 1  AND tracking_data.mouvement = 1 '.$critere_proprietaire.'','id ASC');
+
+			$vehiculeStationnement = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeStationnement);
+
+
+			if(!empty($vehiculeStationnement)){
+				$vehiculeStationnement = count($vehiculeStationnement);
+			}
+			else{$vehiculeStationnement = 0;}
+
+
+			// Recherche des vehicules alumés
+
+			$vehiculeAllume = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID ',' 1  AND tracking_data.ignition = 1 '.$critere_proprietaire.'','id ASC');
+
+			$vehiculeAllume = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeAllume);
+
+
+			if(!empty($vehiculeAllume)){
+				$vehiculeAllume = count($vehiculeAllume);
+			}
+			else{$vehiculeAllume = 0;}
+
+
+			// Recherche des vehicules vehiculeEteint
+
+			$vehiculeEteint = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID ',' 1  AND tracking_data.ignition = 0 '.$critere_proprietaire.'','id ASC');
+
+			$vehiculeEteint = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeEteint);
+
+
+			if(!empty($vehiculeEteint)){
+				$vehiculeEteint = count($vehiculeEteint);
+			}
+			else{$vehiculeEteint = 0;}
+
+             // Recherche des tous les vehicules pour la carte
+			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.' GROUP BY VEHICULE_ID ORDER BY id DESC');
 
 			$donnees_vehicule = '';
+
+			$nbrProprietaire = count($proprio);
+
 
 			if(!empty($get_vihicule))
 			{
 				$nbrVehicule = count($get_vihicule);
-
+				
 				foreach ($get_vihicule as $key) {
 
 					$VEHICULE_ID = $key['VEHICULE_ID'];
@@ -151,11 +282,22 @@
 			}
 
 			$data['proprio'] = $proprio;
-			$data['filtre_pro'] = $filtre_pro;
 			$data['donnees_vehicule'] = $donnees_vehicule;
-			$data['nbrVehicule'] = $nbrVehicule;
+			$data['nbrVehicule'] = $nbrVehicule; 
+			$data['nbrProprietaire'] = $nbrProprietaire;
+			$data['nbrChauffeur'] = $nbrChauffeur;
+			$data['vehiculeActif'] = $vehiculeActif;
+			$data['vehiculeMouvement'] = $vehiculeMouvement;
+			$data['vehiculeStationnement'] = $vehiculeStationnement;
+			$data['vehiculeAllume'] = $vehiculeAllume;
+			$data['vehiculeEteint'] = $vehiculeEteint;
+			$data['coordinates'] = $coordinates;
+			$data['zoom'] = $zoom;
 
-			$this->load->view('Centre_situation_View',$data);
+			$map = $this->load->view('Getcarte_Tracking_View',$data,TRUE);
+
+			$output = array('carte_view'=>$map,'proprio'=>$proprio,'donnees_vehicule'=>$donnees_vehicule,'nbrVehicule'=>$nbrVehicule,'nbrProprietaire'=>$nbrProprietaire,'nbrChauffeur'=>$nbrChauffeur,'vehiculeActif'=>$vehiculeActif,'vehiculeAllume'=>$vehiculeAllume,'vehiculeEteint'=>$vehiculeEteint,'vehiculeStationnement'=>$vehiculeStationnement,'vehiculeMouvement'=>$vehiculeMouvement,'coordinates'=>$coordinates,'zoom'=>$zoom);
+			echo json_encode($output);
 		}
 
 
