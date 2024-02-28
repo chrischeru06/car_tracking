@@ -51,6 +51,7 @@
 
 			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
+            // Selection des proprietaires
 			$proprio = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere.'','proprio_desc ASC');
 
 			$proprio=str_replace('\"', '"', $proprio);
@@ -58,8 +59,19 @@
 			$proprio=str_replace('\"', '', $proprio);
 
 			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+           
+           // Selection des vehicules
+
+			$vehicule = $this->getBindParms('vehicule.VEHICULE_ID,PLAQUE','vehicule JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere.'','PLAQUE ASC');
+
+			$vehicule=str_replace('\"', '"', $vehicule);
+			$vehicule=str_replace('\n', '', $vehicule);
+			$vehicule=str_replace('\"', '', $vehicule);
+
+			$vehicule = $this->ModelPs->getRequete($psgetrequete, $vehicule);
 
 			$data['proprio'] = $proprio;
+			$data['vehicule'] = $vehicule;
 
 			$this->load->view('Centre_situation_View',$data);
 		}
@@ -195,7 +207,17 @@
 			else{$vehiculeEteint = 0;}
 
              // Recherche des tous les vehicules pour la carte
-			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' GROUP BY VEHICULE_ID ORDER BY id DESC');
+
+			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' GROUP BY VEHICULE_ID ORDER BY id DESC');
+
+
+			// $get_vihicule = $this->getBindParms('tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.'','proprio_desc ASC');
+
+			// $get_vihicule=str_replace('\"', '"', $get_vihicule);
+			// $get_vihicule=str_replace('\n', '', $get_vihicule);
+			// $get_vihicule=str_replace('\"', '', $get_vihicule);
+
+			// $get_vihicule = $this->ModelPs->getRequete($psgetrequete, $get_vihicule);
 
 			$donnees_vehicule = '';
 
@@ -259,6 +281,13 @@
 					$proprio_desc = str_replace('"','',$proprio_desc);
 					$proprio_desc = str_replace("'",'',$proprio_desc);
 
+					$chauffeur_desc=trim($key['chauffeur_desc']);
+					$chauffeur_desc = str_replace("\n","",$chauffeur_desc);
+					$chauffeur_desc = str_replace("\r","",$chauffeur_desc);
+					$chauffeur_desc = str_replace("\t","",$chauffeur_desc);
+					$chauffeur_desc = str_replace('"','',$chauffeur_desc);
+					$chauffeur_desc = str_replace("'",'',$chauffeur_desc);
+
 					$COULEUR=trim($key['COULEUR']);
 					$COULEUR = str_replace("\n","",$COULEUR);
 					$COULEUR = str_replace("\r","",$COULEUR);
@@ -286,7 +315,7 @@
 					$PHOTO = str_replace("'",'',$PHOTO);
 
 
-					$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>@';
+					$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>@';
 				}
 			}
 

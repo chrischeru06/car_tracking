@@ -87,7 +87,15 @@
 
 		<!-----------------filtre-------------------------->
 
-		<div class="row">
+		
+
+			<?php
+
+			if($this->session->userdata('PROFIL_ID') == 1) // Admin
+			{
+				?>
+				<div class="row">
+    	
 			<div class="col-md-4">
 				<div class="form-group">
 					<label>Propriétaire</label>
@@ -120,11 +128,41 @@
 			</div>
 
 		</div>
+				<?php
+			}
+			else if($this->session->userdata('PROFIL_ID') == 2) // Proprietaire
+			{
+				?>
+				<div class="col-md-4">
+				<div class="form-group">
+					<label>Véhicule</label>
+					<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
+						<option value="" selected>-- Séléctionner --</option>
+						<?php
+						foreach ($vehicule as $key_vehicule)
+						{
+								echo '<option value="'.$key_vehicule['VEHICULE_ID'].'">'.$key_vehicule['PLAQUE'].'</option>';
+						}
+						?>
+					</select>
+				</div>
+			</div>
+				<?php
+			}
+
+			?>
+
+
 		<br>
 
 		<div class="row">
 
-			<div class="col-lg-3">
+			<?php
+
+			if($this->session->userdata('PROFIL_ID') == 1) // Admin
+			{
+				?>
+				<div class="col-lg-3">
 				<div class="card" style="border-radius:20px;">
 
 					<div class="card-body">
@@ -142,6 +180,10 @@
 
 				</div>
 			</div>
+				<?php
+			}
+
+			?>
 
 			<div class="col-lg-3">
 				<div class="card" style="border-radius:20px;">
