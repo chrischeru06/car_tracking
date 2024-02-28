@@ -48,7 +48,7 @@
                 <div id="map" style="width: 100%;height: 550px;"></div>
 
 
-                <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+                <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE_VEH.'') ?>"  >
 
                   <div id="menu"> 
 

@@ -82,7 +82,7 @@ class Proprietaire_vehicule extends CI_Controller
 
 				// $sub_array[]=$chauffeur['NAME_CHAUFFEUR'];
 				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $chauffeur['CHAUFFEUR_ID']. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$chauffeur['PHOTO_PASSPORT'].'"></a></td><td> '.'     '.' ' . $chauffeur['NOM'] . ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
-				<a  href="' . base_url("tracking/Dashboard/tracking_chauffeur/".$chauffeur['CODE']) . '" ><font style="float: right;"><span class="bi bi-eye"></span></font></a>
+				<a  href="' . base_url("tracking/Dashboard/tracking_chauffeur/".md5($chauffeur['CODE'])) . '" ><font style="float: right;"><span class="bi bi-eye"></span></font></a>
 
 				<div class="modal fade" id="mypicture' .$chauffeur['CHAUFFEUR_ID'].'">
 				<div class="modal-dialog">
