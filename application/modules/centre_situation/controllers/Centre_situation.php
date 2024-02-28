@@ -35,6 +35,8 @@
 
 			$USER_ID = $this->session->userdata('USER_ID');
 
+
+
 			if($this->session->userdata('PROFIL_ID') != 1)
 			{
 				$critere.= ' AND users.USER_ID = '.$USER_ID;
@@ -56,6 +58,7 @@
 			$proprio=str_replace('\"', '', $proprio);
 
 			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+
 			$data['proprio'] = $proprio;
 
 			$this->load->view('Centre_situation_View',$data);
@@ -119,7 +122,7 @@
            
             // Recherche des chauffeurs
 
-			$nbrChauffeur = $this->getBindParms('CHAUFFEUR_VEHICULE_ID','chauffeur_vehicule JOIN vehicule ON vehicule.CODE = chauffeur_vehicule.CODE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.'','CHAUFFEUR_VEHICULE_ID ASC');
+			$nbrChauffeur = $this->getBindParms('CHAUFFEUR_VEHICULE_ID','chauffeur_vehicule JOIN vehicule ON vehicule.CODE = chauffeur_vehicule.CODE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.''.$critere_user.'','CHAUFFEUR_VEHICULE_ID ASC');
 
 			$nbrChauffeur = $this->ModelPs->getRequeteOne($psgetrequete, $nbrChauffeur);
 
@@ -130,7 +133,7 @@
 
 			// Recherche des vehicules actifs
 
-			$vehiculeActif = $this->getBindParms('vehicule.VEHICULE_ID','vehicule JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID',' 1  AND vehicule.IS_ACTIVE = 1 '.$critere_proprietaire.'','vehicule.VEHICULE_ID ASC');
+			$vehiculeActif = $this->getBindParms('vehicule.VEHICULE_ID','vehicule JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1  AND vehicule.IS_ACTIVE = 1 '.$critere_proprietaire.''.$critere_user.'','vehicule.VEHICULE_ID ASC');
 
 			$vehiculeActif = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeActif);
 
@@ -142,7 +145,7 @@
 
 			// Recherche des vehicules en mouvement
 
-			$vehiculeMouvement = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID ',' 1  AND tracking_data.mouvement = 1 '.$critere_proprietaire.'','id ASC');
+			$vehiculeMouvement = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1  AND tracking_data.mouvement = 1 '.$critere_proprietaire.''.$critere_user.'','id ASC');
 
 			$vehiculeMouvement = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeMouvement);
 
@@ -155,7 +158,7 @@
 
 			// Recherche des vehicules en stationnement
 
-			$vehiculeStationnement = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID ',' 1  AND tracking_data.mouvement = 1 '.$critere_proprietaire.'','id ASC');
+			$vehiculeStationnement = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1  AND tracking_data.mouvement = 1 '.$critere_proprietaire.''.$critere_user.'','id ASC');
 
 			$vehiculeStationnement = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeStationnement);
 
@@ -168,7 +171,7 @@
 
 			// Recherche des vehicules alumés
 
-			$vehiculeAllume = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID ',' 1  AND tracking_data.ignition = 1 '.$critere_proprietaire.'','id ASC');
+			$vehiculeAllume = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1  AND tracking_data.ignition = 1 '.$critere_proprietaire.''.$critere_user.'','id ASC');
 
 			$vehiculeAllume = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeAllume);
 
@@ -181,7 +184,7 @@
 
 			// Recherche des vehicules vehiculeEteint
 
-			$vehiculeEteint = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID ',' 1  AND tracking_data.ignition = 0 '.$critere_proprietaire.'','id ASC');
+			$vehiculeEteint = $this->getBindParms('tracking_data.id','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1  AND tracking_data.ignition = 0 '.$critere_proprietaire.''.$critere_user.'','id ASC');
 
 			$vehiculeEteint = $this->ModelPs->getRequeteOne($psgetrequete, $vehiculeEteint);
 
@@ -192,7 +195,7 @@
 			else{$vehiculeEteint = 0;}
 
              // Recherche des tous les vehicules pour la carte
-			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.' GROUP BY VEHICULE_ID ORDER BY id DESC');
+			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' GROUP BY VEHICULE_ID ORDER BY id DESC');
 
 			$donnees_vehicule = '';
 
@@ -283,7 +286,7 @@
 					$PHOTO = str_replace("'",'',$PHOTO);
 
 
-					$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>@';
+					$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>@';
 				}
 			}
 
