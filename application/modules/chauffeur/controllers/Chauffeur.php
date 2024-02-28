@@ -123,14 +123,14 @@
 
 				if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 				{
-					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chauffeur</a></li>';
+					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le chauffeur</a></li>';
 					
 				}
 				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
 					{
 						$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='bi bi-plus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
 
-						$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;affectation</a></li>';
+						$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
 
 					}
 					if($row->IS_ACTIVE==1){
@@ -203,9 +203,9 @@
 							</div>
 							<div class='modal-body'>
 							<div class='table responsive'>
-							<table class= 'table'>
+							<table class='table table-borderless'>
 							<tr>
-							<td>Carte d'identité</td>
+							<td>Carte d'identitéeeee</td>
 							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
 							</tr>
 
@@ -256,7 +256,7 @@
 				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	</div>
 							<div class='modal-body'>
-							<table class= 'table table'>
+							<table class= 'table table-borderless'>
 							<tr>
 							<td>Carte d'identité</td>
 							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
@@ -312,7 +312,7 @@
 						<img src = '".base_url('upload/photo_vehicule/').$info_vehicul['PHOTO']."' height='100%' width='100%' >
 						</div>
 						<div class='col-md-6'>
-						<table class='table table-hover text-dark'>
+						<table class='table table-borderless table-hover text-dark'>
 
 						<tr>
 						<td>Marque

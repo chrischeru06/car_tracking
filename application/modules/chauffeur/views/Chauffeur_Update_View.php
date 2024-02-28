@@ -234,7 +234,7 @@
                     <div class="col-md-4">
                       <label for="description" class="text-dark" style="font-weight: 1000; color:#454545">Carte d'identité <font color="red">*</font></label>
                       <input type="hidden"  name="FILE_CARTE_IDENTITE_OLD" id="FILE_CARTE_IDENTITE_OLD" value="<?=$membre['FILE_CARTE_IDENTITE']?>">
-                      <input type="file" class="form-control" id="FILE_CARTE_IDENTITE" name="FILE_CARTE_IDENTITE" value="<?=$membre['FILE_CARTE_IDENTITE']?>">
+                      <input type="file" class="form-control" id="FILE_CARTE_IDENTITE" name="FILE_CARTE_IDENTITE" value="<?=$membre['FILE_CARTE_IDENTITE']?>" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                       <font id="fichier_identite_complete_error" color="red"></font>
                     </div>
 
@@ -255,7 +255,7 @@
                       <label for="description" class="text-dark" style="font-weight: 1000; color:#454545">Photo permis <font color="red">*</font></label>
                       <input type="hidden"  name="file_permis_OLD" id="file_permis_OLD" value="<?=$membre['file_permis']?>">
 
-                      <input type="file" class="form-control" id="file_permis" name="file_permis" value="<?=$membre['file_permis']?>">
+                      <input type="file" class="form-control" id="file_permis" name="file_permis" value="<?=$membre['file_permis']?>" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                       <font id="file_permis_error" color="red"></font>
                     </div><br><br><br>
 
@@ -263,7 +263,7 @@
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
                       <input type="hidden"  name="PHOTO_PASSPORT_OLD" id="PHOTO_PASSPORT_OLD" value="<?=$membre['PHOTO_PASSPORT']?>">
                      <!--  <input type="hidden"  name="CODE_AGENT" id="CODE_AGENT" value="<?=$membre['CODE_AGENT']?>"> -->
-                      <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_PASSPORT" autocomplete="off" id="PHOTO_PASSPORT" value="<?=$membre['PHOTO_PASSPORT']?>"  class="form-control">
+                      <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_PASSPORT" autocomplete="off" id="PHOTO_PASSPORT" value="<?=$membre['PHOTO_PASSPORT']?>"  class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                       <font id="error_photo_passport" color="red"></font>
                       <?php echo form_error('PHOTO_PASSPORT', '<div class="text-danger">', '</div>'); ?> 
                     </div>
