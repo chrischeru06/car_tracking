@@ -3,11 +3,14 @@
 
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
-
+<style>
+    .profile .profile-card img {
+      max-width: 290px;
+    }
+  </style>
 </head>
 
 <body>
-
   <!-- ======= Header ======= -->
   <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
   <!-- End Header -->
@@ -45,13 +48,13 @@
               if(!empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)
               {
                 ?>
-                <img style="border-radius: 10%;" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'])?>">
+                <img style="border-radius: 10px;height: 320px;width: 200%;" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'])?>">
                 <?php
               }
               else if(empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)
               {
                 ?>
-                <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
+                <img  style="border-radius: 10px;height: 290px;width: 200%;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
                 <?php
               }else  if($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && empty($proprietaire['LOGO']))
               {?>
@@ -60,7 +63,7 @@
 
               <?php }elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && !empty($proprietaire['LOGO'])) 
               {?>
-                <img  src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>">
+                <img  style="border-radius: 10px;height: 290px;width: 200%;"  src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>">
               <?php }
               ?>
               <h2><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></h2>
@@ -144,14 +147,14 @@
                   if ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {?>
 
 
-                    <div class="row">
+                    <!-- <div class="row">
 
                       <div class="col-lg-3 col-md-4 label">File</div>
                       <div class="col-lg-9 col-md-8"><i class="bi bi-file-o"></i></div>
 
 
 
-                    </div>
+                    </div> -->
 
                     <?php
                   }

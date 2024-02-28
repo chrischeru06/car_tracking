@@ -51,7 +51,7 @@
                 <?php
               }else{?>
 
-                <img   src="<?= base_url()?>/upload/phavatar.png" alt="Profile" class="rounded-circle">
+                <img   src="<?= base_url()?>/upload/phavatar.png" alt="Profile"  style="border-radius: 10px;height: 290px;width: 200%;">
                 <?php
               }
               ?>

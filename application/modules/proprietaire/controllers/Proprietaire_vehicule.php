@@ -76,7 +76,7 @@ class Proprietaire_vehicule extends CI_Controller
 		{
 			
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
-			$my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'STATUT_AFFECT=1 AND chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
+			$my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.NUMERO_PERMIS', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'STATUT_AFFECT=1 AND chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
 			$chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
 
 			$sub_array=array();
@@ -92,71 +92,156 @@ class Proprietaire_vehicule extends CI_Controller
 
 			}
 
+			// if(!empty($chauffeur)){
+
+			// 	// $sub_array[]=$chauffeur['NAME_CHAUFFEUR'];
+			// 	$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $chauffeur['CHAUFFEUR_ID']. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$chauffeur['PHOTO_PASSPORT'].'"></a></td><td> '.'     '.' ' . $chauffeur['NOM'] . ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
+			// 	<a  href="' . base_url("tracking/Dashboard/tracking_chauffeur/".md5($chauffeur['CODE'])) . '" ><font style="float: right;"><span class="bi bi-eye"></span></font></a>
+
+			// 	<div class="modal fade" id="mypicture' .$chauffeur['CHAUFFEUR_ID'].'">
+			// 	<div class="modal-dialog">
+			// 	<div class="modal-content">
+			// 	<div class="modal-body">
+			// 	<img src = "'.base_url('upload/chauffeur/'.$chauffeur['PHOTO_PASSPORT']).'" height="100%"  width="100%" >
+			// 	</div>
+			// 	<div class="modal-footer">
+			// 	<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+			// 	</div>
+			// 	</div>
+			// 	</div>
+			// 	</div>';
+
+
+			// }else{
+
+			// 	$sub_array[]='N/A';
+
+
+
+			// }
+
 			if(!empty($chauffeur)){
 
-				// $sub_array[]=$chauffeur['NAME_CHAUFFEUR'];
-				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $chauffeur['CHAUFFEUR_ID']. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$chauffeur['PHOTO_PASSPORT'].'"></a></td><td> '.'     '.' ' . $chauffeur['NOM'] . ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
-				<a  href="' . base_url("tracking/Dashboard/tracking_chauffeur/".md5($chauffeur['CODE'])) . '" ><font style="float: right;"><span class="bi bi-eye"></span></font></a>
+				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
 
-				<div class="modal fade" id="mypicture' .$chauffeur['CHAUFFEUR_ID'].'">
-				<div class="modal-dialog">
-				<div class="modal-content">
-				<div class="modal-body">
-				<img src = "'.base_url('upload/chauffeur/'.$chauffeur['PHOTO_PASSPORT']).'" height="100%"  width="100%" >
 				</div>
-				<div class="modal-footer">
-				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."'>
+				<div class='modal-dialog modal-dialog-centered modal-lg'>
+				<div class='modal-content'>
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>Détails</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
-				</div>
-				</div>
-				</div>';
+				<div class='modal-body'>
 
+				<center><h4 class=''><strong>Véhicule</strong></h4></center>
+
+				<div class='row'>
+
+				<div class='col-md-6'>
+				<img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='100%'  width='100%' >
+				</div>
+
+				<div class='col-md-6'>
+
+				<h4></h4>
+
+				<p><label class='fa fa'>Code &nbsp;&nbsp;<strong>".$row->CODE."</strong></label></p>
+				<p><label class='fa fa'>Marque &nbsp;&nbsp; <strong>".$row->DESC_MARQUE."</strong></label></p>
+				<p><label class='fa fa'>Modèle &nbsp;&nbsp; <strong>".$row->DESC_MODELE."</strong></label></p>
+				<p><label class='fa fa'>Plaque &nbsp;&nbsp; <strong>".$row->PLAQUE."</strong></label></p>
+				<p><label class='fa fa'>Couleur &nbsp;&nbsp;<strong>".$row->COULEUR."</strong></label></p>
+
+				</div>
+
+				</div>
+				<hr>
+				<center><h4><strong>Chauffeur</strong></h4></center>
+				<div class='row'>
+				<div class='col-md-6'>
+				<img src = '".base_url('upload/chauffeur/'.$chauffeur['PHOTO_PASSPORT'])."' height='100%'  width='100%' >
+				</div>
+				<div class='col-md-6'>
+				<table>
+				<tr>
+				<td>Nom & Prénom</td>
+				<td><strong>".$chauffeur['NOM']." ".$chauffeur['PRENOM']."</strong></td>
+				</tr>
+				<tr>
+				<td>Téléphone</td>
+				<td><strong>".$chauffeur['NUMERO_TELEPHONE']."</strong></td>
+				</tr>
+				<tr>
+				<td>Email</td>
+				<td><strong>".$chauffeur['ADRESSE_MAIL']."</strong></td>
+				</tr>
+				<tr>
+				<td>Adresse</td>
+				<td><strong>".$chauffeur['ADRESSE_PHYSIQUE']."</strong></td>
+				</tr>
+				<tr>
+				<td>No&nbsp;carte&nbsp;d'identité</td>
+				<td><strong>".$chauffeur['NUMERO_CARTE_IDENTITE']."</strong></td>
+				</tr>
+				<tr>
+				<td>No permis</td>
+				<td><strong>".$chauffeur['NUMERO_PERMIS']."</strong></td>
+				</tr>
+				<tr>
+				<td>Position</td>
+				<td><a  href='" . base_url("tracking/Dashboard/tracking_chauffeur/".md5($chauffeur['CODE'])) . "' ><span class='bi bi-eye'></span></a></td>
+				</tr>
+				</table>
+
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>";
 
 			}else{
 
-				$sub_array[]='N/A';
+				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='#' data-toggle='modal' data-target='#mypictureoff" . $row->VEHICULE_ID. "'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
 
+				</div>
+				<div class='modal fade' id='mypictureoff" .$row->VEHICULE_ID."'>
+				<div class='modal-dialog modal-dialog-centered modal-lg'>
+				<div class='modal-content'>
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>Détails</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<center><h4 class=''><strong>Véhicule</strong></h4></center>
+
+				<div class='row'>
+
+				<div class='col-md-6'>
+				<img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='100%'  width='100%' >
+				</div>
+
+				<div class='col-md-6'>
+
+				<h4></h4>
+
+				<p><label class='fa fa'>Code &nbsp;&nbsp;<strong>".$row->CODE."</strong></label></p>
+				<p><label class='fa fa'>Marque &nbsp;&nbsp; <strong>".$row->DESC_MARQUE."</strong></label></p>
+				<p><label class='fa fa'>Modèle &nbsp;&nbsp; <strong>".$row->DESC_MODELE."</strong></label></p>
+				<p><label class='fa fa'>Plaque &nbsp;&nbsp; <strong>".$row->PLAQUE."</strong></label></p>
+				<p><label class='fa fa'>Couleur &nbsp;&nbsp;<strong>".$row->COULEUR."</strong></label></p>
+
+				</div>
+
+				</div>
+				</div>
+				</div>
+				</div>";
 
 
 			}
 
-
-
-			$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
-
-			</div>
-			<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."'>
-			<div class='modal-dialog'>
-			<div class='modal-content'>
-			<div class='modal-body'>
-
-			<h4 class=''></h4>
-
-			<div class='row'>
-
-			<div class='col-md-6'>
-			<img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='100%'  width='100%' >
-			</div>
-
-			<div class='col-md-6'>
-
-			<h4></h4>
-
-			<p><label class='fa fa'>Code &nbsp;&nbsp;<strong>".$row->CODE."</strong></label></p>
-			<p><label class='fa fa'>Marque &nbsp;&nbsp; <strong>".$row->DESC_MARQUE."</strong></label></p>
-			<p><label class='fa fa'>Modèle &nbsp;&nbsp; <strong>".$row->DESC_MODELE."</strong></label></p>
-			<p><label class='fa fa'>Plaque &nbsp;&nbsp; <strong>".$row->PLAQUE."</strong></label></p>
-			<p><label class='fa fa'>Couleur &nbsp;&nbsp;<strong>".$row->COULEUR."</strong></label></p>
 			
-			</div>
-
-			</div>
-			<div class='modal-footer'>
-			<button class='btn btn-primary btn-md' class='close' data-dismiss='modal'>Fermer</button>
-			</div>
-			</div>
-			</div>
-			</div>";
 
 			
 
