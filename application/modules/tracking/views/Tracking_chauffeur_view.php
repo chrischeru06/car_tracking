@@ -144,12 +144,12 @@
   <div class="row">
     <div class="form-group col-md-3">
       <label class="form-label">Date</label>
-      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();" onclick="change_carte();">
+      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();">
     </div>
     <div class="form-group col-md-3">
     </div>
     <div class="form-group col-md-3">
-      <label class="form-label">Heure1</label>
+      <label class="form-label">Heure début</label>
       <select class="form-control" name="HEURE1" id="HEURE1">
         <option value="">Séléctionner</option>
         <?php
@@ -166,7 +166,7 @@
 
 
     <div class="form-group col-md-3">
-      <label class="form-label">Heure2</label>
+      <label class="form-label">Heure fin</label>
       <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
         <option value="">Séléctionner</option>
         <?php

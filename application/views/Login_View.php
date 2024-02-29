@@ -28,7 +28,7 @@ a:hover {
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                <div class="d-flex justify-content-center py-4">
-             
+             <img src="<?= base_url()?>/upload/Car_tracking_png-01.png" height="60">
                 <a href="<?=base_url('Login')?>" class="logo d-flex align-items-center w-auto" >
 
                   <span class="d-none d-lg-block"><label style="color: white;">MEDIA TRACKING</label></span>
@@ -56,7 +56,6 @@ a:hover {
                         <div class="invalid-feedback">Veuillez entrer l'email.</div>
                       </div>
                     </div>
-
                     <div class="col-12">
                       <label for="yourPassword" class="form-label" style="color:white;">Password</label>
                       <input type="password" class="form-control"  id="Passworde" name="Passworde" style="border-radius:10px;">
