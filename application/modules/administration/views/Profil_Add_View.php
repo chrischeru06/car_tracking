@@ -65,6 +65,11 @@
                 </div>
               </div>
               <br>
+              <div class="row text-dark">
+                <label>ROLE </label>
+                <textarea cols="80" id="ROLE" required="" name="ROLE" rows="10" data-sample-short></textarea>
+              </div>
+              <br>
               <div style="color: red"><?php echo $error; ?></div>
               <br>
               <div class="col-md-12" style="margin-top:50px;">

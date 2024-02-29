@@ -7,7 +7,14 @@
     .profile .profile-card img {
       max-width: 280px;
     }
+
+    .scroller {
+      height: 400px;
+      overflow-y: scroll;
+      border-radius: 10px;
+    }
   </style>
+
 
 </head>
 
@@ -49,13 +56,17 @@
               if (!empty($utilisateur['PHOTO_PASSPORT'])) {?>
                 <img   src="<?=base_url('/upload/proprietaire/photopassport/'.$utilisateur['PHOTO_PASSPORT'])?>" alt="Profile" style="border-radius: 10px;height: 290px;width: 200%;">
                 <?php
-              }else{?>
+              }elseif (!empty($utilisateur['LOGO'])) {?>
+
+                <img src="<?=base_url('/upload/proprietaire/photopassport/'.$utilisateur['LOGO'])?>" alt="Profile"  style="border-radius: 10px;height: 290px;width: 200%;">
+              <?php }
+              else{?>
 
                 <img   src="<?= base_url()?>/upload/phavatar.png" alt="Profile"  style="border-radius: 10px;height: 290px;width: 200%;">
                 <?php
               }
               ?>
-              
+
 
 
               <h2><?=$utilisateur['IDENTIFICATION']?></h2>
@@ -143,13 +154,28 @@
                   }
                   ?>
                   
-
+                  <?php
+                  if ($utilisateur['TYPE_PROPRIETAIRE_ID']==1) {?>
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">NIF</div>
+                      <div class="col-lg-9 col-md-8"><?=$utilisateur['CNI_OU_NIF']?></div>
+                    </div>
+                    <?php
+                  }else{?>
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">CNI</div>
+                      <div class="col-lg-9 col-md-8"><?=$utilisateur['CNI_OU_NIF']?></div>
+                    </div>
+                    <?php
+                  }?>
                   
 
+
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">CNI/NIF</div>
-                    <div class="col-lg-9 col-md-8"><?=$utilisateur['CNI_OU_NIF']?></div>
+                    <div class="col-lg-3 col-md-4 label">Documents</div>
+                    <div class="col-lg-9 col-md-8"><button onclick="modal_doc();" class="btn-outline rounded-pill" style="background-color:cadetblue;"><i class="bi bi-eye"></i></button></div>
                   </div>
+
 
                 </div>
 
@@ -386,7 +412,35 @@
 <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
+<!------------------------ Modal pour l'affichage des documents ------------------------>
 
+
+<div class="modal fade" id="myModal_doc" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>            
+        <h5 class="modal-title">Détail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="scroller">
+
+          <div class="table-responsive">
+            <div class="row">
+
+              <div id="div_info">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+     <!--  <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div><!-- End Modal-->
 <script>
   $(document).ready(function()
   {
@@ -642,6 +696,28 @@
     $('#form_info').submit();
 
   }
+
+}
+function modal_doc(){
+
+ $("#myModal_doc").modal("show");
+ var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+
+
+ $.ajax({
+  url: "<?= base_url() ?>profil/Profil/get_modal_documents/" + PROPRIETAIRE_ID,
+  type: "POST",
+  dataType: "JSON",
+  success: function(data) {
+
+
+    $('#div_info').html(data.div_info);
+
+
+
+  },
+
+});
 
 }
 </script>
