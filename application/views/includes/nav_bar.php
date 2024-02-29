@@ -2,8 +2,8 @@
 
   <div class="d-flex align-items-center justify-content-between">
     <a href="<?= base_url()?>/template/Dashboard.php" class="logo d-flex align-items-center">
-      <img src="<?= base_url()?>upload/choice logo.jpeg" alt="" >
-      <span class="d-none d-lg-block">Car tracking</span>
+      <img src="<?= base_url()?>upload/Car_tracking_png-01.png" alt="" >
+      <span class="d-none d-lg-block">MediaTracking</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -162,83 +162,89 @@
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <?php 
-          $photo=$this->Model->getRequeteOne('SELECT PHOTO_PASSPORT FROM proprietaire JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE users.USER_ID= '.$this->session->userdata('USER_ID')); ?>
+          $photo=$this->Model->getRequeteOne('SELECT PHOTO_PASSPORT,LOGO FROM proprietaire JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE users.USER_ID= '.$this->session->userdata('USER_ID')); ?>
           <?php 
-          if (empty($photo['PHOTO_PASSPORT'])) 
+          if (!empty($photo['PHOTO_PASSPORT'])) 
             {?>
-             <img src="<?= base_url()?>/upload/phavatar.png" alt="Profile" class="rounded-circle">
-           <?php }
-           else{?>
-            <img src="<?=base_url('/upload/proprietaire/photopassport/'.$photo['PHOTO_PASSPORT'])?>" alt="Profile" class="rounded-circle">
+              <img src="<?=base_url('/upload/proprietaire/photopassport/'.$photo['PHOTO_PASSPORT'])?>" alt="Profile" class="rounded-circle">
+            <?php }
+            elseif(!empty($photo['LOGO'])){?>
+              <img src="<?=base_url('/upload/proprietaire/photopassport/'.$photo['LOGO'])?>" alt="Profile" class="rounded-circle">
 
-          <?php }
+              <?php
+            }
+            else{?>
+              
+              <img src="<?= base_url()?>/upload/phavatar.png" alt="Profile" class="rounded-circle">
+
+            <?php }
             // code...
-          ?>
-          
-          <span class="d-none d-md-block dropdown-toggle ps-2"><?=$this->session->userdata('IDENTIFICATION')?></span>
-        </a><!-- End Profile Iamge Icon -->
+            ?>
+            
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?=$this->session->userdata('IDENTIFICATION')?></span>
+          </a><!-- End Profile Iamge Icon -->
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-          <li class="dropdown-header">
-            <h6><?=$this->session->userdata('USER_NAME')?></h6>
-            <span><?=$this->session->userdata('CODE_PROFIL')?></span>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <?php $CODE = $this->session->userdata('CODE_PROFIL');
-          ?>
-          <?php
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6><?=$this->session->userdata('USER_NAME')?></h6>
+              <span><?=$this->session->userdata('CODE_PROFIL')?></span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <?php $CODE = $this->session->userdata('CODE_PROFIL');
+            ?>
+            <?php
 
-          if($CODE!='ADMIN'){?>
+            if($CODE!='ADMIN'){?>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="<?=base_url()?>profil/Profil">
+                  <i class="bi bi-person"></i>
+                  <span>Profil</span>
+                </a>
+              </li>
+
+
+              <?php
+            }
+            ?>
+            
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="<?=base_url()?>profil/Profil">
-                <i class="bi bi-person"></i>
-                <span>Profil</span>
+              <a class="dropdown-item d-flex align-items-center" href="#">
+                <i class="bi bi-gear"></i>
+                <span>Paramètres</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#">
+                <i class="bi bi-question-circle"></i>
+                <span>Besoin d'aide?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="<?=base_url()?>Login/logout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Se déconnecter</span>
               </a>
             </li>
 
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
 
-            <?php
-          }
-          ?>
-          
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+      </ul>
+    </nav><!-- End Icons Navigation -->
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <i class="bi bi-gear"></i>
-              <span>Paramètres</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <i class="bi bi-question-circle"></i>
-              <span>Besoin d'aide?</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="<?=base_url()?>Login/logout">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>Se déconnecter</span>
-            </a>
-          </li>
-
-        </ul><!-- End Profile Dropdown Items -->
-      </li><!-- End Profile Nav -->
-
-    </ul>
-  </nav><!-- End Icons Navigation -->
-
-</header>
+  </header>

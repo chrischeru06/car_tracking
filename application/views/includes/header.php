@@ -1,15 +1,15 @@
 <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>CAR TRACKING</title>
+  <title>MediaTracking</title>
   <!-- <meta content="" name="description">
   <meta content="" name="keywords"> -->
 
   <!-- Favicons -->
   <!-- <link href="assets/img/favicon.png" rel="icon"> -->
- <link rel="icon" type="image/png" size="16x16" href="<?= base_url() ?>/upload/car.png">
+ <link rel="icon" type="image/png" size="16x16" href="<?= base_url() ?>/upload/Car_tracking_png-02.png">
 
-  <link href="<?= base_url() ?>/upload/car.png" rel="apple-touch-icon">
+  <link href="<?= base_url() ?>/upload/Car_tracking_png-02.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">

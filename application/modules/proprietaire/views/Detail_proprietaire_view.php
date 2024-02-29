@@ -102,7 +102,7 @@
                   <h5 class="card-title">A propos</h5>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Nom</div>
+                    <div class="col-lg-3 col-md-4 label ">Nom & Prénom</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></div>
                   </div>
 
@@ -217,7 +217,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>            
-        <h5 class="modal-title">Détail</h5>
+        <h5 class="modal-title">Détails</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

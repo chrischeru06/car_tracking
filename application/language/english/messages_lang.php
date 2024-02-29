@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 //MENU PRINCIPAL
 	//Tableau de borb
@@ -744,3 +745,5 @@ $lang['mois']='Mois';
 ?>
 
 
+=======
+>>>>>>> b02be600578f03fe008878f8537c23bb263857c5

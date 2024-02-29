@@ -35,7 +35,7 @@ class Profil extends CI_Controller
 		$USER_ID=$this->session->userdata('USER_ID');
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
-		$my_select_utilisateur = $this->getBindParms('users.USER_ID,users.IDENTIFICATION,users.TELEPHONE,users.USER_NAME,profil.DESCRIPTION_PROFIL as profile,STATUT,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT,proprietaire.PROPRIETAIRE_ID,proprietaire.COUNTRY_ID,countries.CommonName,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,zones.ZONE_NAME,collines.COLLINE_NAME,proprietaire.PERSONNE_REFERENCE,proprietaire.CNI_OU_NIF,PASSWORD', ' `users` join profil on users.PROFIL_ID=profil.PROFIL_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID JOIN countries ON countries.COUNTRY_ID=proprietaire.COUNTRY_ID JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID JOIN communes ON communes.COMMUNE_ID=proprietaire.COMMUNE_ID JOIN zones ON zones.ZONE_ID=proprietaire.ZONE_ID JOIN collines ON collines.COLLINE_ID=proprietaire.COLLINE_ID', ' users.USER_ID='.$USER_ID.'', '`USER_ID` ASC');
+		$my_select_utilisateur = $this->getBindParms('users.USER_ID,users.IDENTIFICATION,users.TELEPHONE,users.USER_NAME,profil.DESCRIPTION_PROFIL as profile,STATUT,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT,proprietaire.PROPRIETAIRE_ID,proprietaire.COUNTRY_ID,countries.CommonName,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,zones.ZONE_NAME,collines.COLLINE_NAME,proprietaire.PERSONNE_REFERENCE,proprietaire.CNI_OU_NIF,PASSWORD,LOGO', ' `users` join profil on users.PROFIL_ID=profil.PROFIL_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID JOIN countries ON countries.COUNTRY_ID=proprietaire.COUNTRY_ID JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID JOIN communes ON communes.COMMUNE_ID=proprietaire.COMMUNE_ID JOIN zones ON zones.ZONE_ID=proprietaire.ZONE_ID JOIN collines ON collines.COLLINE_ID=proprietaire.COLLINE_ID', ' users.USER_ID='.$USER_ID.'', '`USER_ID` ASC');
 		$utilisateur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_utilisateur);
 
 			// $my_select_proprio= $this->getBindParms('proprietaire.PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT','proprietaire JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID','users.USER_ID='.$USER_ID.'','PROPRIETAIRE_ID ASC');
@@ -218,13 +218,13 @@ class Profil extends CI_Controller
 		$TYPE_PROPRIETAIRE_ID=$this->input->post('TYPE_PROPRIETAIRE_ID');
 		$PROPRIETAIRE_ID=$this->input->post('PROPRIETAIRE_ID');
 
-				if ($TYPE_PROPRIETAIRE_ID==1) 
-				{
-					$table='proprietaire';
+		if ($TYPE_PROPRIETAIRE_ID==1) 
+		{
+			$table='proprietaire';
 
 					// $LOGO_OLD = $this->input->post('LOGO_OLD');
 
-					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
+			$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
 
 					// if(empty($_FILES['LOGO']['name']) && !empty($LOGO_OLD))
 					// {
@@ -234,28 +234,28 @@ class Profil extends CI_Controller
 
 					// }
 
-					$data_updaate=array(
-						'TYPE_PROPRIETAIRE_ID'=>$TYPE_PROPRIETAIRE_ID,
-						'NOM_PROPRIETAIRE'=>$this->input->post('NOM_PROPRIETAIRE'),
-						'CNI_OU_NIF'=>$this->input->post('CNI_OU_NIF'),
+			$data_updaate=array(
+				'TYPE_PROPRIETAIRE_ID'=>$TYPE_PROPRIETAIRE_ID,
+				'NOM_PROPRIETAIRE'=>$this->input->post('NOM_PROPRIETAIRE'),
+				'CNI_OU_NIF'=>$this->input->post('CNI_OU_NIF'),
 						// 'RC'=>$this->input->post('RC'),
-						'PERSONNE_REFERENCE'=>$this->input->post('PERSONNE_REFERENCE'),
-						'EMAIL'=>$this->input->post('EMAIL'),
-						'TELEPHONE'=>$this->input->post('TELEPHONE'),
-						'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
-						'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
-						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
-						'ZONE_ID'=>$this->input->post('ZONE_ID'),
-						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
-						'ADRESSE'=>$this->input->post('ADRESSE')
+				'PERSONNE_REFERENCE'=>$this->input->post('PERSONNE_REFERENCE'),
+				'EMAIL'=>$this->input->post('EMAIL'),
+				'TELEPHONE'=>$this->input->post('TELEPHONE'),
+				'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
+				'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
+				'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
+				'ZONE_ID'=>$this->input->post('ZONE_ID'),
+				'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
+				'ADRESSE'=>$this->input->post('ADRESSE')
 						// 'LOGO'=>$file_logo
-					);
+			);
 
-					$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),$data_updaate);
+			$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),$data_updaate);
 
-				}else
-				{
-					$table='proprietaire';
+		}else
+		{
+			$table='proprietaire';
 
 					// $photo_passport_old = $this->input->post('photo_passport_old');
 
@@ -281,35 +281,66 @@ class Profil extends CI_Controller
 
 					// }
 
-					$data_updaate=array(
-						'TYPE_PROPRIETAIRE_ID'=>$TYPE_PROPRIETAIRE_ID,
-						'NOM_PROPRIETAIRE'=>$this->input->post('NOM_PROPRIETAIRE'),
-						'PRENOM_PROPRIETAIRE'=>$this->input->post('PRENOM_PROPRIETAIRE'),
-						'CNI_OU_NIF'=>$this->input->post('CNI_OU_NIF'),
-						'EMAIL'=>$this->input->post('EMAIL'),
-						'TELEPHONE'=>$this->input->post('TELEPHONE'),
-						'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
-						'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
-						'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
-						'ZONE_ID'=>$this->input->post('ZONE_ID'),
-						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
-						'ADRESSE'=>$this->input->post('ADRESSE')
+			$data_updaate=array(
+				'TYPE_PROPRIETAIRE_ID'=>$TYPE_PROPRIETAIRE_ID,
+				'NOM_PROPRIETAIRE'=>$this->input->post('NOM_PROPRIETAIRE'),
+				'PRENOM_PROPRIETAIRE'=>$this->input->post('PRENOM_PROPRIETAIRE'),
+				'CNI_OU_NIF'=>$this->input->post('CNI_OU_NIF'),
+				'EMAIL'=>$this->input->post('EMAIL'),
+				'TELEPHONE'=>$this->input->post('TELEPHONE'),
+				'COUNTRY_ID'=>$this->input->post('COUNTRY_ID'),
+				'PROVINCE_ID'=>$this->input->post('PROVINCE_ID'),
+				'COMMUNE_ID'=>$this->input->post('COMMUNE_ID'),
+				'ZONE_ID'=>$this->input->post('ZONE_ID'),
+				'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
+				'ADRESSE'=>$this->input->post('ADRESSE')
 						// 'PHOTO_PASSPORT'=>$file4,
 						// 'FILE_CNI_PASSPORT'=>$file_fil
 
-					);
+			);
 
 
 
-					$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),$data_updaate);
-				}
+			$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),$data_updaate);
+		}
 
-				$message['message']='<div class="alert alert-success text-center" id="message">Modification faite avec succès</div>';
+		$message['message']='<div class="alert alert-success text-center" id="message">Modification faite avec succès</div>';
 		$this->session->set_flashdata($message);
 
 
 		redirect(base_url('profil/Profil'));
 
+
+	}
+
+	//Fonction pour l'affichage du modal des documents uploader
+	function get_modal_documents($PROPRIETAIRE_ID){
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+		$my_select_proprietaire = $this->getBindParms('proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE,LOGO,FILE_CNI_PASSPORT', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
+		$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprietaire);
+
+		
+
+		if($proprietaire['TYPE_PROPRIETAIRE_ID']==1){
+
+			$fichier = base_url().'upload/proprietaire/photopassport/'.$proprietaire['LOGO'].'';
+
+		}else{
+
+			$fichier = base_url().'upload/proprietaire/piece_identite/'.$proprietaire['FILE_CNI_PASSPORT'].'';
+
+		}
+
+		
+		$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"/>';
+
+		$output = array(
+			
+			"div_info"=>$div_info,
+			
+
+		);
+		echo json_encode($output);
 
 	}
 

@@ -61,15 +61,17 @@
 
                 <br>
                 <br>
-                <div class="table-responsive" style="padding-top: 20px;">
+                <div class="table-responsive" style=" width:100%;">
                   <table id="mytable" class="table table-hover" >
                     <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="text-dark">#</th>
 
-                        <th class="text-dark">Profil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">PROFIL&nbsp;</th>
+                        <th class="text-dark">ROLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 
-                        <th class="text-dark">Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+                        <th class="text-dark">OPTIONS</th>
                       </tr>
                     </thead>
                     <tbody class="text-dark">

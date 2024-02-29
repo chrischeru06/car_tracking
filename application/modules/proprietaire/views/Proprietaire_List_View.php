@@ -489,7 +489,6 @@ input:checked + .slider:before {
     success: function(data) {
 
       // alert(data.CNI)
-
       $('#IDENTITE').html(data.CNI);
       $('#TELEPHONE').html(data.TELEPHONE);
       $('#EMAIL').html(data.EMAIL);

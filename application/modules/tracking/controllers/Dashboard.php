@@ -105,7 +105,7 @@ class Dashboard extends CI_Controller
 		$distance_finale=0;
 		$distance_arrondie=0;
 		$score_finale=0;
-		$critere="";
+		$critere='';
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_heure1 = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', 'HEURE_ID="'.$HEURE1.'"', '`HEURE_ID` ASC');
@@ -123,9 +123,8 @@ class Dashboard extends CI_Controller
 
 		if (!empty($HEURE1) && !empty($HEURE2)) 
 		{
-			$critere.= ' AND date_format(tracking_data.`date`,"%H:%i:%s") between "'.$heure_select1['HEURE'].'" AND "'.$my_select_heure2['HEURE'].'"';
-
-
+			$critere.=' AND date_format(tracking_data.`date`,"%H:%i:%s") between "'.$heure_select1['HEURE'].'" AND "'.$my_select_heure2['HEURE'].'" ';
+			
 
 		}
 
@@ -151,21 +150,32 @@ class Dashboard extends CI_Controller
 
 
 		//requete pour recuperer tout le trajet parcouru
-		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"'.$critere.'' , '`id` ASC');
+		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" '.$critere.' ', '`id` ASC');
+		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\n', '', $my_selectget_data);
 		$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
+
 		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
+
+		// print_r($get_data);die();
 
 		
 		//requete pour recuperer les arrets
-		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`device_uid`,`ignition`,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure,ignition', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" AND ignition=0'.$critere.'' , '`id` ASC');
+		
+
+		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" '.$critere.' ', '`id` ASC');
+
+		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\n', '', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\"', '', $my_selectget_arret);
 
+
 		$get_arret = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret);
+
+
 		$distance=0;
 		
 		//Calcul de la distance parcourue

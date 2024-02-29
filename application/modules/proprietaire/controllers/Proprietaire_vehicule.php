@@ -213,7 +213,6 @@ class Proprietaire_vehicule extends CI_Controller
 				</div>
 				<div class='modal-body'>
 
-				<center><h4 class=''><strong>Véhicule</strong></h4></center>
 
 				<div class='row'>
 
