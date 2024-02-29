@@ -1,3 +1,5 @@
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <?php 
 
         // # Codes profil
@@ -129,7 +131,7 @@ else if ($this->session->PROFIL_ID == 2) {
       </li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_chauffeur">
-          <i class="bi bi-journal-text"></i>
+          <i class="bi bi-person"></i>
           <span>Chauffeurs</span>
         </a>
       </li>
