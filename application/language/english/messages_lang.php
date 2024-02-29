@@ -1,5 +1,4 @@
 <?php
-
 //MENU PRINCIPAL
 	//Tableau de borb
 $lang['menu_principal_nav_dashbord']="Tableau de Bord";
@@ -742,10 +741,6 @@ $lang['rapport_d']="Rapport du ";
 
 $lang['anne']='Année';
 $lang['mois']='Mois';
-
-
-
-
 ?>
 
 
