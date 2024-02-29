@@ -100,7 +100,7 @@
 				<div class="form-group">
 					<label>Propriétaire</label>
 
-					<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="get_vehicule();getmap();">
+					<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();">
 						<option value="" selected>-- Séléctionner --</option>
 						<?php
 						foreach ($proprio as $key_pro)
@@ -175,7 +175,7 @@
 							</div>
 
 						</div>
-						<small class="text-muted small pt-2 ps-1">Nombre propriétaires</small>
+						<small class="text-muted small pt-2 ps-1">Nombre propriétaires&nbsp;&nbsp;<a href="<?= base_url()?>proprietaire/Proprietaire/liste " class="fa fa-eye text-dark" title="Voir la liste"></a></small>
 					</div>
 
 				</div>
@@ -198,7 +198,7 @@
 							</div>
 
 						</div>
-						<small class="text-muted small pt-2 ps-1">Nombre véhicules</small>
+						<small class="text-muted small pt-2 ps-1">Nombre véhicules &nbsp;&nbsp;<a href="<?= base_url()?>vehicule/Vehicule " class="fa fa-eye text-dark" title="Voir la liste"></a></small>
 					</div>
 
 				</div>
@@ -217,7 +217,7 @@
 							</div>
 
 						</div>
-						<small class="text-muted small pt-2 ps-1">Nombre chauffeurs</small>
+						<small class="text-muted small pt-2 ps-1">Nombre chauffeurs &nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur " class="fa fa-eye text-dark" title="Voir la liste"></a></small>
 					</div>
 
 				</div>

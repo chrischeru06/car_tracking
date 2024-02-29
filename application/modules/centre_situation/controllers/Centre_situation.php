@@ -134,9 +134,18 @@
            
             // Recherche des chauffeurs
 
-			$nbrChauffeur = $this->getBindParms('CHAUFFEUR_VEHICULE_ID','chauffeur_vehicule JOIN vehicule ON vehicule.CODE = chauffeur_vehicule.CODE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.''.$critere_user.'','CHAUFFEUR_VEHICULE_ID ASC');
+            $nbrChauffeur = 0;
 
-			$nbrChauffeur = $this->ModelPs->getRequeteOne($psgetrequete, $nbrChauffeur);
+            if($this->session->userdata('PROFIL_ID') != 1 || $PROPRIETAIRE_ID > 0)
+            {
+            	$nbrChauffeur = $this->getBindParms('CHAUFFEUR_VEHICULE_ID','chauffeur_vehicule LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID LEFT JOIN vehicule ON vehicule.CODE = chauffeur_vehicule.CODE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.''.$critere_user.'','CHAUFFEUR_VEHICULE_ID ASC');
+            }
+            else
+            {
+            	$nbrChauffeur = $this->getBindParms('CHAUFFEUR_ID','chauffeur',' 1 ','CHAUFFEUR_ID ASC');
+            }
+
+			$nbrChauffeur = $this->ModelPs->getRequete($psgetrequete, $nbrChauffeur);
 
 			if(!empty($nbrChauffeur)){
 				$nbrChauffeur = count($nbrChauffeur);
@@ -219,10 +228,11 @@
 
 			// $get_vihicule = $this->ModelPs->getRequete($psgetrequete, $get_vihicule);
 
-			$donnees_vehicule = '';
+			$donnees_vehicule = ' ';
 
 			$nbrProprietaire = count($proprio);
 
+             $nbrVehicule = 0;
 
 			if(!empty($get_vihicule))
 			{
@@ -318,6 +328,7 @@
 					$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>@';
 				}
 			}
+			
 
 			$data['proprio'] = $proprio;
 			$data['donnees_vehicule'] = $donnees_vehicule;

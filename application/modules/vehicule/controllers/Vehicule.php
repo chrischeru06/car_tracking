@@ -19,7 +19,6 @@
 			if(empty($this->session->userdata('USER_ID')))
 			{
 				redirect(base_url('Login/logout'));
-
 			}
 		}
 
@@ -33,10 +32,16 @@
 		//Fonction pour l'affichage
 		function listing()
 		{
+			$USER_ID = $this->session->userdata('USER_ID');
 
 			$critaire = '' ;
 
-			$query_principal='SELECT VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID WHERE 1';
+			if($this->session->userdata('PROFIL_ID') != 1)
+			{
+				$critaire.= ' AND users.USER_ID = '.$USER_ID;
+			}
+
+			$query_principal='SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -185,6 +190,11 @@
 				<tr>
 				<td class='btn-sm'>propriétaire</td>
 				<th class='btn-sm'><strong>".$row->desc_proprio."</strong></th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Chauffeur</td>
+				<th class='btn-sm'><strong>".(isset($row->desc_chauffeur)?$row->desc_chauffeur:'N/A')."</strong></th>
 				</tr>
 
 				</table>
