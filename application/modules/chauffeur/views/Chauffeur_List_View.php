@@ -119,7 +119,7 @@ input:checked + .slider:before {
             <div class="modal-body mb-1">
               <div class="row">
                 <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
-              
+              <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
                 <div class="col-md-6">
                   <label for="description" class="text-dark">Voiture</label>
                   <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
@@ -170,7 +170,7 @@ input:checked + .slider:before {
        <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
             <div class="modal-body mb-1">
               <div class="row">
-                <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
+               <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
                 <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
 
                 <div class="col-md-6">
