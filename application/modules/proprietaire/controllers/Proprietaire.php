@@ -983,7 +983,7 @@ class Proprietaire extends CI_Controller
 			}
 			if(!empty($chauffeur)){
 
-				$sub_array[] = '<a  href="' . base_url("tracking/Dashboard/position_voiture/".$row->CODE) . '" ><center><span class="bi bi-eye"></span></center></a>';
+				$sub_array[] = '<a  href="' . base_url("tracking/Dashboard/position_voiture/".md5($row->CODE)) . '" ><center><span class="bi bi-eye"></span></center></a>';
 
 			}else{
 

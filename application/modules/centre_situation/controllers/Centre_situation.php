@@ -220,6 +220,7 @@
 			$get_vihicule = $this->Model->getRequete('SELECT tracking_data.id,latitude,longitude,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' GROUP BY VEHICULE_ID ORDER BY id DESC');
 
 
+
 			// $get_vihicule = $this->getBindParms('tracking_data.id,latitude,longitude,VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO','tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID',' 1 '.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.'','proprio_desc ASC');
 
 			// $get_vihicule=str_replace('\"', '"', $get_vihicule);
@@ -231,9 +232,8 @@
 			$donnees_vehicule = ' ';
 
 			$nbrProprietaire = count($proprio);
-
-             $nbrVehicule = 0;
-
+            $nbrChauffeur = 0;
+           
 			if(!empty($get_vihicule))
 			{
 				$nbrVehicule = count($get_vihicule);
@@ -328,8 +328,11 @@
 					$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>@';
 				}
 			}
-			
-
+			else
+			{
+				$donnees_vehicule = ' ';
+				$nbrChauffeur = 0;
+			}
 			$data['proprio'] = $proprio;
 			$data['donnees_vehicule'] = $donnees_vehicule;
 			$data['nbrVehicule'] = $nbrVehicule; 
