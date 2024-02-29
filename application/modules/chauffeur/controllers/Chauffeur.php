@@ -34,6 +34,7 @@
 		//Fonction pour l'affichage
 		function listing()
 		{
+
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 			$var_search = str_replace("'", "\'", $var_search);
 			$group = "";
@@ -61,7 +62,7 @@
 				OR chauffeur.NUMERO_CARTE_IDENTITE LIKE "%' . $var_search . '%"
 				OR chauffeur.DATE_INSERTION LIKE "%' . $var_search . '%")') : '';
 
-			$query_principal='SELECT CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
+			$query_principal='SELECT CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,chauffeur.FILE_PERMIS FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
 
             //condition pour le query principale
 			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -198,7 +199,7 @@
 
 							<div class='modal-content'>
 							<div class='modal-header' style='background:cadetblue;color:white;'>
-							<h6 class='modal-title'>Détails du chauffeur</h6>
+							<h6 class='modal-title'>Détails du chauffeur&nbsp;&nbsp;" .$row->NOM." "." ".$row->PRENOM."</h6>
 							<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 							</div>
 							<div class='modal-body'>
@@ -207,8 +208,7 @@
 							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
 							</div>
 							<div class='col-md-8'>
-
-							<div class='table responsive'>
+							<div class='table-responsive'>
 							<table class='table table-borderless'>
 							<tr>
 							<td>Carte d'identité</td>
@@ -245,11 +245,16 @@
 							</tr>
                           
 							<tr>
-							<td>Voir documents</td>
+							<td><strong>Voir documents</strong></td>
 						   </tr>
 							<tr>
 							<td>CNI</td>
-							<td>".$row->NUMERO_CARTE_IDENTITE."<a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							<td><a href='#' data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							</td>
+							</tr>
+							<tr>
+							<td>PERMIS</td>
+							<td><a href='#'data-toggle='modal' data-target='#info_documa2" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 							</td>
 							</tr>
 							
@@ -260,28 +265,62 @@
 							</div>
 							</div>
 							</div>
+							</div>
+							</div>
+							</div>
+
+						<div class='modal fade' id='info_documa" .$row->CHAUFFEUR_ID. "'>
+						<div class='modal-dialog'>
+						<div class='modal-content'>
+						<div class='modal-header' style='background:cadetblue;color:white;'>
+				        <h6 class='modal-title'>Carte d'identité</h6>
+				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+			      	   </div>
+						<div class='modal-body'>
+						<class='col-md-4'>
+					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+						</div>
+						</div>
+						</div>
+						</div>
 						
-							</div>
-							</div>
-							</div>";
+
+                            
+                        <div class='modal fade' id='info_documa2" .$row->CHAUFFEUR_ID. "'>
+						<div class='modal-dialog'>
+						<div class='modal-content'>
+						<div class='modal-header' style='background:cadetblue;color:white;'>
+				        <h6 class='modal-title'>Permis de conduire</h6>
+				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+			      	   </div>
+						<div class='modal-body'>
+						<class='col-md-4'>
+					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+						</div>
+						</div>
+						</div>
+						</div>
+							";
 						}else
 						{
 							$option .="
 							</div>
-							<div class='modal fade' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
+							<div class='modal fade' tabindex='-1' data-bs-backdrop='false' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
 							<div class='modal-dialog modal-dialog-centered modal-lg'>
+
 							<div class='modal-content'>
 							<div class='modal-header' style='background:cadetblue;color:white;'>
-				      <h6 class='modal-title'>Détails du chauffeur</h6>
-				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	</div>
+							<h6 class='modal-title'>Détails du chauffeur:" .$row->NOM." "." ".$row->PRENOM."</h6>
+							<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+							</div>
 							<div class='modal-body'>
 							<div class='row'>
 							<div class='col-md-4'>
 							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
 							</div>
 							<div class='col-md-8'>
-							<table class= 'table table-borderless'>
+							<div class='table-responsive'>
+							<table class='table table-borderless'>
 							<tr>
 							<td>Carte d'identité</td>
 							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
@@ -312,43 +351,64 @@
 							</tr>
 
 							<tr>
-							<td ><strong>Voir documents</strong></td>
+							<td><strong>Voir documents</strong></td>
 						   </tr>
-						   
 							<tr>
 							<td>CNI</td>
-							<td><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							<td><a href='#'data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 							</td>
 							</tr>
+							<tr>
+							<td>PERMIS</td>
+							<td><a href='#'data-toggle='modal' data-target='#info_documa2" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							</td>
+							</tr>
+							
 
 
 							</table>
 							</div>
 							</div>
 							</div>
-							
 							</div>
 							</div>
 							</div>
-                           </div>
+							</div>
 
 						<div class='modal fade' id='info_documa" .$row->CHAUFFEUR_ID. "'>
 						<div class='modal-dialog'>
 						<div class='modal-content'>
 						<div class='modal-header' style='background:cadetblue;color:white;'>
-				      <h6 class='modal-title'>Carte d'identité</h6>
-				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	</div>
+				        <h6 class='modal-title'>Carte d'identité</h6>
+				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+			      	   </div>
 						<div class='modal-body'>
-					
 						<class='col-md-4'>
-							<img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+						</div>
+						</div>
 						</div>
 						</div>
 						
+
+                            
+                        <div class='modal fade' id='info_documa2" .$row->CHAUFFEUR_ID. "'>
+						<div class='modal-dialog'>
+						<div class='modal-content'>
+						<div class='modal-header' style='background:cadetblue;color:white;'>
+				        <h6 class='modal-title'>Permis de conduire</h6>
+				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+			      	   </div>
+						<div class='modal-body'>
+						<class='col-md-4'>
+					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
 						</div>
 						</div>
 						</div>
+						</div>
+					
+
+
 
 							";
 						}
@@ -593,7 +653,7 @@
 		// $statut=3: attribution echoue
 		$statut=3;
 		// $CODE= $this->input->post('code_vehicule');
-		$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+		$CODE = $this->input->post('VEHICULE_ID');
 		$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID');
 		$CHAUFF_ZONE_AFFECTATION_ID = $this->input->post('CHAUFF_ZONE_AFFECTATION_ID');
 		$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION');
@@ -601,11 +661,11 @@
 
 
 
-		$data = array('CODE'=>$VEHICULE_ID,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'CHAUFF_ZONE_AFFECTATION_ID'=>$CHAUFF_ZONE_AFFECTATION_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'STATUT_AFFECT'=>1);
+		$data = array('CODE'=>$CODE,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'CHAUFF_ZONE_AFFECTATION_ID'=>$CHAUFF_ZONE_AFFECTATION_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'STATUT_AFFECT'=>1);
 
 		$CHAUFFEUR_VEH = $this->Model->create('chauffeur_vehicule',$data);
 		$result = $this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('STATUT_VEHICULE'=>2));
-		$result = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID),array('STATUT'=>2));
+		$result = $this->Model->update('vehicule',array('CODE'=>$CODE),array('STATUT'=>2));
 		
 		if($result==true )
 		{
@@ -625,18 +685,18 @@
 	}
 
 
-		//fonction pour retirer la carte à un agent
+		//fonction pour retirer la voiture
 	public function retirer_voit($CHAUFFEUR_ID)
 	{
 
-		$chauf = $this->Model->getOne('chauffeur',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID));
-		 //print($chauf['CHAUFFEUR_ID']);exit();
+		$chauf_v = $this->Model->getOne('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID));
+		//print($chauf['CHAUFFEUR_ID']);exit();
 		
-		$this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$chauf['CHAUFFEUR_ID']),array('STATUT_VEHICULE'=>1));
+		$this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID']),array('STATUT_VEHICULE'=>1));
 
-		$this->Model->update('vehicule',array('VEHICULE_ID'=>$chauf['CODE']),array('STATUT'=>1));
+		$this->Model->update('vehicule',array('CODE'=>$chauf_v['CODE']),array('STATUT'=>1));
 		// $today = date('Y-m-d H:s');
-		$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf['CHAUFFEUR_ID']),array('STATUT_AFFECT'=>2));
+		$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID']),array('STATUT_AFFECT'=>2));
 
 		
 		$data['message'] = '<div class="alert alert-success text-center" id="message">' . " Vous avez bien retiré la voiture" . '</div>';
