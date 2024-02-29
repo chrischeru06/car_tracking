@@ -232,7 +232,7 @@
 			$donnees_vehicule = ' ';
 
 			$nbrProprietaire = count($proprio);
-            $nbrChauffeur = 0;
+            $nbrVehicule = 0;
            
 			if(!empty($get_vihicule))
 			{
@@ -331,7 +331,7 @@
 			else
 			{
 				$donnees_vehicule = ' ';
-				$nbrChauffeur = 0;
+				$nbrVehicule = 0;
 			}
 			$data['proprio'] = $proprio;
 			$data['donnees_vehicule'] = $donnees_vehicule;
