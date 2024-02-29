@@ -20,6 +20,11 @@
   width: 0;
   height: 0;
 }
+.scroller {
+      height: 400px;
+      overflow-y: scroll;
+      border-radius: 10px;
+    }
 
 /* The slider */
 .slider {

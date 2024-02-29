@@ -277,8 +277,12 @@
 				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	   </div>
 						<div class='modal-body'>
-						<class='col-md-4'>
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+						<div class='scroller'>
+						<div class='table-responsive'>
+
+					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					       </div>
+					       </div>
 						</div>
 						</div>
 						</div>
@@ -294,8 +298,12 @@
 				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	   </div>
 						<div class='modal-body'>
-						<class='col-md-4'>
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+						<div class='scroller'>
+						<div class='table-responsive'>
+
+					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					       </div>
+					       </div>
 						</div>
 						</div>
 						</div>
@@ -383,8 +391,11 @@
 				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	   </div>
 						<div class='modal-body'>
-						<class='col-md-4'>
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+						<div class='scroller'>
+						<div class='table-responsive'>
+					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					       </div>
+					       </div>
 						</div>
 						</div>
 						</div>
@@ -400,8 +411,12 @@
 				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	   </div>
 						<div class='modal-body'>
-						<class='col-md-4'>
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+						<div class='scroller'>
+						<div class='table-responsive'>
+
+					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					      </div>
+					      </div>
 						</div>
 						</div>
 						</div>
