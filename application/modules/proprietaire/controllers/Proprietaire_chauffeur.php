@@ -154,7 +154,7 @@ class Proprietaire_chauffeur extends CI_Controller
 
 			<div class='modal-content'>
 			<div class='modal-header' style='background:cadetblue;color:white;'>
-			<h6 class='modal-title'>Détails du chauffeur</h6>
+			<h6 class='modal-title'>Détails du chauffeur ".$row->NOM." ".$row->PRENOM."</h6>
 			<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			</div>
 			<div class='modal-body'>

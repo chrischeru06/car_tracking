@@ -9,7 +9,7 @@
  */
 class Profil extends CI_Controller
 {
-	
+	//Fonction pour rediriger sur la page de connexion si une fois la session est perdue
 	function __construct()
 	{
 		parent::__construct();
@@ -32,8 +32,8 @@ class Profil extends CI_Controller
 		$this->load->view('Profil_List_view');
 	}
 
+	//Fonction pour la liste
 	function listing(){
-
 
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 		$var_search = str_replace("'", "\'", $var_search);
@@ -52,7 +52,7 @@ class Profil extends CI_Controller
 		$search = !empty($_POST['search']['value']) ? (' AND (`DESCRIPTION_PROFIL` LIKE "%' . $var_search . '%" 
 			OR CODE_PROFIL LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT PROFIL_ID, DESCRIPTION_PROFIL, CODE_PROFIL FROM profil WHERE 1';
+		$query_principal='SELECT PROFIL_ID, DESCRIPTION_PROFIL, CODE_PROFIL,ROLE FROM profil WHERE 1';
 		$critaire = '' ;
 		
         //condition pour le query principale
@@ -72,7 +72,15 @@ class Profil extends CI_Controller
 			$i=$i+1;
 			$sub_array=array();
 			$sub_array[]=$i;	
-			$sub_array[]=$row->DESCRIPTION_PROFIL;	
+			$sub_array[]=$row->DESCRIPTION_PROFIL;
+			if(!empty($row->ROLE)){
+				$sub_array[]=$row->ROLE;	
+
+			}else{
+				$sub_array[]='N/A';	
+
+			}
+
 			$option = '';
 			$option .= '<div class="dropdown" style="float:right">
 			<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
@@ -217,12 +225,16 @@ class Profil extends CI_Controller
 		$this->form_validation->set_rules('DESCRIPTION_PROFIL','','trim|required|is_unique[profil.DESCRIPTION_PROFIL]',array('required'=>'<font style="color:red;font-size:15px;">*Ce champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le profil doit être unique</font>'));
 		$this->form_validation->set_rules('CODE_PROFIL','','trim|required|is_unique[profil.CODE_PROFIL]',array('required'=>'<font style="color:red;font-size:15px;">*Ce champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le code doit être unique</font>'));
 
+		$this->form_validation->set_rules('ROLE','','required',array('required'=>'<font style="color:red;font-size:15px;">*Ce champs est obligatoire</font>'));
+
 		if($this->form_validation->run()==TRUE)
 		{
 
 			$data_prof=array(
 				'DESCRIPTION_PROFIL' =>$this->input->post('DESCRIPTION_PROFIL'),
 				'CODE_PROFIL' =>$this->input->post('CODE_PROFIL'),
+				'ROLE' =>$this->input->post('ROLE'),
+
 
 
 			);
