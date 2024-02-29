@@ -18,7 +18,7 @@
 
 </head>
 
-<body id="main" class="main" style="background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'upload/trackingbackground.png'; ?>')" >
+<body id="main" class="main" style="background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'template/assets/img/login_bg.png'; ?>')" >
   <main>
     <div class="card mb-3 bg-transparent border-success" style="border-radius: 20px;">
 
@@ -45,7 +45,8 @@
                             <div id="message_login"></div>         
                             <div class="form-group">
                               <input type="text" id="EMAIL_CONFIRMATION" name="EMAIL_CONFIRMATION" class="form-control" placeholder="Email">
-                              <span class="help-block"></span>
+                              <span class="help-block" style="color: red"></span>
+                              
                             </div>
                             <br>
                             <div class="row">

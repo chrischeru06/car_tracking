@@ -136,8 +136,8 @@ class Login extends CI_Controller
 		$data['error_string']=array();
 		$data['input_error']=array();
 		$data['status']=TRUE;
-		$message="Le champs est obligatoire";
-		$message_verif="Email n'existe pas dans le système";
+		$message="Le champs est obligatoire !";
+		$message_verif="L'Email saisi n'existe pas dans le système !";
 
 		$user=$this->Model->getOne('users',array('USER_NAME'=>$this->input->post('EMAIL_CONFIRMATION')));
 
@@ -148,7 +148,7 @@ class Login extends CI_Controller
 			$data['status']=FALSE;
 		}
 
-		if ($this->input->post('EMAIL_CONFIRMATION')!=$user['USER_NAME']) {
+		if (empty($user)) {
 			$data['input_error'][]="EMAIL_CONFIRMATION";
 			$data['error_string'][]=$message_verif;
 			$data['status']=FALSE;
