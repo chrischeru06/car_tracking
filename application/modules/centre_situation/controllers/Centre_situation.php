@@ -223,7 +223,8 @@
 
 			$nbrProprietaire = count($proprio);
 
-
+           $nbrChauffeur = 0;
+           
 			if(!empty($get_vihicule))
 			{
 				$nbrVehicule = count($get_vihicule);
@@ -317,6 +318,11 @@
 
 					$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>@';
 				}
+			}
+			else
+			{
+				$donnees_vehicule = ' ';
+				$nbrChauffeur = 0;
 			}
 
 			$data['proprio'] = $proprio;
