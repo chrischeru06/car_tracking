@@ -217,7 +217,23 @@
 							</div>
 
 						</div>
-						<small class="text-muted small pt-2 ps-1">Nombre chauffeurs &nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur " class="fa fa-eye text-dark" title="Voir la liste"></a></small>
+						<?php
+						if($this->session->userdata('PROFIL_ID') == 1) // Admin
+						{
+							?>
+							<small class="text-muted small pt-2 ps-1">Nombre chauffeurs &nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur " class="fa fa-eye text-dark" title="Voir la liste"></a></small>
+							<?php
+						}
+						else
+						{
+							?>
+							<small class="text-muted small pt-2 ps-1">Nombre chauffeurs &nbsp;&nbsp;<a href="<?= base_url()?>proprietaire/Proprietaire_chauffeur" class="fa fa-eye text-dark" title="Voir la liste"></a></small>
+							<?php
+						}
+						?>
+
+						
+
 					</div>
 
 				</div>

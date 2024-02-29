@@ -35,9 +35,20 @@
 	for (var i = 0; i < (donn.length)-1; i++) {
 		var index = donn[i].split('<>');
 
+		var color = ' ';
+
+		if(index[13] == 1)
+		{
+			color = '#0000FF';
+		}
+		else
+		{
+			color = '#FF0000';
+		}
+
 		var marker = L.marker([index[1],index[2]], {
 			icon: L.mapbox.marker.icon({
-				'marker-color': '#0000FF',
+				'marker-color': color,
 				'marker-symbol': 'car',
 				'marker-size': 'large'
 
