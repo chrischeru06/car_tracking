@@ -75,7 +75,7 @@
 				$sub_array[]=$row->DESC_MODELE;
 				$sub_array[]=$row->PLAQUE;
 				$sub_array[]=$row->COULEUR;
-				$sub_array[]=$row->KILOMETRAGE;
+				$sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' litres / KM' : 'N/A');
 
 				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
 
