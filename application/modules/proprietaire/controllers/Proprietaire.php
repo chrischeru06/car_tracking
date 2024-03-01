@@ -771,7 +771,7 @@ class Proprietaire extends CI_Controller
 
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
-		$my_select_proprietaire = $this->getBindParms('proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE,LOGO', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
+		$my_select_proprietaire = $this->getBindParms('proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE,LOGO,FILE_CNI_PASSPORT', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
 		$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprietaire);
 
 		if(empty($proprietaire['PERSONNE_REFERENCE'])){
@@ -779,6 +779,16 @@ class Proprietaire extends CI_Controller
 			$PERSONNE_REFERENCE='N/A';
 		}else{
 			$PERSONNE_REFERENCE=$proprietaire['PERSONNE_REFERENCE'];
+		}
+
+		if($proprietaire['TYPE_PROPRIETAIRE_ID']==1){
+
+			$fichier_cni = base_url().'upload/proprietaire/photopassport/'.$proprietaire['LOGO'].'';
+
+		}else{
+
+			$fichier_cni = base_url().'upload/proprietaire/piece_identite/'.$proprietaire['FILE_CNI_PASSPORT'].'';
+
 		}
 
 		if($proprietaire['TYPE_PROPRIETAIRE_ID']==1){
@@ -791,8 +801,25 @@ class Proprietaire extends CI_Controller
 
 		}
 
+		if($proprietaire['TYPE_PROPRIETAIRE_ID']==1){
+
+			$label_doc='Logo';
+			$cni_physique='';
+		}else{
+
+			$label_doc='CNI/Passport';
+			$cni_physique='<table class="table table-borderless">
+			<tr>
+			<td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; CNI / Passport</td>
+			<td>'.$proprietaire['CNI_OU_NIF'].'</td>
+			</tr>
+			</table>';
+
+		}
+
 		
 		$div_info = '<img src="'.$fichier.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
+		$div_info_cni = '<img src="'.$fichier_cni.'" height="100%"  width="100%"  style= "border-radius:50%;" />';
 
 		$output = array(
 			"CNI" => $proprietaire['CNI_OU_NIF'],
@@ -802,6 +829,12 @@ class Proprietaire extends CI_Controller
 			"PERSONNE_REFERENCE" => $PERSONNE_REFERENCE,
 			"div_info"=>$div_info,
 			"ADRESSE"=>$proprietaire['ADRESSE'],
+			"label_doc"=>$label_doc,
+			"cni_physique"=>$cni_physique,
+			"fichier_cni"=>$div_info_cni,
+
+
+
 
 		);
 		echo json_encode($output);

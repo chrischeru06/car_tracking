@@ -363,7 +363,6 @@ class Dashboard extends CI_Controller
 
 			foreach ($get_arret as $key_arret) {
 
-
 				$arret.="{
 					'type': 'Feature',
 					'properties': {
@@ -390,8 +389,20 @@ class Dashboard extends CI_Controller
 
 				$arret = str_replace('', "", $arret);
 
+				$my_selectprovinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME,OBJECTIF,PROVINCE_LATITUDE,PROVINCE_LONGITUDE,POLY,COLOR', 'provinces', '1 ' , 'PROVINCE_ID ASC');
+				// $provinces = $this->ModelPs->getRequete($proce_requete, $my_selectprovinces);
+				// $delimit_prov='';
+				// foreach ($provinces as $key_provinces) {
+				// 	$delimit_prov.="{
 
+				// 		'type': 'geojson',
+				// 		'data': '".$key_provinces['POLY']."'
+				// 	},
+					
 
+				// 	";
+					
+				// }
 				$my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
 				$my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
 				$my_selectvit_moy=str_replace('\n', '', $my_selectvit_moy);
@@ -458,6 +469,8 @@ class Dashboard extends CI_Controller
 				$data['DATE'] = $DATE_SELECT;
 				$data['score'] = $score_finale;
 				$data['ligne_arret'] = $ligne_arret;
+				$data['delimit_prov'] = $delimit_prov;
+
 				
 
 				$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
@@ -516,13 +529,13 @@ class Dashboard extends CI_Controller
 
 				$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-				$my_selectget_data= $this->getBindParms(' id,latitude,longitude', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND `id` = (SELECT MAX(`id`) FROM tracking_data ) ' , '`id` ASC');
+				// $my_selectget_data= $this->getBindParms(' id,latitude,longitude', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND `id` = (SELECT MAX(`id`) FROM tracking_data ) ' , '`id` ASC');
+				$my_selectget_data= $this->getBindParms('max(id),latitude,longitude', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"' , '`id` ASC');
 				$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 				$my_selectget_data=str_replace('\n', '', $my_selectget_data);
 				$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
 				$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
-
 
 				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"velocity":27556.638607061,"visibility":"eclipsed","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
 

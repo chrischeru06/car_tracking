@@ -70,7 +70,6 @@
 
   map_map.addControl(new mapboxgl.FullscreenControl());
 
-
   map_map.on("style.load", () => {
   // https://en.wikipedia.org/wiki/Transpeninsular_Line
     const transpeninsularLine = {
@@ -155,96 +154,156 @@
       map_map.setStyle('mapbox://styles/mapbox/' + layerId);
     };
   }
+  // var hoveredPolygonId = null;
 
+ //  map_map.on('carteload', () => {
+ //   map_map.addSource('states', <?= $delimit_prov; ?>);
 
+ //   map_map.addLayer({
+ //    'id': 'state-fills',
+ //    'type': 'fill',
+ //    'source': 'states',
+ //    'layout': {},
+ //    'paint': {
+ //      'fill-color': '#627BC1',
+ //      'fill-opacity': [
+ //        'case',
+ //        ['boolean', ['feature-state', 'hover'], false],
+ //        1,
+ //        0.5
+ //        ]
+ //    }
+ //  });
 
+ //   map_map.addLayer({
+ //    'id': 'state-borders',
+ //    'type': 'line',
+ //    'source': 'states',
+ //    'layout': {},
+ //    'paint': {
+ //      'line-color': '#627BC1',
+ //      'line-width': 2
+ //    }
+ //  });
 
+ //        // When the user moves their mouse over the state-fill layer, we'll update the
+ //        // feature state for the feature under the mouse.
+ //   map_map.on('mousemove', 'state-fills', (e) => {
+ //    if (e.features.length > 0) {
+ //      if (hoveredPolygonId !== null) {
+ //        map_map.setFeatureState(
+ //          { source: 'states', id: hoveredPolygonId },
+ //          { hover: false }
+ //          );
+ //      }
+ //      hoveredPolygonId = e.features[0].id;
+ //      map_map.setFeatureState(
+ //        { source: 'states', id: hoveredPolygonId },
+ //        { hover: true }
+ //        );
+ //    }
+ //  });
 
+ //        // When the mouse leaves the state-fill layer, update the feature state of the
+ //        // previously hovered feature.
+ //   map_map.on('mouseleave', 'state-fills', () => {
+ //    if (hoveredPolygonId !== null) {
+ //      map_map.setFeatureState(
+ //        { source: 'states', id: hoveredPolygonId },
+ //        { hover: false }
+ //        );
+ //    }
+ //    hoveredPolygonId = null;
+ //  });
+
+ // });
 
 
   map_map.on('load', () => {
-    map_map.addSource('places', {
-      'type': 'geojson',
-      'data': {
-        'type': 'FeatureCollection',
-        'features': [<?= $arret; ?>]
-      }
-    });
+
+   map_map.addSource('places', {
+    'type': 'geojson',
+    'data': {
+      'type': 'FeatureCollection',
+      'features': [<?= $arret; ?>]
+    }
+  });
+
 // Add a layer showing the places.
-    map_map.addLayer({
-      'id': 'places',
-      'type': 'circle',
-      'source': 'places',
-      'paint': {
-        'circle-color': '#FF0000',
-        'circle-radius': 6,
-        'circle-stroke-width': 2,
-        'circle-stroke-color': '#ffffff'
-      }
-    });
+   map_map.addLayer({
+    'id': 'places',
+    'type': 'circle',
+    'source': 'places',
+    'paint': {
+      'circle-color': '#FF0000',
+      'circle-radius': 6,
+      'circle-stroke-width': 2,
+      'circle-stroke-color': '#ffffff'
+    }
+  });
 
 
 // Create a popup, but don't add it to the map yet.
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false
-    });
+   const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
 
-    map_map.on('mouseenter', 'places', (e) => {
+   map_map.on('mouseenter', 'places', (e) => {
 // Change the cursor style as a UI indicator.
-      map_map.getCanvas().style.cursor = 'pointer';
+    map_map.getCanvas().style.cursor = 'pointer';
 
 // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const description = e.features[0].properties.description;
 
 // Ensure that if the map is zoomed out such that multiple
 // copies of the feature are visible, the popup appears
 // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
 
 // Populate the popup and set its coordinates
 // based on the feature found.
-      popup.setLngLat(coordinates).setHTML(description).addTo(map_map);
-    });
+    popup.setLngLat(coordinates).setHTML(description).addTo(map_map);
+  });
 
-    map_map.on('mouseleave', 'places', () => {
-      map_map.getCanvas().style.cursor = '';
-      popup.remove();
-    });
+   map_map.on('mouseleave', 'places', () => {
+    map_map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
 
      // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
-    map_map.on('click', 'places', (e) => {
+   map_map.on('click', 'places', (e) => {
             // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const description = e.features[0].properties.description;
 
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
             // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
 
-      new mapboxgl.Popup()
-      .setLngLat(coordinates)
-      .setHTML(description)
-      .addTo(map_map);
-    });
+    new mapboxgl.Popup()
+    .setLngLat(coordinates)
+    .setHTML(description)
+    .addTo(map_map);
+  });
 
         // Change the cursor to a pointer when the mouse is over the places layer.
-    map_map.on('mouseenter', 'places', () => {
-      map_map.getCanvas().style.cursor = 'pointer';
-    });
+   map_map.on('mouseenter', 'places', () => {
+    map_map.getCanvas().style.cursor = 'pointer';
+  });
 
         // Change it back to a pointer when it leaves.
-    map_map.on('mouseleave', 'places', () => {
-      map_map.getCanvas().style.cursor = '';
-    });
+   map_map.on('mouseleave', 'places', () => {
+    map_map.getCanvas().style.cursor = '';
   });
+ });
 
 
 
