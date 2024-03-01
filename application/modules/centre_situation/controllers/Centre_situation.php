@@ -326,6 +326,136 @@
 			echo json_encode($output);
 		}
 
+// Fonction pour la liste des proprietaire
+		function GetProprietaire($PROPRIETAIRE_ID = '')
+		{
+			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+			$var_search = str_replace("'", "\'", $var_search);
+			$group = "";
+
+			$limit = 'LIMIT 0,1000';
+			if ($_POST['length'] != -1) {
+				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+			}
+			$order_by='';
+			$order_column=array('','NOM_PROPRIETAIRE','PERSONNE_REFERENCE','EMAIL','TELEPHONE','','');
+			if ($_POST['order']['0']['column'] != 0) {
+				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' PROPRIETAIRE_ID DESC';
+			}
+
+			$search = !empty($_POST['search']['value']) ? (' AND (`NOM_PROPRIETAIRE` LIKE "%' . $var_search . '%" 
+				OR PRENOM_PROPRIETAIRE LIKE "%' . $var_search . '%"
+				OR CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE) LIKE "%' . $var_search . '%" 
+				OR CNI_OU_NIF LIKE "%' . $var_search . '%" 
+				OR PERSONNE_REFERENCE LIKE "%' . $var_search . '%" OR EMAIL LIKE "%' . $var_search . '%" OR TELEPHONE LIKE "%' . $var_search . '%"
+				OR DATE_FORMAT(`DATE_INSERTION`,"%d-%m-%Y") LIKE "%' . $var_search . '%")') : '';
+
+			$query_principal='SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT,COUNTRY_ID,LOGO FROM proprietaire WHERE 1';
+
+			$critaire = ' ';
+
+			if(!empty($PROPRIETAIRE_ID))
+			{
+				$critaire = ' AND PROPRIETAIRE_ID ='.$PROPRIETAIRE_ID;
+			}
+
+        //condition pour le query principale
+			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+
+        // condition pour le query filter
+			$conditionsfilter = $critaire . ' ' . $group;
+			$requetedebase=$query_principal.$conditions;
+			$requetedebasefilter=$query_principal.$conditionsfilter;
+			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+        // echo $query_secondaire;
+			$fetch_data = $this->ModelPs->datatable($query_secondaire);
+			$data = array();
+			$i=0;
+
+			foreach ($fetch_data as $row) {
+				$i=$i+1;
+				$sub_array=array();
+				$sub_array[]=$i;
+
+				if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
+					$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
+					';
+
+				}elseif(!empty($row->LOGO)){
+
+					$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+
+					<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+					<div class="modal-dialog">
+					<div class="modal-content">
+					<div class="modal-body">
+					<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
+					</div>
+					<div class="modal-footer">
+					<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+					</div>
+					</div>
+					</div>
+					</div>';
+
+				}else{
+
+					$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+
+					<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+					<div class="modal-dialog">
+					<div class="modal-content">
+					<div class="modal-body">
+					<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
+					</div>
+					<div class="modal-footer">
+					<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+					</div>
+					</div>
+					</div>
+					</div>';
+				}
+
+
+
+				if (!empty($row->EMAIL)) 
+				{
+					$sub_array[]=$row->EMAIL;	
+				}else{
+					$sub_array[]='N/A';	
+				}						
+				$sub_array[]=$row->TELEPHONE;
+
+
+				if($row->IS_ACTIVE==1){
+					$sub_array[]='
+					<label class="text-primary">Activé</label>
+
+					';
+				}else{
+					$sub_array[]='
+					<label class="text-danger">Désactivé</label>
+					
+
+					';
+				}
+
+				$data[]=$sub_array;
+			}
+			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+			$output = array(
+				"draw" => intval($_POST['draw']),
+				"recordsTotal" => count($recordsTotal),
+				"recordsFiltered" => count($recordsFiltered),
+				"data" => $data,
+			);
+			echo json_encode($output);
+
+
+
+		}
+
 
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 		public function getBindParms($columnselect, $table, $where, $orderby)
