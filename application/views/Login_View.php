@@ -28,7 +28,7 @@ a:hover {
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                <div class="d-flex justify-content-center py-4">
-             <img src="<?= base_url()?>/upload/Car_tracking_png-01.png" height="60">
+             <img src="<?= base_url()?>/upload/Car_tracking_png-03.png" height="60">
                 <a href="<?=base_url('Login')?>" class="logo d-flex align-items-center w-auto" >
 
                   <span class="d-none d-lg-block"><label style="color: white;">MEDIA TRACKING</label></span>
@@ -57,7 +57,7 @@ a:hover {
                       </div>
                     </div>
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label" style="color:white;">Password</label>
+                      <label for="yourPassword" class="form-label" style="color:white;">Mot de passe</label>
                       <input type="password" class="form-control"  id="Passworde" name="Passworde" style="border-radius:10px;">
                       <div class="invalid-feedback">Veuillez entrer le mot de passe!</div>
                     </div>
@@ -65,11 +65,11 @@ a:hover {
                     <div class="col-12">
                       <div class="form-check ml-2">
                         <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password()" style="border-radius:5px;">
-                        <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher mot de passe</label>
+                        <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher le mot de passe</label>
                       </div>
                     </div>
                     <div class="text-center">
-                      <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Login</button>
+                      <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Connexion</button>
                     </div>
                     <div class="form-group text-center">
                       <a class="login-link" href="<?=base_url('Login/forgotten_pwd')?> ">Avez-vous oublié votre mot de passe?</a>
@@ -114,7 +114,7 @@ a:hover {
   function login()
   {
     // alert('test')
-    $('#connexion').text('Connexion'); 
+    $('#connexion').text('Connexion...'); 
     $('#connexion').attr('disabled',true);
     $('#message_login').html('')
     
@@ -141,7 +141,7 @@ a:hover {
         {
           $('#message_login').html("<span class='text text-danger'>"+data.message+"</span>");
         }
-        $('#connexion').text('Connexion'); 
+        $('#connexion').text('Connexion...'); 
         $('#connexion').attr('disabled',false); 
       }
     });
