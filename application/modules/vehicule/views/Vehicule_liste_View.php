@@ -99,11 +99,11 @@ input:checked + .slider:before {
               <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
             </td>
             <td>  
-              <h4 class="text-dark">Véhicule</h4>
+              <h4 class="text-dark">Liste des véhicules</h4>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
-                  <li class="breadcrumb-item"><a href="#">Liste</a></li>
+                  <!-- <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
+                  <li class="breadcrumb-item"><a href="#">Liste</a></li> -->
                   <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
                 </ol>
               </nav>
@@ -143,7 +143,7 @@ input:checked + .slider:before {
                         <th class="">MODELE</th>
                         <th class="">PLAQUE</th>
                         <th class="">COULEUR</th>
-                        <th class="">CONSOMMATION&nbsp;/&nbsp;KM</th>
+                        <th class="">CONSOMMATION</th>
                         <th class="">PROPRIETAIRE</th>
                         <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
                         <th class="">STATUT</th>

@@ -19,7 +19,7 @@
   <main id="main" class="main">
 
      <div class="row page-titles mx-0">
-          <div class="col-sm-10 p-md-0">
+          <div class="col-sm-10">
             <div class="welcome-text">
              <table>
               <tr>
@@ -27,11 +27,11 @@
                   <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
                 </td>
                 <td>  
-                  <h4 class="text-dark">Véhicule</h4>
+                  <h4 class="text-dark"><?=$title?></h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
-                      <li class="breadcrumb-item"><a href="#"><?=$title?></a></li>
+                      <!-- <li class="breadcrumb-item"><a href="#">Véhicule</a></li> -->
+                      <li class="breadcrumb-item"><a href="#"></a></li>
                       <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
                     </ol>
                   </nav>
@@ -70,7 +70,7 @@
                           <label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
                           <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule['VEHICULE_ID']?>">
 
-                          <input class="form-control" type='text' name="CODE" id="CODE" placeholder='code du vehicule' value="<?=$vehicule['CODE']?>"/>
+                          <input class="form-control" type='text' name="CODE" id="CODE" placeholder='saisir ici !' value="<?=$vehicule['CODE']?>"/>
 
                         </div>
                         <span id="errorCODE" class="text-danger"></span>
@@ -123,7 +123,7 @@
                         <div class="form-group">
                           <label ><small>Plaque</small><span  style="color:red;">*</span></label>
 
-                          <input class="form-control" type='text' name="PLAQUE" id="PLAQUE" placeholder='plaque du vehicule' value="<?=$vehicule['PLAQUE']?>"/>
+                          <input class="form-control" type='text' name="PLAQUE" id="PLAQUE" placeholder='saisir ici !' value="<?=$vehicule['PLAQUE']?>"/>
 
                         </div>
                         <span id="errorPLAQUE" class="text-danger"></span>
@@ -134,7 +134,7 @@
                         <div class="form-group">
                           <label ><small>Couleur</small><span  style="color:red;">*</span></label>
 
-                          <input class="form-control" type='text' name="COULEUR" id="COULEUR" placeholder='couleur du vehicule' value="<?=$vehicule['COULEUR']?>"/>
+                          <input class="form-control" type='text' name="COULEUR" id="COULEUR" placeholder='saisir ici !' value="<?=$vehicule['COULEUR']?>"/>
 
                         </div>
                         <span id="errorCOULEUR" class="text-danger"></span>
@@ -143,9 +143,9 @@
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label ><small>Consommation / km</small><span  style="color:red;">*</span></label>
+                          <label ><small>Consommation de litres / KM</small><span  style="color:red;">*</span></label>
 
-                          <input class="form-control" type='text' name="KILOMETRAGE" id="KILOMETRAGE" placeholder='consommation / km' value="<?=$vehicule['KILOMETRAGE']?>"/>
+                          <input class="form-control" type='text' name="KILOMETRAGE" id="KILOMETRAGE" placeholder='saisir ici !' value="<?=$vehicule['KILOMETRAGE']?>"/>
 
                         </div>
                         <span id="errorKILOMETRAGE" class="text-danger"></span>
@@ -157,7 +157,7 @@
 
                         <input class="form-control" type="hidden" name="PHOTO" id="PHOTO"  value="<?=$vehicule['PHOTO'];?>">
 
-                        <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept="image/png, image/jpeg">
+                        <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept="image/png, image/jpeg" title="Veillez entrer le fichier avec l'extention png ou jpeg">
                         <font color='red'><?php echo form_error('PHOTO_OUT'); ?></font>
                         <span id="errorPHOTO_OUT" class="text-danger"></span>
                       </div>
