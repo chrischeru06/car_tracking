@@ -154,69 +154,7 @@
       map_map.setStyle('mapbox://styles/mapbox/' + layerId);
     };
   }
-  // var hoveredPolygonId = null;
 
- //  map_map.on('carteload', () => {
- //   map_map.addSource('states', <?= $delimit_prov; ?>);
-
- //   map_map.addLayer({
- //    'id': 'state-fills',
- //    'type': 'fill',
- //    'source': 'states',
- //    'layout': {},
- //    'paint': {
- //      'fill-color': '#627BC1',
- //      'fill-opacity': [
- //        'case',
- //        ['boolean', ['feature-state', 'hover'], false],
- //        1,
- //        0.5
- //        ]
- //    }
- //  });
-
- //   map_map.addLayer({
- //    'id': 'state-borders',
- //    'type': 'line',
- //    'source': 'states',
- //    'layout': {},
- //    'paint': {
- //      'line-color': '#627BC1',
- //      'line-width': 2
- //    }
- //  });
-
- //        // When the user moves their mouse over the state-fill layer, we'll update the
- //        // feature state for the feature under the mouse.
- //   map_map.on('mousemove', 'state-fills', (e) => {
- //    if (e.features.length > 0) {
- //      if (hoveredPolygonId !== null) {
- //        map_map.setFeatureState(
- //          { source: 'states', id: hoveredPolygonId },
- //          { hover: false }
- //          );
- //      }
- //      hoveredPolygonId = e.features[0].id;
- //      map_map.setFeatureState(
- //        { source: 'states', id: hoveredPolygonId },
- //        { hover: true }
- //        );
- //    }
- //  });
-
- //        // When the mouse leaves the state-fill layer, update the feature state of the
- //        // previously hovered feature.
- //   map_map.on('mouseleave', 'state-fills', () => {
- //    if (hoveredPolygonId !== null) {
- //      map_map.setFeatureState(
- //        { source: 'states', id: hoveredPolygonId },
- //        { hover: false }
- //        );
- //    }
- //    hoveredPolygonId = null;
- //  });
-
- // });
 
 
   map_map.on('load', () => {

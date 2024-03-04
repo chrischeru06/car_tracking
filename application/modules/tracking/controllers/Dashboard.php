@@ -469,7 +469,7 @@ class Dashboard extends CI_Controller
 				$data['DATE'] = $DATE_SELECT;
 				$data['score'] = $score_finale;
 				$data['ligne_arret'] = $ligne_arret;
-				$data['delimit_prov'] = $delimit_prov;
+				// $data['delimit_prov'] = $delimit_prov;
 
 				
 
