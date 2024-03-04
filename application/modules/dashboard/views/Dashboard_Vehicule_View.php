@@ -26,11 +26,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Rapport</h1>
+      <h1>Dashbord</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Rapport</a></li>
-          <li class="breadcrumb-item active">Chauffeur actifs Vs inactifs</li>
+          <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+          <li class="breadcrumb-item active">Dashbord véhicules</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -94,6 +94,8 @@
                           <div id="nouveau"></div>
                           <div id="nouveau2"></div>
                           <div id="nouveau3"></div>
+                          <div id="nouveau4"></div>
+
 
 
                         </div>
@@ -139,6 +141,8 @@
                           $('#nouveau').html(data.rapp);
                           $('#nouveau2').html(data.rapp2);
                           $('#nouveau3').html(data.rapp3);
+                          $('#nouveau4').html(data.rapp4);
+
 
 
                         },            
