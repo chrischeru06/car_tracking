@@ -386,7 +386,7 @@ class Dashboard_Vehicule extends CI_Controller
       },
      title:
      {
-      text: ''
+      text: 'Véhicule par marque'
      },
      subtitle:
      {
