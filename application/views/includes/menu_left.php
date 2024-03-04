@@ -78,6 +78,11 @@ if ($this->session->PROFIL_ID == 1) {
             <i class="bi bi-person"></i><span>Chauffeur</span>
           </a>
         </li>
+         <li>
+          <a href="<?=base_url()?>dashboard/Dashboard_Vehicule">
+            <i class="bi bi-person"></i><span>Véhicule</span>
+          </a>
+        </li>
 
       </ul>
     </li><!-- End Tables Nav -->
