@@ -126,8 +126,8 @@ class Proprietaire_chauffeur extends CI_Controller
 			$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>";
 
 
-					//fin activer desactiver
-					//DEBUT modal pour retirer la voiture
+			//fin activer desactiver
+			//DEBUT modal pour retirer la voiture
 			$option .= " </ul>
 			</div>
 			<div class='modal fade' id='modal_retirer" .$row->CHAUFFEUR_ID. "'>
@@ -209,8 +209,19 @@ class Proprietaire_chauffeur extends CI_Controller
 			</div>";
 			
 						//fin debut Detail cahuffeur
-			$info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID.'');
-						//debut modal de info voiture(id=info_voitu)
+			// $info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID.'');
+
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+			$my_selectinfo_vehicul= $this->getBindParms('vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR', 'chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE', 'chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID="'.$row->CHAUFFEUR_ID.'"' , '`CHAUFFEUR_VEHICULE_ID` ASC');
+			$my_selectinfo_vehicul=str_replace('\"', '"', $my_selectinfo_vehicul);
+			$my_selectinfo_vehicul=str_replace('\n', '', $my_selectinfo_vehicul);
+			$my_selectinfo_vehicul=str_replace('\"', '', $my_selectinfo_vehicul);
+
+			$info_vehicul = $this->ModelPs->getRequeteOne($proce_requete, $my_selectinfo_vehicul);
+
+
+			//debut modal de info voiture(id=info_voitu)
 			if (!empty($info_vehicul)) 
 			{
 				$option .="
@@ -261,7 +272,7 @@ class Proprietaire_chauffeur extends CI_Controller
 				</div>";
 			}
 
-						//fin modal de info voiture(id=info_voitu)
+			//fin modal de info voiture(id=info_voitu)
 			$sub_array[]=$option;
 			$data[] = $sub_array;
 		}
@@ -275,6 +286,20 @@ class Proprietaire_chauffeur extends CI_Controller
 		);
 		echo json_encode($output);
 	}
+
+
+	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
+	public function getBindParms($columnselect, $table, $where, $orderby)
+	{
+		$bindparams = array(
+			'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+			'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+			'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+			'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+		);
+		return $bindparams;
+	}
+
 
 }
 
