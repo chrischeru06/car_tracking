@@ -1,6 +1,6 @@
 <?php 
 /*fait par NIYOMWUNGERE Ella Dancilla 
-/27/02/2022
+/31/0/2022
 mail:ella_dancilla@mediabox.bi
 Rapport chauffeurs par statut
 tel:71379943
@@ -129,7 +129,7 @@ class Dashboard_Vehicule extends CI_Controller
     );
     echo json_encode($output);
   }
-   //detail pour le rapport1:vehicules en mouvement vs en stationnement
+   //detail pour le rapport3:vehicules en mouvement vs en stationnement
   function detail_veh_station_mouv()
   {
     $KEY3=$this->input->post('key3');
@@ -182,7 +182,7 @@ class Dashboard_Vehicule extends CI_Controller
     );
     echo json_encode($output);
   }
-   //detail pour le rapport1:vehicules en mouvement vs en stationnement
+   //detail pour le rapport4:vehicules en mouvement vs en stationnement
   function detail_veh_allum_etteint()
   {
     $KEY4=$this->input->post('key4');
@@ -355,14 +355,13 @@ class Dashboard_Vehicule extends CI_Controller
                         series: [
                         {
                           name: '',
-
                           data: [".$donnees1." ]
                           }]
                           });
                           </script>";
         
        //rapport2:vehicule par marque
-    $vehicule_marque=$this->Model->getRequete('SELECT vehicule_marque.ID_MARQUE as ID,vehicule_marque.DESC_MARQUE as NAME,COUNT(vehicule.`ID_MARQUE`) as NBR FROM `vehicule`  join vehicule_marque on vehicule.ID_MARQUE=vehicule_marque.ID_MARQUE WHERE 1 GROUP BY ID,NAME');
+     $vehicule_marque=$this->Model->getRequete('SELECT vehicule_marque.ID_MARQUE as ID,vehicule_marque.DESC_MARQUE as NAME,COUNT(vehicule.`ID_MARQUE`) as NBR FROM `vehicule`  join vehicule_marque on vehicule.ID_MARQUE=vehicule_marque.ID_MARQUE WHERE 1 GROUP BY ID,NAME');
 
     $total2=0;
     $donnees2="";
