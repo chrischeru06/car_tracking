@@ -74,7 +74,7 @@ if ($this->session->PROFIL_ID == 1) {
           </a>
         </li>
         <li>
-          <a href="<?=base_url()?>rapport/Rapport_Chauffeur_Statut">
+          <a href="<?=base_url()?>rapport/Dashboard_Chauffeur">
             <i class="bi bi-person"></i><span>Chauffeur</span>
           </a>
         </li>

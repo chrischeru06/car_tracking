@@ -1093,7 +1093,7 @@ class Proprietaire extends CI_Controller
 		return $pathfile;
 	}
 
-		 //Fonction pour la selection des communes
+	 //Fonction pour la selection des communes
 	function get_communes($PROVINCE_ID)
 	{
 		$html="<option value=''>Séléctionner</option>";

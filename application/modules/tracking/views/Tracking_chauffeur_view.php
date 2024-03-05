@@ -23,6 +23,7 @@
     border-radius: 8px;
   }
 
+
   #animation-phase {
     margin-left: 5px;
     font-weight: 600;
@@ -89,15 +90,20 @@
     border-radius: 10px;
   }
 
-</style>
+  /*.table-responsive {
+        width: 300px;
+        border-radius: 10px;
+    }*/
+
+  </style>
 
 
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
-<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+  <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 
 
@@ -143,10 +149,12 @@
   </div><!-- End Page Title -->
   <div class="row">
     <div class="form-group col-md-3">
-      <label class="form-label">Date</label>
-      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();">
+      <label class="form-label">Date début</label>
+      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();viderh();">
     </div>
     <div class="form-group col-md-3">
+      <label class="form-label">Date fin</label>
+      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= date('Y-m-d')?>" onchange="change_carte();">
     </div>
     <div class="form-group col-md-3">
       <label class="form-label">Heure début</label>
@@ -191,13 +199,14 @@
           <div class="card-body">
             <h5 class="card-title">Informations générales</h5>
             <div class="row">
-              <div class="col-lg-6">
+              <div class="col-lg-12">
                 <div class="card" style="border-radius: 10%;">
                   <div class="card-body profile-card pt-4 d-flex flex-column">
 
                     <div>
-                      <div >
+                      <div>
                         <!-- <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>"> -->
+
 
                         <?php
                         if(!empty($get_chauffeur['PHOTO_PASSPORT']))
@@ -213,35 +222,49 @@
                           <img class="card-icon rounded-circle" style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/phavatar.png')?>">&nbsp;&nbsp;
                           <?php
                         }?>
+
+
+
                         <?php
                         if(!empty($get_chauffeur)){?>
 
-                          <font style="float: right;">
-                            <span class="text-muted small pt-2 ps-1"></span><b><?=$get_chauffeur['NOM'].' '. $get_chauffeur['PRENOM']?></b><br>&nbsp;&nbsp;
-                            <i class="bi bi-phone"></i> <span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>&nbsp;&nbsp;
-                            <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_MAIL']?></span><br>&nbsp;&nbsp;
-                            <i class="bi bi-circle"></i><span class="text-muted small pt-2 ps-1"><?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>&nbsp;&nbsp;</font>
-                            <?php
-                          }else{?>
-                            <font style="float: right; color: red;"> Pas de chauffeur affecté à cette voiture!
-                            </font>
+                          <!-- <font style="float: right;"> -->
+                            <!-- <div class="row"> -->
+                                <font style="float: right;">
 
-                            <?php
-                          }
-                          ?>
+                              <b><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></b><br>
+                              <!-- </div> -->
 
-                        </div>
+                                  <span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?><br>
+                                  <i class="bi bi-envelope"></i>&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?><br>
+                                  <i class="bi bi-circle"></i>&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?><br>
+                                </font>
 
-                        <div>
+                              <?php
+                            }else{?>
+                              <font style="float: right; color: red;"> Pas de chauffeur affecté à cette voiture!
+                             </font>
 
-                        </div>
+                             <?php
+                           }
+                           ?>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="col-lg-6">
+
+                         </div>
+
+
+                       </div>
+
+                       <div>
+
+
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div class="col-lg-12">
                   <div class="card" style="border-radius: 10%;" >
                    <div class="card-body profile-card pt-4 d-flex flex-column">
 
@@ -301,7 +324,7 @@
 
                 <div class="card" style="border-radius: 10%">
                   <div class="card-body">
-                    <h5 class="card-title">Carburant <span>| écoulé</span></h5>
+                    <h5 class="card-title">Carburant <span>| consommé</span></h5>
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle">
@@ -377,10 +400,10 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Position de la voiture</h5>
+              <h5 class="card-title">Adresse de la voiture</h5>
               <br>
               <br>
-              <div id="map" style="width: 100%;height: 550px;"></div>
+              <div id="map" style="width: 100%;height: 780px;"></div>
 
 
               <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE_VEH.'') ?>"  >
@@ -604,57 +627,81 @@
 
 
 <script>
+  function viderh(){
 
-  function change_carte() {
-    var DATE_DAT = $('#DATE_DAT').val(); 
-    var CODE = $('#CODE').val(); 
-    var HEURE1 = $('#HEURE1').val(); 
-    var HEURE2 = $('#HEURE2').val(); 
+   $('#HEURE1').html('');
+   $('#HEURE2').html('');
 
-    $.ajax({
-      url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
-      type : "POST",
-      dataType: "JSON",
-      cache:false,
-      data: {
-        DATE_DAT:DATE_DAT,
-        CODE:CODE,
-        HEURE1:HEURE1,
-        HEURE2:HEURE2,
+   $.ajax(
+   {
+    url:"<?=base_url('tracking/Dashboard/get_heures/')?>",
+    type: "GET",
+    dataType:"JSON",
+    success: function(data)
+    {
+      $('#HEURE1').html(data);
+      $('#HEURE2').html(data);
+
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+      alert('Erreur');
+    }
+  });
+ }
+ function change_carte() {
+  var DATE_DAT = $('#DATE_DAT').val(); 
+  var DATE_DAT_FIN = $('#DATE_DAT_FIN').val(); 
+  var CODE = $('#CODE').val(); 
+  var HEURE1 = $('#HEURE1').val(); 
+  var HEURE2 = $('#HEURE2').val(); 
+
+  $.ajax({
+    url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
+    type : "POST",
+    dataType: "JSON",
+    cache:false,
+    data: {
+      DATE_DAT:DATE_DAT,
+      CODE:CODE,
+      HEURE1:HEURE1,
+      HEURE2:HEURE2,
+      DATE_DAT_FIN:DATE_DAT_FIN,
 
 
-      },
-      beforeSend:function () { 
 
-      },
-      success:function(data) {
+    },
+    beforeSend:function () { 
+
+    },
+    success:function(data) {
 
         // alert(data.vitesse_max)
 
 
-        $('#distance_finale').html(data.distance_finale);
-        $('#carburant').html(data.carburant);
-        $('#DATE_DAT').html(data.DATE);
-        $('#CODE').html(data.CODE);
+      $('#distance_finale').html(data.distance_finale);
+      $('#carburant').html(data.carburant);
+      $('#DATE_DAT').html(data.DATE);
+      $('#CODE').html(data.CODE);
         // alert(data.distance_finale)
-        $('#map_filtre').html(data.map_filtre);
-        $('#ligne_arret').html(data.ligne_arret);
-        $('#score').html(data.score_finale);
-        $('#vitesse_max').html(data.vitesse_max);
+      $('#map_filtre').html(data.map_filtre);
+      $('#ligne_arret').html(data.ligne_arret);
+      $('#score').html(data.score_finale);
+      $('#vitesse_max').html(data.vitesse_max);
 
 
 
-        
-        
-
-      },
-      error:function() {
 
 
-      }
-    });
 
-  }
+    },
+    error:function() {
+
+
+    }
+  });
+
+}
 
 </script>
 
