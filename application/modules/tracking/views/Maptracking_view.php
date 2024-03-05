@@ -33,6 +33,12 @@
         <?=$ligne_arret?>
 
       </div>
+      <div class="card">
+        <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+        <div class="ps-3">
+          <h6><span class="text-success small pt-1 fw-bold">200 Km</span></h6>
+        </div>
+      </div>
     </div>
   </section> 
 </div>

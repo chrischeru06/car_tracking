@@ -27,6 +27,7 @@ class Dashboard extends CI_Controller
 		}
 	}
 
+
 	//Fonction pour afficher le dashbboard pour tracker le chauffeur 
 	function tracking_chauffeur($CODE){
 
@@ -97,6 +98,7 @@ class Dashboard extends CI_Controller
 
 		$fontinfo = $this->input->post('rtoggle');
 		$DATE_SELECT = $this->input->post('DATE_DAT');
+		$DATE_DAT_FIN = $this->input->post('DATE_DAT_FIN');	
 		$CODE = $this->input->post('CODE');
 		$HEURE1 = $this->input->post('HEURE1');
 		$HEURE2 = $this->input->post('HEURE2');
@@ -121,12 +123,20 @@ class Dashboard extends CI_Controller
 		$my_select_heure2=str_replace('\"', '', $my_select_heure2);
 		$my_select_heure2 = $this->ModelPs->getRequeteOne($proce_requete, $my_select_heure2);
 
+		if(!empty($DATE_SELECT) && !empty($DATE_DAT_FIN)){
+
+			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_SELECT.'" AND "'.$DATE_DAT_FIN.'" ';
+
+
+		}
+
 		if (!empty($HEURE1) && !empty($HEURE2)) 
 		{
 			$critere.=' AND date_format(tracking_data.`date`,"%H:%i:%s") between "'.$heure_select1['HEURE'].'" AND "'.$my_select_heure2['HEURE'].'" ';
 			
 
 		}
+		
 
 		$info = '';
 
@@ -150,23 +160,23 @@ class Dashboard extends CI_Controller
 
 
 		//requete pour recuperer tout le trajet parcouru
-		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" '.$critere.' ', '`id` ASC');
+		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" '.$critere.' ', '`id` ASC');
 		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\n', '', $my_selectget_data);
 		$my_selectget_data=str_replace('\"', '', $my_selectget_data);
-
+		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 
 		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
 
-		// print_r($get_data);die();
+		 // print_r('select `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date from tracking_data where md5(device_uid) ="'.$CODE.'" '.$critere.'');die();
 
 		
 		//requete pour recuperer les arrets
 		
 
-		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" '.$critere.' ', '`id` ASC');
-
+		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" '.$critere.' ', '`id` ASC');
+		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\n', '', $my_selectget_arret);
@@ -212,19 +222,19 @@ class Dashboard extends CI_Controller
 
 
 		//calcul du score			
-		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'" AND ignition=0' , '`id` ASC');
+		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" '.$critere.'  AND ignition=0' , '`id` ASC');
 		$my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
 		$my_selectget_arret_date=str_replace('\n', '', $my_selectget_arret_date);
 		$my_selectget_arret_date=str_replace('\"', '', $my_selectget_arret_date);
-
+		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$get_arret_date = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret_date);
 
 
-		$my_selectmin_arret = $this->getBindParms('MIN(id)', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+		$my_selectmin_arret = $this->getBindParms('MIN(id)', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.'' , '`id` ASC');
 		$my_selectmin_arret=str_replace('\"', '"', $my_selectmin_arret);
 		$my_selectmin_arret=str_replace('\n', '', $my_selectmin_arret);
 		$my_selectmin_arret=str_replace('\"', '', $my_selectmin_arret);
-
+		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$min_arret = $this->ModelPs->getRequete($proce_requete, $my_selectmin_arret);
 
 		$point_final=20;
@@ -398,10 +408,10 @@ class Dashboard extends CI_Controller
 				// 		'type': 'geojson',
 				// 		'data': '".$key_provinces['POLY']."'
 				// 	},
-					
+
 
 				// 	";
-					
+
 				// }
 				$my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
 				$my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
@@ -542,6 +552,25 @@ class Dashboard extends CI_Controller
 
 
 				echo $data;
+			}
+
+			 //Fonction pour la selection des heures
+			function get_heures()
+			{
+				$html="<option value=''>Séléctionner</option>";
+
+				$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+
+
+				$my_select_heure_trajet = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', '1', '`HEURE_ID` ASC');
+				$heure_trajet = $this->ModelPs->getRequete($proce_requete, $my_select_heure_trajet);
+				foreach ($heure_trajet as $heure_trajets)
+				{
+					$html.="<option value='".$heure_trajets['HEURE_ID']."'>".$heure_trajets['HEURE']."</option>";
+				}
+
+				echo json_encode($html);
 			}
 
 
