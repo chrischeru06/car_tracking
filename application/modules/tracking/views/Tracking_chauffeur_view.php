@@ -199,102 +199,89 @@
           <div class="card-body">
             <h5 class="card-title">Informations générales</h5>
             <div class="row">
-              <div class="col-lg-12">
+              <!-- <div class="col-lg-3">
+              </div> -->
+              <div class="col-lg-6">
                 <div class="card" style="border-radius: 10%;">
+                  <div class="card-header" style="color: white;"> <center><i class="bi bi-person-fill"></i><a > Chauffeur</a></center>
+                  </div>
+                  <div class="card-body profile-card pt-4 d-flex flex-column">
+                    <div>
+                      <?php
+                      if(!empty($get_chauffeur['PHOTO_PASSPORT']))
+                      {
+                        ?>
+                        <img  class="card-icon" style="border-radius: 10%;background-color: white;" class="img-fluid" width="80px" height="auto" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
+
+
+                        <?php
+                      }
+                      else if(empty($get_chauffeur['PHOTO_PASSPORT']))
+                      {
+                        ?>
+                        <img class="card-icon" style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="80px" height="auto" src="<?=base_url('upload/phavatar.png')?>">
+                        <?php
+                      }?>
+
+
+
+                      <?php
+                      if(!empty($get_chauffeur)){?>
+
+
+                        <font style="float: left;">
+
+                          <b><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></b><br>
+                          <span class="bi bi-phone"></span><span class="text-muted small pt-2 ps-1">&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></span><br>
+                          <i class="bi bi-envelope"></i><span class="text-muted small pt-2 ps-1">&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?></span><br>
+                          <i class="bi bi-geo-fill"></i><span class="text-muted small pt-2 ps-1">&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span><br>
+                        </font>
+
+                        <?php
+                      }else{?>
+                        <font style="float: left; color: red;"> Pas de chauffeur affecté à cette voiture!
+                        </font>
+
+                        <?php
+                      }
+                      ?>
+                    </div>
+                    <div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="card" style="border-radius: 10%;" >
+                  <div class="card-header" style="color: white;"> <center><img class="img-fluid" width="20px" height="auto" src="<?=base_url('upload/Car_tracking_png-03.png')?>"><a > Véhicule</a></center></div>
                   <div class="card-body profile-card pt-4 d-flex flex-column">
 
                     <div>
-                      <div>
-                        <!-- <img style="background-color: #829b35;border-radius: 0%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>"> -->
 
+                      <?php
+                      if(!empty($get_vehicule['PHOTO']))
+                      {
+                        ?>
+                        <img  class="card-icon" style="background-color: white;border-radius: 10%;" class="img-fluid" width="80px" height="auto" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">
+                        <?php
+                      }
+                      else if(empty($get_vehicule['PHOTO']))
+                      {
+                        ?>
+                        <img class="card-icon" style="border-radius: 10%;" class="img-fluid" width="80px" height="auto" src="<?=base_url('upload/car.png')?>">
 
                         <?php
-                        if(!empty($get_chauffeur['PHOTO_PASSPORT']))
-                        {
-                          ?>
-                          <img  class="card-icon" style="border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">&nbsp;&nbsp;
+                      }?>
 
-                          <?php
-                        }
-                        else if(empty($get_chauffeur['PHOTO_PASSPORT']))
-                        {
-                          ?>
-                          <img class="card-icon rounded-circle" style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/phavatar.png')?>">&nbsp;&nbsp;
-                          <?php
-                        }?>
+                      <font style="float: left;">
+                        <b><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></b><br>
+                        <i class="bi bi-textarea-resize"></i> <span class="text-muted small pt-2 ps-1"><?=$get_vehicule['PLAQUE']?></span><br>
+                        <i class="bi bi-palette"></i> <span class="text-muted small pt-2 ps-1"><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
+                        <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?></span><br>
+                        <i class="bi bi-hash"></i> <span class="text-muted small pt-2 ps-1"> <?=$get_vehicule['CODE']?></span><br>
 
-
-
-                        <?php
-                        if(!empty($get_chauffeur)){?>
-
-                          <!-- <font style="float: right;"> -->
-                            <!-- <div class="row"> -->
-                                <font style="float: right;">
-
-                              <b><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></b><br>
-                              <!-- </div> -->
-
-                                  <span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?><br>
-                                  <i class="bi bi-envelope"></i>&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?><br>
-                                  <i class="bi bi-circle"></i>&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?><br>
-                                </font>
-
-                              <?php
-                            }else{?>
-                              <font style="float: right; color: red;"> Pas de chauffeur affecté à cette voiture!
-                             </font>
-
-                             <?php
-                           }
-                           ?>
-
-
-
-                         </div>
-
-
-                       </div>
-
-                       <div>
-
-
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-
-                 <div class="col-lg-12">
-                  <div class="card" style="border-radius: 10%;" >
-                   <div class="card-body profile-card pt-4 d-flex flex-column">
-
-                    <div>
-                      <div>
-
-                        <?php
-                        if(!empty($get_vehicule['PHOTO']))
-                        {
-                          ?>
-                          <img  class="card-icon" style="background-color: white;border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">&nbsp;&nbsp;
-                          <?php
-                        }
-                        else if(empty($get_vehicule['PHOTO']))
-                        {
-                          ?>
-                          <img class="card-icon" style="border-radius: 10%;" class="img-fluid" width="120px" height="auto" src="<?=base_url('upload/car.png')?>">&nbsp;&nbsp;
-
-                          <?php
-                        }?>
-                        <font style="float: right;">
-                          <span class="text-muted small pt-2 ps-1"></span><b><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></b><br>&nbsp;&nbsp;
-                          <i class="bi bi-textarea-resize"></i> <span class="text-muted small pt-2 ps-1"><?=$get_vehicule['PLAQUE']?></span><br>&nbsp;&nbsp;
-                          <i class="bi bi-palette"></i><span class="text-muted small pt-2 ps-1"><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
-                          <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?></span><br>&nbsp;&nbsp;
-                        </font>
-
-                      </div>
-
-
+                      </font>
 
                     </div>
                   </div>
