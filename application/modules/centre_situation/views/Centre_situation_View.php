@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<style>
-		#map {width: 102%;height: 600px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;}
+		#map {width: 102%;height: 600px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;z-index: 1;}
 
 		.mapbox-improve-map{
 			display: none;
@@ -101,7 +101,7 @@
 							<label>Propriétaire</label>
 
 							<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();">
-								<option value="" selected>-- Séléctionner --</option>
+								<option value="" selected>-- Sélectionner --</option>
 								<?php
 								foreach ($proprio as $key_pro)
 								{
@@ -122,7 +122,7 @@
 							<label>Véhicule</label>
 
 							<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
-								<option value="" selected>-- Séléctionner --</option>
+								<option value="" selected>-- Sélectionner --</option>
 							</select>
 						</div>
 					</div>
@@ -137,7 +137,7 @@
 					<div class="form-group">
 						<label>Véhicule</label>
 						<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
-							<option value="" selected>-- Séléctionner --</option>
+							<option value="" selected>-- Sélectionner --</option>
 							<?php
 							foreach ($vehicule as $key_vehicule)
 							{
@@ -251,7 +251,7 @@
 								<i class="fa fa-car text-primary"></i>
 							</div>
 							<div class="ps-3">
-								<strong class="card-title" id="vehiculeActif">145</strong>
+								<strong class="card-title vehiculeActif" id="vehiculeActif">145</strong>
 							</div>
 
 						</div>
@@ -360,185 +360,207 @@
 
 							<div class="card-body">
 								<div class="row">
-									<div class="col-12 col-lg-12">
+
+									<div class="col-md-9">
 										<div id="mapview">
 										</div>
 									</div>
 
-								</div>
+									<div class="col-md-3">
+										<h3>Légende</h3><hr>
 
+											<p>
+												<icon class="fa fa-map-marker text-primary"></icon>&nbsp;
+												<label class="text-muted small pt-2 ps-1">Véhicule actif (<b class="vehiculeActif text-primary" id="vehiculeActif">9</b>)</label>
+											</p>
+
+											<p>
+												<icon class="fa fa-map-marker text-danger"></icon>&nbsp;
+												<label class="text-muted small pt-2 ps-1">Véhicule inactif (<b class="vehiculeInactif text-danger" id="vehiculeActif">9</b>)</label>
+											</p>
+
+									</div>
+
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</section>
+				</section>
 
-			<div class="modal fade" id="ModalProprietaire" tabindex="-1" style='border-radius:100px;'>
-				<div class="modal-dialog modal-xl">
-					<div class="modal-content">
-						<div class="modal-header" style='background:cadetblue;color:white;'>
-							<h6 class="modal-title">Liste des propriétaires</h6>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-
-							<div class="table-responsive" style="padding-top: 20px;">
-								<table id="table_proprietaire" class="table table-hover" style="min-width: 100%">
-									<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
-										<tr>
-											<th class="text-dark">#</th>
-
-											<th class="text-dark">IDENTIFICATION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-											<th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-											<th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-											<th>STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-											
-										</tr>
-									</thead>
-									<tbody class="text-dark">
-									</tbody>
-								</table>
+				<div class="modal fade" id="ModalProprietaire" tabindex="-1" style='border-radius:100px;'>
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header" style='background:cadetblue;color:white;'>
+								<h6 class="modal-title">Liste des propriétaires</h6>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
+							<div class="modal-body">
 
-						</div>
+								<div class="table-responsive" style="padding-top: 20px;">
+									<table id="table_proprietaire" class="table table-hover" style="min-width: 100%">
+										<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+											<tr>
+												<th class="text-dark">#</th>
+
+												<th class="text-dark">IDENTIFICATION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th>STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+											</tr>
+										</thead>
+										<tbody class="text-dark">
+										</tbody>
+									</table>
+								</div>
+
+							</div>
                     <!-- <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                       <button type="button" class="btn btn-primary">Save changes</button>
-                  </div> -->
-              </div>
-          </div>
-      </div><!-- End Large Modal-->
+                    </div> -->
+                  </div>
+                </div>
+              </div><!-- End Large Modal-->
 
 
-  </main><!-- End #main -->
+            </main><!-- End #main -->
 
-  <?php include VIEWPATH . 'includes/footer.php'; ?>
+            <?php include VIEWPATH . 'includes/footer.php'; ?>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
-</body>
+          </body>
 
-<script>
-	$(document).ready(function(){
+          <script>
+          	$(document).ready(function(){
 
-		getmap();
+          		getmap();
 
-	});
+          	});
 
-</script>
+          </script>
 
 
-<script>
+          <script>
 
 		// Fonction pour afficher la carte
 
-	function getmap(){
+          	function getmap(){
 
             // var searchString = $('#search').val();ENQUETEUR_ID
-		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
-		var VEHICULE_ID = $('#VEHICULE_ID').val();
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          		var VEHICULE_ID = $('#VEHICULE_ID').val();
 
-		$.ajax({
-			url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
-			type : "POST",
-			dataType: "JSON",
-			cache:false,
-			data: {
+          		$.ajax({
+          			url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
+          			type : "POST",
+          			dataType: "JSON",
+          			cache:false,
+          			data: {
 
-				PROPRIETAIRE_ID:PROPRIETAIRE_ID,
-				VEHICULE_ID:VEHICULE_ID,
-			},
+          				PROPRIETAIRE_ID:PROPRIETAIRE_ID,
+          				VEHICULE_ID:VEHICULE_ID,
+          			},
 
-			success:function(data) {
+          			success:function(data) {
 
-				$('#mapview').html(data.carte_view);
-				$('#nbr_vehicule').html(data.nbrVehicule);
-				$('#nbr_proprietaire').html(data.nbrProprietaire);
-				$('#nbrChauffeur').html(data.nbrChauffeur);
-				$('#vehiculeActif').html(data.vehiculeActif);
-				$('#vehiculeAllume').html(data.vehiculeAllume);
-				$('#vehiculeEteint').html(data.vehiculeEteint);
-				$('#vehiculeMouvement').html(data.vehiculeMouvement);
-				$('#vehiculeStationnement').html(data.vehiculeStationnement);
+          				$('#mapview').html(data.carte_view);
+          				$('#nbr_vehicule').html(data.nbrVehicule);
+          				$('#nbr_proprietaire').html(data.nbrProprietaire);
+          				$('#nbrChauffeur').html(data.nbrChauffeur);
+          				$('.vehiculeActif').html(data.vehiculeActif);
+          				$('.vehiculeInactif').html(data.vehiculeInactif);
+          				$('#vehiculeAllume').html(data.vehiculeAllume);
+          				$('#vehiculeEteint').html(data.vehiculeEteint);
+          				$('#vehiculeMouvement').html(data.vehiculeMouvement);
+          				$('#vehiculeStationnement').html(data.vehiculeStationnement);
 
-			},
-		});
-	}
+          			},
+          		});
+          	}
 
-</script>
+          </script>
 
-<script>
-	function get_vehicule()
-	{
-		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          <script>
+          	const timer = setInterval(() => {
+          		getmap();
+          	}, 10000);
+          </script>
 
-		if (PROPRIETAIRE_ID == '') {
-			$('#VEHICULE_ID').html('<option value="">Sélectionner</option>');
-		} else {
-			$.ajax({
-				url: "<?= base_url() ?>centre_situation/Centre_situation/get_vehicule/" + PROPRIETAIRE_ID,
-				type: "GET",
-				dataType: "JSON",
-				success: function(data) {
-					$('#VEHICULE_ID').html(data);
-				}
-			});
 
-		}
-	}
-</script>
+          <script>
+          	function get_vehicule()
+          	{
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
 
-<script>
-	function GetProprietaire(id)
-	{
-		$('#ModalProprietaire').modal('show');
-		var row_count ="1000000";
-		table=$("#table_proprietaire").DataTable({
-			"processing":true,
-			"destroy" : true,
-			"serverSide":true,
-			"oreder":[[ 0, 'desc' ]],
-			"ajax":{
-				url:"<?=base_url()?>centre_situation/Centre_situation/GetProprietaire/"+id,
-				type:"POST"
-			},
-			lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
-			pageLength: 10,
-			"columnDefs":[{
-				"targets":[],
-				"orderable":false
-			}],
-			dom: 'Bfrtlip',
-			buttons: ['excel', 'pdf'],  
+          		if (PROPRIETAIRE_ID == '') {
+          			$('#VEHICULE_ID').html('<option value="">Sélectionner</option>');
+          		} else {
+          			$.ajax({
+          				url: "<?= base_url() ?>centre_situation/Centre_situation/get_vehicule/" + PROPRIETAIRE_ID,
+          				type: "GET",
+          				dataType: "JSON",
+          				success: function(data) {
+          					$('#VEHICULE_ID').html(data);
+          				}
+          			});
 
-			language: {
-				"sProcessing": "Traitement en cours...",
-				"sSearch": "Recherche&nbsp;:",
-				"sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
-				"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-				"sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-				"sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-				"sInfoPostFix": "",
-				"sLoadingRecords": "Chargement en cours...",
-				"sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
-				"sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
-				"oPaginate":
-				{
-					"sFirst": "Premier",
-					"sPrevious": "Pr&eacute;c&eacute;dent",
-					"sNext": "Suivant",
-					"sLast": "Dernier"
-				},
-				"oAria":
-				{
-					"sSortAscending": ": activer pour trier la colonne par ordre croissant",
-					"sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
-				}
-			}
+          		}
+          	}
+          </script>
 
-		});
+          <script>
+          	function GetProprietaire(id)
+          	{
+          		$('#ModalProprietaire').modal('show');
+          		var row_count ="1000000";
+          		table=$("#table_proprietaire").DataTable({
+          			"processing":true,
+          			"destroy" : true,
+          			"serverSide":true,
+          			"oreder":[[ 0, 'desc' ]],
+          			"ajax":{
+          				url:"<?=base_url()?>centre_situation/Centre_situation/GetProprietaire/"+id,
+          				type:"POST"
+          			},
+          			lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+          			pageLength: 10,
+          			"columnDefs":[{
+          				"targets":[],
+          				"orderable":false
+          			}],
+          			dom: 'Bfrtlip',
+          			buttons: ['excel', 'pdf'],  
 
-	}
-</script>
+          			language: {
+          				"sProcessing": "Traitement en cours...",
+          				"sSearch": "Recherche&nbsp;:",
+          				"sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+          				"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          				"sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          				"sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          				"sInfoPostFix": "",
+          				"sLoadingRecords": "Chargement en cours...",
+          				"sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          				"sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+          				"oPaginate":
+          				{
+          					"sFirst": "Premier",
+          					"sPrevious": "Pr&eacute;c&eacute;dent",
+          					"sNext": "Suivant",
+          					"sLast": "Dernier"
+          				},
+          				"oAria":
+          				{
+          					"sSortAscending": ": activer pour trier la colonne par ordre croissant",
+          					"sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          				}
+          			}
 
-</html>
+          		});
+
+          	}
+          </script>
+
+          </html>

@@ -79,7 +79,7 @@
 		//Fonction pour la selection des provinces
 		function get_vehicule($PROPRIETAIRE_ID)
 		{
-			$html="<option value=''> Séléctionner </option>";
+			$html="<option value=''> Sélectionner </option>";
 			$vehicules=$this->Model->getRequete("SELECT VEHICULE_ID,PLAQUE FROM vehicule WHERE PROPRIETAIRE_ID =".$PROPRIETAIRE_ID." ORDER BY PLAQUE ASC");
 
 			foreach ($vehicules as $value)
@@ -154,7 +154,7 @@
 
              // Recherche des tous les vehicules pour la carte
 
-			$get_vihicule = $this->Model->getRequete('SELECT CODE FROM vehicule LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1'.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.'');
+			$get_vihicule = $this->Model->getRequete('SELECT CODE FROM vehicule JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1'.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.'');
 
 			$donnees_vehicule = ' ';
 
@@ -165,12 +165,15 @@
 			$nbrVehiculeAllume = 0;
 			$nbrVehiculeEteint = 0;
 			$nbrVehiculeActif = 0;
+			$nbrVehiculeInactif = 0;
 
 			if(!empty($get_vihicule))
 			{
 				foreach ($get_vihicule as $key) {
 
 					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" ORDER BY id DESC LIMIT 1');
+
+					//print_r($track_data['VEHICULE_ID']);die();
 
 					if(!empty($track_data))
 					{
@@ -184,10 +187,10 @@
 						{
 							$nbrVehiculeActif += 1;
 						}
-						// else if($track_data['ignition'] == 0)
-						// {
-						// 	$nbrVehiculeEteint += 1;
-						// }
+						else if($track_data['ignition'] == 0)
+						{
+							$nbrVehiculeInactif += 1;
+						}
 
 						// Nbr véhicules en mouvements et en stationnements
 
@@ -298,12 +301,6 @@
 
 						$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>@';
 					}
-					else
-					{
-						$donnees_vehicule = ' ';
-						$nbrVehicule = 0;
-					}
-					
 				}
 			}
 			
@@ -313,6 +310,7 @@
 			$data['nbrProprietaire'] = $nbrProprietaire;
 			$data['nbrChauffeur'] = $nbrChauffeur;
 			$data['vehiculeActif'] = $nbrVehiculeActif;
+			$data['vehiculeInactif'] = $nbrVehiculeInactif;
 			$data['vehiculeMouvement'] = $nbrVehiculeMouvement;
 			$data['vehiculeStationnement'] = $nbrVehiculeStationnement;
 			$data['vehiculeAllume'] = $nbrVehiculeAllume;
@@ -322,7 +320,7 @@
 
 			$map = $this->load->view('Getcarte_Tracking_View',$data,TRUE);
 
-			$output = array('carte_view'=>$map,'proprio'=>$proprio,'donnees_vehicule'=>$donnees_vehicule,'nbrVehicule'=>$nbrVehicule,'nbrProprietaire'=>$nbrProprietaire,'nbrChauffeur'=>$nbrChauffeur,'vehiculeActif'=>$nbrVehiculeActif,'vehiculeAllume'=>$nbrVehiculeAllume,'vehiculeEteint'=>$nbrVehiculeEteint,'vehiculeStationnement'=>$nbrVehiculeStationnement,'vehiculeMouvement'=>$nbrVehiculeMouvement,'coordinates'=>$coordinates,'zoom'=>$zoom);
+			$output = array('carte_view'=>$map,'proprio'=>$proprio,'donnees_vehicule'=>$donnees_vehicule,'nbrVehicule'=>$nbrVehicule,'nbrProprietaire'=>$nbrProprietaire,'nbrChauffeur'=>$nbrChauffeur,'vehiculeActif'=>$nbrVehiculeActif,'vehiculeInactif'=>$nbrVehiculeInactif,'vehiculeAllume'=>$nbrVehiculeAllume,'vehiculeEteint'=>$nbrVehiculeEteint,'vehiculeStationnement'=>$nbrVehiculeStationnement,'vehiculeMouvement'=>$nbrVehiculeMouvement,'coordinates'=>$coordinates,'zoom'=>$zoom);
 			echo json_encode($output);
 		}
 
