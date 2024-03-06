@@ -390,7 +390,7 @@
               <h5 class="card-title">Adresse de la voiture</h5>
               <br>
               <br>
-              <div id="map" style="width: 100%;height: 780px;"></div>
+              <div id="map" style="width: 100%;height: 690px;"></div>
 
 
               <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE_VEH.'') ?>"  >
@@ -517,7 +517,7 @@
               'properties': {
                 'description':
                 '<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
-                'icon': 'theatre'
+                'icon': 'theatre',
               },
               'geometry': {
                 'type': 'Point',
