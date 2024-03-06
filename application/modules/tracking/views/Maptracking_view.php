@@ -17,7 +17,7 @@
 
 <div id="animation-phase-container">
 
- <div id="menu" style="float:right;" > 
+  <div id="menu"> 
 
   <?php $carte2; ?>
   <br>
@@ -33,10 +33,11 @@
         <?=$ligne_arret?>
 
       </div>
-      <div class="card">
-        <h5 class="card-title">Distance parcourue<span>   <?=$nvl_distance?> Km</span></h5>
+      
+    </div>
+    <div class="card">
+      <h5 class="card-title">Distance parcourue<span>   <?=$distance_finale?> Km</span></h5>
 
-      </div>
     </div>
   </section> 
 </div>
