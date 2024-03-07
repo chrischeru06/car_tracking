@@ -92,8 +92,11 @@
 		//Fonction pour le chargement de la carte
 		function getmap() {
 
+
+
 			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
 			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+			$id = $this->input->post('id');
 
 			$coordinates = '-3.3944616,29.3726466';
 			$zoom = 9;
@@ -166,12 +169,14 @@
 			$nbrVehiculeEteint = 0;
 			$nbrVehiculeActif = 0;
 			$nbrVehiculeInactif = 0;
+			$nbrVehiculeAvecAccident = 0;
+			$nbrVehiculeSansAccident = 0;
 
 			if(!empty($get_vihicule))
 			{
 				foreach ($get_vihicule as $key) {
 
-					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" ORDER BY id DESC LIMIT 1');
+					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,tracking_data.accident FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" ORDER BY id DESC LIMIT 1');
 
 					//print_r($track_data['VEHICULE_ID']);die();
 
@@ -181,13 +186,13 @@
 
 						$nbrVehicule += 1;
 
-						// Nbr véhicules actifs
+						// Nbr véhicules actifs et inactifs
 
 						if($track_data['IS_ACTIVE'] == 1)
 						{
 							$nbrVehiculeActif += 1;
 						}
-						else if($track_data['ignition'] == 0)
+						else 
 						{
 							$nbrVehiculeInactif += 1;
 						}
@@ -212,6 +217,17 @@
 						else if($track_data['ignition'] == 0)
 						{
 							$nbrVehiculeEteint += 1;
+						}
+
+						// Nbr véhicules avec accident et sans accident
+
+						if($track_data['accident'] == 1)
+						{
+							$nbrVehiculeAvecAccident += 1;
+						}
+						else if($track_data['accident'] == 0)
+						{
+							$nbrVehiculeSansAccident += 1;
 						}
 
 						if (empty($track_data['latitude'])) {
@@ -299,7 +315,7 @@
 						$IS_ACTIVE = $track_data['IS_ACTIVE']; 
 
 
-						$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>@';
+						$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>@';
 					}
 				}
 			}
@@ -315,12 +331,15 @@
 			$data['vehiculeStationnement'] = $nbrVehiculeStationnement;
 			$data['vehiculeAllume'] = $nbrVehiculeAllume;
 			$data['vehiculeEteint'] = $nbrVehiculeEteint;
+			$data['vehiculeAvecAccident'] = $nbrVehiculeAvecAccident;
+			$data['vehiculeSansAccident'] = $nbrVehiculeSansAccident;
 			$data['coordinates'] = $coordinates;
 			$data['zoom'] = $zoom;
+			$data['id'] = $id;
 
 			$map = $this->load->view('Getcarte_Tracking_View',$data,TRUE);
 
-			$output = array('carte_view'=>$map,'proprio'=>$proprio,'donnees_vehicule'=>$donnees_vehicule,'nbrVehicule'=>$nbrVehicule,'nbrProprietaire'=>$nbrProprietaire,'nbrChauffeur'=>$nbrChauffeur,'vehiculeActif'=>$nbrVehiculeActif,'vehiculeInactif'=>$nbrVehiculeInactif,'vehiculeAllume'=>$nbrVehiculeAllume,'vehiculeEteint'=>$nbrVehiculeEteint,'vehiculeStationnement'=>$nbrVehiculeStationnement,'vehiculeMouvement'=>$nbrVehiculeMouvement,'coordinates'=>$coordinates,'zoom'=>$zoom);
+			$output = array('carte_view'=>$map,'proprio'=>$proprio,'donnees_vehicule'=>$donnees_vehicule,'nbrVehicule'=>$nbrVehicule,'nbrProprietaire'=>$nbrProprietaire,'nbrChauffeur'=>$nbrChauffeur,'vehiculeActif'=>$nbrVehiculeActif,'vehiculeInactif'=>$nbrVehiculeInactif,'vehiculeAllume'=>$nbrVehiculeAllume,'vehiculeEteint'=>$nbrVehiculeEteint,'vehiculeStationnement'=>$nbrVehiculeStationnement,'vehiculeMouvement'=>$nbrVehiculeMouvement,'vehiculeAvecAccident'=>$nbrVehiculeAvecAccident,'vehiculeSansAccident'=>$nbrVehiculeSansAccident,'coordinates'=>$coordinates,'zoom'=>$zoom,'id'=>$id);
 			echo json_encode($output);
 		}
 
@@ -452,6 +471,257 @@
 
 
 
+		}
+
+      // Fonction pour la liste des vehicules
+
+		function GetVehicule($VEHICULE_ID = '')
+		{
+
+			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+
+			$critere_proprietaire = '';
+			$critere_vehicule = '';
+			$critere_user = '';
+
+			$USER_ID = $this->session->userdata('USER_ID');
+
+			if($this->session->userdata('PROFIL_ID') != 1)
+			{
+				$critere_user.= ' AND users.USER_ID = '.$USER_ID;
+			}
+
+			if($PROPRIETAIRE_ID > 0){
+				$critere_proprietaire.= ' AND proprietaire.PROPRIETAIRE_ID = '.$PROPRIETAIRE_ID;
+				$zoom = 10; 
+			}
+
+			if($VEHICULE_ID > 0){
+				$critere_vehicule.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+			}
+
+
+			// $get_vihicule = $this->Model->getRequete('SELECT CODE FROM vehicule JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1'.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.' GROUP BY VEHICULE_ID ORDER BY id DESC');
+
+
+			// foreach ($get_vihicule as $key) {
+
+			$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE FROM vehicule JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.'  GROUP BY VEHICULE_ID ';
+
+
+				// if(!empty($query_principal))
+				// {
+			$critaire = ' ';
+
+			if(!empty($VEHICULE_ID))
+			{
+				$critaire = ' AND vehicule.VEHICULE_ID ='.$VEHICULE_ID;
+			}
+
+
+			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+			$limit = ' LIMIT 0,10';
+			if($_POST['length'] != -1)
+			{
+				$limit = ' LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+			}
+
+			$order_by='';
+			$order_column=array('CODE','DESC_MARQUE','DESC_MODELE','PLAQUE','COULEUR','PHOTO','DATE_SAVE');
+
+			$order_by=isset($_POST['order']) ? ' ORDER BY '.$order_column[$_POST['order']['0']['column']].' ' .$_POST['order']['0']['dir'] : ' ORDER BY id DESC';
+
+			$order_by = ' ORDER BY id DESC';
+
+			$search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%' OR DATE_SAVE LIKE '%$var_search%' )"):'';
+
+			$query_secondaire=$query_principal.''.$critaire.''.$search.''.$order_by. '';
+
+			$query_filter=$query_principal.''.$critaire.''.$search;
+
+			$fetch_data=$this->Model->datatable($query_secondaire);
+
+			$data=array();
+			foreach ($fetch_data as $row)
+			{
+				$sub_array=array();
+				$sub_array[]=$row->CODE;
+				$sub_array[]=$row->DESC_MARQUE;
+				$sub_array[]=$row->DESC_MODELE;
+				$sub_array[]=$row->PLAQUE;
+				$sub_array[]=$row->COULEUR;
+				$sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' litres / KM' : 'N/A');
+
+				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
+
+				$sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->desc_proprio . '</td></tr></table></a>';
+
+				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
+
+				if($row->IS_ACTIVE==1){
+					$sub_array[]='<td><label class="text-primary">Activé</label></td>';
+				}else{
+					$sub_array[]='<td><label class="text-danger">Désactivé</label></td>';
+				}
+
+				$option = ' ';
+
+				$option .="
+				</div>
+				<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>Détail du véhicule</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<h4 class=''></h4>
+
+				<div class='row'>
+
+				<div class='col-md-6'>
+				<img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+				</div>
+
+				<div class='col-md-6'>
+
+				<h4></h4>
+
+				<table class='table table-borderless'>
+
+				<tr>
+				<td class='btn-sm'>Code</td>
+				<th class='btn-sm'>".$row->CODE."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Marque</td>
+				<th class='btn-sm'>".$row->DESC_MARQUE."</th>
+				</tr>
+
+				<tr class='btn-sm'>
+				<td>Modèle</td>
+				<th class='btn-sm'>".$row->DESC_MODELE."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Plaque</td>
+				<th class='btn-sm'>".$row->PLAQUE."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Couleur</td>
+				<th class='btn-sm'>".$row->COULEUR."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Consommation / km</td>
+				<th class='btn-sm'>".$row->KILOMETRAGE."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>propriétaire</td>
+				<th class='btn-sm'><strong>".$row->desc_proprio."</strong></th>
+				</tr>
+
+				
+
+				</table>
+
+				</div>
+				</div>
+				
+				</div>
+				</div>
+				</div>";
+
+
+				$option .="
+				</div>
+				<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>Information du propriétaire</h6>
+				<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<h4 class=''></h4>
+
+				<div class='row'>
+
+				<div class='col-md-6'>
+				<img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
+				</div>
+
+				<div class='col-md-6'>
+
+				<h4></h4>
+
+				<table class='table table-borderless'>
+
+				<tr>
+				<td class='btn-sm'>Nom</td>
+				</tr>
+
+				<tr>
+				<th class='btn-sm'>".$row->desc_proprio."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Adresse</td>
+				</tr>
+				<tr>
+				<th class='btn-sm'>".$row->ADRESSE."</th>
+				</tr>
+
+				<tr class='btn-sm'>
+				<td>Email</td>
+				</tr>
+				<tr>
+				<th class='btn-sm'>".$row->EMAIL."</th>
+				</tr>
+
+				<tr>
+				<td class='btn-sm'>Téléphone</td>
+				</tr>
+				<tr>
+				<th class='btn-sm'>".$row->TELEPHONE."</th>
+				</tr>
+
+				</table>
+
+				</div>
+				</div>
+				
+				</div>
+				</div>
+				</div>";
+
+				$sub_array[]=$option;
+				$data[]=$sub_array;
+			}
+			//}
+
+			$output = array(
+				"draw" => intval($_POST['draw']),
+				"recordsTotal" => $this->Model->all_data($query_principal),
+				"recordsFiltered" => $this->Model->filtrer($query_filter),
+				"data" => $data
+			);
+
+			//}
+
+			echo json_encode($output);
+
+
+			
 		}
 
 

@@ -28,6 +28,8 @@
       //......debut boucle.......
 	var clusterGroup = new L.MarkerClusterGroup();
 
+	//alert(clusterGroup)
+
 	var donn = '<?= $donnees_vehicule?>';
 
 	var donn = donn.split('@');
@@ -37,11 +39,11 @@
 
 		var color = ' ';
 
-		if(index[13] == 1)
+		if(index[13] == 1) //Vehicule actif
 		{
-			color = '#0000FF';
+			color = '#3bb2d0';
 		}
-		else
+		else              //Vehicule inactif
 		{
 			color = '#FF0000';
 		}
@@ -59,7 +61,15 @@
 
 		marker.bindPopup
 		('<h3><strong>Détail du véhicule </strong></h3><p><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"></p> <p> <div class="table-responsive"><table class="table table-borderless"> <tr><td class="text-muted small pt-2 ps-1">Véhicule</td><th class="text-muted small pt-2 ps-1">'+ index[4] +'&nbsp;-&nbsp;'+ index[5] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Code(device uid)</td><th class="text-muted small pt-2 ps-1">'+ index[3] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Plaque</td><th class="text-muted small pt-2 ps-1">'+ index[6] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Couleur</td><th class="text-muted small pt-2 ps-1">'+ index[7] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Consommation</td><th class="text-muted small pt-2 ps-1">'+ index[8] +' Litres / km</th></tr> <tr><td class="text-muted small pt-2 ps-1">Propriétaire</td><th class="text-muted small pt-2 ps-1">'+ index[9] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Chauffeur</td><th class="text-muted small pt-2 ps-1">'+ index[12] +'</th></tr> </table></div></p><p style="text-align:center;"><label class = "text-center fa fa-info-circle"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'">Informations trajet</a></label></p>');
-		clusterGroup.addLayer(marker);
+		
+		if(index[14] == 1)
+		{
+			clusterGroup.addLayer(marker);
+		}
+		else
+		{
+			marker.addTo(map);
+		}
 
 	}
 	map.addLayer(clusterGroup);
