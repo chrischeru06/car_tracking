@@ -296,7 +296,7 @@
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle" >
-                        <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                        <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="85px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
                       </div>
                       <div class="ps-3">
                         <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
@@ -390,7 +390,7 @@
               <h5 class="card-title">Adresse de la voiture</h5>
               <br>
               <br>
-              <div id="map" style="width: 100%;height: 690px;"></div>
+              <div id="map" style="width: 100%;height: 680px;"></div>
 
 
               <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE_VEH.'') ?>"  >

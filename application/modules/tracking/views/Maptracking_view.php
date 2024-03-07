@@ -19,28 +19,28 @@
 
   <div id="menu"> 
 
-  <?php $carte2; ?>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <section class="section dashboard" id="liste">
-    <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
-    <div class="scroller">
-      <div class="activity">
+    <?php $carte2; ?>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <section class="section dashboard" id="liste">
+      <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
+      <div class="scroller">
+        <div class="activity">
 
-        <?=$ligne_arret?>
+          <?=$ligne_arret?>
+
+        </div>
+        
+      </div>
+      <div class="card">
+        <h5 class="card-title">Distance parcourue<span>   <?=$distance_finale?> Km</span></h5>
 
       </div>
-      
-    </div>
-    <div class="card">
-      <h5 class="card-title">Distance parcourue<span>   <?=$distance_finale?> Km</span></h5>
-
-    </div>
-  </section> 
-</div>
+    </section> 
+  </div>
 
 </div>
 <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
@@ -74,6 +74,7 @@
   map_map.addControl(new mapboxgl.NavigationControl());
 
   map_map.addControl(new mapboxgl.FullscreenControl());
+  
 
   map_map.on("style.load", () => {
   // https://en.wikipedia.org/wiki/Transpeninsular_Line
@@ -248,6 +249,6 @@
   });
  });
 
-
+  <?php echo $limites; ?>;
 
 </script>

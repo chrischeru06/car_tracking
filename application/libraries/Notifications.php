@@ -164,7 +164,7 @@ function send_mail($emailTo = array(), $subjet, $cc_emails = array(), $message, 
 
    public function generate_UIID($taille)
    {
-     $Caracteres = 'ABCDEFGHIJKLMOPQRSTUVXWYZ0123456789'; 
+     $Caracteres = '0123456789'; 
       $QuantidadeCaracteres = strlen($Caracteres); 
       $QuantidadeCaracteres--; 
 
