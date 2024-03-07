@@ -5,7 +5,7 @@
 
       // add OpenStreetMap basemap
 
-	L.mapbox.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc1MmozajAwcGczZW1sMjMwZWxtZDQifQ.u8xhrt1Wn4A82X38f5_Iyw'; 
+	L.mapbox.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc1MmozajAwcGczZW1sMjMwZWxtZDQifQ.u8xhrt1Wn4A82X38f5_Iyw';
 
 	var coord = '<?= $coordinates; ?>';
 	var coord = coord.split(",");
@@ -65,5 +65,22 @@
 	map.addLayer(clusterGroup);
 
 //.....Fin...........
+
+
+	// async function refreshMarkers(){
+      //     placeMarkers.forEach(marker => marker.remove());
+      //     placeMarkers = await getPointsOfInterest([coord[0],coord[1]]);
+      //     console.log("placemarkers " + placeMarkers);
+      //     map.getSource('markers').setData(placeMarkers);
+      //     placeMarkers.forEach(marker => marker.addTo(map));
+      //   }
+
+      //   //TODO: 3. Create lookups for appropriate marker colors
+      //   const timer = setInterval(() => {
+      //     refreshMarkers();
+      //     // alert('test 3')
+      //   }, 1000);
+
+
 
 </script>
