@@ -5,58 +5,74 @@
   }
 
 </style>
-
-
-<div id="map_maps" style="width: 100%;height: 720px;"> 
-
-</div>
-<br>
-
-
-
-
-<div id="animation-phase-container">
-
-  <div id="menu"> 
-
-  <?php $carte2; ?>
+<div class="card" style="border-radius: 20px;">
+  <!-- <h5 class="card-title">Centre de situation</h5> -->
   <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <section class="section dashboard" id="liste">
-    <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
-    <div class="scroller">
-      <div class="activity">
 
-        <?=$ligne_arret?>
+  <div class="card-body">
+    <div class="row">
+
+      <div class="col-md-3">
+
 
       </div>
-      
+
+      <div class="col-md-9">
+
+         <div id="animation-phase-container">
+
+          <div id="menu"> 
+
+            <?php $carte2; ?>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <section class="section dashboard" id="liste">
+              <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
+              <div class="scroller">
+                <div class="activity">
+
+                  <?=$ligne_arret?>
+
+                </div>
+
+              </div>
+              <div class="card">
+                <h5 class="card-title">Distance parcourue<span>   <?=$distance_finale?> Km</span></h5>
+
+              </div>
+            </section> 
+          </div>
+
+        </div>
+
+        <div id="map_maps" style="width: 100%;height: 720px;"> 
+
+        </div>
+        <br>
+
+
+
+
+        <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
+
+         <div id="menu">
+
+
+          <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
+
+          <label for="satellite-streets-v12">satellite</label>
+
+          <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
+          <label for="streets-v12">streets</label>
+        </div>
+
+      </form>
     </div>
-    <div class="card">
-      <h5 class="card-title">Distance parcourue<span>   <?=$distance_finale?> Km</span></h5>
-
-    </div>
-  </section> 
+  </div>
 </div>
-
-</div>
-<form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
-
- <div id="menu">
-
-
-  <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
-
-  <label for="satellite-streets-v12">satellite</label>
-
-  <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
-  <label for="streets-v12">streets</label>
-</div>
-</form>
-
 
 <script type="text/javascript">
 
@@ -65,15 +81,17 @@
   var map_map = new mapboxgl.Map({
   container: "map_maps", // container ID
   style: "mapbox://styles/mapbox/<?= $carte2; ?>", // style URL
-  bounds: [29.384095,-3.3830083, 29.3838133,-3.3844883],
+  bounds: [29.383188,-3.384438, 29.377566,-3.369615],
   projection: "globe" // display the map as a 3D globe
 });
+  // bounds: [29.384095,-3.3830083, 29.3838133,-3.3844883]
 
   // var nav = new mapboxgl.NavigationControl();
   // map_map.addControl(nav, "top-left");
   map_map.addControl(new mapboxgl.NavigationControl());
 
   map_map.addControl(new mapboxgl.FullscreenControl());
+  
 
   map_map.on("style.load", () => {
   // https://en.wikipedia.org/wiki/Transpeninsular_Line
@@ -248,6 +266,6 @@
   });
  });
 
-
+  <?php echo $limites; ?>;
 
 </script>

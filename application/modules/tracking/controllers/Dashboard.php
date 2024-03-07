@@ -102,6 +102,8 @@ class Dashboard extends CI_Controller
 		$CODE = $this->input->post('CODE');
 		$HEURE1 = $this->input->post('HEURE1');
 		$HEURE2 = $this->input->post('HEURE2');
+		$CODE_COURSE = $this->input->post('CODE_COURSE');
+
 
 
 		$distance_finale=0;
@@ -133,6 +135,13 @@ class Dashboard extends CI_Controller
 		if (!empty($HEURE1) && !empty($HEURE2)) 
 		{
 			$critere.=' AND date_format(tracking_data.`date`,"%H:%i:%s") between "'.$heure_select1['HEURE'].'" AND "'.$my_select_heure2['HEURE'].'" ';
+			
+
+		}
+
+		if (!empty($CODE_COURSE)) 
+		{
+			$critere.=' AND tracking_data.CODE_COURSE ="'.$CODE_COURSE.'"';
 			
 
 		}
@@ -331,32 +340,45 @@ class Dashboard extends CI_Controller
 
 		$ligne_arret='';
 
+		
+		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
+
+		$get_data_arret = $this->Model->getRequete('SELECT latitude,longitude FROM tracking_data WHERE ignition=0 and md5(device_uid) ="'.$CODE.'" '.$critere.' GROUP BY latitude,longitude');
 		//calcul du temps d'arret
-		if(!empty($get_data)){
+		if(!empty($get_data_arret)){
 
 			$tabl=array();
 
-			foreach ($get_data as $value_get_arret) {
-				if ($value_get_arret['ignition']==0) {
+			foreach ($get_data_arret as $value_get_arret) {
 
-					$date_compare1=$value_get_arret['date'];
+				// $one_element=$this->Model->getRequeteOne('SELECT id,tracking_data.date FROM tracking_data WHERE latitude='.$value_get_arret['latitude'].' AND longitude='.$value_get_arret['longitude']);
 
-					$id2=$value_get_arret['id']+1;
+				$my_selectone_element = $this->getBindParms('id,tracking_data.date,CODE_COURSE', 'tracking_data', 'latitude= "'.$value_get_arret['latitude'].'" AND longitude="'.$value_get_arret['longitude'].'"' , '`id` ASC');
+				$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
+				$my_selectone_element=str_replace('\n', '', $my_selectone_element);
+				$my_selectone_element=str_replace('\"', '', $my_selectone_element);
+
+				$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
+
+				$date_compare1=$one_element['date'];
+
+				$id2=$one_element['id']+1;
 
 
-					$my_select_date_compare2 = $this->getBindParms('tracking_data.date', 'tracking_data', 'id='.$id2, 'id ASC');
-					$date_compare2 = $this->ModelPs->getRequete($proce_requete, $my_select_date_compare2);
+				$my_select_date_compare2 = $this->getBindParms('tracking_data.date', 'tracking_data', 'id='.$id2, 'id ASC');
+				$date_compare2 = $this->ModelPs->getRequete($proce_requete, $my_select_date_compare2);
 
 
-					foreach ($date_compare2 as $keydate_compare2) {
-						$tabl[]=$this->notifications->ago($date_compare1,$keydate_compare2['date']);
-					}
-
-					
-
+				foreach ($date_compare2 as $keydate_compare2) {
+					$tabl[]=[$this->notifications->ago($date_compare1,$keydate_compare2['date']),$one_element['CODE_COURSE']];
 				}
 
+
+
+
 			}
+
+// print_r($tabl);die();
 			$v=1;
 			if (!empty($tabl)) {
 				foreach ($tabl as $keytabl) {
@@ -364,10 +386,10 @@ class Dashboard extends CI_Controller
 
 
 					$ligne_arret.=" <div class='activity-item d-flex'>
-					<div class='activite-label'>Arrêt ".$v."</div>
+					<div class='activite-label' ><button class='btn btn-outline-primary rounded-pill' onclick='change_trajet(".$keytabl[1].")'>Arrêt ".$v."</button></div>
 					<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
 					<div class='activity-content'>
-					<a href='#' class='fw-bold text-dark'>".$keytabl."</a> 
+					<a href='#' class='fw-bold text-dark'>".$keytabl[0]."</a> 
 					</div>
 					</div>";
 					$v++;
@@ -404,16 +426,23 @@ class Dashboard extends CI_Controller
 		//carte
 		$arret = '';
 
-		if(!empty($get_arret)){
+		if(!empty($get_data_arret)){
 
 
-			foreach ($get_arret as $key_arret) {
+			foreach ($get_data_arret as $key_arret) {
+
+				$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', 'latitude= "'.$key_arret['latitude'].'" AND longitude="'.$key_arret['longitude'].'"' , '`id` ASC');
+				$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
+				$my_selectone_element=str_replace('\n', '', $my_selectone_element);
+				$my_selectone_element=str_replace('\"', '', $my_selectone_element);
+
+				$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
 
 				$arret.="{
 					'type': 'Feature',
 					'properties': {
 						'description':
-						'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$key_arret['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$key_arret['latitude'].",".$key_arret['longitude']."]'
+						'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$one_element['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$key_arret['latitude'].",".$key_arret['longitude']."]'
 						},
 						'geometry': {
 							'type': 'Point',
@@ -436,19 +465,32 @@ class Dashboard extends CI_Controller
 				$arret = str_replace('', "", $arret);
 
 				$my_selectprovinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME,OBJECTIF,PROVINCE_LATITUDE,PROVINCE_LONGITUDE,POLY,COLOR', 'provinces', '1 ' , 'PROVINCE_ID ASC');
-				// $provinces = $this->ModelPs->getRequete($proce_requete, $my_selectprovinces);
-				// $delimit_prov='';
-				// foreach ($provinces as $key_provinces) {
-				// 	$delimit_prov.="{
+				$provinces = $this->ModelPs->getRequete($proce_requete, $my_selectprovinces);
+				$limites='';
+				$i=1;
+				foreach ($provinces as $key_provinces) {
+					$polyg = $key_provinces['POLY'];
+					$prov_name = $key_provinces['PROVINCE_NAME'];
 
-				// 		'type': 'geojson',
-				// 		'data': '".$key_provinces['POLY']."'
-				// 	},
+					// $limites.= 'var world'.$i.' = 
+					// 	'.$polyg.'
+					
+					// var styleState'.$i.' = {
+					// 	color: "'.$key_provinces['COLOR'].'",
+					// 	weight: 1 
+					// };
 
+					// myLayer =
 
-				// 	";
+					// L.geoJson(world'.$i.', {
+					// 	onEachFeature: function(feature, layer) {
+					// 		layer.bindPopup(\'<table><tr><td><i class="mdi mdi-spin"></i> <b>'.$prov_name.'</b></td></tr></table>\');
+					// 		},style: styleState'.$i.'
+					// 	}).addTo(map_map);';
 
-				// }
+					// 	$i++;
+
+				}
 				$my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
 				$my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
 				$my_selectvit_moy=str_replace('\n', '', $my_selectvit_moy);
@@ -516,8 +558,8 @@ class Dashboard extends CI_Controller
 				$data['score'] = $score_finale;
 				$data['ligne_arret'] = $ligne_arret;
 				// $data['delimit_prov'] = $delimit_prov;
+				$data['limites']=$limites;
 
-				
 
 				$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
 
@@ -583,7 +625,7 @@ class Dashboard extends CI_Controller
 
 				$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
 
-				
+
 
 				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"velocity":27556.638607061,"visibility":"eclipsed","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
 
@@ -619,7 +661,7 @@ class Dashboard extends CI_Controller
 			{
 				$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-				
+
 
 				$get_device = $this->Model->getRequete('SELECT device_uid FROM tracking_data where 1 GROUP BY device_uid');
 				foreach ($get_device as $keyget_device) {
@@ -661,29 +703,29 @@ class Dashboard extends CI_Controller
 						$mess2="Cher(e) <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b>,<br><br>
 						Vous êtes entrain de conduire à une vitesse de ".$get_data['vitesse']." Km/h <br>
 						Veuillez ralentir pour votre sécurité!
-						
+
 						";
 						$subjet="Excès de vitesse";
 						$message2=$this->notifications->send_mail(array($get_chauffeur['ADRESSE_MAIL']),$subjet,array(),$mess2,array());
 
 						$update=$this->Model->update('tracking_data',array('id'=>$get_data['maximum']),array('MESSAGE'=>1));
 					}
-					
+
 				}
 
 			}
-		
+
 
 
 			//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
-		public function getBindParms($columnselect, $table, $where, $orderby)
-		{
-			$bindparams = array(
-				'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
-				'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
-				'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
-				'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
-			);
-			return $bindparams;
-		}
-	}?>
+			public function getBindParms($columnselect, $table, $where, $orderby)
+			{
+				$bindparams = array(
+					'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+					'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+					'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+					'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+				);
+				return $bindparams;
+			}
+		}?>
