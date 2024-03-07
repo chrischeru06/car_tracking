@@ -102,6 +102,8 @@ class Dashboard extends CI_Controller
 		$CODE = $this->input->post('CODE');
 		$HEURE1 = $this->input->post('HEURE1');
 		$HEURE2 = $this->input->post('HEURE2');
+		$CODE_COURSE = $this->input->post('CODE_COURSE');
+
 
 
 		$distance_finale=0;
@@ -133,6 +135,13 @@ class Dashboard extends CI_Controller
 		if (!empty($HEURE1) && !empty($HEURE2)) 
 		{
 			$critere.=' AND date_format(tracking_data.`date`,"%H:%i:%s") between "'.$heure_select1['HEURE'].'" AND "'.$my_select_heure2['HEURE'].'" ';
+			
+
+		}
+
+		if (!empty($CODE_COURSE)) 
+		{
+			$critere.=' AND tracking_data.CODE_COURSE ="'.$CODE_COURSE.'"';
 			
 
 		}
@@ -331,32 +340,45 @@ class Dashboard extends CI_Controller
 
 		$ligne_arret='';
 
+		
+		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
+
+		$get_data_arret = $this->Model->getRequete('SELECT latitude,longitude FROM tracking_data WHERE ignition=0 and md5(device_uid) ="'.$CODE.'" '.$critere.' GROUP BY latitude,longitude');
 		//calcul du temps d'arret
-		if(!empty($get_data)){
+		if(!empty($get_data_arret)){
 
 			$tabl=array();
 
-			foreach ($get_data as $value_get_arret) {
-				if ($value_get_arret['ignition']==0) {
+			foreach ($get_data_arret as $value_get_arret) {
 
-					$date_compare1=$value_get_arret['date'];
+				// $one_element=$this->Model->getRequeteOne('SELECT id,tracking_data.date FROM tracking_data WHERE latitude='.$value_get_arret['latitude'].' AND longitude='.$value_get_arret['longitude']);
 
-					$id2=$value_get_arret['id']+1;
+				$my_selectone_element = $this->getBindParms('id,tracking_data.date,CODE_COURSE', 'tracking_data', 'latitude= "'.$value_get_arret['latitude'].'" AND longitude="'.$value_get_arret['longitude'].'"' , '`id` ASC');
+				$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
+				$my_selectone_element=str_replace('\n', '', $my_selectone_element);
+				$my_selectone_element=str_replace('\"', '', $my_selectone_element);
+
+				$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
+
+				$date_compare1=$one_element['date'];
+
+				$id2=$one_element['id']+1;
 
 
-					$my_select_date_compare2 = $this->getBindParms('tracking_data.date', 'tracking_data', 'id='.$id2, 'id ASC');
-					$date_compare2 = $this->ModelPs->getRequete($proce_requete, $my_select_date_compare2);
+				$my_select_date_compare2 = $this->getBindParms('tracking_data.date', 'tracking_data', 'id='.$id2, 'id ASC');
+				$date_compare2 = $this->ModelPs->getRequete($proce_requete, $my_select_date_compare2);
 
 
-					foreach ($date_compare2 as $keydate_compare2) {
-						$tabl[]=$this->notifications->ago($date_compare1,$keydate_compare2['date']);
-					}
-
-					
-
+				foreach ($date_compare2 as $keydate_compare2) {
+					$tabl[]=[$this->notifications->ago($date_compare1,$keydate_compare2['date']),$one_element['CODE_COURSE']];
 				}
 
+
+
+
 			}
+
+// print_r($tabl);die();
 			$v=1;
 			if (!empty($tabl)) {
 				foreach ($tabl as $keytabl) {
@@ -364,10 +386,10 @@ class Dashboard extends CI_Controller
 
 
 					$ligne_arret.=" <div class='activity-item d-flex'>
-					<div class='activite-label'>Arrêt ".$v."</div>
+					<div class='activite-label' ><button class='btn btn-outline-primary rounded-pill' onclick='change_trajet(".$keytabl[1].")'>Arrêt ".$v."</button></div>
 					<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
 					<div class='activity-content'>
-					<a href='#' class='fw-bold text-dark'>".$keytabl."</a> 
+					<a href='#' class='fw-bold text-dark'>".$keytabl[0]."</a> 
 					</div>
 					</div>";
 					$v++;
@@ -404,16 +426,23 @@ class Dashboard extends CI_Controller
 		//carte
 		$arret = '';
 
-		if(!empty($get_arret)){
+		if(!empty($get_data_arret)){
 
 
-			foreach ($get_arret as $key_arret) {
+			foreach ($get_data_arret as $key_arret) {
+
+				$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', 'latitude= "'.$key_arret['latitude'].'" AND longitude="'.$key_arret['longitude'].'"' , '`id` ASC');
+				$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
+				$my_selectone_element=str_replace('\n', '', $my_selectone_element);
+				$my_selectone_element=str_replace('\"', '', $my_selectone_element);
+
+				$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
 
 				$arret.="{
 					'type': 'Feature',
 					'properties': {
 						'description':
-						'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$key_arret['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$key_arret['latitude'].",".$key_arret['longitude']."]'
+						'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$one_element['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$key_arret['latitude'].",".$key_arret['longitude']."]'
 						},
 						'geometry': {
 							'type': 'Point',
@@ -461,242 +490,242 @@ class Dashboard extends CI_Controller
 
 					// 	$i++;
 
+				}
+				$my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+				$my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
+				$my_selectvit_moy=str_replace('\n', '', $my_selectvit_moy);
+				$my_selectvit_moy=str_replace('\"', '', $my_selectvit_moy);
+
+				$vit_moy = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvit_moy);
+				$my_selectdate_debfin = $this->getBindParms('id,MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+				$my_selectdate_debfin=str_replace('\"', '"', $my_selectdate_debfin);
+				$my_selectdate_debfin=str_replace('\n', '', $my_selectdate_debfin);
+				$my_selectdate_debfin=str_replace('\"', '', $my_selectdate_debfin);
+
+				$date_debfin = $this->ModelPs->getRequeteOne($proce_requete, $my_selectdate_debfin);
+
+
+				$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+				$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
+				$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
+				$my_selectvitesse_max=str_replace('\"', '', $my_selectvitesse_max);
+
+				$vitesse_max = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvitesse_max);
+
+				if(empty($vitesse_max['max_vitesse']))
+
+				{
+					$vitesse_max['max_vitesse']=0;
+				}
+
+
+
+
+				$track = '';
+
+
+				if(!empty($get_data)){
+
+
+					foreach ($get_data as $key) {
+
+						$track.='['.$key['longitude'].','.$key['latitude'].'],';
 					}
-					$my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
-					$my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
-					$my_selectvit_moy=str_replace('\n', '', $my_selectvit_moy);
-					$my_selectvit_moy=str_replace('\"', '', $my_selectvit_moy);
-
-					$vit_moy = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvit_moy);
-					$my_selectdate_debfin = $this->getBindParms('id,MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
-					$my_selectdate_debfin=str_replace('\"', '"', $my_selectdate_debfin);
-					$my_selectdate_debfin=str_replace('\n', '', $my_selectdate_debfin);
-					$my_selectdate_debfin=str_replace('\"', '', $my_selectdate_debfin);
-
-					$date_debfin = $this->ModelPs->getRequeteOne($proce_requete, $my_selectdate_debfin);
-
-
-					$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
-					$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
-					$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
-					$my_selectvitesse_max=str_replace('\"', '', $my_selectvitesse_max);
-
-					$vitesse_max = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvitesse_max);
-
-					if(empty($vitesse_max['max_vitesse']))
-
-					{
-						$vitesse_max['max_vitesse']=0;
-					}
 
 
 
+				}else{
+					$number='1';
 
-					$track = '';
-
-
-					if(!empty($get_data)){
-
-
-						foreach ($get_data as $key) {
-
-							$track.='['.$key['longitude'].','.$key['latitude'].'],';
-						}
-
-
-
-					}else{
-						$number='1';
-
-						$track.='['.$number.','.$number.'],';
-
-
-					}
-					$track.='@';
-
-					$track = str_replace(',@', "", $track);
-
-					$data['track'] = $track;
-					$data['vit_moy'] = $vit_moy;
-					$data['date_debfin'] = $date_debfin;
-					$data['arret'] = $arret;
-					$data['get_chauffeur'] = $get_chauffeur;
-					$data['get_arret'] = $get_arret;
-					$data['distance_finale'] = $nvldistance_arrondie;
-					$data['carburant'] = $carburant;
-					$data['CODE'] = $CODE;
-					$data['DATE'] = $DATE_SELECT;
-					$data['score'] = $score_finale;
-					$data['ligne_arret'] = $ligne_arret;
-				// $data['delimit_prov'] = $delimit_prov;
-					$data['limites']=$limites;
-
-
-					$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
-
-					$output = array(
-						"distance_finale" => $nvldistance_arrondie,
-						"carburant" => $carburant,
-						"DATE"=>$DATE_SELECT,
-						"CODE"=>$CODE,
-						"map_filtre"=>$map_filtre,
-						"score_finale"=>$point_final,
-						"vitesse_max"=>$vitesse_max['max_vitesse'],
-						"ligne_arret"=>$ligne_arret
-
-
-
-
-
-					);
-
-
-
-					echo json_encode($output);
-
+					$track.='['.$number.','.$number.'],';
 
 
 				}
+				$track.='@';
+
+				$track = str_replace(',@', "", $track);
+
+				$data['track'] = $track;
+				$data['vit_moy'] = $vit_moy;
+				$data['date_debfin'] = $date_debfin;
+				$data['arret'] = $arret;
+				$data['get_chauffeur'] = $get_chauffeur;
+				$data['get_arret'] = $get_arret;
+				$data['distance_finale'] = $nvldistance_arrondie;
+				$data['carburant'] = $carburant;
+				$data['CODE'] = $CODE;
+				$data['DATE'] = $DATE_SELECT;
+				$data['score'] = $score_finale;
+				$data['ligne_arret'] = $ligne_arret;
+				// $data['delimit_prov'] = $delimit_prov;
+				$data['limites']=$limites;
+
+
+				$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
+
+				$output = array(
+					"distance_finale" => $nvldistance_arrondie,
+					"carburant" => $carburant,
+					"DATE"=>$DATE_SELECT,
+					"CODE"=>$CODE,
+					"map_filtre"=>$map_filtre,
+					"score_finale"=>$point_final,
+					"vitesse_max"=>$vitesse_max['max_vitesse'],
+					"ligne_arret"=>$ligne_arret
+
+
+
+
+
+				);
+
+
+
+				echo json_encode($output);
+
+
+
+			}
 
 			//Fonction pour voir la position de la voiture
-				function position_voiture($CODE){
-					$fontinfo = $this->input->post('rtoggle');
-					$info = '';
+			function position_voiture($CODE){
+				$fontinfo = $this->input->post('rtoggle');
+				$info = '';
 
-					if($fontinfo == ''){
+				if($fontinfo == ''){
 
-						$info = 'streets';
+					$info = 'streets';
 
-					}else{
+				}else{
 
-						$info = $fontinfo;
-					}
-
-					$data['info'] = $info;
-					$CODE_VEH=$this->uri->segment(4);
-					$data['CODE_VEH']=$CODE_VEH;
-					$this->load->view('Position_vehicule_View',$data);
-
-
-
+					$info = $fontinfo;
 				}
+
+				$data['info'] = $info;
+				$CODE_VEH=$this->uri->segment(4);
+				$data['CODE_VEH']=$CODE_VEH;
+				$this->load->view('Position_vehicule_View',$data);
+
+
+
+			}
 
 			//Fonction pour afficher la position de la voiture
-				function getmap($CODE){
+			function getmap($CODE){
 
-					$DATE_SELECT = $this->input->post('DATE_DAT');
+				$DATE_SELECT = $this->input->post('DATE_DAT');
 
-					$proce_requete = "CALL `getRequete`(?,?,?,?);";
+				$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 				// $my_selectget_data= $this->getBindParms(' id,latitude,longitude', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND `id` = (SELECT MAX(`id`) FROM tracking_data ) ' , '`id` ASC');
-					$my_selectget_data= $this->getBindParms('max(id),latitude,longitude,ignition', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"' , '`id` ASC');
-					$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
-					$my_selectget_data=str_replace('\n', '', $my_selectget_data);
-					$my_selectget_data=str_replace('\"', '', $my_selectget_data);
+				$my_selectget_data= $this->getBindParms('max(id),latitude,longitude,ignition', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"' , '`id` ASC');
+				$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
+				$my_selectget_data=str_replace('\n', '', $my_selectget_data);
+				$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
-					$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
-
-
-
-					$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"velocity":27556.638607061,"visibility":"eclipsed","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
+				$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
 
 
 
-					echo $data;
-				}
+				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"velocity":27556.638607061,"visibility":"eclipsed","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
+
+
+
+				echo $data;
+			}
 
 			 //Fonction pour la selection des heures
-				function get_heures()
+			function get_heures()
+			{
+				$html="<option value=''>Séléctionner</option>";
+
+				$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+
+
+				$my_select_heure_trajet = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', '1', '`HEURE_ID` ASC');
+				$heure_trajet = $this->ModelPs->getRequete($proce_requete, $my_select_heure_trajet);
+				foreach ($heure_trajet as $heure_trajets)
 				{
-					$html="<option value=''>Séléctionner</option>";
-
-					$proce_requete = "CALL `getRequete`(?,?,?,?);";
-
-
-
-					$my_select_heure_trajet = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', '1', '`HEURE_ID` ASC');
-					$heure_trajet = $this->ModelPs->getRequete($proce_requete, $my_select_heure_trajet);
-					foreach ($heure_trajet as $heure_trajets)
-					{
-						$html.="<option value='".$heure_trajets['HEURE_ID']."'>".$heure_trajets['HEURE']."</option>";
-					}
-
-					echo json_encode($html);
+					$html.="<option value='".$heure_trajets['HEURE_ID']."'>".$heure_trajets['HEURE']."</option>";
 				}
+
+				echo json_encode($html);
+			}
 
 
 
 			//fonction des clones
 
-				function alerte_exces_vitesse()
-				{
-					$proce_requete = "CALL `getRequete`(?,?,?,?);";
+			function alerte_exces_vitesse()
+			{
+				$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 
 
-					$get_device = $this->Model->getRequete('SELECT device_uid FROM tracking_data where 1 GROUP BY device_uid');
-					foreach ($get_device as $keyget_device) {
+				$get_device = $this->Model->getRequete('SELECT device_uid FROM tracking_data where 1 GROUP BY device_uid');
+				foreach ($get_device as $keyget_device) {
 
 
-						$my_selectget_data= $this->getBindParms('max(id) as maximum,latitude,longitude,ignition,vitesse','tracking_data',' MESSAGE=0 AND device_uid ="'.$keyget_device['device_uid'].'"' , '`id` ASC');
-						$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
-						$my_selectget_data=str_replace('\n', '', $my_selectget_data);
-						$my_selectget_data=str_replace('\"', '', $my_selectget_data);
+					$my_selectget_data= $this->getBindParms('max(id) as maximum,latitude,longitude,ignition,vitesse','tracking_data',' MESSAGE=0 AND device_uid ="'.$keyget_device['device_uid'].'"' , '`id` ASC');
+					$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
+					$my_selectget_data=str_replace('\n', '', $my_selectget_data);
+					$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
-						$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
+					$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
 					// print_r($get_data);die();
-						if($get_data['vitesse']>50){
+					if($get_data['vitesse']>50){
 
 
-							$my_selectget_proprio=$this->getBindParms('vehicule.`PROPRIETAIRE_ID`,proprietaire.EMAIL,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule.PLAQUE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE', 'vehicule join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE', '1 AND vehicule.CODE ="'.$keyget_device['device_uid'].'"' , 'vehicule.CODE ASC');
-							$my_selectget_proprio=str_replace('\"', '"', $my_selectget_proprio);
-							$my_selectget_proprio=str_replace('\n', '', $my_selectget_proprio);
-							$my_selectget_proprio=str_replace('\"', '', $my_selectget_proprio);
+						$my_selectget_proprio=$this->getBindParms('vehicule.`PROPRIETAIRE_ID`,proprietaire.EMAIL,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule.PLAQUE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE', 'vehicule join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE', '1 AND vehicule.CODE ="'.$keyget_device['device_uid'].'"' , 'vehicule.CODE ASC');
+						$my_selectget_proprio=str_replace('\"', '"', $my_selectget_proprio);
+						$my_selectget_proprio=str_replace('\n', '', $my_selectget_proprio);
+						$my_selectget_proprio=str_replace('\"', '', $my_selectget_proprio);
 
-							$get_proprio = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_proprio);
+						$get_proprio = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_proprio);
 
-							$my_selectget_chauffeur=$this->getBindParms('chauffeur_vehicule.`CHAUFFEUR_ID`,chauffeur.ADRESSE_MAIL,chauffeur.NOM,chauffeur.PRENOM', '`chauffeur_vehicule` join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', '1 AND `STATUT_AFFECT`=1 AND CODE ="'.$keyget_device['device_uid'].'"' , 'chauffeur_vehicule.CODE ASC');
-							$my_selectget_chauffeur=str_replace('\"', '"', $my_selectget_chauffeur);
-							$my_selectget_chauffeur=str_replace('\n', '', $my_selectget_chauffeur);
-							$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
+						$my_selectget_chauffeur=$this->getBindParms('chauffeur_vehicule.`CHAUFFEUR_ID`,chauffeur.ADRESSE_MAIL,chauffeur.NOM,chauffeur.PRENOM', '`chauffeur_vehicule` join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', '1 AND `STATUT_AFFECT`=1 AND CODE ="'.$keyget_device['device_uid'].'"' , 'chauffeur_vehicule.CODE ASC');
+						$my_selectget_chauffeur=str_replace('\"', '"', $my_selectget_chauffeur);
+						$my_selectget_chauffeur=str_replace('\n', '', $my_selectget_chauffeur);
+						$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
 
-							$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
+						$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
 
 						//Notification au proprietaire du vehicule
-							$mess="Cher(e) <b>".$get_proprio['NOM_PROPRIETAIRE']." ".$get_proprio['PRENOM_PROPRIETAIRE']."</b>,<br><br>
+						$mess="Cher(e) <b>".$get_proprio['NOM_PROPRIETAIRE']." ".$get_proprio['PRENOM_PROPRIETAIRE']."</b>,<br><br>
 
-							Votre véhicule ".$get_proprio['DESC_MARQUE']." / ".$get_proprio['DESC_MODELE']." ayant ".$get_proprio['PLAQUE']." comme plaque d'immatriculation  est en train d'être conduit  à ".$get_data['vitesse']." Km/h !<br>
-							Veuillez contacter votre chauffeur ".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']." !
-							";
-							$subjet="Excès de vitesse";
-							$message1=$this->notifications->send_mail(array($get_proprio['EMAIL']),$subjet,array(),$mess,array());
+						Votre véhicule ".$get_proprio['DESC_MARQUE']." / ".$get_proprio['DESC_MODELE']." ayant ".$get_proprio['PLAQUE']." comme plaque d'immatriculation  est en train d'être conduit  à ".$get_data['vitesse']." Km/h !<br>
+						Veuillez contacter votre chauffeur ".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']." !
+						";
+						$subjet="Excès de vitesse";
+						$message1=$this->notifications->send_mail(array($get_proprio['EMAIL']),$subjet,array(),$mess,array());
 						//Notification au chauffeur
-							$mess2="Cher(e) <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b>,<br><br>
-							Vous êtes entrain de conduire à une vitesse de ".$get_data['vitesse']." Km/h <br>
-							Veuillez ralentir pour votre sécurité!
+						$mess2="Cher(e) <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b>,<br><br>
+						Vous êtes entrain de conduire à une vitesse de ".$get_data['vitesse']." Km/h <br>
+						Veuillez ralentir pour votre sécurité!
 
-							";
-							$subjet="Excès de vitesse";
-							$message2=$this->notifications->send_mail(array($get_chauffeur['ADRESSE_MAIL']),$subjet,array(),$mess2,array());
+						";
+						$subjet="Excès de vitesse";
+						$message2=$this->notifications->send_mail(array($get_chauffeur['ADRESSE_MAIL']),$subjet,array(),$mess2,array());
 
-							$update=$this->Model->update('tracking_data',array('id'=>$get_data['maximum']),array('MESSAGE'=>1));
-						}
-
+						$update=$this->Model->update('tracking_data',array('id'=>$get_data['maximum']),array('MESSAGE'=>1));
 					}
 
 				}
 
+			}
+
 
 
 			//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
-				public function getBindParms($columnselect, $table, $where, $orderby)
-				{
-					$bindparams = array(
-						'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
-						'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
-						'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
-						'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
-					);
-					return $bindparams;
-				}
-			}?>
+			public function getBindParms($columnselect, $table, $where, $orderby)
+			{
+				$bindparams = array(
+					'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+					'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+					'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+					'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+				);
+				return $bindparams;
+			}
+		}?>

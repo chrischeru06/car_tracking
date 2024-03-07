@@ -690,6 +690,38 @@
 
 }
 
+function change_trajet(CODE_COURSE){
+
+  var CODE_COURSE = CODE_COURSE; 
+  
+
+  $.ajax({
+    url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
+    type : "POST",
+    dataType: "JSON",
+    cache:false,
+    data: {
+      CODE_COURSE:CODE_COURSE,
+      
+
+
+
+    },
+    beforeSend:function () { 
+
+    },
+    success:function(data) {
+    },
+    error:function() {
+
+
+    }
+  });
+
+
+
+}
+
 </script>
 
 
