@@ -69,7 +69,7 @@ class Dashboard extends CI_Controller
 		$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
 		$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
 
-		$my_selectvehicule = $this->getBindParms('VEHICULE_ID,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE,vehicule.CODE', 'vehicule join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND md5(vehicule.CODE) ="'.$CODE_VEH.'"', '`VEHICULE_ID` ASC');
+		$my_selectvehicule = $this->getBindParms('VEHICULE_ID,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE,vehicule.CODE,vehicule.KILOMETRAGE', 'vehicule join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND md5(vehicule.CODE) ="'.$CODE_VEH.'"', '`VEHICULE_ID` ASC');
 		$my_selectvehicule=str_replace('\"', '"', $my_selectvehicule);
 		$my_selectvehicule=str_replace('\n', '', $my_selectvehicule);
 		$my_selectvehicule=str_replace('\"', '', $my_selectvehicule);
@@ -110,6 +110,8 @@ class Dashboard extends CI_Controller
 		$distance_arrondie=0;
 		$score_finale=0;
 		$critere='';
+		$critere1='';
+
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_heure1 = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', 'HEURE_ID="'.$HEURE1.'"', '`HEURE_ID` ASC');
@@ -141,7 +143,7 @@ class Dashboard extends CI_Controller
 
 		if (!empty($CODE_COURSE)) 
 		{
-			$critere.=' AND tracking_data.CODE_COURSE ="'.$CODE_COURSE.'"';
+			$critere1.=' AND tracking_data.CODE_COURSE ="'.$CODE_COURSE.'"';
 			
 
 		}
@@ -169,7 +171,7 @@ class Dashboard extends CI_Controller
 
 
 		//requete pour recuperer tout le trajet parcouru
-		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" '.$critere.' ', '`id` ASC');
+		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
 		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\n', '', $my_selectget_data);
@@ -184,7 +186,7 @@ class Dashboard extends CI_Controller
 		//requete pour recuperer les arrets
 		
 
-		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" '.$critere.' ', '`id` ASC');
+		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
 		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
@@ -234,7 +236,7 @@ class Dashboard extends CI_Controller
 
 
 		//calcul de la distance		
-		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" '.$critere.'  AND ignition=0' , '`id` ASC');
+		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.'  AND ignition=0' , '`id` ASC');
 		$my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
 		$my_selectget_arret_date=str_replace('\n', '', $my_selectget_arret_date);
 		$my_selectget_arret_date=str_replace('\"', '', $my_selectget_arret_date);
@@ -242,14 +244,14 @@ class Dashboard extends CI_Controller
 		$get_arret_date = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret_date);
 		$nvldistance=0;
 
-		$my_selectmin_arret = $this->getBindParms('MIN(id) as minimum', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.'' , '`id` ASC');
+		$my_selectmin_arret = $this->getBindParms('MIN(id) as minimum', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.' ' , '`id` ASC');
 		$my_selectmin_arret=str_replace('\"', '"', $my_selectmin_arret);
 		$my_selectmin_arret=str_replace('\n', '', $my_selectmin_arret);
 		$my_selectmin_arret=str_replace('\"', '', $my_selectmin_arret);
 		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$min_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret);
 
-		$my_selectmax_arret = $this->getBindParms('MAX(id) as maximum', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.'' , '`id` ASC');
+		$my_selectmax_arret = $this->getBindParms('MAX(id) as maximum', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.'' , '`id` ASC');
 		$my_selectmax_arret=str_replace('\"', '"', $my_selectmax_arret);
 		$my_selectmax_arret=str_replace('\n', '', $my_selectmax_arret);
 		$my_selectmax_arret=str_replace('\"', '', $my_selectmax_arret);
@@ -386,7 +388,7 @@ class Dashboard extends CI_Controller
 
 
 					$ligne_arret.=" <div class='activity-item d-flex'>
-					<div class='activite-label' ><button class='btn btn-outline-primary rounded-pill' onclick='change_trajet(".$keytabl[1].")'>Arrêt ".$v."</button></div>
+					<div class='activite-label' ><button class='btn btn-default' onclick='change_carte(".$keytabl[1].")'>Trajet ".$v."</button></div>
 					<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
 					<div class='activity-content'>
 					<a href='#' class='fw-bold text-dark'>".$keytabl[0]."</a> 
