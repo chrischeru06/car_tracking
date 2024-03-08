@@ -26,7 +26,7 @@
             <?php $carte2; ?>
             <br>
             <section class="section dashboard" id="liste">
-              <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
+              <h5 class="card-title">Trajets </h5>
               <div class="scroller">
                 <div class="activity">
 
