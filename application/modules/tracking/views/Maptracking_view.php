@@ -25,10 +25,6 @@
 
             <?php $carte2; ?>
             <br>
-            <br>
-            <br>
-            <br>
-            <br>
             <section class="section dashboard" id="liste">
               <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
               <div class="scroller">
@@ -39,13 +35,13 @@
                 </div>
 
               </div>
+              <br>
               <div class="card">
-                <h5 class="card-title">Distance parcourue<span>   <?=$distance_finale?> Km</span></h5>
+                <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
 
               </div>
             </section> 
-          </div>
-
+            </div>
         </div>
 
         <div id="map_maps" style="width: 100%;height: 720px;"> 
