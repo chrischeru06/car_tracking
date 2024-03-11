@@ -227,7 +227,7 @@
               </div> -->
               <div class="col-md-6">
                 <div class="card p-0" style="border-radius: 10%;">
-                  
+
                   <div class="card-body p-0">
                    <div class="row profil-info">
                     <div class="col-md-4 profil-img">
@@ -501,6 +501,76 @@
     bounds: [29.383188,-3.384438, 29.377566,-3.369615],
     projection: "globe" // display the map as a 3D globe
   });
+  const size = 150;
+
+  const pulsingDot = {
+    width: size,
+    height: size,
+    data: new Uint8Array(size * size * 4),
+
+  // When the layer is added to the map,
+    // get the rendering context for the map canvas.
+    onAdd: function () {
+      const canvas = document.createElement('canvas');
+      canvas.width = this.width;
+      canvas.height = this.height;
+      this.context = canvas.getContext('2d');
+    },
+
+    // Call once before every frame where the icon will be used.
+    render: function () {
+      const duration = 1000;
+      const t = (performance.now() % duration) / duration;
+
+      const radius = (size / 2) * 0.3;
+      const outerRadius = (size / 2) * 0.7 * t + radius;
+      const context = this.context;
+
+            // Draw the outer circle.
+      context.clearRect(0, 0, this.width, this.height);
+      context.beginPath();
+      context.arc(
+        this.width / 2,
+        this.height / 2,
+        outerRadius,
+        0,
+        Math.PI * 2
+        );
+
+      context.fillStyle = `rgba(255, 200, 200, ${1 - t})`;
+      context.fill();
+
+            // Draw the inner circle.
+      context.beginPath();
+      context.arc(
+        this.width / 2,
+        this.height / 2,
+        radius,
+        0,
+        Math.PI * 2
+        );
+      context.fillStyle = 'rgba(255, 100, 100, 1)';
+      context.strokeStyle = 'white';
+      context.lineWidth = 2 + 4 * (1 - t);
+      context.fill();
+      context.stroke();
+
+            // Update this image's data with data from the canvas.
+      this.data = context.getImageData(
+        0,
+        0,
+        this.width,
+        this.height
+        ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+      map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+      return true;
+    }
+  };
 
   map.addControl(new mapboxgl.NavigationControl());
   map.addControl(new mapboxgl.FullscreenControl());
@@ -508,83 +578,93 @@
   map.on('load', async () => {
         // Get the initial location of the International Space Station (ISS).
     const geojson = await getLocation();
+    // const geojson2 = await getLocation2();
         // Add the ISS location as a source.
     map.addSource('iss', {
       type: 'geojson',
       data: geojson
     });
+
+    
         // Add the rocket symbol layer to the map.   
-        // http://161.97.118.14/iotplatform/Map/getmap
+    map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
 
-
-
-    map.loadImage(
-      '<?= base_url() ?>upload/voll.png',
-      (error, image) => {
-        if (error) throw error;
-        
-        // Add the image to the map style.
-        map.addImage('care', image);
-        
-        // Add a data source containing one point feature.
-        map.addSource('point', {
-          'type': 'geojson',
-          'data': {
-            'type': 'FeatureCollection',
-            'features': [
-            {
-              'type': 'Feature',
-              'properties': {
-                'description':
-                '<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
-                'icon': 'theatre',
-              },
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-77.4144, 25.0759]
-              }
-            }
-            ]
+    map.addSource('dot-point', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': [
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [-77.4144, 25.0759] // icon position [lng, lat]
           }
-        });
-        
-        // Add a layer to use the image to represent the data.
-        // map.addLayer({
-        // 'id': 'points',
-        // 'type': 'symbol',
-        // 'source': 'point', // reference the data source
-        // 'layout': {
-        // 'icon-image': 'cat', // reference the image
-        // 'icon-size': 0.25
-        // }
-        // });
-
-
-        map.addLayer({
-          'id': 'iss',
-          'type': 'symbol',
-          'source': 'iss',
-          'layout': {
-                // This icon is a part of the Mapbox Streets style.
-                // To view all images available in a Mapbox style, open
-                // the style in Mapbox Studio and click the "Images" tab.
-                // To add a new image to the style at runtime see
-                // https://docs.mapbox.com/mapbox-gl-js/example/add-image/
-            'icon-image': 'care',
-            'icon-size': 0.05
-          }
-        });
-
+        }
+        ]
       }
-      );
+    });
+
+    map.addLayer({
+      'id': 'iss',
+      'type': 'symbol',
+      'source': 'iss',
+      'layout': {
+        'icon-image': 'pulsing-dot',
 
 
+      },
+      
+    });
+    // alert(geojson2);
+    // if (geojson2==0) {
+    
+    // }else{
+    //   map.addLayer({
+    //     'id': 'iss',
+    //     'type': 'symbol',
+    //     'source': 'iss',
+    //     'layout': {
+    //       'icon-image': 'pulsing-dot',
 
 
-// TOYOTA TI C3625A
+    //     },
+    //     "paint": {
+    //       "icon-color" : "#008000"
+    //     }
+    //   });
+    // }
+    
+
+    // const updateSource2 = setInterval(async () => {const geojson2=getLocation2(updateSource2)}, 2000);
+
+//     async function getLocation2(updateSource2) {
+//             // Make a GET request to the API and return the location of the ISS.
+
+//       var CODE = $('#CODE').val(); 
+
+//       const response = fetch(
+//         '<?= base_url() ?>tracking/Dashboard/getmap/'+CODE,
+//         { method: 'GET' }
+//         );
+//       const { ignition } = response;
+// if (ignition==0) {
+
+//    return {
+//         "icon-color" : "#ff0000"
+
+//       };
+
+// }else{
+//   return {
+//   "icon-color" : "#008000"
+    
+
+//       };
 
 
-
+// }
+//     }
         // Update the source from the API every 2 seconds.
     const updateSource = setInterval(async () => {
       const geojson = await getLocation(updateSource);
@@ -600,12 +680,17 @@
           '<?= base_url() ?>tracking/Dashboard/getmap/'+CODE,
           { method: 'GET' }
           );
-        const { latitude, longitude } = await response.json();
+        const { latitude, longitude, vitesse } = await response.json();
                 // Fly the map to the location.
         map.flyTo({
           center: [longitude, latitude],
           speed: 0.5
         });
+        const popup = new mapboxgl.Popup({ closeOnClick: true })
+        .setLngLat([longitude, latitude])
+        .setHTML(' '+[vitesse]+' Km/h')
+        .addTo(map);
+        
                 // Return the location of the ISS as GeoJSON.
         return {
           'type': 'FeatureCollection',
@@ -619,13 +704,19 @@
           }
           ]
         };
+
+
       } catch (err) {
                 // If the updateSource interval is defined, clear the interval to stop updating the source.
         if (updateSource) clearInterval(updateSource);
         throw new Error(err);
       }
+
+
     }
   });
+
+
 
   map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
 

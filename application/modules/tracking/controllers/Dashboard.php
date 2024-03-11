@@ -620,7 +620,7 @@ class Dashboard extends CI_Controller
 				$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 				// $my_selectget_data= $this->getBindParms(' id,latitude,longitude', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND `id` = (SELECT MAX(`id`) FROM tracking_data ) ' , '`id` ASC');
-				$my_selectget_data= $this->getBindParms('max(id),latitude,longitude,ignition', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"' , '`id` ASC');
+				$my_selectget_data= $this->getBindParms('max(id),latitude,longitude,ignition,vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"' , '`id` ASC');
 				$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 				$my_selectget_data=str_replace('\n', '', $my_selectget_data);
 				$my_selectget_data=str_replace('\"', '', $my_selectget_data);
@@ -629,9 +629,9 @@ class Dashboard extends CI_Controller
 
 
 
-				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"velocity":27556.638607061,"visibility":"eclipsed","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
+				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"vitesse":'.$get_data['vitesse'].',"ignition":'.$get_data['ignition'].',"footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
 
-
+				// print_r($data);die();
 
 				echo $data;
 			}
