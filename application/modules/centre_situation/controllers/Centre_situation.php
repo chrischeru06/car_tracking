@@ -470,14 +470,12 @@
 			echo json_encode($output);
 
 
-
 		}
 
       // Fonction pour la liste des vehicules
 
 		function GetVehicule($id = '')
 		{
-
 			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
 			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 
@@ -503,24 +501,36 @@
 				$critere_vehicule.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
 			}
 
+			$critaire_select = ' ';
 
-			// $get_vihicule = $this->Model->getRequete('SELECT CODE FROM vehicule JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1'.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.' GROUP BY VEHICULE_ID ORDER BY id DESC');
-
-
-			// foreach ($get_vihicule as $key) {
-
-			$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE FROM vehicule JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.'  GROUP BY VEHICULE_ID ';
-
-
-				// if(!empty($query_principal))
-				// {
-			$critaire = ' ';
-
-			if(!empty($VEHICULE_ID))
+			if(!empty($VEHICULE_ID) && $id >= 0)
 			{
-				$critaire = ' AND vehicule.VEHICULE_ID ='.$VEHICULE_ID;
+				$critaire_select = ' AND vehicule.VEHICULE_ID ='.$VEHICULE_ID;
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_ACTIF')
+			{
+				$critaire_select = ' AND vehicule.IS_ACTIVE = 1';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_INACTIF')
+			{
+				$critaire_select = ' AND vehicule.IS_ACTIVE = 2';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_CREVAISON')
+			{
+				$critaire_select = ' AND tracking_data.accident = 1';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_MOUVEMENT')
+			{
+				$critaire_select = ' AND tracking_data.mouvement = 1';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_ETEINT')
+			{
+				$critaire_select = ' AND tracking_data.ignition = 0';
 			}
 
+			$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE FROM vehicule JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.'  GROUP BY VEHICULE_ID ';
+
+			$critaire = ' ';
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 			$limit = ' LIMIT 0,10';
@@ -529,10 +539,10 @@
 				$limit = ' LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
 			}
 
-			$order_by='';
+			$order_by=' ';
 			$order_column=array('CODE','DESC_MARQUE','DESC_MODELE','PLAQUE','COULEUR','PHOTO','DATE_SAVE');
 
-			$order_by=isset($_POST['order']) ? ' ORDER BY '.$order_column[$_POST['order']['0']['column']].' ' .$_POST['order']['0']['dir'] : ' ORDER BY id DESC';
+			// $order_by=isset($_POST['order']) ? ' ORDER BY '.$order_column[$_POST['order']['0']['column']].' ' .$_POST['order']['0']['dir'] : ' ORDER BY id ASC';
 
 			$order_by = ' ORDER BY id DESC';
 
@@ -540,7 +550,9 @@
 
 			$query_secondaire=$query_principal.''.$critaire.''.$search.''.$order_by. '';
 
-			$query_filter=$query_principal.''.$critaire.''.$search;
+			$query_filter=$query_principal.''.$critaire.''.$search.''.$order_by. '';
+
+			//print_r($query_filter);die();
 
 			$fetch_data=$this->Model->datatable($query_secondaire);
 

@@ -216,41 +216,6 @@
 					</div>
 			</div>
 
-			<!-- <div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<i class="fa fa-users text-primary"></i>
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="nbrChauffeur">145</strong>
-							</div>
-
-						</div>
-						<?php
-						if($this->session->userdata('PROFIL_ID') == 1) // Admin
-						{
-							?>
-							<small class="text-muted small pt-2 ps-1">Nombre chauffeurs &nbsp;&nbsp;<i href="<?= base_url()?>chauffeur/Chauffeur " class="fa fa-eye dash_eye" title="Voir la liste"></i></small>
-							<?php
-						}
-						else
-						{
-							?>
-							<small class="text-muted small pt-2 ps-1">Nombre chauffeurs &nbsp;&nbsp;<i href="<?= base_url()?>proprietaire/Proprietaire_chauffeur" class="fa fa-eye dash_eye" title="Voir la liste"></i></small>
-							<?php
-						}
-						?>
-
-						
-
-					</div>
-
-				</div>
-			</div> -->
-
 
 			<div class="col-lg-3">
 					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="<?php if($this->session->userdata('PROFIL_ID') == 1){echo "GetChauffeur($('#PROPRIETAIRE_ID').val());";}else{echo "GetChauffeurPro($('#PROPRIETAIRE_ID').val());";}?>" title="Cliquer ici pour visualiser la liste">
@@ -274,7 +239,7 @@
 			</div>
 
 			<div class="col-lg-3">
-					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule(1);" title="Cliquer ici pour visualiser la liste">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ACTIF');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
 							<div class="d-flex align-items-center">
@@ -294,28 +259,9 @@
 					</div>
 			</div>
 
-			<!-- <div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<i class="fa fa-car text-danger"></i>
-							</div>
-							<div class="ps-3">
-								<strong class="card-title vehiculeInactif" id="vehiculeActif">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicule inactifs</small>
-					</div>
-
-				</div>
-			</div> -->
-
 
 			<div class="col-lg-3">
-					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule($('#VEHICULE_ID').val());" title="Cliquer ici pour visualiser la liste">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_INACTIF');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
 							<div class="d-flex align-items-center">
@@ -335,28 +281,8 @@
 					</div>
 			</div>
 
-
-			<!-- <div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<i class="fa fa-car text-warning"></i>
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeAvecAccident">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules en crevaison</small>
-					</div>
-
-				</div>
-			</div> -->
-
 			<div class="col-lg-3">
-					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule($('#VEHICULE_ID').val());" title="Cliquer ici pour visualiser la liste">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_CREVAISON');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
 							<div class="d-flex align-items-center">
@@ -365,7 +291,7 @@
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title vehiculeInactif" id="" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title " id="vehiculeAvecAccident" style="position: relative;top: 12px;">145</strong>
 								</div>
 								<div class="col-lg-6">
 									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules en crevaison<i  title="Voir la liste" ></i></b>
@@ -377,7 +303,7 @@
 			</div>
 
 			<div class="col-lg-3">
-					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule($('#VEHICULE_ID').val());" title="Cliquer ici pour visualiser la liste">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_MOUVEMENT');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
 							<div class="d-flex align-items-center">
@@ -399,7 +325,7 @@
 
 
 			<div class="col-lg-3">
-					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule($('#VEHICULE_ID').val());" title="Cliquer ici pour visualiser la liste">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
 							<div class="d-flex align-items-center">
@@ -421,88 +347,7 @@
 			
 		</div>
 
-		<div class="row">
-			<!-- <div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
 
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<img  class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vehicule1.png')?>">
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeMouvement">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules en mouvement</small>
-					</div>
-
-				</div>
-			</div> -->
-
-		<!-- 	<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-
-								<img  class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vehicule2.png')?>">
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeStationnement">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules en stationnement</small>
-					</div>
-
-				</div>
-			</div> -->
-
-		<!-- 	<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-
-
-								<img  class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vehicule3.png')?>">
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeAllume">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules allumés</small>
-					</div>
-
-				</div>
-			</div> -->
-
-		<!-- 	<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-
-								<img  class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vehicule5.png')?>">
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeEteint">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules éteints</small>
-					</div>
-
-				</div>
-			</div> -->
-
-		</div>
 
 		<section class="section">
 			<!-- <div class="container text-center"> -->
@@ -860,6 +705,8 @@
           	{
           		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
           		var VEHICULE_ID = $('#VEHICULE_ID').val();
+
+          	//	alert(id)
 
           		$('#ModalVehicule').modal('show');
           		var row_count ="1000000";
