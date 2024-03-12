@@ -64,11 +64,12 @@
 		
 		if(index[14] == 1)
 		{
-			clusterGroup.addLayer(marker);
+		
+			marker.addTo(map);
 		}
 		else
 		{
-			marker.addTo(map);
+			clusterGroup.addLayer(marker);
 		}
 
 	}
