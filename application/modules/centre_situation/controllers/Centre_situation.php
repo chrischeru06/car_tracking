@@ -507,28 +507,28 @@
 			{
 				$critaire_select = ' AND vehicule.VEHICULE_ID ='.$VEHICULE_ID;
 			}
-			else if(empty($VEHICULE_ID) && $id == 'V_ACTIF')
-			{
-				$critaire_select = ' AND vehicule.IS_ACTIVE = 1';
-			}
-			else if(empty($VEHICULE_ID) && $id == 'V_INACTIF')
-			{
-				$critaire_select = ' AND vehicule.IS_ACTIVE = 2';
-			}
-			else if(empty($VEHICULE_ID) && $id == 'V_CREVAISON')
-			{
-				$critaire_select = ' AND tracking_data.accident = 1';
-			}
-			else if(empty($VEHICULE_ID) && $id == 'V_MOUVEMENT')
-			{
-				$critaire_select = ' AND tracking_data.mouvement = 1';
-			}
-			else if(empty($VEHICULE_ID) && $id == 'V_ETEINT')
-			{
-				$critaire_select = ' AND tracking_data.ignition = 0';
-			}
+			// else if(empty($VEHICULE_ID) && $id == 'V_ACTIF')
+			// {
+			// 	$critaire_select = ' AND vehicule.IS_ACTIVE = 1';
+			// }
+			// else if(empty($VEHICULE_ID) && $id == 'V_INACTIF')
+			// {
+			// 	$critaire_select = ' AND vehicule.IS_ACTIVE = 2';
+			// }
+			// else if(empty($VEHICULE_ID) && $id == 'V_CREVAISON')
+			// {
+			// 	$critaire_select = ' AND tracking_data.accident = 1';
+			// }
+			// // else if(empty($VEHICULE_ID) && $id == 'V_MOUVEMENT')
+			// // {
+			// // 	$critaire_select = ' AND tracking_data.mouvement = 1';
+			// // }
+			// else if(empty($VEHICULE_ID) && $id == 'V_ETEINT')
+			// {
+			// 	$critaire_select = ' AND tracking_data.ignition = 0';
+			// }
 
-			$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE FROM vehicule JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.'  GROUP BY VEHICULE_ID ';
+			$query_principal = 'SELECT VEHICULE_ID,tracking_data.mouvement,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE FROM vehicule JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.'  GROUP BY VEHICULE_ID ';
 
 			$critaire = ' ';
 
@@ -550,7 +550,7 @@
 
 			$query_secondaire=$query_principal.''.$critaire.''.$search.''.$order_by. '';
 
-			$query_filter=$query_principal.''.$critaire.''.$search.''.$order_by. '';
+			$query_filter=$query_principal.''.$critaire.''.$search;
 
 			//print_r($query_filter);die();
 
@@ -559,7 +559,13 @@
 			$data=array();
 			foreach ($fetch_data as $row)
 			{
+
+
 				$sub_array=array();
+				$mvt=$row->mouvement;
+				if($mvt==1){
+
+
 				$sub_array[]=$row->CODE;
 				$sub_array[]=$row->DESC_MARQUE;
 				$sub_array[]=$row->DESC_MODELE;
@@ -720,17 +726,28 @@
 
 				$sub_array[]=$option;
 				$data[]=$sub_array;
+			}else{
+				$option=' ';
+			$sub_array[]=''	;
+			$sub_array[]=''	;
+			$sub_array[]=''	;
+			$sub_array[]=''	;
+			$sub_array[]=''	;
+			$sub_array[]=''	;
+			$sub_array[]=''	;
+			$sub_array[]=''	;
+			$sub_array[]=''	;
+			$sub_array[]=$option;
+			$data[]=$sub_array;
 			}
-			//}
-
+				
+			}
 			$output = array(
 				"draw" => intval($_POST['draw']),
 				"recordsTotal" => $this->Model->all_data($query_principal),
 				"recordsFiltered" => $this->Model->filtrer($query_filter),
 				"data" => $data
 			);
-
-			//}
 
 			echo json_encode($output);
 

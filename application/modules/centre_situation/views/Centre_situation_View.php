@@ -614,8 +614,8 @@
           </script>
 
        <script>
-          	const timer = setInterval(() => {
-          		getmap(2);
+          	const timer = setInterval(async () => {
+          		getmap(1);
           	}, 10000);
           </script>
 
