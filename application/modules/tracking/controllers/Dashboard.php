@@ -35,8 +35,8 @@ class Dashboard extends CI_Controller
 		// echo pow(9,3);
 
 		$fontinfo = $this->input->post('rtoggle');
+
 		$DATE_SELECT = $this->input->post('DATE');
-		$distance_arrondie=0;
 
 		$distance_arrondie=0;
 		if(empty($DATE_SELECT)){
@@ -620,16 +620,30 @@ class Dashboard extends CI_Controller
 				$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 				// $my_selectget_data= $this->getBindParms(' id,latitude,longitude', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND `id` = (SELECT MAX(`id`) FROM tracking_data ) ' , '`id` ASC');
-				$my_selectget_data= $this->getBindParms('max(id),latitude,longitude,ignition,vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"' , '`id` ASC');
+				$my_selectget_data= $this->getBindParms('id,latitude,longitude,ignition,vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND  `id` = (SELECT MAX(`id`) FROM tracking_data)' , '`id` ASC');
 				$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 				$my_selectget_data=str_replace('\n', '', $my_selectget_data);
 				$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
 				$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
 
+				// print_r($get_data);die();
+
+				if ($get_data['ignition']==0) 
+				{
+					// color red
+					$color = '255, 0, 0';
+				}
+				else
+				{
+					//color blue
+					$color = '20, 100, 500';
+
+				}
 
 
-				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"vitesse":'.$get_data['vitesse'].',"ignition":'.$get_data['ignition'].',"footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
+
+				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"vitesse":'.$get_data['vitesse'].',"ignition":"'.$color.'","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
 
 				// print_r($data);die();
 

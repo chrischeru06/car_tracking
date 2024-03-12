@@ -102,12 +102,17 @@
 
    .profil-info .profil-text .bi{
 
-    margin-right: .3rem;
+    margin-right: .5rem;
+    margin-left: .2rem;
+
   }
   .profil-info .profil-text p.profil-name{
    font-weight: 900;
    font-size:.6rem;
    margin: 0 0 .1rem 0;
+   margin-left: .2rem;
+
+
  }
 
  .profil-info .profil-text p.profil-phone{
@@ -117,8 +122,18 @@
 .profil-info .profil-img img{
   width:4rem;
   height: auto;
+
 }
 
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font:
+  12px/20px 'Helvetica Neue',
+  Arial,
+  Helvetica,
+  sans-serif;
+}
 </style>
 
 
@@ -129,6 +144,7 @@
 <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 
 
@@ -236,7 +252,7 @@
                       if(!empty($get_chauffeur['PHOTO_PASSPORT']))
                       {
                         ?>
-                        <img  class="card-icon" style="border-radius: 10%;background-color: white;" class="img-fluid" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
+                        <img style="border-radius: 10%;background-color: white;" class="img-fluid" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
 
 
                         <?php
@@ -244,7 +260,7 @@
                       else if(empty($get_chauffeur['PHOTO_PASSPORT']))
                       {
                         ?>
-                        <img class="card-icon" style="background-color: #829b35;border-radius: 10%" class="img-fluid" src="<?=base_url('upload/phavatar.png')?>">
+                        <img  style="background-color: #829b35;border-radius: 10%" class="img-fluid" src="<?=base_url('upload/phavatar.png')?>">
                         <?php
                       }?>
                     </div>
@@ -284,13 +300,13 @@
                     if(!empty($get_vehicule['PHOTO']))
                     {
                       ?>
-                      <img  class="card-icon" style="background-color: white;border-radius: 10%;" class="img-fluid" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">
+                      <img  style="background-color: white;border-radius: 10%;" class="img-fluid" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">
                       <?php
                     }
                     else if(empty($get_vehicule['PHOTO']))
                     {
                       ?>
-                      <img class="card-icon" style="border-radius: 10%;" class="img-fluid"  src="<?=base_url('upload/car.png')?>">
+                      <img  style="border-radius: 10%;" class="img-fluid"  src="<?=base_url('upload/car.png')?>">
 
                       <?php
                     }?>
@@ -319,7 +335,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle" >
-                    <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                    <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="40px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
                   </div>
                   <div class="ps-3">
                     <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
@@ -338,7 +354,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle">
-                    <img style="background-color: #829b35;" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
+                    <img style="background-color: #829b35;" class="img-fluid" width="40px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
                   </div>
                   <div class="ps-3">
                     <h6><span class="text-success small pt-1 fw-bold"> <a id="carburant"></a> litres</span></h6>
@@ -362,7 +378,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle">
-                      <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
+                      <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="40px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
                     </div>
                     <div class="ps-3">
                       <h6><span class="text-success small pt-1 fw-bold"> <a id="vitesse_max"></a> Km/h</span></h6>
@@ -383,7 +399,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle">
-                      <img style="background-color: #829b35;" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/score.png')?>">
+                      <img style="background-color: #829b35;" class="img-fluid" width="40px" height="auto" src="<?=base_url('/upload/score.png')?>">
                     </div>
                     <div class="ps-3">
                       <h6><span class="text-success small pt-1 fw-bold"> <a id="score"></a> Points</span></h6>
@@ -410,47 +426,65 @@
 
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Adresse de la voiture</h5>
+          <h5 class="card-title">Adresse du véhicule</h5>
           <br>
-          <br>
-          <div id="map" style="width: 100%;height: 320px;"></div>
+          
+          
+          <div id="map" style="height: 245px;"></div>
+          <!-- <section class="section dashboard" > -->
+            <div class="table-responsive">     
+              <table class="table-borderless">
+                <thead>
+                  <th><h5 style="font-size: 18px;font-weight: 500;color: #012970;font-family: 'Poppins', sans-serif;">Légende </h5></th>
+                </thead>
+                <tbody>
 
+                  <tr>
+                    <td><i class="bi bi-dot" style="color:red; font-size: 50px;"></i></td>
+                    <td>Véhicule&nbsp;éteint</td>
 
-          <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE_VEH.'') ?>"  >
-
-            <div id="menu"> 
-
-              <?php $carte; ?>
-
-
-              <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte = 'satellite-streets-v12'; ?>>
-
-              <label for="satellite-streets-v12">satellite</label>
-
-              <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte = 'streets-v12'; ?> >
-              <label for="streets-v12">streets</label>
-
+                    <td><i class="bi bi-dot" style="color:blue; font-size: 50px;"></i></td>
+                    <td>Véhicule&nbsp;en&nbsp;mouvement</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </form>
+            <!-- </section> -->
+
+            <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE_VEH.'') ?>"  >
+
+              <div id="menu" style="float:right;"> 
+
+                <?php $carte; ?>
+
+
+                <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte = 'satellite-v9'; ?>>
+
+                <label for="satellite-streets-v12">satellite</label>
+
+                <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte = 'streets-v12'; ?> >
+                <label for="streets-v12">streets</label>
+              </div>
+            </form>
+          </div>
         </div>
+
       </div>
-
     </div>
-  </div>
 
-  <div class="row align-items-top">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-body">
-          <center><h6 class="card-title">Trajet parcouru</h6></center>
-          <div id="map_filtre" ></div>
+    <div class="row align-items-top">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <center><h6 class="card-title">Trajet parcouru</h6></center>
+            <div id="map_filtre" ></div>
 
+          </div>
         </div>
+
+
+
       </div>
-
-
-
-    </div>
 
        <!--  <div class="col-lg-3">
           <section class="section dashboard">
@@ -471,6 +505,12 @@
           </div>
         </section>
       </div> -->
+
+
+      <input type="hidden" id="ignition">
+      <input type="hidden" id="latitude">
+      <input type="hidden" id="longitude">
+      <input type="hidden" id="vitesse">
 
 
 
@@ -497,11 +537,11 @@
   const map = new mapboxgl.Map({
     container: 'map',
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: 'mapbox://styles/mapbox/streets-v12',
+    style: 'mapbox://styles/mapbox/<?=$carte?>',
     bounds: [29.383188,-3.384438, 29.377566,-3.369615],
     projection: "globe" // display the map as a 3D globe
   });
-  const size = 150;
+  const size = 120;
 
   const pulsingDot = {
     width: size,
@@ -537,7 +577,10 @@
         Math.PI * 2
         );
 
-      context.fillStyle = `rgba(255, 200, 200, ${1 - t})`;
+      //get color from controller
+      var ignition = $('#ignition').val(); 
+
+      context.fillStyle = `rgba(`+ignition+`, ${1 - t})`;
       context.fill();
 
             // Draw the inner circle.
@@ -549,7 +592,7 @@
         0,
         Math.PI * 2
         );
-      context.fillStyle = 'rgba(255, 100, 100, 1)';
+      context.fillStyle = 'rgba('+ignition+', 1)';
       context.strokeStyle = 'white';
       context.lineWidth = 2 + 4 * (1 - t);
       context.fill();
@@ -584,12 +627,14 @@
       type: 'geojson',
       data: geojson
     });
+    var latitude = $('#latitude').val(); 
+    var longitude = $('#longitude').val(); 
+    var vitesse = $('#vitesse').val(); 
 
-    
         // Add the rocket symbol layer to the map.   
     map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
 
-    map.addSource('dot-point', {
+    map.addSource('places', {
       'type': 'geojson',
       'data': {
         'type': 'FeatureCollection',
@@ -598,7 +643,7 @@
           'type': 'Feature',
           'geometry': {
             'type': 'Point',
-            'coordinates': [-77.4144, 25.0759] // icon position [lng, lat]
+            'coordinates': [-77.007481, 38.876516]
           }
         }
         ]
@@ -606,7 +651,7 @@
     });
 
     map.addLayer({
-      'id': 'iss',
+      'id': 'places',
       'type': 'symbol',
       'source': 'iss',
       'layout': {
@@ -616,56 +661,39 @@
       },
       
     });
-    // alert(geojson2);
-    // if (geojson2==0) {
+
+      // Create a popup, but don't add it to the map yet.
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false
+    });
+
+    map.on('mouseenter', 'places', (e) => {
+            // Change the cursor style as a UI indicator.
+      map.getCanvas().style.cursor = 'pointer';
+
+            // Copy coordinates array.
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+// alert(description)
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+      popup.setLngLat(coordinates).setHTML(description).addTo(map);
+    });
+
+    map.on('mouseleave', 'places', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
     
-    // }else{
-    //   map.addLayer({
-    //     'id': 'iss',
-    //     'type': 'symbol',
-    //     'source': 'iss',
-    //     'layout': {
-    //       'icon-image': 'pulsing-dot',
-
-
-    //     },
-    //     "paint": {
-    //       "icon-color" : "#008000"
-    //     }
-    //   });
-    // }
-    
-
-    // const updateSource2 = setInterval(async () => {const geojson2=getLocation2(updateSource2)}, 2000);
-
-//     async function getLocation2(updateSource2) {
-//             // Make a GET request to the API and return the location of the ISS.
-
-//       var CODE = $('#CODE').val(); 
-
-//       const response = fetch(
-//         '<?= base_url() ?>tracking/Dashboard/getmap/'+CODE,
-//         { method: 'GET' }
-//         );
-//       const { ignition } = response;
-// if (ignition==0) {
-
-//    return {
-//         "icon-color" : "#ff0000"
-
-//       };
-
-// }else{
-//   return {
-//   "icon-color" : "#008000"
-    
-
-//       };
-
-
-// }
-//     }
-        // Update the source from the API every 2 seconds.
+    // Update the source from the API every 2 seconds.
     const updateSource = setInterval(async () => {
       const geojson = await getLocation(updateSource);
       map.getSource('iss').setData(geojson);
@@ -676,27 +704,36 @@
       try {
         var CODE = $('#CODE').val(); 
 
+
         const response = await fetch(
           '<?= base_url() ?>tracking/Dashboard/getmap/'+CODE,
           { method: 'GET' }
           );
-        const { latitude, longitude, vitesse } = await response.json();
-                // Fly the map to the location.
+        const { latitude, longitude, vitesse, ignition } = await response.json();
+        
+        // get color
+        $('#ignition').val(ignition);
+        $('#latitude').val(latitude);
+        $('#longitude').val(longitude);
+        $('#vitesse').val(vitesse);
+
+
+        // Fly the map to the location.
         map.flyTo({
           center: [longitude, latitude],
           speed: 0.5
         });
-        const popup = new mapboxgl.Popup({ closeOnClick: true })
-        .setLngLat([longitude, latitude])
-        .setHTML(' '+[vitesse]+' Km/h')
-        .addTo(map);
         
-                // Return the location of the ISS as GeoJSON.
+        // Return the location of the ISS as GeoJSON.
         return {
           'type': 'FeatureCollection',
           'features': [
           {
             'type': 'Feature',
+            'properties': {
+              'description':
+              '<strong>'+vitesse+' km/h</strong><p> </p>'
+            },
             'geometry': {
               'type': 'Point',
               'coordinates': [longitude, latitude]
@@ -704,7 +741,6 @@
           }
           ]
         };
-
 
       } catch (err) {
                 // If the updateSource interval is defined, clear the interval to stop updating the source.
@@ -716,6 +752,7 @@
     }
   });
 
+  
 
 
   map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
