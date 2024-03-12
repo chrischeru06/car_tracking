@@ -164,53 +164,11 @@ input:checked + .slider:before {
 
         </div>
       </div>
+
+
+
     </div>
   </section>
-         <!--******** Debut Modal pour attribue une voiture *********-->
-
-  <div class="modal fade" id="Modal_traiter" tabindex="-1" >
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-        <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
-
- --><h5 class="modal-title">Traiter la demande  de</h5>
-       
-
- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
-            <div class="modal-body mb-1">
-              <div class="row">
-                <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID">
-                <input type="hidden" name="STATUT_VEH_AJOUT" id="STATUT_VEH_AJOUT">
-
-             
-                <div class="col-md-6">
-                  <label for="description" class="text-dark">Statut</label>
-                  <select class="form-control" id="TRAITEMENT_DEMANDE_ID" name="TRAITEMENT_DEMANDE_ID">
-                  </select>
-                  <span id="errorTRAITEMENT_DEMANDE_ID" class="text-danger"></span>
-                </div>
-                <div class = 'col-md-4'>
-
-                  <label style='color:black'>Commentaire</label>
-                  <textarea class='form-control' name ='COMMENTAIRE' id="COMMENTAIRE"></textarea>
-                  <span id="errorCOMMENTAIRE" class="text-danger"></span>
-
-              </div>
-              </div>
-            </div> 
-            <div class="modal-footer">
-              <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Traiter" onclick="save_statut_vehicul();" />
-             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
-
-            </div>
-          </form>
-       </div>
-    </div>
-  </div>
-</div><!-- End Modal-->
 
 </main><!-- End #main -->
 
@@ -337,113 +295,6 @@ input:checked + .slider:before {
       }
     });
 
-  }
-</script>
-
-<script type="text/javascript">
-   function traiter_demande(VEHICULE_ID='',STATUT_VEH_AJOUT='')
-
-  {
-    $('#Modal_traiter').modal('show');
-    //VEHICULE_ID du 2eme ca vient du VEHICULE_ID du paramentre la en haut 
-    $('#VEHICULE_ID').val(VEHICULE_ID);
-    $('#STATUT_VEH_AJOUT').val(STATUT_VEH_AJOUT);
-
-    // var TRAITEMENT_DEMANDE_ID=$('#TRAITEMENT_DEMANDE_ID').val();
-    $('#errorVEHICULE_ID').html('');
-    $('#errorTRAITEMENT_DEMANDE_ID').html('');
-    $.ajax(
-    {
-      url: "<?= base_url() ?>vehicule/Vehicule/get_all_statut/",
-
-      type: "GET",
-      dataType: "JSON",
-      success: function(data)
-      {
-        
-        $('#TRAITEMENT_DEMANDE_ID').html(data);
-      },
-      error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Erreur');
-      }
-    });
-  }
-
-  function save_statut_vehicul()
-  {
-
-    var statut=1;
-    $('#errorCOMMENTAIRE').html('');
-    $('#errorTRAITEMENT_DEMANDE_ID').html('');
-
-    if($('#TRAITEMENT_DEMANDE_ID').val()=='')
-    {
-      $('#errorTRAITEMENT_DEMANDE_ID').html('Le champ est obligatoire');
-      statut=2;
-    }
-    if($('#COMMENTAIRE').val()=='')
-    {
-      $('#errorCOMMENTAIRE').html('Le champ est obligatoire');
-      statut=2;
-    } 
-    if(statut<2)
-    {
-      var form_data = new FormData($("#attribution_form")[0]);
-      var url="<?= base_url('vehicule/Vehicule/save_stat_vehicul')?>";
-      $.ajax(
-      {
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data)
-        {
-          if(data==1)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Traitement fait avec succès',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-            });
-          }
-          else if(data==2)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Le vehicule possède déjà chauffeur ',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-            });
-          }
-          else
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Traitement échoué',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-            });
-          }
-        }
-      });
-    }
   }
 </script>
 
