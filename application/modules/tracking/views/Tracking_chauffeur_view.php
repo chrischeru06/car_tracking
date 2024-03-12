@@ -441,7 +441,7 @@
 
                   <tr>
                     <td><i class="bi bi-dot" style="color:red; font-size: 50px;"></i></td>
-                    <td>Véhicule&nbsp;éteinte</td>
+                    <td>Véhicule&nbsp;éteint</td>
 
                     <td><i class="bi bi-dot" style="color:blue; font-size: 50px;"></i></td>
                     <td>Véhicule&nbsp;en&nbsp;mouvement</td>
