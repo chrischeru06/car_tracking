@@ -32,7 +32,7 @@ class Proprietaire extends CI_Controller
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
 		$data['btn']="Enregistrer";
 		$data['title']="NOUVEAU PROPRIETAIRE";
-		$proprietaire = array('PROPRIETAIRE_ID'=>NULL,'TYPE_PROPRIETAIRE_ID'=>NULL,'TYPE_SOCIETE_ID'=>NULL,'NOM_PROPRIETAIRE'=>NULL,'PRENOM_PROPRIETAIRE'=>NULL,'PERSONNE_REFERENCE'=>NULL,'EMAIL'=>NULL,'TELEPHONE'=>NULL,'CNI_OU_NIF'=>NULL,'RC'=>NULL,'PROVINCE_ID'=>NULL,'COMMUNE_ID'=>NULL,'ZONE_ID'=>NULL,'COLLINE_ID'=>NULL,'ADRESSE'=>NULL,'PHOTO_PASSPORT'=>NULL,'LOGO'=>NULL,'FILE_CNI_PASSPORT'=>NULL);
+		$proprietaire = array('PROPRIETAIRE_ID'=>NULL,'TYPE_PROPRIETAIRE_ID'=>NULL,'TYPE_SOCIETE_ID'=>NULL,'NOM_PROPRIETAIRE'=>NULL,'PRENOM_PROPRIETAIRE'=>NULL,'PERSONNE_REFERENCE'=>NULL,'EMAIL'=>NULL,'TELEPHONE'=>NULL,'CNI_OU_NIF'=>NULL,'RC'=>NULL,'PROVINCE_ID'=>NULL,'COMMUNE_ID'=>NULL,'ZONE_ID'=>NULL,'COLLINE_ID'=>NULL,'ADRESSE'=>NULL,'PHOTO_PASSPORT'=>NULL,'LOGO'=>NULL,'FILE_CNI_PASSPORT'=>NULL,'FILE_RC'=>NULL,'FILE_NIF'=>NULL,'CATEGORIE_ID'=>NULL,'COUNTRY_ID'=>NULL);
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
@@ -40,6 +40,10 @@ class Proprietaire extends CI_Controller
 		$provinces = $this->ModelPs->getRequete($proce_requete, $my_select_provinces);
 		$data['provinces']=$provinces;
 		$pay = $this->getBindParms('CommonName,COUNTRY_ID', 'countries', '1', 'CommonName ASC');
+		$categorieun = $this->getBindParms('DESC_CATEGORIE,CATEGORIE_ID', 'categories', '1', 'DESC_CATEGORIE ASC');
+		$data['catego'] =$this->ModelPs->getRequete($proce_requete, $categorieun);
+
+		
 		$data['pays'] =$this->ModelPs->getRequete($proce_requete, $pay);
 
 		// $countries1=$this->Model->getRequete('SELECT COUNTRY_ID,CommonName,`ITU-T_Telephone_Code` FROM `countries` WHERE `ITU-T_Telephone_Code` <> "" ORDER BY `CommonName` ASC');
@@ -62,10 +66,9 @@ class Proprietaire extends CI_Controller
 		{
 			$data['btn']="Modifier";
 			$data['title']="MODIFICATION D'UN proprietaire";
-			
 
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
-			$my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT,LOGO,FILE_CNI_PASSPORT', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)="'.$PROPRIETAIRE_ID.'"', '`PROPRIETAIRE_ID` ASC');
+			$my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT,LOGO,FILE_NIF,FILE_RC,FILE_CNI_PASSPORT,CATEGORIE_ID,COUNTRY_ID', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)="'.$PROPRIETAIRE_ID.'"', '`PROPRIETAIRE_ID` ASC');
 			$my_select_proprio=str_replace('\"', '"', $my_select_proprio);
 			$my_select_proprio=str_replace('\n', '', $my_select_proprio);
 			$my_select_proprio=str_replace('\"', '', $my_select_proprio);
@@ -79,6 +82,8 @@ class Proprietaire extends CI_Controller
 
 			$my_select_collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME', 'collines', '1 AND ZONE_ID='.$proprietaire['ZONE_ID'].'', '`COLLINE_NAME` ASC');
 			$collines = $this->ModelPs->getRequete($proce_requete, $my_select_collines);
+			$categorieun = $this->getBindParms('DESC_CATEGORIE,CATEGORIE_ID', 'categories', '1', 'DESC_CATEGORIE ASC');
+			// $cate = $this->ModelPs->getRequete($proce_requete, $categorieun);
 
 
 			
@@ -120,11 +125,19 @@ class Proprietaire extends CI_Controller
 			{
 
 				$LOGO_OLD = $this->input->post('LOGO_OLD');
-
+				$FILE_NIF_OLD = $this->input->post('FILE_NIF_OLD');
+				$FICHIER_RC_OLD = $this->input->post('FICHIER_RC_OLD');
 
 				if(empty($_FILES['LOGO']['name']) && empty($LOGO_OLD) )
 				{
 					$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				}
+				if(empty($_FILES['FILE_NIF']['name']) && empty($FILE_NIF_OLD) )
+				{
+					$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				}if(empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD) )
+				{
+				 $this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 				}
 
 				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
@@ -150,18 +163,15 @@ class Proprietaire extends CI_Controller
 					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('CATEGORIE_ID','CATEGORIE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 
 				}
-
-
-				
 
 				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 			}else 
 			{
-
 				$FILE_CNI_PASSPORT_OLD = $this->input->post('FILE_CNI_PASSPORT_OLD');
 
 
@@ -177,10 +187,6 @@ class Proprietaire extends CI_Controller
 				{
 					$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 				}
-
-				
-
-
 
 				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
@@ -208,11 +214,7 @@ class Proprietaire extends CI_Controller
 					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-
-
 				}
-
-
 				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 			}
 
@@ -231,6 +233,9 @@ class Proprietaire extends CI_Controller
 					$password=$this->notifications->generate_password(8);
 
 					$LOGO_OLD = $this->input->post('LOGO_OLD');
+					$FILE_NIF_OLD = $this->input->post('FILE_NIF_OLD');
+					$FILE_RC_OLD = $this->input->post('FILE_RC_OLD');
+
 
 					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
 
@@ -238,7 +243,21 @@ class Proprietaire extends CI_Controller
 					{
 						$file_logo = $LOGO_OLD;
 					}elseif (!empty($_FILES['LOGO']['name']) && empty($LOGO_OLD)) {
-						$file_logo = $this->upload_document_nomdocument($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
+						$file_logo = $this->upload_document($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
+
+					}
+					if(empty($_FILES['FILE_NIF']['name']) && !empty($FILE_NIF_OLD))
+					{
+						$file_nif = $FILE_NIF_OLD;
+					}elseif (!empty($_FILES['FILE_NIF']['name']) && empty($FILE_NIF_OLD)) {
+						$file_nif = $this->upload_document($_FILES['FILE_NIF']['tmp_name'],$_FILES['FILE_NIF']['name'],$NOM_PROPRIETAIRE);
+
+					}
+					if(empty($_FILES['FILE_RC']['name']) && !empty($FILE_RC_OLD))
+					{
+						$file_rc = $FILE_RC_OLD;
+					}elseif (!empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD)) {
+						$file_rc = $this->upload_document($_FILES['FILE_RC']['tmp_name'],$_FILES['FILE_RC']['name'],$NOM_PROPRIETAIRE);
 
 					}
 
@@ -258,8 +277,14 @@ class Proprietaire extends CI_Controller
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
 						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
 						'ADRESSE'=>$this->input->post('ADRESSE'),
-						'LOGO'=>$file_logo
+						'CATEGORIE_ID'=>$this->input->post('CATEGORIE_ID'),
+
+						'LOGO'=>$file_logo,
+						'FILE_NIF'=>$file_nif,
+						'FILE_RC'=>$file_rc
+
 					);
+					// print_r($data);exit();
 
 					$PROPRIETAIRE_ID=$this->Model->insert_last_id($table,$data);
 					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
@@ -296,6 +321,7 @@ class Proprietaire extends CI_Controller
 					$photo_passport_old = $this->input->post('photo_passport_old');
 
 
+
 					if(empty($_FILES['photo_passport']['name']) && !empty($photo_passport_old))
 					{
 						$file3 = $photo_passport_old;
@@ -314,6 +340,7 @@ class Proprietaire extends CI_Controller
 						$file_fil = $this->upload_cni($_FILES['FILE_CNI_PASSPORT']['tmp_name'],$_FILES['FILE_CNI_PASSPORT']['name'],$NOM_PROPRIETAIRE);
 
 					}
+					
 
 
 					$data = array(
@@ -331,6 +358,7 @@ class Proprietaire extends CI_Controller
 						'ADRESSE'=>$this->input->post('ADRESSE'),
 						'PHOTO_PASSPORT'=>$file3,
 						'FILE_CNI_PASSPORT'=>$file_fil
+						
 					);
 
 					$PROPRIETAIRE_ID=$this->Model->insert_last_id($table,$data);
@@ -374,12 +402,24 @@ class Proprietaire extends CI_Controller
 			{
 
 				$LOGO_OLD = $this->input->post('LOGO_OLD');
+				$FILE_NIF_OLD = $this->input->post('FILE_NIF_OLD');
+				$FILE_RC_OLD = $this->input->post('FILE_RC_OLD');
+
+
 
 
 				if(empty($_FILES['LOGO']['name']) && empty($LOGO_OLD))
 				{
 					$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 				}
+				if(empty($_FILES['FILE_NIF']['name']) && empty($FILE_NIF_OLD))
+				{
+					$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				}if(empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD))
+				{
+					$this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				}
+				$this->form_validation->set_rules('CATEGORIE_ID','CATEGORIE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
@@ -395,6 +435,7 @@ class Proprietaire extends CI_Controller
 					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
 
 
 				}
@@ -456,6 +497,10 @@ class Proprietaire extends CI_Controller
 					$table='proprietaire';
 
 					$LOGO_OLD = $this->input->post('LOGO_OLD');
+					$FILE_NIF_OLD = $this->input->post('FILE_NIF_OLD');
+					$FILE_RC_OLD = $this->input->post('FILE_RC_OLD');
+
+
 
 					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
 
@@ -463,7 +508,23 @@ class Proprietaire extends CI_Controller
 					{
 						$file_logo = $LOGO_OLD;
 					}elseif (!empty($_FILES['LOGO']['name']) && empty($LOGO_OLD)) {
-						$file_logo = $this->upload_document_nomdocument($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
+						$file_logo = $this->upload_document($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
+
+					}
+					if(empty($_FILES['FILE_NIF']['name']) && !empty($FILE_NIF_OLD))
+					{
+						$file_nif = $FILE_NIF_OLD;
+					}elseif (!empty($_FILES['FILE_NIF']['name']) && empty($FILE_NIF_OLD)) 
+					{
+						$file_nif = $this->upload_document($_FILES['FILE_NIF']['tmp_name'],$_FILES['FILE_NIF']['name'],$NOM_PROPRIETAIRE);
+
+					}
+					if(empty($_FILES['FILE_RC']['name']) && !empty($FILE_RC_OLD))
+					{
+						$file_rc = $FILE_RC_OLD;
+					}elseif (!empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD)) 
+					{
+						$file_rc = $this->upload_document($_FILES['FILE_RC']['tmp_name'],$_FILES['FILE_RC']['name'],$NOM_PROPRIETAIRE);
 
 					}
 
@@ -481,7 +542,11 @@ class Proprietaire extends CI_Controller
 						'ZONE_ID'=>$this->input->post('ZONE_ID'),
 						'COLLINE_ID'=>$this->input->post('COLLINE_ID'),
 						'ADRESSE'=>$this->input->post('ADRESSE'),
-						'LOGO'=>$file_logo
+						'CATEGORIE_ID'=>$this->input->post('CATEGORIE_ID'),
+						'LOGO'=>$file_logo,
+						'FILE_RC'=>$file_rc,
+						'FILE_NIF'=>$file_nif
+
 					);
 
 					$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$id),$data_updaate);
@@ -496,11 +561,11 @@ class Proprietaire extends CI_Controller
 					{
 						$file4 = $photo_passport_old;
 					}elseif (!empty($_FILES['photo_passport']['name']) && empty($photo_passport_old)) {
-						$file4 = $this->upload_document_nomdocument($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name'],$this->input->post('NOM_PROPRIETAIRE'));
+						$file4 = $this->upload_document($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name'],$this->input->post('NOM_PROPRIETAIRE'));
 
 					}elseif(!empty($_FILES['photo_passport']['name']) && !empty($photo_passport_old)){
 
-						$file4 = $this->upload_document_nomdocument($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name'],$this->input->post('NOM_PROPRIETAIRE'));
+						$file4 = $this->upload_document($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name'],$this->input->post('NOM_PROPRIETAIRE'));
 
 					}
 
@@ -767,7 +832,8 @@ class Proprietaire extends CI_Controller
 
 
 	//Fonction pour recuperer les donnes d'un proprietaire
-	function get_detail($PROPRIETAIRE_ID){
+	function get_detail($PROPRIETAIRE_ID)
+	{
 
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
@@ -1074,7 +1140,7 @@ class Proprietaire extends CI_Controller
 		return $pathfile;
 	}
 
-		// Recuperation des cni ou passport
+	// Recuperation des cni ou passport
 	public function upload_cni($nom_file,$nom_champ,$nomdocument)
 	{
 		$rep_doc =FCPATH.'upload/proprietaire/piece_identite/';
@@ -1090,6 +1156,22 @@ class Proprietaire extends CI_Controller
 		unlink(base_url()."upload/proprietaire/piece_identite/".$code.$nomdocument.".".$file_extension);
 		move_uploaded_file($nom_file, $rep_doc.$code.$nomdocument.".".$file_extension);
 		$pathfile=$code.$nomdocument.".".$file_extension;
+		return $pathfile;
+	}
+		// Recuperation des fichiers(pdf)
+	public function upload_document($nom_file,$nom_champ)
+	{
+		$rep_doc =FCPATH.'upload/proprietaire/photopassport/';
+		$fichier=basename("piece".uniqid());
+		$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
+		$file_extension = strtolower($file_extension);
+		$valid_ext = array('pdf');
+		if(!is_dir($rep_doc)) //crée un dossier s'il n'existe pas déja   
+		{
+			mkdir($rep_doc,0777,TRUE);
+		}  
+		move_uploaded_file($nom_file, $rep_doc.$fichier.".".$file_extension);
+		$pathfile=$fichier.".".$file_extension;
 		return $pathfile;
 	}
 

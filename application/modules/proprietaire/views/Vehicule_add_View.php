@@ -42,7 +42,7 @@
         </div>
         <div class="col-md-2">
 
-         <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a>
+         <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire_vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a>
 
        </div>
      </div>
@@ -61,7 +61,7 @@
                 <?= $this->session->flashdata('message'); ?>
 
                 <!-- <div class="row"> -->
-                  <form id="add_form" enctype="multipart/form-data" method="post" action="<?=base_url('vehicule/Vehicule/save')?>">
+                  <form id="add_form" enctype="multipart/form-data" method="post" action="<?=base_url('proprietaire/Vehicule/save')?>">
 
                     <div class="row text-dark">
 
@@ -306,7 +306,7 @@
       {
         $.ajax(
         {
-          url:"<?=base_url('vehicule/Vehicule/get_modele/')?>"+$('#ID_MARQUE').val(),
+          url:"<?=base_url('proprietaire/Vehicule/get_modele/')?>"+$('#ID_MARQUE').val(),
           type: "GET",
           dataType:"JSON",
           success: function(data)
@@ -392,7 +392,7 @@
       // {
       //   $.ajax(
       //   {
-      //     // url:"<?=base_url('vehicule/Vehicule/check_existe/')?>"+VEHICULE_ID+'/'+CODE+'/'+PLAQUE,
+      //     // url:"<?=base_url('Proprietaire_vehicule/Vehicule/check_existe/')?>"+VEHICULE_ID+'/'+CODE+'/'+PLAQUE,
       //     // type: "GET",
       //     // dataType:"JSON",
 

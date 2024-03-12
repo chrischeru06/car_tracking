@@ -27,7 +27,14 @@
           <li class="breadcrumb-item active">Liste</li>
         </ol>
       </nav>
+      <div class="col-md-2">
+
+        <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+
+      </div>
+
     </div><!-- End Page Title -->
+
 
     <section class="section dashboard">
       <div class="row">
@@ -53,9 +60,13 @@
                           <th class="text-dark">MODELE</th>
                           <th class="text-dark">PLAQUE</th>
                           <th class="text-dark">COULEUR</th>
+                          <th class="text-dark">STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                           <!-- <th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
                           <th class="text-dark">DATE&nbsp;D'ENREGISTREMENT</th>
-                          <!-- <th class="text-dark">Action</th> -->
+
+
+
+                          <th class="text-dark">Action</th>
                         </tr>
                       </thead>
                       <tbody class="text-dark">
@@ -68,15 +79,62 @@
               </div>
             </div>
 
-
-
           </div>
         </div>
-
-
-
       </div>
     </section>
+    <!--******** Debut Modal pour attribue une voiture *********-->
+
+    <div class="modal fade" id="carteModal" tabindex="-1" >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class='modal-header' style='background:cadetblue;color:white;'>      
+            <h5 class="modal-title">Attribué la voiture au chauffeur :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
+              <div class="modal-body mb-1">
+                <div class="row">
+                  <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID">
+                  <!--  <input type="hidden" name="VEHICULE_ID" id="code_vehicule">  -->
+                  <div class="col-md-6">
+                    <label for="description" class="text-dark">Chauffeur</label>
+                    <select class="form-control" id="CHAUFFEUR_ID" name="CHAUFFEUR_ID">
+                    </select>
+                    <span id="errorCHAUFFEUR_ID" class="text-danger"></span>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="description" class="text-dark">Zone d'affectation</label>
+                    <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID" name="CHAUFF_ZONE_AFFECTATION_ID">
+                    </select>
+                    <span id="errorCHAUFF_ZONE_AFFECTATION_ID" class="text-danger"></span>
+                  </div>
+                  <div class="col-md-6">
+                    <label type="date" class="text-dark">Date début</label>
+                    <input type="date" name="DATE_DEBUT_AFFECTATION" autocomplete="off" id="DATE_DEBUT_AFFECTATION" value="<?= set_value('DATE_DEBUT_AFFECTATION') ?>" onchange="get_date_fin(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
+                    <span id="errorDATE_DEBUT_AFFECTATION" class="text-danger"></span>
+                  </div>
+                  <div class="col-md-6">
+                    <label type="date" class="text-dark">Date fin</label>
+                    <input type="date" name="DATE_FIN_AFFECTATION" autocomplete="off" id="DATE_FIN_AFFECTATION" value="<?= set_value('DATE_FIN_AFFECTATION') ?>"  onchange="get_dates_deb(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
+                    <span id="errorDATE_FIN_AFFECTATION" class="text-danger"></span>
+                  </div>
+                </div>
+              </div> 
+              <div class="modal-footer">
+                <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Attribuer" onclick="save_vehicule();" />
+                <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div><!-- End Modal-->
+
+    <!--******** Fin Modal pour attribue un voiture ***********-->
+
 
   </main><!-- End #main -->
 
@@ -119,8 +177,8 @@
 
       dom: 'Bfrtlip',
       buttons: [
-        'pdf', 'print'
-        ],
+      'pdf', 'print'
+      ],
       language: {
         "sProcessing":     "Traitement en cours...",
         "sSearch":         "Rechercher&nbsp;:",
@@ -151,6 +209,126 @@
  }
 
  
+</script>
+<script type="text/javascript">
+
+ function attribue_voiture(VEHICULE_ID='')
+ {
+    $('#VEHICULE_ID').val(VEHICULE_ID);
+    // $('#PLAQUE').html(PLAQUE);
+    // $('#PRENOM').html(PRENOM);
+
+    $('#CHAUFF_ZONE_AFFECTATION_ID').val(CHAUFF_ZONE_AFFECTATION_ID);
+    $('#errorCHAUFFEUR_ID').html('');
+    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
+    $('#errorDATE_DEBUT_AFFECTATION').html('');
+    $('#errorDATE_FIN_AFFECTATION').html('');
+    $.ajax(
+    {
+
+      url: "<?= base_url() ?>proprietaire/Proprietaire_vehicule/get_all_choffeur/",
+
+      type: "GET",
+      dataType: "JSON",
+      success: function(data)
+      {
+        $('#CHAUFFEUR_ID').html(data.html);
+        $('#CHAUFF_ZONE_AFFECTATION_ID').html(data.html1);
+        // $('#code_vehicule').val(CODE);
+        $('#carteModal').modal('show');
+      },
+      error: function (jqXHR, textStatus, errorThrown)
+      {
+        alert('Erreur');
+      }
+    });
+ }
+  function save_vehicule()
+  {
+    var statut=1;
+    $('#errorCHAUFFEUR_ID').html('');
+    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
+    $('#errorDATE_DEBUT_AFFECTATION').html('');
+    $('#errorDATE_FIN_AFFECTATION').html('');
+   
+
+    if($('#CHAUFFEUR_ID').val()=='')
+    {
+      $('#errorCHAUFFEUR_ID').html('Le champ est obligatoire');
+      statut=2;
+    }
+    if($('#CHAUFF_ZONE_AFFECTATION_ID').val()=='')
+    {
+      $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('Le champ est obligatoire');
+      statut=2;
+    } if($('#DATE_DEBUT_AFFECTATION').val()=='')
+    {
+      $('#errorDATE_DEBUT_AFFECTATION').html('Le champ est obligatoire');
+      statut=2;
+    } if($('#DATE_FIN_AFFECTATION').val()=='')
+    {
+      $('#errorDATE_FIN_AFFECTATION').html('Le champ est obligatoire');
+      statut=2;
+    }
+
+    if(statut<2)
+    {
+      var form_data = new FormData($("#attribution_form")[0]);
+      var url="<?= base_url('proprietaire/Proprietaire_vehicule/save_choffeur')?>";
+      $.ajax(
+      {
+        url: url,
+        type: 'POST',
+        dataType:'JSON',
+        data: form_data ,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function(data)
+        {
+          if(data==1)
+          {
+            Swal.fire(
+            {
+              icon: 'success',
+              title: 'Success',
+              text: 'Affectation faite avec succès',
+              timer: 1500,
+            }).then(() =>
+            {
+              window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
+            });
+          }
+          else if(data==2)
+          {
+            Swal.fire(
+            {
+              icon: 'success',
+              title: 'Success',
+              text: 'Le chauffeur possède déjà une voiture ',
+              timer: 1500,
+            }).then(() =>
+            {
+              window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
+            });
+          }
+          else
+          {
+            Swal.fire(
+            {
+              icon: 'success',
+              title: 'Success',
+              text: 'Affectation échouée',
+              timer: 1500,
+            }).then(() =>
+            {
+              window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
+            });
+          }
+        }
+      });
+    }
+  }
 </script>
 
 </html>

@@ -33,7 +33,8 @@ class Proprietaire_vehicule extends CI_Controller
 	}
 
 	//Fonction pour la liste
-	function listing(){
+	function listing()
+	{
 
 		$USER_ID=$this->session->userdata('USER_ID');
 
@@ -46,7 +47,7 @@ class Proprietaire_vehicule extends CI_Controller
 		}
 
 
-		$query_principal='SELECT VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,PHOTO,if(`TYPE_proprietaire_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprietaire,PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID LEFT JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE 1';
+		$query_principal='SELECT VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,PHOTO,if(`TYPE_proprietaire_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprietaire,PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,STATUT_VEH_AJOUT FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID LEFT JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE 1';
 
 
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -90,35 +91,18 @@ class Proprietaire_vehicule extends CI_Controller
 
 				$sub_array[]=$row->COULEUR;
 
+			} 
+			if($row->STATUT_VEH_AJOUT==2){
+				$sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
+				<span class="badge badge-pill badge-warning" ></span>';
+			}elseif ($row->STATUT_VEH_AJOUT==1) 
+			{
+				$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: orange;"></i><font style="font-size:13px;font-weight: bold;color: orange;">Véhicule en attente</font><span class="badge badge-pill badge-warning" ></span>';
+
+			}else
+			{
+				$sub_array[]='<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: red;">Véhicule refusé</font><span class="badge badge-pill badge-warning" ></span>';
 			}
-
-			// if(!empty($chauffeur)){
-
-			// 	// $sub_array[]=$chauffeur['NAME_CHAUFFEUR'];
-			// 	$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $chauffeur['CHAUFFEUR_ID']. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$chauffeur['PHOTO_PASSPORT'].'"></a></td><td> '.'     '.' ' . $chauffeur['NOM'] . ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
-			// 	<a  href="' . base_url("tracking/Dashboard/tracking_chauffeur/".md5($chauffeur['CODE'])) . '" ><font style="float: right;"><span class="bi bi-eye"></span></font></a>
-
-			// 	<div class="modal fade" id="mypicture' .$chauffeur['CHAUFFEUR_ID'].'">
-			// 	<div class="modal-dialog">
-			// 	<div class="modal-content">
-			// 	<div class="modal-body">
-			// 	<img src = "'.base_url('upload/chauffeur/'.$chauffeur['PHOTO_PASSPORT']).'" height="100%"  width="100%" >
-			// 	</div>
-			// 	<div class="modal-footer">
-			// 	<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-			// 	</div>
-			// 	</div>
-			// 	</div>
-			// 	</div>';
-
-
-			// }else{
-
-			// 	$sub_array[]='N/A';
-
-
-
-			// }
 
 			if(!empty($chauffeur)){
 
@@ -236,16 +220,35 @@ class Proprietaire_vehicule extends CI_Controller
 				</div>
 				</div>
 				</div>";
-
-
 			}
+			$option = '<div class="dropdown ">
+			<a class=" text-black btn-sm" data-toggle="dropdown">
+			<i class="bi bi-three-dots h5" style="color:blue;"></i>
+			<span class="caret"></span></a>
+			<ul class="dropdown-menu dropdown-menu-left">
+			';
 
-			
+			// if ($row->STATUT_VEH_AJOUT==1) 
+			// {
+			// 	$option .= "";
+			// }
 
-			
+			$option .= "<li><a class='btn-md' href='" . base_url('proprietaire/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</a></li>";
+			// if($row->STATUT_VEH_AJOUT==2)
+			// {
 
 
-			$data[]=$sub_array;
+			//  // $option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->VEHICULE_ID.')"><i class="bi bi-plus h5" ></i>&nbsp;Affecter la voiture</a></li>';
+
+			// }
+			// if ($row->STATUT_VEH_AJOUT==3) 
+			// {
+			// 	$option .= "";
+			// }
+
+			$sub_array[]=$option;
+			$data[] = $sub_array;
+
 		}
 		$output = array(
 			"draw" => intval($_POST['draw']),
@@ -254,6 +257,68 @@ class Proprietaire_vehicule extends CI_Controller
 			"data" => $data
 		);
 		echo json_encode($output);
+	}
+
+	function get_all_choffeur()
+	{
+		// $all_cof= $this->Model->getRequete("SELECT `CHAUFFEUR_ID`,CONCAT(`NOM`,'  ',`PRENOM`) as chof FROM `chauffeur` WHERE 1 AND vehicule.STATUT=1");
+
+		$all_cof= $this->Model->getRequete("SELECT `CHAUFFEUR_ID`,CONCAT(`NOM`,'  ',`PRENOM`) as chof FROM `chauffeur` WHERE 1 ");
+		$html='<option value="">--- Sélectionner ----</option>';
+		if(!empty($all_cof))
+		{
+			foreach($all_cof as $key)
+			{
+				$html.='<option value="'.$key['CHAUFFEUR_ID'].'">'.$key['chof'].' </option>';
+			}
+		}
+
+		$all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
+
+		$html1='<option value="">--- Sélectionner ----</option>';
+		if(!empty($all_zone_affectation))
+		{
+			foreach($all_zone_affectation as $key1)
+			{
+				$html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+			}
+		}
+		$ouput= array(
+			'html'=>$html,
+			'html1'=>$html1,
+		);
+		echo json_encode($ouput);
+	}
+		function save_choffeur()
+	{
+		// $statut=1 attribution avec succes;
+		// $statut=2:possedent une autre voiture qu'on l'a deja attribuée;
+		// $statut=3: attribution echoue
+		$statut=3;
+		
+		$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+		$code_veh = $this->Model->getOne('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID));
+
+		$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID');
+		$CHAUFF_ZONE_AFFECTATION_ID = $this->input->post('CHAUFF_ZONE_AFFECTATION_ID');
+		$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION');
+		$DATE_FIN_AFFECTATION = $this->input->post('DATE_FIN_AFFECTATION');
+
+		$data = array('CODE'=>$code_veh['CODE'],'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'CHAUFF_ZONE_AFFECTATION_ID'=>$CHAUFF_ZONE_AFFECTATION_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'STATUT_AFFECT'=>1);
+
+		$CHAUFFEUR_VEH = $this->Model->create('chauffeur_vehicule',$data);
+
+		$result = $this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('STATUT_VEHICULE'=>2));
+		$result = $this->Model->update('vehicule',array('CODE'=>$code_veh['CODE']),array('STATUT'=>2));
+		
+		if($result==true )
+		{
+		 $statut=1;
+		}else
+		{
+		  $statut=2;
+	   }
+		echo json_encode($statut);
 	}
 
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
