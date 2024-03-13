@@ -1,11 +1,10 @@
 <?php 
-
 /**
  * Fait par Nzosaba Santa Milka
  * 68071895
  * santa.milka@mediabox.bi
  * Le 11/2/2024
- * Dashboards
+ * Dashboard de tracking des chauffeurs
  */
 class Dashboard extends CI_Controller
 {
@@ -184,8 +183,6 @@ class Dashboard extends CI_Controller
 
 		
 		//requete pour recuperer les arrets
-		
-
 		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
 		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
@@ -380,7 +377,6 @@ class Dashboard extends CI_Controller
 
 			}
 
-// print_r($tabl);die();
 			$v=1;
 			if (!empty($tabl)) {
 				foreach ($tabl as $keytabl) {
@@ -576,16 +572,9 @@ class Dashboard extends CI_Controller
 					"ligne_arret"=>$ligne_arret
 
 
-
-
-
 				);
 
-
-
 				echo json_encode($output);
-
-
 
 			}
 
@@ -627,7 +616,6 @@ class Dashboard extends CI_Controller
 
 				$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
 
-				// print_r($get_data);die();
 
 				if ($get_data['ignition']==0) 
 				{
@@ -645,7 +633,6 @@ class Dashboard extends CI_Controller
 
 				$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"vitesse":'.$get_data['vitesse'].',"ignition":"'.$color.'","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
 
-				// print_r($data);die();
 
 				echo $data;
 			}
@@ -689,7 +676,6 @@ class Dashboard extends CI_Controller
 					$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
 					$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
-					// print_r($get_data);die();
 					if($get_data['vitesse']>50){
 
 

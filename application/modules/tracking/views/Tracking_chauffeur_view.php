@@ -110,7 +110,7 @@
    font-weight: 900;
    font-size:.6rem;
    margin: 0 0 .1rem 0;
-   margin-left: .2rem;
+   margin-left: .4rem;
 
 
  }
@@ -134,6 +134,21 @@
   Helvetica,
   sans-serif;
 }
+
+#mena {
+  position: absolute;
+  padding: 0px;
+  font-family: 'Open Sans', sans-serif;
+}
+#meno {
+  position: absolute;
+/*  background: #efefef;*/
+/*-webkit-backdrop-filter:blur(15px);
+backdrop-filter:blur(60px); */ 
+
+padding: 10px;
+font-family: 'Open Sans', sans-serif;
+}
 </style>
 
 
@@ -152,6 +167,7 @@
 </head>
 
 <body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <!-- ======= Header ======= -->
   <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
@@ -252,7 +268,7 @@
                       if(!empty($get_chauffeur['PHOTO_PASSPORT']))
                       {
                         ?>
-                        <img style="border-radius: 10%;background-color: white;" class="img-fluid" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
+                        <img class="img" style="border-radius: 10%;background-color: white;" class="img-fluid" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
 
 
                         <?php
@@ -260,7 +276,7 @@
                       else if(empty($get_chauffeur['PHOTO_PASSPORT']))
                       {
                         ?>
-                        <img  style="background-color: #829b35;border-radius: 10%" class="img-fluid" src="<?=base_url('upload/phavatar.png')?>">
+                        <img class="img" style="background-color: #829b35;border-radius: 10%" class="img-fluid" src="<?=base_url('upload/phavatar.png')?>">
                         <?php
                       }?>
                     </div>
@@ -300,13 +316,13 @@
                     if(!empty($get_vehicule['PHOTO']))
                     {
                       ?>
-                      <img  style="background-color: white;border-radius: 10%;" class="img-fluid" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">
+                      <img class="img"  style="background-color: white;border-radius: 10%;" class="img-fluid" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">
                       <?php
                     }
                     else if(empty($get_vehicule['PHOTO']))
                     {
                       ?>
-                      <img  style="border-radius: 10%;" class="img-fluid"  src="<?=base_url('upload/car.png')?>">
+                      <img class="img" style="border-radius: 10%;" class="img-fluid"  src="<?=base_url('upload/car.png')?>">
 
                       <?php
                     }?>
@@ -328,14 +344,14 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <div class="card" style="border-radius: 10%">
               <div class="card-body">
                 <h5 class="card-title" style="font-size:.8rem;">Distance parcourue <span style="font-size:.6rem;">| Km</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle" >
-                    <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="40px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                    <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
                   </div>
                   <div class="ps-3">
                     <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
@@ -345,7 +361,7 @@
             </div>
           </div>
 
-          <div class="col-lg-6">
+          <div class="col-md-6">
 
 
             <div class="card" style="border-radius: 10%">
@@ -354,7 +370,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle">
-                    <img style="background-color: #829b35;" class="img-fluid" width="40px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
+                    <img style="background-color: #829b35;" class="img-fluid" width="60px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
                   </div>
                   <div class="ps-3">
                     <h6><span class="text-success small pt-1 fw-bold"> <a id="carburant"></a> litres</span></h6>
@@ -369,7 +385,7 @@
         <div class="row">
           <!-- <div class="col-lg-12"> -->
 
-            <div class="col-lg-6">
+            <div class="col-md-6">
 
 
               <div class="card" style="border-radius: 10%">
@@ -378,7 +394,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle">
-                      <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="40px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
+                      <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
                     </div>
                     <div class="ps-3">
                       <h6><span class="text-success small pt-1 fw-bold"> <a id="vitesse_max"></a> Km/h</span></h6>
@@ -390,7 +406,7 @@
               </div>
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-md-6">
 
 
               <div class="card" style="border-radius: 10%">
@@ -399,43 +415,54 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle">
-                      <img style="background-color: #829b35;" class="img-fluid" width="40px" height="auto" src="<?=base_url('/upload/score.png')?>">
+                      <img style="background-color: #829b35;" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/score.png')?>">
                     </div>
                     <div class="ps-3">
                       <h6><span class="text-success small pt-1 fw-bold"> <a id="score"></a> Points</span></h6>
-
-
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
             <!-- </div> -->
           </div>
-
-
         </div>
       </div>
-
-
-
     </div>
 
-    <div class="col-lg-6">
-
+    <div class="col-md-6">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Adresse du véhicule</h5>
-          <br>
-          
-          
+          <br>     
           <div id="map" style="height: 245px;"></div>
+          <div id="mena">
+
+            <input id="streets-v12" type="radio" name="rtoggle" value="streets" checked="checked">
+            <label for="streets-v12">streets</label>
+            <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite">
+            <!-- See a list of Mapbox-hosted public styles at -->
+            <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+            <label for="satellite-streets-v12">satellite streets</label>
+            <input id="light-v11" type="radio" name="rtoggle" value="light">
+            <label for="light-v11">light</label>
+            <input id="dark-v11" type="radio" name="rtoggle" value="dark">
+            <label for="dark-v11">dark</label>
+
+            <input id="outdoors-v12" type="radio" name="rtoggle" value="outdoors">
+            <label for="outdoors-v12">outdoors</label>
+          </div>
+          <br>
+          <br>
+
+
           <!-- <section class="section dashboard" > -->
             <div class="table-responsive">     
               <table class="table-borderless">
                 <thead>
-                  <th><h5 style="font-size: 18px;font-weight: 500;color: #012970;font-family: 'Poppins', sans-serif;">Légende </h5></th>
+
+
+                  <th><h5 style="padding: 0px 0 0px 0; font-size: 18px;font-weight: 500;color: #012970;font-family: 'Poppins', sans-serif;">Légende </h5></th>
                 </thead>
                 <tbody>
 
@@ -451,25 +478,13 @@
             </div>
             <!-- </section> -->
 
-            <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE_VEH.'') ?>"  >
 
-              <div id="menu" style="float:right;"> 
-
-                <?php $carte; ?>
-
-
-                <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte = 'satellite-v9'; ?>>
-
-                <label for="satellite-streets-v12">satellite</label>
-
-                <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte = 'streets-v12'; ?> >
-                <label for="streets-v12">streets</label>
-              </div>
-            </form>
           </div>
         </div>
 
       </div>
+
+
     </div>
 
     <div class="row align-items-top">
@@ -481,36 +496,12 @@
 
           </div>
         </div>
-
-
-
       </div>
 
-       <!--  <div class="col-lg-3">
-          <section class="section dashboard">
-
-            <div class="card">
-
-             <div class="card-body">
-              <h5 class="card-title">Points d'arrêt <span>| Today</span></h5>
-              <div class="scroller">
-
-                <div class="activity">
-
-                  <div id="ligne_arret"></div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div> -->
 
 
       <input type="hidden" id="ignition">
-      <input type="hidden" id="latitude">
-      <input type="hidden" id="longitude">
-      <input type="hidden" id="vitesse">
+      
 
 
 
@@ -531,16 +522,19 @@
 
   });
 
-  
-
   mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc0dnBzNzA3c3gzZmx2bnpqb2NwNXgifQ.D6Fm6UO9bWViernvxZFW_A';
   const map = new mapboxgl.Map({
     container: 'map',
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: 'mapbox://styles/mapbox/<?=$carte?>',
+    style: 'mapbox://styles/mapbox/streets-v12',
     bounds: [29.383188,-3.384438, 29.377566,-3.369615],
     projection: "globe" // display the map as a 3D globe
   });
+
+
+  
+
+  //Points sur la carte d'adresse du vehicule
   const size = 120;
 
   const pulsingDot = {
@@ -618,6 +612,7 @@
   map.addControl(new mapboxgl.NavigationControl());
   map.addControl(new mapboxgl.FullscreenControl());
 
+  function addAdditionalSourceAndLayer() {
   map.on('load', async () => {
         // Get the initial location of the International Space Station (ISS).
     const geojson = await getLocation();
@@ -627,9 +622,9 @@
       type: 'geojson',
       data: geojson
     });
-    var latitude = $('#latitude').val(); 
-    var longitude = $('#longitude').val(); 
-    var vitesse = $('#vitesse').val(); 
+    // var latitude = $('#latitude').val(); 
+    // var longitude = $('#longitude').val(); 
+    // var vitesse = $('#vitesse').val(); 
 
         // Add the rocket symbol layer to the map.   
     map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
@@ -659,7 +654,7 @@
 
 
       },
-      
+
     });
 
       // Create a popup, but don't add it to the map yet.
@@ -682,7 +677,6 @@
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
-// alert(description)
             // Populate the popup and set its coordinates
             // based on the feature found.
       popup.setLngLat(coordinates).setHTML(description).addTo(map);
@@ -692,7 +686,7 @@
       map.getCanvas().style.cursor = '';
       popup.remove();
     });
-    
+
     // Update the source from the API every 2 seconds.
     const updateSource = setInterval(async () => {
       const geojson = await getLocation(updateSource);
@@ -710,12 +704,12 @@
           { method: 'GET' }
           );
         const { latitude, longitude, vitesse, ignition } = await response.json();
-        
+
         // get color
         $('#ignition').val(ignition);
-        $('#latitude').val(latitude);
-        $('#longitude').val(longitude);
-        $('#vitesse').val(vitesse);
+        // $('#latitude').val(latitude);
+        // $('#longitude').val(longitude);
+        // $('#vitesse').val(vitesse);
 
 
         // Fly the map to the location.
@@ -723,7 +717,7 @@
           center: [longitude, latitude],
           speed: 0.5
         });
-        
+
         // Return the location of the ISS as GeoJSON.
         return {
           'type': 'FeatureCollection',
@@ -743,19 +737,32 @@
         };
 
       } catch (err) {
-                // If the updateSource interval is defined, clear the interval to stop updating the source.
+       // If the updateSource interval is defined, clear the interval to stop updating the source.
         if (updateSource) clearInterval(updateSource);
         throw new Error(err);
       }
-
-
     }
+
   });
 
-  
+  }
 
+    // Add source and layer whenever base style is loaded
+  map.on('style.load', () => {
+    addAdditionalSourceAndLayer();
 
-  map.setStyle('mapbox://styles/mapbox/<?= $carte; ?>');
+  });
+
+  const layerList = document.getElementById('mena');
+  const inputs = layerList.getElementsByTagName('input');
+
+  for (const input of inputs) {
+    input.onclick = (layer) => {
+      const layerId = layer.target.id;
+      map.setStyle('mapbox://styles/mapbox/' + layerId);
+    };
+  }
+
 
 
 </script>
@@ -805,33 +812,20 @@
       HEURE2:HEURE2,
       DATE_DAT_FIN:DATE_DAT_FIN,
       CODE_COURSE:CODE_COURSE,
-
-
-
-
     },
     beforeSend:function () { 
 
     },
     success:function(data) {
 
-        // alert(data.vitesse_max)
-
-
       $('#distance_finale').html(data.distance_finale);
       $('#carburant').html(data.carburant);
       $('#DATE_DAT').html(data.DATE);
       $('#CODE').html(data.CODE);
-        // alert(data.distance_finale)
       $('#map_filtre').html(data.map_filtre);
       $('#ligne_arret').html(data.ligne_arret);
       $('#score').html(data.score_finale);
       $('#vitesse_max').html(data.vitesse_max);
-
-
-
-
-
 
     },
     error:function() {
@@ -846,9 +840,6 @@ function change_trajet(CODE_COURSE){
 
   var CODE_COURSE = CODE_COURSE; 
 
-  // alert(CODE_COURSE);
-  
-
   $.ajax({
     url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
     type : "POST",
@@ -856,9 +847,6 @@ function change_trajet(CODE_COURSE){
     cache:false,
     data: {
       CODE_COURSE:CODE_COURSE,
-      
-
-
 
     },
     beforeSend:function () { 

@@ -23,7 +23,6 @@
 
           <div id="menu"> 
 
-            <?php $carte2; ?>
             <br>
             <section class="section dashboard" id="liste">
               <h5 class="card-title">Trajets </h5>
@@ -44,30 +43,32 @@
             </div>
         </div>
 
-        <div id="map_maps" style="width: 100%;height: 720px;"> 
+        <div id="map_maps" style="width: 100%;height: 720px;"></div>
 
-        </div>
-        <br>
+       <!--  <div id="meno">
 
-
-
-
-        <form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
-
-         <div id="menu">
-
-
-          <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
-
-          <label for="satellite-streets-v12">satellite</label>
-
-          <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
+          <input id="streets-v12" type="radio" name="rtoggle" value="streets" checked="checked">
           <label for="streets-v12">streets</label>
-        </div>
+          <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite">
+         
+          <label for="satellite-streets-v12">satellite streets</label>
+          <input id="light-v11" type="radio" name="rtoggle" value="light">
+          <label for="light-v11">light</label>
+          <input id="dark-v11" type="radio" name="rtoggle" value="dark">
+          <label for="dark-v11">dark</label>
 
-      </form>
+          <input id="outdoors-v12" type="radio" name="rtoggle" value="outdoors">
+          <label for="outdoors-v12">outdoors</label>
+        </div> -->
+
     </div>
+
+
+
+
+         
   </div>
+
 </div>
 
 <script type="text/javascript">
@@ -76,7 +77,7 @@
   "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
   var map_map = new mapboxgl.Map({
   container: "map_maps", // container ID
-  style: "mapbox://styles/mapbox/<?= $carte2; ?>", // style URL
+  style: "mapbox://styles/mapbox/streets-v12", // style URL
   bounds: [29.383188,-3.384438, 29.377566,-3.369615],
   projection: "globe" // display the map as a 3D globe
 });
@@ -163,16 +164,16 @@
 
 
 
-  var layerList = document.getElementById('menu');
+  // var layerListe = document.getElementById('meno');
 
-  var inputs = layerList.getElementsByTagName('input');
+  // var inputss = layerListe.getElementsByTagName('input');
 
-  for (const input of inputs) {
-    input.onclick = (layer) => {
-      const layerId = layer.target.id;
-      map_map.setStyle('mapbox://styles/mapbox/' + layerId);
-    };
-  }
+  // for (const input of inputss) {
+  //   input.onclick = (layer) => {
+  //     const layerId = layer.target.id;
+  //     map_map.setStyle('mapbox://styles/mapbox/' + layerId);
+  //   };
+  // }
 
 
 
