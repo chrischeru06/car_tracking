@@ -41,6 +41,40 @@
 
     <section class="section dashboard">
 
+      <div class="row align-items-top">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <div class='row'>
+
+               <div  class="col-md-12 col-sm-12 col-xs-12" id="container" ></div>
+
+             </div>  
+           </div>  
+         </div>  
+       </div>
+
+       <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class='row'>
+             <div  class="col-md-12 col-sm-12 col-xs-12" id="container2"  ></div>
+           </div>  
+         </div>  
+       </div>  
+     </div>
+
+ <div class="row">
+  <div id="nouveau2"></div>
+  <div id="nouveau"></div>
+ 
+</div>
+
+</div>
+     
+
+    </section>
+    
   <div class="modal fade" id="myModal" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
@@ -68,32 +102,6 @@
     </div>
   </div>
 </div>
-      <div class="row">
-        <!-- Left side columns -->
-        <div class="col-lg-12">
-          <div class="row">
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-                <div class="card-body">
-                <div class='row'>
-                     <div  class="col-md-6 col-sm-12 col-xs-12" id="container" style="border: 1px solid #000"></div>
-                     <div  class="col-md-6 col-sm-12 col-xs-12" id="container2"  style="border: 1px solid #000"></div>
-                                      </div> 
-                        <div class="row">
-                          <div id="nouveau"></div>
-                          <div id="nouveau2"></div>
-
-                        </div>
-
-                </div>
-
-              </div>
-            </div><!-- End Reports -->
-          </div>
-        </div><!-- End Left side columns -->
-      </div>
-    </section>
 
 
   </main><!-- End #main -->
