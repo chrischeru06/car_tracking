@@ -18,6 +18,11 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
+      <span style="margin-right: 15px">
+    <div class="col-sm-3" style="float:right;">
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire_chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+    </div>
+  </span>
     <div class="pagetitle">
       <h1>Chauffeurs</h1>
       <nav>
