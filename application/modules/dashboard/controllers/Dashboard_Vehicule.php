@@ -139,7 +139,7 @@ class Dashboard_Vehicule extends CI_Controller
     $break=explode(".",$KEY3);
     $ID=$KEY3;
     $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-    // $query_principal='SELECT VEHICULE_ID,vehicule.CODE,tracking_data.device_uid,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur,tracking_data.mouvement FROM vehicule left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID left join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1';
+   
      $query_principal= 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1';
 
 
@@ -646,7 +646,7 @@ class Dashboard_Vehicule extends CI_Controller
                           </script>";
 
     //rapport4:vehicule en allumé vs etteintes
-   $vehicule_allume_eteinte=$this->Model->getRequete("SELECT ing as ID ,if(ing=1,'Véhicule allumé','Véhicule ettient') as statut,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.ignition as ing FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by  ing,if(ing=1,'Véhicule allumé','Véhicule ettient')");
+   $vehicule_allume_eteinte=$this->Model->getRequete("SELECT ing as ID ,if(ing=1,'Véhicule allumé','Véhicule éteint') as statut,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.ignition as ing FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by  ing,if(ing=1,'Véhicule allumé','Véhicule ettient')");
 
     // SELECT ing as ID ,if(ing=1,'allu','et') as NAME,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.ignition as ing FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by ing,NAME
 
@@ -671,7 +671,7 @@ class Dashboard_Vehicule extends CI_Controller
       },
      title:
      {
-      text: 'Véhicule allumé Vs etteint'
+      text: 'Véhicule allumé Vs éteint'
      },
      subtitle:
      {
@@ -713,7 +713,7 @@ class Dashboard_Vehicule extends CI_Controller
            {
              click: function()
              {
-            
+             
                $(\"#titre\").html(\"LISTE DES AGENTS \");
                $(\"#myModal\").modal('show');
                var row_count ='1000000';
