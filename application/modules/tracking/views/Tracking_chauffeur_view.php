@@ -167,7 +167,7 @@ font-family: 'Open Sans', sans-serif;
 </head>
 
 <body>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <!-- ======= Header ======= -->
   <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
@@ -612,21 +612,17 @@ font-family: 'Open Sans', sans-serif;
   map.addControl(new mapboxgl.NavigationControl());
   map.addControl(new mapboxgl.FullscreenControl());
 
-  function addAdditionalSourceAndLayer() {
+  // function addAdditionalSourceAndLayer() {
   map.on('load', async () => {
         // Get the initial location of the International Space Station (ISS).
     const geojson = await getLocation();
-    // const geojson2 = await getLocation2();
         // Add the ISS location as a source.
     map.addSource('iss', {
       type: 'geojson',
       data: geojson
     });
-    // var latitude = $('#latitude').val(); 
-    // var longitude = $('#longitude').val(); 
-    // var vitesse = $('#vitesse').val(); 
-
-        // Add the rocket symbol layer to the map.   
+    
+    // Add the rocket symbol layer to the map.   
     map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
 
     map.addSource('places', {
@@ -707,17 +703,12 @@ font-family: 'Open Sans', sans-serif;
 
         // get color
         $('#ignition').val(ignition);
-        // $('#latitude').val(latitude);
-        // $('#longitude').val(longitude);
-        // $('#vitesse').val(vitesse);
-
-
+        
         // Fly the map to the location.
         map.flyTo({
           center: [longitude, latitude],
           speed: 0.5
         });
-
         // Return the location of the ISS as GeoJSON.
         return {
           'type': 'FeatureCollection',
@@ -745,26 +736,32 @@ font-family: 'Open Sans', sans-serif;
 
   });
 
-  }
+  // }
 
     // Add source and layer whenever base style is loaded
-  map.on('style.load', () => {
-    addAdditionalSourceAndLayer();
+  // map.on('style.load', () => {
+  //   addAdditionalSourceAndLayer();
 
-  });
+  // });
+  function changeMapStyleToSatellite() {
+    const layerList = document.getElementById('mena');
+    const inputs = layerList.getElementsByTagName('input');
 
-  const layerList = document.getElementById('mena');
-  const inputs = layerList.getElementsByTagName('input');
-
-  for (const input of inputs) {
-    input.onclick = (layer) => {
-      const layerId = layer.target.id;
-      map.setStyle('mapbox://styles/mapbox/' + layerId);
-    };
+    for (const input of inputs) {
+      input.onclick = (layer) => {
+        const layerId = layer.target.id;
+        map.setStyle('mapbox://styles/mapbox/' + layerId);
+      };
+    }
   }
+  changeMapStyleToSatellite();
 
 
 
+ // const url='https://nominatim.openstreetmap.org/reverse?lat='+latitude+'&lon='+longitude+'&accept-language=fr';
+ //        const responsetwo = await fetch(url);
+ //        const { json } = await responsetwo.json();
+        // const res= setReverseGeocodingResult(json);
 </script>
 
 
