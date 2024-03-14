@@ -97,7 +97,7 @@
 			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 
 			$coordinates = '-3.3944616,29.3726466';
-			$zoom = 9;
+			$zoom = 8;
 
 			$critere_proprietaire = '';
 			$critere_vehicule = '';
@@ -317,6 +317,10 @@
 					}
 				}
 			}
+
+			$data_marker = '{"name":"iss","id":25544,"latitude":-3.3861416,"longitude":29.3619433,"altitude":422.14118359729,"velocity":27564.765811989,"visibility":"daylight","footprint":4518.3408389917,"timestamp":1710315700,"daynum":2460382.8206019,"solar_lat":-2.6891941350284,"solar_lon":66.928429639143,"units":"kilometers"}';
+
+			//echo $data_marker;
 			
 			$data['proprio'] = $proprio;
 			$data['donnees_vehicule'] = $donnees_vehicule;
@@ -333,11 +337,28 @@
 			$data['vehiculeSansAccident'] = $nbrVehiculeSansAccident;
 			$data['coordinates'] = $coordinates;
 			$data['zoom'] = $zoom;
+			$data['data_marker'] = $data_marker;
 
-			$map = $this->load->view('Getcarte_Tracking_View2',$data,TRUE);
+			// $data['data_marker'] = $data_marker;
 
-			$output = array('carte_view'=>$map,'proprio'=>$proprio,'donnees_vehicule'=>$donnees_vehicule,'nbrVehicule'=>$nbrVehicule,'nbrProprietaire'=>$nbrProprietaire,'nbrChauffeur'=>$nbrChauffeur,'vehiculeActif'=>$nbrVehiculeActif,'vehiculeInactif'=>$nbrVehiculeInactif,'vehiculeAllume'=>$nbrVehiculeAllume,'vehiculeEteint'=>$nbrVehiculeEteint,'vehiculeStationnement'=>$nbrVehiculeStationnement,'vehiculeMouvement'=>$nbrVehiculeMouvement,'vehiculeAvecAccident'=>$nbrVehiculeAvecAccident,'vehiculeSansAccident'=>$nbrVehiculeSansAccident,'coordinates'=>$coordinates,'zoom'=>$zoom);
+			 $map = $this->load->view('Getcarte_Tracking_View2',$data,TRUE);
+
+			$output = array('carte_view'=>$map,'proprio'=>$proprio,'donnees_vehicule'=>$donnees_vehicule,'nbrVehicule'=>$nbrVehicule,'nbrProprietaire'=>$nbrProprietaire,'nbrChauffeur'=>$nbrChauffeur,'vehiculeActif'=>$nbrVehiculeActif,'vehiculeInactif'=>$nbrVehiculeInactif,'vehiculeAllume'=>$nbrVehiculeAllume,'vehiculeEteint'=>$nbrVehiculeEteint,'vehiculeStationnement'=>$nbrVehiculeStationnement,'vehiculeMouvement'=>$nbrVehiculeMouvement,'vehiculeAvecAccident'=>$nbrVehiculeAvecAccident,'vehiculeSansAccident'=>$nbrVehiculeSansAccident,'coordinates'=>$coordinates,'zoom'=>$zoom,'data_marker'=>$data_marker);
 			echo json_encode($output);
+
+		}
+
+		function getmapSymbol()
+		{
+			// for ($i=0; $i < 6; $i++)
+			// { 
+				$data = '{"name":"iss","id":25544,"latitude":-3.43143,"longitude":29.9079,"altitude":422.14118359729,"velocity":27564.765811989,"visibility":"daylight","footprint":4518.3408389917,"timestamp":1710315700,"daynum":2460382.8206019,"solar_lat":-2.6891941350284,"solar_lon":66.928429639143,"units":"kilometers"}';
+			// }
+
+			// print_r($data);die();
+			
+
+			echo $data;
 		}
 
 
