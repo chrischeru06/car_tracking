@@ -350,14 +350,7 @@
 
 		function getmapSymbol()
 		{
-			// for ($i=0; $i < 6; $i++)
-			// { 
-				$data = '{"name":"iss","id":25544,"latitude":-3.43143,"longitude":29.9079,"altitude":422.14118359729,"velocity":27564.765811989,"visibility":"daylight","footprint":4518.3408389917,"timestamp":1710315700,"daynum":2460382.8206019,"solar_lat":-2.6891941350284,"solar_lon":66.928429639143,"units":"kilometers"}';
-			// }
-
-			// print_r($data);die();
-			
-
+			$data = '{{"name":"iss","id":25544,"latitude":-3.43143,"longitude":29.9079,"altitude":422.14118359729,"velocity":27564.765811989,"visibility":"daylight","footprint":4518.3408389917,"timestamp":1710315700,"daynum":2460382.8206019,"solar_lat":-2.6891941350284,"solar_lon":66.928429639143,"units":"kilometers"}}';
 			echo $data;
 		}
 

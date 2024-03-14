@@ -46,6 +46,8 @@
 			color: cadetblue;
 			background-color: rgba(95, 158, 160,0.3);
 		}
+
+		
 	</style>
 </head>
 
@@ -380,7 +382,7 @@
 								<div class="row">
 
 									<div class="col-md-12">
-										<div id="mapview">
+										<div id="mapView">
 										</div>
 									</div>
 
@@ -613,7 +615,7 @@
 
           			success:function(data) {
 
-          				$('#mapview').html(data.carte_view);
+          				$('#mapView').html(data.carte_view);
           				$('#nbr_vehicule').html(data.nbrVehicule);
           				$('#nbr_proprietaire').html(data.nbrProprietaire);
           				$('#nbrChauffeur').html(data.nbrChauffeur);
@@ -632,11 +634,11 @@
 
           </script>
 
-       <script>
+       <!-- <script>
           	const timer = setInterval(async () => {
           		getmap(1);
           	}, 10000);
-          </script>
+          </script> -->
 
           <script>
           	function get_vehicule()
