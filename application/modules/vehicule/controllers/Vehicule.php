@@ -41,7 +41,7 @@
 				$critaire.= ' AND users.USER_ID = '.$USER_ID;
 			}
 
-			$query_principal='SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -75,7 +75,7 @@
 				$sub_array[]=$row->DESC_MODELE;
 				$sub_array[]=$row->PLAQUE;
 				$sub_array[]=$row->COULEUR;
-				$sub_array[]=$row->KILOMETRAGE;
+				$sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' litres / KM' : 'N/A');
 
 				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
 
@@ -125,12 +125,13 @@
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu dropdown-menu-right">
 				';
+				if ($row->STATUT_VEH_AJOUT==1)
+				{
+				 $option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><label class='text-dark'><i class='bi bi-pencil'></i>&nbsp;&nbsp;Modifier</label></a></li>";
 
-				$option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><label class='text-dark'><i class='bi bi-pencil'></i>&nbsp;&nbsp;Modifier</label></a></li>";
-				// $option .= "<li><a class='btn-md' href='" . base_url('tracking/Dashboard/tracking_chauffeur/'.$row->CODE) . "'><label class='text-dark'><i class='bi bi-car'></i>&nbsp;&nbsp;Suivi</label></a></li>";
-
-
-
+                  $option.='<li><a class="btn-md" onclick="traiter_demande('.$row->VEHICULE_ID.','.$row->STATUT_VEH_AJOUT.')"><i class="bi bi-plus h5" ></i>&nbsp;Traiter&nbsp;la demande</a></li>';
+                   }
+                   
 				$option .="
 				</div>
 				<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."' style='border-radius:100px;'>
@@ -282,6 +283,57 @@
 			);
 			echo json_encode($output);
 		}
+		
+    function get_all_statut()
+	{
+		$all_statut = $this->Model->getRequete("SELECT `TRAITEMENT_DEMANDE_ID`,`DESC_TRATDEMANDE` FROM `traitement_demande` WHERE 1");
+		$html='<option value="">--- Sélectionner ----</option>';
+		if(!empty($all_statut))
+		{
+			foreach($all_statut as $key)
+			{
+				$html.='<option value="'.$key['TRAITEMENT_DEMANDE_ID'].'">'.$key['DESC_TRATDEMANDE'].' </option>';
+			}
+		}
+
+	  
+		  // // $ouput= array(
+         // //        'html'=>$html,
+         // //        'html1'=>$html1,
+		 // );
+		echo json_encode($html);
+	}
+
+	function save_stat_vehicul()
+	{
+		// $statut=1 traitement avec succes;
+		// $statut=2:possedent une autre chauffeur;
+		// $statut=3: traitement echoue
+		$statut=3;
+		// $CODE= $this->input->post('code_vehicule');
+
+		$STATUT_VEH_AJOUT = $this->input->post('STATUT_VEH_AJOUT');
+
+		$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+		$TRAITEMENT_DEMANDE_ID = $this->input->post('TRAITEMENT_DEMANDE_ID');
+		$COMMENTAIRE = $this->input->post('COMMENTAIRE');
+
+		if ($STATUT_VEH_AJOUT==1) 
+		{
+		   $vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>2));
+		}else
+		{ 
+		  $vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>3)); 
+		}
+		if($vehcul==true )
+		{
+		 $statut=1;
+		}else
+		{
+		  $statut=2;
+	   }
+		echo json_encode($statut);
+	}
 
 		//Fonction pour activer/desactiver un vehicule
 		function active_desactive($status,$VEHICULE_ID){
@@ -309,16 +361,17 @@
 			$data['btn'] = "Enregistrer";
 			$data['title']="Enregistrement du véhicule";
 
-			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL);
-
+			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL);
+			
 			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
 			$marque = $this->getBindParms('ID_MARQUE,DESC_MARQUE','vehicule_marque',' 1 ','DESC_MARQUE ASC');
 			$marque = $this->ModelPs->getRequete($psgetrequete, $marque);
+			$usage = $this->getBindParms('USAGE_ID,USAGE_DESC','veh_usage',' 1 ','USAGE_DESC ASC');
+			$usage = $this->ModelPs->getRequete($psgetrequete, $usage);
 
 			$modele = $this->getBindParms('ID_MODELE ,DESC_MODELE','vehicule_modele',' 1 ','DESC_MODELE ASC');
 			$modele = $this->ModelPs->getRequete($psgetrequete, $modele);
-
 			$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
 
 			$proprio=str_replace('\"', '"', $proprio);
@@ -327,20 +380,13 @@
 
 			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
 
-			// $marque = $this->Model->getRequete('SELECT ID_MARQUE,DESC_MARQUE FROM vehicule_marque WHERE 1 ORDER BY DESC_MARQUE ASC');
-
-			// $modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE 1 ORDER BY DESC_MODELE ASC");
-
-			// $proprio = $this->Model->getRequete('SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc FROM proprietaire WHERE 1 ORDER BY proprio_desc ASC');
-
-			//print_r($proprio);die();
 
 			if(!empty($VEHICULE_ID))
 			{
 				$data['btn'] = "Modifier";
 				$data['title'] = "Modification du véhicule";
 
-				$vehicule = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID FROM vehicule WHERE md5(VEHICULE_ID)='".$VEHICULE_ID."'");
+				$vehicule = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,DATE_FIN_CONTROTECHNIK,DATE_FIN_ASSURANCE,DATE_DEBUT_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,FILE_CONTRO_TECHNIQUE,FILE_ASSURANCE FROM vehicule WHERE md5(VEHICULE_ID)='".$VEHICULE_ID."'");
 
 				// if(empty($vehicule))
 				// {
@@ -352,6 +398,9 @@
 
 				$modele = $this->getBindParms('ID_MODELE ,DESC_MODELE','vehicule_modele',' 1 ','DESC_MODELE ASC');
 				$modele = $this->ModelPs->getRequete($psgetrequete, $modele);
+				$usage = $this->getBindParms('USAGE_ID,USAGE_DESC','veh_usage',' 1 ','USAGE_DESC ASC');
+			  $usage = $this->ModelPs->getRequete($psgetrequete, $usage);
+
 
 				$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
 
@@ -361,16 +410,12 @@
 
 				$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
 
-				// $marque = $this->Model->getRequete("SELECT ID_MARQUE,DESC_MARQUE FROM vehicule_marque WHERE 1 ORDER BY DESC_MARQUE ASC");
-
-				//$modele = $this->Model->getRequete("SELECT ID_MODELE ,DESC_MODELE FROM vehicule_modele WHERE ID_MARQUE = ".$vehicule["ID_MARQUE"]." ORDER BY DESC_MODELE ASC");
-
-				// $proprio = $this->Model->getRequete('SELECT PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc FROM proprietaire WHERE 1 ORDER BY proprio_desc ASC');
 			}
 
 			$data['vehicule'] = $vehicule;
 			$data['marque'] = $marque;
 			$data['modele'] = $modele;
+			$data['usage'] = $usage;
 			$data['proprio'] = $proprio;
 
 
@@ -396,7 +441,7 @@
 			echo json_encode($html);
 		}
 
-		    //PERMET L'UPLOAD DE L'IMAGE
+		   //PERMET L'UPLOAD DE L'IMAGE
 		public function upload_file($input_name)
 		{
 			$nom_file = $_FILES[$input_name]['tmp_name'];
@@ -442,6 +487,12 @@
 				$this->form_validation->set_rules('COULEUR','COULEUR','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('KILOMETRAGE','KILOMETRAGE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('USAGE_ID','USAGE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));$this->form_validation->set_rules('NUMERO_CHASSIS','NUMERO_CHASSIS','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));$this->form_validation->set_rules('ANNEE_FABRICATION','ANNEE_FABRICATION','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+                $this->form_validation->set_rules('DATE_DEBUT_CONTROTECHNIK','DATE_DEBUT_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+                $this->form_validation->set_rules('DATE_FIN_CONTROTECHNIK','DATE_FIN_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+                $this->form_validation->set_rules('DATE_DEBUT_ASSURANCE','DATE_DEBUT_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+                $this->form_validation->set_rules('DATE_FIN_ASSURANCE','DATE_FIN_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('PROPRIETAIRE_ID','PROPRIETAIRE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
@@ -449,6 +500,14 @@
 				{
 					$this->form_validation->set_rules('PHOTO_OUT','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
 				}
+				if (empty($_FILES['FILE_CONTRO_TECHNIQUE']['name']))
+				{
+					$this->form_validation->set_rules('FILE_CONTRO_TECHNIQUE','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}if (empty($_FILES['FILE_ASSURANCE']['name']))
+				{
+					$this->form_validation->set_rules('FILE_ASSURANCE','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}
+				
 
 				if($this->form_validation->run() == FALSE)
 				{
@@ -457,6 +516,9 @@
 				else
 				{
 					$PHOTO = $this->upload_file('PHOTO_OUT');
+					$file_controtechnik = $this->upload_file('FILE_CONTRO_TECHNIQUE');
+					$file_assurance = $this->upload_file('FILE_ASSURANCE');
+
 					$data = array
 					(
 						'CODE'=>$this->input->post('CODE'),
@@ -467,6 +529,17 @@
 						'KILOMETRAGE'=>$this->input->post('KILOMETRAGE'),
 						'PHOTO'=>$PHOTO,
 						'PROPRIETAIRE_ID'=>$this->input->post('PROPRIETAIRE_ID'),
+						'USAGE_ID'=>$this->input->post('USAGE_ID'),
+						'NUMERO_CHASSIS'=>$this->input->post('NUMERO_CHASSIS'),
+						'ANNEE_FABRICATION'=>$this->input->post('ANNEE_FABRICATION'),
+					   'DATE_DEBUT_ASSURANCE'=>$this->input->post('DATE_DEBUT_ASSURANCE'),
+					   	'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
+					   	'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
+					   	'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
+						'FILE_ASSURANCE'=>$file_assurance,
+						'FILE_CONTRO_TECHNIQUE'=>$file_controtechnik,
+
+						
 					);
 
 					$table = "vehicule";
@@ -504,6 +577,13 @@
 				$this->form_validation->set_rules('KILOMETRAGE','KILOMETRAGE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('PROPRIETAIRE_ID','PROPRIETAIRE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('USAGE_ID','USAGE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));$this->form_validation->set_rules('NUMERO_CHASSIS','NUMERO_CHASSIS','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));$this->form_validation->set_rules('ANNEE_FABRICATION','ANNEE_FABRICATION','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
+                $this->form_validation->set_rules('DATE_DEBUT_CONTROTECHNIK','DATE_DEBUT_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+                $this->form_validation->set_rules('DATE_FIN_CONTROTECHNIK','DATE_FIN_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+                $this->form_validation->set_rules('DATE_DEBUT_ASSURANCE','DATE_DEBUT_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+                $this->form_validation->set_rules('DATE_FIN_ASSURANCE','DATE_FIN_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+
 
 				if($this->form_validation->run() == FALSE)
 				{
@@ -517,16 +597,18 @@
 
 					$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
-					$check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.'','VEHICULE_ID ASC');
-					$check_existe = $this->ModelPs->getRequete($psgetrequete, $check_existe);
-
-					if(!empty($check_existe) && $check_existe['CODE'] == $this->input->post('CODE'))
+					$check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and CODE='.$this->input->post('CODE').'','VEHICULE_ID ASC');
+					$check_existe1 = $this->ModelPs->getRequete($psgetrequete, $check_existe);
+					$check_existe_plak = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and PLAQUE='.$this->input->post('PLAQUE').'','VEHICULE_ID ASC');
+					$check_existe_plak1 = $this->ModelPs->getRequete($psgetrequete, $check_existe_plak);
+					 // print_r($check_existe1);die();
+					if(!empty($check_existe1) )
 					{
 						$message['message']='<div class="alert alert-danger text-center" id="message">le code existe déjà !</div>';
 						$this->session->set_flashdata($message);
 						redirect(base_url('vehicule/Vehicule/ajouter'));
 					}
-					else if(!empty($check_existe) && $check_existe['PLAQUE'] == $this->input->post('PLAQUE'))
+					else if(!empty($check_existe_plak1))
 					{
 						$message['message']='<div class="alert alert-danger text-center" id="message">le plaque existe déjà !</div>';
 						$this->session->set_flashdata($message);
@@ -540,6 +622,25 @@
 							$PHOTO=$this->input->post('PHOTO');
 						}
 
+	   $FILE_CONTRO_TECHNIQUE = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
+		if(empty($_FILES['FILE_CONTRO_TECHNIQUE']['name']))
+		{
+			$file_contro = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
+		}
+		else
+		{
+			$file_contro = $this->upload_document($_FILES['FILE_CONTRO_TECHNIQUE']['tmp_name'],$_FILES['FILE_CONTRO_TECHNIQUE']['name']);
+		}
+		 $FILE_ASSURANCE = $this->input->post('FILE_ASSURANCE_OLD');
+		if(empty($_FILES['FILE_ASSURANCE']['name']))
+		{
+			$file_assurance = $this->input->post('FILE_ASSURANCE_OLD');
+		}
+		else
+		{
+			$file_assurance = $this->upload_document($_FILES['FILE_ASSURANCE']['tmp_name'],$_FILES['FILE_ASSURANCE']['name']);
+		}
+
 						$data=array
 						(
 							'CODE'=>$this->input->post('CODE'),
@@ -549,7 +650,18 @@
 							'COULEUR'=>$this->input->post('COULEUR'),
 							'KILOMETRAGE'=>$this->input->post('KILOMETRAGE'),
 							'PHOTO'=>$PHOTO,
+							'FILE_ASSURANCE'=>$file_assurance,
+							'FILE_CONTRO_TECHNIQUE'=>$file_contro,
+
 							'PROPRIETAIRE_ID'=>$this->input->post('PROPRIETAIRE_ID'),
+							'USAGE_ID'=>$this->input->post('USAGE_ID'),
+							'NUMERO_CHASSIS'=>$this->input->post('NUMERO_CHASSIS'),
+							'ANNEE_FABRICATION'=>$this->input->post('ANNEE_FABRICATION'),
+						'DATE_DEBUT_ASSURANCE'=>$this->input->post('DATE_DEBUT_ASSURANCE'),
+					   	'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
+					   	'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
+					   	'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
+
 						);
 
 						$table = "vehicule";

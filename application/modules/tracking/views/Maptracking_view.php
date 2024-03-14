@@ -5,53 +5,71 @@
   }
 
 </style>
-
-
-<div id="map_maps" style="width: 100%;height: 720px;"> 
-
-</div>
-<br>
-
-
-
-
-<div id="animation-phase-container">
-
- <div id="menu" style="float:right;" > 
-
-  <?php $carte2; ?>
+<div class="card" style="border-radius: 20px;">
+  <!-- <h5 class="card-title">Centre de situation</h5> -->
   <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <section class="section dashboard" id="liste">
-    <h5 class="card-title">Points d'arrêt <span>| Jour</span></h5>
-    <div class="scroller">
-      <div class="activity">
 
-        <?=$ligne_arret?>
+  <div class="card-body">
+    <div class="row">
+
+      <div class="col-md-3">
+
 
       </div>
+
+      <div class="col-md-9">
+
+         <div id="animation-phase-container">
+
+          <div id="menu"> 
+
+            <br>
+            <section class="section dashboard" id="liste">
+              <h5 class="card-title">Trajets </h5>
+              <div class="scroller">
+                <div class="activity">
+
+                  <?=$ligne_arret?>
+
+                </div>
+
+              </div>
+              <br>
+              <div class="card">
+                <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
+
+              </div>
+            </section> 
+            </div>
+        </div>
+
+        <div id="map_maps" style="width: 100%;height: 720px;"></div>
+
+       <!--  <div id="meno">
+
+          <input id="streets-v12" type="radio" name="rtoggle" value="streets" checked="checked">
+          <label for="streets-v12">streets</label>
+          <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite">
+         
+          <label for="satellite-streets-v12">satellite streets</label>
+          <input id="light-v11" type="radio" name="rtoggle" value="light">
+          <label for="light-v11">light</label>
+          <input id="dark-v11" type="radio" name="rtoggle" value="dark">
+          <label for="dark-v11">dark</label>
+
+          <input id="outdoors-v12" type="radio" name="rtoggle" value="outdoors">
+          <label for="outdoors-v12">outdoors</label>
+        </div> -->
+
     </div>
-  </section> 
-</div>
+
+
+
+
+         
+  </div>
 
 </div>
-<form method="POST" action="<?= base_url('tracking/Dashboard/tracking_chauffeur/'.$CODE.'') ?>"  >
-
- <div id="menu">
-
-
-  <input onchange="submit()" id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" <?php if($info == 'satellite') echo "checked"; $carte2 = 'satellite-streets-v12'; ?>>
-
-  <label for="satellite-streets-v12">satellite</label>
-
-  <input onchange="submit()" id="streets-v12" type="radio" name="rtoggle" value="streets" <?php if($info == 'streets') echo "checked"; $carte2 = 'streets-v12'; ?> >
-  <label for="streets-v12">streets</label>
-</div>
-</form>
-
 
 <script type="text/javascript">
 
@@ -59,17 +77,18 @@
   "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
   var map_map = new mapboxgl.Map({
   container: "map_maps", // container ID
-  style: "mapbox://styles/mapbox/<?= $carte2; ?>", // style URL
-  bounds: [29.384095,-3.3830083, 29.3838133,-3.3844883],
+  style: "mapbox://styles/mapbox/streets-v12", // style URL
+  bounds: [29.383188,-3.384438, 29.377566,-3.369615],
   projection: "globe" // display the map as a 3D globe
 });
+  // bounds: [29.384095,-3.3830083, 29.3838133,-3.3844883]
 
   // var nav = new mapboxgl.NavigationControl();
   // map_map.addControl(nav, "top-left");
   map_map.addControl(new mapboxgl.NavigationControl());
 
   map_map.addControl(new mapboxgl.FullscreenControl());
-
+  
 
   map_map.on("style.load", () => {
   // https://en.wikipedia.org/wiki/Transpeninsular_Line
@@ -145,107 +164,105 @@
 
 
 
-  var layerList = document.getElementById('menu');
+  // var layerListe = document.getElementById('meno');
 
-  var inputs = layerList.getElementsByTagName('input');
+  // var inputss = layerListe.getElementsByTagName('input');
 
-  for (const input of inputs) {
-    input.onclick = (layer) => {
-      const layerId = layer.target.id;
-      map_map.setStyle('mapbox://styles/mapbox/' + layerId);
-    };
-  }
-
-
-
-
+  // for (const input of inputss) {
+  //   input.onclick = (layer) => {
+  //     const layerId = layer.target.id;
+  //     map_map.setStyle('mapbox://styles/mapbox/' + layerId);
+  //   };
+  // }
 
 
 
   map_map.on('load', () => {
-    map_map.addSource('places', {
-      'type': 'geojson',
-      'data': {
-        'type': 'FeatureCollection',
-        'features': [<?= $arret; ?>]
-      }
-    });
+
+   map_map.addSource('places', {
+    'type': 'geojson',
+    'data': {
+      'type': 'FeatureCollection',
+      'features': [<?= $arret; ?>]
+    }
+  });
+
 // Add a layer showing the places.
-    map_map.addLayer({
-      'id': 'places',
-      'type': 'circle',
-      'source': 'places',
-      'paint': {
-        'circle-color': '#FF0000',
-        'circle-radius': 6,
-        'circle-stroke-width': 2,
-        'circle-stroke-color': '#ffffff'
-      }
-    });
+   map_map.addLayer({
+    'id': 'places',
+    'type': 'circle',
+    'source': 'places',
+    'paint': {
+      'circle-color': '#FF0000',
+      'circle-radius': 6,
+      'circle-stroke-width': 2,
+      'circle-stroke-color': '#ffffff'
+    }
+  });
 
 
 // Create a popup, but don't add it to the map yet.
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false
-    });
+   const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
 
-    map_map.on('mouseenter', 'places', (e) => {
+   map_map.on('mouseenter', 'places', (e) => {
 // Change the cursor style as a UI indicator.
-      map_map.getCanvas().style.cursor = 'pointer';
+    map_map.getCanvas().style.cursor = 'pointer';
 
 // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const description = e.features[0].properties.description;
 
 // Ensure that if the map is zoomed out such that multiple
 // copies of the feature are visible, the popup appears
 // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
 
 // Populate the popup and set its coordinates
 // based on the feature found.
-      popup.setLngLat(coordinates).setHTML(description).addTo(map_map);
-    });
+    popup.setLngLat(coordinates).setHTML(description).addTo(map_map);
+  });
 
-    map_map.on('mouseleave', 'places', () => {
-      map_map.getCanvas().style.cursor = '';
-      popup.remove();
-    });
+   map_map.on('mouseleave', 'places', () => {
+    map_map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
 
      // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
-    map_map.on('click', 'places', (e) => {
+   map_map.on('click', 'places', (e) => {
             // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const description = e.features[0].properties.description;
 
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
             // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
 
-      new mapboxgl.Popup()
-      .setLngLat(coordinates)
-      .setHTML(description)
-      .addTo(map_map);
-    });
-
-        // Change the cursor to a pointer when the mouse is over the places layer.
-    map_map.on('mouseenter', 'places', () => {
-      map_map.getCanvas().style.cursor = 'pointer';
-    });
-
-        // Change it back to a pointer when it leaves.
-    map_map.on('mouseleave', 'places', () => {
-      map_map.getCanvas().style.cursor = '';
-    });
+    new mapboxgl.Popup()
+    .setLngLat(coordinates)
+    .setHTML(description)
+    .addTo(map_map);
   });
 
+        // Change the cursor to a pointer when the mouse is over the places layer.
+   map_map.on('mouseenter', 'places', () => {
+    map_map.getCanvas().style.cursor = 'pointer';
+  });
 
+        // Change it back to a pointer when it leaves.
+   map_map.on('mouseleave', 'places', () => {
+    map_map.getCanvas().style.cursor = '';
+  });
+ });
+
+  <?php echo $limites; ?>;
 
 </script>

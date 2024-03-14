@@ -52,14 +52,42 @@
 
 
 
-                <div class="col-md-4">
+                <div class="col-md-4" >
                   <div class="form-group">
                     <label style="font-weight: 1000; color:#454545"><b>Nom</b><span  style="color:red;">*</span></label>
                     <input  class="form-control" name="NOM_PROPRIETAIRE"  id="NOM_PROPRIETAIRE" placeholder='Nom' value="<?=$proprietaire['NOM_PROPRIETAIRE']?>"/>
                   </div>
                   <span id="errorNOM_PROPRIETAIRE" class="text-danger"></span>
+
                   <?php echo form_error('NOM_PROPRIETAIRE', '<div class="text-danger">', '</div>'); ?>
                 </div>
+
+                    <div class="col-md-4" id="div_categor">
+                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Catégorie <font color="red">*</font></label>
+                      <select class="form-control" name="CATEGORIE_ID" id="CATEGORIE_ID">
+                        <option value="">---Sélectionner---</option>
+                        <?php 
+
+                        foreach ($catego as $value)
+                        {
+                          if ($value['CATEGORIE_ID']==$proprietaire['CATEGORIE_ID'])
+                          {
+                            ?>
+                            <option value="<?= $value['CATEGORIE_ID']?>" selected><?=$value['DESC_CATEGORIE']?></option>
+                            <?php
+                          }
+                          else
+                          {
+                            ?>
+                            <option value="<?=$value['CATEGORIE_ID']?>"><?=$value['DESC_CATEGORIE']?></option>
+                            <?php
+                          }
+                        }
+                        ?>
+                      </select>
+                    <font id="error_CATEGORIE_ID" color="red"></font>
+                    <?php echo form_error('CATEGORIE_ID', '<div class="text-danger">', '</div>'); ?>
+                  </div>
 
                 <div class="col-md-4" id="div_PRENOM_PROPRIETAIRE"<?=$div_personne_physique?>>
                   <div class="form-group">
@@ -128,7 +156,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label style="font-weight: 1000; color:#454545"><b>Confirmation du mail</b><span  style="color:red;">*</span></label>
-                    <input class="form-control" type='email' name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL" placeholder='confirmer e-mail'/>
+                    <input class="form-control" type='email' name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL"  value="<?=$proprietaire['EMAIL']?>"placeholder='confirmer e-mail'/>
                   </div>
                   <span id="errorCONFIRMATION_EMAIL" class="text-danger"></span>
                   <?php echo form_error('EMAIL','<div class="text-danger">', '</div>'); ?>
@@ -142,7 +170,7 @@
 
                      <?php
                      foreach($pays as $key) { 
-                      if ($key['COUNTRY_ID']==set_value('COUNTRY_ID')) { 
+                      if ($key['COUNTRY_ID']==$proprietaire['COUNTRY_ID']) { 
                        echo "<option value='".$key['COUNTRY_ID']."' selected>".$key['CommonName']."</option>";
                      }  else{
                        echo "<option value='".$key['COUNTRY_ID']."' >".$key['CommonName']."</option>"; 
@@ -295,6 +323,20 @@
                 <font id="error_LOGO" color="red"></font>
                 <?php echo form_error('LOGO', '<div class="text-danger">', '</div>'); ?> 
               </div>
+               <div class="col-md-4" id="div_doc_rc">
+                <label for="FName" style="font-weight: 1000; color:#454545">Document RC <font color="red">*</font></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_RC" autocomplete="off" id="FILE_RC" value="<?= $proprietaire['FILE_RC'] ?>"  class="form-control">
+                <input type="hidden"  name="FILE_RC_OLD" id="FILE_RC_OLD" value="<?=$proprietaire['FILE_RC']?>">
+                <font id="error_FICHIER_RC" color="red"></font>
+                <?php echo form_error('FILE_RC', '<div class="text-danger">', '</div>'); ?> 
+              </div>
+               <div class="col-md-4" id="div_doc_nif">
+                <label for="FName" style="font-weight: 1000; color:#454545">Document NIF <font color="red">*</font></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_NIF" autocomplete="off" id="FILE_NIF" value="<?= $proprietaire['FILE_NIF'] ?>"  class="form-control">
+                <input type="hidden"  name="FILE_NIF_OLD" id="FILE_NIF_OLD" value="<?=$proprietaire['FILE_NIF']?>">
+                <font id="error_FILE_NIF" color="red"></font>
+                <?php echo form_error('FILE_NIF', '<div class="text-danger">', '</div>'); ?> 
+              </div>
 
             </div>
 
@@ -329,6 +371,8 @@
   if($('#TYPE_PROPRIETAIRE_ID').val()=='')
   {
     $('#div_type_societe').prop('style','display:none;');
+    $('#div_nompro').prop('style','display:none;');
+
     $('#div_PRENOM_PROPRIETAIRE').prop('style','display:none;');
     $('#div_rc').prop('style','display:none;');
     $('#div_personne_reference').prop('style','display:none;');
@@ -341,8 +385,12 @@
     $('#div_zon').attr('hidden',true);  
     $('#div_col').attr('hidden',true); 
     $('#div_logo').hide();
+    $('#div_doc_rc').hide();
+    $('#div_doc_nif').hide();
     $('#div_fich_cni').hide();
-
+    $('#div_nomsoci').hide();
+    $('#div_nompro').hide();
+    $('#div_categor').hide();
 
   }
   else
@@ -353,15 +401,19 @@
     $('#label_document').html('<b>NIF</b> <span  style="color:red;">*</span>');
         // $('#div_type_societe').prop('style','');
     $('#div_PRENOM_PROPRIETAIRE').prop('style','display:none;');
+    $('#div_nompro').prop('style','display:none;');
+
 
     $('#div_rc').prop('style','');
     $('#div_personne_reference').prop('style','');
     $('#div_photo').hide();
     $('#div_logo').show();
+    $('#div_categor').show();
+    $('#div_doc_rc').show();
+    $('#div_doc_nif').show();
+    $('#div_nomsoci').show();
+    $('#div_nompro').hide();
     $('#div_fich_cni').hide();
-
-
-
 
   }
   else
@@ -369,15 +421,16 @@
     $('#label_document').html('<b>CNI / Numéro passport</b> <span  style="color:red;">*</span>');
        // $('#div_type_societe').prop('style','display:none;');
     $('#div_PRENOM_PROPRIETAIRE').prop('style','');
-
+    $('#div_nompro').prop('style','');
     $('#div_rc').prop('style','display:none;');
     $('#div_personne_reference').prop('style','display:none;');
     $('#div_photo').show();
     $('#div_logo').hide();
+    $('#div_doc_rc').hide();
+    $('#div_doc_nif').hide();
+    $('#div_categor').hide();
+    $('#div_nomsoci').hide();
     $('#div_fich_cni').show();
-
-
-
 
   }
 }
@@ -389,11 +442,17 @@
   {
     $('#div_type_societe').prop('style','display:none;');
     $('#div_PRENOM_PROPRIETAIRE').prop('style','display:none;');
-    $('#div_rc').prop('style','display:none;');
+    // $('#div_nompro').prop('style','display:none;');
+    // $('#div_rc').prop('style','display:none;');
     $('#div_personne_reference').prop('style','display:none;');
     $('#div_photo').hide();
     $('#label_document').html('<b>NIF/ CNI</b> <span  style="color:red;">*</span>');
     $('#div_logo').hide();
+    $('#div_doc_rc').hide();
+    $('#div_doc_nif').hide();
+    $('#div_categor').hide();
+    $('#div_nomsoci').hide();
+
     $('#div_fich_cni').hide();
 
 
@@ -405,11 +464,16 @@
       $('#label_document').html('<b>NIF</b> <span  style="color:red;">*</span>');
         // $('#div_type_societe').prop('style','');
       $('#div_PRENOM_PROPRIETAIRE').prop('style','display:none;');
+      $('#div_nompro').prop('style','display:none;');
 
       $('#div_rc').prop('style','');
       $('#div_personne_reference').prop('style','');
       $('#div_photo').hide();
       $('#div_logo').show();
+      $('#div_doc_rc').show();
+      $('#div_doc_nif').show();
+      $('#div_categor').show();
+      $('#div_nomsoci').show();
       $('#div_fich_cni').hide();
 
 
@@ -420,12 +484,19 @@
     {
       $('#label_document').html('<b>CNI / Numéro passport</b> <span  style="color:red;">*</span>');
        // $('#div_type_societe').prop('style','display:none;');
+      $('#div_nompro').prop('style','');
       $('#div_PRENOM_PROPRIETAIRE').prop('style','');
+
       
       $('#div_rc').prop('style','display:none;');
       $('#div_personne_reference').prop('style','display:none;');
       $('#div_photo').show();
       $('#div_logo').hide();
+      $('#div_doc_rc').hide();
+      $('#div_doc_nif').hide();
+     $('#div_categor').hide();
+     $('#div_nomsoci').hide();
+
       $('#div_fich_cni').show();
 
 
@@ -520,9 +591,10 @@ function submit_form()
 {
   const photopassport = document.getElementById('photo_passport');
   const logo = document.getElementById('LOGO');
-  const file_cni_passport = document.getElementById('FILE_CNI_PASSPORT');
+  const nif = document.getElementById('FILE_NIF');
+  const rc = document.getElementById('FILE_RC');
 
-  
+  const file_cni_passport = document.getElementById('FILE_CNI_PASSPORT');
 
   var mail = document.getElementById("EMAIL").value;
   var mail2 = document.getElementById("CONFIRMATION_EMAIL").value;
@@ -540,94 +612,13 @@ function submit_form()
   }
 
   var COUNTRY_ID=$('#COUNTRY_ID').val() ;
-
+//input commun
   if($('#COUNTRY_ID').val()=='')
   {
     statut=2;
     $('#errorcountry').html('Le champ est obligatoire');
   }else{$('#errorcountry').html('');}
-
-  if($('#TYPE_PROPRIETAIRE_ID').val()=='')
-  {
-    statut=2;
-    $('#errorTYPE_PROPRIETAIRE_ID').html('Le champ est obligatoire');
-  }else{$('#errorTYPE_PROPRIETAIRE_ID').html('');}
-
-  if($('#NOM_PROPRIETAIRE').val()=='')
-  {
-    statut=2;
-    $('#errorNOM_PROPRIETAIRE').html('Le champ est obligatoire');
-  }else{$('#errorNOM_PROPRIETAIRE').html('');}
-
-
-  if($('#TYPE_PROPRIETAIRE_ID').val()==1)
-  {
-
-    if($('#RC').val()=='')
-    {
-      statut=2;
-      $('#errorRC').html('Le champ est obligatoire');
-    }else{
-      $('#errorRC').html('');
-    }
-
-
-    if($('#CNI_OU_NIF').val()=='')
-    {
-      statut=2;
-      $('#errorCNI_OU_NIF').html('Le champ est obligatoire');
-    }else{
-      $('#errorCNI_OU_NIF').html('');
-    }
-
-    if(logo.files.length === 0 && $('#LOGO_OLD').val()=='')
-    {
-      statut=2;
-      $('#error_LOGO').text("Le champ est obligatoire");
-    }else{
-      $('#error_LOGO').text('');
-
-    }
-
-
-
-  }
-
-  if($('#TYPE_PROPRIETAIRE_ID').val()==2)
-  {
-    if($('#PRENOM_PROPRIETAIRE').val()=='')
-    {
-      statut=2;
-      $('#errorPRENOM_PROPRIETAIRE').html('Le champ est obligatoire');
-    }else{
-      $('#errorPRENOM_PROPRIETAIRE').html('');
-    }
-
-    if(photopassport.files.length === 0 && $('#photo_passport_old').val()=='')
-    {
-      statut=2;
-      $('#error_photo_passport').text("Le champ est obligatoire");
-    }else{
-      $('#error_photo_passport').html('');
-
-    }
-
-    if(file_cni_passport.files.length === 0 && $('#FILE_CNI_PASSPORT_OLD').val()=='')
-    {
-      statut=2;
-      $('#error_FILE_CNI_PASSPORT').text("Le champ est obligatoire");
-    }else{
-      $('#error_FILE_CNI_PASSPORT').html('');
-
-    }
-
-    
-  }
-
-
-
-
-  if($('#EMAIL').val() !='')
+   if($('#EMAIL').val() !='')
   {
     if(!emailReg.test($('#EMAIL').val()))
     {
@@ -662,8 +653,6 @@ function submit_form()
   }
   else
   {
-
-
     statut=2;
     $('#errorEMAIL').html('Le champ est obligatoire');
   }
@@ -707,6 +696,106 @@ function submit_form()
     statut=2;
     $('#errorADRESSE').html('Le champ est obligatoire');
   }else{$('#errorADRESSE').html('');}
+
+
+  if($('#TYPE_PROPRIETAIRE_ID').val()=='')
+  {
+    statut=2;
+    $('#errorTYPE_PROPRIETAIRE_ID').html('Le champ est obligatoire');
+  }else{$('#errorTYPE_PROPRIETAIRE_ID').html('');}
+
+  if($('#NOM_PROPRIETAIRE').val()=='')
+  {
+    statut=2;
+    $('#errorNOM_PROPRIETAIRE').html('Le champ est obligatoire');
+  }else{$('#errorNOM_PROPRIETAIRE').html('');}
+
+ 
+//input type_moral
+  if($('#TYPE_PROPRIETAIRE_ID').val()==1)
+  {
+
+    if($('#RC').val()=='')
+    {
+      statut=2;
+      $('#errorRC').html('Le champ est obligatoire');
+    }else{
+      $('#errorRC').html('');
+    }
+     if($('#CATEGORIE_ID').val()=='')
+  {
+    statut=2;
+    $('#error_CATEGORIE_ID').html('Le champ est obligatoire');
+  }else{$('#error_CATEGORIE_ID').html('');}
+
+
+    if($('#CNI_OU_NIF').val()=='')
+    {
+      statut=2;
+      $('#errorCNI_OU_NIF').html('Le champ est obligatoire');
+    }else{
+      $('#errorCNI_OU_NIF').html('');
+    }
+
+    if(logo.files.length === 0 && $('#LOGO_OLD').val()=='')
+    {
+      statut=2;
+      $('#error_LOGO').text("Le champ est obligatoire");
+    }else{
+      $('#error_LOGO').text('');
+
+    }
+
+    if(rc.files.length === 0 && $('FILE_RC_OLD').val()=='')
+    {
+      statut=2;
+      $('#FILE_RC_OLD').text("Le champ est obligatoire");
+    }else{
+      $('#error_FICHIER_RC').text('');
+
+    }
+    if(nif.files.length === 0 && $('#FILE_NIF_OLD').val()=='')
+    {
+      statut=2;
+      $('#error_FILE_NIF').text("Le champ est obligatoire");
+    }else{
+      $('#error_FILE_NIF').text('');
+
+    }
+  }
+//input type_physique
+  if($('#TYPE_PROPRIETAIRE_ID').val()==2)
+  {
+    if($('#PRENOM_PROPRIETAIRE').val()=='')
+    {
+      statut=2;
+      $('#errorPRENOM_PROPRIETAIRE').html('Le champ est obligatoire');
+    }else{
+      $('#errorPRENOM_PROPRIETAIRE').html('');
+    }
+
+    if(photopassport.files.length === 0 && $('#photo_passport_old').val()=='')
+    {
+      statut=2;
+      $('#error_photo_passport').text("Le champ est obligatoire");
+    }else{
+      $('#error_photo_passport').html('');
+
+    }
+
+    if(file_cni_passport.files.length === 0 && $('#FILE_CNI_PASSPORT_OLD').val()=='')
+    {
+      statut=2;
+      $('#error_FILE_CNI_PASSPORT').text("Le champ est obligatoire");
+    }else{
+      $('#error_FILE_CNI_PASSPORT').html('');
+
+    }
+
+    
+  }
+
+ 
 
       // alert(statut)
 

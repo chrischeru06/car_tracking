@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<style>
-		#map {width: 102%;height: 600px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;}
+		#map {width: 102%;height: 600px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;z-index: 1;}
 
 		.mapbox-improve-map{
 			display: none;
@@ -40,6 +40,11 @@
 		.circle-green {
 			background-color: #829b35;
 			border-radius: 50%
+		}
+
+		.dash_card:hover {
+			color: cadetblue;
+			background-color: rgba(95, 158, 160,0.3);
 		}
 	</style>
 </head>
@@ -89,248 +94,279 @@
 
 		
 
-			<?php
+		<?php
 
 			if($this->session->userdata('PROFIL_ID') == 1) // Admin
 			{
 				?>
 				<div class="row">
-    	
-			<div class="col-md-4">
-				<div class="form-group">
-					<label>Propriétaire</label>
 
-					<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();">
-						<option value="" selected>-- Séléctionner --</option>
-						<?php
-						foreach ($proprio as $key_pro)
-						{
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Propriétaire</label>
 
-							if($filtre_pro['PROPRIETAIRE_ID'] == $key_pro['PROPRIETAIRE_ID']){
-								echo '<option selected value="'.$key_pro['PROPRIETAIRE_ID'].'">'.$key_pro['proprio_desc'].'</option>'; 
-							}else{
-								echo '<option value="'.$key_pro['PROPRIETAIRE_ID'].'">'.$key_pro['proprio_desc'].'</option>';
-							}
-						}
-						?>
-					</select>
+							<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();">
+								<option value="" selected>-- Sélectionner --</option>
+								<?php
+								foreach ($proprio as $key_pro)
+								{
+
+									if($filtre_pro['PROPRIETAIRE_ID'] == $key_pro['PROPRIETAIRE_ID']){
+										echo '<option selected value="'.$key_pro['PROPRIETAIRE_ID'].'">'.$key_pro['proprio_desc'].'</option>'; 
+									}else{
+										echo '<option value="'.$key_pro['PROPRIETAIRE_ID'].'">'.$key_pro['proprio_desc'].'</option>';
+									}
+								}
+								?>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Véhicule</label>
+
+							<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
+								<option value="" selected>-- Sélectionner --</option>
+							</select>
+						</div>
+					</div>
+
 				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="form-group">
-					<label>Véhicule</label>
-
-					<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
-						<option value="" selected>-- Séléctionner --</option>
-					</select>
-				</div>
-			</div>
-
-		</div>
 				<?php
 			}
 			else if($this->session->userdata('PROFIL_ID') == 2) // Proprietaire
 			{
 				?>
 				<div class="col-md-4">
-				<div class="form-group">
-					<label>Véhicule</label>
-					<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
-						<option value="" selected>-- Séléctionner --</option>
-						<?php
-						foreach ($vehicule as $key_vehicule)
-						{
+					<div class="form-group">
+						<label>Véhicule</label>
+						<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
+							<option value="" selected>-- Sélectionner --</option>
+							<?php
+							foreach ($vehicule as $key_vehicule)
+							{
 								echo '<option value="'.$key_vehicule['VEHICULE_ID'].'">'.$key_vehicule['PLAQUE'].'</option>';
-						}
-						?>
-					</select>
+							}
+							?>
+						</select>
+					</div>
 				</div>
-			</div>
 				<?php
 			}
 
 			?>
 
 
-		<br>
+			<br>
 
-		<div class="row">
+			<div class="row">
 
-			<?php
+				<?php
 
 			if($this->session->userdata('PROFIL_ID') == 1) // Admin
 			{
 				?>
 				<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
+					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetProprietaire($('#PROPRIETAIRE_ID').val());" title="Cliquer ici pour visualiser la liste">
 
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<i class="fa fa-user text-primary"></i>
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="nbr_proprietaire">145</strong>
+						<div class="card-body">
+							<div class="d-flex align-items-center">
+								<div class="col-lg-3">
+									<i class="fa fa-user text-dark" style="font-size: 30px;margin-top: 17px;"></i>
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="nbr_proprietaire" style="position: relative;top: 12px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-7">
+									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Propriétaires<i  title="Voir la liste" ></i></b>
+								</div>
+
 							</div>
 
+							
 						</div>
-						<small class="text-muted small pt-2 ps-1">Nombre propriétaires&nbsp;&nbsp;<a href="<?= base_url()?>proprietaire/Proprietaire/liste " class="fa fa-eye text-dark" title="Voir la liste"></a></small>
-					</div>
 
+					</div>
 				</div>
-			</div>
 				<?php
 			}
 
 			?>
 
 			<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
+					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule($('#VEHICULE_ID').val());" title="Cliquer ici pour visualiser la liste">
 
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<i class="fa fa-car text-primary"></i>
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="nbr_vehicule">145</strong>
-							</div>
+						<div class="card-body">
 
+							<div class="d-flex align-items-center">
+								<div class="col-lg-5">
+									<i class="fa fa-bus text-secondary" style="font-size: 30px;margin-top: 17px;"></i>
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="nbr_vehicule" style="position: relative;top: 12px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-5">
+									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+							
 						</div>
-						<small class="text-muted small pt-2 ps-1">Nombre véhicules &nbsp;&nbsp;<a href="<?= base_url()?>vehicule/Vehicule " class="fa fa-eye text-dark" title="Voir la liste"></a></small>
+
 					</div>
-
-				</div>
-			</div>
-
-			<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<i class="fa fa-users text-primary"></i>
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="nbrChauffeur">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Nombre chauffeurs &nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur " class="fa fa-eye text-dark" title="Voir la liste"></a></small>
-					</div>
-
-				</div>
 			</div>
 
 
 			<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
+					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="<?php if($this->session->userdata('PROFIL_ID') == 1){echo "GetChauffeur($('#PROPRIETAIRE_ID').val());";}else{echo "GetChauffeurPro($('#PROPRIETAIRE_ID').val());";}?>" title="Cliquer ici pour visualiser la liste">
 
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<i class="fa fa-car text-primary"></i>
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeActif">145</strong>
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-02.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="nbrChauffeur" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 20px;">Chauffeurs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
+								</div>
 							</div>
 
 						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules actifs</small>
-					</div>
 
-				</div>
+					</div>
+			</div>
+
+			<div class="col-lg-3">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ACTIF');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-03.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title vehiculeActif" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules actifs<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+			</div>
+
+
+			<div class="col-lg-3">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_INACTIF');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-04.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title vehiculeInactif" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules inactifs<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_CREVAISON');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-05.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeAvecAccident" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en crevaison<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_MOUVEMENT');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-06.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeMouvement" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en mouvement<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+			</div>
+
+
+			<div class="col-lg-3">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-07.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeEteint" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules éteints<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
 			</div>
 			
 		</div>
 
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
 
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<!-- <h6 class="text-center">Véhicules en mouvement</h6> -->
-
-								<img  class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vehicule1.png')?>">
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeMouvement">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules en mouvement</small>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<!-- <h6 class="text-center">Véhicules en mouvement</h6> -->
-
-								<img  class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vehicule2.png')?>">
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeStationnement">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules en stationnement</small>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<!-- <h6 class="text-center">Véhicules en mouvement</h6> -->
-
-								<img  class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vehicule3.png')?>">
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeAllume">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules allumés</small>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-lg-3">
-				<div class="card" style="border-radius:20px;">
-
-					<div class="card-body">
-						<div class="d-flex align-items-center">
-							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-								<!-- <h6 class="text-center">Véhicules en mouvement</h6> -->
-
-								<img  class="img-fluid" width="100px" height="auto" src="<?=base_url('/upload/vehicule5.png')?>">
-							</div>
-							<div class="ps-3">
-								<strong class="card-title" id="vehiculeEteint">145</strong>
-							</div>
-
-						</div>
-						<small class="text-muted small pt-2 ps-1">Véhicules éteints</small>
-					</div>
-
-				</div>
-			</div>
-
-		</div>
 
 		<section class="section">
 			<!-- <div class="container text-center"> -->
@@ -342,96 +378,538 @@
 
 							<div class="card-body">
 								<div class="row">
-									<div class="col-12 col-lg-12">
+
+									<div class="col-md-12">
 										<div id="mapview">
 										</div>
 									</div>
 
-								</div>
+									<!-- <div class="col-md-3">
+										<h3>Légende</h3><hr>
 
+											<p>
+												<icon class="fa fa-map-marker text-info"></icon>&nbsp;
+												<label class="text-muted small pt-2 ps-1">Véhicule actif (<b class="vehiculeActif text-info" id="vehiculeActif">9</b>)</label>
+											</p>
+
+											<p>
+												<icon class="fa fa-map-marker text-danger"></icon>&nbsp;
+												<label class="text-muted small pt-2 ps-1">Véhicule inactif (<b class="vehiculeInactif text-danger" id="vehiculeActif">9</b>)</label>
+											</p>
+
+									</div> -->
+
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</section>
+				</section>
+
+				<!-- Modal liste des proprietaires -->
+
+				<div class="modal fade" id="ModalProprietaire" tabindex="-1" style='border-radius:100px;'>
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header" style='background:cadetblue;color:white;'>
+								<h6 class="modal-title">Liste des propriétaires</h6>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+
+								<div class="table-responsive" style="padding-top: 20px;">
+									<table id="table_proprietaire" class="table table-hover" style="min-width: 100%">
+										<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+											<tr>
+												<th class="text-dark">#</th>
+
+												<th class="text-dark">IDENTIFICATION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th>STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+											</tr>
+										</thead>
+										<tbody class="text-dark">
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+                    <!-- <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal liste des vehicules -->
+
+				<div class="modal fade" id="ModalVehicule" tabindex="-1" style='border-radius:100px;'>
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header" style='background:cadetblue;color:white;'>
+								<h6 class="modal-title">Liste des véhicules</h6>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+
+								<div class="table-responsive" style="padding-top: 20px;">
+									<table id="table_vehicule" class="table table-hover" style="min-width: 100%">
+										<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                      <tr>
+                        <th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="">MARQUE</th>
+                        <th class="">MODELE</th>
+                        <th class="">PLAQUE</th>
+                        <th class="">COULEUR</th>
+                        <th class="">CONSOMMATION</th>
+                        <th class="">PROPRIETAIRE</th>
+                        <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
+                        <th class="">STATUT</th>
+                        <th class=""></th>
+                      </tr>
+                    </thead>
+										<tbody class="text-dark">
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+         <!-- footer here -->
+                  </div>
+                </div>
+              </div>
 
 
-		</main><!-- End #main -->
 
-		<?php include VIEWPATH . 'includes/footer.php'; ?>
+        <!-- Modal liste des chauffeurs -->
 
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+				<div class="modal fade" id="ModalChauffeur" tabindex="-1" style='border-radius:100px;'>
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header" style='background:cadetblue;color:white;'>
+								<h6 class="modal-title">Liste des chauffeurs</h6>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
 
-	</body>
+								<div class="table-responsive" style="padding-top: 20px;">
+									<table id="table_chauffeur" class="table table-hover" style="min-width: 100%">
+										<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                          <tr>
 
-<script>
-		$(document).ready(function(){
+                            <th class="text-dark">#</th>
+                            <th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 
-			getmap();
+                            <!-- <th class="text-dark">ADRESSE</th> -->
+                          <!--   <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
+                            <th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                           
+                            <th class="text-dark">STATUT&nbsp;&nbsp;&nbsp;</th>
 
-		});
+                            <th class="text-dark"></th>
+                          </tr>
+                        </thead>
+										<tbody class="text-dark">
+										</tbody>
+									</table>
+								</div>
 
-	</script>
+							</div>
+         <!-- footer here -->
+                  </div>
+                </div>
+              </div>
 
 
-	<script>
+
+              <!-- Modal liste des chauffeurs pour le proprietaire connecte-->
+
+				<div class="modal fade" id="ModalChauffeurPro" tabindex="-1" style='border-radius:100px;'>
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header" style='background:cadetblue;color:white;'>
+								<h6 class="modal-title">Liste des chauffeurs</h6>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+
+								<div class="table-responsive" style="padding-top: 20px;">
+									<table id="table_chauffeur_pro" class="table table-hover" style="min-width: 100%">
+										<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                  <tr>
+
+                    <th class="text-dark">#</th>
+                    <th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+                    <!-- <th class="text-dark">ADRESSE</th> -->
+                          <!--   <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
+                            <th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            
+
+                            <th class="text-dark">OPTIONS</th>
+                          </tr>
+                        </thead>
+										<tbody class="text-dark">
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+         <!-- footer here -->
+                  </div>
+                </div>
+              </div>
+
+
+            </main><!-- End #main -->
+
+            <?php include VIEWPATH . 'includes/footer.php'; ?>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+          </body>
+
+          <script>
+          	$(document).ready(function(){
+
+          		getmap();
+
+          	});
+
+          </script>
+
+
+          <script>
 
 		// Fonction pour afficher la carte
 
-		function getmap(){
+          	function getmap(id=1){
 
             // var searchString = $('#search').val();ENQUETEUR_ID
-			var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
-			var VEHICULE_ID = $('#VEHICULE_ID').val();
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          		var VEHICULE_ID = $('#VEHICULE_ID').val();
 
-			$.ajax({
-				url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
-				type : "POST",
-				dataType: "JSON",
-				cache:false,
-				data: {
+          		$.ajax({
+          			url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
+          			type : "POST",
+          			dataType: "JSON",
+          			cache:false,
+          			data: {
 
-					PROPRIETAIRE_ID:PROPRIETAIRE_ID,
-					VEHICULE_ID:VEHICULE_ID,
-				},
+          				PROPRIETAIRE_ID:PROPRIETAIRE_ID,
+          				VEHICULE_ID:VEHICULE_ID,
+          				id:id,
+          			},
 
-				success:function(data) {
+          			success:function(data) {
 
-					$('#mapview').html(data.carte_view);
-				  $('#nbr_vehicule').html(data.nbrVehicule);
-				  $('#nbr_proprietaire').html(data.nbrProprietaire);
-				  $('#nbrChauffeur').html(data.nbrChauffeur);
-				  $('#vehiculeActif').html(data.vehiculeActif);
-				  $('#vehiculeAllume').html(data.vehiculeAllume);
-				  $('#vehiculeEteint').html(data.vehiculeEteint);
-				   $('#vehiculeMouvement').html(data.vehiculeMouvement);
-				  $('#vehiculeStationnement').html(data.vehiculeStationnement);
-				 
-				},
-			});
-		}
+          				$('#mapview').html(data.carte_view);
+          				$('#nbr_vehicule').html(data.nbrVehicule);
+          				$('#nbr_proprietaire').html(data.nbrProprietaire);
+          				$('#nbrChauffeur').html(data.nbrChauffeur);
+          				$('.vehiculeActif').html(data.vehiculeActif);
+          				$('.vehiculeInactif').html(data.vehiculeInactif);
+          				$('#vehiculeAllume').html(data.vehiculeAllume);
+          				$('#vehiculeEteint').html(data.vehiculeEteint);
+          				$('#vehiculeMouvement').html(data.vehiculeMouvement);
+          				$('#vehiculeStationnement').html(data.vehiculeStationnement);
+          				$('#vehiculeAvecAccident').html(data.vehiculeAvecAccident);
+          				$('#vehiculeSansAccident').html(data.vehiculeSansAccident);
 
-	</script>
+          			},
+          		});
+          	}
 
-	<script>
-		function get_vehicule()
-		{
-			var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          </script>
 
-			if (PROPRIETAIRE_ID == '') {
-				$('#VEHICULE_ID').html('<option value="">Sélectionner</option>');
-			} else {
-				$.ajax({
-					url: "<?= base_url() ?>centre_situation/Centre_situation/get_vehicule/" + PROPRIETAIRE_ID,
-					type: "GET",
-					dataType: "JSON",
-					success: function(data) {
-						$('#VEHICULE_ID').html(data);
-					}
-				});
+       <script>
+          	const timer = setInterval(async () => {
+          		getmap(1);
+          	}, 10000);
+          </script>
 
-			}
-		}
-	</script>
+          <script>
+          	function get_vehicule()
+          	{
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
 
-	</html>
+          		if (PROPRIETAIRE_ID == '') {
+          			$('#VEHICULE_ID').html('<option value="">Sélectionner</option>');
+          		} else {
+          			$.ajax({
+          				url: "<?= base_url() ?>centre_situation/Centre_situation/get_vehicule/" + PROPRIETAIRE_ID,
+          				type: "GET",
+          				dataType: "JSON",
+          				success: function(data) {
+          					$('#VEHICULE_ID').html(data);
+          				}
+          			});
+
+          		}
+          	}
+          </script>
+
+          <script>
+          	// Fonction pour afficher les proprietaire
+
+          	function GetProprietaire(id)
+          	{
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          		var VEHICULE_ID = $('#VEHICULE_ID').val();
+          		
+          		$('#ModalProprietaire').modal('show');
+          		var row_count ="1000000";
+          		table=$("#table_proprietaire").DataTable({
+          			"processing":true,
+          			"destroy" : true,
+          			"serverSide":true,
+          			"oreder":[[ 0, 'desc' ]],
+          			"ajax":{
+          				url:"<?=base_url()?>centre_situation/Centre_situation/GetProprietaire/"+id,
+          				type:"POST"
+          			},
+          			lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+          			pageLength: 10,
+          			"columnDefs":[{
+          				"targets":[],
+          				"orderable":false
+          			}],
+          			dom: 'Bfrtlip',
+          			buttons: ['excel', 'pdf'],  
+
+          			language: {
+          				"sProcessing": "Traitement en cours...",
+          				"sSearch": "Recherche&nbsp;:",
+          				"sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+          				"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          				"sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          				"sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          				"sInfoPostFix": "",
+          				"sLoadingRecords": "Chargement en cours...",
+          				"sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          				"sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+          				"oPaginate":
+          				{
+          					"sFirst": "Premier",
+          					"sPrevious": "Pr&eacute;c&eacute;dent",
+          					"sNext": "Suivant",
+          					"sLast": "Dernier"
+          				},
+          				"oAria":
+          				{
+          					"sSortAscending": ": activer pour trier la colonne par ordre croissant",
+          					"sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          				}
+          			}
+
+          		});
+
+          	}
+          </script>
+
+          <script>
+          	// Fonction pour afficher les véhicules
+          	
+          	function GetVehicule(id)
+          	{
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          		var VEHICULE_ID = $('#VEHICULE_ID').val();
+
+          	//	alert(id)
+
+          		$('#ModalVehicule').modal('show');
+          		var row_count ="1000000";
+          		table=$("#table_vehicule").DataTable({
+          			"processing":true,
+          			"destroy" : true,
+          			"serverSide":true,
+          			"oreder":[[ 0, 'desc' ]],
+          			"ajax":{
+          				url:"<?=base_url()?>centre_situation/Centre_situation/GetVehicule/"+id,
+          				type:"POST",
+          				data: {
+
+          				PROPRIETAIRE_ID:PROPRIETAIRE_ID,
+          				VEHICULE_ID:VEHICULE_ID,
+          			},
+          			},
+          			lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+          			pageLength: 10,
+          			"columnDefs":[{
+          				"targets":[],
+          				"orderable":false
+          			}],
+          			dom: 'Bfrtlip',
+          			buttons: ['excel', 'pdf'],  
+
+          			language: {
+          				"sProcessing": "Traitement en cours...",
+          				"sSearch": "Recherche&nbsp;:",
+          				"sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+          				"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          				"sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          				"sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          				"sInfoPostFix": "",
+          				"sLoadingRecords": "Chargement en cours...",
+          				"sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          				"sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+          				"oPaginate":
+          				{
+          					"sFirst": "Premier",
+          					"sPrevious": "Pr&eacute;c&eacute;dent",
+          					"sNext": "Suivant",
+          					"sLast": "Dernier"
+          				},
+          				"oAria":
+          				{
+          					"sSortAscending": ": activer pour trier la colonne par ordre croissant",
+          					"sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          				}
+          			}
+
+          		});
+
+          	}
+          </script>
+
+
+
+           <script>
+          	// Fonction pour afficher les chauffeurs
+
+          	function GetChauffeur(id)
+          	{
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          		var VEHICULE_ID = $('#VEHICULE_ID').val();
+          		
+          		$('#ModalChauffeur').modal('show');
+          		var row_count ="1000000";
+          		table=$("#table_chauffeur").DataTable({
+          			"processing":true,
+          			"destroy" : true,
+          			"serverSide":true,
+          			"oreder":[[ 0, 'desc' ]],
+          			"ajax":{
+          				url:"<?=base_url()?>centre_situation/Centre_situation/GetChauffeur/"+id,
+          				type:"POST",
+          				data: {
+
+          				PROPRIETAIRE_ID:PROPRIETAIRE_ID,
+          				VEHICULE_ID:VEHICULE_ID,
+          			},
+          			},
+          			lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+          			pageLength: 10,
+          			"columnDefs":[{
+          				"targets":[],
+          				"orderable":false
+          			}],
+          			dom: 'Bfrtlip',
+          			buttons: ['excel', 'pdf'],  
+
+          			language: {
+          				"sProcessing": "Traitement en cours...",
+          				"sSearch": "Recherche&nbsp;:",
+          				"sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+          				"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          				"sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          				"sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          				"sInfoPostFix": "",
+          				"sLoadingRecords": "Chargement en cours...",
+          				"sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          				"sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+          				"oPaginate":
+          				{
+          					"sFirst": "Premier",
+          					"sPrevious": "Pr&eacute;c&eacute;dent",
+          					"sNext": "Suivant",
+          					"sLast": "Dernier"
+          				},
+          				"oAria":
+          				{
+          					"sSortAscending": ": activer pour trier la colonne par ordre croissant",
+          					"sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          				}
+          			}
+
+          		});
+
+          	}
+          </script>
+
+
+          <script>
+          	// Fonction pour afficher les chauffeurs
+
+          	function GetChauffeurPro(id)
+          	{
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          		var VEHICULE_ID = $('#VEHICULE_ID').val();
+          		
+          		$('#ModalChauffeurPro').modal('show');
+          		var row_count ="1000000";
+          		table=$("#table_chauffeur_pro").DataTable({
+          			"processing":true,
+          			"destroy" : true,
+          			"serverSide":true,
+          			"oreder":[[ 0, 'desc' ]],
+          			"ajax":{
+          				url:"<?=base_url()?>centre_situation/Centre_situation/GetChauffeurPro/"+id,
+          				type:"POST",
+          				data: {
+
+          				PROPRIETAIRE_ID:PROPRIETAIRE_ID,
+          				VEHICULE_ID:VEHICULE_ID,
+          			},
+          			},
+          			lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+          			pageLength: 10,
+          			"columnDefs":[{
+          				"targets":[],
+          				"orderable":false
+          			}],
+          			dom: 'Bfrtlip',
+          			buttons: ['excel', 'pdf'],  
+
+          			language: {
+          				"sProcessing": "Traitement en cours...",
+          				"sSearch": "Recherche&nbsp;:",
+          				"sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+          				"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          				"sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          				"sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          				"sInfoPostFix": "",
+          				"sLoadingRecords": "Chargement en cours...",
+          				"sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          				"sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+          				"oPaginate":
+          				{
+          					"sFirst": "Premier",
+          					"sPrevious": "Pr&eacute;c&eacute;dent",
+          					"sNext": "Suivant",
+          					"sLast": "Dernier"
+          				},
+          				"oAria":
+          				{
+          					"sSortAscending": ": activer pour trier la colonne par ordre croissant",
+          					"sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          				}
+          			}
+
+          		});
+
+          	}
+          </script>
+
+
+          </html>

@@ -20,6 +20,11 @@
   width: 0;
   height: 0;
 }
+.scroller {
+      height: 400px;
+      overflow-y: scroll;
+      border-radius: 10px;
+    }
 
 /* The slider */
 .slider {
@@ -86,10 +91,7 @@ input:checked + .slider:before {
   <main id="main" class="main">
    <span style="margin-right: 15px">
     <div class="col-sm-3" style="float:right;">
-      <a href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" style="width: 100px;" class="btn btn-outline-primary rounded-pill ">
-        <i class="fa fa-plus"></i>
-        Nouveau
-      </a>
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
     </div>
   </span>
   
@@ -119,7 +121,7 @@ input:checked + .slider:before {
             <div class="modal-body mb-1">
               <div class="row">
                 <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
-              
+              <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
                 <div class="col-md-6">
                   <label for="description" class="text-dark">Voiture</label>
                   <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
@@ -170,7 +172,7 @@ input:checked + .slider:before {
        <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
             <div class="modal-body mb-1">
               <div class="row">
-                <!-- <input type="hidden" name="code_vehicule" id="code_vehicule"> -->
+               <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
                 <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
 
                 <div class="col-md-6">

@@ -5,7 +5,7 @@
 
       // add OpenStreetMap basemap
 
-	L.mapbox.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc1MmozajAwcGczZW1sMjMwZWxtZDQifQ.u8xhrt1Wn4A82X38f5_Iyw'; 
+	L.mapbox.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc1MmozajAwcGczZW1sMjMwZWxtZDQifQ.u8xhrt1Wn4A82X38f5_Iyw';
 
 	var coord = '<?= $coordinates; ?>';
 	var coord = coord.split(",");
@@ -28,6 +28,8 @@
       //......debut boucle.......
 	var clusterGroup = new L.MarkerClusterGroup();
 
+	//alert(clusterGroup)
+
 	var donn = '<?= $donnees_vehicule?>';
 
 	var donn = donn.split('@');
@@ -35,9 +37,20 @@
 	for (var i = 0; i < (donn.length)-1; i++) {
 		var index = donn[i].split('<>');
 
+		var color = ' ';
+
+		if(index[13] == 1) //Vehicule actif
+		{
+			color = '#3bb2d0';
+		}
+		else              //Vehicule inactif
+		{
+			color = '#FF0000';
+		}
+
 		var marker = L.marker([index[1],index[2]], {
 			icon: L.mapbox.marker.icon({
-				'marker-color': '#0000FF',
+				'marker-color': color,
 				'marker-symbol': 'car',
 				'marker-size': 'large'
 
@@ -47,12 +60,38 @@
 		});
 
 		marker.bindPopup
-		('<h3><strong>Détail du véhicule </strong></h3><p><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"></p> <p> <div class="table-responsive"><table class="table table-borderless"> <tr><td class="text-muted small pt-2 ps-1">Véhicule</td><th class="text-muted small pt-2 ps-1">'+ index[4] +'&nbsp;-&nbsp;'+ index[5] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Code(device uid)</td><th class="text-muted small pt-2 ps-1">'+ index[3] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Plaque</td><th class="text-muted small pt-2 ps-1">'+ index[6] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Couleur</td><th class="text-muted small pt-2 ps-1">'+ index[7] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Consommation/km</td><th class="text-muted small pt-2 ps-1">'+ index[8] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Propriétaire</td><th class="text-muted small pt-2 ps-1">'+ index[9] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Chauffeur</td><th class="text-muted small pt-2 ps-1">'+ index[12] +'</th></tr> </table></div></p><p style="text-align:center;"><label class = "text-center fa fa-info-circle"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'">Informations trajet</a></label></p>');
-		clusterGroup.addLayer(marker);
+		('<h3><strong>Détail du véhicule </strong></h3><p><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"></p> <p> <div class="table-responsive"><table class="table table-borderless"> <tr><td class="text-muted small pt-2 ps-1">Véhicule</td><th class="text-muted small pt-2 ps-1">'+ index[4] +'&nbsp;-&nbsp;'+ index[5] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Code(device uid)</td><th class="text-muted small pt-2 ps-1">'+ index[3] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Plaque</td><th class="text-muted small pt-2 ps-1">'+ index[6] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Couleur</td><th class="text-muted small pt-2 ps-1">'+ index[7] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Consommation</td><th class="text-muted small pt-2 ps-1">'+ index[8] +' Litres / km</th></tr> <tr><td class="text-muted small pt-2 ps-1">Propriétaire</td><th class="text-muted small pt-2 ps-1">'+ index[9] +'</th></tr> <tr><td class="text-muted small pt-2 ps-1">Chauffeur</td><th class="text-muted small pt-2 ps-1">'+ index[12] +'</th></tr> </table></div></p><p style="text-align:center;"><label class = "text-center fa fa-info-circle"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'">Informations trajet</a></label></p>');
+		
+		if(index[14] == 1)
+		{
+		
+			marker.addTo(map);
+		}
+		else
+		{
+			clusterGroup.addLayer(marker);
+		}
 
 	}
 	map.addLayer(clusterGroup);
 
 //.....Fin...........
+
+
+	// async function refreshMarkers(){
+      //     placeMarkers.forEach(marker => marker.remove());
+      //     placeMarkers = await getPointsOfInterest([coord[0],coord[1]]);
+      //     console.log("placemarkers " + placeMarkers);
+      //     map.getSource('markers').setData(placeMarkers);
+      //     placeMarkers.forEach(marker => marker.addTo(map));
+      //   }
+
+      //   //TODO: 3. Create lookups for appropriate marker colors
+      //   const timer = setInterval(() => {
+      //     refreshMarkers();
+      //     // alert('test 3')
+      //   }, 1000);
+
+
 
 </script>

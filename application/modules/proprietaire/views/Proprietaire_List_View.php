@@ -78,7 +78,13 @@ input:checked + .slider:before {
 </style>
 
 </head>
-
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 <body>
 
   <!-- ======= Header ======= -->
@@ -239,8 +245,8 @@ input:checked + .slider:before {
 <div class="modal fade" id="myModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-        <div class='modal-header' style='background:cadetblue;color:white;'>            
-        <h5 class="modal-title">Détail</h5>
+      <div class='modal-header' style='background:cadetblue;color:white;'>            
+        <h5 class="modal-title">Détails</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -249,7 +255,7 @@ input:checked + .slider:before {
             <div class='col-md-6' id="div_info">
             </div>
             <div class='col-md-6'>
-              <table class="table table-hover text-dark">
+              <table class="table table-borderless">
                 <tr>            
                   <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
                   <td><a id="DESC_TYPE_PROPRIETAIRE"></a></td>
@@ -258,10 +264,10 @@ input:checked + .slider:before {
                   <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Personne de référence</td>
                   <td><a id="PERSONNE_REFERENCE"></a></td>
                 </tr>
-                <tr>
-                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; CNI</td>
-                  <td><a id="IDENTITE"></a></td>
-                </tr>
+                
+                
+                <a id="cni_physique"></a>
+
                 <tr>
                   <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
                   <td><a id="TELEPHONE"></a></td>
@@ -275,6 +281,12 @@ input:checked + .slider:before {
                   <td><a id="ADRESSE"></a></td>
                 </tr>
 
+                <div class="icon">
+                  <tr>
+                    <td><i class="bi bi-file-earmark-pdf-fill"></i> &nbsp;&nbsp; <a id="label_doc"></a></td>
+                    <td><button onclick="affiche_doc();"><span class="bi bi-eye"></span></button></td>
+                  </tr>
+                </div>
 
               </table>
             </div>
@@ -300,36 +312,72 @@ input:checked + .slider:before {
 <div class="modal fade" id="myModal_Modal" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-        <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Détail</h5>
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Détails</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="table-responsive">
           <div class="row">
-            <table class="table table-hover text-dark">
-              <tr>            
-                <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
-                <td><a id="DESC_TYPE_PROPRIETAIRE_MORAL"></a></td>
-              </tr>
-              <tr>
-                <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Personne de référence</td>
-                <td><a id="PERSONNE_REFERENCE_MORAL"></a></td>
-              </tr>
+            <div class="col-md-12">
 
-              <tr>
-                <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
-                <td><a id="TELEPHONE_MORAL"></a></td>
-              </tr>
-              <tr>
-                <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
-                <td><a id="EMAIL_MORAL"></a></td>
-              </tr>
-              <tr>
-                <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
-                <td><a id="ADRESSE_MORAL"></a></td>
-              </tr>
-            </table>          
+              <table class="table table-borderless">
+                <tr>            
+                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
+                  <td><a id="DESC_TYPE_PROPRIETAIRE_MORAL"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Personne de référence</td>
+                  <td><a id="PERSONNE_REFERENCE_MORAL"></a></td>
+                </tr>
+
+                <tr>
+                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
+                  <td><a id="TELEPHONE_MORAL"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
+                  <td><a id="EMAIL_MORAL"></a></td>
+                </tr>
+                <tr>
+                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                  <td><a id="ADRESSE_MORAL"></a></td>
+                </tr>
+                <div class="icon">
+                  <tr>
+                    <td><i class="bi bi-file-earmark-pdf-fill"></i> &nbsp;&nbsp; <a id="label_doc"></a></td>
+                    <td><button onclick="affiche_doc();"><span class="bi bi-eye"></span></button></td>
+                  </tr>
+                </div>
+
+              </table> 
+            </div>         
+          </div>
+        </div>
+      </div>
+     <!--  <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!------------------------ Modal documents proprietaire type moral' ------------------------>
+
+<div class="modal fade" id="myModal_Modal_doc" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Document</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <div class="row">
+            <div id="div_info_doc_mor">
+
+
+            </div>         
           </div>
         </div>
       </div>
@@ -368,175 +416,182 @@ input:checked + .slider:before {
 
   }
 }
-  
+
   //Fonction de filtrage de clients selon le type de personne
-  function change_type_personne()
-  {
+function change_type_personne()
+{
 
 
 
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
-  }
+  liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
+}
 
    //Fonction de filtrage de clients selon le statut
-  function change_activation()
+function change_activation()
+{
+
+  liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
+}
+
+function get_commune(PROVINCE_ID)
+{
+
+}
+
+function change_province()
+{
+  get_commune($('#PROVINCE_ID').val());
+  liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),0,$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
+
+  $.ajax(
   {
-
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
-  }
-
-  function get_commune(PROVINCE_ID)
-  {
-
-  }
-
-  function change_province()
-  {
-    get_commune($('#PROVINCE_ID').val());
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),0,$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
-
-    $.ajax(
+    url:"<?=base_url('proprietaire/Proprietaire/get_communes/')?>"+$('#PROVINCE_ID').val(),
+    type: "GET",
+    dataType:"JSON",
+    success: function(data)
     {
-      url:"<?=base_url('proprietaire/Proprietaire/get_communes/')?>"+$('#PROVINCE_ID').val(),
-      type: "GET",
-      dataType:"JSON",
-      success: function(data)
-      {
-        $('#COMMUNE_ID').html(data);
-      },
-      error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Erreur');
-      }
-    });
-    
-  }
-
-
-  function change_commune()
-  {
-    liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
-  }
-
-  function liste(TYPE_PROPRIETAIRE_ID,PROVINCE_ID,COMMUNE_ID,IS_ACTIVE,COUNTRY_ID)
-  {
-
-    var row_count = 10000;
-    $('#message').delay('slow').fadeOut(3000);
-    $("#mytable").DataTable(
-    {
-      "destroy": true,
-      "processing": true,
-      "serverSide": true,
-      "oreder": [],
-      "ajax":
-      {
-        url: "<?php echo base_url('proprietaire/Proprietaire/listing'); ?>",
-        type: "POST",
-        data: {TYPE_PROPRIETAIRE_ID:TYPE_PROPRIETAIRE_ID,PROVINCE_ID:PROVINCE_ID,COMMUNE_ID:COMMUNE_ID,IS_ACTIVE:IS_ACTIVE,COUNTRY_ID:COUNTRY_ID},
-        beforeSend: function()
-        {
-        }
-      },
-      lengthMenu:
-      [
-        [10, 50, 100, row_count],
-        [10, 50, 100, "All"]
-        ],
-      pageLength: 10,
-      "columnDefs": [
-      {
-        "targets": [],
-        "orderable": false
-      }],
-      dom: 'Bfrtlip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-      language:
-      {
-        "sProcessing": "Traitement en cours...",
-        "sSearch": "Recherche&nbsp;:",
-        "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
-        "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-        "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-        "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-        "sInfoPostFix": "",
-        "sLoadingRecords": "Chargement en cours...",
-        "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
-        "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
-        "oPaginate":
-        {
-          "sFirst": "Premier",
-          "sPrevious": "Pr&eacute;c&eacute;dent",
-          "sNext": "Suivant",
-          "sLast": "Dernier"
-        },
-        "oAria":
-        {
-          "sSortAscending": ": activer pour trier la colonne par ordre croissant",
-          "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
-        }
-      }
-    });
-  }
-
-  function get_detail(PROPRIETAIRE_ID)
-  {
-   $("#myModal").modal("show");
-   $.ajax({
-    url: "<?= base_url() ?>proprietaire/Proprietaire/get_detail/" + PROPRIETAIRE_ID,
-    type: "POST",
-    dataType: "JSON",
-    success: function(data) {
-
-      // alert(data.CNI)
-      $('#IDENTITE').html(data.CNI);
-      $('#TELEPHONE').html(data.TELEPHONE);
-      $('#EMAIL').html(data.EMAIL);
-      $('#DESC_TYPE_PROPRIETAIRE').html(data.DESC_TYPE_PROPRIETAIRE);
-      $('#PERSONNE_REFERENCE').html(data.PERSONNE_REFERENCE);
-      $('#div_info').html(data.div_info);
-      $('#ADRESSE').html(data.ADRESSE);
-
+      $('#COMMUNE_ID').html(data);
     },
-
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+      alert('Erreur');
+    }
   });
 
-
- }
-
-
- function get_detail_pers_moral(PROPRIETAIRE_ID) {
+}
 
 
-   $("#myModal_Modal").modal("show");
-   $.ajax({
-    url: "<?= base_url() ?>proprietaire/Proprietaire/get_detail/" + PROPRIETAIRE_ID,
-    type: "POST",
-    dataType: "JSON",
-    success: function(data) {
+function change_commune()
+{
+  liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
+}
+
+function liste(TYPE_PROPRIETAIRE_ID,PROVINCE_ID,COMMUNE_ID,IS_ACTIVE,COUNTRY_ID)
+{
+
+  var row_count = 10000;
+  $('#message').delay('slow').fadeOut(3000);
+  $("#mytable").DataTable(
+  {
+    "destroy": true,
+    "processing": true,
+    "serverSide": true,
+    "oreder": [],
+    "ajax":
+    {
+      url: "<?php echo base_url('proprietaire/Proprietaire/listing'); ?>",
+      type: "POST",
+      data: {TYPE_PROPRIETAIRE_ID:TYPE_PROPRIETAIRE_ID,PROVINCE_ID:PROVINCE_ID,COMMUNE_ID:COMMUNE_ID,IS_ACTIVE:IS_ACTIVE,COUNTRY_ID:COUNTRY_ID},
+      beforeSend: function()
+      {
+      }
+    },
+    lengthMenu:
+    [
+      [10, 50, 100, row_count],
+      [10, 50, 100, "All"]
+      ],
+    pageLength: 10,
+    "columnDefs": [
+    {
+      "targets": [],
+      "orderable": false
+    }],
+    dom: 'Bfrtlip',
+    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+    language:
+    {
+      "sProcessing": "Traitement en cours...",
+      "sSearch": "Recherche&nbsp;:",
+      "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+      "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+      "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+      "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+      "sInfoPostFix": "",
+      "sLoadingRecords": "Chargement en cours...",
+      "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+      "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+      "oPaginate":
+      {
+        "sFirst": "Premier",
+        "sPrevious": "Pr&eacute;c&eacute;dent",
+        "sNext": "Suivant",
+        "sLast": "Dernier"
+      },
+      "oAria":
+      {
+        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+      }
+    }
+  });
+}
+
+function get_detail(PROPRIETAIRE_ID)
+{
+ $("#myModal").modal("show");
+ $.ajax({
+  url: "<?= base_url() ?>proprietaire/Proprietaire/get_detail/" + PROPRIETAIRE_ID,
+  type: "POST",
+  dataType: "JSON",
+  success: function(data) {
+
+      // alert(data.CNI)
+    $('#IDENTITE').html(data.CNI);
+    $('#TELEPHONE').html(data.TELEPHONE);
+    $('#EMAIL').html(data.EMAIL);
+    $('#DESC_TYPE_PROPRIETAIRE').html(data.DESC_TYPE_PROPRIETAIRE);
+    $('#PERSONNE_REFERENCE').html(data.PERSONNE_REFERENCE);
+    $('#div_info').html(data.div_info);
+    $('#div_info_doc_mor').html(data.fichier_cni);
+    $('#label_doc').html(data.label_doc);
+    $('#ADRESSE').html(data.ADRESSE);
+    $('#cni_physique').html(data.cni_physique);
+
+
+  },
+
+});
+
+
+}
+
+//detail personne moral
+function get_detail_pers_moral(PROPRIETAIRE_ID) {
+
+
+ $("#myModal_Modal").modal("show");
+ $.ajax({
+  url: "<?= base_url() ?>proprietaire/Proprietaire/get_detail/" + PROPRIETAIRE_ID,
+  type: "POST",
+  dataType: "JSON",
+  success: function(data) {
 
 
       // alert(data.CNI)
 
       // $('#IDENTITE').html(data.CNI);
-      $('#TELEPHONE_MORAL').html(data.TELEPHONE);
-      $('#EMAIL_MORAL').html(data.EMAIL);
-      $('#DESC_TYPE_PROPRIETAIRE_MORAL').html(data.DESC_TYPE_PROPRIETAIRE);
-      $('#PERSONNE_REFERENCE_MORAL').html(data.PERSONNE_REFERENCE);
-      // $('#div_info').html(data.div_info);
-      $('#ADRESSE_MORAL').html(data.ADRESSE);
+    $('#TELEPHONE_MORAL').html(data.TELEPHONE);
+    $('#EMAIL_MORAL').html(data.EMAIL);
+    $('#DESC_TYPE_PROPRIETAIRE_MORAL').html(data.DESC_TYPE_PROPRIETAIRE);
+    $('#PERSONNE_REFERENCE_MORAL').html(data.PERSONNE_REFERENCE);
+    $('#div_info_doc_mor').html(data.fichier_cni);
+    $('#ADRESSE_MORAL').html(data.ADRESSE);
+    $('#label_doc').html(data.label_doc);
+    
 
 
 
 
 
-    },
 
-  });
+  },
 
- }
+});
 
- function myFunction(PROPRIETAIRE_ID) {
+}
+
+function myFunction(PROPRIETAIRE_ID) {
   // Get the checkbox
   var checkBox = document.getElementById("myCheck");
   // Get the output text
@@ -588,6 +643,14 @@ function myFunction_desactive(PROPRIETAIRE_ID) {
       window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste';
     }
   });
+
+}
+
+function affiche_doc(){
+
+ $("#myModal_Modal_doc").modal("show");
+
+
 
 }
 </script>

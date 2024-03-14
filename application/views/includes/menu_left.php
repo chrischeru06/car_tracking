@@ -65,17 +65,22 @@ if ($this->session->PROFIL_ID == 1) {
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Rapports</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-bar-chart"></i><span>Rapports</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="<?=base_url()?>rapport/Rapport_Proprietaire">
-            <i class="bi bi-circle"></i><span>Propriétaire</span>
+            <i class="bi bi-person"></i><span>Propriétaire</span>
           </a>
         </li>
         <li>
-          <a href="<?=base_url()?>rapport/Rapport_Chauffeur_Statut">
-            <i class="bi bi-circle"></i><span>Chauffeur</span>
+          <a href="<?=base_url()?>rapport/Dashboard_Chauffeur">
+            <i class="bi bi-person"></i><span>Chauffeur</span>
+          </a>
+        </li>
+         <li>
+          <a href="<?=base_url()?>dashboard/Dashboard_Vehicule">
+            <i class="bi bi-person"></i><span>Véhicule</span>
           </a>
         </li>
 

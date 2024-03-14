@@ -28,10 +28,10 @@ a:hover {
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                <div class="d-flex justify-content-center py-4">
-             <img src="<?= base_url()?>/upload/Car_tracking_png-01.png" height="60">
+             <img src="<?= base_url()?>/upload/Car_tracking_png-03.png" height="60">
                 <a href="<?=base_url('Login')?>" class="logo d-flex align-items-center w-auto" >
 
-                  <span class="d-none d-lg-block"><label style="color: white;">MEDIA TRACKING</label></span>
+                  <span class="d-none d-lg-block"><label style="color: white;">MEDIATRACKING</label></span>
                 </a>
               </div><!-- End Logo -->
 
@@ -41,7 +41,7 @@ a:hover {
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4" style="color: white;">S’authentifier</h5>
+                    <h5 class="card-title text-center pb-0 fs-4" style="color: white;">Connexion</h5>
                     <!-- <p class="text-center small">Enter your username & password to login</p> -->
                   </div>
 
@@ -50,29 +50,29 @@ a:hover {
                   <form action="<?= base_url('Login/do_login')?>" id='form_login' method="post" class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label" style="color:white;">Email</label>
+                      <label for="yourUsername" class="form-label" style="color:white;">Nom d'utilisateur</label>
                       <div class="input-group has-validation">
-                        <input type="email" class="form-control"  id="email" name="email" style="border-radius:10px;">
-                        <div class="invalid-feedback">Veuillez entrer l'email.</div>
+                        <input type="email" class="form-control"  id="email" name="email" style="border-radius:10px;" value="" placeholder="Nom d'utilisateur" autofocus>
+                        <div class="invalid-feedback">Veuillez entrer votre nom d'utilisateur.</div>
                       </div>
                     </div>
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label" style="color:white;">Password</label>
-                      <input type="password" class="form-control"  id="Passworde" name="Passworde" style="border-radius:10px;">
+                      <label for="yourPassword" class="form-label" style="color:white;">Mot de passe</label>
+                      <input type="password" class="form-control" placeholder="Mot de passe"  id="Passworde" name="Passworde" style="border-radius:10px;">
                       <div class="invalid-feedback">Veuillez entrer le mot de passe!</div>
                     </div>
 
                     <div class="col-12">
                       <div class="form-check ml-2">
                         <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password()" style="border-radius:5px;">
-                        <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher mot de passe</label>
+                        <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher le mot de passe</label>
                       </div>
                     </div>
                     <div class="text-center">
-                      <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Login</button>
+                      <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Se connecter</button>
                     </div>
                     <div class="form-group text-center">
-                      <a class="login-link" href="<?=base_url('Login/forgotten_pwd')?> ">Avez-vous oublié votre mot de passe?</a>
+                      <a class="login-link" href="<?=base_url('Login/forgotten_pwd')?> "> Mot de passe oublié ?</a>
                     </div>
                   </form>
 
@@ -98,6 +98,13 @@ a:hover {
 
 
 <script>
+
+  $(document).ready(function()
+ {
+  $('#email').val()='';
+  $('#Passworde').val()='';
+
+ });
   function show_password() 
   {
     var x = document.getElementById("Passworde");
@@ -114,7 +121,7 @@ a:hover {
   function login()
   {
     // alert('test')
-    $('#connexion').text('Connexion'); 
+    $('#connexion').text('Connexion...'); 
     $('#connexion').attr('disabled',true);
     $('#message_login').html('')
     
@@ -141,7 +148,7 @@ a:hover {
         {
           $('#message_login').html("<span class='text text-danger'>"+data.message+"</span>");
         }
-        $('#connexion').text('Connexion'); 
+        $('#connexion').text('Connexion...'); 
         $('#connexion').attr('disabled',false); 
       }
     });
