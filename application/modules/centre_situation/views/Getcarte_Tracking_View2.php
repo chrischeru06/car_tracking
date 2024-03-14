@@ -4,18 +4,16 @@
 
 	mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc0dnBzNzA3c3gzZmx2bnpqb2NwNXgifQ.D6Fm6UO9bWViernvxZFW_A';
 
-	// TO MAKE THE MAP APPEAR YOU MUST
-	// ADD YOUR ACCESS TOKEN FROM
-	// https://account.mapbox.com
-	// mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
+		// Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     const map = new mapboxgl.Map({
         container: 'map',
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: 'mapbox://styles/mapbox/streets-v12',
-        zoom: 1.5
+        zoom: 9
     });
 
     map.on('load', async () => {
+
+
         // Get the initial location of the International Space Station (ISS).
         const geojson = await getLocation();
         // Add the ISS location as a source.
@@ -23,19 +21,16 @@
             type: 'geojson',
             data: geojson
         });
+
+
         // Add the rocket symbol layer to the map.
         map.addLayer({
             'id': 'iss',
             'type': 'symbol',
             'source': 'iss',
             'layout': {
-                // This icon is a part of the Mapbox Streets style.
-                // To view all images available in a Mapbox style, open
-                // the style in Mapbox Studio and click the "Images" tab.
-                // To add a new image to the style at runtime see
-                // https://docs.mapbox.com/mapbox-gl-js/example/add-image/
-                'icon-image': 'rocket'
-            }
+            'icon-image': 'car'
+          }
         });
 
         // Update the source from the API every 2 seconds.
@@ -51,7 +46,10 @@
                     // 'https://api.wheretheiss.at/v1/satellites/25544',
                     '<?= base_url() ?>centre_situation/centre_situation2/getmapSymbol/',
                 );
+
                 const { latitude, longitude } = await response.json();
+
+                // alert(id)
                 // Fly the map to the location.
                 map.flyTo({
                     center: [longitude, latitude],
@@ -65,11 +63,31 @@
                             'type': 'Feature',
                             'geometry': {
                                 'type': 'Point',
-                                'coordinates': [longitude, latitude]
+                                'coordinates': ['29.366198', '-3.342804']
+                            }
+                        },
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': ['29.924903', '-3.428803']
                             }
                         }
                     ]
                 };
+
+                // return {
+                //     'type': 'FeatureCollection',
+                //     'features': [
+                //         {
+                //             'type': 'Feature',
+                //             'geometry': {
+                //                 'type': 'Point',
+                //                 'coordinates': ['29.924903', '-3.428803']
+                //             }
+                //         }
+                //     ]
+                // };
             } catch (err) {
                 // If the updateSource interval is defined, clear the interval to stop updating the source.
                 if (updateSource) clearInterval(updateSource);

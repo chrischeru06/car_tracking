@@ -337,7 +337,35 @@
 			$data['zoom'] = $zoom;
 			$data['id'] = $id;
 
-			$map = $this->load->view('Getcarte_Tracking_View',$data,TRUE);
+			 $map = $this->load->view('Getcarte_Tracking_View',$data,TRUE);
+
+// 			$coord = explode(",", $coordinates);
+
+// 			//print_r($coord[0]);die();
+
+// 			$map = '
+
+// 			<script>
+
+// 			L.mapbox.accessToken = "pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc1MmozajAwcGczZW1sMjMwZWxtZDQifQ.u8xhrt1Wn4A82X38f5_Iyw";
+
+// 			var map = L.mapbox.map("map").setView(['.$coord[0].','.$coord[1].'], '.$zoom.');
+
+// 			var layers = {
+// 		Nuit: L.mapbox.styleLayer("mapbox://styles/mapbox/dark-v10"),
+// 		Sombre: L.mapbox.styleLayer("mapbox://styles/mapbox/navigation-guidance-night-v4"),
+// 		Streets: L.mapbox.styleLayer("mapbox://styles/mapbox/streets-v11"),
+// 		Satellite: L.mapbox.styleLayer("mapbox://styles/mapbox/satellite-streets-v11"),
+// 	};
+
+
+// 	layers.Streets.addTo(map);
+// 	L.control.layers(null,layers,{position: "topleft"}).addTo(map);
+// 	L.control.fullscreen().addTo(map);
+
+// </script>
+
+// 			';
 
 			$output = array('carte_view'=>$map,'proprio'=>$proprio,'donnees_vehicule'=>$donnees_vehicule,'nbrVehicule'=>$nbrVehicule,'nbrProprietaire'=>$nbrProprietaire,'nbrChauffeur'=>$nbrChauffeur,'vehiculeActif'=>$nbrVehiculeActif,'vehiculeInactif'=>$nbrVehiculeInactif,'vehiculeAllume'=>$nbrVehiculeAllume,'vehiculeEteint'=>$nbrVehiculeEteint,'vehiculeStationnement'=>$nbrVehiculeStationnement,'vehiculeMouvement'=>$nbrVehiculeMouvement,'vehiculeAvecAccident'=>$nbrVehiculeAvecAccident,'vehiculeSansAccident'=>$nbrVehiculeSansAccident,'coordinates'=>$coordinates,'zoom'=>$zoom,'id'=>$id);
 			echo json_encode($output);
