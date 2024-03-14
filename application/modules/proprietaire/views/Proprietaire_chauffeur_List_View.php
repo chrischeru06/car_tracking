@@ -3,6 +3,78 @@
 
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
+    <style type="text/css">
+
+
+    /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+  }
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.scroller {
+      height: 400px;
+      overflow-y: scroll;
+      border-radius: 10px;
+    }
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: -8px;
+  bottom: 0px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
   
 
 </head>
@@ -185,6 +257,7 @@
                             <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
                             <th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th class="text-dark">STATUT&nbsp;&nbsp;&nbsp;</th>
                             
 
                             <th class="text-dark">OPTIONS</th>
@@ -300,7 +373,7 @@
       $.ajax(
       {
         
-        url: "<?= base_url() ?>chauffeur/Chauffeur/get_all_voiture/",
+        url: "<?= base_url() ?>proprietaire/Proprietaire_chauffeur/get_all_voiture/",
 
         type: "GET",
         dataType: "JSON",
@@ -354,7 +427,7 @@
       if(statut<2)
       {
         var form_data = new FormData($("#attribution_form")[0]);
-        var url="<?= base_url('chauffeur/Chauffeur/save_voiture')?>";
+        var url="<?= base_url('proprietaire/Proprietaire_chauffeur/save_voiture')?>";
         $.ajax(
         {
           url: url,
@@ -376,7 +449,7 @@
                 timer: 1500,
               }).then(() =>
               {
-                window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+                window.location.reload('<?=base_url('proprietaire/Proprietaire_chauffeur')?>');
               });
             }
             else if(data==2)
@@ -389,7 +462,7 @@
                 timer: 1500,
               }).then(() =>
               {
-                window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+                window.location.reload('<?=base_url('proprietaire/Proprietaire_chauffeur')?>');
               });
             }
             else
@@ -402,7 +475,7 @@
                 timer: 1500,
               }).then(() =>
               {
-                window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+                window.location.reload('<?=base_url('proprietaire/Proprietaire_chauffeur')?>');
               });
             }
           }
@@ -423,7 +496,7 @@
       $('#errorDATE_FIN_AFFECTATION_MOD').html('');
       $.ajax(
       {
-       url: "<?= base_url() ?>chauffeur/Chauffeur/get_zone_affect/"+CHAUFFEUR_ID,
+       url: "<?= base_url() ?>proprietaire/Proprietaire_chauffeur/get_zone_affect/"+CHAUFFEUR_ID,
 
        type: "GET",
        dataType: "JSON",
@@ -470,7 +543,7 @@
       if(statut<2)
       {
         var form_data = new FormData($("#modf_affect_form")[0]);
-        var url="<?= base_url('chauffeur/Chauffeur/save_modif_chauff')?>";
+        var url="<?= base_url('proprietaire/Proprietaire_chauffeur/save_modif_chauff')?>";
         $.ajax(
         {
           url: url,
@@ -492,7 +565,7 @@
                 timer: 1500,
               }).then(() =>
               {
-                window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+                window.location.reload('<?=base_url('proprietaire/Proprietaire_chauffeur')?>');
               });
             }
             else if(data==2)
@@ -505,7 +578,7 @@
                 timer: 1500,
               }).then(() =>
               {
-                window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+                window.location.reload('<?=base_url('proprietaire/Proprietaire_chauffeur')?>');
               });
             }
             else
@@ -518,7 +591,7 @@
                 timer: 1500,
               }).then(() =>
               {
-                window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+                window.location.reload('<?=base_url('proprietaire/Proprietaire_chauffeur')?>');
               });
             }
           }
@@ -537,7 +610,7 @@
       var form_data = new FormData($("#myform_checked")[0]);
       $.ajax(
       {
-        url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
+        url:"<?=base_url()?>proprietaire/Proprietaire_chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
         type: 'POST',
         dataType:'JSON',
         data: form_data ,
@@ -546,7 +619,7 @@
         processData: false,
         success: function(data)
         {
-          window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+          window.location.href='<?=base_url('')?>proprietaire/Proprietaire_chauffeur';
 
         }
       });
@@ -557,7 +630,7 @@
   //STATUT_VEHICULE:debut tester si le chauffeur a une voiture pour le desactiver
       if (STATUT_VEHICULE==2) 
       {
-        var url="<?= base_url('chauffeur/Chauffeur/retirer_voiture')?>";
+        var url="<?= base_url('proprietaire/Proprietaire_chauffeur/retirer_voiture')?>";
         $.ajax(
         {
           url: url,
@@ -579,7 +652,7 @@
                 timer: 3000,
               }).then(() =>
               {
-                window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+                window.location.reload('<?=base_url('proprietaire/Proprietaire_chauffeur')?>');
               });
             }
           }
@@ -596,7 +669,7 @@
        var form_data = new FormData($("#myform_check")[0]);
        $.ajax(
        {
-        url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
+        url:"<?=base_url()?>proprietaire/Proprietaire_chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
 
         type: 'POST',
         dataType:'JSON',
@@ -606,7 +679,7 @@
         processData: false,
         success: function(data)
         {
-          window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+          window.location.href='<?=base_url('')?>proprietaire/Proprietaire_chauffeur';
         }
       });
      }
