@@ -438,7 +438,7 @@
 
 		</script>
 
-		<script>
+	<script>
           	function get_vehicule()
           	{
           		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
@@ -457,106 +457,106 @@
 
           		}
           	}
-          </script>
+         </script>
 
 
 	<script>
 
-	mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc0dnBzNzA3c3gzZmx2bnpqb2NwNXgifQ.D6Fm6UO9bWViernvxZFW_A';
+// 	mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc0dnBzNzA3c3gzZmx2bnpqb2NwNXgifQ.D6Fm6UO9bWViernvxZFW_A';
 
 
-	var coord = '<?= $coordinates; ?>';
-	var coord = coord.split(",");
-	var zoom = '<?= $zoom; ?>';
+// 	var coord = '<?= $coordinates; ?>';
+// 	var coord = coord.split(",");
+// 	var zoom = '<?= $zoom; ?>';
 
-	//alert("jhhkjl")
-
-
-   var map = new mapboxgl.Map({
-		container: 'map',
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-		style: 'mapbox://styles/mapbox/streets-v12',
-		center: [coord[0],coord[1]],
-		zoom: zoom,
-		bounds: [29.383188,-3.384438, 29.377566,-3.369615],
-    projection: "globe" // display the map as a 3D globe
-});
+// 	//alert("jhhkjl")
 
 
-
-	map.addControl(new mapboxgl.NavigationControl());
-	map.addControl(new mapboxgl.FullscreenControl());
+//    var map = new mapboxgl.Map({
+// 		container: 'map',
+//         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+// 		style: 'mapbox://styles/mapbox/streets-v12',
+// 		center: [coord[0],coord[1]],
+// 		zoom: zoom,
+// 		bounds: [29.383188,-3.384438, 29.377566,-3.369615],
+//     projection: "globe" // display the map as a 3D globe
+// });
 
 
 
-
-	var donn = '<?= $donnees_vehicule?>';
-
-	var donn = donn.split('@');
+// 	map.addControl(new mapboxgl.NavigationControl());
+// 	map.addControl(new mapboxgl.FullscreenControl());
 
 
-	map.on('load', async () => {
-        // Get the initial location of the International Space Station (ISS).
-        const geojson = await getLocation();
-        // Add the ISS location as a source.
-        map.addSource('iss', {
-            type: 'geojson',
-            data: geojson
-        });
-        // Add the rocket symbol layer to the map.
-        map.addLayer({
-            'id': 'iss',
-            'type': 'symbol',
-            'source': 'iss',
-            'layout': {
-                // This icon is a part of the Mapbox Streets style.
-                // To view all images available in a Mapbox style, open
-                // the style in Mapbox Studio and click the "Images" tab.
-                // To add a new image to the style at runtime see
-                // https://docs.mapbox.com/mapbox-gl-js/example/add-image/
-                'icon-image': 'car'
-            }
-        });
 
-        // Update the source from the API every 2 seconds.
-        const updateSource = setInterval(async () => {
-            const geojson = await getLocation(updateSource);
-            map.getSource('iss').setData(geojson);
-        }, 2000);
 
-        async function getLocation(updateSource) {
-            // Make a GET request to the API and return the location of the ISS.
-            try {
-                const response = await fetch(
-                    '<?= base_url() ?>centre_situation/Centre_situation2/getmap/',
-                    { method: 'GET' }
-                );
-                const { latitude, longitude } = await response.json();
-                // Fly the map to the location.
-                map.flyTo({
-                    center: [longitude, latitude],
-                    speed: 0.5
-                });
-                // Return the location of the ISS as GeoJSON.
-                return {
-                    'type': 'FeatureCollection',
-                    'features': [
-                        {
-                            'type': 'Feature',
-                            'geometry': {
-                                'type': 'Point',
-                                'coordinates': [longitude, latitude]
-                            }
-                        }
-                    ]
-                };
-            } catch (err) {
-                // If the updateSource interval is defined, clear the interval to stop updating the source.
-                if (updateSource) clearInterval(updateSource);
-                throw new Error(err);
-            }
-        }
-    });
+// 	var donn = '<?= $donnees_vehicule?>';
+
+// 	var donn = donn.split('@');
+
+
+// 	map.on('load', async () => {
+//         // Get the initial location of the International Space Station (ISS).
+//         const geojson = await getLocation();
+//         // Add the ISS location as a source.
+//         map.addSource('iss', {
+//             type: 'geojson',
+//             data: geojson
+//         });
+//         // Add the rocket symbol layer to the map.
+//         map.addLayer({
+//             'id': 'iss',
+//             'type': 'symbol',
+//             'source': 'iss',
+//             'layout': {
+//                 // This icon is a part of the Mapbox Streets style.
+//                 // To view all images available in a Mapbox style, open
+//                 // the style in Mapbox Studio and click the "Images" tab.
+//                 // To add a new image to the style at runtime see
+//                 // https://docs.mapbox.com/mapbox-gl-js/example/add-image/
+//                 'icon-image': 'car'
+//             }
+//         });
+
+//         // Update the source from the API every 2 seconds.
+//         const updateSource = setInterval(async () => {
+//             const geojson = await getLocation(updateSource);
+//             map.getSource('iss').setData(geojson);
+//         }, 2000);
+
+//         async function getLocation(updateSource) {
+//             // Make a GET request to the API and return the location of the ISS.
+//             try {
+//                 const response = await fetch(
+//                     '<?= base_url() ?>centre_situation/Centre_situation2/getmap/',
+//                     { method: 'GET' }
+//                 );
+//                 const { latitude, longitude } = await response.json();
+//                 // Fly the map to the location.
+//                 map.flyTo({
+//                     center: [longitude, latitude],
+//                     speed: 0.5
+//                 });
+//                 // Return the location of the ISS as GeoJSON.
+//                 return {
+//                     'type': 'FeatureCollection',
+//                     'features': [
+//                         {
+//                             'type': 'Feature',
+//                             'geometry': {
+//                                 'type': 'Point',
+//                                 'coordinates': [longitude, latitude]
+//                             }
+//                         }
+//                     ]
+//                 };
+//             } catch (err) {
+//                 // If the updateSource interval is defined, clear the interval to stop updating the source.
+//                 if (updateSource) clearInterval(updateSource);
+//                 throw new Error(err);
+//             }
+//         }
+//     });
 
 
 	// for (var i = 0; i < (donn.length)-1; i++) {

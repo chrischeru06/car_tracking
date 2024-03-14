@@ -29,7 +29,7 @@
             'type': 'symbol',
             'source': 'iss',
             'layout': {
-            'icon-image': 'car'
+            'icon-image': 'rocket'
           }
         });
 

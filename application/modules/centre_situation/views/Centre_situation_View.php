@@ -634,11 +634,11 @@
 
           </script>
 
-       <!-- <script>
+       <script>
           	const timer = setInterval(async () => {
           		getmap(1);
           	}, 10000);
-          </script> -->
+          </script>
 
           <script>
           	function get_vehicule()
