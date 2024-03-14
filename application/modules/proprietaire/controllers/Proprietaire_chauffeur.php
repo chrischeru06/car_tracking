@@ -67,7 +67,7 @@ class Proprietaire_chauffeur extends CI_Controller
 			OR chauffeur.NUMERO_CARTE_IDENTITE LIKE "%' . $var_search . '%"
 			OR chauffeur.DATE_INSERTION LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT  DISTINCT chauffeur.CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,proprietaire.PROPRIETAIRE_ID,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE FROM `chauffeur_vehicule` join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID join vehicule on vehicule.CODE=chauffeur_vehicule.CODE join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID WHERE `STATUT_AFFECT`=1';
+		$query_principal='SELECT DISTINCT chauffeur.`CHAUFFEUR_ID`,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,proprietaire.PROPRIETAIRE_ID,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME FROM `chauffeur` LEFT join proprietaire on chauffeur.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID left join chauffeur_vehicule on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID  left JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID left JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID left JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID left JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID WHERE 1';
 
             //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -129,6 +129,48 @@ class Proprietaire_chauffeur extends CI_Controller
 					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le chauffeur</a></li>';
                 }
 
+                if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
+					{
+						$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='bi bi-plus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
+
+						$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
+
+					}
+				
+						if($row->IS_ACTIVE==1){
+					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+
+					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+
+					<table>
+					<td><label class="text-primary">Activé</label></td>
+					<td><label class="switch"> 
+					<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->CHAUFFEUR_ID . ','.$row->STATUT_VEHICULE.')" checked>
+					<span class="slider round"></span>
+					</label></td>
+					</table>
+					
+					</form>
+
+					';
+				}else{
+					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+
+					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+
+					<table>
+					<td><label class="text-danger">Désactivé</label></td>
+					<td><label class="switch"> 
+					<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->CHAUFFEUR_ID . ')">
+					<span class="slider round"></span>
+					</label></td>
+					</table>
+					</form>
+
+					';
+				}
+
+
 			//fin activer desactiver
 			//DEBUT modal pour retirer la voiture
 			$option .= " </ul>
@@ -142,7 +184,7 @@ class Proprietaire_chauffeur extends CI_Controller
 			<div class='modal-body'>
 			<center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
 			<div class='modal-footer'>
-			<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
+			<a class='btn btn-outline-danger rounded-pill' href='".base_url('proprietaire/Proprietaire_chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
 			</div>
 			</div>
 			</div>
@@ -293,13 +335,35 @@ class Proprietaire_chauffeur extends CI_Controller
 	//Fonction pour ajouter les provinces,communes,zones et collines
 	function ajouter()
 	{
-		$data['provinces'] = $this->Model->getRequete("SELECT `PROVINCE_ID`, `PROVINCE_NAME` FROM `provinces` WHERE 1 ORDER BY PROVINCE_NAME ASC");
-		$data['communes'] = $this->Model->getRequete('SELECT COMMUNE_ID, COMMUNE_NAME FROM communes WHERE 1 ORDER BY COMMUNE_NAME ASC');
-		$data['zones'] = $this->Model->getRequete('SELECT ZONE_ID ,ZONE_NAME,COMMUNE_ID FROM zones WHERE 1 ORDER BY ZONE_NAME ASC');
-		$data['collines'] = $this->Model->getRequete('SELECT COLLINE_ID, COLLINE_NAME FROM collines WHERE 1 ORDER BY COLLINE_NAME ASC');
+        $USER_ID = $this->session->userdata('USER_ID');
+		$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+		$provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME','provinces',' 1 ','PROVINCE_NAME ASC');
+		$provinces = $this->ModelPs->getRequete($psgetrequete, $provinces);
+		$communes = $this->getBindParms('COMMUNE_ID,COMMUNE_NAME','communes',' 1 ','COMMUNE_NAME ASC');
+		$communes = $this->ModelPs->getRequete($psgetrequete, $communes);
+		$zones = $this->getBindParms('ZONE_ID,ZONE_NAME','zones',' 1 ','ZONE_NAME ASC');
+		$zones = $this->ModelPs->getRequete($psgetrequete, $zones);
+		$collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME','collines',' 1 ','COLLINE_NAME ASC');
+		$collines = $this->ModelPs->getRequete($psgetrequete, $collines);
+		$type_genre = $this->getBindParms('GENRE_ID,DESCR_GENRE','syst_genre',' 1 ','DESCR_GENRE ASC');
+		$type_genre = $this->ModelPs->getRequete($psgetrequete, $type_genre);
+
 		$data['title'] = 'Nouveau chauffeur';
-		$data['type_genre'] = $this->Model->getRequete('SELECT GENRE_ID, DESCR_GENRE FROM syst_genre WHERE 1 ORDER BY DESCR_GENRE ASC');
-		// $data['ethnie'] = $this->Model->getRequete('SELECT ETHNIE_ID, DESCR_ETHNIE FROM syst_ethnie WHERE 1 ORDER BY DESCR_ETHNIE ASC');
+	
+		$proprio = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc ','proprietaire join users on proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID ',' 1  and users.USER_ID='.$USER_ID.'','proprio_desc ASC');
+
+			$proprio=str_replace('\"', '"', $proprio);
+			$proprio=str_replace('\n', '', $proprio);
+			$proprio=str_replace('\"', '', $proprio);
+			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+
+			$data['proprio'] = $proprio;
+			$data['provinces'] = $provinces;
+			$data['communes'] = $communes;
+			$data['collines'] = $collines;
+			$data['type_genre'] = $type_genre;
+
+
 		$this->load->view('Proprietaire_Chauffeur_Add_View',$data);
 	}
 
@@ -331,6 +395,8 @@ class Proprietaire_chauffeur extends CI_Controller
 		$this->form_validation->set_rules('date_naissance','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 		$this->form_validation->set_rules('date_expiration','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 		$this->form_validation->set_rules('GENRE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+			$this->form_validation->set_rules('PROPRIETAIRE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+	
 
 		if(!isset($_FILES['fichier_carte_identite']) || empty($_FILES['fichier_carte_identite']['name']))
 		{
@@ -373,23 +439,23 @@ class Proprietaire_chauffeur extends CI_Controller
 				'COLLINE_ID' => $this->input->post('COLLINE_ID'),
 				'DATE_NAISSANCE' => $this->input->post('date_naissance'),
 				 'DATE_EXPIRATION_PERMIS' => $this->input->post('date_expiration'),
-				'GENRE_ID' => $this->input->post('GENRE_ID')
+				'GENRE_ID' => $this->input->post('GENRE_ID'),
+				'PROPRIETAIRE_ID' => $this->input->post('PROPRIETAIRE_ID')
 			);
+			// print_r($data_insert);exit();
 			
 			$inser = $this->Model->create($table,$data_insert);
 			// if($CHAUFFEUR_ID>0)
 			// {
 				if($inser)
 				{
-					
-					
 					$data['message']='<div class="alert alert-success text-center" id="message">Ajout effectuer avec succès</div>';
 					$this->session->set_flashdata($data);
-					redirect(base_url('chauffeur/Chauffeur/index'));
+					redirect(base_url('proprietaire/Proprietaire_chauffeur/index'));
 				}
 				else
 				{
-					$this->load->view('Chauffeur_Add_View',$data);
+					$this->load->view('Proprietaire_Chauffeur_Add_View',$data);
 				}
 			//}
 			// else
@@ -463,6 +529,160 @@ class Proprietaire_chauffeur extends CI_Controller
 		$pathfile=$fichier.".".$file_extension;
 		return $pathfile;
 	}
+
+	 function get_all_voiture()
+	{
+		$all_voiture = $this->Model->getRequete("SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule.ID_MODELE=vehicule_modele.ID_MODELE WHERE 1 AND vehicule.STATUT=1");
+		$html='<option value="">--- Sélectionner ----</option>';
+		if(!empty($all_voiture))
+		{
+			foreach($all_voiture as $key)
+			{
+				$html.='<option value="'.$key['CODE'].'">'.$key['DESC_MARQUE'].'-'.$key['DESC_MODELE'].'  /'.$key['PLAQUE'].' </option>';
+			}
+		}
+
+	   $all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
+
+		$html1='<option value="">--- Sélectionner ----</option>';
+		if(!empty($all_zone_affectation))
+		{
+			foreach($all_zone_affectation as $key1)
+			{
+				$html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+			}
+		}
+		$ouput= array(
+         'html'=>$html,
+         'html1'=>$html1,
+		);
+		echo json_encode($ouput);
+	}
+	  function get_zone_affect($CHAUFFEUR_ID)
+	{
+	  $zone_affect=$this->ModelPs->getRequeteOne('SELECT chauffeur_zone_affectation.`CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION`,chauffeur.CHAUFFEUR_ID,chauffeur_vehicule.DATE_DEBUT_AFFECTATION,chauffeur_vehicule.DATE_FIN_AFFECTATION FROM `chauffeur_zone_affectation` join chauffeur_vehicule on chauffeur_zone_affectation.CHAUFF_ZONE_AFFECTATION_ID=chauffeur_vehicule.CHAUFF_ZONE_AFFECTATION_ID JOIN chauffeur on chauffeur_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID WHERE chauffeur.CHAUFFEUR_ID='.$CHAUFFEUR_ID);
+
+	   // print_r($zone_affect);exit();
+	   $all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
+
+		$html1='<option value="">--- Sélectionner ----</option>';
+		if(!empty($all_zone_affectation))
+		{
+			foreach($all_zone_affectation as $key1)
+			{
+				if ($key1['CHAUFF_ZONE_AFFECTATION_ID']==$zone_affect['CHAUFF_ZONE_AFFECTATION_ID']) 
+				{
+				 $html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'" selected>'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+				}else
+				{
+             $html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+				}
+				
+			}
+		}
+		$ouput=array(
+			'htmldbut'=>$zone_affect['DATE_DEBUT_AFFECTATION'],
+			'htmlfin'=>$zone_affect['DATE_FIN_AFFECTATION'],
+			'html1'=>$html1,
+
+		);
+
+		
+		echo json_encode($ouput);
+	}
+	function save_voiture()
+	{
+		// $statut=1 attribution avec succes;
+		// $statut=2:possedent une autre voiture qu'on l'a deja attribuée;
+		// $statut=3: attribution echoue
+		
+
+		$statut=3;
+		// $CODE= $this->input->post('code_vehicule');
+		$USER_ID = $this->session->userdata('USER_ID');
+		$propri_user=$this->Model->getRequeteOne('SELECT `USER_ID`,`PROPRIETAIRE_ID` FROM `users`  WHERE USER_ID='.$USER_ID.'');
+
+		$CODE = $this->input->post('VEHICULE_ID');
+		$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID');
+		$CHAUFF_ZONE_AFFECTATION_ID = $this->input->post('CHAUFF_ZONE_AFFECTATION_ID');
+		$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION');
+		$DATE_FIN_AFFECTATION = $this->input->post('DATE_FIN_AFFECTATION');
+
+		$data = array('CODE'=>$CODE,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'CHAUFF_ZONE_AFFECTATION_ID'=>$CHAUFF_ZONE_AFFECTATION_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'STATUT_AFFECT'=>1);
+
+		$CHAUFFEUR_VEH = $this->Model->create('chauffeur_vehicule',$data);
+
+		$result = $this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('PROPRIETAIRE_ID'=>$propri_user['PROPRIETAIRE_ID'],'STATUT_VEHICULE'=>2));
+		$result = $this->Model->update('vehicule',array('CODE'=>$CODE),array('STATUT'=>2));
+		if($result==true )
+		{
+		 $statut=1;
+		}else
+		{
+		  $statut=2;
+	   }
+		echo json_encode($statut);
+	}
+
+	 //Fonction pour activer/desactiver un proprietaire
+    function active_desactive($status,$CHAUFFEUR_ID)
+    {
+    	if($status==1){
+    		$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>2));
+
+    	}else if($status==2){
+    		$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>1));
+    	}
+
+    	echo json_encode(array('status'=>$status));
+    }
+
+	function save_modif_chauff()
+	{
+		// $statut=1 attribution avec succes;
+		// $statut=2:possedent une autre voiture qu'on l'a deja attribuée;
+		// $statut=3: attribution echoue
+		$statut=3;
+		$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID_MOD');
+		$CHAUFF_ZONE_AFFECTATION_ID = $this->input->post('CHAUFF_ZONE_AFFECTATION_ID_MOD');
+		$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION_MOD');
+		$DATE_FIN_AFFECTATION = $this->input->post('DATE_FIN_AFFECTATION_MOD');
+	    $today = date('Y-m-d H:i:s');
+
+		$result = $this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'STATUT_AFFECT'=>1 ),array('CHAUFF_ZONE_AFFECTATION_ID'=>$CHAUFF_ZONE_AFFECTATION_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'DATE_INSERTION'=>$today));
+	
+		if($result==true )
+		{
+		 $statut=1;
+		}else
+		{
+		  $statut=2;
+	   }
+		echo json_encode($statut);
+	}
+	
+    	//fonction pour retirer la voiture
+	public function retirer_voit($CHAUFFEUR_ID)
+	{
+        $USER_ID = $this->session->userdata('USER_ID');
+		$propri_user=$this->Model->getRequeteOne('SELECT `USER_ID`,`PROPRIETAIRE_ID` FROM `users`  WHERE USER_ID='.$USER_ID.'');
+		$chauf_v = $this->Model->getOne('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID));
+		//print($chauf['CHAUFFEUR_ID']);exit();
+		
+		$this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID']),array('PROPRIETAIRE_ID'=>$propri_user['PROPRIETAIRE_ID'],'STATUT_VEHICULE'=>1));
+
+		$this->Model->update('vehicule',array('CODE'=>$chauf_v['CODE']),array('STATUT'=>1));
+		// $today = date('Y-m-d H:s');
+		$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID']),array('STATUT_AFFECT'=>2));
+
+		
+		$data['message'] = '<div class="alert alert-success text-center" id="message">' . " Vous avez bien retiré la voiture" . '</div>';
+		$this->session->set_flashdata($data);
+		redirect(base_url('proprietaire/Proprietaire_chauffeur'));
+
+		
+	}
+
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 	public function getBindParms($columnselect, $table, $where, $orderby)
