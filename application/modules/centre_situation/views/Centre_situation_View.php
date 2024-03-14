@@ -173,11 +173,11 @@
 						<div class="card-body">
 							<div class="d-flex align-items-center">
 								<div class="col-lg-3">
-									<i class="fa fa-user text-dark" style="font-size: 50px;margin-top: 17px;"></i>
+									<i class="fa fa-user text-dark" style="font-size: 30px;margin-top: 17px;"></i>
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title" id="nbr_proprietaire" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title" id="nbr_proprietaire" style="position: relative;top: 12px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-7">
 									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Propriétaires<i  title="Voir la liste" ></i></b>
@@ -199,18 +199,20 @@
 					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule($('#VEHICULE_ID').val());" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
+
 							<div class="d-flex align-items-center">
 								<div class="col-lg-5">
-									<i class="fa fa-bus text-secondary" style="font-size: 50px;margin-top: 17px;"></i>
+									<i class="fa fa-bus text-secondary" style="font-size: 30px;margin-top: 17px;"></i>
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title" id="nbr_vehicule" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title" id="nbr_vehicule" style="position: relative;top: 12px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-5">
 									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
+							
 						</div>
 
 					</div>
@@ -221,18 +223,21 @@
 					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="<?php if($this->session->userdata('PROFIL_ID') == 1){echo "GetChauffeur($('#PROPRIETAIRE_ID').val());";}else{echo "GetChauffeurPro($('#PROPRIETAIRE_ID').val());";}?>" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
+
 							<div class="d-flex align-items-center">
 								<div class="col-lg-4">
-									<i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i>
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-02.png')?>">
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title" id="nbrChauffeur" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title" id="nbrChauffeur" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Chauffeurs<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 20px;">Chauffeurs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
+
 						</div>
 
 					</div>
@@ -242,18 +247,21 @@
 					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ACTIF');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
+
 							<div class="d-flex align-items-center">
 								<div class="col-lg-4">
-									<i class="fa fa-car text-primary" style="font-size: 50px;margin-top: 17px;"></i>
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-03.png')?>">
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title vehiculeActif" id="vehiculeActif" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title vehiculeActif" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules actifs<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules actifs<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
+
 						</div>
 
 					</div>
@@ -264,18 +272,21 @@
 					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_INACTIF');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
+
 							<div class="d-flex align-items-center">
 								<div class="col-lg-4">
-									<i class="fa fa-car text-danger" style="font-size: 50px;margin-top: 17px;"></i>
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-04.png')?>">
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title vehiculeInactif" id="" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title vehiculeInactif" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules inactifs<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules inactifs<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
+
 						</div>
 
 					</div>
@@ -285,18 +296,21 @@
 					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_CREVAISON');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
+
 							<div class="d-flex align-items-center">
 								<div class="col-lg-4">
-									<i class="fa fa-taxi text-warning" style="font-size: 50px;margin-top: 17px;"></i>
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-05.png')?>">
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title " id="vehiculeAvecAccident" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title" id="vehiculeAvecAccident" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules en crevaison<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en crevaison<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
+
 						</div>
 
 					</div>
@@ -306,18 +320,21 @@
 					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_MOUVEMENT');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
+
 							<div class="d-flex align-items-center">
 								<div class="col-lg-4">
-									<i class="fa fa-truck text-success" style="font-size: 50px;margin-top: 17px;"></i>
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-06.png')?>">
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title" id="vehiculeMouvement" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title" id="vehiculeMouvement" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules en mouvement<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en mouvement<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
+
 						</div>
 
 					</div>
@@ -328,16 +345,18 @@
 					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
+
 							<div class="d-flex align-items-center">
 								<div class="col-lg-4">
-									<i class="fa fa-taxi text-secondary" style="font-size: 50px;margin-top: 17px;"></i>
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-07.png')?>">
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title" id="vehiculeEteint" style="position: relative;top: 12px;">145</strong>
+									<strong class="card-title" id="vehiculeEteint" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules éteints<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules éteints<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
 						</div>
