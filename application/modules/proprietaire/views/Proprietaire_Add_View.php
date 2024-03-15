@@ -17,17 +17,17 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-
-    <div class="pagetitle">
-      <h1>Propriétaire</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Enregistrement</a></li>
-          <!-- <li class="breadcrumb-item active">Liste</li> -->
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-
+    <center>
+      <div class="pagetitle">
+        <h1>Enregistrement d'un Propriétaire</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <!-- <li class="breadcrumb-item"><a href="index.html">Enregistrement</a></li> -->
+            <!-- <li class="breadcrumb-item active">Liste</li> -->
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+    </center>
     <section class="section">
       <div class="card">
         <div class="card-body">
@@ -62,32 +62,32 @@
                   <?php echo form_error('NOM_PROPRIETAIRE', '<div class="text-danger">', '</div>'); ?>
                 </div>
 
-                    <div class="col-md-4" id="div_categor">
-                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Catégorie <font color="red">*</font></label>
-                      <select class="form-control" name="CATEGORIE_ID" id="CATEGORIE_ID">
-                        <option value="">---Sélectionner---</option>
-                        <?php 
+                <div class="col-md-4" id="div_categor">
+                  <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Catégorie <font color="red">*</font></label>
+                  <select class="form-control" name="CATEGORIE_ID" id="CATEGORIE_ID">
+                    <option value="">---Sélectionner---</option>
+                    <?php 
 
-                        foreach ($catego as $value)
-                        {
-                          if ($value['CATEGORIE_ID']==$proprietaire['CATEGORIE_ID'])
-                          {
-                            ?>
-                            <option value="<?= $value['CATEGORIE_ID']?>" selected><?=$value['DESC_CATEGORIE']?></option>
-                            <?php
-                          }
-                          else
-                          {
-                            ?>
-                            <option value="<?=$value['CATEGORIE_ID']?>"><?=$value['DESC_CATEGORIE']?></option>
-                            <?php
-                          }
-                        }
+                    foreach ($catego as $value)
+                    {
+                      if ($value['CATEGORIE_ID']==$proprietaire['CATEGORIE_ID'])
+                      {
                         ?>
-                      </select>
-                    <font id="error_CATEGORIE_ID" color="red"></font>
-                    <?php echo form_error('CATEGORIE_ID', '<div class="text-danger">', '</div>'); ?>
-                  </div>
+                        <option value="<?= $value['CATEGORIE_ID']?>" selected><?=$value['DESC_CATEGORIE']?></option>
+                        <?php
+                      }
+                      else
+                      {
+                        ?>
+                        <option value="<?=$value['CATEGORIE_ID']?>"><?=$value['DESC_CATEGORIE']?></option>
+                        <?php
+                      }
+                    }
+                    ?>
+                  </select>
+                  <font id="error_CATEGORIE_ID" color="red"></font>
+                  <?php echo form_error('CATEGORIE_ID', '<div class="text-danger">', '</div>'); ?>
+                </div>
 
                 <div class="col-md-4" id="div_PRENOM_PROPRIETAIRE"<?=$div_personne_physique?>>
                   <div class="form-group">
@@ -133,12 +133,12 @@
                 </div>
 
                 <div class="col-md-4" id="div_fich_cni">
-                <label for="FName" style="font-weight: 1000; color:#454545">CNI/Passport <font color="red">*</font></label>
-                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_CNI_PASSPORT" autocomplete="off" id="FILE_CNI_PASSPORT" value="<?= $proprietaire['FILE_CNI_PASSPORT'] ?>"  class="form-control">
-                <input type="hidden"  name="FILE_CNI_PASSPORT_OLD" id="FILE_CNI_PASSPORT_OLD" value="<?=$proprietaire['FILE_CNI_PASSPORT']?>">
-                <font id="error_FILE_CNI_PASSPORT" color="red"></font>
-                <?php echo form_error('FILE_CNI_PASSPORT', '<div class="text-danger">', '</div>'); ?> 
-              </div>
+                  <label for="FName" style="font-weight: 1000; color:#454545">CNI/Passport <font color="red">*</font></label>
+                  <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_CNI_PASSPORT" autocomplete="off" id="FILE_CNI_PASSPORT" value="<?= $proprietaire['FILE_CNI_PASSPORT'] ?>"  class="form-control">
+                  <input type="hidden"  name="FILE_CNI_PASSPORT_OLD" id="FILE_CNI_PASSPORT_OLD" value="<?=$proprietaire['FILE_CNI_PASSPORT']?>">
+                  <font id="error_FILE_CNI_PASSPORT" color="red"></font>
+                  <?php echo form_error('FILE_CNI_PASSPORT', '<div class="text-danger">', '</div>'); ?> 
+                </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
@@ -323,14 +323,14 @@
                 <font id="error_LOGO" color="red"></font>
                 <?php echo form_error('LOGO', '<div class="text-danger">', '</div>'); ?> 
               </div>
-               <div class="col-md-4" id="div_doc_rc">
+              <div class="col-md-4" id="div_doc_rc">
                 <label for="FName" style="font-weight: 1000; color:#454545">Document RC <font color="red">*</font></label>
                 <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_RC" autocomplete="off" id="FILE_RC" value="<?= $proprietaire['FILE_RC'] ?>"  class="form-control">
                 <input type="hidden"  name="FILE_RC_OLD" id="FILE_RC_OLD" value="<?=$proprietaire['FILE_RC']?>">
                 <font id="error_FICHIER_RC" color="red"></font>
                 <?php echo form_error('FILE_RC', '<div class="text-danger">', '</div>'); ?> 
               </div>
-               <div class="col-md-4" id="div_doc_nif">
+              <div class="col-md-4" id="div_doc_nif">
                 <label for="FName" style="font-weight: 1000; color:#454545">Document NIF <font color="red">*</font></label>
                 <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_NIF" autocomplete="off" id="FILE_NIF" value="<?= $proprietaire['FILE_NIF'] ?>"  class="form-control">
                 <input type="hidden"  name="FILE_NIF_OLD" id="FILE_NIF_OLD" value="<?=$proprietaire['FILE_NIF']?>">
@@ -494,8 +494,8 @@
       $('#div_logo').hide();
       $('#div_doc_rc').hide();
       $('#div_doc_nif').hide();
-     $('#div_categor').hide();
-     $('#div_nomsoci').hide();
+      $('#div_categor').hide();
+      $('#div_nomsoci').hide();
 
       $('#div_fich_cni').show();
 
@@ -618,7 +618,7 @@ function submit_form()
     statut=2;
     $('#errorcountry').html('Le champ est obligatoire');
   }else{$('#errorcountry').html('');}
-   if($('#EMAIL').val() !='')
+  if($('#EMAIL').val() !='')
   {
     if(!emailReg.test($('#EMAIL').val()))
     {
@@ -710,7 +710,7 @@ function submit_form()
     $('#errorNOM_PROPRIETAIRE').html('Le champ est obligatoire');
   }else{$('#errorNOM_PROPRIETAIRE').html('');}
 
- 
+  
 //input type_moral
   if($('#TYPE_PROPRIETAIRE_ID').val()==1)
   {
@@ -722,11 +722,11 @@ function submit_form()
     }else{
       $('#errorRC').html('');
     }
-     if($('#CATEGORIE_ID').val()=='')
-  {
-    statut=2;
-    $('#error_CATEGORIE_ID').html('Le champ est obligatoire');
-  }else{$('#error_CATEGORIE_ID').html('');}
+    if($('#CATEGORIE_ID').val()=='')
+    {
+      statut=2;
+      $('#error_CATEGORIE_ID').html('Le champ est obligatoire');
+    }else{$('#error_CATEGORIE_ID').html('');}
 
 
     if($('#CNI_OU_NIF').val()=='')
@@ -795,7 +795,7 @@ function submit_form()
     
   }
 
- 
+  
 
       // alert(statut)
 

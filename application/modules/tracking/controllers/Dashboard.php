@@ -658,8 +658,7 @@ class Dashboard extends CI_Controller
 
 
 
-			//fonction des clones
-
+			//fonction clones alerte exces de vitesse
 			function alerte_exces_vitesse()
 			{
 				$proce_requete = "CALL `getRequete`(?,?,?,?);";
@@ -713,6 +712,44 @@ class Dashboard extends CI_Controller
 						$update=$this->Model->update('tracking_data',array('id'=>$get_data['maximum']),array('MESSAGE'=>1));
 					}
 
+				}
+
+			}
+			//fonction clones alerte assurance termine
+			function check_assurance(){
+				$proce_requete = "CALL `getRequete`(?,?,?,?);";
+				$DATE_JOUR=date('Y-m-d');
+				$my_selectget_assurance=$this->getBindParms('DATE_DEBUT_ASSURANCE,DATE_FORMAT(DATE_FIN_ASSURANCE,"%Y/%m/%d") as date_fin,DATE_FORMAT(DATE_FIN_ASSURANCE,"%d/%m/%Y") as date_fin_format,DATE_FORMAT(DATE_FIN_CONTROTECHNIK,"%Y/%m/%d") as date_fin_contr_technik,DATE_FORMAT(DATE_FIN_CONTROTECHNIK,"%d/%m/%Y") as date_fin_contr_technikformat,proprietaire.EMAIL,vehicule.PLAQUE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE', 'vehicule join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE', '1 AND vehicule.IS_ACTIVE=1 AND proprietaire.IS_ACTIVE=1' , 'proprietaire.PROPRIETAIRE_ID ASC');
+				$my_selectget_assurance=str_replace('\"', '"', $my_selectget_assurance);
+				$my_selectget_assurance=str_replace('\n', '', $my_selectget_assurance);
+				$my_selectget_assurance=str_replace('\"', '', $my_selectget_assurance);
+
+				$get_assurance = $this->ModelPs->getRequete($proce_requete, $my_selectget_assurance);
+
+				// print_r(expression)
+				foreach ($get_assurance as $key) {
+					$nb_jr_new=1;
+					$your_date_new = strtotime("-".$nb_jr_new." day", strtotime($key['date_fin']));
+					$new_date_new = date("Y-m-d", $your_date_new++);
+
+					$your_date_new_technik = strtotime("-".$nb_jr_new." day", strtotime($key['date_fin_contr_technik']));
+					$new_date_new_technik = date("Y-m-d", $your_date_new_technik++);
+					if ($DATE_JOUR==$new_date_new) {
+						$subjet="Assurance expirée";
+
+						$email = $key['EMAIL'];
+						$message="Cher propriétaire du véhicule ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE']." ,Votre assurance expirera demain le '".$key['date_fin_format']."'!<br> veuillez la renouveler !";
+						$this->notifications->send_mail(array($email),$subjet,array(),$message,array());
+					}
+					if($DATE_JOUR==$new_date_new_technik){
+
+						$subjet="Contrôle technique expiré";
+
+						$email = $key['EMAIL'];
+						$message="Cher propriétaire  du véhicule ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE'].",Votre Contrôle technique expirera demain le '".$key['date_fin_contr_technikformat']."'! <br> veuillez la renouveler !";
+						$this->notifications->send_mail(array($email),$subjet,array(),$message,array());
+
+					}
 				}
 
 			}

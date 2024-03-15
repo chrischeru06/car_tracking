@@ -98,6 +98,7 @@ input:checked + .slider:before {
   <main id="main" class="main">
     <div class="pagetitle">
       <div class="row">
+
         <div class="col-md-6">
           <i class="bi bi-user-plus"></i> <h1>Propriétaires</h1>
           <nav>
@@ -107,6 +108,7 @@ input:checked + .slider:before {
             </ol>
           </nav>
         </div>
+        
         <div class="col-md-6">
 
           <div class="justify-content-sm-end d-flex">
@@ -206,12 +208,11 @@ input:checked + .slider:before {
                   <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                     <tr>
                       <th class="text-dark">#</th>
-
-                      <th class="text-dark">IDENTIFICATION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th>STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                      <th class="text-dark">OPTIONS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th class="text-dark">IDENTIFICATION</th>
+                      <th class="text-dark">EMAIL</th>
+                      <th class="text-dark">TELEPHONE</th>
+                      <th>STATUT</th>
+                      <th class="text-dark">OPTIONS</th>
                     </tr>
                   </thead>
                   <tbody class="text-dark">

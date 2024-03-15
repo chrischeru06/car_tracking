@@ -19,20 +19,18 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <span class="bi bi-car"></span>
-      <h1>Véhicule</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Véhicule</a></li>
-          <li class="breadcrumb-item active">Liste</li>
-        </ol>
-      </nav>
-      <div class="col-md-2">
+      <div class="row">
 
-        <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+        <center>
+          <span class="bi bi-car"></span>
+          <h1>Liste des Véhicules</h1>
 
+        </center>
+        <div class="justify-content-sm-end d-flex">
+
+          <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Vehicule/ajouter')?>" ><i class="bi bi-plus"></i> Nouveau</a>
+        </div>
       </div>
-
     </div><!-- End Page Title -->
 
 
@@ -177,8 +175,8 @@
 
       dom: 'Bfrtlip',
       buttons: [
-      'pdf', 'print'
-      ],
+        'pdf', 'print'
+        ],
       language: {
         "sProcessing":     "Traitement en cours...",
         "sSearch":         "Rechercher&nbsp;:",
@@ -214,121 +212,121 @@
 
  function attribue_voiture(VEHICULE_ID='')
  {
-    $('#VEHICULE_ID').val(VEHICULE_ID);
+  $('#VEHICULE_ID').val(VEHICULE_ID);
     // $('#PLAQUE').html(PLAQUE);
     // $('#PRENOM').html(PRENOM);
 
-    $('#CHAUFF_ZONE_AFFECTATION_ID').val(CHAUFF_ZONE_AFFECTATION_ID);
-    $('#errorCHAUFFEUR_ID').html('');
-    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
-    $('#errorDATE_DEBUT_AFFECTATION').html('');
-    $('#errorDATE_FIN_AFFECTATION').html('');
+  $('#CHAUFF_ZONE_AFFECTATION_ID').val(CHAUFF_ZONE_AFFECTATION_ID);
+  $('#errorCHAUFFEUR_ID').html('');
+  $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
+  $('#errorDATE_DEBUT_AFFECTATION').html('');
+  $('#errorDATE_FIN_AFFECTATION').html('');
+  $.ajax(
+  {
+
+    url: "<?= base_url() ?>proprietaire/Proprietaire_vehicule/get_all_choffeur/",
+
+    type: "GET",
+    dataType: "JSON",
+    success: function(data)
+    {
+      $('#CHAUFFEUR_ID').html(data.html);
+      $('#CHAUFF_ZONE_AFFECTATION_ID').html(data.html1);
+        // $('#code_vehicule').val(CODE);
+      $('#carteModal').modal('show');
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+      alert('Erreur');
+    }
+  });
+}
+function save_vehicule()
+{
+  var statut=1;
+  $('#errorCHAUFFEUR_ID').html('');
+  $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
+  $('#errorDATE_DEBUT_AFFECTATION').html('');
+  $('#errorDATE_FIN_AFFECTATION').html('');
+
+
+  if($('#CHAUFFEUR_ID').val()=='')
+  {
+    $('#errorCHAUFFEUR_ID').html('Le champ est obligatoire');
+    statut=2;
+  }
+  if($('#CHAUFF_ZONE_AFFECTATION_ID').val()=='')
+  {
+    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('Le champ est obligatoire');
+    statut=2;
+  } if($('#DATE_DEBUT_AFFECTATION').val()=='')
+  {
+    $('#errorDATE_DEBUT_AFFECTATION').html('Le champ est obligatoire');
+    statut=2;
+  } if($('#DATE_FIN_AFFECTATION').val()=='')
+  {
+    $('#errorDATE_FIN_AFFECTATION').html('Le champ est obligatoire');
+    statut=2;
+  }
+
+  if(statut<2)
+  {
+    var form_data = new FormData($("#attribution_form")[0]);
+    var url="<?= base_url('proprietaire/Proprietaire_vehicule/save_choffeur')?>";
     $.ajax(
     {
-
-      url: "<?= base_url() ?>proprietaire/Proprietaire_vehicule/get_all_choffeur/",
-
-      type: "GET",
-      dataType: "JSON",
+      url: url,
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
       success: function(data)
       {
-        $('#CHAUFFEUR_ID').html(data.html);
-        $('#CHAUFF_ZONE_AFFECTATION_ID').html(data.html1);
-        // $('#code_vehicule').val(CODE);
-        $('#carteModal').modal('show');
-      },
-      error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Erreur');
+        if(data==1)
+        {
+          Swal.fire(
+          {
+            icon: 'success',
+            title: 'Success',
+            text: 'Affectation faite avec succès',
+            timer: 1500,
+          }).then(() =>
+          {
+            window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
+          });
+        }
+        else if(data==2)
+        {
+          Swal.fire(
+          {
+            icon: 'success',
+            title: 'Success',
+            text: 'Le chauffeur possède déjà une voiture ',
+            timer: 1500,
+          }).then(() =>
+          {
+            window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
+          });
+        }
+        else
+        {
+          Swal.fire(
+          {
+            icon: 'success',
+            title: 'Success',
+            text: 'Affectation échouée',
+            timer: 1500,
+          }).then(() =>
+          {
+            window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
+          });
+        }
       }
     });
- }
-  function save_vehicule()
-  {
-    var statut=1;
-    $('#errorCHAUFFEUR_ID').html('');
-    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
-    $('#errorDATE_DEBUT_AFFECTATION').html('');
-    $('#errorDATE_FIN_AFFECTATION').html('');
-   
-
-    if($('#CHAUFFEUR_ID').val()=='')
-    {
-      $('#errorCHAUFFEUR_ID').html('Le champ est obligatoire');
-      statut=2;
-    }
-    if($('#CHAUFF_ZONE_AFFECTATION_ID').val()=='')
-    {
-      $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('Le champ est obligatoire');
-      statut=2;
-    } if($('#DATE_DEBUT_AFFECTATION').val()=='')
-    {
-      $('#errorDATE_DEBUT_AFFECTATION').html('Le champ est obligatoire');
-      statut=2;
-    } if($('#DATE_FIN_AFFECTATION').val()=='')
-    {
-      $('#errorDATE_FIN_AFFECTATION').html('Le champ est obligatoire');
-      statut=2;
-    }
-
-    if(statut<2)
-    {
-      var form_data = new FormData($("#attribution_form")[0]);
-      var url="<?= base_url('proprietaire/Proprietaire_vehicule/save_choffeur')?>";
-      $.ajax(
-      {
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data)
-        {
-          if(data==1)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Affectation faite avec succès',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
-            });
-          }
-          else if(data==2)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Le chauffeur possède déjà une voiture ',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
-            });
-          }
-          else
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Affectation échouée',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('proprietaire/Proprietaire_vehicule')?>');
-            });
-          }
-        }
-      });
-    }
   }
+}
 </script>
 
 </html>
