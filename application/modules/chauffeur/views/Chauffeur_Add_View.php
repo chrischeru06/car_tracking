@@ -17,7 +17,7 @@
 
   <main id="main" class="main">
 
-    <div class="pagetitle">
+    <!-- <div class="pagetitle">
       <h1>Chauffeur</h1>
       <nav>
         <ol class="breadcrumb">
@@ -25,7 +25,34 @@
           <li class="breadcrumb-item active"><?=$title?></li>
         </ol>
       </nav>
-    </div><!-- End Page Title -->
+    </div> -->
+     <div class="row page-titles mx-0">
+      <div class="col-sm-10 p-md-0">
+        <div class="welcome-text">
+        <center>
+         <table>
+          <tr>
+          
+            <td>  
+              <h4 class="text-dark text-center" style="margin-bottom: 1px;"><?=$title?></h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+               
+                </ol>
+              </nav>
+            </td>
+          </tr>
+        </table>
+        </center>
+      </div>
+    </div>
+    <div class="col-md-2">
+
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Liste</a>
+
+    </div>
+  </div>
+    <!-- End Page Title -->
 
     <section class="section dashboard">
       <!--  <div class="container text-center"> -->

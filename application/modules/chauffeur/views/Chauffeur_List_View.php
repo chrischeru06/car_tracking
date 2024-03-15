@@ -89,20 +89,31 @@ input:checked + .slider:before {
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-   <span style="margin-right: 15px">
-    <div class="col-sm-3" style="float:right;">
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+   <div class="row page-titles mx-0">
+      <div class="col-sm-10 p-md-0">
+        <div class="welcome-text">
+          <center>
+         <table>
+          <tr>
+
+            <td>  
+              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Liste des chauffeurs</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+               
+                </ol>
+              </nav>
+            </td>
+          </tr>
+        </table>
+        </center>
+      </div>
     </div>
-  </span>
-  
-  <div class="pagetitle">
-    <h1>Chauffeurs</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="">Chauffeur</a></li>
-        <li class="breadcrumb-item active">Liste des chauffeurs</li>
-      </ol>
-    </nav>
+    <div class="col-md-2">
+
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+
+    </div>
   </div>
 
 
