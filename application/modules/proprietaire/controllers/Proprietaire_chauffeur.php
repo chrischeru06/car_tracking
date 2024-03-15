@@ -122,7 +122,8 @@ class Proprietaire_chauffeur extends CI_Controller
 			<ul class="dropdown-menu dropdown-menu-left">
 			';
 
-
+             
+			$option .= "<li><a class='btn-md' href='" . base_url('proprietaire/Proprietaire_chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</a></li>";
 			$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>";
 			if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 				{
@@ -681,6 +682,120 @@ class Proprietaire_chauffeur extends CI_Controller
 		redirect(base_url('proprietaire/Proprietaire_chauffeur'));
 
 		
+	}
+		//Fonction pour recuperer une ligne 
+	function getOne($id)
+	{
+		$membre = $this->Model->getRequeteOne('SELECT CHAUFFEUR_ID, NOM, PRENOM, ADRESSE_PHYSIQUE, NUMERO_TELEPHONE, ADRESSE_MAIL, NUMERO_CARTE_IDENTITE, FILE_CARTE_IDENTITE, NUMERO_PERMIS,file_permis,GENRE_ID, PERSONNE_CONTACT_TELEPHONE, PROVINCE_ID, COMMUNE_ID, ZONE_ID, COLLINE_ID,PHOTO_PASSPORT,PROPRIETAIRE_ID FROM chauffeur WHERE CHAUFFEUR_ID='.$id);
+		
+
+		$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+		$provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME','provinces',' 1 ','PROVINCE_NAME ASC');
+		$provinces = $this->ModelPs->getRequete($psgetrequete, $provinces);
+		$communes = $this->getBindParms('COMMUNE_ID,COMMUNE_NAME','communes',' 1 and PROVINCE_ID='.$membre['PROVINCE_ID'].'','COMMUNE_NAME ASC');
+		$communes = $this->ModelPs->getRequete($psgetrequete, $communes);
+		$zones = $this->getBindParms('ZONE_ID,ZONE_NAME','zones',' 1 and COMMUNE_ID='.$membre['COMMUNE_ID'].'','ZONE_NAME ASC');
+		$zones = $this->ModelPs->getRequete($psgetrequete, $zones);
+		$collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME','collines',' 1 and ZONE_ID='.$membre['ZONE_ID'].' ','COLLINE_NAME ASC');
+		$collines = $this->ModelPs->getRequete($psgetrequete, $collines);
+		$USER_ID = $this->session->userdata('USER_ID');
+		
+
+		$propri_user = $this->getBindParms('USER_ID,PROPRIETAIRE_ID','users',' 1 and USER_ID='.$USER_ID.' ','USER_ID ASC');
+		$propri_user = $this->ModelPs->getRequeteOne($psgetrequete, $propri_user);
+
+		$proprio = $this->getBindParms('proprietaire.PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc ','proprietaire ',' 1 and PROPRIETAIRE_ID='.$propri_user['PROPRIETAIRE_ID'].'','proprio_desc ASC');
+
+			$proprio=str_replace('\"', '"', $proprio);
+			$proprio=str_replace('\n', '', $proprio);
+			$proprio=str_replace('\"', '', $proprio);
+			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+
+			$data['membre'] = $membre;
+			$data['provinces'] = $provinces;
+			$data['communes'] = $communes;
+			$data['zones'] = $zones;
+			$data['collines'] = $collines;
+			$data['proprio'] = $proprio;
+
+		$data['title'] = "Modification d'un chauffeur";
+		$this->load->view('Proprietaire_Chauffeur_Update_View',$data);
+	}
+		function update()
+	{
+		$id = $this->input->post('CHAUFFEUR_ID');
+		//print_r($id);exit();
+
+		$this->form_validation->set_rules('NOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('PRENOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('ADRESSE_PHYSIQUE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('NUMERO_TELEPHONE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('PROPRIETAIRE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+
+
+		$FILE_CARTE_IDENTITE = $this->input->post('FILE_CARTE_IDENTITE_OLD');
+		if(empty($_FILES['FILE_CARTE_IDENTITE']['name']))
+		{
+			$file = $this->input->post('FILE_CARTE_IDENTITE_OLD');	
+		}
+		else
+		{
+			$file = $this->upload_document($_FILES['FILE_CARTE_IDENTITE']['tmp_name'],$_FILES['FILE_CARTE_IDENTITE']['name']);
+		}
+
+		$file_permis = $this->input->post('file_permis_OLD');
+		if(empty($_FILES['file_permis']['name']))
+		{
+			$file2 = $this->input->post('file_permis_OLD');
+		}
+		else
+		{
+			$file2 = $this->upload_document($_FILES['file_permis']['tmp_name'],$_FILES['file_permis']['name']);
+		}
+
+		$PHOTO_PASSPORT = $this->input->post('PHOTO_PASSPORT_OLD');
+		if(empty($_FILES['PHOTO_PASSPORT']['name']))
+		{
+			$file3 = $this->input->post('PHOTO_PASSPORT_OLD');
+		}
+		else
+		{
+			$file3 = $this->upload_document($_FILES['PHOTO_PASSPORT']['tmp_name'],$_FILES['PHOTO_PASSPORT']['name']);
+		}
+
+		if($this->form_validation->run() == FALSE)
+		{
+			$this->getOne($id);
+		}
+		else
+		{
+			$Array = array(
+				'NOM' => $this->input->post('NOM'),
+				'PRENOM' => $this->input->post('PRENOM'),
+				'ADRESSE_PHYSIQUE' => $this->input->post('ADRESSE_PHYSIQUE'),
+				'NUMERO_TELEPHONE' => $this->input->post('NUMERO_TELEPHONE'),
+				'NUMERO_CARTE_IDENTITE' => $this->input->post('NUMERO_CARTE_IDENTITE'),
+				'PERSONNE_CONTACT_TELEPHONE' => $this->input->post('PERSONNE_CONTACT_TELEPHONE'),
+				'ADRESSE_MAIL' => $this->input->post('ADRESSE_MAIL'),
+				'FILE_CARTE_IDENTITE' => $file,
+				'PHOTO_PASSPORT' => $file2,
+				'PROVINCE_ID' => $this->input->post('PROVINCE_ID'),
+				'COMMUNE_ID' => $this->input->post('COMMUNE_ID'),
+				'ZONE_ID' => $this->input->post('ZONE_ID'),
+				'PROPRIETAIRE_ID' => $this->input->post('PROPRIETAIRE_ID'),
+				'COLLINE_ID' => $this->input->post('COLLINE_ID'),
+				'PHOTO_PASSPORT' => $file3
+			);
+			$this->Model->update('chauffeur', array('CHAUFFEUR_ID' => $id), $Array);
+			$datas['message'] = '<div class="alert alert-success text-center" id="message">La modification s\'est faite avec succès</div>';
+			$this->session->set_flashdata($datas);
+			redirect(base_url('proprietaire/Proprietaire_chauffeur/index'));
+		}
 	}
 
 
