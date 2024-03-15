@@ -81,7 +81,7 @@
 			{
 				$sub_array=array();
 				$sub_array[]=$u++;
-				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
+				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
 			
 				</div>
 				<div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID. '">
@@ -91,7 +91,7 @@
               <button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-              <img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" >
+              <center><img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" ></center>
               </div>
               </div>
               </div>
@@ -205,55 +205,54 @@
 							<div class='modal-body'>
 							<div class='row'>
 							<div class='col-md-4'>
-							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='auto'  width='80%'  style= 'border-radius:20px;'>
 							</div>
 							<div class='col-md-8'>
 							<div class='table-responsive'>
 							<table class='table table-borderless'>
 							<tr>
-							<td>Carte d'identité</td>
+							<td><label class='fa fa-book'></label> Carte d'identité</td>
 							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
 							</tr>
 
 							<tr>
-							<td>Email</td>
+							<td><label class='fa fa-envelope-o '></label>  Email</td>
 							<th>".$row->ADRESSE_MAIL."</th>
 							</tr>
-
 							<tr>
-							<td>Téléphone</td>
+							<td><label class='fa fa-phone'></label> Téléphone</td>
 							<th>".$row->NUMERO_TELEPHONE."</th>
 							</tr>
 
 							<tr>
-							<td>Date naissance</td>
+							<td><label class='fa fa-calendar '></label> Date naissance</td>
 							<th>".$row->DATE_NAISSANCE."</th>
 							</tr>
 
 							<tr>
-							<td>Aresse physique</td>
+							<td><label class='fa fa-map-marker'></label> Aresse physique</td>
 							<th>".$row->ADRESSE_PHYSIQUE."</th>
 							</tr>
 							<tr>
-							<td>Localité</td>
+							<td><label class='fa fa-map-marker'></label> Localité</td>
 							<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
 							</tr>
 
 							<tr>
-							<td>Information&nbsp;du&nbsp;vehicule</td>
+							<td><label class='fa fa-info'></label>Information&nbsp;du&nbsp;vehicule</td>
 							<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
 							</tr>
-                          
+                        
 							<tr>
-							<td><strong>Voir documents</strong></td>
+							<td><strong>Documents</strong></td>
 						   </tr>
 							<tr>
-							<td>CNI</td>
+							<td><label class='fa fa-book'></label> CNI</td>
 							<td><a href='#' data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 							</td>
 							</tr>
 							<tr>
-							<td>PERMIS</td>
+							<td><label class='fa fa-book'></label> PERMIS&nbsp;&nbsp;DE&nbsp;CONDUIRE</td>
 							<td><a href='#'data-toggle='modal' data-target='#info_documa2" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 							</td>
 							</tr>
@@ -324,50 +323,50 @@
 							<div class='modal-body'>
 							<div class='row'>
 							<div class='col-md-4'>
-							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='80%'  width='80%'  style= 'border-radius:20px;'>
+							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='auto'  width='80%'  style= 'border-radius:20px;'>
 							</div>
 							<div class='col-md-8'>
 							<div class='table-responsive'>
 							<table class='table table-borderless'>
 							<tr>
-							<td>Carte d'identité</td>
-							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
+							<td ><label class='fa fa-book'></label> Carte d'identité</td>
+							<th> ".$row->NUMERO_CARTE_IDENTITE."</th>
 							</tr>
 
 							<tr>
-							<td>Email</td>
+							<td><label class='fa fa-envelope-o '></label> Email</td>
 							<th>".$row->ADRESSE_MAIL."</th>
 							</tr>
-
+ 
 							<tr>
-							<td>Téléphone</td>
+							<td><label class='fa fa-phone'></label> Téléphone</td>
 							<th>".$row->NUMERO_TELEPHONE."</th>
 							</tr>
 
 							<tr>
-							<td>Date naissance</td>
+							<td><label class='fa fa-calendar '></label> Date naissance</td>
 							<th>".$row->DATE_NAISSANCE."</th>
 							</tr>
 
 							<tr>
-							<td>Aresse physique</td>
+							<td><label class='fa fa-map-marker'></label> Adresse physique</td>
 							<th>".$row->ADRESSE_PHYSIQUE."</th>
 							</tr>
 							<tr>
-							<td>Localité</td>
+							<td><label class='fa fa-map-marker'></label> Localité</td>
 							<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
 							</tr>
 
 							<tr>
-							<td><strong>Voir documents</strong></td>
+							<td><strong>Documents</strong></td>
 						   </tr>
 							<tr>
-							<td>CNI</td>
+							<td><label class='fa fa-book'></label> CNI</td>
 							<td><a href='#'data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 							</td>
 							</tr>
 							<tr>
-							<td>PERMIS</td>
+							<td><label class='fa fa-book'></label> PERMIS&nbsp;&nbsp;DE&nbsp;CONDUIRE</td>
 							<td><a href='#'data-toggle='modal' data-target='#info_documa2" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 							</td>
 							</tr>
@@ -387,7 +386,7 @@
 						<div class='modal-dialog'>
 						<div class='modal-content'>
 						<div class='modal-header' style='background:cadetblue;color:white;'>
-				        <h6 class='modal-title'>Carte d'identité</h6>
+				        <h6 class='modal-title'> Carte d'identité</h6>
 				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 			      	   </div>
 						<div class='modal-body'>

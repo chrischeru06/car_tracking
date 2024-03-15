@@ -96,7 +96,7 @@ class Proprietaire_chauffeur extends CI_Controller
 			<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-			<img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="100%"  width="100%" >
+			<img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="auto"  width="80%" >
 			</div>
 			</div>
 			</div>
@@ -206,38 +206,38 @@ class Proprietaire_chauffeur extends CI_Controller
 			<div class='modal-body'>
 			<div class='row'>
 			<div class='col-md-6'>
-			<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%' >
+			<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='auto'  width='80%' >
 			</div>
 			<div class='col-md-6'>
 
 			<div class='table-responsive'>
 			<table class= 'table table-borderless'>
 			<tr>
-			<td>Carte d'identité</td>
+			<td><label class='fa fa-book'></label> Carte d'identité</td>
 			<td><strong>".$row->NUMERO_CARTE_IDENTITE."</strong></td>
 			</tr>
 
 			<tr>
-			<td>Email</td>
+			<td><label class='fa fa-envelope-o '></label> Email</td>
 			<td><strong>".$row->ADRESSE_MAIL."</strong></td>
 			</tr>
 
 			<tr>
-			<td>Téléphone</td>
+			<td><label class='fa fa-phone'></label> Téléphone</td>
 			<td><strong>".$row->NUMERO_TELEPHONE."</strong></td>
 			</tr>
 
 			<tr>
-			<td>Date naissance</td>
+			<td><label class='fa fa-calendar '></label> Date naissance</td>
 			<td><strong>".$row->DATE_NAISSANCE."</strong></td>
 			</tr>
 
 			<tr>
-			<td>Adresse physique</td>
+			<td><label class='fa fa-map-marker'></label> Adresse physique</td>
 			<td><strong>".$row->ADRESSE_PHYSIQUE."</strong></td>
 			</tr>
 			<tr>
-			<td>Localité</td>
+			<td><label class='fa fa-map-marker'></label> Localité</td>
 			<td><strong>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME."</strong></td>
 			</tr>
 
@@ -282,7 +282,7 @@ class Proprietaire_chauffeur extends CI_Controller
 				<div class='modal-body'>
 				<div class='row'>
 				<div class='col-md-6' >
-				<img src = '".base_url('upload/photo_vehicule/').$info_vehicul['PHOTO']."' height='100%' width='100%' >
+				<img src = '".base_url('upload/photo_vehicule/').$info_vehicul['PHOTO']."' height='auto' width='80%' >
 				</div>
 				<div class='col-md-6'>
 				<div class='table-responsive'>

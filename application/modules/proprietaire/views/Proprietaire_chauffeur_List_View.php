@@ -90,20 +90,66 @@ input:checked + .slider:before {
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-      <span style="margin-right: 15px">
-    <div class="col-sm-3" style="float:right;">
+    <div class="row page-titles mx-0">
+      <div class="col-sm-10 p-md-0">
+        <div class="welcome-text">
+          <center>
+         <table>
+          <tr>
+            <td>  
+              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Liste des chauffeurs</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+               
+                </ol>
+              </nav>
+            </td>
+          </tr>
+        </table>
+        </center>
+      </div>
+    </div>
+    <div class="col-md-2">
+
       <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire_chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+
     </div>
-  </span>
-    <div class="pagetitle">
-      <h1>Chauffeurs</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="">Chauffeur</a></li>
-          <li class="breadcrumb-item active">Liste des chauffeurs</li>
-        </ol>
-      </nav>
-    </div>
+  </div>
+  
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row"> 
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+
+                  <div class="table-responsive" style="padding-top: 20px;">
+                    <table id="mytable" class="table table-hover" >
+                 <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                  <tr>
+                    <th class="text-dark">#</th>
+                    <th class="text-dark">CHAUFFEUR</th>
+                            <th class="text-dark">TELEPHONE</th>
+                            <th class="text-dark">EMAIL</th>
+                            <th class="text-dark">STATUT</th>
+                            <th class="text-dark">OPTIONS</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-dark">
+                        </tbody>
+                      </table>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
 
 
     <!-- End Page Title -->
@@ -225,63 +271,6 @@ input:checked + .slider:before {
 </div>
 <!-- fin modal pour retirer la voiture -->
 
-
-
-<section class="section dashboard">
-  <div class="row">
-
-    <!-- Left side columns -->
-    <div class="col-lg-12">
-      <div class="row">
-
-
-        <!-- Reports -->
-        <div class="col-12">
-          <div class="card">
-
-
-            <div class="card-body">
-
-              <div class="table-responsive" style="padding-top: 60px;">
-                <table id="mytable" class="table table-hover" >
-                 <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
-                  <tr>
-
-                    <th class="text-dark">#</th>
-                    <th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-
-                    <!-- <th class="text-dark">ADRESSE</th> -->
-                          <!--   <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
-                            <th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">STATUT&nbsp;&nbsp;&nbsp;</th>
-                            
-
-                            <th class="text-dark">OPTIONS</th>
-                          </tr>
-                        </thead>
-                        <tbody class="text-dark">
-                        </tbody>
-                      </table>
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-
-
-
-            </div>
-          </div>
-
-
-
-        </div>
-      </section>
 
     </main><!-- End #main -->
 
