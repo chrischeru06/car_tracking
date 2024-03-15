@@ -17,15 +17,6 @@
 
   <main id="main" class="main">
 
-    <!-- <div class="pagetitle">
-      <h1>Chauffeur</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="">Chauffeur</a></li>
-          <li class="breadcrumb-item active"><?=$title?></li>
-        </ol>
-      </nav>
-    </div> -->
      <div class="row page-titles mx-0">
       <div class="col-sm-10 p-md-0">
         <div class="welcome-text">
@@ -259,7 +250,7 @@
                     <?php echo form_error('fichier_casier_judiciaire', '<div class="text-danger">', '</div>'); ?> 
                   </div> -->
                    <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro permis <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro permis de conduire <font color="red">*</font></label>
                     <input type="text" name="NUMERO_PERMIS" autocomplete="off" 
                     id="NUMERO_PERMIS" value="<?= set_value('NUMERO_PERMIS') ?>"  class="form-control">
                     <font id="error_NUMERO_PERMIS" color="red"></font>
@@ -267,14 +258,14 @@
                   </div>
 
                     <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo permis <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo permis de conduire  <font color="red">*</font></label>
 
                     <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="file_permis" autocomplete="off" id="file_permis" value="<?= set_value('file_permis') ?>"  class="form-control"title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                     <font id="error_file_permis" color="red"></font>
                     <?php echo form_error('file_permis', '<div class="text-danger">', '</div>'); ?> 
                   </div>
                    <div class="col-md-4">
-                      <label for="date_expiration" class="text-dark" style="font-weight: 1000; color:#454545">Date expiration permis <font color="red">*</font></label>
+                      <label for="date_expiration" class="text-dark" style="font-weight: 1000; color:#454545">Date expiration permis du conduire  <font color="red">*</font></label>
                       <input type="date" name="date_expiration" autocomplete="off" id="date_expiration" value="<?= set_value('date_expiration') ?>"  class="form-control" >
 
                       <font id="error_date_expiration" color="red"></font>

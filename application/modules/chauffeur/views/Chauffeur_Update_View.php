@@ -16,16 +16,7 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-
-    <div class="pagetitle">
-      <h1>Chauffeur</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="">Chauffeur</a></li>
-          <li class="breadcrumb-item active"><?=$title?></li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+  
 
     <section class="section dashboard">
       <!--  <div class="container text-center"> -->
