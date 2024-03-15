@@ -399,7 +399,7 @@
 
 		// Fonction pour afficher la carte
 
-			function getmap(){
+			async function getmap(){
 
             // var searchString = $('#search').val();ENQUETEUR_ID
 				var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
@@ -419,7 +419,6 @@
 					success:function(data) {						
 
 						$('#mapview').html(data.carte_view);
-
 						$('#nbr_vehicule').html(data.nbrVehicule);
 						$('#nbr_proprietaire').html(data.nbrProprietaire);
 						$('#nbrChauffeur').html(data.nbrChauffeur);
@@ -435,6 +434,7 @@
 					},
 				});
 			}
+
 
 		</script>
 
