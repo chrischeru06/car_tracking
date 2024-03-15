@@ -41,7 +41,7 @@
 
 		if(index[13] == 1) //Vehicule actif
 		{
-			color = '#3bb2d0';
+			color = '#50FF50';
 		}
 		else              //Vehicule inactif
 		{
