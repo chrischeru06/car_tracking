@@ -519,8 +519,7 @@
 					$file_controtechnik = $this->upload_file('FILE_CONTRO_TECHNIQUE');
 					$file_assurance = $this->upload_file('FILE_ASSURANCE');
 
-					$data = array
-					(
+					$data = array(
 						'CODE'=>$this->input->post('CODE'),
 						'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
 						'ID_MODELE'=>$this->input->post('ID_MODELE'),

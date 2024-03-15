@@ -93,82 +93,88 @@ input:checked + .slider:before {
     <div class="row page-titles mx-0">
       <div class="col-sm-10 p-md-0">
         <div class="welcome-text">
-         <table>
-          <tr>
-            <td> 
-              <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
-            </td>
-            <td>  
-              <h4 class="text-dark">Liste des véhicules</h4>
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
+          <center>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+             <table>
+              <tr>
+                <td> 
+                  <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
+                </td>
+                <td>  
+                  <h4 class="text-dark">Liste des véhicules</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
                   <!-- <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
-                  <li class="breadcrumb-item"><a href="#">Liste</a></li> -->
-                  <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
-                </ol>
-              </nav>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="col-md-2">
-
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
-
+                    <li class="breadcrumb-item"><a href="#">Liste</a></li> -->
+                    <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
+                  </ol>
+                </nav>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </center>
     </div>
   </div>
+  <div class="col-md-2">
 
-  <section class="section dashboard">
-    <div class="row">
+    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
 
-      <!-- Left side columns -->
-      <div class="col-lg-12">
-        <div class="row">
+  </div>
+</div>
+
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-12">
+      <div class="row">
 
 
-          <!-- Reports -->
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
+        <!-- Reports -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
 
-                <?= $this->session->flashdata('message'); ?>
+              <?= $this->session->flashdata('message'); ?>
 
-                <div class="table-responsive">
-                  <table id="mytable" class="table table-hover" style="width:100%;">
-                    <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
-                      <tr>
-                        <th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                        <th class="">MARQUE</th>
-                        <th class="">MODELE</th>
-                        <th class="">PLAQUE</th>
-                        <th class="">COULEUR</th>
-                        <th class="">CONSOMMATION</th>
-                        <th class="">PROPRIETAIRE</th>
-                        <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
-                        <th class="">STATUT</th>
-                        <th class="">ACTION</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-dark">
-                    </tbody>
-                  </table>
-                </div>
-
+              <div class="table-responsive">
+                <table id="mytable" class="table table-hover" style="width:100%;">
+                  <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                    <tr>
+                      <th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th class="">MARQUE</th>
+                      <th class="">MODELE</th>
+                      <th class="">PLAQUE</th>
+                      <th class="">COULEUR</th>
+                      <th class="">CONSOMMATION</th>
+                      <th class="">PROPRIETAIRE</th>
+                      <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
+                      <th class="">STATUT</th>
+                      <th class="">ACTION</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-dark">
+                  </tbody>
+                </table>
               </div>
 
             </div>
+
           </div>
-
-
-
         </div>
+
+
+
       </div>
-
-
-
     </div>
-  </section>
+
+
+
+  </div>
+</section>
 
 </main><!-- End #main -->
 
@@ -264,9 +270,9 @@ input:checked + .slider:before {
       processData: false,
       success: function(data)
       {
-         window.location.href='<?=base_url('')?>vehicule/Vehicule';
-      }
-    });
+       window.location.href='<?=base_url('')?>vehicule/Vehicule';
+     }
+   });
 
   }
 </script>
@@ -291,9 +297,9 @@ input:checked + .slider:before {
       processData: false,
       success: function(data)
       {
-         window.location.href='<?=base_url('')?>vehicule/Vehicule';
-      }
-    });
+       window.location.href='<?=base_url('')?>vehicule/Vehicule';
+     }
+   });
 
   }
 </script>

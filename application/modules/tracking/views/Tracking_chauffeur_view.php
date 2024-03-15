@@ -370,7 +370,7 @@ font-family: 'Open Sans', sans-serif;
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle">
-                    <img style="background-color: #829b35;" class="img-fluid" width="60px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
+                    <img style="background-color: #829b35;" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
                   </div>
                   <div class="ps-3">
                     <h6><span class="text-success small pt-1 fw-bold"> <a id="carburant"></a> litres</span></h6>
@@ -439,18 +439,18 @@ font-family: 'Open Sans', sans-serif;
           <div id="mena">
 
             <input id="streets-v12" type="radio" name="rtoggle" value="streets" checked="checked">
-            <label for="streets-v12">streets</label>
+            <label for="streets-v12">streets</label>&nbsp;&nbsp;
             <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite">
             <!-- See a list of Mapbox-hosted public styles at -->
             <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-            <label for="satellite-streets-v12">satellite streets</label>
+            <label for="satellite-streets-v12">satellite</label>&nbsp;&nbsp;
             <input id="light-v11" type="radio" name="rtoggle" value="light">
-            <label for="light-v11">light</label>
+            <label for="light-v11">lumineux</label>&nbsp;&nbsp;
             <input id="dark-v11" type="radio" name="rtoggle" value="dark">
-            <label for="dark-v11">dark</label>
+            <label for="dark-v11">nuit</label>&nbsp;&nbsp;
 
             <input id="outdoors-v12" type="radio" name="rtoggle" value="outdoors">
-            <label for="outdoors-v12">outdoors</label>
+            <label for="outdoors-v12">En plein air</label>
           </div>
           <br>
           <br>

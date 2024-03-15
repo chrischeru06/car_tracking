@@ -93,121 +93,127 @@ input:checked + .slider:before {
     <div class="row page-titles mx-0">
       <div class="col-sm-10 p-md-0">
         <div class="welcome-text">
-         <table>
-          <tr>
-            <td> 
-              <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
-            </td>
-            <td>  
-              <h4 class="text-dark">Liste des véhicules</h4>
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
+          <center>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+             <table>
+              <tr>
+                <td> 
+                  <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
+                </td>
+                <td>  
+                  <h4 class="text-dark">Liste des véhicules</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
                   <!-- <li class="breadcrumb-item"><a href="#">Véhicule</a></li>
-                  <li class="breadcrumb-item"><a href="#">Liste</a></li> -->
-                  <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
-                </ol>
-              </nav>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="col-md-2">
-
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
-
+                    <li class="breadcrumb-item"><a href="#">Liste</a></li> -->
+                    <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
+                  </ol>
+                </nav>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </center>
     </div>
   </div>
+  <div class="col-md-2">
 
-  <section class="section dashboard">
-    <div class="row">
+    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
 
-      <!-- Left side columns -->
-      <div class="col-lg-12">
-        <div class="row">
+  </div>
+</div>
+
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-12">
+      <div class="row">
 
 
-          <!-- Reports -->
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
+        <!-- Reports -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
 
-                <?= $this->session->flashdata('message'); ?>
+              <?= $this->session->flashdata('message'); ?>
 
-                <div class="table-responsive">
-                  <table id="mytable" class="table table-hover" style="width:100%;">
-                    <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
-                      <tr>
-                        <th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                        <th class="">MARQUE</th>
-                        <th class="">MODELE</th>
-                        <th class="">PLAQUE</th>
-                        <th class="">COULEUR</th>
-                        <th class="">CONSOMMATION</th>
-                        <th class="">PROPRIETAIRE</th>
-                        <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
-                        <th class="">STATUT</th>
-                        <th class="">ACTION</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-dark">
-                    </tbody>
-                  </table>
-                </div>
-
+              <div class="table-responsive">
+                <table id="mytable" class="table table-hover" style="width:100%;">
+                  <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                    <tr>
+                      <th class="">CODE</th>
+                      <th class="">MARQUE</th>
+                      <th class="">MODELE</th>
+                      <th class="">PLAQUE</th>
+                      <th class="">COULEUR</th>
+                      <th class="">CONSOMMATION</th>
+                      <th class="">PROPRIETAIRE</th>
+                      <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
+                      <th class="">STATUT</th>
+                      <th class="">ACTION</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-dark">
+                  </tbody>
+                </table>
               </div>
 
             </div>
+
           </div>
-
-
-
         </div>
+
+
+
       </div>
     </div>
-  </section>
-         <!--******** Debut Modal pour attribue une voiture *********-->
+  </div>
+</section>
+<!--******** Debut Modal pour attribue une voiture *********-->
 
-  <div class="modal fade" id="Modal_traiter" tabindex="-1" >
+<div class="modal fade" id="Modal_traiter" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
 
- --><h5 class="modal-title">Traiter la demande  de</h5>
-       
+        --><h5 class="modal-title">Traiter la demande  de</h5>
 
- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
-            <div class="modal-body mb-1">
-              <div class="row">
-                <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID">
-                <input type="hidden" name="STATUT_VEH_AJOUT" id="STATUT_VEH_AJOUT">
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID">
+              <input type="hidden" name="STATUT_VEH_AJOUT" id="STATUT_VEH_AJOUT">
 
-             
-                <div class="col-md-6">
-                  <label for="description" class="text-dark">Statut</label>
-                  <select class="form-control" id="TRAITEMENT_DEMANDE_ID" name="TRAITEMENT_DEMANDE_ID">
-                  </select>
-                  <span id="errorTRAITEMENT_DEMANDE_ID" class="text-danger"></span>
-                </div>
-                <div class = 'col-md-4'>
 
-                  <label style='color:black'>Commentaire</label>
-                  <textarea class='form-control' name ='COMMENTAIRE' id="COMMENTAIRE"></textarea>
-                  <span id="errorCOMMENTAIRE" class="text-danger"></span>
+              <div class="col-md-6">
+                <label for="description" class="text-dark">Statut</label>
+                <select class="form-control" id="TRAITEMENT_DEMANDE_ID" name="TRAITEMENT_DEMANDE_ID">
+                </select>
+                <span id="errorTRAITEMENT_DEMANDE_ID" class="text-danger"></span>
+              </div>
+              <div class = 'col-md-4'>
+
+                <label style='color:black'>Commentaire</label>
+                <textarea class='form-control' name ='COMMENTAIRE' id="COMMENTAIRE"></textarea>
+                <span id="errorCOMMENTAIRE" class="text-danger"></span>
 
               </div>
-              </div>
-            </div> 
-            <div class="modal-footer">
-              <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Traiter" onclick="save_statut_vehicul();" />
-             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
-
             </div>
-          </form>
-       </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Traiter" onclick="save_statut_vehicul();" />
+            <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
+
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div><!-- End Modal-->
@@ -306,9 +312,9 @@ input:checked + .slider:before {
       processData: false,
       success: function(data)
       {
-         window.location.href='<?=base_url('')?>vehicule/Vehicule';
-      }
-    });
+       window.location.href='<?=base_url('')?>vehicule/Vehicule';
+     }
+   });
 
   }
 </script>
@@ -333,118 +339,118 @@ input:checked + .slider:before {
       processData: false,
       success: function(data)
       {
-         window.location.href='<?=base_url('')?>vehicule/Vehicule';
-      }
-    });
+       window.location.href='<?=base_url('')?>vehicule/Vehicule';
+     }
+   });
 
   }
 </script>
 
 <script type="text/javascript">
-   function traiter_demande(VEHICULE_ID='',STATUT_VEH_AJOUT='')
+ function traiter_demande(VEHICULE_ID='',STATUT_VEH_AJOUT='')
 
-  {
-    $('#Modal_traiter').modal('show');
+ {
+  $('#Modal_traiter').modal('show');
     //VEHICULE_ID du 2eme ca vient du VEHICULE_ID du paramentre la en haut 
-    $('#VEHICULE_ID').val(VEHICULE_ID);
-    $('#STATUT_VEH_AJOUT').val(STATUT_VEH_AJOUT);
+  $('#VEHICULE_ID').val(VEHICULE_ID);
+  $('#STATUT_VEH_AJOUT').val(STATUT_VEH_AJOUT);
 
     // var TRAITEMENT_DEMANDE_ID=$('#TRAITEMENT_DEMANDE_ID').val();
-    $('#errorVEHICULE_ID').html('');
-    $('#errorTRAITEMENT_DEMANDE_ID').html('');
+  $('#errorVEHICULE_ID').html('');
+  $('#errorTRAITEMENT_DEMANDE_ID').html('');
+  $.ajax(
+  {
+    url: "<?= base_url() ?>vehicule/Vehicule/get_all_statut/",
+
+    type: "GET",
+    dataType: "JSON",
+    success: function(data)
+    {
+
+      $('#TRAITEMENT_DEMANDE_ID').html(data);
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+      alert('Erreur');
+    }
+  });
+}
+
+function save_statut_vehicul()
+{
+
+  var statut=1;
+  $('#errorCOMMENTAIRE').html('');
+  $('#errorTRAITEMENT_DEMANDE_ID').html('');
+
+  if($('#TRAITEMENT_DEMANDE_ID').val()=='')
+  {
+    $('#errorTRAITEMENT_DEMANDE_ID').html('Le champ est obligatoire');
+    statut=2;
+  }
+  if($('#COMMENTAIRE').val()=='')
+  {
+    $('#errorCOMMENTAIRE').html('Le champ est obligatoire');
+    statut=2;
+  } 
+  if(statut<2)
+  {
+    var form_data = new FormData($("#attribution_form")[0]);
+    var url="<?= base_url('vehicule/Vehicule/save_stat_vehicul')?>";
     $.ajax(
     {
-      url: "<?= base_url() ?>vehicule/Vehicule/get_all_statut/",
-
-      type: "GET",
-      dataType: "JSON",
+      url: url,
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
       success: function(data)
       {
-        
-        $('#TRAITEMENT_DEMANDE_ID').html(data);
-      },
-      error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Erreur');
+        if(data==1)
+        {
+          Swal.fire(
+          {
+            icon: 'success',
+            title: 'Success',
+            text: 'Traitement fait avec succès',
+            timer: 1500,
+          }).then(() =>
+          {
+            window.location.reload('<?=base_url('vehicule/Vehicule')?>');
+          });
+        }
+        else if(data==2)
+        {
+          Swal.fire(
+          {
+            icon: 'success',
+            title: 'Success',
+            text: 'Le vehicule possède déjà chauffeur ',
+            timer: 1500,
+          }).then(() =>
+          {
+            window.location.reload('<?=base_url('vehicule/Vehicule')?>');
+          });
+        }
+        else
+        {
+          Swal.fire(
+          {
+            icon: 'success',
+            title: 'Success',
+            text: 'Traitement échoué',
+            timer: 1500,
+          }).then(() =>
+          {
+            window.location.reload('<?=base_url('vehicule/Vehicule')?>');
+          });
+        }
       }
     });
   }
-
-  function save_statut_vehicul()
-  {
-
-    var statut=1;
-    $('#errorCOMMENTAIRE').html('');
-    $('#errorTRAITEMENT_DEMANDE_ID').html('');
-
-    if($('#TRAITEMENT_DEMANDE_ID').val()=='')
-    {
-      $('#errorTRAITEMENT_DEMANDE_ID').html('Le champ est obligatoire');
-      statut=2;
-    }
-    if($('#COMMENTAIRE').val()=='')
-    {
-      $('#errorCOMMENTAIRE').html('Le champ est obligatoire');
-      statut=2;
-    } 
-    if(statut<2)
-    {
-      var form_data = new FormData($("#attribution_form")[0]);
-      var url="<?= base_url('vehicule/Vehicule/save_stat_vehicul')?>";
-      $.ajax(
-      {
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data)
-        {
-          if(data==1)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Traitement fait avec succès',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-            });
-          }
-          else if(data==2)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Le vehicule possède déjà chauffeur ',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-            });
-          }
-          else
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Traitement échoué',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-            });
-          }
-        }
-      });
-    }
-  }
+}
 </script>
 
 </html>
