@@ -59,7 +59,7 @@ const popup = new mapboxgl.Popup({ offset: 25 }).setHTML('<div><h5>D√©tail du v√
      }
 
 
-     const marker2 = new mapboxgl.Marker({ color:color, rotation: 45 })
+     const marker = new mapboxgl.Marker({ color:color, rotation: 360})
         .setLngLat([index[2],index[1]])
         .setPopup(popup)
         .addTo(map);
