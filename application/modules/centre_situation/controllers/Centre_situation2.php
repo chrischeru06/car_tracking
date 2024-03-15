@@ -318,7 +318,21 @@
 				}
 			}
 
-			$data_marker = '{"name":"iss","id":25544,"latitude":-3.3861416,"longitude":29.3619433,"altitude":422.14118359729,"velocity":27564.765811989,"visibility":"daylight","footprint":4518.3408389917,"timestamp":1710315700,"daynum":2460382.8206019,"solar_lat":-2.6891941350284,"solar_lon":66.928429639143,"units":"kilometers"}';
+			$data_marker = '{
+				"name":"iss",
+				"id":25544,
+				"latitude":-3.3861416,
+				"longitude":29.3619433,
+				"altitude":436.33994478624,
+				"velocity":27538.776641628,
+				"visibility":"daylight",
+				"footprint":4589.6767117375,
+				"timestamp":1710506121,
+				"daynum":2460385.0245486,
+				"solar_lat":-1.8189825042171,
+				"solar_lon":353.3541079243,
+				"units":"kilometers"
+			}';
 
 			//echo $data_marker;
 			
@@ -350,7 +364,21 @@
 
 		function getmapSymbol()
 		{
-			$data = '{{"name":"iss","id":25544,"latitude":-3.43143,"longitude":29.9079,"altitude":422.14118359729,"velocity":27564.765811989,"visibility":"daylight","footprint":4518.3408389917,"timestamp":1710315700,"daynum":2460382.8206019,"solar_lat":-2.6891941350284,"solar_lon":66.928429639143,"units":"kilometers"}}';
+			$data = '{
+				"name":"iss",
+				"id":25544,
+				"latitude":-3.3861416,
+				"longitude":29.3619433,
+				"altitude":436.33994478624,
+				"velocity":27538.776641628,
+				"visibility":"daylight",
+				"footprint":4589.6767117375,
+				"timestamp":1710506121,
+				"daynum":2460385.0245486,
+				"solar_lat":-1.8189825042171,
+				"solar_lon":353.3541079243,
+				"units":"kilometers"
+			}';
 			echo $data;
 		}
 
