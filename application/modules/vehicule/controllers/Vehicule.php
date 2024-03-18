@@ -236,31 +236,28 @@
 
 				<tr>
 				<td class='btn-sm'>Nom</td>
-				</tr>
+			
 
-				<tr>
+			
 				<th class='btn-sm'>".$row->desc_proprio."</th>
 				</tr>
 
 				<tr>
 				<td class='btn-sm'>Adresse</td>
-				</tr>
-				<tr>
+				
 				<th class='btn-sm'>".$row->ADRESSE."</th>
 				</tr>
 
 				<tr class='btn-sm'>
 				<td>Email</td>
-				</tr>
-				<tr>
+				
 				<th class='btn-sm'>".$row->EMAIL."</th>
 				</tr>
 
 				<tr>
 				<td class='btn-sm'>Téléphone</td>
-				</tr>
-				<tr>
-				<th class='btn-sm'>".$row->TELEPHONE."</th>
+				
+				<td class='btn-sm'>".$row->TELEPHONE."</td>
 				</tr>
 
 				</table>

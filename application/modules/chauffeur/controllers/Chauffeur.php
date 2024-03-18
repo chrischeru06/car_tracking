@@ -239,7 +239,7 @@
 							</tr>
 
 							<tr>
-							<td><label class='fa fa-info'></label>Information&nbsp;du&nbsp;vehicule</td>
+							<td><label class='fa fa-info'></label>  Information&nbsp;du&nbsp;vehicule</td>
 							<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
 							</tr>
                         
