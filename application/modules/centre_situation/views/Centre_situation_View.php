@@ -47,6 +47,11 @@
 			background-color: rgba(95, 158, 160,0.3);
 		}
 
+		.custom-marker-icon {
+			border:solid 2px;
+     border-radius: 50%;
+    }
+
 		
 	</style>
 </head>
@@ -173,34 +178,21 @@
 					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetProprietaire($('#PROPRIETAIRE_ID').val());" title="Cliquer ici pour visualiser la liste">
 
 						<div class="card-body">
-							<!-- <div class="d-flex align-items-center">
-								<div class="col-lg-3">
-									<i class="fa fa-user text-dark" style="font-size: 30px;margin-top: 17px;"></i>
-								</div>
-
-								<div class="col-lg-2">
-									<strong class="card-title" id="nbr_proprietaire" style="position: relative;top: 12px;margin-left:-50%;">145</strong>
-								</div>
-								<div class="col-lg-7">
-									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Propriétaires<i  title="Voir la liste" ></i></b>
-								</div>
-
-							</div> -->
 
 							<div class="d-flex align-items-center">
 
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-									<img class="card-icon" style="margin-bottom: -30%;margin-left:-10%;" class="img-fluid" src="<?=base_url('upload/user_32.png')?>">
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-08.png')?>">
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title" id="nbr_proprietaire" style="position:relative;top: 10px;margin-left:-30%;">145</strong>
+									<strong class="card-title" id="nbr_proprietaire" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 								</div>
-								<div class="col-lg-7">
-									<b class="small pt-2 ps-1" style="position:relative;top: 20px;">Propriétaires &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 20px;margin-left:-10%;">Propriétaires &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
 								</div>
-								
+
 							</div>
 
 							
@@ -218,36 +210,22 @@
 
 						<div class="card-body">
 
-							<!-- <div class="d-flex align-items-center">
-
-								<div class="col-lg-5">
-									<i class="fa fa-bus text-secondary" style="font-size: 30px;margin-top: 17px;"></i>
-								</div>
-
-								<div class="col-lg-2">
-									<strong class="card-title" id="nbr_vehicule" style="position: relative;top: 12px;margin-left:-50%;">145</strong>
-								</div>
-								<div class="col-lg-5">
-									<b class="small pt-2 ps-1" style="position: relative;top: 12px;">Véhicules<i  title="Voir la liste" ></i></b>
-								</div>
-
-							</div> -->
-
 							<div class="d-flex align-items-center">
 
 								<div class="col-lg-4">
 									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-									<img class="card-icon" style="margin-bottom: -30%;margin-left:-10%;" class="img-fluid" src="<?=base_url('upload/vehicule_icon_32.png')?>">
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-01.png')?>">
 								</div>
 
 								<div class="col-lg-2">
-									<strong class="card-title" id="nbr_vehicule" style="position:relative;top: 10px;margin-left:-40%;">145</strong>
+									<strong class="card-title" id="nbr_vehicule" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
 									<b class="small pt-2 ps-1" style="position:relative;top: 20px;">Véhicules &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
 								</div>
-								
+
 							</div>
+
 							
 						</div>
 
@@ -631,7 +609,7 @@
 
 		// Fonction pour afficher la carte
 
-          	function getmap(id=1){
+          	function getmap(id=2){
 
             // var searchString = $('#search').val();ENQUETEUR_ID
           		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
@@ -670,11 +648,11 @@
 
           </script>
 
-       <script>
+      <!--  <script>
           	const timer = setInterval(async () => {
-          		getmap(1);
+          		getmap(2);
           	}, 10000);
-          </script>
+          </script> -->
 
           <script>
           	function get_vehicule()
