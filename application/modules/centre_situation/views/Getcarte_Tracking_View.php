@@ -107,7 +107,7 @@
 
 		marker.bindPopup
 
-		('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;'+ index[9] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;'+ index[12] +'</th></tr></table> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="btn btn-outline-primary rounded-pill" title="Informations trajet" ><i class="fa fa-info-circle"></i> </a></label></p>');
+		('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;'+ index[9] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;'+ index[12] +'</th></tr></table> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>');
 
 		markers.push(marker);
 
@@ -123,6 +123,8 @@
 		}
 
 	}
+
+
 
 
 	map.addLayer(clusterGroup);
@@ -157,16 +159,20 @@
 
 				var donn = donn.split('@');
 
-				for (var i = 0; i < (donn.length)-1; i++) {
-					var index = donn[i].split('<>');
 
-					var newLatitude = index[1];
-					var newLongitude = index[2];
 
-					// alert(newLatitude)
-
-					marker.setLatLng([newLatitude, newLongitude]);
+				for (var i = 0; i < markers.length-1; i++) {
+					for (var i = 0; i < (donn.length)-1; i++)
+					{
+						var index = donn[i].split('<>');
+						var marker = markers[i];
+						var newLatitude = index[1];
+						var newLongitude = index[2];
+						marker.setLatLng([newLatitude, newLongitude]);
+					}
 				}
+
+					markerClusterGroup.refreshClusters();
 
 			},
 		});
@@ -180,8 +186,8 @@
 	// setInterval(updateMarkerPosition, 10000);
 
 	var timer = setInterval(async () => {
-          		updateMarkerPosition();
-          	}, 10000);
+		updateMarkerPosition();
+	}, 10000);
 
 //.....Fin...........
 

@@ -325,7 +325,7 @@
 									<strong class="card-title" id="vehiculeAvecAccident" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en crevaison<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en accident<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
 
@@ -380,6 +380,135 @@
 						</div>
 
 					</div>
+			</div>
+
+
+			<div class="col-lg-1" id="voirPlus">
+
+				<label class="btn btn-outline-secondary rounded-pill" title="Voir plus" onclick="voirPlus();"><i class="fa fa-plus"></i></label>
+
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-09.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeAllume" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules allumés<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-11.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeStationnement" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules stationnés<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-10.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeEteint" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Demandes en attente<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-07.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeEteint" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Demandes approuvées<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-07.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeEteint" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Demandes refusées<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+
+			<div class="col-lg-1" id="voirMoins">
+
+				<label class="btn btn-outline-secondary rounded-pill" title="Voir moins" onclick="voirMoins();"><i class="fa fa-minus"></i></label>
+
 			</div>
 			
 		</div>
@@ -602,8 +731,31 @@
 
           		getmap();
 
+          		$('.autres_infos').hide();
+          		$('#voirMoins').hide();
+
           	});
 
+          </script>
+
+
+          <script>
+          	function voirPlus()
+          	{
+          		$('.autres_infos').show();
+          		$('#voirMoins').show();
+          		$('#voirPlus').hide();
+          	}
+          </script>
+
+
+          <script>
+          	function voirMoins()
+          	{
+          		$('.autres_infos').hide();
+          		$('#voirMoins').hide();
+          		$('#voirPlus').show();
+          	}
           </script>
 
 
