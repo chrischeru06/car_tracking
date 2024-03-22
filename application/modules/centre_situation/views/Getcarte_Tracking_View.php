@@ -140,7 +140,7 @@
 		var id = 2;
 
 		$.ajax({
-			url : "<?=base_url()?>centre_situation/Centre_situation/getUpdateMarker/",
+			url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
 			type : "POST",
 			dataType: "JSON",
 			cache:false,
@@ -154,6 +154,22 @@
 			success:function(data) {
 
 				// alert(data.donnees_vehicule)
+
+				$('#nbr_vehicule').html(data.nbrVehicule);
+          				$('#nbr_proprietaire').html(data.nbrProprietaire);
+          				$('#nbrChauffeur').html(data.nbrChauffeur);
+          				$('.vehiculeActif').html(data.vehiculeActif);
+          				$('.vehiculeInactif').html(data.vehiculeInactif);
+          				$('#vehiculeAllume').html(data.vehiculeAllume);
+          				$('#vehiculeEteint').html(data.vehiculeEteint);
+          				$('#vehiculeMouvement').html(data.vehiculeMouvement);
+          				$('#vehiculeStationnement').html(data.vehiculeStationnement);
+          				$('#vehiculeAvecAccident').html(data.vehiculeAvecAccident);
+          				$('#vehiculeSansAccident').html(data.vehiculeSansAccident);
+
+          				$('#nbrDemandeEntente').html(data.nbrDemandeEntente);
+          				$('#nbrDemandeApprouvee').html(data.nbrDemandeApprouvee);
+          				$('#nbrDemandeRefusee').html(data.nbrDemandeRefusee);
 
 				var donn = data.donnees_vehicule;
 
