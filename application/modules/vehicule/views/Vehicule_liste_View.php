@@ -144,14 +144,16 @@ input:checked + .slider:before {
                 <table id="mytable" class="table table-hover" style="width:100%;">
                   <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                     <tr>
-                      <th class="">CODE</th>
+                    <!--   <th class="">CODE</th> -->
+                      <th class="">#</th>
+                     <th class="">PROPRIETAIRE</th>
                       <th class="">MARQUE</th>
-                      <th class="">MODELE</th>
+                     <!--  <th class="">MODELE</th> -->
                       <th class="">PLAQUE</th>
                       <th class="">COULEUR</th>
-                      <th class="">CONSOMMATION</th>
-                      <th class="">PROPRIETAIRE</th>
+                      <!-- <th class="">CONSOMMATION</th> -->
                       <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
+                      <th class="">TRAITEMENT&nbsp;DEMANDE</th>
                       <th class="">STATUT</th>
                       <th class="">ACTION</th>
                     </tr>

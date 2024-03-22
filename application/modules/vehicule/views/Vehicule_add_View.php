@@ -274,21 +274,21 @@
                       <label> <small>Photo passeport</small> </label>
                       <input class="form-control" type="hidden" name="PHOTO" id="PHOTO"  value="<?=$vehicule['PHOTO'];?>">
 
-                      <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept="image/png, image/jpeg" title="Veillez entrer le fichier avec l'extention png ou jpeg">
+                      <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                       <font color='red'><?php echo form_error('PHOTO_OUT'); ?></font>
                       <span id="errorPHOTO_OUT" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                       <label> <small>Photo assurance</small> </label>
                       <input class="form-control" type="hidden" name="FILE_ASSURANCE_OLD" id="FILE_ASSURANCE_OLD"  value="<?=$vehicule['FILE_ASSURANCE'];?>">
-                      <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept="image/png, image/jpeg" title="Veillez entrer le fichier avec l'extention png ou jpeg">
+                      <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                       <font color='red'><?php echo form_error('FILE_ASSURANCE'); ?></font>
                       <span id="errorFILE_ASSURANCE" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                       <label> <small>Photo contrôle technique</small> </label>
                       <input class="form-control" type="hidden" name="FILE_CONTRO_TECHNIQUE_OLD" id="FILE_CONTRO_TECHNIQUE_OLD"  value="<?=$vehicule['FILE_CONTRO_TECHNIQUE'];?>">
-                      <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept="image/png, image/jpeg" title="Veillez entrer le fichier avec l'extention png ou jpeg">
+                      <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                       <font color='red'><?php echo form_error('FILE_CONTRO_TECHNIQUE'); ?></font>
                       <span id="errorFILE_CONTRO_TECHNIQUE" class="text-danger"></span>
                     </div>

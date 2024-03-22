@@ -504,28 +504,40 @@ class Proprietaire extends CI_Controller
 
 					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
 
-					if(empty($_FILES['LOGO']['name']) && !empty($LOGO_OLD))
-					{
-						$file_logo = $LOGO_OLD;
-					}elseif (!empty($_FILES['LOGO']['name']) && empty($LOGO_OLD)) {
-						$file_logo = $this->upload_document($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
+					// if(empty($_FILES['LOGO']['name']) && !empty($LOGO_OLD))
+					// {
+					// 	$file_logo = $LOGO_OLD;
+					// }elseif (!empty($_FILES['LOGO']['name']) && empty($LOGO_OLD)) {
+					// 	$file_logo = $this->upload_document($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name'],$NOM_PROPRIETAIRE);
 
+					// }
+					$FILE_LOGO = $this->input->post('LOGO_OLD');
+					if(empty($_FILES['LOGO']['name']))
+					{
+						$file_logo = $this->input->post('LOGO_OLD');	
 					}
-					if(empty($_FILES['FILE_NIF']['name']) && !empty($FILE_NIF_OLD))
+					else
 					{
-						$file_nif = $FILE_NIF_OLD;
-					}elseif (!empty($_FILES['FILE_NIF']['name']) && empty($FILE_NIF_OLD)) 
-					{
-						$file_nif = $this->upload_document($_FILES['FILE_NIF']['tmp_name'],$_FILES['FILE_NIF']['name'],$NOM_PROPRIETAIRE);
-
+						$file_logo = $this->upload_document($_FILES['LOGO']['tmp_name'],$_FILES['LOGO']['name']);
 					}
-					if(empty($_FILES['FILE_RC']['name']) && !empty($FILE_RC_OLD))
+					$FILE_NIF = $this->input->post('FILE_NIF_OLD');
+					if(empty($_FILES['FILE_NIF']['name']))
 					{
-						$file_rc = $FILE_RC_OLD;
-					}elseif (!empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD)) 
+						$file_nif = $this->input->post('FILE_NIF_OLD');	
+					}
+					else
 					{
-						$file_rc = $this->upload_document($_FILES['FILE_RC']['tmp_name'],$_FILES['FILE_RC']['name'],$NOM_PROPRIETAIRE);
+						$file_nif = $this->upload_document($_FILES['FILE_NIF']['tmp_name'],$_FILES['FILE_NIF']['name']);
+					}
 
+					$FILE_RC = $this->input->post('FILE_RC_OLD');
+					if(empty($_FILES['FILE_RC']['name']))
+					{
+						$file_rc = $this->input->post('FILE_RC_OLD');	
+					}
+					else
+					{
+						$file_rc = $this->upload_document($_FILES['FILE_RC']['tmp_name'],$_FILES['FILE_RC']['name']);
 					}
 
 					$data_updaate=array(
@@ -692,7 +704,7 @@ class Proprietaire extends CI_Controller
 			OR PERSONNE_REFERENCE LIKE "%' . $var_search . '%" OR EMAIL LIKE "%' . $var_search . '%" OR TELEPHONE LIKE "%' . $var_search . '%"
 			OR DATE_FORMAT(`DATE_INSERTION`,"%d-%m-%Y") LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT,COUNTRY_ID,LOGO FROM proprietaire WHERE 1';
+		$query_principal='SELECT PROPRIETAIRE_ID,proprietaire.TYPE_PROPRIETAIRE_ID,if(proprietaire.`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS info_personne,CNI_OU_NIF,PERSONNE_REFERENCE,EMAIL,TELEPHONE,DATE_INSERTION,IS_ACTIVE,PHOTO_PASSPORT,COUNTRY_ID,LOGO,type_proprietaire.DESC_TYPE_PROPRIETAIRE FROM proprietaire JOIN   type_proprietaire ON proprietaire.TYPE_PROPRIETAIRE_ID=type_proprietaire.TYPE_PROPRIETAIRE_ID WHERE 1';
 
         //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -751,7 +763,8 @@ class Proprietaire extends CI_Controller
 				</div>';
 			}
 			
-
+			$sub_array[]=$row->DESC_TYPE_PROPRIETAIRE;
+               
 			
 			if (!empty($row->EMAIL)) 
 			{
@@ -837,7 +850,7 @@ class Proprietaire extends CI_Controller
 
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
-		$my_select_proprietaire = $this->getBindParms('proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE,LOGO,FILE_CNI_PASSPORT', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
+		$my_select_proprietaire = $this->getBindParms('proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE,LOGO,FILE_CNI_PASSPORT,RC', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
 		$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprietaire);
 
 		if(empty($proprietaire['PERSONNE_REFERENCE'])){
@@ -962,11 +975,12 @@ class Proprietaire extends CI_Controller
 	//function pour l'affichage de la page de detail
 	function Detail(){
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
-		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO ,proprietaire.FILE_NIF,proprietaire.FILE_RC,proprietaire.RC,categories.DESC_CATEGORIE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID left join  categories on proprietaire.CATEGORIE_ID=categories.CATEGORIE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
 
 
 		$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
-		if ($proprietaire['TYPE_PROPRIETAIRE_ID']==1) {
+		if ($proprietaire['TYPE_PROPRIETAIRE_ID']==1) 
+		{
 			
 			$label_cni='NIF';
 		}elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {
@@ -1107,14 +1121,36 @@ class Proprietaire extends CI_Controller
 
 	}
 
-	//Fonction pour activer/desactiver un proprietaire
-	function active_desactive($status,$PROPRIETAIRE_ID){
+	//Fonction pour activer/desactiver un proprietaire et enregistrer l'historique
+	function active_desactive($status,$PROPRIETAIRE_ID)
+	{
+		$USER_ID=$this->session->userdata('USER_ID');
 
-		if($status==1){
-			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>2));
+      
+		if($status==2)
+		{
+           //pour desactivation
+		  $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>2));
 
-		}else if($status==2){
-			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>1));
+		  $MOTIF_DESACT_ACTIVATION_des = $this->input->post('MOTIF_DESACT_ACTIVATION_des');
+
+		   $data = array('MOTIF_DESACT_ACTIVATION'=>$MOTIF_DESACT_ACTIVATION_des,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>2);
+
+		   $result = $this->Model->create('historique_proprietaire',$data);
+
+		}else if($status==1)
+		{
+		//pour activation
+		 $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>1));
+
+	     $MOTIF_DESACT_ACTIVATION = $this->input->post('MOTIF_DESACT_ACTIVATION');
+		  $data = array('MOTIF_DESACT_ACTIVATION'=>$MOTIF_DESACT_ACTIVATION,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>1);
+		  
+
+		  $result = $this->Model->create('historique_proprietaire',$data);
+
+
+
 		}
 
 		echo json_encode(array('status'=>$status));
