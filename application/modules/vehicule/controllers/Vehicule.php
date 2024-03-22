@@ -41,7 +41,8 @@
 				$critaire.= ' AND users.USER_ID = '.$USER_ID;
 			}
 
-			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+			// $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT,`LOGO` FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -67,21 +68,44 @@
 			$fetch_data=$this->Model->datatable($query_secondaire);
 
 			$data=array();
+			$u=1;
 			foreach ($fetch_data as $row)
 			{
 				$sub_array=array();
-				$sub_array[]=$row->CODE;
+				$sub_array[]=$u++;
+				if ($row->TYPE_PROPRIETAIRE_ID==1) 
+				{
+				 $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->NOM_PROPRIETAIRE . ' </td></tr></table></a>';
+				}else
+				{
+                 $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->NOM_PROPRIETAIRE . ''.'  ' . $row->PRENOM_PROPRIETAIRE . '</td></tr></table></a>';
+				}
+				
+
+				// $sub_array[]=$row->CODE;
 				$sub_array[]=$row->DESC_MARQUE;
-				$sub_array[]=$row->DESC_MODELE;
+				// $sub_array[]=$row->DESC_MODELE;
 				$sub_array[]=$row->PLAQUE;
 				$sub_array[]=$row->COULEUR;
-				$sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' litres / KM' : 'N/A');
+				// $sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' litres / KM' : 'N/A');
 
 				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
 
-				$sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->desc_proprio . '</td></tr></table></a>';
+				
 
 				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
+
+				if($row->STATUT_VEH_AJOUT==2){
+				$sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
+				<span class="badge badge-pill badge-warning" ></span>';
+			}elseif ($row->STATUT_VEH_AJOUT==1) 
+			{
+				$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: orange;"></i><font style="font-size:13px;font-weight: bold;color: orange;">Véhicule en attente</font><span class="badge badge-pill badge-warning" ></span>';
+
+			}else
+			{
+				$sub_array[]='<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: red;">Véhicule refusé</font><span class="badge badge-pill badge-warning" ></span>';
+			}
 
 				if($row->IS_ACTIVE==1){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
@@ -190,7 +214,7 @@
 
 				<tr>
 				<td class='btn-sm'>propriétaire</td>
-				<th class='btn-sm'><strong>".$row->desc_proprio."</strong></th>
+				<th class='btn-sm'><strong>".$row->NOM_PROPRIETAIRE."</strong></th>
 				</tr>
 
 				<tr>
@@ -198,70 +222,19 @@
 				<th class='btn-sm'><strong>".(isset($row->desc_chauffeur)?$row->desc_chauffeur:'N/A')."</strong></th>
 				</tr>
 
-				</table>
-
-				</div>
-				</div>
-				
-				</div>
-				</div>
-				</div>";
-
-
-				$option .="
-				</div>
-				<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:100px;'>
-				<div class='modal-dialog modal-lg'>
-				<div class='modal-content'>
-
-				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<h5 class='modal-title'>Information du propriétaire</h5>
-				<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
-				</div>
-				<div class='modal-body'>
-
-				<h4 class=''></h4>
-
-				<div class='row'>
-
-				<div class='col-md-6'>
-				<img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
-				</div>
-
-				<div class='col-md-6'>
-
-				<h4></h4>
-
-				<table class='table table-borderless'>
-
 				<tr>
-				<td class='btn-sm'>Nom</td>
-				</tr>
-
-				<tr>
-				<th class='btn-sm'>".$row->desc_proprio."</th>
-				</tr>
-
-				<tr>
-				<td class='btn-sm'>Adresse</td>
+					<td><strong>Documents</strong></td>
 				</tr>
 				<tr>
-				<th class='btn-sm'>".$row->ADRESSE."</th>
-				</tr>
-
-				<tr class='btn-sm'>
-				<td>Email</td>
-				</tr>
-				<tr>
-				<th class='btn-sm'>".$row->EMAIL."</th>
-				</tr>
-
-				<tr>
-				<td class='btn-sm'>Téléphone</td>
-				</tr>
-				<tr>
-				<th class='btn-sm'>".$row->TELEPHONE."</th>
-				</tr>
+				  <td><label class='fa fa-book'></label> ASSURANCE</td>
+				  <td><a href='#' data-toggle='modal' data-target='#info_documa" .$row->VEHICULE_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+				  </td>
+			    </tr>
+			    <tr>
+				  <td><label class='fa fa-book'></label>CONTROLE TECHNIQUE</td>
+				  <td><a href='#' data-toggle='modal' data-target='#info_documa2" .$row->VEHICULE_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+				  </td>
+			    </tr>
 
 				</table>
 
@@ -270,7 +243,177 @@
 				
 				</div>
 				</div>
-				</div>";
+				</div>
+
+				        <div class='modal fade' id='info_documa" .$row->VEHICULE_ID. "'>
+						<div class='modal-dialog'>
+						<div class='modal-content'>
+						<div class='modal-header' style='background:cadetblue;color:white;'>
+				        <h6 class='modal-title'>Assurance</h6>
+				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+			      	   </div>
+						<div class='modal-body'>
+						<div class='scroller'>
+						<div class='table-responsive'>
+
+					       <img src = '".base_url('upload/photo_vehicule/'.$row->FILE_ASSURANCE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					       </div>
+					       </div>
+						</div>
+						</div>
+						</div>
+						</div>
+
+						<div class='modal fade' id='info_documa2" .$row->VEHICULE_ID. "'>
+						<div class='modal-dialog'>
+						<div class='modal-content'>
+						<div class='modal-header' style='background:cadetblue;color:white;'>
+				        <h6 class='modal-title'>Contrôle technique</h6>
+				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+			      	   </div>
+						<div class='modal-body'>
+						<div class='scroller'>
+						<div class='table-responsive'>
+
+					       <img src = '".base_url('upload/photo_vehicule/'.$row->FILE_CONTRO_TECHNIQUE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					       </div>
+					       </div>
+						</div>
+						</div>
+						</div>
+						</div>
+
+						";
+
+
+
+
+
+
+
+
+				
+                if ($row->TYPE_PROPRIETAIRE_ID==1)
+                {
+                	$option .="
+                	</div>
+                	<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:100px;'>
+                	<div class='modal-dialog modal-lg'>
+                	<div class='modal-content'>
+
+                	<div class='modal-header' style='background:cadetblue;color:white;'>
+                	<h5 class='modal-title'>Information du propriétaire</h5>
+                	<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
+                	</div>
+                	<div class='modal-body'>
+
+                	<h4 class=''></h4>
+
+                	<div class='row'>
+
+                	<div class='col-md-6'>
+                	<img src = '".base_url('upload/proprietaire/photopassport/'.$row->LOGO)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
+                	</div>
+
+                	<div class='col-md-6'>
+
+                	<h4></h4>
+
+                	<table class='table table-borderless'>
+
+                	<tr>
+                	<td class='btn-sm'>Nom</td>
+
+                	<th class='btn-sm'>".$row->NOM_PROPRIETAIRE."</th>
+                	</tr>
+
+                	<tr>
+                	<td class='btn-sm'>Adresse</td>
+
+                	<th class='btn-sm'>".$row->ADRESSE."</th>
+                	</tr>
+
+                	<tr class='btn-sm'>
+                	<td>Email</td>
+
+                	<th class='btn-sm'>".$row->EMAIL."</th>
+                	</tr>
+
+                	<tr>
+                	<td class='btn-sm'>Téléphone</td>
+
+                	<td class='btn-sm'>".$row->TELEPHONE."</td>
+                	</tr>
+
+                	</table>
+
+                	</div>
+                	</div>
+
+                	</div>
+                	</div>
+                	</div>";
+
+                }else
+                {
+                	$option .="
+                	</div>
+                	<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:100px;'>
+                	<div class='modal-dialog modal-lg'>
+                	<div class='modal-content'>
+
+                	<div class='modal-header' style='background:cadetblue;color:white;'>
+                	<h5 class='modal-title'>Information du propriétaire</h5>
+                	<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
+                	</div>
+                	<div class='modal-body'>
+
+                	<h4 class=''></h4>
+
+                	<div class='row'>
+
+                	<div class='col-md-6'>
+                	<img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
+                	</div>
+
+                	<div class='col-md-6'>
+
+                	<h4></h4>
+
+                	<table class='table table-borderless'>
+
+                	<tr>
+                	<td class='btn-sm'>Nom</td>
+                	<th class='btn-sm'>".$row->NOM_PROPRIETAIRE."</th>
+                	</tr>
+
+                	<tr>
+                	<td class='btn-sm'>Adresse</td>
+
+                	<th class='btn-sm'>".$row->ADRESSE."</th>
+                	</tr>
+
+                	<tr class='btn-sm'>
+                	<td>Email</td>
+
+                	<th class='btn-sm'>".$row->EMAIL."</th>
+                	</tr>
+
+                	<tr>
+                	<td class='btn-sm'>Téléphone</td>
+
+                	<td class='btn-sm'>".$row->TELEPHONE."</td>
+                	</tr>
+
+                	</table>
+
+                	</div>
+                	</div>
+
+                	</div>
+                	</div>
+                	</div>";
+				}
 
 				$sub_array[]=$option;
 				$data[]=$sub_array;
@@ -596,9 +739,18 @@
 
 					$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
-					$check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and CODE='.$this->input->post('CODE').'','VEHICULE_ID ASC');
+					$check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,"PLAQUE",PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and CODE='.$this->input->post('CODE').'','VEHICULE_ID ASC');
+				     $check_existe=str_replace('\"', '"', $check_existe);
+				     $check_existe=str_replace('\n', '', $check_existe);
+				     $check_existe=str_replace('\"', '', $check_existe);
+
 					$check_existe1 = $this->ModelPs->getRequete($psgetrequete, $check_existe);
-					$check_existe_plak = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and PLAQUE='.$this->input->post('PLAQUE').'','VEHICULE_ID ASC');
+                     $val_plaque=$this->input->post('PLAQUE');
+					$check_existe_plak = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,"PLAQUE",PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and PLAQUE="'.$val_plaque.'"','VEHICULE_ID ASC');
+					 $check_existe_plak=str_replace('\"', '"', $check_existe_plak);
+				     $check_existe_plak=str_replace('\n', '', $check_existe_plak);
+				     $check_existe_plak=str_replace('\"', '', $check_existe_plak);
+
 					$check_existe_plak1 = $this->ModelPs->getRequete($psgetrequete, $check_existe_plak);
 					 // print_r($check_existe1);die();
 					if(!empty($check_existe1) )
@@ -615,11 +767,21 @@
 					}
 					else
 					{
-						if (!empty($_FILES["PHOTO_OUT"]["tmp_name"])) {
-							$PHOTO=$this->upload_file('PHOTO_OUT');
-						}else{
-							$PHOTO=$this->input->post('PHOTO');
-						}
+						// if (!empty($_FILES["PHOTO_OUT"]["tmp_name"])) {
+						// 	$PHOTO=$this->upload_file('PHOTO_OUT');
+						// }else{
+						// 	$PHOTO=$this->input->post('PHOTO');
+						// }
+
+		 $PHOTO_OUT = $this->input->post('PHOTO');
+		if(empty($_FILES['PHOTO_OUT']['name']))
+		{
+			$file_contro = $this->input->post('PHOTO');
+		}
+		else
+		{
+			$file_contro = $this->upload_file($_FILES['PHOTO_OUT']['tmp_name'],$_FILES['PHOTO_OUT']['name']);
+		}			
 
 	   $FILE_CONTRO_TECHNIQUE = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
 		if(empty($_FILES['FILE_CONTRO_TECHNIQUE']['name']))
@@ -628,7 +790,7 @@
 		}
 		else
 		{
-			$file_contro = $this->upload_document($_FILES['FILE_CONTRO_TECHNIQUE']['tmp_name'],$_FILES['FILE_CONTRO_TECHNIQUE']['name']);
+			$file_contro = $this->upload_file($_FILES['FILE_CONTRO_TECHNIQUE']['tmp_name'],$_FILES['FILE_CONTRO_TECHNIQUE']['name']);
 		}
 		 $FILE_ASSURANCE = $this->input->post('FILE_ASSURANCE_OLD');
 		if(empty($_FILES['FILE_ASSURANCE']['name']))
@@ -637,7 +799,7 @@
 		}
 		else
 		{
-			$file_assurance = $this->upload_document($_FILES['FILE_ASSURANCE']['tmp_name'],$_FILES['FILE_ASSURANCE']['name']);
+			$file_assurance = $this->upload_file($_FILES['FILE_ASSURANCE']['tmp_name'],$_FILES['FILE_ASSURANCE']['name']);
 		}
 
 						$data=array
@@ -648,7 +810,7 @@
 							'PLAQUE'=>$this->input->post('PLAQUE'),
 							'COULEUR'=>$this->input->post('COULEUR'),
 							'KILOMETRAGE'=>$this->input->post('KILOMETRAGE'),
-							'PHOTO'=>$PHOTO,
+							'PHOTO'=>$PHOTO_OUT,
 							'FILE_ASSURANCE'=>$file_assurance,
 							'FILE_CONTRO_TECHNIQUE'=>$file_contro,
 
