@@ -205,6 +205,9 @@ border: 1px solid rgba(255, 255, 255, 0.3);
   background-color: #f6f9ff;
 }
 
+.highcharts-credits{
+  backgound: red!important;
+}
 @media (min-width: 768px) {
   .dropdown-menu-arrow::before {
     content: "";
