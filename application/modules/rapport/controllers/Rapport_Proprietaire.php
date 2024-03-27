@@ -78,7 +78,7 @@ class Rapport_Proprietaire extends CI_Controller
 
   public function get_rapport()
   {
-    $proprietairee=$this->Model->getRequete('SELECT  proprietaire.PROPRIETAIRE_ID as ID,CONCAT(proprietaire.NOM_PROPRIETAIRE,"   ",proprietaire.PRENOM_PROPRIETAIRE)as NAME ,count(vehicule.`PROPRIETAIRE_ID`) as NBR FROM `vehicule`  join proprietaire on vehicule.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE 1 GROUP BY ID,NAME');
+    $proprietairee=$this->Model->getRequete('SELECT  proprietaire.PROPRIETAIRE_ID as ID,if(proprietaire.PRENOM_PROPRIETAIRE !="",CONCAT(proprietaire.NOM_PROPRIETAIRE,"   ",proprietaire.PRENOM_PROPRIETAIRE),proprietaire.NOM_PROPRIETAIRE)as NAME ,count(vehicule.`PROPRIETAIRE_ID`)  as NBR FROM `vehicule`  join proprietaire on vehicule.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE 1 GROUP BY ID,NAME');
      
 
     $total=0;
