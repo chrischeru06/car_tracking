@@ -4,7 +4,227 @@
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   }
 
+  .jss408 {
+    width: 100%;
+    display: flex;
+    padding: 0px 5px;
+    -progress: [object Object];
+    flex-flow: column;
+    overflow-y: auto;
+  }
+  .jss511 {
+    display: flex;
+    position: relative;
+    align-items: stretch;
+    margin-bottom: 15px;
+  }
+  .jss513 {
+    color: #72848C;
+    margin: 15px 0;
+    font-size: 12px;
+    padding-left: 96px;
+    text-transform: uppercase;
+  }
+
+  .jss509 {
+    color: #465157;
+    float: left;
+    width: 100%;
+    padding: 20px;
+  }
+  .jss490 {
+    right: 0;
+    width: 117px;
+    bottom: 0;
+    display: flex;
+    z-index: 1;
+    position: absolute;
+    align-items: center;
+  }
+  .jss517 {
+    width: 61%;
+    display: inline-block;
+    font-size: 12px;
+    padding-left: 15px;
+    text-transform: uppercase;
+  }
+  .jss512 {
+    width: 80px;
+    display: inline-block;
+    border-right: 3px solid #DE3930;
+    text-transform: uppercase;
+  }
+  .jss514 {
+    width: 80px;
+    display: inline-block;
+    border-right: 3px solid #66C011;
+    text-transform: uppercase;
+  }
+  .jss510 {
+    color: #7D7E7F;
+  }
+
+
+
+  .jss722 {
+    color: #7D7E7F;
+  }
+
+  .jss507 {
+    top: -16px;
+    position: absolute;
+    font-size: 8px;
+  }
+
+  .jss518 {
+    width: 61%;
+    display: inline-block;
+    font-size: 12px;
+    padding-left: 15px;
+    text-transform: uppercase;
+  }
+  * {
+    box-sizing: border-box;
+  }
+
+
+
+  .jss408 {
+    width: 100%;
+    display: flex;
+    padding: 0px 5px;
+    -progress: [object Object];
+    flex-flow: column;
+    overflow-y: auto;
+  }
+  .jss111 {
+    float: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .jss114 {
+    width: 61%;
+    display: inline-block;
+    font-size: 12px;
+    padding-left: 15px;
+    text-transform: uppercase;
+  }
+
+  .jss112 {
+    float: left;
+    display: inline;
+    position: relative;
+  }
+  .jss113 {
+    border-left: 3px solid #1A73B8;
+    padding-left: 15px;
+  }
+  .jss110 {
+    color: #575962;
+    float: left;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    background: #fff;
+  }
+  .jss501 {
+    top: -2px;
+  }
+
+  .jss500 {
+    top: -2px;
+    position: absolute;
+    font-size: 8px;
+  }
+  .jss515 {
+    color: #96999F;
+    float: left;
+    width: 100%;
+    position: relative;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .jss119 {
+    font-size: 7px;
+  }
+
+
+  .rounded-rect {
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 0 10px 0px black;
+  }
+
+  .flex-center {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flex-center.left {
+    left: 0px;
+  }
+
+  .flex-center.right {
+    right: 0px;
+  }
+
+  .sidebar-content {
+    position: absolute;
+    width: 95%;
+    height: 95%;
+/*    font-family: Arial, Helvetica, sans-serif;*/
+/*    font-size: 32px;*/
+color: gray;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-toggle.left {
+  right: -1.5em;
+}
+
+.sidebar-toggle.right {
+  left: -1.5em;
+}
+
+.sidebar-toggle:hover {
+  color: #0aa1cf;
+  cursor: pointer;
+}
+
+.sidebar {
+  transition: transform 1s;
+  z-index: 100;
+  width: 300px;
+/*  height: 100%;*/
+}
+
+    /*
+  The sidebar styling has them "expanded" by default, we use CSS transforms to push them offscreen
+  The toggleSidebar() function removes this class from the element in order to expand it.
+*/
+.left.collapsed {
+  transform: translateX(-290px);
+}
+
+.right.collapsed {
+  transform: translateX(295px);
+}
 </style>
+
 <div class="card" style="border-radius: 20px;">
   <!-- <h5 class="card-title">Centre de situation</h5> -->
   <br>
@@ -12,38 +232,26 @@
   <div class="card-body">
     <div class="row">
 
-      <div class="col-md-3">
+      <div id="map_maps" style="width: 100%;height: 720px;">
+        <div id="left" class="sidebar flex-center left collapsed">
+          <div class="sidebar-content rounded-rect flex-center">
 
+            <div class="scroller">
+              <h5 class="card-title">Courses </h5>
 
-      </div>
+              <?=$card_card?>
 
-      <div class="col-md-9">
-
-         <div id="animation-phase-container">
-
-          <div id="menu"> 
-
-            <br>
-            <section class="section dashboard" id="liste">
-              <h5 class="card-title">Trajets </h5>
-              <div class="scroller">
-                <div class="activity">
-
-                  <?=$ligne_arret?>
-
-                </div>
-
-              </div>
               <br>
               <div class="card">
                 <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
 
               </div>
-            </section> 
             </div>
-        </div>
 
-        <div id="map_maps" style="width: 100%;height: 720px;"></div>
+            <div class="sidebar-toggle rounded-rect left" onclick="toggleSidebar('left')" style="font-size: 32px;">→</div>
+          </div>
+        </div>
+      </div>
 
        <!--  <div id="meno">
 
@@ -61,21 +269,20 @@
           <label for="outdoors-v12">outdoors</label>
         </div> -->
 
+
+
+
+
+
+      </div>
+
     </div>
 
+    <script type="text/javascript">
 
-
-
-         
-  </div>
-
-</div>
-
-<script type="text/javascript">
-
-  mapboxgl.accessToken =
-  "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
-  var map_map = new mapboxgl.Map({
+      mapboxgl.accessToken =
+      "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
+      var map_map = new mapboxgl.Map({
   container: "map_maps", // container ID
   style: "mapbox://styles/mapbox/streets-v12", // style URL
   bounds: [29.383188,-3.384438, 29.377566,-3.369615],
@@ -85,44 +292,46 @@
 
   // var nav = new mapboxgl.NavigationControl();
   // map_map.addControl(nav, "top-left");
-  map_map.addControl(new mapboxgl.NavigationControl());
+      map_map.addControl(new mapboxgl.NavigationControl());
 
-  map_map.addControl(new mapboxgl.FullscreenControl());
-  
+      map_map.addControl(new mapboxgl.FullscreenControl());
 
-  map_map.on("style.load", () => {
+
+      map_map.on("style.load", () => {
   // https://en.wikipedia.org/wiki/Transpeninsular_Line
-    const transpeninsularLine = {
-      type: "Feature",
-      properties: {
-        stroke: "#555555",
-        "stroke-width": 1,
-        "stroke-opacity": 1
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: [<?php echo $track; ?>]
-      }
-    };
+        const transpeninsularLine = {
+          type: "Feature",
+          properties: {
+            stroke: "#555555",
+            "stroke-width": 1,
+            "stroke-opacity": 1
+          },
+          geometry: {
+            type: "LineString",
+            coordinates: [<?php echo $track; ?>]
+          }
+        };
 
-    map_map.addSource("tp-line", {
-      type: "geojson",
-      data: transpeninsularLine,
+        map_map.addSource("tp-line", {
+          type: "geojson",
+          data: transpeninsularLine,
     // Line metrics is required to use the 'line-progress' property
-      lineMetrics: true
-    });
+          lineMetrics: true
+        });
 
-    map_map.addLayer({
-      id: "tp-line-line",
-      type: "line",
-      source: "tp-line",
-      paint: {
-        "line-color": "rgba(0,0,0,0)",
-        "line-width": 4,
-        "line-opacity": 0.7
-      }
-    });
+
+        map_map.addLayer({
+          id: "tp-line-line",
+          type: "line",
+          source: "tp-line",
+          paint: {
+            "line-color": "rgba(0,0,0,0)",
+            "line-width": 4,
+            "line-opacity": 0.7
+          }
+        });
   map_map.setFog({}); // Set the default atmosphere style
+
 
 
   let startTime;
@@ -162,107 +371,110 @@
 
 });
 
+      function toggleSidebar(id) {
+        const elem = document.getElementById(id);
+        // Add or remove the 'collapsed' CSS class from the sidebar element.
+        // Returns boolean "true" or "false" whether 'collapsed' is in the class list.
+        const collapsed = elem.classList.toggle('collapsed');
+        const padding = {};
+        // 'id' is 'right' or 'left'. When run at start, this object looks like: '{left: 300}';
+        padding[id] = collapsed ? 0 : 300; // 0 if collapsed, 300 px if not. This matches the width of the sidebars in the .sidebar CSS class.
+        // Use `map.easeTo()` with a padding option to adjust the map's center accounting for the position of sidebars.
+        map_map.easeTo({
+          padding: padding,
+            duration: 1000 // In ms. This matches the CSS transition duration property.
+          });
+      }
 
 
-  // var layerListe = document.getElementById('meno');
+      map_map.on('load', () => {
+        toggleSidebar('left');
 
-  // var inputss = layerListe.getElementsByTagName('input');
+        var donn='<?= $mark_vprim ?>';
 
-  // for (const input of inputss) {
-  //   input.onclick = (layer) => {
-  //     const layerId = layer.target.id;
-  //     map_map.setStyle('mapbox://styles/mapbox/' + layerId);
-  //   };
-  // }
+        var donn=donn.split('@');
 
+      // for (var i = 0; i<(donn.length) - 1; i++) {
 
+      //   var index=donn[i].split('<>');
 
-  map_map.on('load', () => {
-
-   map_map.addSource('places', {
-    'type': 'geojson',
-    'data': {
-      'type': 'FeatureCollection',
-      'features': [<?= $arret; ?>]
-    }
-  });
-
-// Add a layer showing the places.
-   map_map.addLayer({
-    'id': 'places',
-    'type': 'circle',
-    'source': 'places',
-    'paint': {
-      'circle-color': '#FF0000',
-      'circle-radius': 6,
-      'circle-stroke-width': 2,
-      'circle-stroke-color': '#ffffff'
-    }
-  });
+      //   const marker = new mapboxgl.Marker({ color:'#00FF00'})
+      //   .setLngLat([index[0],index[1]]).addTo(map_map);
+      // }
 
 
-// Create a popup, but don't add it to the map yet.
-   const popup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false
-  });
+        for (var i = 0; i<(donn.length) - 1; i++) {
 
-   map_map.on('mouseenter', 'places', (e) => {
-// Change the cursor style as a UI indicator.
-    map_map.getCanvas().style.cursor = 'pointer';
 
-// Copy coordinates array.
-    const coordinates = e.features[0].geometry.coordinates.slice();
-    const description = e.features[0].properties.description;
 
-// Ensure that if the map is zoomed out such that multiple
-// copies of the feature are visible, the popup appears
-// over the copy being pointed to.
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    }
+          var index=donn[i].split('<>');
 
-// Populate the popup and set its coordinates
-// based on the feature found.
-    popup.setLngLat(coordinates).setHTML(description).addTo(map_map);
-  });
 
-   map_map.on('mouseleave', 'places', () => {
-    map_map.getCanvas().style.cursor = '';
-    popup.remove();
-  });
 
-     // When a click event occurs on a feature in the places layer, open a popup at the
-        // location of the feature, with description HTML from its properties.
-   map_map.on('click', 'places', (e) => {
-            // Copy coordinates array.
-    const coordinates = e.features[0].geometry.coordinates.slice();
-    const description = e.features[0].properties.description;
+          var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
+          fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            adress = data.features[0].place_name;
+            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +''
+              );
+            var couleur='';
+            if(index[4]==0){
+              couleur='#0000FF';
+              
+            }else{
+              couleur='#FF0000';
 
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    }
+            }
 
-    new mapboxgl.Popup()
-    .setLngLat(coordinates)
-    .setHTML(description)
-    .addTo(map_map);
-  });
+            const marker2 = new mapboxgl.Marker({ color: couleur})
+            .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
 
-        // Change the cursor to a pointer when the mouse is over the places layer.
-   map_map.on('mouseenter', 'places', () => {
-    map_map.getCanvas().style.cursor = 'pointer';
-  });
 
-        // Change it back to a pointer when it leaves.
-   map_map.on('mouseleave', 'places', () => {
-    map_map.getCanvas().style.cursor = '';
-  });
- });
+          })
+          .catch(error => {
+            console.log('Une erreur s\'est produite :', error);
+          });
 
-  <?php echo $limites; ?>;
 
-</script>
+          if(index[4]!=0){
+
+          //   var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
+
+          //   fetch(apiUrl)
+          // .then(response => response.json())
+          // .then(data => {
+          //   adresse = data.features[0].place_name;
+          //   const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+          //     '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
+          //     );
+            
+          //   const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
+          //   .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
+
+
+
+
+          // })
+          // .catch(error => {
+          //   console.log('Une erreur s\'est produite :', error);
+          // });
+
+
+            const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
+            .setLngLat([index[0],index[1]]).addTo(map_map);  
+          }
+
+
+        }
+
+
+
+
+
+      });
+
+      <?php echo $limites; ?>;
+
+    </script>

@@ -104,7 +104,6 @@ class Dashboard extends CI_Controller
 		$CODE_COURSE = $this->input->post('CODE_COURSE');
 
 
-
 		$distance_finale=0;
 		$distance_arrondie=0;
 		$score_finale=0;
@@ -162,7 +161,7 @@ class Dashboard extends CI_Controller
 		$data['info'] = $info;
 
 		// requete pour recuperer le chauffeur
-		$my_selectget_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE,KILOMETRAGE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND md5(chauffeur_vehicule.CODE) ="'.$CODE.'"', '`PROPRIETAIRE_ID` ASC');
+		$my_selectget_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE,KILOMETRAGE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND md5(chauffeur_vehicule.CODE) ="'.$CODE.'"', 'vehicule.`PROPRIETAIRE_ID` ASC');
 		$my_selectget_chauffeur=str_replace('\"', '"', $my_selectget_chauffeur);
 		$my_selectget_chauffeur=str_replace('\n', '', $my_selectget_chauffeur);
 		$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
@@ -178,7 +177,6 @@ class Dashboard extends CI_Controller
 		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 
 		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
-
 		 // print_r('select `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date from tracking_data where md5(device_uid) ="'.$CODE.'" '.$critere.'');die();
 
 		
@@ -337,66 +335,172 @@ class Dashboard extends CI_Controller
 
 
 
-		$ligne_arret='';
+		// $ligne_arret='';
+		$card_card='';
 
 		
 		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 
-		$get_data_arret = $this->Model->getRequete('SELECT latitude,longitude FROM tracking_data WHERE ignition=0 and md5(device_uid) ="'.$CODE.'" '.$critere.' GROUP BY latitude,longitude');
+		$get_data_arret = $this->Model->getRequete('SELECT latitude,longitude,CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE');
+
+		$get_data_arret_prime = $this->Model->getRequete('SELECT latitude,longitude,CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' GROUP BY CODE_COURSE');
+		$tabl=' ';
+		$mark_v='';
+		$mark_vprim='';
+		if (!empty($get_data_arret_prime)) {
+			$tabl_prime=array();
+
+			foreach ($get_data_arret_prime as $value_get_arret_prim) {
+				$my_selectone_element_prim = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,ignition,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_prim['CODE_COURSE'].'" ' , '`id` ASC');
+				$my_selectone_element_prim=str_replace('\"', '"', $my_selectone_element_prim);
+				$my_selectone_element_prim=str_replace('\n', '', $my_selectone_element_prim);
+				$my_selectone_element_prim=str_replace('\"', '', $my_selectone_element_prim);
+
+				$one_element_prim = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_prim);
+				$date_compare1_prim=$one_element_prim['date'];
+
+				
+				$my_select_date_compare2_prim = $this->getBindParms('tracking_data.date,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_prim['CODE_COURSE'].'" ', 'id DESC');
+				$my_select_date_compare2_prim=str_replace('\"', '"', $my_select_date_compare2_prim);
+				$my_select_date_compare2_prim=str_replace('\n', '', $my_select_date_compare2_prim);
+				$my_select_date_compare2_prim=str_replace('\"', '', $my_select_date_compare2_prim);
+				$date_compare2_prim = $this->ModelPs->getRequeteOne($proce_requete, $my_select_date_compare2_prim);
+				$tabl_prime[]=[$this->notifications->ago($date_compare1_prim,$date_compare2_prim['date']),$one_element_prim['CODE_COURSE'],$one_element_prim['date'],$date_compare2_prim['date'],$one_element_prim['hour'],$one_element_prim['sec'],$date_compare2_prim['hour'],$date_compare2_prim['sec'],$one_element_prim['latitude'],$one_element_prim['longitude'],$date_compare2_prim['latitude'],$date_compare2_prim['longitude'],$one_element_prim['ignition'],$one_element_prim['day_month'],$date_compare2_prim['day_month']];
+				
+
+
+			}
+
+			if (!empty($tabl_prime)) {
+				foreach ($tabl_prime as $keytablprim) {
+
+					$mark_vprim=$mark_vprim.$keytablprim[9].'<>'.$keytablprim[8].'<>'.$keytablprim[11].'<>'.$keytablprim[10].'<>'.$keytablprim[12].'<>@';
+
+				}
+			}
+		}
+		$distdislegend=0;
 		//calcul du temps d'arret
 		if(!empty($get_data_arret)){
-
 			$tabl=array();
 
+
+
 			foreach ($get_data_arret as $value_get_arret) {
-
-				// $one_element=$this->Model->getRequeteOne('SELECT id,tracking_data.date FROM tracking_data WHERE latitude='.$value_get_arret['latitude'].' AND longitude='.$value_get_arret['longitude']);
-
-				$my_selectone_element = $this->getBindParms('id,tracking_data.date,CODE_COURSE', 'tracking_data', 'latitude= "'.$value_get_arret['latitude'].'" AND longitude="'.$value_get_arret['longitude'].'"' , '`id` ASC');
+				$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,ignition,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret['CODE_COURSE'].'" ' , '`id` ASC');
 				$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
 				$my_selectone_element=str_replace('\n', '', $my_selectone_element);
 				$my_selectone_element=str_replace('\"', '', $my_selectone_element);
 
 				$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
-
 				$date_compare1=$one_element['date'];
 
-				$id2=$one_element['id']+1;
+				
+				$my_select_date_compare2 = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret['CODE_COURSE'].'" ', 'id DESC');
+				$my_select_date_compare2=str_replace('\"', '"', $my_select_date_compare2);
+				$my_select_date_compare2=str_replace('\n', '', $my_select_date_compare2);
+				$my_select_date_compare2=str_replace('\"', '', $my_select_date_compare2);
+				$date_compare2 = $this->ModelPs->getRequeteOne($proce_requete, $my_select_date_compare2);
+				$min_arret_plus=$one_element['id']+1;
+				for ($i=$one_element['id'],$j=$min_arret_plus; $i <$date_compare2['id'],$j <$date_compare2['id'] ; $i++,$j++) {
+
+					$my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
+					$my_selectarret1=str_replace('\"', '"', $my_selectarret1);
+					$my_selectarret1=str_replace('\n', '', $my_selectarret1);
+					$my_selectarret1=str_replace('\"', '', $my_selectarret1);
+
+					$point_distance = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret1);
+
+					$my_selectarret2= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$j.'"' , '`id` ASC');
+					$my_selectarret2=str_replace('\"', '"', $my_selectarret2);
+					$my_selectarret2=str_replace('\n', '', $my_selectarret2);
+					$my_selectarret2=str_replace('\"', '', $my_selectarret2);
+
+					$point_distance2 = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret2);
+
+					
 
 
-				$my_select_date_compare2 = $this->getBindParms('tracking_data.date', 'tracking_data', 'id='.$id2, 'id ASC');
-				$date_compare2 = $this->ModelPs->getRequete($proce_requete, $my_select_date_compare2);
-
-
-				foreach ($date_compare2 as $keydate_compare2) {
-					$tabl[]=[$this->notifications->ago($date_compare1,$keydate_compare2['date']),$one_element['CODE_COURSE']];
+					$distdislegend+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
 				}
-
-
+				
+				$tabl[]=[$this->notifications->ago($date_compare1,$date_compare2['date']),$one_element['CODE_COURSE'],$one_element['date'],$date_compare2['date'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend)];
+				
 
 
 			}
+
+			// print_r($tabl);die();
 
 			$v=1;
 			if (!empty($tabl)) {
 				foreach ($tabl as $keytabl) {
 
+					$mark_v=$mark_v.$keytabl[9].'<>'.$keytabl[8].'<>'.$keytabl[11].'<>'.$keytabl[10].'<>'.$keytabl[12].'<>@';
+					// $ligne_arret.=" <div class='activity-item d-flex'>
+					// <div class='activite-label' ><button class='btn btn-default' onclick='change_carte(".$keytabl[1].")'>Trajet ".$v."</button></div>
+					// <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+					// <div class='activity-content'>
+					// <a href='#' class='fw-bold text-dark'>".$keytabl[0]."</a> 
+					// </div>
+					// </div>
+					// <br>
+					
+					// ";
+					if ($keytabl[12]==1) {
 
+						$card_card.="<div class='card' onclick='change_carte(".$keytabl[1].")'>
+						<div class='jss408'>
+						<div class='jss491' style='cursor: pointer;'>
+						<div class='jss490'>
+						<div class='MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 css-wmagas' style='margin: 4px 7px 7px auto; color: grey; font-size: 11px;'>
+						<svg aria-hidden='true' focusable='false' data-prefix='fal' data-icon='pen-to-square' class='svg-inline--fa fa-pen-to-square' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' style='font-size: 18px;'><path fill='currentColor' d='M386.7 22.63C411.7-2.365 452.3-2.365 477.3 22.63L489.4 34.74C514.4 59.74 514.4 100.3 489.4 125.3L269 345.6C260.6 354.1 249.9 359.1 238.2 362.7L147.6 383.6C142.2 384.8 136.6 383.2 132.7 379.3C128.8 375.4 127.2 369.8 128.4 364.4L149.3 273.8C152 262.1 157.9 251.4 166.4 242.1L386.7 22.63zM454.6 45.26C442.1 32.76 421.9 32.76 409.4 45.26L382.6 72L440 129.4L466.7 102.6C479.2 90.13 479.2 69.87 466.7 57.37L454.6 45.26zM180.5 281L165.3 346.7L230.1 331.5C236.8 330.2 242.2 327.2 246.4 322.1L417.4 152L360 94.63L189 265.6C184.8 269.8 181.8 275.2 180.5 281V281zM208 64C216.8 64 224 71.16 224 80C224 88.84 216.8 96 208 96H80C53.49 96 32 117.5 32 144V432C32 458.5 53.49 480 80 480H368C394.5 480 416 458.5 416 432V304C416 295.2 423.2 288 432 288C440.8 288 448 295.2 448 304V432C448 476.2 412.2 512 368 512H80C35.82 512 0 476.2 0 432V144C0 99.82 35.82 64 80 64H208z'></path>
+						</svg>
+						</div>
+						</div>
+						<div class='jss503'>
+						<div class='jss509'>
+						<div class='jss511'><sup class='jss507'>".$keytabl[13]."</sup><span class='jss510 jss512'>".$keytabl[4]."<span class='jss494'>:".$keytabl[5]."&nbsp;</span></span><span class='jss517'>[".$keytabl[8].",".$keytabl[9]."]</span></div><div class='jss513'>".$keytabl[0]."<span style='float: right;'>".$keytabl[15]." km</span></div><div class='jss511'><sup class='jss507'>".$keytabl[14]."</sup><span class='jss510 jss514'>".$keytabl[6]."<span class='jss494'>:".$keytabl[7]."</span></span><span class='jss518'>[".$keytabl[10].",".$keytabl[11]."]</span>
+						</div>
+						</div>
+						</div>
+						</div>
+						</div>
+						</div>";
+					}elseif ($keytabl[12]==0) {
+					// 	$card_card.="<div class='card' onclick='change_carte(".$keytabl[1].")'>
+					// 	<div class='jss491'>
+                      // <div class='jss492' style='cursor: pointer;'>
+                      // <div class='jss516'>
+                      // <div class='jss495' style='width: 78px; font-size: 11px; color: rgb(191, 195, 198); font-weight: 500;'><p><sup class='jss507 jss508'> 21 Mar</sup>".$keytabl[4]."<span class='jss494'>:".$keytabl[5]."</span></p><span style='jss494'></span><p style='position: relative;'><sup class='jss507 jss508' style='top: -13px;'>21 Mar</sup>".$keytabl[6]."<span class='jss494'>:".$keytabl[7]."&nbsp;</span></p></div>
+                      // <div class='jss495 jss496' style='width: 61%;'><span class='jss517' style='width: unset; padding: 0px;'>[".$keytabl[8].",".$keytabl[9]."]</span><p class='jss497'>".$keytabl[0]."</p></div>
+                      // </div>
+                      // </div>
+                      // </div>
+                      // </div>";
+						$card_card.="<div class='card' onclick='change_carte(".$keytabl[1].")'>
+						<div class='jss110' style='cursor: pointer;'>
+						<div class='jss111'>
+						<div class='jss112' style='width: 78px; font-size: 11px; font-weight: 500;'><p><sup class='jss500 jss501'> ".$keytabl[13]."</sup>".$keytabl[4]."<span class='jss119'>:".$keytabl[5]."</span></p><span style='display: block; height: 2px;'></span><p style='position: relative;'><sup class='jss500 jss501'>".$keytabl[14]."</sup>".$keytabl[6]."<span class='jss119'>:".$keytabl[7]."&nbsp;</span></p>
+						</div>
+						<div class='jss112 jss113' style='width: 61%;'><span class='jss114' style='width: unset; padding: 0px;'>[".$keytabl[8].",".$keytabl[9]."]</span><p class='jss515'>PARKED FOR  ".$keytabl[0]."</p>
+						</div>
+						</div>
+						</div>
+						</div>";
+					}
+					
 
-					$ligne_arret.=" <div class='activity-item d-flex'>
-					<div class='activite-label' ><button class='btn btn-default' onclick='change_carte(".$keytabl[1].")'>Trajet ".$v."</button></div>
-					<i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-					<div class='activity-content'>
-					<a href='#' class='fw-bold text-dark'>".$keytabl[0]."</a> 
-					</div>
-					</div>";
+					
 					$v++;
 				}
+
+				//print_r($mark_v);die();
 			}else{
 
-				$ligne_arret.=" 
-				Pas d'arret
-				";
+				// $ligne_arret.=" 
+				// Pas d'arret
+				// ";
 
 
 			}
@@ -404,6 +508,8 @@ class Dashboard extends CI_Controller
 
 
 		}
+
+
 
 		//calcul du carburant consommé
 		if(!empty($get_chauffeur['KILOMETRAGE'])){
@@ -554,10 +660,13 @@ class Dashboard extends CI_Controller
 				$data['CODE'] = $CODE;
 				$data['DATE'] = $DATE_SELECT;
 				$data['score'] = $score_finale;
-				$data['ligne_arret'] = $ligne_arret;
+				// $data['ligne_arret'] = $ligne_arret;
 				// $data['delimit_prov'] = $delimit_prov;
 				$data['limites']=$limites;
-
+				$data['card_card']=$card_card;
+				$data['tabl']=$tabl;
+				$data['mark_vprim']=$mark_vprim;
+				
 
 				$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
 
@@ -569,7 +678,7 @@ class Dashboard extends CI_Controller
 					"map_filtre"=>$map_filtre,
 					"score_finale"=>$point_final,
 					"vitesse_max"=>$vitesse_max['max_vitesse'],
-					"ligne_arret"=>$ligne_arret
+					// "ligne_arret"=>$ligne_arret
 
 
 				);
@@ -600,6 +709,7 @@ class Dashboard extends CI_Controller
 
 
 			}
+
 
 			//Fonction pour afficher la position de la voiture
 			function getmap($CODE){
