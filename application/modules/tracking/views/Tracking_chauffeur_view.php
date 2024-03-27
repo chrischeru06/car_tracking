@@ -85,9 +85,9 @@
   }
 
   .scroller {
-    height: 400px;
+    height: 600px;
     overflow-y: scroll;
-    border-radius: 10px;
+    border-radius: 2px;
   }
 
   /*.table-responsive {
@@ -107,6 +107,14 @@
 
   }
   .profil-info .profil-text p.profil-name{
+   font-weight: 900;
+   font-size:.6rem;
+   margin: 0 0 .1rem 0;
+   margin-left: .4rem;
+
+
+ }
+ .mena .profil-info .profil-text p.profil-name{
    font-weight: 900;
    font-size:.6rem;
    margin: 0 0 .1rem 0;
@@ -136,9 +144,12 @@
 }
 
 #mena {
-  position: absolute;
-  padding: 0px;
-  font-family: 'Open Sans', sans-serif;
+/*  position: absolute;*/
+/*  font-weight: 900;*/
+font-size:.6rem;
+/*  margin: 0 0 0rem 0;*/
+/*  margin-left: .4rem;*/
+font-family: 'Open Sans', sans-serif;
 }
 #meno {
   position: absolute;
@@ -168,7 +179,8 @@ font-family: 'Open Sans', sans-serif;
 
 <body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
   <!-- ======= Header ======= -->
   <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
   <!-- End Header -->
@@ -435,7 +447,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="card-body">
           <h5 class="card-title">Adresse du véhicule</h5>
           <br>     
-          <div id="map" style="height: 245px;"></div>
+          <div id="map" style="height: 360px;"></div>
           <div id="mena">
 
             <input id="streets-v12" type="radio" name="rtoggle" value="streets" checked="checked">
@@ -451,13 +463,17 @@ font-family: 'Open Sans', sans-serif;
 
             <input id="outdoors-v12" type="radio" name="rtoggle" value="outdoors">
             <label for="outdoors-v12">En plein air</label>
+            <div class="profil-info" style="float:right;">
+
+              <div class="profil-text">
+                <p class="profil-phone"> <i class="bi bi-dot" style="color:red;" ></i>&nbsp;Véhicule&nbsp;éteint</p>
+                <p class="profil-phone"> <i class="bi bi-dot" style="color:blue;" ></i>&nbsp;Véhicule&nbsp;en&nbsp;mouvement</p>
+              </div>
+            </div>
           </div>
-          <br>
-          <br>
-
-
+          
           <!-- <section class="section dashboard" > -->
-            <div class="table-responsive">     
+            <!-- <div class="table-responsive">     
               <table class="table-borderless">
                 <thead>
 
@@ -475,9 +491,9 @@ font-family: 'Open Sans', sans-serif;
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> -->
             <!-- </section> -->
-
+            
 
           </div>
         </div>
@@ -612,7 +628,7 @@ font-family: 'Open Sans', sans-serif;
   map.addControl(new mapboxgl.NavigationControl());
   map.addControl(new mapboxgl.FullscreenControl());
 
-  // function addAdditionalSourceAndLayer() {
+  function addAdditionalSourceAndLayer() {
   map.on('load', async () => {
         // Get the initial location of the International Space Station (ISS).
     const geojson = await getLocation();
@@ -736,14 +752,14 @@ font-family: 'Open Sans', sans-serif;
 
   });
 
-  // }
+  }
 
     // Add source and layer whenever base style is loaded
-  // map.on('style.load', () => {
-  //   addAdditionalSourceAndLayer();
+  map.on('style.load', () => {
+    addAdditionalSourceAndLayer();
 
-  // });
-  function changeMapStyleToSatellite() {
+  });
+  // function changeMapStyleToSatellite() {
     const layerList = document.getElementById('mena');
     const inputs = layerList.getElementsByTagName('input');
 
@@ -753,8 +769,8 @@ font-family: 'Open Sans', sans-serif;
         map.setStyle('mapbox://styles/mapbox/' + layerId);
       };
     }
-  }
-  changeMapStyleToSatellite();
+  // }
+  // changeMapStyleToSatellite();
 
 
 
@@ -820,7 +836,7 @@ font-family: 'Open Sans', sans-serif;
       $('#DATE_DAT').html(data.DATE);
       $('#CODE').html(data.CODE);
       $('#map_filtre').html(data.map_filtre);
-      $('#ligne_arret').html(data.ligne_arret);
+      // $('#ligne_arret').html(data.ligne_arret);
       $('#score').html(data.score_finale);
       $('#vitesse_max').html(data.vitesse_max);
 
