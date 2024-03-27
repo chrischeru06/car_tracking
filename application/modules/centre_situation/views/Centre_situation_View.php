@@ -192,7 +192,7 @@
 									<strong class="card-title" id="nbr_proprietaire" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 20px;margin-left:-10%;">Propriétaires &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;margin-left:-10%;">Propriétaires enregistrés<i  title="Voir la liste" ></i></b>
 								</div>
 
 							</div>
@@ -223,7 +223,7 @@
 									<strong class="card-title" id="nbr_vehicule" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 20px;">Véhicules &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules enregistrés<i  title="Voir la liste" ></i></b>
 								</div>
 
 							</div>
@@ -251,7 +251,7 @@
 									<strong class="card-title" id="nbrChauffeur" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 20px;">Chauffeurs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Chauffeurs enregistrés<i  title="Voir la liste" ></i></b>
 								</div>
 
 							</div>

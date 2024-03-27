@@ -133,4 +133,5 @@ const popup = new mapboxgl.Popup({ offset: 25 }).setHTML('<div><h5>D√©tail du v√
 //  }
 
 
+
 </script>
