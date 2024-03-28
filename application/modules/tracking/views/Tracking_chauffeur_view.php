@@ -456,13 +456,13 @@ font-family: 'Open Sans', sans-serif;
             <!-- See a list of Mapbox-hosted public styles at -->
             <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
             <label for="satellite-streets-v12">satellite</label>&nbsp;&nbsp;
-            <input id="light-v11" type="radio" name="rtoggle" value="light">
+            <!-- <input id="light-v11" type="radio" name="rtoggle" value="light">
             <label for="light-v11">lumineux</label>&nbsp;&nbsp;
             <input id="dark-v11" type="radio" name="rtoggle" value="dark">
             <label for="dark-v11">nuit</label>&nbsp;&nbsp;
 
             <input id="outdoors-v12" type="radio" name="rtoggle" value="outdoors">
-            <label for="outdoors-v12">En plein air</label>
+            <label for="outdoors-v12">En plein air</label> -->
             <div class="profil-info" style="float:right;">
 
               <div class="profil-text">
@@ -629,146 +629,204 @@ font-family: 'Open Sans', sans-serif;
   map.addControl(new mapboxgl.FullscreenControl());
 
   function addAdditionalSourceAndLayer() {
-  map.on('load', async () => {
+    map.on('load', async () => {
         // Get the initial location of the International Space Station (ISS).
-    const geojson = await getLocation();
+      const geojson = await getLocation();
         // Add the ISS location as a source.
-    map.addSource('iss', {
-      type: 'geojson',
-      data: geojson
-    });
-    
+      map.addSource('iss', {
+        type: 'geojson',
+        data: geojson
+      });
+
     // Add the rocket symbol layer to the map.   
-    map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
+      map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
 
-    map.addSource('places', {
-      'type': 'geojson',
-      'data': {
-        'type': 'FeatureCollection',
-        'features': [
-        {
-          'type': 'Feature',
-          'geometry': {
-            'type': 'Point',
-            'coordinates': [-77.007481, 38.876516]
-          }
-        }
-        ]
-      }
-    });
-
-    map.addLayer({
-      'id': 'places',
-      'type': 'symbol',
-      'source': 'iss',
-      'layout': {
-        'icon-image': 'pulsing-dot',
-
-
-      },
-
-    });
-
-      // Create a popup, but don't add it to the map yet.
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false
-    });
-
-    map.on('mouseenter', 'places', (e) => {
-            // Change the cursor style as a UI indicator.
-      map.getCanvas().style.cursor = 'pointer';
-
-            // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
-
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
-            // Populate the popup and set its coordinates
-            // based on the feature found.
-      popup.setLngLat(coordinates).setHTML(description).addTo(map);
-    });
-
-    map.on('mouseleave', 'places', () => {
-      map.getCanvas().style.cursor = '';
-      popup.remove();
-    });
-
-    // Update the source from the API every 2 seconds.
-    const updateSource = setInterval(async () => {
-      const geojson = await getLocation(updateSource);
-      map.getSource('iss').setData(geojson);
-    }, 2000);
-
-    async function getLocation(updateSource) {
-            // Make a GET request to the API and return the location of the ISS.
-      try {
-        var CODE = $('#CODE').val(); 
-
-
-        const response = await fetch(
-          '<?= base_url() ?>tracking/Dashboard/getmap/'+CODE,
-          { method: 'GET' }
-          );
-        const { latitude, longitude, vitesse, ignition } = await response.json();
-
-        // get color
-        $('#ignition').val(ignition);
-        
-        // Fly the map to the location.
-        map.flyTo({
-          center: [longitude, latitude],
-          speed: 0.5
-        });
-        // Return the location of the ISS as GeoJSON.
-        return {
+      map.addSource('places', {
+        'type': 'geojson',
+        'data': {
           'type': 'FeatureCollection',
           'features': [
           {
             'type': 'Feature',
-            'properties': {
-              'description':
-              '<strong>'+vitesse+' km/h</strong><p> </p>'
-            },
             'geometry': {
               'type': 'Point',
-              'coordinates': [longitude, latitude]
+              'coordinates': [-77.007481, 38.876516]
             }
           }
           ]
-        };
+        }
+      });
 
-      } catch (err) {
+      map.addLayer({
+        'id': 'places',
+        'type': 'symbol',
+        'source': 'iss',
+        'layout': {
+          'icon-image': 'pulsing-dot',
+
+
+        },
+
+      });
+
+      // Create a popup, but don't add it to the map yet.
+      // const popup = new mapboxgl.Popup({
+      //   closeButton: false,
+      //   closeOnClick: false
+      // });
+
+      // map.on('mouseenter', 'places', (e) => {
+            // Change the cursor style as a UI indicator.
+        // map.getCanvas().style.cursor = 'pointer';
+
+            // Copy coordinates array.
+        // const coordinates = e.features[0].geometry.coordinates.slice();
+        // const description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+        // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        //   coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        // }
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+      //   popup.setLngLat(coordinates).setHTML(description).addTo(map);
+      // });
+
+      // map.on('mouseleave', 'places', () => {
+      //   map.getCanvas().style.cursor = '';
+      //   popup.remove();
+      // });
+
+    // Update the source from the API every 2 seconds.
+      const updateSource = setInterval(async () => {
+        const geojson = await getLocation(updateSource);
+        map.getSource('iss').setData(geojson);
+      }, 2000);
+
+      async function getLocation(updateSource) {
+            // Make a GET request to the API and return the location of the ISS.
+        try {
+          var CODE = $('#CODE').val(); 
+
+
+          const response = await fetch(
+            '<?= base_url() ?>tracking/Dashboard/getmap/'+CODE,
+            { method: 'GET' }
+            );
+          const { latitude, longitude, vitesse, ignition } = await response.json();
+
+        // get color
+          $('#ignition').val(ignition);
+
+        // Fly the map to the location.
+          map.flyTo({
+            center: [longitude, latitude],
+            speed: 0.5
+          });
+        // Return the location of the ISS as GeoJSON.
+        // var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + longitude + ',' + latitude + '.json?access_token=' + mapboxgl.accessToken;
+        //   fetch(apiUrl)
+        //   .then(response => response.json())
+        //   .then(data => {
+        //      adress = data.features[0].place_name;
+        //      var adresse= adress
+
+
+
+        //   })
+        //   .catch(error => {
+        //     console.log('Une erreur s\'est produite :', error);
+        //   });
+          
+
+          
+          function getReverseGeocode(feature) {
+            var lat = latitude;
+            var lng = longitude;
+            var url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + lng + "," + lat + ".json?access_token=" + mapboxgl.accessToken;
+            $.get(url, function(data){
+              var myData = data;
+
+              doAThing(data);
+            });
+            function doAThing(data){
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+              var popup = new mapboxgl.Popup()
+              .setLngLat(feature.geometry.coordinates)
+              .setHTML(makeHtml(data))
+              .addTo(map);
+            }
+
+            function makeHtml(data) {
+              var feature = data.features[0];
+              var name = feature.text;
+              var type = feature.type;
+
+              var formattedHtml = "<i class='fa fa-map-marker'></i>&nbsp;&nbsp;&nbsp;<strong>" + name + "<br> <i class='fa fa-dashboard'></i>&nbsp;&nbsp;&nbsp;" +vitesse+ 'Km/h</strong>';
+              return formattedHtml;
+            }
+          }
+
+          map.on('click', function (e) {
+            var features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
+
+            if (!features.length) {
+              return;
+            }
+
+            var feature = features[0];
+
+            getReverseGeocode(feature);
+
+
+          });
+
+          return {
+            'type': 'FeatureCollection',
+            'features': [
+            {
+              'type': 'Feature',
+              'properties': {
+                'description':
+                '<strong>'+vitesse+' km/h</strong><p></p>'
+              },
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [longitude, latitude]
+              }
+            }
+            ]
+          };
+
+        } catch (err) {
        // If the updateSource interval is defined, clear the interval to stop updating the source.
-        if (updateSource) clearInterval(updateSource);
-        throw new Error(err);
+          if (updateSource) clearInterval(updateSource);
+          throw new Error(err);
+        }
       }
-    }
 
-  });
+    });
 
-  }
+}
 
     // Add source and layer whenever base style is loaded
-  map.on('style.load', () => {
-    addAdditionalSourceAndLayer();
+map.on('style.load', () => {
+  addAdditionalSourceAndLayer();
 
-  });
+});
   // function changeMapStyleToSatellite() {
-    const layerList = document.getElementById('mena');
-    const inputs = layerList.getElementsByTagName('input');
+const layerList = document.getElementById('mena');
+const inputs = layerList.getElementsByTagName('input');
 
-    for (const input of inputs) {
-      input.onclick = (layer) => {
-        const layerId = layer.target.id;
-        map.setStyle('mapbox://styles/mapbox/' + layerId);
-      };
-    }
+for (const input of inputs) {
+  input.onclick = (layer) => {
+    const layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId);
+  };
+}
   // }
   // changeMapStyleToSatellite();
 
