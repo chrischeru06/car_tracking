@@ -51,13 +51,13 @@
   .jss512 {
     width: 80px;
     display: inline-block;
-    border-right: 3px solid #DE3930;
+    border-right: 3px solid #66C011;
     text-transform: uppercase;
   }
   .jss514 {
     width: 80px;
     display: inline-block;
-    border-right: 3px solid #66C011;
+    border-right: 3px solid #DE3930;
     text-transform: uppercase;
   }
   .jss510 {
@@ -144,39 +144,39 @@
     width: 100%;
     position: relative;
     font-size: 12px;
-    text-transform: uppercase;
-  }
+/*    text-transform: uppercase;*/
+}
 
-  .jss119 {
-    font-size: 7px;
-  }
+.jss119 {
+  font-size: 7px;
+}
 
 
-  .rounded-rect {
-    background: white;
-    border-radius: 30px;
-    box-shadow: 0 0 10px 0px black;
-  }
+.rounded-rect {
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 0 10px 0px black;
+}
 
-  .flex-center {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.flex-center {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .flex-center.left {
-    left: 0px;
-  }
+.flex-center.left {
+  left: 0px;
+}
 
-  .flex-center.right {
-    right: 0px;
-  }
+.flex-center.right {
+  right: 0px;
+}
 
-  .sidebar-content {
-    position: absolute;
-    width: 95%;
-    height: 95%;
+.sidebar-content {
+  position: absolute;
+  width: 95%;
+  height: 95%;
 /*    font-family: Arial, Helvetica, sans-serif;*/
 /*    font-size: 32px;*/
 color: gray;
@@ -405,11 +405,7 @@ color: gray;
 
         for (var i = 0; i<(donn.length) - 1; i++) {
 
-
-
           var index=donn[i].split('<>');
-
-
 
           var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
           fetch(apiUrl)
@@ -440,30 +436,30 @@ color: gray;
 
           if(index[4]!=0){
 
-          //   var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
+            var apiUrl_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
 
-          //   fetch(apiUrl)
-          // .then(response => response.json())
-          // .then(data => {
-          //   adresse = data.features[0].place_name;
-          //   const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-          //     '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
-          //     );
-            
-          //   const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
-          //   .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
-
-
+            fetch(apiUrl_url)
+            .then(response => response.json())
+            .then(data => {
+              adresse = data.features[0].place_name;
+              const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+                '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
+                );
+              
+              const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
+              .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
 
 
-          // })
-          // .catch(error => {
-          //   console.log('Une erreur s\'est produite :', error);
-          // });
 
 
-            const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
-            .setLngLat([index[0],index[1]]).addTo(map_map);  
+            })
+            .catch(error => {
+              console.log('Une erreur s\'est produite :', error);
+            });
+
+
+            // const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
+            // .setLngLat([index[0],index[1]]).addTo(map_map);  
           }
 
 
