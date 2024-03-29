@@ -400,10 +400,10 @@ border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .nav-tabs-bordered .nav-link.active {
 /*  background-color: #fff;*/
-  background-color: cadetblue;
+ /* background-color: cadetblue;*/
 
   color: #4154f1;
-  border-bottom: 2px solid #4154f1;
+  border-bottom: 2px solid rgb(128, 128, 128, 1.9);
 }
 
 /*--------------------------------------------------------------
