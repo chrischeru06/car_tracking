@@ -235,9 +235,16 @@
                     <font id="error_col" color="red"></font>
                     <?php echo form_error('COLLINE_ID', '<div class="text-danger">', '</div>'); ?>
                   </div>
+                       <div class="col-md-4" class="text-dark">
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro permis de conduire <font color="red">*</font></label>
+                    <input type="text" name="NUMERO_PERMIS" autocomplete="off" 
+                    id="NUMERO_PERMIS" value="<?= set_value('NUMERO_PERMIS') ?>"  class="form-control">
+                    <font id="error_NUMERO_PERMIS" color="red"></font>
+                    <?php echo form_error('NUMERO_PERMIS', '<div class="text-danger">', '</div>'); ?>
+                  </div>
 
                   <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Carte d'identité <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Carte&nbsp; d'identité&nbsp; (.png,.PNG,.jpg,.JPG,.JEPG,.jepg)<font color="red">*</font></label>
                     <input type="file" name="fichier_carte_identite" autocomplete="off" id="fichier_carte_identite" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" value="<?= set_value('fichier_carte_identite') ?>"  class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                     <font id="error_fichier_carte_identite" color="red"></font>
                     <?php echo form_error('fichier_carte_identite', '<div class="text-danger">', '</div>'); ?> 
@@ -249,36 +256,31 @@
                     <font id="error_fichier_casier_judiciaire" color="red"></font>
                     <?php echo form_error('fichier_casier_judiciaire', '<div class="text-danger">', '</div>'); ?> 
                   </div> -->
-                   <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro permis de conduire <font color="red">*</font></label>
-                    <input type="text" name="NUMERO_PERMIS" autocomplete="off" 
-                    id="NUMERO_PERMIS" value="<?= set_value('NUMERO_PERMIS') ?>"  class="form-control">
-                    <font id="error_NUMERO_PERMIS" color="red"></font>
-                    <?php echo form_error('NUMERO_PERMIS', '<div class="text-danger">', '</div>'); ?>
-                  </div>
+              
 
                     <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo permis de conduire  <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo permis de&nbsp;conduire (.png,.PNG,.jpg,.JPG,.JEPG,.jepg)  <font color="red">*</font></label>
 
                     <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="file_permis" autocomplete="off" id="file_permis" value="<?= set_value('file_permis') ?>"  class="form-control"title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                     <font id="error_file_permis" color="red"></font>
                     <?php echo form_error('file_permis', '<div class="text-danger">', '</div>'); ?> 
                   </div>
+
+                  <div class="col-md-4">
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo&nbsp;passport (.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
+                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= set_value('photo_passport') ?>"  class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                    <font id="error_photo_passport" color="red"></font>
+                    <?php echo form_error('photo_passport', '<div class="text-danger">', '</div>'); ?> 
+                  </div><br><br><br><br>
                    <div class="col-md-4">
                       <label for="date_expiration" class="text-dark" style="font-weight: 1000; color:#454545">Date expiration permis du conduire  <font color="red">*</font></label>
                       <input type="date" name="date_expiration" autocomplete="off" id="date_expiration" value="<?= set_value('date_expiration') ?>"  class="form-control" >
 
                       <font id="error_date_expiration" color="red"></font>
                       <?php echo form_error('date_expiration', '<div class="text-danger">', '</div>'); ?>
-                    </div><br><br><br>
+                    </div>
 
 
-                  <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
-                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= set_value('photo_passport') ?>"  class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
-                    <font id="error_photo_passport" color="red"></font>
-                    <?php echo form_error('photo_passport', '<div class="text-danger">', '</div>'); ?> 
-                  </div>
                 </div>
               </form>
               <div class="col-md-12" style="margin-top:10px;">

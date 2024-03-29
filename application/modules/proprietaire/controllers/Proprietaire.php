@@ -39,6 +39,7 @@ class Proprietaire extends CI_Controller
 		$my_select_provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', '`PROVINCE_NAME` ASC');
 		$provinces = $this->ModelPs->getRequete($proce_requete, $my_select_provinces);
 		$data['provinces']=$provinces;
+
 		$pay = $this->getBindParms('CommonName,COUNTRY_ID', 'countries', '1', 'CommonName ASC');
 		$categorieun = $this->getBindParms('DESC_CATEGORIE,CATEGORIE_ID', 'categories', '1', 'DESC_CATEGORIE ASC');
 		$data['catego'] =$this->ModelPs->getRequete($proce_requete, $categorieun);
@@ -633,7 +634,8 @@ class Proprietaire extends CI_Controller
 	}
 
 	//fonction pour l'affichage de la liste
-	function liste(){
+	function liste()
+	{
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 		$pay = $this->getBindParms('CommonName,COUNTRY_ID', 'countries', '1', 'CommonName ASC');
@@ -641,7 +643,14 @@ class Proprietaire extends CI_Controller
 
 		$provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', 'PROVINCE_NAME ASC');
 		$data['provinces'] = $this->ModelPs->getRequete($proce_requete, $provinces);
-		// $data['provinces']=$this->Model->getRequete('SELECT PROVINCE_ID,PROVINCE_NAME FROM provinces WHERE 1 ORDER BY PROVINCE_NAME ASC');
+		$motifs = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=1', 'DESC_MOTIF ASC');
+		$data['motif_des'] = $this->ModelPs->getRequete($proce_requete, $motifs);
+
+		$motifs = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=2', 'DESC_MOTIF ASC');
+		$data['motif_ativ'] = $this->ModelPs->getRequete($proce_requete, $motifs);
+
+
+		
 		$this->load->view('Proprietaire_List_View',$data);
 	}
 
@@ -839,7 +848,6 @@ class Proprietaire extends CI_Controller
 			"data" => $data,
 		);
 		echo json_encode($output);
-
 
 	}
 
@@ -1104,8 +1112,6 @@ class Proprietaire extends CI_Controller
 			}
 			
 
-
-
 			$data[]=$sub_array;
 		}
 		$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
@@ -1132,9 +1138,9 @@ class Proprietaire extends CI_Controller
            //pour desactivation
 		  $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>2));
 
-		  $MOTIF_DESACT_ACTIVATION_des = $this->input->post('MOTIF_DESACT_ACTIVATION_des');
+		  $ID_MOTIF_des = $this->input->post('ID_MOTIF_des');
 
-		   $data = array('MOTIF_DESACT_ACTIVATION'=>$MOTIF_DESACT_ACTIVATION_des,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>2);
+		   $data = array('ID_MOTIF'=>$ID_MOTIF_des,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>2);
 
 		   $result = $this->Model->create('historique_proprietaire',$data);
 
@@ -1143,13 +1149,10 @@ class Proprietaire extends CI_Controller
 		//pour activation
 		 $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>1));
 
-	     $MOTIF_DESACT_ACTIVATION = $this->input->post('MOTIF_DESACT_ACTIVATION');
-		  $data = array('MOTIF_DESACT_ACTIVATION'=>$MOTIF_DESACT_ACTIVATION,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>1);
-		  
+	     $ID_MOTIF = $this->input->post('ID_MOTIF');
+		  $data = array('ID_MOTIF'=>$ID_MOTIF,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>1);
 
 		  $result = $this->Model->create('historique_proprietaire',$data);
-
-
 
 		}
 
