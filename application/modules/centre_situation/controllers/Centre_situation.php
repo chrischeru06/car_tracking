@@ -98,7 +98,7 @@
 			$id = $this->input->post('id');
 
 			$coordinates = '-3.3944616,29.3726466';
-			$zoom = 9;
+			$zoom = 18;
 
 			$critere_proprietaire = '';
 			$critere_vehicule = '';
