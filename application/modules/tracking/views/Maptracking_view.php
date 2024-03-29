@@ -156,6 +156,7 @@
   background: white;
   border-radius: 30px;
   box-shadow: 0 0 10px 0px black;
+  z-index: 1000;
 }
 
 .flex-center {
@@ -166,7 +167,7 @@
 }
 
 .flex-center.left {
-  left: 0px;
+  left: 3px;
 }
 
 .flex-center.right {
@@ -194,6 +195,7 @@ color: gray;
 
 .sidebar-toggle.left {
   right: -1.5em;
+
 }
 
 .sidebar-toggle.right {
@@ -205,10 +207,12 @@ color: gray;
   cursor: pointer;
 }
 
+
 .sidebar {
   transition: transform 1s;
   z-index: 100;
   width: 300px;
+  margin: 0px 0;
 /*  height: 100%;*/
 }
 
@@ -217,7 +221,7 @@ color: gray;
   The toggleSidebar() function removes this class from the element in order to expand it.
 */
 .left.collapsed {
-  transform: translateX(-290px);
+  transform: translateX(-285px);
 }
 
 .right.collapsed {
@@ -417,7 +421,7 @@ color: gray;
               );
             var couleur='';
             if(index[4]==0){
-              couleur='#0000FF';
+              couleur='#0000FF';//bleu
               
             }else{
               couleur='#FF0000';
@@ -460,6 +464,8 @@ color: gray;
 
             // const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
             // .setLngLat([index[0],index[1]]).addTo(map_map);  
+
+
           }
 
 
