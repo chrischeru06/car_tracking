@@ -398,7 +398,7 @@ input:checked + .slider:before {
 
 
   <div class="modal fade" id="Modal_active" tabindex="-1" >
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      
         <h5 class="modal-title">Activation  </h5>
@@ -410,10 +410,24 @@ input:checked + .slider:before {
               <div class="row">
                 <input type="hidden" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID">
                
-                <div class = 'col-md-8'>
+               <!--  <div class = 'col-md-8'>
                 <label style='color:black'>Motif</label>
                 <textarea class='form-control' name ="MOTIF_DESACT_ACTIVATION" id="MOTIF_DESACT_ACTIVATION"></textarea>
                 <span id="errorMOTIF_DESACT_ACTIVATION" class="text-danger"></span>
+              </div> -->
+                <div class="col-md-12" id="div_type">
+                <label class="text-dark">Motif <font color="red">*</font></label>
+                <select class="form-control" id="ID_MOTIF" name="ID_MOTIF" >
+                  <option value="">-- Sélectionner --</option>
+                  <?php
+                  foreach ($motif_ativ as $key) 
+                  {
+                    echo "<option value=".$key['ID_MOTIF'].">".$key['DESC_MOTIF']."</option>";
+                  }
+                  ?>
+                </select>
+
+                <font class="text-danger" id="errorID_MOTIF"></font>
               </div>
 
               </div>
@@ -436,7 +450,7 @@ input:checked + .slider:before {
 
 
   <div class="modal fade" id="Modal_desactivation" tabindex="-1" >
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      
         <h5 class="modal-title">Désactivation  </h5>
@@ -448,10 +462,24 @@ input:checked + .slider:before {
               <div class="row">
                 <input type="hidden" name="PROPRIETAIRE_ID_des" id="PROPRIETAIRE_ID_des">
                
-                <div class = 'col-md-8'>
+               <!--  <div class = 'col-md-8'>
                 <label style='color:black'>Motif</label>
                 <textarea class='form-control' name ='MOTIF_DESACT_ACTIVATION_des' id="MOTIF_DESACT_ACTIVATION_des"></textarea>
                 <span id="errorMOTIF_DESACT_ACTIVATION_des" class="text-danger"></span>
+              </div> -->
+              <div class="col-md-12" id="div_type">
+                <label class="text-dark">Motif <font color="red">*</font></label>
+                <select class="form-control" id="ID_MOTIF_des" name="ID_MOTIF_des" >
+                  <option value="">-- Sélectionner --</option>
+                  <?php
+                  foreach ($motif_des as $key) 
+                  {
+                    echo "<option value=".$key['ID_MOTIF'].">".$key['DESC_MOTIF']."</option>";
+                  }
+                  ?>
+                </select>
+
+                <font class="text-danger" id="errorID_MOTIF_des"></font>
               </div>
 
               </div>
@@ -680,11 +708,11 @@ function myFunction(PROPRIETAIRE_ID)
 function save_motif_active()
 {
   var statut=1;
-  $('#errorMOTIF_DESACT_ACTIVATION').html('');
+  $('#errorID_MOTIF').html('');
 
-   if($('#MOTIF_DESACT_ACTIVATION').val()=='')
+   if($('#ID_MOTIF').val()=='')
     {
-      $('#errorMOTIF_DESACT_ACTIVATION').html('Le champ est obligatoire');
+      $('#errorID_MOTIF').html('Le champ est obligatoire');
       statut=2;
     }
 
@@ -736,11 +764,11 @@ function myFunction_desactive(PROPRIETAIRE_ID)
 function save_motif_desactive()
 {
   var statut=1;
-  $('#errorMOTIF_DESACT_ACTIVATION_des').html('');
+  $('#errorID_MOTIF_des').html('');
 
-   if($('#MOTIF_DESACT_ACTIVATION_des').val()=='')
+   if($('#ID_MOTIF_des').val()=='')
     {
-      $('#errorMOTIF_DESACT_ACTIVATION_des').html('Le champ est obligatoire');
+      $('#errorID_MOTIF_des').html('Le champ est obligatoire');
       statut=2;
     }
 

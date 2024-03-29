@@ -152,17 +152,17 @@
                    {
                     ?>
                     <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Nom & Prénom</div>
+                    <div class="col-lg-3 col-md-4 label "><span class="fa fa-user"></span> Nom & Prénom</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">E-mail</div>
+                    <div class="col-lg-3 col-md-4 label"> <span class="fa fa-envelope-o"> E-mail</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['EMAIL']?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Téléphone</div>
+                    <div class="col-lg-3 col-md-4 label"><span class="fa fa-phone"></span> Téléphone</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['TELEPHONE']?></div>
                   </div>
 
@@ -171,23 +171,23 @@
                   {
                     ?>
                     <div class="row">
-                      <div class="col-lg-3 col-md-4 label"><?=$label_cni?></div>
+                      <div class="col-lg-3 col-md-4 label"><span class="fa fa-newspaper-o"></span> <?=$label_cni?></div>
                       <div class="col-lg-9 col-md-8"><?=$proprietaire['CNI_OU_NIF']?></div>
                     </div>
                     <?php
                   }?>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Addresse</div>
+                    <div class="col-lg-3 col-md-4 label"><span class="fa fa-map-marker"> Addresse</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['ADRESSE']?></div>
                   </div>
                  
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">RC</div>
+                    <div class="col-lg-3 col-md-4 label"><span class="fa fa-newspaper-o"></span> RC</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['RC']?></div>
                   </div>
                    <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Catégorie</div>
+                    <div class="col-lg-3 col-md-4 label"><span class="fa fa-newspaper-o"></span> Catégorie</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['DESC_CATEGORIE']?></div>
                   </div>
 
@@ -201,17 +201,17 @@
                     ?>
 
                     <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Nom & Prénom</div>
+                    <div class="col-lg-3 col-md-4 label "><span class="fa fa-user"> Nom & Prénom</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">E-mail</div>
+                    <div class="col-lg-3 col-md-4 label"><span class="fa fa-envelope-o"></span> E-mail</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['EMAIL']?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Téléphone</div>
+                    <div class="col-lg-3 col-md-4 label"><span class="fa fa-phone"></span> Téléphone</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['TELEPHONE']?></div>
                   </div>
                   <?php
@@ -219,18 +219,18 @@
                   {
                     ?>
                     <div class="row">
-                      <div class="col-lg-3 col-md-4 label"><?=$label_cni?></div>
+                      <div class="col-lg-3 col-md-4 label"><span class="fa fa-book"></span> <?=$label_cni?></div>
                       <div class="col-lg-9 col-md-8"><?=$proprietaire['CNI_OU_NIF']?></div>
                     </div>
                     <?php
                   }?>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Addresse</div>
+                    <div class="col-lg-3 col-md-4 label"><span class="fa fa-map-marker"></span> Addresse</div>
                     <div class="col-lg-9 col-md-8"><?=$proprietaire['ADRESSE']?></div>
                   </div>
                      <div class="row">
-                      <div class="col-lg-3 col-md-4 label">Localité</div>
+                      <div class="col-lg-3 col-md-4 label"><span class="fa fa-map-marker"></span> Localité</div>
                       <div class="col-lg-9 col-md-8"><?=$proprietaire['PROVINCE_NAME'].' / '.$proprietaire['COMMUNE_NAME'].' / '.$proprietaire['ZONE_NAME'].' / '.$proprietaire['COLLINE_NAME']?></div>
                     </div>
 
@@ -266,7 +266,7 @@
               if(!empty($proprietaire['LOGO']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==1)
               {
                 ?>
-                <img style="border-radius: 5px;height: 250px;width:95%;" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>">
+                <img style="border-radius: 5px;height: 100px;width:50%;" onclick="popup_logo();" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>">
                 <?php
               }
               else if(empty($proprietaire['LOGO']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==1)
@@ -281,7 +281,7 @@
 
               <?php }elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && !empty($proprietaire['LOGO'])) 
               {?>
-                <img  style="border-radius: 5px;height: 250px;width: 95%;"  src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>">
+                <img  style="border-radius: 5px;height: 250px;width: 95%;"   onclick="popup_logo();" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>">
               <?php }
               ?>
 
@@ -297,7 +297,7 @@
 
               <?php }elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && !empty($proprietaire['FILE_NIF'])) 
               {?>
-                <embed  style="border-radius: 5px;height: 250px;width: 95%;"  src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['FILE_NIF'])?>" >
+                <embed  style="border-radius: 5px;height: 100px;width: 50%;" onclick="popup_nif();" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['FILE_NIF'])?>" >
               <?php }
               ?>
               </div>
@@ -311,7 +311,7 @@
 
               <?php }elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && !empty($proprietaire['FILE_RC'])) 
               {?>
-                <embed  style="border-radius: 5px;height: 250px;width: 95%;"  src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['FILE_RC'])?>">
+                <embed  style="border-radius: 5px;height: 100px;width: 50%;"  onclick="popup_rc();" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['FILE_RC'])?>">
               <?php }
               ?>
               </div>
@@ -363,6 +363,62 @@
 
         </div>
       </div>
+
+      <!--      debut modal nif -->
+  <div class="modal fade" id="Modal_nif" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">NIF  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <embed  style="border-radius: 5px;height: 250px;width: 95%;" onclick="popup_nif();" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['FILE_NIF'])?>" >
+              
+        </div>
+       
+       </div>
+    </div>
+  </div>
+</div>
+  <!-- fin modal nif -->
+  <!--      debut modal rc -->
+  <div class="modal fade" id="Modal_rc" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">RC  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <embed  style="border-radius: 5px;height: 250px;width: 95%;"  onclick="popup_rc();" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['FILE_RC'])?>"></embed>
+             
+            
+       
+       </div>
+    </div>
+  </div>
+</div>
+  <!-- fin modal rc -->
+    <!--      debut modal logo -->
+  <div class="modal fade" id="Modal_logo" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Logo  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <embed  style="border-radius: 5px;height: 250px;width: 95%;"  onclick="popup_logo();" src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>"></embed>
+             
+            
+       
+       </div>
+    </div>
+  </div>
+</div>
+  <!-- fin modal logo -->
+ 
     </section>
 
   </main><!-- End #main -->
@@ -522,8 +578,24 @@
     },
 
   });
-
-
  }
+</script>
+<script type="text/javascript">
+  function popup_nif()
+  {
+    $('#Modal_nif').modal('show');
+    
+  }
+   function popup_rc()
+  {
+    $('#Modal_rc').modal('show');
+    
+  } 
+  function popup_logo()
+  {
+    $('#Modal_logo').modal('show');
+    
+  }
+   
 </script>
 </html>
