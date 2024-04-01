@@ -9,7 +9,9 @@
 if ($this->session->PROFIL_ID == 1) {
   ?>
 
-  <aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'template/images/sidebar123-01s.png'; ?>')">
+  <!-- <aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php //echo base_url().'template/images/sidebar123-01s.png'; ?>')"> -->
+
+    <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
 
     <ul class="sidebar-nav" id="sidebar-nav" >
 
