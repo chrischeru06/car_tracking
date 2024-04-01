@@ -341,9 +341,9 @@ class Dashboard extends CI_Controller
 		
 		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 
-		$get_data_arret = $this->Model->getRequete('SELECT latitude,longitude,CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE');
+		$get_data_arret = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE');
 
-		$get_data_arret_prime = $this->Model->getRequete('SELECT latitude,longitude,CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' GROUP BY CODE_COURSE');
+		$get_data_arret_prime = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' GROUP BY CODE_COURSE');
 		$tabl=' ';
 		$mark_v='';
 		$mark_vprim='';
