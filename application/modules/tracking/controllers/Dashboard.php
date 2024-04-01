@@ -370,7 +370,6 @@ class Dashboard extends CI_Controller
 
 
 			}
-
 			if (!empty($tabl_prime)) {
 				foreach ($tabl_prime as $keytablprim) {
 
