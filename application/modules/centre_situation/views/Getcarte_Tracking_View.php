@@ -1,5 +1,7 @@
 <div id="map"></div>
 
+<!-- <input type="text" id="place"> -->
+
 <script>
       // initalize leaflet map
 
@@ -48,31 +50,22 @@
 
 	var markers = [];
 
-	for (var i = 0; i < (donn.length)-1; i++) {
+	// Fonction pour effectuer une requête de géocodage inversé
+	function reverseGeocode(latLng, callback) {
+		var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + latLng.lng + ',' + latLng.lat + '.json?access_token=' + L.mapbox.accessToken;
+
+		$.getJSON(apiUrl, function(data) {
+			var placeName = data.features[0].place_name;
+			callback(placeName);
+		}).fail(function(error) {
+			console.log('Une erreur s\'est produite :', error);
+		});
+	}
+
+	for (var i = 0; i < (donn.length)-1; i++) 
+	{
 		var index = donn[i].split('<>');
-
-		// var color = ' ';
-
-		// if(index[13] == 1) //Vehicule actif
-		// {
-		// 	color = '#50FF50';
-		// }
-		// else              //Vehicule inactif
-		// {
-		// 	color = '#FF0000';
-		// }
-
-		// var marker = L.marker([index[1],index[2]], {
-		// 	icon: L.mapbox.marker.icon({
-		// 		'marker-color': color,
-		// 		'marker-symbol': 'car',
-		// 		'marker-size': 'medium'
-
-		// 	})
-
-
-		// });
-
+		let adress = ' ';
 
 		var icon_vehicule = ' ';
 
@@ -93,28 +86,41 @@
 			icon_vehicule = '<?=base_url()?>/upload/iconecartracking-05.png';
 		}
 
-
 		var markerIcon = L.icon({
             iconUrl: icon_vehicule, // Spécifiez le chemin vers votre image locale
             iconSize: [30, 30], // Définissez la taille de l'icône
             iconAnchor: [25, 50], // Définissez l'ancre de l'icône (position où le marqueur pointe)
-            className: 'custom-marker-icon'
-      });
+            className: 'custom-marker-icon' });
 
 		var marker = L.marker([index[1], index[2]], {
 			icon: markerIcon
 		});
 
-		marker.bindPopup
+		
+		// adress = '';
 
-		('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;'+ index[9] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;'+ index[12] +'</th></tr></table> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="btn btn-outline-primary rounded-pill" title="Informations trajet" ><i class="fa fa-info-circle"></i> </a></label></p>');
+		marker.on('click', function(e) 
+		{
+			reverseGeocode(e.latlng, function(placeName) 
+			{
+				adress = placeName;
+
+				$('#place').html(adress)
+				// alert(adress)
+
+			});
+		});
+
+		
+
+		marker.bindPopup ('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;'+ index[9] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;'+ index[12] +'</th></tr></table> <p class="text-center text-muted small pt-2 ps-1"> <i class="text-muted small pt-2 ps-1 fa fa-map-marker"></i><label class="text-muted small pt-2 ps-1" id="place"></label></p> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>');
+
+		//alert($('#place').html())
 
 		markers.push(marker);
 
-		
 		if(index[14] == 1)
 		{
-
 			marker.addTo(map);
 		}
 		else
@@ -123,8 +129,6 @@
 		}
 
 	}
-
-
 	map.addLayer(clusterGroup);
 
 
@@ -138,7 +142,7 @@
 		var id = 2;
 
 		$.ajax({
-			url : "<?=base_url()?>centre_situation/Centre_situation/getUpdateMarker/",
+			url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
 			type : "POST",
 			dataType: "JSON",
 			cache:false,
@@ -153,20 +157,40 @@
 
 				// alert(data.donnees_vehicule)
 
+				$('#nbr_vehicule').html(data.nbrVehicule);
+				$('#nbr_proprietaire').html(data.nbrProprietaire);
+				$('#nbrChauffeur').html(data.nbrChauffeur);
+				$('.vehiculeActif').html(data.vehiculeActif);
+				$('.vehiculeInactif').html(data.vehiculeInactif);
+				$('#vehiculeAllume').html(data.vehiculeAllume);
+				$('#vehiculeEteint').html(data.vehiculeEteint);
+				$('#vehiculeMouvement').html(data.vehiculeMouvement);
+				$('#vehiculeStationnement').html(data.vehiculeStationnement);
+				$('#vehiculeAvecAccident').html(data.vehiculeAvecAccident);
+				$('#vehiculeSansAccident').html(data.vehiculeSansAccident);
+
+				$('#nbrDemandeEntente').html(data.nbrDemandeEntente);
+				$('#nbrDemandeApprouvee').html(data.nbrDemandeApprouvee);
+				$('#nbrDemandeRefusee').html(data.nbrDemandeRefusee);
+
 				var donn = data.donnees_vehicule;
 
 				var donn = donn.split('@');
 
-				for (var i = 0; i < (donn.length)-1; i++) {
-					var index = donn[i].split('<>');
 
-					var newLatitude = index[1];
-					var newLongitude = index[2];
 
-					// alert(newLatitude)
-
-					marker.setLatLng([newLatitude, newLongitude]);
+				for (var i = 0; i < markers.length-1; i++) {
+					for (var i = 0; i < (donn.length)-1; i++)
+					{
+						var index = donn[i].split('<>');
+						var marker = markers[i];
+						var newLatitude = index[1];
+						var newLongitude = index[2];
+						marker.setLatLng([newLatitude, newLongitude]);
+					}
 				}
+
+				markerClusterGroup.refreshClusters();
 
 			},
 		});
@@ -180,8 +204,8 @@
 	// setInterval(updateMarkerPosition, 10000);
 
 	var timer = setInterval(async () => {
-          		updateMarkerPosition();
-          	}, 10000);
+		updateMarkerPosition();
+	}, 10000);
 
 //.....Fin...........
 

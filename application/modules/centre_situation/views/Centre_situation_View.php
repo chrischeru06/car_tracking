@@ -114,7 +114,7 @@
 						<div class="form-group">
 							<label>Propriétaire</label>
 
-							<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();">
+							<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();" style="border-radius:15px;">
 								<option value="" selected>-- Sélectionner --</option>
 								<?php
 								foreach ($proprio as $key_pro)
@@ -135,7 +135,7 @@
 						<div class="form-group">
 							<label>Véhicule</label>
 
-							<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
+							<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();" style="border-radius:15px;">
 								<option value="" selected>-- Sélectionner --</option>
 							</select>
 						</div>
@@ -192,7 +192,7 @@
 									<strong class="card-title" id="nbr_proprietaire" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 20px;margin-left:-10%;">Propriétaires &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;margin-left:-10%;">Propriétaires enregistrés<i  title="Voir la liste" ></i></b>
 								</div>
 
 							</div>
@@ -223,7 +223,7 @@
 									<strong class="card-title" id="nbr_vehicule" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 20px;">Véhicules &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules enregistrés<i  title="Voir la liste" ></i></b>
 								</div>
 
 							</div>
@@ -251,7 +251,7 @@
 									<strong class="card-title" id="nbrChauffeur" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 20px;">Chauffeurs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Chauffeurs enregistrés<i  title="Voir la liste" ></i></b>
 								</div>
 
 							</div>
@@ -325,7 +325,7 @@
 									<strong class="card-title" id="vehiculeAvecAccident" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en crevaison<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en accident<i  title="Voir la liste" ></i></b>
 								</div>
 							</div>
 
@@ -380,6 +380,135 @@
 						</div>
 
 					</div>
+			</div>
+
+
+			<div class="col-lg-1" id="voirPlus">
+
+				<label class="btn btn-outline-secondary rounded-pill" title="Voir plus" onclick="voirPlus();" style="font-size: 10px;margin-top: -30px;"><i class="fa fa-plus"></i></label>
+
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ALLUME');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-09.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeAllume" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules allumés<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_STATIONNE');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-11.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="vehiculeStationnement" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules stationnés<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ATTENTE');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-10.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="nbrDemandeEntente" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Demandes en attente<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_APROUVE');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-12.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="nbrDemandeApprouvee" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Demandes approuvées<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+			<div class="col-lg-3 autres_infos">
+					<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_REFUSE');" title="Cliquer ici pour visualiser la liste">
+
+						<div class="card-body">
+
+							<div class="d-flex align-items-center">
+								<div class="col-lg-4">
+									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
+									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:-30%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-13.png')?>">
+								</div>
+
+								<div class="col-lg-2">
+									<strong class="card-title" id="nbrDemandeRefusee" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
+								</div>
+								<div class="col-lg-6">
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Demandes refusées<i  title="Voir la liste" ></i></b>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+
+
+			<div class="col-lg-1" id="voirMoins">
+
+				<label class="btn btn-outline-secondary rounded-pill" title="Voir moins" onclick="voirMoins();" style="font-size: 10px;margin-top: 20px;"><i class="fa fa-minus"></i></label>
+
 			</div>
 			
 		</div>
@@ -602,8 +731,31 @@
 
           		getmap();
 
+          		$('.autres_infos').hide();
+          		$('#voirMoins').hide();
+
           	});
 
+          </script>
+
+
+          <script>
+          	function voirPlus()
+          	{
+          		$('.autres_infos').show();
+          		$('#voirMoins').show();
+          		$('#voirPlus').hide();
+          	}
+          </script>
+
+
+          <script>
+          	function voirMoins()
+          	{
+          		$('.autres_infos').hide();
+          		$('#voirMoins').hide();
+          		$('#voirPlus').show();
+          	}
           </script>
 
 
@@ -643,6 +795,10 @@
           				$('#vehiculeStationnement').html(data.vehiculeStationnement);
           				$('#vehiculeAvecAccident').html(data.vehiculeAvecAccident);
           				$('#vehiculeSansAccident').html(data.vehiculeSansAccident);
+
+          				$('#nbrDemandeEntente').html(data.nbrDemandeEntente);
+          				$('#nbrDemandeApprouvee').html(data.nbrDemandeApprouvee);
+          				$('#nbrDemandeRefusee').html(data.nbrDemandeRefusee);
 
           			},
           		});

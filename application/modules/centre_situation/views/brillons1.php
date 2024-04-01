@@ -46,6 +46,12 @@
 
 	var donn = donn.split('@');
 
+	var markers = [];
+
+	let address = " ";
+
+	var popup = L.popup();
+
 	for (var i = 0; i < (donn.length)-1; i++) {
 		var index = donn[i].split('<>');
 
@@ -94,7 +100,7 @@
 
 		var markerIcon = L.icon({
             iconUrl: icon_vehicule, // Spécifiez le chemin vers votre image locale
-            iconSize: [70, 70], // Définissez la taille de l'icône
+            iconSize: [30, 30], // Définissez la taille de l'icône
             iconAnchor: [25, 50], // Définissez l'ancre de l'icône (position où le marqueur pointe)
             className: 'custom-marker-icon'
       });
@@ -103,9 +109,26 @@
 			icon: markerIcon
 		});
 
-		marker.bindPopup
+		//updatePopupContent(marker);
 
-		('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-10px;margin-left:-10px;margin-right:-10px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;'+ index[9] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;'+ index[12] +'</th></tr></table> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="btn btn-outline-primary rounded-pill" title="Informations trajet" ><i class="fa fa-info-circle"></i> </a></label></p>');
+
+		var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + marker.getLatLng().lng + ',' + marker.getLatLng().lat + '.json?access_token=' + L.mapbox.accessToken;
+
+		fetch(apiUrl)
+		.then(response => response.json())
+		.then(data => {
+			address = data.features[0].place_name;
+
+			//alert(address)
+
+			popup.setContent('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;'+ index[9] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;'+ index[12] +'</th></tr></table> <p class="text-center text-muted small pt-2 ps-1"> <i class="text-muted small pt-2 ps-1 fa fa-map-marker"></i><label class="text-muted small pt-2 ps-1">'+ address +'</label></p> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>');
+
+			
+
+		marker.bindPopup(popup);
+
+
+		markers.push(marker);
 
 		
 		if(index[14] == 1)
@@ -118,7 +141,18 @@
 			clusterGroup.addLayer(marker);
 		}
 
+
+		})
+		
+  .catch(error => {
+    console.log('Une erreur s\'est produite :', error);
+  });
+
+	
+
 	}
+
+
 	map.addLayer(clusterGroup);
 
 
@@ -132,7 +166,7 @@
 		var id = 2;
 
 		$.ajax({
-			url : "<?=base_url()?>centre_situation/Centre_situation/getUpdateMarker/",
+			url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
 			type : "POST",
 			dataType: "JSON",
 			cache:false,
@@ -147,20 +181,40 @@
 
 				// alert(data.donnees_vehicule)
 
+				$('#nbr_vehicule').html(data.nbrVehicule);
+				$('#nbr_proprietaire').html(data.nbrProprietaire);
+				$('#nbrChauffeur').html(data.nbrChauffeur);
+				$('.vehiculeActif').html(data.vehiculeActif);
+				$('.vehiculeInactif').html(data.vehiculeInactif);
+				$('#vehiculeAllume').html(data.vehiculeAllume);
+				$('#vehiculeEteint').html(data.vehiculeEteint);
+				$('#vehiculeMouvement').html(data.vehiculeMouvement);
+				$('#vehiculeStationnement').html(data.vehiculeStationnement);
+				$('#vehiculeAvecAccident').html(data.vehiculeAvecAccident);
+				$('#vehiculeSansAccident').html(data.vehiculeSansAccident);
+
+				$('#nbrDemandeEntente').html(data.nbrDemandeEntente);
+				$('#nbrDemandeApprouvee').html(data.nbrDemandeApprouvee);
+				$('#nbrDemandeRefusee').html(data.nbrDemandeRefusee);
+
 				var donn = data.donnees_vehicule;
 
 				var donn = donn.split('@');
 
-				for (var i = 0; i < (donn.length)-1; i++) {
-					var index = donn[i].split('<>');
 
-					var newLatitude = index[1];
-					var newLongitude = index[2];
 
-					// alert(newLatitude)
-
-					marker.setLatLng([newLatitude, newLongitude]);
+				for (var i = 0; i < markers.length-1; i++) {
+					for (var i = 0; i < (donn.length)-1; i++)
+					{
+						var index = donn[i].split('<>');
+						var marker = markers[i];
+						var newLatitude = index[1];
+						var newLongitude = index[2];
+						marker.setLatLng([newLatitude, newLongitude]);
+					}
 				}
+
+				markerClusterGroup.refreshClusters();
 
 			},
 		});
@@ -173,11 +227,31 @@
 // Définir l'intervalle de mise à jour toutes les 10 secondes (10000 millisecondes)
 	// setInterval(updateMarkerPosition, 10000);
 
-	const timer = setInterval(async () => {
-          		updateMarkerPosition();
-          	}, 10000);
+	var timer = setInterval(async () => {
+		updateMarkerPosition();
+	}, 10000);
 
-//.....Fin...........
+
+
+// Fonction pour mettre à jour le contenu du popup avec l'adresse du marqueur
+	function updatePopupContent(marker) {
+		var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + marker.getLatLng().lng + ',' + marker.getLatLng().lat + '.json?access_token=' + L.mapbox.accessToken;
+
+		fetch(apiUrl)
+		.then(response => response.json())
+		.then(data => {
+			var address = data.features[0].place_name;
+
+      // popup.setContent(address);
+     //  marker.bindPopup('popup');
+
+		})
+		.catch(error => {
+			console.log('Une erreur s\'est produite :', error);
+		});
+
+
+	}
 
 
 
