@@ -498,10 +498,13 @@ class Dashboard extends CI_Controller
 							</div>
 							</div>
 							</div>
-							</div> ';
+							</div>
+							 ';
+
+														
 						}
 
-
+						
 
 						$v++;
 					}
