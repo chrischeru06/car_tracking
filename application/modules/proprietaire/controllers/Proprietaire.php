@@ -1172,12 +1172,11 @@ class Proprietaire extends CI_Controller
 		$file_extension = strtolower($file_extension);
 		$valid_ext = array('pdf');
 		$code=uniqid();
-
 		if(!is_dir($rep_doc)) //crée un dossier s'il n'existe pas déja   
 		{
 			mkdir($rep_doc,0777,TRUE);
 		}
-		unlink(base_url()."upload/proprietaire/photopassport/".$code.$nomdocument.".".$file_extension);
+		// unlink(base_url()."upload/proprietaire/photopassport/".$code.$nomdocument.".".$file_extension);
 		move_uploaded_file($nom_file, $rep_doc.$code.$nomdocument.".".$file_extension);
 		$pathfile=$code.$nomdocument.".".$file_extension;
 		return $pathfile;
@@ -1196,7 +1195,7 @@ class Proprietaire extends CI_Controller
 		{
 			mkdir($rep_doc,0777,TRUE);
 		}
-		unlink(base_url()."upload/proprietaire/piece_identite/".$code.$nomdocument.".".$file_extension);
+		// unlink(base_url()."upload/proprietaire/piece_identite/".$code.$nomdocument.".".$file_extension);
 		move_uploaded_file($nom_file, $rep_doc.$code.$nomdocument.".".$file_extension);
 		$pathfile=$code.$nomdocument.".".$file_extension;
 		return $pathfile;
