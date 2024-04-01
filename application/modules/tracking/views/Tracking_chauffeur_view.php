@@ -764,7 +764,7 @@ font-family: 'Open Sans', sans-serif;
               var name = feature.text;
               var type = feature.type;
 
-              var formattedHtml = "<i class='fa fa-map-marker'></i>&nbsp;&nbsp;&nbsp;" + name + "<br> <i class='fa fa-dashboard'></i>&nbsp;&nbsp;&nbsp;" +vitesse+ 'Km/h';
+              var formattedHtml = "<i class='fa fa-map-marker'></i>&nbsp;&nbsp;&nbsp;" + name + "<br> <i class='fa fa-dashboard'></i>&nbsp;&nbsp;&nbsp;" +vitesse+ ' Km/h';
               return formattedHtml;
             }
           }
