@@ -527,7 +527,7 @@ class Dashboard extends CI_Controller
 
 				foreach ($get_data_arret as $key_arret) {
 
-					$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', 'latitude= "'.$key_arret['latitude'].'" AND longitude="'.$key_arret['longitude'].'"' , '`id` ASC');
+					$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$key_arret['CODE_COURSE'].'"' , '`id` ASC');
 					$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
 					$my_selectone_element=str_replace('\n', '', $my_selectone_element);
 					$my_selectone_element=str_replace('\"', '', $my_selectone_element);
@@ -538,11 +538,11 @@ class Dashboard extends CI_Controller
 						'type': 'Feature',
 						'properties': {
 							'description':
-							'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$one_element['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$key_arret['latitude'].",".$key_arret['longitude']."]'
+							'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$one_element['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$one_element['latitude'].",".$one_element['longitude']."]'
 							},
 							'geometry': {
 								'type': 'Point',
-								'coordinates': [".$key_arret['longitude'].", ".$key_arret['latitude']."]
+								'coordinates': [".$one_element['longitude'].", ".$one_element['latitude']."]
 							}
 							},
 							";					
