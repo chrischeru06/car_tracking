@@ -27,7 +27,7 @@ class Motif extends CI_Controller
   {
     $data['title'] = 'Motif activation / désactivation';
 
-    $data['categorie'] = $this->Model->getRequete('SELECT ID_CATEGORIE,DESC_CATEGORIE FROM categorie_motif WHERE 1');
+    // $data['categorie'] = $this->Model->getRequete('SELECT ID_CATEGORIE,DESC_CATEGORIE FROM categorie_motif WHERE 1');
 
     $data['type'] = $this->Model->getRequete('SELECT ID_TYPE,DESC_TYPE FROM type_motif WHERE 1');
 
@@ -36,7 +36,7 @@ class Motif extends CI_Controller
 
   function listing()
   {
-    $query_principal='SELECT `ID_MOTIF`,DESC_CATEGORIE,`DESC_MOTIF`, if(motif.ID_CATEGORIE=4,statut_card.DESCR_CARD,DESC_TYPE) AS info_type FROM `motif` JOIN categorie_motif ON motif.ID_CATEGORIE = categorie_motif.ID_CATEGORIE JOIN type_motif ON motif.ID_TYPE = type_motif.ID_TYPE JOIN statut_card ON statut_card.STATUT_CARD_ID=motif.ID_TYPE WHERE 1';
+    $query_principal='SELECT `ID_MOTIF`,type_motif.DESC_TYPE,`DESC_MOTIF` FROM `motif` LEFT join type_motif on motif.ID_TYPE=type_motif.ID_TYPE WHERE 1';
     $var_search= !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
     $limit='LIMIT 0,10';
 
@@ -49,7 +49,7 @@ class Motif extends CI_Controller
     $order_by=' ORDER BY ID_MOTIF desc';
     $order_column=array('');
     
-    $search=!empty($_POST['search']['value']) ? (" AND (DESC_CATEGORIE LIKE '%$var_search%' OR DESC_TYPE LIKE '%$var_search%' OR DESC_MOTIF LIKE '%$var_search%' OR DESCR_CARD LIKE '%$var_search%')"):'';     
+    $search=!empty($_POST['search']['value']) ? (" AND ( DESC_TYPE LIKE '%$var_search%' OR DESC_MOTIF LIKE '%$var_search%' OR DESCR_CARD LIKE '%$var_search%')"):'';     
 
     $query_secondaire = $query_principal . ' ' . $critaire . ' ' . $search . ' ' . $order_by . '   ' . $limit;
     $query_filter = $query_principal . ' ' . $critaire . ' ' . $search;
@@ -63,18 +63,16 @@ class Motif extends CI_Controller
       $sub_array=array();
       $sub_array[]=$u;
 
-      $sub_array[] = $row->DESC_CATEGORIE;
-      $sub_array[] = $row->info_type;
+   
+      $sub_array[] = $row->DESC_TYPE;
       $sub_array[]=$row->DESC_MOTIF;
 
-      $option='<div class="dropdown" style="color:white">
-      <a class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
-      <i class="fa fa-cog" class"text-dark"></i>
-      OPTIONS
-      <span class="caret"></span></a>
+      $option='<div class="dropdown" text-center" style="color:#fff;">
+      <a class=" btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown"><i class="bi bi-three-dots h5" style="color:blue;"></i>  <span class="caret"></span>
+      </a>
       <ul class="dropdown-menu dropdown-menu-left">
       ';
-      $option.='<a class="dropdown-item text-dark fa fa-edit" style="color:white" href="#" onClick="edit_motif('.$row->ID_MOTIF.')">  Modifier</a>';
+      $option.='<a class="btn-md" href="#" onClick="edit_motif('.$row->ID_MOTIF.')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier</a>';
       $option .= " </ul>
       </div>";
       $sub_array[]=$option;
@@ -89,19 +87,19 @@ class Motif extends CI_Controller
     echo json_encode($output);
   }
 
-  function delete($id)
-  {
-    $table='shift';
-    $criteres['SHIFT_ID']=$id;
-    $data['rows']= $this->Model->getOne( $table,$criteres);
-    $this->Model->delete($table,$criteres);
-    $msg['message']='<div class="alert alert-success text-center " id="message">Client supprimer avec succés</div>';
-    $this->session->set_flashdata($msg);
-  }
+  // function delete($id)
+  // {
+  //   $table='shift';
+  //   $criteres['SHIFT_ID']=$id;
+  //   $data['rows']= $this->Model->getOne( $table,$criteres);
+  //   $this->Model->delete($table,$criteres);
+  //   $msg['message']='<div class="alert alert-success text-center " id="message">Client supprimer avec succés</div>';
+  //   $this->session->set_flashdata($msg);
+  // }
 
   function save()
   {
-    $ID_CATEGORIE = $this->input->post('ID_CATEGORIE');
+    // $ID_CATEGORIE = $this->input->post('ID_CATEGORIE');
     $ID_TYPE = $this->input->post('ID_TYPE');
     $DESC_MOTIF = $this->input->post('DESC_MOTIF');
 
@@ -112,7 +110,7 @@ class Motif extends CI_Controller
     if(empty($EXIST))
     {
       $data_insert=array(
-        'ID_CATEGORIE'=>$ID_CATEGORIE,
+        // 'ID_CATEGORIE'=>$ID_CATEGORIE,
         'ID_TYPE'=>$ID_TYPE,
         'DESC_MOTIF'=>$DESC_MOTIF);
       $this->Model->create('motif',$data_insert);
@@ -133,19 +131,19 @@ class Motif extends CI_Controller
   {
   	$get = $this->Model->getOne('motif',array('ID_MOTIF'=>$id));
 
-    $categorie=$this->Model->getRequete('SELECT ID_CATEGORIE,DESC_CATEGORIE FROM categorie_motif WHERE 1');
+    // $categorie=$this->Model->getRequete('SELECT ID_CATEGORIE,DESC_CATEGORIE FROM categorie_motif WHERE 1');
 
-    $html_cat='<option value="">Séléctionner</option>';
-    foreach ($categorie as $key)
-    {
-      $selected='';
-      if($key['ID_CATEGORIE']==$get['ID_CATEGORIE'])
-      {
-        $selected=' selected';
+    // $html_cat='<option value="">Séléctionner</option>';
+    // foreach ($categorie as $key)
+    // {
+    //   $selected='';
+    //   if($key['ID_CATEGORIE']==$get['ID_CATEGORIE'])
+    //   {
+    //     $selected=' selected';
 
-      }
-      $html_cat.='<option value="'.$key['ID_CATEGORIE'].'" '.$selected.'>'.$key['DESC_CATEGORIE'].'</option>';
-    }
+    //   }
+    //   $html_cat.='<option value="'.$key['ID_CATEGORIE'].'" '.$selected.'>'.$key['DESC_CATEGORIE'].'</option>';
+    // }
 
 
     $type = $this->Model->getRequete('SELECT ID_TYPE,DESC_TYPE FROM type_motif WHERE 1');
@@ -161,7 +159,7 @@ class Motif extends CI_Controller
       $html_type.='<option value="'.$key['ID_TYPE'].'"'.$selected.'>'.$key['DESC_TYPE'].'</option>';
     }
 
-    $output=array('ID_MOTIF'=>$get['ID_MOTIF'],'DESC_MOTIF'=>$get['DESC_MOTIF'],'html_cat'=>$html_cat,'html_type'=>$html_type);
+    $output=array('ID_MOTIF'=>$get['ID_MOTIF'],'DESC_MOTIF'=>$get['DESC_MOTIF'],'html_type'=>$html_type);
 
     echo json_encode($output);
   }
@@ -171,7 +169,7 @@ class Motif extends CI_Controller
   {
     $ID_MOTIF = $this->input->post('ID_MOTIF');
 
-    $ID_CATEGORIE = $this->input->post('ID_CATEGORIE1');
+    // $ID_CATEGORIE = $this->input->post('ID_CATEGORIE1');
     $ID_TYPE = $this->input->post('ID_TYPE1');
     $DESC_MOTIF = $this->input->post('DESC_MOTIF1');
 
@@ -185,7 +183,7 @@ class Motif extends CI_Controller
       $table='motif';
 
       $data_update=array(
-        'ID_CATEGORIE'=>$ID_CATEGORIE,
+        // 'ID_CATEGORIE'=>$ID_CATEGORIE,
         'ID_TYPE'=>$ID_TYPE,
         'DESC_MOTIF'=>$DESC_MOTIF);
 
@@ -204,32 +202,31 @@ class Motif extends CI_Controller
     echo json_encode($output);
   }
 
-  function get_type_categorie($ID_CATEGORIE=0){
+//   function get_type_categorie($ID_CATEGORIE=0)
+//   {
+//     if($ID_CATEGORIE==4)
+//     {
+//       $cat=$this->Model->getRequete('SELECT STATUT_CARD_ID,DESCR_CARD FROM statut_card WHERE 1');
+//       $html='<option value="">---sélectionner---</option>';
+//       foreach ($cat as $key)
+//       {
+//         $html.='<option value="'.$key['STATUT_CARD_ID'].'">'.$key['DESCR_CARD'].'</option>';
+//       }
+//     }else
+//     {
 
-    if($ID_CATEGORIE==4)
-    {
-      $cat=$this->Model->getRequete('SELECT STATUT_CARD_ID,DESCR_CARD FROM statut_card WHERE 1');
-      $html='<option value="">---sélectionner---</option>';
-      foreach ($cat as $key)
-      {
-        $html.='<option value="'.$key['STATUT_CARD_ID'].'">'.$key['DESCR_CARD'].'</option>';
-      }
-    }else{
-
-     $categorie=$this->Model->getRequete('SELECT ID_TYPE,DESC_TYPE FROM type_motif WHERE 1');
-     $html='<option value="">---sélectionner---</option>';
-     foreach ($categorie as $key)
-     {
-      $html.='<option value="'.$key['ID_TYPE'].'">'.$key['DESC_TYPE'].'</option>';
-    }
+//      $categorie=$this->Model->getRequete('SELECT ID_TYPE,DESC_TYPE FROM type_motif WHERE 1');
+//      $html='<option value="">---sélectionner---</option>';
+//      foreach ($categorie as $key)
+//      {
+//       $html.='<option value="'.$key['ID_TYPE'].'">'.$key['DESC_TYPE'].'</option>';
+//     }
+//   }
 
 
-  }
+//     echo json_encode($html);
 
-
-  echo json_encode($html);
-
-}
+// }
 
 }
 

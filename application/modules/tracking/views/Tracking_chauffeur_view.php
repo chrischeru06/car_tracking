@@ -748,7 +748,6 @@ font-family: 'Open Sans', sans-serif;
             var url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + lng + "," + lat + ".json?access_token=" + mapboxgl.accessToken;
             $.get(url, function(data){
               var myData = data;
-
               doAThing(data);
             });
             function doAThing(data){
@@ -765,7 +764,7 @@ font-family: 'Open Sans', sans-serif;
               var name = feature.text;
               var type = feature.type;
 
-              var formattedHtml = "<i class='fa fa-map-marker'></i>&nbsp;&nbsp;&nbsp;<strong>" + name + "<br> <i class='fa fa-dashboard'></i>&nbsp;&nbsp;&nbsp;" +vitesse+ 'Km/h</strong>';
+              var formattedHtml = "<i class='fa fa-map-marker'></i>&nbsp;&nbsp;&nbsp;" + name + "<br> <i class='fa fa-dashboard'></i>&nbsp;&nbsp;&nbsp;" +vitesse+ ' Km/h';
               return formattedHtml;
             }
           }
@@ -778,7 +777,6 @@ font-family: 'Open Sans', sans-serif;
             }
 
             var feature = features[0];
-
             getReverseGeocode(feature);
 
 
@@ -869,7 +867,7 @@ for (const input of inputs) {
   var HEURE1 = $('#HEURE1').val(); 
   var HEURE2 = $('#HEURE2').val(); 
   var CODE_COURSE = CODE_COURSE; 
-
+  //alert(CODE_COURSE)
 
   $.ajax({
     url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",

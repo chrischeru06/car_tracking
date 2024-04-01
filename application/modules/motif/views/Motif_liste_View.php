@@ -95,9 +95,8 @@ input:checked + .slider:before {
           <center>
          <table>
           <tr>
-
             <td>  
-              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Liste des chauffeurs</h4>
+              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Liste des motifs</h4>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                
@@ -111,132 +110,128 @@ input:checked + .slider:before {
     </div>
     <div class="col-md-2">
 
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+      <a class="btn btn-outline-primary rounded-pill" onclick="popup_modal();" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
 
     </div>
   </div>
 
 
   <!-- End Page Title -->
-  <!--******** Debut Modal pour attribue une voiture *********-->
+ 
 
-  <div class="modal fade" id="carteModal" tabindex="-1" >
+  <!--******** Debut Modal pour inserer motif *********-->
+  <div class="modal fade" id="update_motif" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Attribué la voiture au chauffeur :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
+        <h5 class="modal-title">Modification du motif</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
-            <div class="modal-body mb-1">
-              <div class="row">
-                <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
-              <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
-                <div class="col-md-6">
-                  <label for="description" class="text-dark">Voiture</label>
-                  <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
-                  </select>
-                  <span id="errorVEHICULE_ID" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                  <label for="description" class="text-dark">Zone d'affectation</label>
-                  <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID" name="CHAUFF_ZONE_AFFECTATION_ID">
-                  </select>
-                  <span id="errorCHAUFF_ZONE_AFFECTATION_ID" class="text-danger"></span>
-                </div>
+         <form id="myform1" method="post">
+            <div class="row">
 
-                <div class="col-md-6">
-                  <label type="date" class="text-dark">Date début</label>
-                  <input type="date" name="DATE_DEBUT_AFFECTATION" autocomplete="off" id="DATE_DEBUT_AFFECTATION" value="<?= set_value('DATE_DEBUT_AFFECTATION') ?>" onchange="get_date_fin(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
-                  <span id="errorDATE_DEBUT_AFFECTATION" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                  <label type="date" class="text-dark">Date fin</label>
-                  <input type="date" name="DATE_FIN_AFFECTATION" autocomplete="off" id="DATE_FIN_AFFECTATION" value="<?= set_value('DATE_FIN_AFFECTATION') ?>"  onchange="get_dates_deb(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
-                  <span id="errorDATE_FIN_AFFECTATION" class="text-danger"></span>
-                </div>
-              </div>
-            </div> 
-            <div class="modal-footer">
-              <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Attribuer" onclick="save_vehicule();" />
-             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
+             <!-- <div class="col-md-12" id="div_categorie">
+ -->
+              <input type="hidden" name="ID_MOTIF" id="ID_MOTIF" class="form-control">
+<!-- 
+              <label class="text-dark">Catégorie de motif <font color="red">*</font></label>
+              <select class="form-control" id="ID_CATEGORIE1" name="ID_CATEGORIE1" onchange="verif_cat()">
+              </select>
 
+              <font class="text-danger" id="error_categorie_motif1"></font>
+            </div> -->
+
+            <div class="col-md-12" id="div_type">
+              <label class="text-dark">Type de motif <font color="red">*</font></label>
+              <select class="form-control" id="ID_TYPE1" name="ID_TYPE1" >
+
+              </select>
+
+              <font class="text-danger" id="error_type_motif1"></font>
             </div>
-          </form>
+
+            <div class="col-md-12" id="div_desc">
+              <label class="text-dark">Motif <font color="red">*</font></label>
+              <input type="text" name="DESC_MOTIF1" id="DESC_MOTIF1" class="form-control">
+              <font class="text-danger" id="error_motif1"></font>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+           
+              <button type="button" class="btn btn-outline-primary rounded-pill " id="btnSave1" onclick="valider1()">  Modifier</button>
+          </div>
+        </form>
+
        </div>
     </div>
   </div>
-</div><!-- End Modal-->
- 
-  <!--******** Fin Modal pour attribue un voiture ***********-->
+</div>
+  <!--******** fin Modal pour inserer motif  ***********-->
 
-  <!--******** Debut Modal pour modifier l'affectation du chauffeur a une voiture *********-->
-  <div class="modal fade" id="modifvoitureModal" tabindex="-1" >
+    <!--******** Debut Modal pour modification motif *********-->
+  <div class="modal fade" id="add_motif" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Modifier l'affectation du chauffeur </h5>
+        <h5 class="modal-title">Ajout d'un motif </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
-            <div class="modal-body mb-1">
+
+           <form id="myform" method="post">
               <div class="row">
-               <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
-                <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
 
-                <div class="col-md-6">
-                  <label for="description" class="text-dark">Zone d'affectation</label>
-                  <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID_MOD" name="CHAUFF_ZONE_AFFECTATION_ID_MOD">
-                  </select>
+              <!--  <div class="col-md-12" id="div_categorie">
+                <label class="text-dark">Catégorie de motif <font color="red">*</font></label>
+                <select class="form-control" id="ID_CATEGORIE" name="ID_CATEGORIE" onchange="verif_cat()">
+                  <option value="">-- Sélectionner --</option>
+                  <?php
+                  foreach ($categorie as $key) 
+                  {
+                    echo "<option value=".$key['ID_CATEGORIE'].">".$key['DESC_CATEGORIE']."</option>";
+                  }
+                  ?>
+                </select>
 
-                  <span id="errorCHAUFF_ZONE_AFFECTATION_ID_MOD" class="text-danger"></span>
-                </div>
+                <font class="text-danger" id="error_categorie_motif"></font>
+              </div> -->
 
-                <div class="col-md-6">
-                  <label type="date" class="text-dark">Date début</label>
-                  <input type="date" name="DATE_DEBUT_AFFECTATION_MOD" autocomplete="off" id="DATE_DEBUT_AFFECTATION_MOD"  value="<?= set_value('DATE_DEBUT_AFFECTATION_MOD') ?>"  onchange="get_date_fin_modif(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
-                  <span id="errorDATE_DEBUT_AFFECTATION_MOD" class="text-danger"></span>
-                </div> 
-                <div class="col-md-6">
-                  <label type="date" class="text-dark">Date fin</label>
-                  <input type="date" name="DATE_FIN_AFFECTATION_MOD" autocomplete="off" id="DATE_FIN_AFFECTATION_MOD" value="<?= set_value('DATE_FIN_AFFECTATION_MOD') ?>" onchange="get_dates_deb_modif(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
-                  <span id="errorDATE_FIN_AFFECTATION_MOD" class="text-danger"></span>
-                </div>
+              <div class="col-md-12" id="div_type">
+                <label class="text-dark">Type de motif <font color="red">*</font></label>
+                <select class="form-control" id="ID_TYPE" name="ID_TYPE" >
+                  <option value="">-- Sélectionner --</option>
+                  <?php
+                  foreach ($type as $key) 
+                  {
+                    echo "<option value=".$key['ID_TYPE'].">".$key['DESC_TYPE']."</option>";
+                  }
+                  ?>
+                </select>
+
+                <font class="text-danger" id="error_type_motif"></font>
               </div>
+
+              <div class="col-md-12" id="div_desc">
+                <label class="text-dark">Motif <font color="red">*</font></label>
+                <textarea cols='50' rows='7' name='DESC_MOTIF' id='DESC_MOTIF' class='form-control'></textarea> <br>
+                <font class="text-danger" id="error_motif"></font>
+              </div>
+
             </div>
-            <div class="modal-footer">
-              <input type="button" class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Modifier" onclick="save_modif_chauffeur();" />
-            </div>
+           
+
+              <div class="modal-footer">
+           
+              <button type="button" class="btn btn-outline-primary rounded-pill " id="btnSave1" onclick="valider()">  Enregistrer</button>
+           </div>
           </form>
        </div>
     </div>
   </div>
 </div>
-  <!--******** Fin Modal pour modifier l'affectation du chauffeur a une voiture  ***********-->
-
-
-  <!-- fin modal pour retirer la voiture -->
-  <div class="modal fade" id="retirvoiture" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-     
-        
-            <div class="modal-body mb-1">
-             <center><h5><strong style='color:black'>Veuillez d'abord lui retirer la voiture </strong> <br><b style='background-color:prink;color:green;'> </b></h5></center>
-            </div>
-            <div class="modal-footer">
-              <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
-
-        
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- fin modal pour retirer la voiture -->
-
-  
+  <!--******** fin Modal pour modification motif  ***********-->
 
         <section class="section dashboard">
           <div class="row">
@@ -269,7 +264,7 @@ input:checked + .slider:before {
                         <thead class="text-dark">
                     <tr>
                       <td>#</td>
-                      <td class="text-dark"><b>CATEGORIE</b> </td>
+                      <!-- <td class="text-dark"><b>CATEGORIE</b> </td> -->
                       <td class="text-dark"><b>TYPE</b> </td>
                       <td class="text-dark"><b>DESCRIPTION</b> </td>
                       <td class="text-dark"><b>Action</b></td>
@@ -368,371 +363,197 @@ input:checked + .slider:before {
 
 </script>
 <script>
-  function attribue_voiture(CHAUFFEUR_ID='',NOM='',PRENOM='')
-
+  function popup_modal()
   {
-      // alert(NOM)
-    // var CHAUFFEUR_ID = $CHAUFFEUR_ID;
-    $('#CHAUFFEUR_ID').val(CHAUFFEUR_ID);
-    $('#NOM').html(NOM);
-    $('#PRENOM').html(PRENOM);
+    $('#btnSave').attr('disabled',false);
+    $('#add_motif').modal('show');
+  }
+   //fonction d'insertion
+  function valider()
+  {
 
-    $('#CHAUFF_ZONE_AFFECTATION_ID').val(CHAUFF_ZONE_AFFECTATION_ID);
-    $('#errorVEHICULE_ID').html('');
-    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
-    $('#errorDATE_DEBUT_AFFECTATION').html('');
-    $('#errorDATE_FIN_AFFECTATION').html('');
-    $.ajax(
+   // var ID_CATEGORIE = $('#ID_CATEGORIE').val();
+   var ID_TYPE = $('#ID_TYPE').val();
+   var DESC_MOTIF = $('#DESC_MOTIF').val();
+
+   statut = 1;
+
+  //  if(ID_CATEGORIE=='')
+  //  {
+  //   $("#error_categorie_motif").text("Le champ est obligatoire !");
+  //   statut = 2;
+  // }else{$("#error_categorie_motif").text('');}
+
+    // if(ID_CATEGORIE != 4) // 2 represente la carte
+    // {
+      if(ID_TYPE=="")
+      {
+        $("#error_type_motif").text("Le champ est obligatoire !");
+        statut = 2;
+      }else{$("#error_type_motif").text("");}
+    // }
+    
+    if(DESC_MOTIF=="")
     {
-      
-      url: "<?= base_url() ?>chauffeur/Chauffeur/get_all_voiture/",
+      $("#error_motif").text("Le champ est obligatoire !");
+      statut = 2;
+    }else{$("#error_motif").text("");}
+    if(statut==1)
+    {
+      $('#btnSave').text('Enregistrement Encours.....');
+      $('#btnSave').attr("disabled",true);
+      var url;   
+      url="<?php echo base_url('motif/Motif/save')?>";
+      var formData = new FormData($('#myform')[0]);
+      $.ajax({
+        url:url,
+        type:"POST",
+        data:formData,
+        contentType:false,
+        processData:false,
+        dataType:"JSON",
+        success: function(data)
+        {
+          if(data.status==1)
+          {
+            $('#myform')[0].reset();
+            $('#btnSave').attr('disabled',true);
+            $('#add_motif').modal('hide');
+            $('#message_succ').html("<div class='alert alert-success  col-md-12'>"+data.message+"</div>");
+            $('#message_succ').delay(5000).hide('slow');
+            liste();
+          }
+          else if (data.status==2)
+          {
+            $('#error_motif').html(data.message);
+          }
+          else
+          {
+            for (var i = 0; i < data.inputerror.length; i++) 
+            {
+             $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); 
+             $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); 
+           }
+         }
+         $('#btnSave').text('Enregistrer');
+         $('#btnSave').attr('disabled',false); 
+       },
+       error: function (jqXHR, textStatus,photo, errorThrown)
+       {
+         alert('Erreur s\'est produite');
+         $('#btnSave').text('Enregistrer');
+         $('#btnSave').attr('disabled',false);
+       }
+     });
+    }
+  }
 
-      type: "GET",
+  //fonction de mofification
+  function valider1()
+  {
+
+   // var ID_CATEGORIE1 = $('#ID_CATEGORIE1').val();
+   var ID_TYPE1 = $('#ID_TYPE1').val();
+   var DESC_MOTIF1 = $('#DESC_MOTIF1').val();
+
+   statut = 1;
+
+  //  if(ID_CATEGORIE1=='')
+  //  {
+  //   $("#error_categorie_motif1").text("Le champ est obligatoire !");
+  //   statut = 2;
+  // }else{$("#error_categorie_motif1").text('');}
+
+    // if(ID_CATEGORIE1 != 4) // 2 represente la carte
+    // {
+      if(ID_TYPE1=="")
+      {
+        $("#error_type_motif1").text("Le champ est obligatoire !");
+        statut = 2;
+      }else{$("#error_type_motif1").text("");}
+    // }
+
+    if(DESC_MOTIF1=="")
+    {
+      $("#error_motif1").text("Le champ est obligatoire !");
+      statut = 2;
+    }else{$("#error_motif1").text("");}
+
+
+    if(statut==1)
+    {
+      $('#btnSave1').text('Encours...');
+      $('#btnSave1').attr("disabled",true);
+      var url;   
+      url="<?php echo base_url('motif/Motif/update')?>";
+      var formData = new FormData($('#myform1')[0]);
+      $.ajax({
+        url:url,
+        type:"POST",
+        data:formData,
+        contentType:false,
+        processData:false,
+        dataType:"JSON",
+        success: function(data)
+        {
+          if(data.status==1)
+          {
+            $('#myform1')[0].reset();
+            $('#btnSave1').attr('disabled',true);
+            $('#update_motif').modal('hide');
+            $('#message_succ').html("<div class='alert alert-success  col-md-12'>"+data.message+"</div>");
+            $('#message_succ').delay(5000).hide('slow');
+            liste();
+          }
+          else if (data.status==2)
+          {
+            $('#error_motif1').html(data.message);
+          }
+          else
+          {
+            for (var i = 0; i < data.inputerror.length; i++) 
+            {
+             $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); 
+             $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); 
+           }
+         }
+         $('#btnSave1').text('Modifier');
+         $('#btnSave1').attr('disabled',false); 
+       },
+       error: function (jqXHR, textStatus,photo, errorThrown)
+       {
+         alert('Erreur s\'est produite');
+         $('#btnSave1').text('Modifier');
+         $('#btnSave1').attr('disabled',false);
+       }
+     });
+    }
+  }
+
+   function edit_motif(id)
+  {
+
+    $('#update_motif').modal('show');
+    $('.form-group').removeClass('has-error');
+    $('#myform1')[0].reset();
+    $('.help-block').empty();
+    $.ajax({
+      url: "<?= base_url() ?>motif/Motif/editer/" + id,
+      type: "POST",
       dataType: "JSON",
-      success: function(data)
-      {
-        $('#VEHICULE_ID').html(data.html);
-        $('#CHAUFF_ZONE_AFFECTATION_ID').html(data.html1);
-        // $('#code_vehicule').val(CODE);
-        $('#carteModal').modal('show');
+      success: function(data) {
+
+        $('#ID_MOTIF').val(data.ID_MOTIF);
+        // $('#ID_CATEGORIE1').html(data.html_cat);
+        $('#ID_TYPE1').html(data.html_type);
+        $('#DESC_MOTIF1').val(data.DESC_MOTIF);
       },
-      error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Erreur');
-      }
-    });
-  }
-  function save_vehicule()
-  {
-
-    var statut=1;
-    $('#errorVEHICULE_ID').html('');
-    $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('');
-    $('#errorDATE_DEBUT_AFFECTATION').html('');
-    $('#errorDATE_FIN_AFFECTATION').html('');
-
-    if($('#code_vehicule').val()=='')
-    {
-      $('#errorVEHICULE_ID').html('Actualise ta page');
-      statut=2;
-    }
-
-    if($('#VEHICULE_ID').val()=='')
-    {
-      $('#errorVEHICULE_ID').html('Le champ est obligatoire');
-      statut=2;
-    }
-    if($('#CHAUFF_ZONE_AFFECTATION_ID').val()=='')
-    {
-      $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('Le champ est obligatoire');
-      statut=2;
-    } if($('#DATE_DEBUT_AFFECTATION').val()=='')
-    {
-      $('#errorDATE_DEBUT_AFFECTATION').html('Le champ est obligatoire');
-      statut=2;
-    } if($('#DATE_FIN_AFFECTATION').val()=='')
-    {
-      $('#errorDATE_FIN_AFFECTATION').html('Le champ est obligatoire');
-      statut=2;
-    }
-
-    if(statut<2)
-    {
-      var form_data = new FormData($("#attribution_form")[0]);
-      var url="<?= base_url('chauffeur/Chauffeur/save_voiture')?>";
-      $.ajax(
-      {
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data)
-        {
-          if(data==1)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Affectation faite avec succès',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
-            });
-          }
-          else if(data==2)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Le chauffeur possède déjà une voiture ',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
-            });
-          }
-          else
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Affectation échouée',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
-            });
-          }
-        }
-      });
-    }
-  }
-
-  function modif_affectation(CHAUFFEUR_ID)
-
-  {
-    // alert(CHAUFFEUR_ID)
-    var CHAUFFEUR_ID = CHAUFFEUR_ID;
-    $('#CHAUFFEUR_ID_MOD').val(CHAUFFEUR_ID);
-    $('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val(CHAUFF_ZONE_AFFECTATION_ID);
-    $('#errorVEHICULE_ID').html('');
-    $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('');
-    $('#errorDATE_DEBUT_AFFECTATION_MOD').html('');
-    $('#errorDATE_FIN_AFFECTATION_MOD').html('');
-    $.ajax(
-    {
-     url: "<?= base_url() ?>chauffeur/Chauffeur/get_zone_affect/"+CHAUFFEUR_ID,
-
-     type: "GET",
-     dataType: "JSON",
-     success: function(data)
-     {
-        //alert(data.htmldbut)
-        $('#CHAUFF_ZONE_AFFECTATION_ID_MOD').html(data.html1);
-        $('#DATE_DEBUT_AFFECTATION_MOD').val(data.htmldbut);
-        $('#DATE_FIN_AFFECTATION_MOD').val(data.htmlfin);
-
-        // $('#code_vehicule').val(CODE);
-        $('#modifvoitureModal').modal('show');
-      },
-      error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Erreur');
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log('Erreur : ' + textStatus);
       }
     });
   }
 
-  //save modification affectation chauffeur
-  function save_modif_chauffeur()
-  {
-
-    var statut=1;
-    $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('');
-    $('#errorDATE_DEBUT_AFFECTATION_MOD').html('');
-    $('#errorDATE_FIN_AFFECTATION_MOD').html('');
-
-    if($('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val()=='')
-    {
-      $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('Le champ est obligatoire');
-      statut=2;
-    } if($('#DATE_DEBUT_AFFECTATION_MOD').val()=='')
-    {
-      $('#errorDATE_DEBUT_AFFECTATION_MOD').html('Le champ est obligatoire');
-      statut=2;
-    } if($('#DATE_FIN_AFFECTATION_MOD').val()=='')
-    {
-      $('#errorDATE_FIN_AFFECTATION_MOD').html('Le champ est obligatoire');
-      statut=2;
-    }
-
-    if(statut<2)
-    {
-      var form_data = new FormData($("#modf_affect_form")[0]);
-      var url="<?= base_url('chauffeur/Chauffeur/save_modif_chauff')?>";
-      $.ajax(
-      {
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data)
-        {
-          if(data==1)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Modification affectation faite avec succès',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
-            });
-          }
-          else if(data==2)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Le chauffeur a une autre voiture ',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
-            });
-          }
-          else
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Modificationde l\'affectation échouée',
-              timer: 1500,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
-            });
-          }
-        }
-      });
-    }
-  }
-
-
-  function myFunction(CHAUFFEUR_ID) {
-  // Get the checkbox
-  var checkBox = document.getElementById("myCheck");
-  // Get the output text
-
-  var status=$('#status').val();
-  status=2;
-  var form_data = new FormData($("#myform_checked")[0]);
-  $.ajax(
-  {
-    url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
-    type: 'POST',
-    dataType:'JSON',
-    data: form_data ,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data)
-    {
-      window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
-
-    }
-  });
-
-}
-function myFunction_desactive(CHAUFFEUR_ID=0,STATUT_VEHICULE=0) {
-  // Get the checkbox
-  //STATUT_VEHICULE:debut tester si le chauffeur a une voiture pour le desactiver
-  if (STATUT_VEHICULE==2) 
-  {
-      var url="<?= base_url('chauffeur/Chauffeur/retirer_voiture')?>";
-      $.ajax(
-      {
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        // data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data)
-        {
-          if(data==2)
-          {
-            Swal.fire(
-            {
-              icon: 'error',
-              title: 'Erreur',
-              text: 'Veuillez d\'abord lui retirer la voiture',
-              timer: 3000,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
-            });
-          }
-        }
-      });
-      //STATUT_VEHICULE:fin tester si le chauffeur a une voiture pour le desactiver
-  }else
-  {
-    //debut desactiver le chauffeur
-   var checkBox = document.getElementById("myCheck");
-  var status=$('#status').val();
-
-  status=1;
-
-  var form_data = new FormData($("#myform_check")[0]);
-  $.ajax(
-  {
-    url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
-
-    type: 'POST',
-    dataType:'JSON',
-    data: form_data ,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data)
-    {
-      window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
-    }
-  });
-}
-//fin desactiver le chauffeur
-
-
-}
-
-</script>
-<script type="text/javascript">
-  
-   function get_date_fin()
-  {
-    $("#DATE_FIN_AFFECTATION").prop('min',$("#DATE_DEBUT_AFFECTATION").val());
-
-  }
-  DATE_DEBUT_AFFECTATION,DATE_FIN_AFFECTATION
-
-  function get_dates_deb()
-  {
-    $("#DATE_DEBUT_AFFECTATION").prop('min',$("#DATE_FIN_AFFECTATION").val());
-
-  }
-  ///verifier dates pour la modification de l'affectation
-
-  ,,
-              ,DATE_FIN_AFFECTATION_MOD
-
-
-   function get_date_fin_modif()
-  {
-    $("#DATE_FIN_AFFECTATION_MOD").prop('min',$("#DATE_DEBUT_AFFECTATION_MOD").val());
-
-  }
-
-
-  function get_dates_deb_modif()
-  {
-    $("#DATE_DEBUT_AFFECTATION_MOD").prop('min',$("#DATE_FIN_AFFECTATION_MOD").val());
-
-  }
 </script>
 
 

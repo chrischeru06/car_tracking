@@ -230,7 +230,7 @@
 							</tr>
 
 							<tr>
-							<td><label class='fa fa-map-marker'></label> Aresse physique</td>
+							<td><label class='fa fa-map-marker'></label> Adresse physique</td>
 							<th>".$row->ADRESSE_PHYSIQUE."</th>
 							</tr>
 							<tr>
