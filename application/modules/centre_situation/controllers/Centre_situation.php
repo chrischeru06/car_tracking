@@ -572,7 +572,7 @@
 				$critaire_select = ' AND STATUT_VEH_AJOUT = 3';
 			}
 
-			$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,STATUT_VEH_AJOUT FROM vehicule JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv,tracking_data.accident as accident,tracking_data.ignition as ignition FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.'  GROUP BY VEHICULE_ID ';
+			$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT AS photo_pro,proprietaire.EMAIL AS mail_pro,proprietaire.ADRESSE AS adress_pro,proprietaire.TELEPHONE AS telephone_pro,DATE_SAVE,vehicule.IS_ACTIVE AS vehicule_is_active,STATUT_VEH_AJOUT FROM vehicule JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv,tracking_data.accident as accident,tracking_data.ignition as ignition FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.'  GROUP BY VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,desc_proprio,photo_pro,mail_pro,adress_pro,telephone_pro,DATE_SAVE,vehicule_is_active';
 
 			$critaire = ' ';
 
@@ -614,11 +614,11 @@
 
 				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
 
-				$sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->desc_proprio . '</td></tr></table></a>';
+				$sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->photo_pro.'"></a></td><td> '.'     '.' ' . $row->desc_proprio . '</td></tr></table></a>';
 
 				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
-				if($row->IS_ACTIVE==1){
+				if($row->vehicule_is_active ==1){
 					$sub_array[]='<td><label class="text-primary">Activé</label></td>';
 				}else{
 					$sub_array[]='<td><label class="text-danger">Désactivé</label></td>';
@@ -716,7 +716,7 @@
 				<div class='row'>
 
 				<div class='col-md-6'>
-				<img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
+				<img src = '".base_url('upload/proprietaire/photopassport/'.$row->photo_pro)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
 				</div>
 
 				<div class='col-md-6'>
@@ -737,21 +737,21 @@
 				<td class='btn-sm'>Adresse</td>
 				</tr>
 				<tr>
-				<th class='btn-sm'>".$row->ADRESSE."</th>
+				<th class='btn-sm'>".$row->adress_pro."</th>
 				</tr>
 
 				<tr class='btn-sm'>
 				<td>Email</td>
 				</tr>
 				<tr>
-				<th class='btn-sm'>".$row->EMAIL."</th>
+				<th class='btn-sm'>".$row->mail_pro."</th>
 				</tr>
 
 				<tr>
 				<td class='btn-sm'>Téléphone</td>
 				</tr>
 				<tr>
-				<th class='btn-sm'>".$row->TELEPHONE."</th>
+				<th class='btn-sm'>".$row->telephone_pro."</th>
 				</tr>
 
 				</table>
