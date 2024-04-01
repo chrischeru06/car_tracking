@@ -213,7 +213,7 @@ color: gray;
   transition: transform 1s;
   z-index: 100;
 /*  width: 300px;*/
-  margin: 0px 0;
+margin: 0px 0;
 /*  height: 100%;*/
 
 }
@@ -231,6 +231,63 @@ color: gray;
 }
 </style>
 
+
+<style>
+  .map-overlay {
+    
+    position: absolute;
+    width: 300px;
+    top: 10;
+    left: 5;
+    padding: 10px;
+    z-index: 100;
+  }
+
+  .map-overlay .map-overlay-inner {
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .map-overlay-inner fieldset {
+    display: flex;
+    justify-content: space-between;
+    border: none;
+  }
+
+  .map-overlay-inner label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .map-overlay-inner .select-fieldset {
+    display: block;
+  }
+
+  .map-overlay-inner .select-fieldset label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .map-overlay-inner .select-fieldset select {
+    width: 100%;
+  }
+
+  #btn_list{
+
+    position: absolute;
+    width: 50px; 
+    margin-top: 8px;
+    margin-left: 8px;
+/*        padding: 10px;*/
+z-index: 100;
+
+}
+</style>
+
+
 <div class="card" style="border-radius: 20px;">
   <!-- <h5 class="card-title">Centre de situation</h5> -->
   <br>
@@ -238,8 +295,13 @@ color: gray;
   <div class="card-body">
     <div class="row">
 
+
+      <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-primary me-md-2" type="button"> <font class="fa fa-list"></font>
+      </button>
+      
+
       <div id="map_maps" style="width: 100%;height: 720px;">
-        <div id="left" class="sidebar flex-center left collapsed">
+        <!-- <div id="left" class="sidebar flex-center left collapsed">
           <div class="sidebar-content rounded-rect flex-center">
 
             <div class="scroller">
@@ -252,9 +314,27 @@ color: gray;
                 <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
 
               </div>
-            </div>
+           </div>
 
             <div class="sidebar-toggle rounded-rect left" onclick="toggleSidebar('left')" style="font-size: 32px;">→</div>
+          </div>
+        </div> -->
+        <div class="map-overlay top">
+          <div class="map-overlay-inner">
+            <button onclick="close_popup()" style="float: right;" class="btn btn-primary me-md-2" type="button">X</button>
+            
+            
+            <h5 class="card-title">Courses </h5>
+
+            <?=$card_card?>
+
+            <br>
+            <div class="card">
+              <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
+
+            </div>
+            
+
           </div>
         </div>
       </div>
@@ -284,11 +364,40 @@ color: gray;
 
     </div>
 
+
     <script type="text/javascript">
 
-      mapboxgl.accessToken =
-      "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
-      var map_map = new mapboxgl.Map({
+      $(document).ready(function() {
+        $("#btn_list").hide();
+      });
+      
+      function close_popup() {
+       
+       document.getElementsByClassName('map-overlay')[0].style.display = 'none';
+       $("#btn_list").show();
+
+
+     }
+
+     function open_popup() {
+          // body...
+
+       $("#btn_list").hide();
+       
+          //document.getElementsByClassName('map-overlay')[0].style.display = 'block';
+
+       $('.map-overlay').toggle('slow', function() {
+              // Animation complete.
+       });
+     }
+
+   </script> 
+
+   <script type="text/javascript">
+
+    mapboxgl.accessToken =
+    "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
+    var map_map = new mapboxgl.Map({
   container: "map_maps", // container ID
   style: "mapbox://styles/mapbox/streets-v12", // style URL
   bounds: [29.383188,-3.384438, 29.377566,-3.369615],
@@ -298,44 +407,44 @@ color: gray;
 
   // var nav = new mapboxgl.NavigationControl();
   // map_map.addControl(nav, "top-left");
-      map_map.addControl(new mapboxgl.NavigationControl());
+    map_map.addControl(new mapboxgl.NavigationControl());
 
-      map_map.addControl(new mapboxgl.FullscreenControl());
+    map_map.addControl(new mapboxgl.FullscreenControl());
 
 
-      map_map.on("style.load", () => {
+    map_map.on("style.load", () => {
   // https://en.wikipedia.org/wiki/Transpeninsular_Line
-        const transpeninsularLine = {
-          type: "Feature",
-          properties: {
-            stroke: "#555555",
-            "stroke-width": 1,
-            "stroke-opacity": 1
-          },
-          geometry: {
-            type: "LineString",
-            coordinates: [<?php echo $track; ?>]
-          }
-        };
+      const transpeninsularLine = {
+        type: "Feature",
+        properties: {
+          stroke: "#555555",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        geometry: {
+          type: "LineString",
+          coordinates: [<?php echo $track; ?>]
+        }
+      };
 
-        map_map.addSource("tp-line", {
-          type: "geojson",
-          data: transpeninsularLine,
+      map_map.addSource("tp-line", {
+        type: "geojson",
+        data: transpeninsularLine,
     // Line metrics is required to use the 'line-progress' property
-          lineMetrics: true
-        });
+        lineMetrics: true
+      });
 
 
-        map_map.addLayer({
-          id: "tp-line-line",
-          type: "line",
-          source: "tp-line",
-          paint: {
-            "line-color": "rgba(0,0,0,0)",
-            "line-width": 4,
-            "line-opacity": 0.7
-          }
-        });
+      map_map.addLayer({
+        id: "tp-line-line",
+        type: "line",
+        source: "tp-line",
+        paint: {
+          "line-color": "rgba(0,0,0,0)",
+          "line-width": 4,
+          "line-opacity": 0.7
+        }
+      });
   map_map.setFog({}); // Set the default atmosphere style
 
 
@@ -377,12 +486,12 @@ color: gray;
 
 });
 
-      function toggleSidebar(id) {
-        const elem = document.getElementById(id);
+    function toggleSidebar(id) {
+      const elem = document.getElementById(id);
         // Add or remove the 'collapsed' CSS class from the sidebar element.
         // Returns boolean "true" or "false" whether 'collapsed' is in the class list.
-        const collapsed = elem.classList.toggle('collapsed');
-        const padding = {};
+      const collapsed = elem.classList.toggle('collapsed');
+      const padding = {};
         // 'id' is 'right' or 'left'. When run at start, this object looks like: '{left: 300}';
         padding[id] = collapsed ? 0 : 300; // 0 if collapsed, 300 px if not. This matches the width of the sidebars in the .sidebar CSS class.
         // Use `map.easeTo()` with a padding option to adjust the map's center accounting for the position of sidebars.
