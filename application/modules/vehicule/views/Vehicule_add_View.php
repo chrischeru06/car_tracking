@@ -83,7 +83,7 @@
                         <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule['VEHICULE_ID']?>">
 
                         <input class="form-control" type='text' name="CODE" id="CODE" placeholder='' value="<?=$vehicule['CODE']?>"/>
-
+                     
                       </div>
                       <span id="errorCODE" class="text-danger"></span>
                       <?php echo form_error('CODE', '<div class="text-danger">', '</div>'); ?>
@@ -147,7 +147,9 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label ><small>Numéro chassis</small><span  style="color:red;">*</span></label>
+
                         <input class="form-control" type='text' name="NUMERO_CHASSIS" id="NUMERO_CHASSIS" placeholder='' value="<?=$vehicule['NUMERO_CHASSIS']?>"/>
+
                       </div>
                       <span id="errorNUMERO_CHASSIS" class="text-danger"></span>
                       <?php echo form_error('NUMERO_CHASSIS', '<div class="text-danger">', '</div>'); ?>
@@ -156,6 +158,7 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label ><small>Couleur</small><span  style="color:red;">*</span></label>
+
                         <input class="form-control" type='text' name="COULEUR" id="COULEUR" placeholder='' value="<?=$vehicule['COULEUR']?>"/>
 
                       </div>
@@ -267,11 +270,12 @@
                 </fieldset>
                 <br>
                 <fieldset class="border p-2">
-                  <legend  class="float-none w-auto p-2">Documents</legend>
+                  <legend  class="float-none w-auto p-2">Dossiers</legend>
                   <div  class="row">
 
                     <div class="col-md-4">
                       <label> <small>Photo véhicule</small> </label>
+
                       <input class="form-control" type="hidden" name="PHOTO" id="PHOTO"  value="<?=$vehicule['PHOTO'];?>">
 
                       <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>

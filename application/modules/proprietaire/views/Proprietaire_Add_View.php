@@ -5,7 +5,6 @@
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
 </head>
-
 <body>
 
   <!-- ======= Header ======= -->
@@ -207,6 +206,9 @@
                 </select>
                 <font color="red" id="errorpays"></font>
               </div>
+               <br>
+               <br>
+               <br>
               <div class="col-md-4">
                 <div class="form-group">
                   <label style="font-weight: 1000; color:#454545"><b>Téléphone</b><span  style="color:red;">*</span></label>
@@ -309,7 +311,7 @@
                 <?php echo form_error('ADRESSE','<div class="text-danger">', '</div>'); ?>
               </div>
               <div class="col-md-4" id="div_photo">
-                <label for="FName" style="font-weight: 1000; color:#454545">Photo passeport <font color="red">*</font></label>
+                <label for="FName" style="font-weight: 1000; color:#454545">Photo passeport (.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
                 <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= $proprietaire['PHOTO_PASSPORT'] ?>"  class="form-control">
                 <input type="hidden"  name="photo_passport_old" id="photo_passport_old" value="<?=$proprietaire['PHOTO_PASSPORT']?>">
                 <font id="error_photo_passport" color="red"></font>
@@ -317,21 +319,21 @@
               </div>
 
               <div class="col-md-4" id="div_logo">
-                <label for="FName" style="font-weight: 1000; color:#454545">Logo <font color="red">*</font></label>
+                <label for="FName" style="font-weight: 1000; color:#454545">Logo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
                 <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG'  name="LOGO" autocomplete="off" id="LOGO" value="<?= $proprietaire['LOGO'] ?>"  class="form-control">
                 <input type="hidden"  name="LOGO_OLD" id="LOGO_OLD" value="<?=$proprietaire['LOGO']?>">
                 <font id="error_LOGO" color="red"></font>
                 <?php echo form_error('LOGO', '<div class="text-danger">', '</div>'); ?> 
               </div>
               <div class="col-md-4" id="div_doc_rc">
-                <label for="FName" style="font-weight: 1000; color:#454545">Document RC <font color="red">*</font></label>
+                <label for="FName" style="font-weight: 1000; color:#454545">Document RC (.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
                 <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf' name="FILE_RC" autocomplete="off" id="FILE_RC" value="<?= $proprietaire['FILE_RC'] ?>"  class="form-control">
                 <input type="hidden"  name="FILE_RC_OLD" id="FILE_RC_OLD" value="<?=$proprietaire['FILE_RC']?>">
                 <font id="error_FICHIER_RC" color="red"></font>
                 <?php echo form_error('FILE_RC', '<div class="text-danger">', '</div>'); ?> 
               </div>
               <div class="col-md-4" id="div_doc_nif">
-                <label for="FName" style="font-weight: 1000; color:#454545">Document NIF <font color="red">*</font></label>
+                <label for="FName" style="font-weight: 1000; color:#454545">Document NIF (.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
                 <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf' name="FILE_NIF" autocomplete="off" id="FILE_NIF" value="<?= $proprietaire['FILE_NIF'] ?>"  class="form-control">
                 <input type="hidden"  name="FILE_NIF_OLD" id="FILE_NIF_OLD" value="<?=$proprietaire['FILE_NIF']?>">
                 <font id="error_FILE_NIF" color="red"></font>
