@@ -12,6 +12,15 @@
     flex-flow: column;
     overflow-y: auto;
   }
+  .jss509:hover {
+    color:#dfe7ef;
+  }
+  .jss408:hover {
+    color:#dfe7ef;
+  }
+  .jss408:focus {
+    color:#4154f1;
+  }
   .jss511 {
     display: flex;
     position: relative;
@@ -233,7 +242,7 @@ margin: 0px 0;
 
 <style>
   .map-overlay {
-    
+
     position: absolute;
     width: 300px;
     top: 10;
@@ -248,12 +257,16 @@ margin: 0px 0;
     border-radius: 3px;
     padding: 10px;
     margin-bottom: 10px;
+    overflow-y: scroll;
+    height: 600px;
+    width: 100%;
   }
 
   .map-overlay-inner fieldset {
     display: flex;
     justify-content: space-between;
     border: none;
+
   }
 
   .map-overlay-inner label {
@@ -320,25 +333,25 @@ z-index: 100;
         </div> -->
         
         <div class="map-overlay top">
-          <div class="scroller">
-          <div class="map-overlay-inner">
-            <button onclick="close_popup()" style="float: right;" class="btn btn-primary me-md-2" type="button">X</button>
-            
-            
-            <h5 class="card-title">Courses </h5>
+          <!-- <div class="scroller"> -->
+            <div class="map-overlay-inner">
+              <button onclick="close_popup()" style="float: right;" class="btn btn-primary me-md-2" type="button">X</button>
 
-            <?=$card_card?>
 
-            <br>
-            <div class="card">
-              <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
+              <h5 class="card-title">Courses </h5>
+
+              <?=$card_card?>
+
+              <br>
+              <div class="card">
+                <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
+
+              </div>
+
 
             </div>
-            
-
-          </div>
+          <!-- </div> -->
         </div>
-      </div>
       </div>
 
        <!--  <div id="meno">
@@ -374,7 +387,7 @@ z-index: 100;
       });
       
       function close_popup() {
-       
+
        document.getElementsByClassName('map-overlay')[0].style.display = 'none';
        $("#btn_list").show();
 
@@ -452,7 +465,7 @@ z-index: 100;
 
 
   let startTime;
-  const duration = 16000;
+  const duration = 2000;
 
   const frame = (time) => {
     if (!startTime) startTime = time;
@@ -504,12 +517,12 @@ z-index: 100;
     //   }
 
 
-      map_map.on('load', () => {
+    map_map.on('load', () => {
         // toggleSidebar('left');
 
-        var donn='<?= $mark_vprim ?>';
+      var donn='<?= $mark_vprim ?>';
 
-        var donn=donn.split('@');
+      var donn=donn.split('@');
 
       // for (var i = 0; i<(donn.length) - 1; i++) {
 
@@ -520,20 +533,20 @@ z-index: 100;
       // }
 
 
-        for (var i = 0; i<(donn.length) - 1; i++) {
+      for (var i = 0; i<(donn.length) - 1; i++) {
 
-          var index=donn[i].split('<>');
+        var index=donn[i].split('<>');
 
-          var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
-          fetch(apiUrl)
-          .then(response => response.json())
-          .then(data => {
-            adress = data.features[0].place_name;
-            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +''
-              );
-            var couleur='';
-            if(index[4]==0){
+        var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
+        fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          adress = data.features[0].place_name;
+          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +''
+            );
+          var couleur='';
+          if(index[4]==0){
               couleur='#0000FF';//bleu
               
             }else{
@@ -546,50 +559,50 @@ z-index: 100;
 
 
           })
+        .catch(error => {
+          console.log('Une erreur s\'est produite :', error);
+        });
+
+
+        if(index[4]!=0){
+
+          var apiUrl_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
+
+          fetch(apiUrl_url)
+          .then(response => response.json())
+          .then(data => {
+            adresse = data.features[0].place_name;
+            const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
+              );
+
+            const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
+            .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
+
+
+
+
+          })
           .catch(error => {
             console.log('Une erreur s\'est produite :', error);
           });
-
-
-          if(index[4]!=0){
-
-            var apiUrl_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
-
-            fetch(apiUrl_url)
-            .then(response => response.json())
-            .then(data => {
-              adresse = data.features[0].place_name;
-              const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-                '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
-                );
-              
-              const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
-              .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
-
-
-
-
-            })
-            .catch(error => {
-              console.log('Une erreur s\'est produite :', error);
-            });
 
 
             // const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
             // .setLngLat([index[0],index[1]]).addTo(map_map);  
 
 
-          }
-
-
         }
 
 
+      }
 
 
 
-      });
 
-      <?php echo $limites; ?>;
 
-    </script>
+    });
+
+    <?php echo $limites; ?>;
+
+  </script>
