@@ -46,7 +46,7 @@
     display: inline-block;
     font-size: 12px;
     padding-left: 15px;
-    text-transform: uppercase;
+/*    text-transform: uppercase;*/
   }
   .jss512 {
     width: 80px;
@@ -81,7 +81,7 @@
     display: inline-block;
     font-size: 12px;
     padding-left: 15px;
-    text-transform: uppercase;
+/*    text-transform: uppercase;*/
   }
   * {
     box-sizing: border-box;
