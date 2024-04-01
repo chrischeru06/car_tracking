@@ -614,7 +614,7 @@
 
 				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
 
-				$sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->photo_pro.'"></a></td><td> '.'     '.' ' . $row->desc_proprio . '</td></tr></table></a>';
+				// $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->photo_pro.'"></a></td><td> '.'     '.' ' . $row->desc_proprio . '</td></tr></table></a>';
 
 				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
@@ -683,8 +683,11 @@
 				</tr>
 
 				<tr>
-				<td class='btn-sm'>propriétaire</td>
-				<th class='btn-sm'><strong>".$row->desc_proprio."</strong></th>
+				<td class='btn-sm'>Propriétaire</td>
+				<th class='btn-sm' style='display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;'><strong>".$row->desc_proprio." mushagalusa byamungu pacifique </strong></th>
 				</tr>
 
 				
