@@ -21,7 +21,8 @@ a:hover {
 <body >
 
   <main>
-    <div class="container-fluid login_bg" >
+    <!-- <div class="container-fluid login_bg" > -->
+    <div class="container-fluid " style="background-color: cadetblue;">
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container-fluid">
@@ -29,13 +30,13 @@ a:hover {
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                <div class="d-flex justify-content-center py-4">
              <img src="<?= base_url()?>/upload/Car_tracking_png-03.png" height="60">
-                <a href="<?=base_url('Login')?>" class="logo d-flex align-items-center w-auto" >
+                <b  class="logo d-flex align-items-center w-auto" >
 
                   <span class="d-none d-lg-block"><label style="color: white;">MEDIATRACKING</label></span>
-                </a>
+                </b>
               </div><!-- End Logo -->
 
-              <div class="card login-area mb-4">
+              <div class="card login-area mb-4" style="background-color: cadetblue; border-radius: 10%;">
 
 
                 <div class="card-body">
@@ -50,15 +51,15 @@ a:hover {
                   <form action="<?= base_url('Login/do_login')?>" id='form_login' method="post" class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label" style="color:white;">Nom d'utilisateur</label>
+                      <label for="yourUsername" class="form-label" style="color:white;"><span class="fa fa-user" ></span> Nom d'utilisateur</label>
                       <div class="input-group has-validation">
-                        <input type="email" class="form-control"  id="email" name="email" style="border-radius:10px;" value="" placeholder="Nom d'utilisateur" autofocus>
+                        <input type="email" class="form-control"  id="email" name="email" style="border-radius:15px;" value="" placeholder="Nom d'utilisateur" autofocus>
                         <div class="invalid-feedback">Veuillez entrer votre nom d'utilisateur.</div>
                       </div>
                     </div>
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label" style="color:white;">Mot de passe</label>
-                      <input type="password" class="form-control" placeholder="Mot de passe"  id="Passworde" name="Passworde" style="border-radius:10px;">
+                      <label for="yourPassword" class="form-label" style="color:white;"><span class="fa fa-lock" ></span> Mot de passe</label>
+                      <input type="password" class="form-control" placeholder="Mot de passe"  id="Passworde" name="Passworde" style="border-radius:15px;">
                       <div class="invalid-feedback">Veuillez entrer le mot de passe!</div>
                     </div>
 
@@ -69,10 +70,12 @@ a:hover {
                       </div>
                     </div>
                     <div class="text-center">
-                      <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Se connecter</button>
+                      <!-- <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Se connecter</button> -->
+
+                      <button type="button" id="connexion" onclick="login()" class="btn btn-outline-light rounded-pill">Se connecter</button>
                     </div>
                     <div class="form-group text-center">
-                      <a class="login-link" href="<?=base_url('Login/forgotten_pwd')?> "> Mot de passe oublié ?</a>
+                      <a class="login-link text-light small pt-2 ps-1" href="<?=base_url('Login/forgotten_pwd')?> " style="border-radius: 15px;padding: 5px;"> Mot de passe oublié ?</a>
                     </div>
                   </form>
 

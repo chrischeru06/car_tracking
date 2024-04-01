@@ -59,7 +59,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
-                  <img src="<?= base_url()?>/upload/photo_vehicule/65c4f7443c21cVEHICULE.jpg" style="width: 50px;height: 50px;"><strong> Land Cruiser</strong>
+                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px;"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>
                 </div>  
               </div>
 
