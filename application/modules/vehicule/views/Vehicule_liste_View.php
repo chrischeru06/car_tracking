@@ -146,10 +146,10 @@ input:checked + .slider:before {
                     <tr>
                     <!--   <th class="">CODE</th> -->
                       <th class="">#</th>
-                     <th class="">PROPRIETAIRE</th>
+                     <!-- <th class="">PROPRIETAIRE</th> -->
+                      <th class="">PLAQUE</th>
                       <th class="">MARQUE</th>
                      <!--  <th class="">MODELE</th> -->
-                      <th class="">PLAQUE</th>
                       <th class="">COULEUR</th>
                       <!-- <th class="">CONSOMMATION</th> -->
                       <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
