@@ -74,19 +74,20 @@
 			{
 				$sub_array=array();
 				$sub_array[]=$u++;
-				if ($row->TYPE_PROPRIETAIRE_ID==1) 
-				{
-				 $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->NOM_PROPRIETAIRE . ' </td></tr></table></a>';
-				}else
-				{
-                 $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->NOM_PROPRIETAIRE . ''.'  ' . $row->PRENOM_PROPRIETAIRE . '</td></tr></table></a>';
-				}
+				
+				// if ($row->TYPE_PROPRIETAIRE_ID==1) 
+				// {
+				//  $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->NOM_PROPRIETAIRE . ' </td></tr></table></a>';
+				// }else
+				// {
+                //  $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->NOM_PROPRIETAIRE . ''.'  ' . $row->PRENOM_PROPRIETAIRE . '</td></tr></table></a>';
+				// }
 				
 
 				// $sub_array[]=$row->CODE;
+				$sub_array[]=$row->PLAQUE;
 				$sub_array[]=$row->DESC_MARQUE;
 				// $sub_array[]=$row->DESC_MODELE;
-				$sub_array[]=$row->PLAQUE;
 				$sub_array[]=$row->COULEUR;
 				// $sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' litres / KM' : 'N/A');
 
@@ -94,9 +95,9 @@
 
 				
 
-				// $sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
+				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
-				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href=#'".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
+				// $sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href=#'".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
 				if($row->STATUT_VEH_AJOUT==2){
 				$sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
