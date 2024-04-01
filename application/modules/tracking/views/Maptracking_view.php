@@ -231,7 +231,6 @@ margin: 0px 0;
 }
 </style>
 
-
 <style>
   .map-overlay {
     
@@ -319,7 +318,9 @@ z-index: 100;
             <div class="sidebar-toggle rounded-rect left" onclick="toggleSidebar('left')" style="font-size: 32px;">→</div>
           </div>
         </div> -->
+        
         <div class="map-overlay top">
+          <div class="scroller">
           <div class="map-overlay-inner">
             <button onclick="close_popup()" style="float: right;" class="btn btn-primary me-md-2" type="button">X</button>
             
@@ -337,6 +338,7 @@ z-index: 100;
 
           </div>
         </div>
+      </div>
       </div>
 
        <!--  <div id="meno">

@@ -85,7 +85,7 @@
   }
 
   .scroller {
-    height: 600px;
+/*    height: 300px;*/
     overflow-y: scroll;
     border-radius: 2px;
   }
