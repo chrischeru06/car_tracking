@@ -867,7 +867,7 @@ for (const input of inputs) {
   var HEURE1 = $('#HEURE1').val(); 
   var HEURE2 = $('#HEURE2').val(); 
   var CODE_COURSE = CODE_COURSE; 
-  // alert(CODE_COURSE)
+  //alert(CODE_COURSE)
 
   $.ajax({
     url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
