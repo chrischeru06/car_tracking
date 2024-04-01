@@ -611,8 +611,8 @@
                         <th class="">PLAQUE</th>
                         <th class="">COULEUR</th>
                         <th class="">CONSOMMATION</th>
-                        <th class="">PROPRIETAIRE</th>
-                        <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
+                        <!-- <th class="">PROPRIETAIRE</th> -->
+                        <th class="">DATE&nbsp;ENREGISTREMENT</th>
                         <th class="">STATUT</th>
                         <th class=""></th>
                       </tr>

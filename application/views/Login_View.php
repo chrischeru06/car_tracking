@@ -60,15 +60,16 @@ a:hover {
                     <div class="col-12">
                       <label for="yourPassword" class="form-label" style="color:white;"><span class="fa fa-lock" ></span> Mot de passe</label>
                       <input type="password" class="form-control" placeholder="Mot de passe"  id="Passworde" name="Passworde" style="border-radius:15px;">
+                      <label class="fa fa-eye text-muted" id="eye_ico" onclick="show_password()"style="position: relative;top: -33%;left: 90%;"></label>
                       <div class="invalid-feedback">Veuillez entrer le mot de passe!</div>
                     </div>
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <div class="form-check ml-2">
                         <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password()" style="border-radius:5px;">
                         <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher le mot de passe</label>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="text-center">
                       <!-- <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Se connecter</button> -->
 
@@ -111,10 +112,18 @@ a:hover {
   function show_password() 
   {
     var x = document.getElementById("Passworde");
+    var eye_ico = document.getElementById('eye_ico');
     if (x.type === "password") {
       x.type = "text";
+
+      eye_ico.classList.remove('fa-eye');
+      eye_ico.classList.add('fa-eye-slash');
+
     } else {
       x.type = "password";
+
+      eye_ico.classList.add('fa-eye');
+      eye_ico.classList.remove('fa-eye-slash');
     }
   }
 </script>
