@@ -231,7 +231,9 @@ class Proprietaire extends CI_Controller
 					$table='proprietaire';
 
 					$email=$this->input->post('EMAIL');
-					$password=$this->notifications->generate_password(8);
+					// $password=$this->notifications->generate_password(8);
+					$password=12345;
+
 
 					$LOGO_OLD = $this->input->post('LOGO_OLD');
 					$FILE_NIF_OLD = $this->input->post('FILE_NIF_OLD');
@@ -303,16 +305,16 @@ class Proprietaire extends CI_Controller
 					$table_users = 'users';
 					$done=$this->Model->create($table_users,$data_insert_users);
 
-					if($done>0)
-					{
-						$mess="Cher(e) <b>".$NOM_PROPRIETAIRE."</b>,<br><br>
-						Bienvenue sur la plateforme CAR TRACKING.<br>
-						Pour vous connecter, prière de bien vouloir utiliser vos identifiants de connexion ci-dessous:<br>
-						- Nom d'utilisateur : <b>$email</b><br>
-						- Mot de passe : <b>$password</b>";
-						$subjet="Notification d'enregistrement";
-						$this->notifications->send_mail(array($email),$subjet,array(),$mess,array());
-					}
+					// if($done>0)
+					// {
+					// 	$mess="Cher(e) <b>".$NOM_PROPRIETAIRE."</b>,<br><br>
+					// 	Bienvenue sur la plateforme CAR TRACKING.<br>
+					// 	Pour vous connecter, prière de bien vouloir utiliser vos identifiants de connexion ci-dessous:<br>
+					// 	- Nom d'utilisateur : <b>$email</b><br>
+					// 	- Mot de passe : <b>$password</b>";
+					// 	$subjet="Notification d'enregistrement";
+					// 	$this->notifications->send_mail(array($email),$subjet,array(),$mess,array());
+					// }
 
 				}else
 				{
@@ -363,7 +365,9 @@ class Proprietaire extends CI_Controller
 					);
 
 					$PROPRIETAIRE_ID=$this->Model->insert_last_id($table,$data);
-					$password=$this->notifications->generate_password(8);
+					// $password=$this->notifications->generate_password(8);
+					$password=12345;
+
 					$NOM_PROPRIETAIRE=$this->input->post('NOM_PROPRIETAIRE');
 					$email=$this->input->post('EMAIL');
 					$data_insert_users = array(
@@ -380,16 +384,16 @@ class Proprietaire extends CI_Controller
 					$table_users = 'users';
 					$done=$this->Model->create($table_users,$data_insert_users);
 
-					if($done>0)
-					{
-						$mess="Cher(e) <b>".$NOM_PROPRIETAIRE."</b>,<br><br>
-						Bienvenue sur la plateforme CAR TRACKING.<br>
-						Pour vous connecter, prière de bien vouloir utiliser vos identifiants de connexion ci-dessous:<br>
-						- Nom d'utilisateur : <b>$email</b><br>
-						- Mot de passe : <b>$password</b>";
-						$subjet="Notification d'enregistrement";
-						$this->notifications->send_mail(array($email),$subjet,array(),$mess,array());
-					}
+					// if($done>0)
+					// {
+					// 	$mess="Cher(e) <b>".$NOM_PROPRIETAIRE."</b>,<br><br>
+					// 	Bienvenue sur la plateforme CAR TRACKING.<br>
+					// 	Pour vous connecter, prière de bien vouloir utiliser vos identifiants de connexion ci-dessous:<br>
+					// 	- Nom d'utilisateur : <b>$email</b><br>
+					// 	- Mot de passe : <b>$password</b>";
+					// 	$subjet="Notification d'enregistrement";
+					// 	$this->notifications->send_mail(array($email),$subjet,array(),$mess,array());
+					// }
 				}
 
 				$this->session->set_flashdata($data);
