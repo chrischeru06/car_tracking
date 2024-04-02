@@ -370,7 +370,7 @@ class Dashboard extends CI_Controller
 				$my_selectone_element_prim=str_replace('\"', '', $my_selectone_element_prim);
 
 				$one_element_prim = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_prim);
-				$date_compare1_prim=$one_element_prim['date_actu'];
+				// $date_compare1_prim=$one_element_prim['date_actu'];
 
 				
 				$my_select_date_compare2_prim = $this->getBindParms('tracking_data.date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_prim['CODE_COURSE'].'" ', 'id DESC');
@@ -378,7 +378,7 @@ class Dashboard extends CI_Controller
 				$my_select_date_compare2_prim=str_replace('\n', '', $my_select_date_compare2_prim);
 				$my_select_date_compare2_prim=str_replace('\"', '', $my_select_date_compare2_prim);
 				$date_compare2_prim = $this->ModelPs->getRequeteOne($proce_requete, $my_select_date_compare2_prim);
-				$tabl_prime[]=[$this->notifications->ago($date_compare1_prim,$date_compare2_prim['date_actu']),$one_element_prim['CODE_COURSE'],$one_element_prim['date_actu'],$date_compare2_prim['date_actu'],$one_element_prim['hour'],$one_element_prim['sec'],$date_compare2_prim['hour'],$date_compare2_prim['sec'],$one_element_prim['latitude'],$one_element_prim['longitude'],$date_compare2_prim['latitude'],$date_compare2_prim['longitude'],$one_element_prim['ignition'],$one_element_prim['day_month'],$date_compare2_prim['day_month']];
+				$tabl_prime[]=[$this->notifications->ago($one_element_prim['date_actu'],$date_compare2_prim['date_actu']),$one_element_prim['CODE_COURSE'],$one_element_prim['date_actu'],$date_compare2_prim['date_actu'],$one_element_prim['hour'],$one_element_prim['sec'],$date_compare2_prim['hour'],$date_compare2_prim['sec'],$one_element_prim['latitude'],$one_element_prim['longitude'],$date_compare2_prim['latitude'],$date_compare2_prim['longitude'],$one_element_prim['ignition'],$one_element_prim['day_month'],$date_compare2_prim['day_month']];
 				
 
 
@@ -404,7 +404,7 @@ class Dashboard extends CI_Controller
 				$my_selectone_element=str_replace('\"', '', $my_selectone_element);
 
 				$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
-				$date_compare1=$one_element['date_vu'];
+				// $date_compare1=$one_element['date_vu'];
 
 				
 				$my_select_date_compare2 = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret['CODE_COURSE'].'" ', 'id DESC');
@@ -448,7 +448,7 @@ class Dashboard extends CI_Controller
 
 				}
 				
-				$tabl[]=[$this->notifications->ago($date_compare1,$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM']];
+				$tabl[]=[$this->notifications->ago($one_element['date_vu'],$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM']];
 				
 
 
