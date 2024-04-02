@@ -691,7 +691,7 @@ class Dashboard extends CI_Controller
 
 					$data['track'] = $track;
 					// $data['vit_moy'] = $vit_moy;
-					$data['date_debfin'] = $date_debfin;
+					// $data['date_debfin'] = $date_debfin;
 					$data['arret'] = $arret;
 					$data['get_chauffeur'] = $get_chauffeur;
 					$data['get_arret'] = $get_arret;
