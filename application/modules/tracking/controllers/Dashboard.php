@@ -259,7 +259,6 @@ class Dashboard extends CI_Controller
 		$my_selectmin_arret_deriv=str_replace('\"', '"', $my_selectmin_arret_deriv);
 		$my_selectmin_arret_deriv=str_replace('\n', '', $my_selectmin_arret_deriv);
 		$my_selectmin_arret_deriv=str_replace('\"', '', $my_selectmin_arret_deriv);
-		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$min_arret_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret_deriv);
 		for ($i=$min_arret['minimum'],$j=$min_arret_plus['id']; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++) {
 
@@ -275,8 +274,15 @@ class Dashboard extends CI_Controller
 			$my_selectarret2=str_replace('\n', '', $my_selectarret2);
 			$my_selectarret2=str_replace('\"', '', $my_selectarret2);
 
-			$point_distance2 = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret2); 
-			$nvldistance+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
+			$point_distance2 = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret2);
+			if(!empty($point_distance) && !empty($point_distance2)){
+
+				$nvldistance+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
+			}else{
+
+				$nvldistance+=0;
+			} 
+			
 			
 		}
 		$nvldistance_arrondie=round($nvldistance);
@@ -390,9 +396,7 @@ class Dashboard extends CI_Controller
 		//calcul du temps d'arret
 		if(!empty($get_data_arret)){
 			$tabl=array();
-
-
-
+			
 			foreach ($get_data_arret as $value_get_arret) {
 				$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret['CODE_COURSE'].'" ' , '`id` ASC');
 				$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
@@ -409,15 +413,15 @@ class Dashboard extends CI_Controller
 				$my_select_date_compare2=str_replace('\"', '', $my_select_date_compare2);
 				$date_compare2 = $this->ModelPs->getRequeteOne($proce_requete, $my_select_date_compare2);
 				// $min_arret_plus=$one_element['id']+1;
-				// $min_arret_plus=$one_element['id']+1;
 				$my_selectone_element_moins = $this->getBindParms('id', 'tracking_data', 'id > "'.$one_element['id'].'" ' , '`id` ASC');
 				$my_selectone_element_moins=str_replace('\"', '"', $my_selectone_element_moins);
 				$my_selectone_element_moins=str_replace('\n', '', $my_selectone_element_moins);
 				$my_selectone_element_moins=str_replace('\"', '', $my_selectone_element_moins);
 
-				$min_arret_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);
-
-				for ($i=$one_element['id'],$j=$min_arret_plus['id']; $i <$date_compare2['id'],$j <$date_compare2['id'] ; $i++,$j++) {
+				$min_arret_plus_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);
+				
+				for ($i=$one_element['id'],$j=$min_arret_plus_plus['id']; $i <$date_compare2['id'],$j <$date_compare2['id'] ; $i++,$j++) {
+					
 
 					$my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
 					$my_selectarret1=str_replace('\"', '"', $my_selectarret1);
@@ -432,11 +436,16 @@ class Dashboard extends CI_Controller
 					$my_selectarret2=str_replace('\"', '', $my_selectarret2);
 
 					$point_distance2 = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret2);
+					if(!empty($point_distance) && !empty($point_distance2)){
 
+						$distdislegend+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
+					}else{
+
+						$distdislegend+=0;
+
+					}
 					
 
-
-					$distdislegend+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
 				}
 				
 				$tabl[]=[$this->notifications->ago($date_compare1,$date_compare2['date']),$one_element['code_course_crypt'],$one_element['date'],$date_compare2['date'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM']];
@@ -444,8 +453,7 @@ class Dashboard extends CI_Controller
 
 
 			}
-
-			// print_r($tabl);die();
+			 
 
 			$data['tabl'] = $tabl;
 
@@ -514,9 +522,9 @@ class Dashboard extends CI_Controller
 							</div>
 							</div>
 							</div>
-							 ';
+							';
 
-														
+
 						}
 
 						
