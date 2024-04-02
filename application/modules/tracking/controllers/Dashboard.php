@@ -557,45 +557,45 @@ class Dashboard extends CI_Controller
 
 
 		//carte
-			$arret = '';
+			// $arret = '';
 
-			if(!empty($get_data_arret)){
+			// if(!empty($get_data_arret)){
 
 
-				foreach ($get_data_arret as $key_arret) {
+			// 	foreach ($get_data_arret as $key_arret) {
 
-					$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$key_arret['CODE_COURSE'].'"' , '`id` ASC');
-					$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
-					$my_selectone_element=str_replace('\n', '', $my_selectone_element);
-					$my_selectone_element=str_replace('\"', '', $my_selectone_element);
+			// 		$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$key_arret['CODE_COURSE'].'"' , '`id` ASC');
+			// 		$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
+			// 		$my_selectone_element=str_replace('\n', '', $my_selectone_element);
+			// 		$my_selectone_element=str_replace('\"', '', $my_selectone_element);
 
-					$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
+			// 		$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
 
-					$arret.="{
-						'type': 'Feature',
-						'properties': {
-							'description':
-							'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$one_element['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$one_element['latitude'].",".$one_element['longitude']."]'
-							},
-							'geometry': {
-								'type': 'Point',
-								'coordinates': [".$one_element['longitude'].", ".$one_element['latitude']."]
-							}
-							},
-							";					
+			// 		$arret.="{
+			// 			'type': 'Feature',
+			// 			'properties': {
+			// 				'description':
+			// 				'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$one_element['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$one_element['latitude'].",".$one_element['longitude']."]'
+			// 				},
+			// 				'geometry': {
+			// 					'type': 'Point',
+			// 					'coordinates': [".$one_element['longitude'].", ".$one_element['latitude']."]
+			// 				}
+			// 				},
+			// 				";					
 
-						}
+			// 			}
 
-					}else{
-						$number='1';
+			// 		}else{
+			// 			$number='1';
 
-						$arret.='['.$number.','.$number.'],';
+			// 			$arret.='['.$number.','.$number.'],';
 
-					}
+			// 		}
 
-					$arret.='';
+					// $arret.='';
 
-					$arret = str_replace('', "", $arret);
+					// $arret = str_replace('', "", $arret);
 
 					$my_selectprovinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME,OBJECTIF,PROVINCE_LATITUDE,PROVINCE_LONGITUDE,POLY,COLOR', 'provinces', '1 ' , 'PROVINCE_ID ASC');
 					$provinces = $this->ModelPs->getRequete($proce_requete, $my_selectprovinces);
@@ -692,7 +692,7 @@ class Dashboard extends CI_Controller
 					$data['track'] = $track;
 					// $data['vit_moy'] = $vit_moy;
 					// $data['date_debfin'] = $date_debfin;
-					$data['arret'] = $arret;
+					// $data['arret'] = $arret;
 					$data['get_chauffeur'] = $get_chauffeur;
 					$data['get_arret'] = $get_arret;
 					$data['distance_finale'] = $nvldistance_arrondie;
