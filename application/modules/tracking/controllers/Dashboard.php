@@ -517,7 +517,7 @@ class Dashboard extends CI_Controller
 							<div class="jss111">
 							<div class="jss112" style="width: 78px; font-size: 11px; font-weight: 500;"><p><sup class="jss500 jss501"> '.$keytabl[13].'</sup>'.$keytabl[4].'<span class="jss119">:'.$keytabl[5].'</span></p><span style="display: block; height: 2px;"></span><p style="position: relative;"><sup class="jss500 jss501">'.$keytabl[14].'</sup>'.$keytabl[6].'<span class="jss119">:'.$keytabl[7].'&nbsp;</span></p>
 							</div>
-							<div class="jss112 jss113" style="width: 61%;"><span class="jss114" style="width: unset; padding: 0px;">['.$keytabl[9].','.$keytabl[8].']</span><p class="jss515">Garé pendant '.$keytabl[0].'</p>
+							<div class="jss112 jss113" style="width: 61%;"><span class="jss114" style="padding: 0px;">['.$keytabl[9].','.$keytabl[8].']</span><p class="jss515">Garé pendant '.$keytabl[0].'</p>
 							</div>
 							</div>
 							</div>
