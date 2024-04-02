@@ -360,7 +360,7 @@ class Dashboard extends CI_Controller
 		$tabl=' ';
 		$mark_v='';
 		$mark_vprim='';
-		if (!empty($get_data_arret_prime)) {
+		if (!empty($CODE_COURSE) && !empty($get_data_arret_prime)) {
 			$tabl_prime=array();
 
 			foreach ($get_data_arret_prime as $value_get_arret_prim) {
