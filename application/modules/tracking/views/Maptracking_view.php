@@ -338,7 +338,7 @@ z-index: 100;
               <button onclick="close_popup()" style="float: right;" class="btn btn-primary me-md-2" type="button">X</button>
 
 
-              <h5 class="card-title">Courses </h5>
+              <h5 class="card-title">Résumés des courses </h5>
 
               <?=$card_card?>
 
