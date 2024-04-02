@@ -253,14 +253,14 @@ class Dashboard extends CI_Controller
 		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$max_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmax_arret);
 
-		// $min_arret_plus=$min_arret['minimum']+1;
+		$min_arret_plus=$min_arret['minimum']+1;
 
-		$my_selectmin_arret_deriv = $this->getBindParms('id', 'tracking_data', 'id >"'.$min_arret['minimum'].'"' , '`id` ASC');
-		$my_selectmin_arret_deriv=str_replace('\"', '"', $my_selectmin_arret_deriv);
-		$my_selectmin_arret_deriv=str_replace('\n', '', $my_selectmin_arret_deriv);
-		$my_selectmin_arret_deriv=str_replace('\"', '', $my_selectmin_arret_deriv);
-		$min_arret_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret_deriv);
-		for ($i=$min_arret['minimum'],$j=$min_arret_plus['id']; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++) {
+		// $my_selectmin_arret_deriv = $this->getBindParms('id', 'tracking_data', 'id >"'.$min_arret['minimum'].'"' , '`id` ASC');
+		// $my_selectmin_arret_deriv=str_replace('\"', '"', $my_selectmin_arret_deriv);
+		// $my_selectmin_arret_deriv=str_replace('\n', '', $my_selectmin_arret_deriv);
+		// $my_selectmin_arret_deriv=str_replace('\"', '', $my_selectmin_arret_deriv);
+		// $min_arret_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret_deriv);
+		for ($i=$min_arret['minimum'],$j=$min_arret_plus; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++) {
 
 			$my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
 			$my_selectarret1=str_replace('\"', '"', $my_selectarret1);
@@ -412,15 +412,15 @@ class Dashboard extends CI_Controller
 				$my_select_date_compare2=str_replace('\n', '', $my_select_date_compare2);
 				$my_select_date_compare2=str_replace('\"', '', $my_select_date_compare2);
 				$date_compare2 = $this->ModelPs->getRequeteOne($proce_requete, $my_select_date_compare2);
-				// $min_arret_plus=$one_element['id']+1;
-				$my_selectone_element_moins = $this->getBindParms('id', 'tracking_data', 'id > "'.$one_element['id'].'" ' , '`id` ASC');
-				$my_selectone_element_moins=str_replace('\"', '"', $my_selectone_element_moins);
-				$my_selectone_element_moins=str_replace('\n', '', $my_selectone_element_moins);
-				$my_selectone_element_moins=str_replace('\"', '', $my_selectone_element_moins);
+				$min_arret_plus=$one_element['id']+1;
+				// $my_selectone_element_moins = $this->getBindParms('id', 'tracking_data', 'id > "'.$one_element['id'].'" ' , '`id` ASC');
+				// $my_selectone_element_moins=str_replace('\"', '"', $my_selectone_element_moins);
+				// $my_selectone_element_moins=str_replace('\n', '', $my_selectone_element_moins);
+				// $my_selectone_element_moins=str_replace('\"', '', $my_selectone_element_moins);
 
-				$min_arret_plus_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);
+				// $min_arret_plus_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);
 				
-				for ($i=$one_element['id'],$j=$min_arret_plus_plus['id']; $i <$date_compare2['id'],$j <$date_compare2['id'] ; $i++,$j++) {
+				for ($i=$one_element['id'],$j=$min_arret_plus; $i <$date_compare2['id'],$j <$date_compare2['id'] ; $i++,$j++) {
 					
 
 					$my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
