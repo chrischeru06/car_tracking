@@ -364,7 +364,7 @@ class Dashboard extends CI_Controller
 			$tabl_prime=array();
 
 			foreach ($get_data_arret_prime as $value_get_arret_prim) {
-				$my_selectone_element_prim = $this->getBindParms('id,tracking_data.date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,ignition,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_prim['CODE_COURSE'].'" ' , '`id` ASC');
+				$my_selectone_element_prim = $this->getBindParms('id,date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,ignition,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_prim['CODE_COURSE'].'" ' , '`id` ASC');
 				$my_selectone_element_prim=str_replace('\"', '"', $my_selectone_element_prim);
 				$my_selectone_element_prim=str_replace('\n', '', $my_selectone_element_prim);
 				$my_selectone_element_prim=str_replace('\"', '', $my_selectone_element_prim);
@@ -373,7 +373,7 @@ class Dashboard extends CI_Controller
 				// $date_compare1_prim=$one_element_prim['date_actu'];
 
 				
-				$my_select_date_compare2_prim = $this->getBindParms('tracking_data.date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_prim['CODE_COURSE'].'" ', 'id DESC');
+				$my_select_date_compare2_prim = $this->getBindParms('date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_prim['CODE_COURSE'].'" ', 'id DESC');
 				$my_select_date_compare2_prim=str_replace('\"', '"', $my_select_date_compare2_prim);
 				$my_select_date_compare2_prim=str_replace('\n', '', $my_select_date_compare2_prim);
 				$my_select_date_compare2_prim=str_replace('\"', '', $my_select_date_compare2_prim);
