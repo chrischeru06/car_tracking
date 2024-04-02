@@ -11,12 +11,10 @@
     -progress: [object Object];
     flex-flow: column;
     overflow-y: auto;
-  }
-  .jss509:hover {
-    color:#dfe7ef;
+    border: solid 1px rgba(128, 128, 128, 0.3);
   }
   .jss408:hover {
-    color:#dfe7ef;
+    border: solid 1px rgb(128, 128, 128);
   }
   .jss408:focus {
     color:#4154f1;
@@ -137,6 +135,11 @@
   padding: 20px;
   position: relative;
   background: #fff;
+  border: solid 1px rgba(128, 128, 128, 0.3);
+}
+.jss110:hover{
+  border: solid 1px rgb(128, 128, 128);
+
 }
 .jss501 {
   top: -2px;
@@ -238,6 +241,7 @@ margin: 0px 0;
 .right.collapsed {
   transform: translateX(295px);
 }
+
 </style>
 
 <style>
@@ -308,7 +312,7 @@ z-index: 100;
     <div class="row">
 
 
-      <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-primary me-md-2" type="button"> <font class="fa fa-list"></font>
+      <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-default me-md-2" type="button" style="background-color: cadetblue; color:white;"> <font class="fa fa-list"></font>
       </button>
       
 
@@ -335,7 +339,7 @@ z-index: 100;
         <div class="map-overlay top">
           <!-- <div class="scroller"> -->
             <div class="map-overlay-inner">
-              <button onclick="close_popup()" style="float: right;" class="btn btn-primary me-md-2" type="button">X</button>
+              <button onclick="close_popup()" style="float: right; background-color: cadetblue; color: white;" class="btn btn-default me-md-2" type="button">X</button>
 
 
               <h5 class="card-title">Résumés des courses </h5>
@@ -350,9 +354,9 @@ z-index: 100;
 
 
             </div>
-          <!-- </div> -->
+            <!-- </div> -->
+          </div>
         </div>
-      </div>
 
        <!--  <div id="meno">
 
@@ -557,6 +561,11 @@ z-index: 100;
             const marker2 = new mapboxgl.Marker({ color: couleur})
             .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
 
+            map_map.flyTo({
+              center: [index[2], index[3]],
+              speed: 0.5
+            });
+
 
           })
         .catch(error => {
@@ -579,7 +588,10 @@ z-index: 100;
             const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
             .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
 
-
+            map_map.flyTo({
+              center: [index[0], index[1]],
+              speed: 0.5
+            });
 
 
           })
