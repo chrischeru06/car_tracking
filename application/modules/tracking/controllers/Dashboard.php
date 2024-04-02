@@ -624,12 +624,12 @@ class Dashboard extends CI_Controller
 					// 	$i++;
 
 					}
-					$my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
-					$my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
-					$my_selectvit_moy=str_replace('\n', '', $my_selectvit_moy);
-					$my_selectvit_moy=str_replace('\"', '', $my_selectvit_moy);
+					// $my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+					// $my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
+					// $my_selectvit_moy=str_replace('\n', '', $my_selectvit_moy);
+					// $my_selectvit_moy=str_replace('\"', '', $my_selectvit_moy);
 
-					$vit_moy = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvit_moy);
+					// $vit_moy = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvit_moy);
 					$my_selectdate_debfin = $this->getBindParms('id,MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
 					$my_selectdate_debfin=str_replace('\"', '"', $my_selectdate_debfin);
 					$my_selectdate_debfin=str_replace('\n', '', $my_selectdate_debfin);
@@ -690,7 +690,7 @@ class Dashboard extends CI_Controller
 					
 
 					$data['track'] = $track;
-					$data['vit_moy'] = $vit_moy;
+					// $data['vit_moy'] = $vit_moy;
 					$data['date_debfin'] = $date_debfin;
 					$data['arret'] = $arret;
 					$data['get_chauffeur'] = $get_chauffeur;
