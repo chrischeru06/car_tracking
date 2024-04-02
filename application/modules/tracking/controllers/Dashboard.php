@@ -392,27 +392,26 @@ class Dashboard extends CI_Controller
 			}
 		}
 		$distdislegend=0;
-		$get_data_arret = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE');
+		$get_data_arret = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE CODE_COURSE IS NOT NULL and  md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE');
 		//calcul du temps d'arret
 		if(!empty($get_data_arret)){
 			$tabl=array();
 			
 			foreach ($get_data_arret as $value_get_arret_code) {
-				if (!empty($value_get_arret_code['CODE_COURSE'])) {
 					$my_selectone_element = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" ' , '`id` ASC');
 					$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
 					$my_selectone_element=str_replace('\n', '', $my_selectone_element);
 					$my_selectone_element=str_replace('\"', '', $my_selectone_element);
 
 					$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
-					
+
 
 					$my_select_date_compare2 = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_code['CODE_COURSE'].'" ', 'id DESC');
 					$my_select_date_compare2=str_replace('\"', '"', $my_select_date_compare2);
 					$my_select_date_compare2=str_replace('\n', '', $my_select_date_compare2);
 					$my_select_date_compare2=str_replace('\"', '', $my_select_date_compare2);
 					$date_compare2 = $this->ModelPs->getRequeteOne($proce_requete, $my_select_date_compare2);
-					
+
 					$my_selectone_element_moins = $this->getBindParms('id', 'tracking_data', 'id > "'.$one_element['id'].'" ' , '`id` ASC');
 					$my_selectone_element_moins=str_replace('\"', '"', $my_selectone_element_moins);
 					$my_selectone_element_moins=str_replace('\n', '', $my_selectone_element_moins);
@@ -450,7 +449,6 @@ class Dashboard extends CI_Controller
 
 					$tabl[]=[$this->notifications->ago($one_element['date_vu'],$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM']];
 
-				}
 				
 				
 
