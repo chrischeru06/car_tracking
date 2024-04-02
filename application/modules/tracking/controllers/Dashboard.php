@@ -630,12 +630,12 @@ class Dashboard extends CI_Controller
 					// $my_selectvit_moy=str_replace('\"', '', $my_selectvit_moy);
 
 					// $vit_moy = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvit_moy);
-					$my_selectdate_debfin = $this->getBindParms('id,MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
-					$my_selectdate_debfin=str_replace('\"', '"', $my_selectdate_debfin);
-					$my_selectdate_debfin=str_replace('\n', '', $my_selectdate_debfin);
-					$my_selectdate_debfin=str_replace('\"', '', $my_selectdate_debfin);
+					// $my_selectdate_debfin = $this->getBindParms('id,MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+					// $my_selectdate_debfin=str_replace('\"', '"', $my_selectdate_debfin);
+					// $my_selectdate_debfin=str_replace('\n', '', $my_selectdate_debfin);
+					// $my_selectdate_debfin=str_replace('\"', '', $my_selectdate_debfin);
 
-					$date_debfin = $this->ModelPs->getRequeteOne($proce_requete, $my_selectdate_debfin);
+					// $date_debfin = $this->ModelPs->getRequeteOne($proce_requete, $my_selectdate_debfin);
 
 
 					$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
