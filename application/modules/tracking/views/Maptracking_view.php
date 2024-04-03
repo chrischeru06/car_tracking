@@ -317,24 +317,7 @@ z-index: 100;
       
 
       <div id="map_maps" style="width: 100%;height: 720px;">
-        <!-- <div id="left" class="sidebar flex-center left collapsed">
-          <div class="sidebar-content rounded-rect flex-center">
-
-            <div class="scroller">
-              <h5 class="card-title">Courses </h5>
-
-              <?=$card_card?>
-
-              <br>
-              <div class="card">
-                <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
-
-              </div>
-           </div>
-
-            <div class="sidebar-toggle rounded-rect left" onclick="toggleSidebar('left')" style="font-size: 32px;">→</div>
-          </div>
-        </div> -->
+       
         
         <div class="map-overlay top">
           <!-- <div class="scroller"> -->
@@ -423,10 +406,7 @@ z-index: 100;
   bounds: [29.383188,-3.384438, 29.377566,-3.369615],
   projection: "globe" // display the map as a 3D globe
 });
-  // bounds: [29.384095,-3.3830083, 29.3838133,-3.3844883]
-
-  // var nav = new mapboxgl.NavigationControl();
-  // map_map.addControl(nav, "top-left");
+ 
     map_map.addControl(new mapboxgl.NavigationControl());
 
     map_map.addControl(new mapboxgl.FullscreenControl());
@@ -506,37 +486,12 @@ z-index: 100;
 
 });
 
-    // function toggleSidebar(id) {
-    //   const elem = document.getElementById(id);
-    //     // Add or remove the 'collapsed' CSS class from the sidebar element.
-    //     // Returns boolean "true" or "false" whether 'collapsed' is in the class list.
-    //   const collapsed = elem.classList.toggle('collapsed');
-    //   const padding = {};
-    //     // 'id' is 'right' or 'left'. When run at start, this object looks like: '{left: 300}';
-    //     padding[id] = collapsed ? 0 : 300; // 0 if collapsed, 300 px if not. This matches the width of the sidebars in the .sidebar CSS class.
-    //     // Use `map.easeTo()` with a padding option to adjust the map's center accounting for the position of sidebars.
-    //     map_map.easeTo({
-    //       padding: padding,
-    //         duration: 1000 // In ms. This matches the CSS transition duration property.
-    //       });
-    //   }
-
 
     map_map.on('load', () => {
-        // toggleSidebar('left');
 
       var donn='<?= $mark_vprim ?>';
 
       var donn=donn.split('@');
-
-      // for (var i = 0; i<(donn.length) - 1; i++) {
-
-      //   var index=donn[i].split('<>');
-
-      //   const marker = new mapboxgl.Marker({ color:'#00FF00'})
-      //   .setLngLat([index[0],index[1]]).addTo(map_map);
-      // }
-
 
       for (var i = 0; i<(donn.length) - 1; i++) {
 
@@ -612,10 +567,6 @@ z-index: 100;
           });
 
 
-            // const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
-            // .setLngLat([index[0],index[1]]).addTo(map_map);  
-
-
         }
 
 
@@ -627,6 +578,5 @@ z-index: 100;
 
     });
 
-    <?php echo $limites; ?>;
 
   </script>

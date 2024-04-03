@@ -174,15 +174,11 @@ class Dashboard extends CI_Controller
 		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\n', '', $my_selectget_data);
 		$my_selectget_data=str_replace('\"', '', $my_selectget_data);
-		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 
 		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
-		 // print_r('select `id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date from tracking_data where md5(device_uid) ="'.$CODE.'" '.$critere.'');die();
-
 		
 		//requete pour recuperer les arrets
 		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
-		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\n', '', $my_selectget_arret);
@@ -255,11 +251,6 @@ class Dashboard extends CI_Controller
 
 		$min_arret_plus=$min_arret['minimum']+1;
 
-		// $my_selectmin_arret_deriv = $this->getBindParms('id', 'tracking_data', 'id >"'.$min_arret['minimum'].'"' , '`id` ASC');
-		// $my_selectmin_arret_deriv=str_replace('\"', '"', $my_selectmin_arret_deriv);
-		// $my_selectmin_arret_deriv=str_replace('\n', '', $my_selectmin_arret_deriv);
-		// $my_selectmin_arret_deriv=str_replace('\"', '', $my_selectmin_arret_deriv);
-		// $min_arret_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret_deriv);
 		for ($i=$min_arret['minimum'],$j=$min_arret_plus; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++) {
 
 			$my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
@@ -345,10 +336,6 @@ class Dashboard extends CI_Controller
 
 		}
 
-
-
-
-		// $ligne_arret='';
 		$card_card='';
 		
 		$get_data_arret_prime = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' GROUP BY CODE_COURSE');
@@ -580,7 +567,7 @@ class Dashboard extends CI_Controller
 
 
 
-		//calcul du carburant consommé
+					//calcul du carburant consommé
 					if(!empty($get_chauffeur['KILOMETRAGE'])){
 
 						$carburant_before=$get_chauffeur['KILOMETRAGE'] * $nvldistance_arrondie;
@@ -596,47 +583,7 @@ class Dashboard extends CI_Controller
 
 
 
-		//carte
-			// $arret = '';
-
-			// if(!empty($get_data_arret)){
-
-
-			// 	foreach ($get_data_arret as $key_arret) {
-
-			// 		$my_selectone_element = $this->getBindParms('id,tracking_data.date,date_format(tracking_data.date,"%H:%i") as heure,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$key_arret['CODE_COURSE'].'"' , '`id` ASC');
-			// 		$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
-			// 		$my_selectone_element=str_replace('\n', '', $my_selectone_element);
-			// 		$my_selectone_element=str_replace('\"', '', $my_selectone_element);
-
-			// 		$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
-
-			// 		$arret.="{
-			// 			'type': 'Feature',
-			// 			'properties': {
-			// 				'description':
-			// 				'<center><img src=\'".base_url('upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'].'')."\' width=\'80px\' height=\'80px\' style=\'border-radius: 50%\' alt=\'\'></center><hr><i class=\'bi bi-person-fill\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."<br><i class=\'bi bi-phone\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['NUMERO_TELEPHONE']."<br><i class=\'bi bi-envelope\'></i> &nbsp;&nbsp;&nbsp;".$get_chauffeur['ADRESSE_MAIL']."<br><i class=\'bi bi-textarea-resize\'></i>&nbsp;&nbsp;&nbsp;".$get_chauffeur['PLAQUE']."<br><i class=\'bi bi-stopwatch\'></i>&nbsp;&nbsp;&nbsp;".$one_element['heure']."<br><i class=\'bi bi-geo-fill\'></i>&nbsp;&nbsp;&nbsp;[".$one_element['latitude'].",".$one_element['longitude']."]'
-			// 				},
-			// 				'geometry': {
-			// 					'type': 'Point',
-			// 					'coordinates': [".$one_element['longitude'].", ".$one_element['latitude']."]
-			// 				}
-			// 				},
-			// 				";					
-
-			// 			}
-
-			// 		}else{
-			// 			$number='1';
-
-			// 			$arret.='['.$number.','.$number.'],';
-
-			// 		}
-
-					// $arret.='';
-
-					// $arret = str_replace('', "", $arret);
-
+					//carte
 					$my_selectprovinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME,OBJECTIF,PROVINCE_LATITUDE,PROVINCE_LONGITUDE,POLY,COLOR', 'provinces', '1 ' , 'PROVINCE_ID ASC');
 					$provinces = $this->ModelPs->getRequete($proce_requete, $my_selectprovinces);
 					$limites='';
@@ -645,37 +592,8 @@ class Dashboard extends CI_Controller
 						$polyg = $key_provinces['POLY'];
 						$prov_name = $key_provinces['PROVINCE_NAME'];
 
-					// $limites.= 'var world'.$i.' = 
-					// 	'.$polyg.'
-
-					// var styleState'.$i.' = {
-					// 	color: "'.$key_provinces['COLOR'].'",
-					// 	weight: 1 
-					// };
-
-					// myLayer =
-
-					// L.geoJson(world'.$i.', {
-					// 	onEachFeature: function(feature, layer) {
-					// 		layer.bindPopup(\'<table><tr><td><i class="mdi mdi-spin"></i> <b>'.$prov_name.'</b></td></tr></table>\');
-					// 		},style: styleState'.$i.'
-					// 	}).addTo(map_map);';
-
-					// 	$i++;
-
 					}
-					// $my_selectvit_moy = $this->getBindParms('id,AVG(`vitesse`) moy_vitesse,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
-					// $my_selectvit_moy=str_replace('\"', '"', $my_selectvit_moy);
-					// $my_selectvit_moy=str_replace('\n', '', $my_selectvit_moy);
-					// $my_selectvit_moy=str_replace('\"', '', $my_selectvit_moy);
-
-					// $vit_moy = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvit_moy);
-					// $my_selectdate_debfin = $this->getBindParms('id,MIN(`date`) datemin,MAX(`date`) datemax,date_format(`date`,"%d/%m/%Y") as date_base', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
-					// $my_selectdate_debfin=str_replace('\"', '"', $my_selectdate_debfin);
-					// $my_selectdate_debfin=str_replace('\n', '', $my_selectdate_debfin);
-					// $my_selectdate_debfin=str_replace('\"', '', $my_selectdate_debfin);
-
-					// $date_debfin = $this->ModelPs->getRequeteOne($proce_requete, $my_selectdate_debfin);
+					
 
 
 					$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
@@ -730,9 +648,6 @@ class Dashboard extends CI_Controller
 
 
 					$data['track'] = $track;
-					// $data['vit_moy'] = $vit_moy;
-					// $data['date_debfin'] = $date_debfin;
-					// $data['arret'] = $arret;
 					$data['get_chauffeur'] = $get_chauffeur;
 					$data['get_arret'] = $get_arret;
 					$data['distance_finale'] = $nvldistance_arrondie;
@@ -740,8 +655,6 @@ class Dashboard extends CI_Controller
 					$data['CODE'] = $CODE;
 					$data['DATE'] = $DATE_SELECT;
 					$data['score'] = $score_finale;
-				// $data['ligne_arret'] = $ligne_arret;
-				// $data['delimit_prov'] = $delimit_prov;
 					$data['limites']=$limites;
 					$data['card_card']=$card_card;
 					$data['tabl']=$tabl;
