@@ -129,7 +129,7 @@
 				}
 				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
 					{
-						$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
+						$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='bi bi-plus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
 
 						$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
 
@@ -239,29 +239,27 @@
 							</tr>
 
 							<tr>
-							<td><label class='fa fa-info'></label> Information&nbsp;véhicule</td>
+							<td><label class='fa fa-info'></label>  Information&nbsp;du&nbsp;vehicule</td>
 							<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
 							</tr>
+                        
+							<tr>
+							<td><strong>Documents</strong></td>
+						   </tr>
+							<tr>
+							<td><label class='fa fa-book'></label> CNI</td>
+							<td><a href='#' data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							</td>
+							</tr>
+							<tr>
+							<td><label class='fa fa-book'></label> PERMIS&nbsp;&nbsp;DE&nbsp;CONDUIRE</td>
+							<td><a href='#'data-toggle='modal' data-target='#info_documa2" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							</td>
+							</tr>
+							
+
+
 							</table>
-
-
-                          
-					        <div class='row'>
-					        <label><strong>Documents</strong></label>
-					        <div class='col-md-5'>
-							<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
-							 </a><br>
-							 <label>CNI</label>
-					        </div>
-
-					        <div class='col-md-7'>
-							<a href='#'data-toggle='modal' data-target='#info_documa2".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='50%' width='50%' >
-							</a><br>
-                             
-							 <label>Permis de conduire</label>
-					        </div>
-					        </div>    
-
 							</div>
 							</div>
 							</div>
@@ -269,7 +267,6 @@
 							</div>
 							</div>
 							</div>
-
 
 						<div class='modal fade' id='info_documa" .$row->CHAUFFEUR_ID. "'>
 						<div class='modal-dialog'>
@@ -350,24 +347,33 @@
 							<td><label class='fa fa-calendar '></label> Date naissance</td>
 							<th>".$row->DATE_NAISSANCE."</th>
 							</tr>
+
+							<tr>
+							<td><label class='fa fa-map-marker'></label> Adresse physique</td>
+							<th>".$row->ADRESSE_PHYSIQUE."</th>
+							</tr>
+							<tr>
+							<td><label class='fa fa-map-marker'></label> Localité</td>
+							<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
+							</tr>
+
+							<tr>
+							<td><strong>Documents</strong></td>
+						   </tr>
+							<tr>
+							<td><label class='fa fa-book'></label> CNI</td>
+							<td><a href='#'data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							</td>
+							</tr>
+							<tr>
+							<td><label class='fa fa-book'></label> PERMIS&nbsp;&nbsp;DE&nbsp;CONDUIRE</td>
+							<td><a href='#'data-toggle='modal' data-target='#info_documa2" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+							</td>
+							</tr>
+							
+
+
 							</table>
-
-					        <div class='row'>
-					        <label><strong>Documents</strong></label>
-					        <div class='col-md-5'>
-							<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
-							 </a><br>
-							 <label>CNI</label>
-					        </div>
-
-					        <div class='col-md-7'>
-							<a href='#'data-toggle='modal' data-target='#info_documa2".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='50%' width='50%' >
-							</a><br>
-                             
-							 <label>Permis de conduire</label>
-					        </div>
-					        </div>  
-					        
 							</div>
 							</div>
 							</div>
