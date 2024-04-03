@@ -111,9 +111,16 @@
 			});
 		});
 
-		
 
-		marker.bindPopup ('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;'+ index[9] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;'+ index[12] +'</th></tr></table> <p class="text-center text-muted small pt-2 ps-1"> <i class="text-muted small pt-2 ps-1 fa fa-map-marker"></i><label class="text-muted small pt-2 ps-1" id="place"></label></p> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>');
+		if(index[16] != "")
+		{
+			marker.bindPopup ('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1"> <i class="text-muted small pt-2 ps-1 fa fa-map-marker"></i><label class="text-muted small pt-2 ps-1" id="place"></label></p> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>');
+		}
+		else
+		{
+			marker.bindPopup ('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;'+ index[9] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;'+ index[12] +'</th></tr></table> <p class="text-center text-muted small pt-2 ps-1"> <i class="text-muted small pt-2 ps-1 fa fa-map-marker"></i><label class="text-muted small pt-2 ps-1" id="place"></label></p> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>');
+		}
+
 
 		//alert($('#place').html())
 
@@ -204,6 +211,7 @@
 	// setInterval(updateMarkerPosition, 10000);
 
 	var timer = setInterval(async () => {
+		// alert('jdshjhk')
 		updateMarkerPosition();
 	}, 10000);
 

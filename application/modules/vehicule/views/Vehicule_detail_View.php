@@ -4,6 +4,69 @@
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
+  <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css' rel='stylesheet' />
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css' rel='stylesheet' />
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-zoomslider/v0.7.0/L.Control.Zoomslider.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-zoomslider/v0.7.0/L.Control.Zoomslider.css' rel='stylesheet'/>
+
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+
+  <style type="text/css">
+    .dash_v{
+    /*  border: solid 1px rgb(128, 128, 128, 0.3);
+      border-radius: 50%;
+      padding: 10%;*/
+      text-align: center;
+      font-weight:bold;
+    }
+    table td{
+      text-align: center;
+    }
+    #tracking{
+      font-size: 40px;
+      color: gray;
+    }
+    #tracking:hover{
+      color: cadetblue;
+    }
+
+
+    #map {width: 102%;height: 600px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;z-index: 1;}
+
+    .mapbox-improve-map{
+      display: none;
+    }
+
+    .leaflet-control-attribution{
+      display: none !important;
+    }
+    .leaflet-control-attribution{
+      display: none !important;
+    }
+    .search-ui {
+
+    }
+
+    .circle-green {
+      background-color: #829b35;
+      border-radius: 50%
+    }
+
+    .custom-marker-icon {
+      border:solid 2px;
+     border-radius: 50%;
+     background-color: rgba(95, 158, 160,0.3);
+
+    }
+  </style>
+
 </head>
 
 <body>
@@ -59,7 +122,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
-                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px;"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>
+                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px; margin-top:10px;"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>
                 </div>  
               </div>
 
@@ -98,9 +161,9 @@
 
 
   <section class="section">
-   <div class="container text-center">
+   <div class="container">
     <div class="row">
-      <div class="text-left col-sm-12">
+      <div class="col-sm-12">
         <div class="card" style="border-radius: 20px;">
 
           <br>
@@ -111,7 +174,73 @@
            <div class="tab-content pt-2"> 
 
             <div class="tab-pane fade show active" id="info_generales">
-              Info general
+
+              <div class="row">
+
+                <table class="table table-borderless">
+                  <tr>
+
+                    <td>
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['CODE']?></label><br>
+                      <i class="text-muted small pt-2 ps-1 fa fa-code"> Code</i>
+                    </td>
+
+                    <td >
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['DESC_MARQUE']?></label><br>
+                      <i class="text-muted small pt-2 ps-1 fa fa-bookmark-o"> Marque</i>
+                    </td>
+
+                    <td >
+                      <label class="text-muted small pt-2 dash_v"><?= $infos_vehicule['DESC_MODELE']?></label><br>
+                      <i class="text-muted small pt-2 ps-1 fa fa-bolt"> Modèle</i>
+                    </td>
+
+                    <td >
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['COULEUR']?></label><br>
+                      <i class="text-muted small pt-2 ps-1 fa fa-circle"> Couleur</i>
+                    </td>
+
+                    <td >
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['KILOMETRAGE']?> Litres / km</label><br>
+                      <i class="text-muted small pt-2 ps-1 fa fa-beer"> Consommation</i>
+                    </td>
+
+                  </tr>
+
+                  <tr>
+                    <td >
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['proprio_desc']?></label><br>
+                      <i class="text-muted small pt-2 ps-1 fa fa-user"> Propriétaire</i>
+                    </td>
+
+                    <td >
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['chauffeur_desc']?></label><br>
+                      <i class="text-muted small pt-2 ps-1 fa fa-user-md"> Chauffeur</i>
+                    </td>
+
+                   <!-- <td >
+
+                      <a href="<?=base_url('centre_situation/Centre_situation/index/').$infos_vehicule['VEHICULE_ID']?>" id="tracking"> <i class="small pt-2 ps-1 fa fa-map-marker"> Tracking</i></a>
+                    </td>-->
+
+                  </tr>
+                </table>
+                <input type="hidden" value="<?=$infos_vehicule['VEHICULE_ID']?>" id="VEHICULE_TRACK">
+                <input type="hidden" value="<?=$infos_vehicule['latitude'].','.$infos_vehicule['longitude']?>" id="COORD_TRACK">
+              </div>
+
+              <hr>
+
+              <br>
+
+              <div class="row">
+
+                <div id="mapView">
+                </div>
+
+              </div>
+
+
             </div>
 
             <div class="tab-pane fade " id="voitures">
@@ -137,6 +266,46 @@
 <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
+
+<script>
+  $(document).ready(function(){
+
+    getmap();
+
+  });
+
+</script>
+
+
+<script>
+
+    // Fonction pour afficher la carte
+
+  function getmap(id=2){
+
+    var VEHICULE_TRACK = $('#VEHICULE_TRACK').val();
+    var COORD_TRACK = $('#COORD_TRACK').val();
+
+    $.ajax({
+      url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
+      type : "POST",
+      dataType: "JSON",
+      cache:false,
+      data: {
+        id:id,
+        VEHICULE_TRACK:VEHICULE_TRACK,
+        COORD_TRACK:COORD_TRACK,
+      },
+
+      success:function(data) {
+
+        $('#mapView').html(data.carte_view);
+
+      },
+    });
+  }
+
+</script>
 
 
 </html>

@@ -27,6 +27,7 @@
 		//la fonction index visualise la liste des vehicules
 		function index()
 		{
+			$VEHICULE_TRACK = $this->uri->segment(4);
 
 			$critere = ' ';
 
@@ -35,7 +36,6 @@
 			$filtre_pro = $this->Model->getOne('proprietaire',array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID));
 
 			$USER_ID = $this->session->userdata('USER_ID');
-
 
 
 			if($this->session->userdata('PROFIL_ID') != 1)
@@ -73,6 +73,7 @@
 
 			$data['proprio'] = $proprio;
 			$data['vehicule'] = $vehicule;
+			$data['VEHICULE_TRACK'] = $VEHICULE_TRACK;
 
 			$this->load->view('Centre_situation_View',$data);
 		}
@@ -97,12 +98,17 @@
 			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 			$id = $this->input->post('id');
 
+			$VEHICULE_TRACK = $this->input->post('VEHICULE_TRACK');
+			$COORD_TRACK = $this->input->post('COORD_TRACK');
+
 			$coordinates = '-3.3944616,29.3726466';
 			$zoom = 18;
 
 			$critere_proprietaire = '';
 			$critere_vehicule = '';
 			$critere_user = '';
+
+			$critere_vehicule_track = '';
 
 			$USER_ID = $this->session->userdata('USER_ID');
 
@@ -118,6 +124,15 @@
 
 			if($VEHICULE_ID > 0){
 				$critere_vehicule.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+				$zoom = 18; 
+			}
+
+
+			if(!empty($VEHICULE_TRACK) && !empty($COORD_TRACK))
+			{
+
+				$critere_vehicule_track.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_TRACK;
+				$coordinates = $COORD_TRACK;
 				$zoom = 18; 
 			}
 
@@ -156,7 +171,7 @@
 
              // Recherche des tous les vehicules pour la carte
 
-			$get_vihicule = $this->Model->getRequete('SELECT CODE FROM vehicule JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1'.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.'');
+			$get_vihicule = $this->Model->getRequete('SELECT CODE FROM vehicule JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1'.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.''.$critere_vehicule_track.'');
 
 			$donnees_vehicule = ' ';
 
@@ -178,7 +193,7 @@
 			{
 				foreach ($get_vihicule as $key) {
 
-					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,tracking_data.accident FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE  JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" ORDER BY id DESC LIMIT 1');
+					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,tracking_data.accident FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE  JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" '.$critere_vehicule_track.' ORDER BY id DESC LIMIT 1');
 
 					//print_r($track_data['VEHICULE_ID']);die();
 
@@ -330,10 +345,9 @@
 						$PHOTO = str_replace("'",'',$PHOTO);
 
 						$IS_ACTIVE = $track_data['IS_ACTIVE']; 
-						$accident = $track_data['accident']; 
+						$accident = $track_data['accident'];
 
-
-						$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>'.$accident.'<>@';
+						$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>'.$accident.'<>'.$VEHICULE_TRACK.'<>@';
 					}
 				}
 			}
