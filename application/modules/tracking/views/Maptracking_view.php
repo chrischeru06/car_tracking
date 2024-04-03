@@ -116,7 +116,7 @@
   display: inline-block;
   font-size: 12px;
   padding-left: 15px;
-  text-transform: uppercase;
+/*  text-transform: uppercase;*/
 }
 
 .jss112 {
@@ -411,6 +411,7 @@ z-index: 100;
      }
 
    </script> 
+   <?=$dataplace;?>
 
    <script type="text/javascript">
 
