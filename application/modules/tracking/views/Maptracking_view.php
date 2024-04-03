@@ -553,14 +553,25 @@ z-index: 100;
           var couleur='';
           if(index[4]==0){
               couleur='#0000FF';//bleu
+
+              const marker2 = new FontawesomeMarker({
+                icon: 'fa fa-product-hunt',
+                iconColor: 'white',
+                color: '#0000FF',
+
+              })
+
+
+              .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
               
             }else{
               couleur='#FF0000';
+              const marker2 = new mapboxgl.Marker({ color: couleur})
+              .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
 
             }
 
-            const marker2 = new mapboxgl.Marker({ color: couleur})
-            .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
+            
 
             map_map.flyTo({
               center: [index[2], index[3]],
