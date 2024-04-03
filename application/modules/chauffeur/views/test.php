@@ -3,6 +3,7 @@
 
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
+
   <style type="text/css">
 
 
@@ -73,6 +74,10 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+/*debut zoomphoto*/
+
+/*fin zoom zoomphoto*/
+
 </style>
 
 
@@ -86,7 +91,7 @@ input:checked + .slider:before {
 
   <!-- ======= Sidebar ======= -->
   <?php include VIEWPATH . 'includes/menu_left.php'; ?>
-  <!-- End Sidebar-->
+
 
   <main id="main" class="main">
    <div class="row page-titles mx-0">
@@ -280,18 +285,23 @@ input:checked + .slider:before {
 
             </div>
           </div>
-
-
-
         </div>
+
       </section>
 
     </main><!-- End #main -->
 
     <?php include VIEWPATH . 'includes/footer.php'; ?>
+<!-- 
+  <?php include VIEWPATH . 'includes/demo'; ?>
+  <?php include VIEWPATH . 'includes/style'; ?> -->
+    <!-- debut link pour zoomphoto -->
+ <link rel="stylesheet" href="css/style.css">
+    <!--Only for demo purpose - no need to add.-->
+ <link rel="stylesheet" href="css/demo.css" />
+ <!-- fin link pour zoomphoto -->
 
   </body>
-
 
   <script>
 
@@ -708,6 +718,10 @@ function myFunction_desactive(CHAUFFEUR_ID=0,STATUT_VEHICULE=0) {
   }
   ///verifier dates pour la modification de l'affectation
 
+  // ,,
+  //             ,DATE_FIN_AFFECTATION_MOD
+
+
    function get_date_fin_modif()
   {
     $("#DATE_FIN_AFFECTATION_MOD").prop('min',$("#DATE_DEBUT_AFFECTATION_MOD").val());
@@ -723,4 +737,49 @@ function myFunction_desactive(CHAUFFEUR_ID=0,STATUT_VEHICULE=0) {
 </script>
 
 
+
+
 </html>
+
+
+<!-- Customized Bootstrap Stylesheet -->
+<link href="<?= base_url()?>/template/zoom/bootstrap.min.css" rel="stylesheet">
+
+
+
+<!-- <img style="cursor: zoom-in;" id="myImg" width="500" height="300" src='<?= base_url()?>/template/zoom/image.jpg' alt="" onclick="zoom_image()"> -->
+
+
+ <!-- Modal Image zoom -->
+    <div id="myModalzoom" class="modalzomm">
+      <center><img class="modal-contentzoom" data-dismiss="modalzoom" id="img01" style="cursor: zoom-out; width: 50%"></center>  
+    </div>
+
+
+
+ <script>
+  var modal = document.getElementById('myModalzoom');
+  var modalImg = document.getElementById("img01");
+    function zoom_image(i)
+    {
+
+      // alert(i)
+      // Get the modal
+      var img = document.getElementById('myImg'+i);
+      modal.style.display = "block";
+      modalImg.src = img.src;
+      modalImg.alt = img.alt;
+      captionText.innerHTML = img.alt;
+      
+    }
+
+    modal.onclick = function() {
+            img01.className += " out";
+            setTimeout(function() {
+                modal.style.display = "none";
+                img01.className = "modal-contentzoom";
+            }, 400);
+
+        }
+
+    </script>

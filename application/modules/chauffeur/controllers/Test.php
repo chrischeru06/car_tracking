@@ -6,7 +6,7 @@
 	Date      : 06-09/02/2024
 	crud des chauffeurs
 */
-	class Chauffeur extends CI_Controller
+	class Test extends CI_Controller
 	{
 		function __construct()
 		{
@@ -27,7 +27,7 @@
 		//la fonction index visualise la liste des vehicules
 		function index()
 		{
-			$this->load->view('Chauffeur_List_View');
+			$this->load->view('test');
 		}
 
 
@@ -77,8 +77,10 @@
 			$fetch_data = $this->ModelPs->datatable($query_secondaire);
 			$data = array();
 			$u=1;
+			$i =0;
 			foreach ($fetch_data as $row) 
 			{
+				$i++;
 				$sub_array=array();
 				$sub_array[]=$u++;
 				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
@@ -129,7 +131,7 @@
 				}
 				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
 					{
-						$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
+						$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;&nbsp;Retirer&nbsp;voiture</a></li>";
 
 						$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
 
@@ -249,9 +251,8 @@
 					        <div class='row'>
 					        <label><strong>Documents</strong></label>
 					        <div class='col-md-5'>
-							<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
-							 </a><br>
-							 <label>CNI</label>
+							<img style='cursor: zoom-in;' id='myImg".$i."' class='img-fluid' src='".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' onclick='zoom_image('".$i."')'>
+							 <label></label>
 					        </div>
 
 					        <div class='col-md-7'>
@@ -357,7 +358,7 @@
 					        <div class='col-md-5'>
 							<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
 							 </a><br>
-							 <label>CNI</label>
+							 <label></label>
 					        </div>
 
 					        <div class='col-md-7'>
@@ -367,7 +368,7 @@
 							 <label>Permis de conduire</label>
 					        </div>
 					        </div>  
-					        
+
 							</div>
 							</div>
 							</div>
@@ -386,7 +387,8 @@
 						<div class='modal-body'>
 						<div class='scroller'>
 						<div class='table-responsive'>
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+
+					       <img style='cursor: zoom-in;' id='myImg".$i."' class='img-fluid' src='".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' onclick='zoom_image('".$i."')'>
 					       </div>
 					       </div>
 						</div>
