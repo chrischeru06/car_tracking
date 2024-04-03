@@ -141,6 +141,8 @@
 						</div>
 					</div>
 
+					<input type="hidden" value="<?=$VEHICULE_TRACK?>" id="VEHICULE_TRACK">
+
 				</div>
 				<?php
 			}
@@ -768,6 +770,7 @@
             // var searchString = $('#search').val();ENQUETEUR_ID
           		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
           		var VEHICULE_ID = $('#VEHICULE_ID').val();
+          		var VEHICULE_TRACK = $('#VEHICULE_TRACK').val();
 
           		$.ajax({
           			url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
@@ -779,6 +782,7 @@
           				PROPRIETAIRE_ID:PROPRIETAIRE_ID,
           				VEHICULE_ID:VEHICULE_ID,
           				id:id,
+          				VEHICULE_TRACK:VEHICULE_TRACK,
           			},
 
           			success:function(data) {
