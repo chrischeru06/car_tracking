@@ -350,10 +350,6 @@ class Dashboard extends CI_Controller
 
 		// $ligne_arret='';
 		$card_card='';
-
-		
-		//AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"
-
 		
 		$get_data_arret_prime = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' GROUP BY CODE_COURSE');
 		$tabl=' ';
@@ -369,7 +365,6 @@ class Dashboard extends CI_Controller
 				$my_selectone_element_prim=str_replace('\"', '', $my_selectone_element_prim);
 
 				$one_element_prim = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_prim);
-				// $date_compare1_prim=$one_element_prim['date_actu'];
 
 				
 				$my_select_date_compare2_prim = $this->getBindParms('date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_prim['CODE_COURSE'].'" ', 'id DESC');
@@ -529,7 +524,7 @@ class Dashboard extends CI_Controller
 
 								</script>';
 
-								
+
 
 
 
