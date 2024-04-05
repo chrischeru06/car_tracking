@@ -142,6 +142,14 @@
 					</div>
 
 					<input type="hidden" value="<?=$VEHICULE_TRACK?>" id="VEHICULE_TRACK">
+					<?php
+					if(!empty($COORD_TRACK))
+					{
+						?>
+						<input type="hidden" value="<?=$COORD_TRACK['latitude'].','.$COORD_TRACK['longitude']?>" id="COORD_TRACK">
+						<?php
+					}
+					?>
 
 				</div>
 				<?php
@@ -771,6 +779,7 @@
           		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
           		var VEHICULE_ID = $('#VEHICULE_ID').val();
           		var VEHICULE_TRACK = $('#VEHICULE_TRACK').val();
+          		var COORD_TRACK = $('#COORD_TRACK').val();
 
           		$.ajax({
           			url : "<?=base_url()?>centre_situation/Centre_situation/getmap/",
@@ -783,6 +792,7 @@
           				VEHICULE_ID:VEHICULE_ID,
           				id:id,
           				VEHICULE_TRACK:VEHICULE_TRACK,
+          				COORD_TRACK:COORD_TRACK,
           			},
 
           			success:function(data) {
