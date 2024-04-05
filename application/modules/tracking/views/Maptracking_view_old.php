@@ -416,120 +416,113 @@ z-index: 100;
   // https://en.wikipedia.org/wiki/Transpeninsular_Line
       const transpeninsularLine = {
         type: "Feature",
+        properties: {
+          stroke: "#555555",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
         geometry: {
           type: "LineString",
-          properties: {},
           coordinates: [<?php echo $track; ?>]
         }
       };
-      
-
-      map_map.addSource('LineString', {
-        'type': 'geojson',
-        'data': transpeninsularLine
+      map_map.addSource("tp-line", {
+        type: "geojson",
+        data: transpeninsularLine,
+    // Line metrics is required to use the 'line-progress' property
+        lineMetrics: true
       });
+
+
       map_map.addLayer({
-        'id': 'LineString',
-        'type': 'line',
-        'source': 'LineString',
-        'layout': {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        'paint': {
-          'line-color': '#310bf6',
-          'line-width': 4,
-          'line-opacity': 0.7
+        id: "tp-line-line",
+        type: "line",
+        source: "tp-line",
+        paint: {
+          "line-color": "rgba(0,0,0,0)",
+          "line-width": 4,
+          "line-opacity": 0.7
         }
       });
-
-      ;
-
+  map_map.setFog({}); // Set the default atmosphere style
 
 
 
-    });
+  let startTime;
+  const duration = 2000;
 
+  const frame = (time) => {
+    if (!startTime) startTime = time;
+    const animationPhase = (time - startTime) / duration;
+    const animationPhaseDisplay = animationPhase.toFixed(2);
+    $("#animation-phase").text(animationPhaseDisplay);
+
+    // Reduce the visible length of the line by using a line-gradient to cutoff the line
+    // animationPhase is a value between 0 and 1 that reprents the progress of the animation
+    map_map.setPaintProperty("tp-line-line", "line-gradient", [
+      "step",
+      ["line-progress"],
+      "blue",
+      
+      animationPhase,
+      "rgba(0, 0, 0, 0)"
+      ]);
+
+    if (animationPhase > 1) {
+      return;
+    }
+    window.requestAnimationFrame(frame);
+  };
+
+  window.requestAnimationFrame(frame);
+
+  // repeat
+  setInterval(() => {
+    startTime = undefined;
+    window.requestAnimationFrame(frame);
+  }, duration + 7500);
+
+
+});
+
+    
     map_map.on('load', () => {
-     const geojsonexces = {
-      'type': 'FeatureCollection',
-      'features': [<?php echo $geojsonexces?>]
-    };
-    map_map.addSource('point', {
-      'type': 'geojson',
-      'data': geojsonexces
-    });
+      const geojsonexces = {
+        'type': 'FeatureCollection',
+        'features': [
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [<?php echo $vitesse_exces; ?>]
+          }
+        }
+        ]
+      };
 
-    map_map.addLayer({
-      'id': 'point',
-      'type': 'circle',
-      'source': 'point',
-      'paint': {
-        'circle-color': '#B42222',
-        'circle-radius': 6
-      }
-    });
+      map_map.addSource('point', {
+        'type': 'geojson',
+        'data': geojsonexces
+      });
 
-    // Create a popup, but don't add it to the map yet.
-    const popupup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false
-    });
+      var donn='<?= $mark_vprim ?>';
 
-    map_map.on('mouseenter', 'point', (e) => {
-            // Change the cursor style as a UI indicator.
-      map_map.getCanvas().style.cursor = 'pointer';
+      var donn=donn.split('@');
 
-            // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
+      for (var i = 0; i<(donn.length) - 1; i++) {
 
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
+        var index=donn[i].split('<>');
 
-            // Populate the popup and set its coordinates
-            // based on the feature found.
-      popupup.setLngLat(coordinates).setHTML(description).addTo(map_map);
-    });
-
-    map_map.on('mouseleave', 'point', () => {
-      map_map.getCanvas().style.cursor = '';
-      popupup.remove();
-    });
-
-      // map_map.on('click', function (e) {
-      //       var features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
-
-      //       if (!features.length) {
-      //         return;
-      //       }
-
-      //       var feature = features[0];
-      //       getReverseGeocode(feature);
-
-
-      //     });
-    var donn='<?= $mark_vprim ?>';
-
-    var donn=donn.split('@');
-
-    for (var i = 0; i<(donn.length) - 1; i++) {
-
-      var index=donn[i].split('<>');
-      var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
-      fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-        adress = data.features[0].place_name;
-        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-          '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +''
-          );
-        var couleur='';
-        if(index[4]==0){
+        var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
+        fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          adress = data.features[0].place_name;
+          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +''
+            );
+          var couleur='';
+          if(index[4]==0){
               couleur='#0000FF';//bleu
 
               const marker2 = new FontawesomeMarker({
@@ -558,48 +551,48 @@ z-index: 100;
 
 
           })
-      .catch(error => {
-        console.log('Une erreur s\'est produite :', error);
-      });
-
-
-      if(index[4]!=0){
-
-        var apiUrl_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
-
-        fetch(apiUrl_url)
-        .then(response => response.json())
-        .then(data => {
-          adresse = data.features[0].place_name;
-          const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
-            );
-
-          const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
-          .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
-
-          map_map.flyTo({
-            center: [index[0], index[1]],
-            speed: 0.5
-          });
-
-
-        })
         .catch(error => {
           console.log('Une erreur s\'est produite :', error);
         });
 
 
+        if(index[4]!=0){
+
+          var apiUrl_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
+
+          fetch(apiUrl_url)
+          .then(response => response.json())
+          .then(data => {
+            adresse = data.features[0].place_name;
+            const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
+              );
+
+            const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
+            .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
+
+            map_map.flyTo({
+              center: [index[0], index[1]],
+              speed: 0.5
+            });
+
+
+          })
+          .catch(error => {
+            console.log('Une erreur s\'est produite :', error);
+          });
+
+
+        }
+
+
       }
 
 
-    }
 
 
-    
+
+    });
 
 
-  });
-
-
-</script>
+  </script>
