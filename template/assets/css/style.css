@@ -402,6 +402,9 @@ border: 1px solid rgba(255, 255, 255, 0.3);
 /*  background-color: #fff;*/
  /* background-color: cadetblue;*/
 
+ background-color: rgba(95, 158, 160,0.3);
+ border-radius: 5px;
+
   color: #4154f1;
   border-bottom: 2px solid rgb(128, 128, 128, 1.9);
 }

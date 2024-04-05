@@ -29,6 +29,13 @@
 		{
 			$VEHICULE_TRACK = $this->uri->segment(4);
 
+			$COORD_TRACK = "";
+
+			if(!empty($VEHICULE_TRACK))
+			{
+				$COORD_TRACK = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid WHERE vehicule.VEHICULE_ID = '.$VEHICULE_TRACK.' ORDER BY id DESC LIMIT 1');
+			}
+
 			$critere = ' ';
 
 			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
@@ -74,6 +81,7 @@
 			$data['proprio'] = $proprio;
 			$data['vehicule'] = $vehicule;
 			$data['VEHICULE_TRACK'] = $VEHICULE_TRACK;
+			$data['COORD_TRACK'] = $COORD_TRACK;
 
 			$this->load->view('Centre_situation_View',$data);
 		}
@@ -193,9 +201,11 @@
 			{
 				foreach ($get_vihicule as $key) {
 
-					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,tracking_data.accident FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE  JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" '.$critere_vehicule_track.' ORDER BY id DESC LIMIT 1');
+					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID ,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.CHAUFFEUR_ID, tracking_data.accident FROM tracking_data JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE  JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" '.$critere_vehicule_track.' ORDER BY id DESC LIMIT 1');
 
 					//print_r($track_data['VEHICULE_ID']);die();
+
+					//echo "text";
 
 					if(!empty($track_data))
 					{
@@ -347,7 +357,10 @@
 						$IS_ACTIVE = $track_data['IS_ACTIVE']; 
 						$accident = $track_data['accident'];
 
-						$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>'.$accident.'<>'.$VEHICULE_TRACK.'<>@';
+						$PROPRIETAIRE_ID = md5($track_data['PROPRIETAIRE_ID']);
+						$CHAUFFEUR_ID = md5($track_data['CHAUFFEUR_ID']);
+
+						$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>'.$accident.'<>'.$VEHICULE_TRACK.'<>'.$PROPRIETAIRE_ID.'<>'.$CHAUFFEUR_ID.'<>@';
 					}
 				}
 			}
