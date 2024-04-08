@@ -590,7 +590,7 @@ class Dashboard extends CI_Controller
 
 
 
-					//delimitation : geofencing
+					//carte
 					$my_selectprovinces = $this->getBindParms('chauffeur_vehicule.CHAUFF_ZONE_AFFECTATION_ID,PROVINCE_ID,PROVINCE_NAME,OBJECTIF,PROVINCE_LATITUDE,PROVINCE_LONGITUDE,POLY,COLOR', 'chauffeur_vehicule join provinces on provinces.PROVINCE_ID=chauffeur_vehicule.CHAUFF_ZONE_AFFECTATION_ID ', '1 AND md5(CODE) ="'.$CODE.'" ' , 'PROVINCE_ID ASC');
 					$my_selectprovinces=str_replace('\"', '"', $my_selectprovinces);
 					$my_selectprovinces=str_replace('\n', '', $my_selectprovinces);
@@ -600,9 +600,16 @@ class Dashboard extends CI_Controller
 					if(!empty($provinces_delim) && !empty($provinces_delim['CHAUFF_ZONE_AFFECTATION_ID'])){
 						$limites.=$provinces_delim['POLY'];
 					}
+					// print_r($limites);die();
 					$i=1;
+					// foreach ($provinces as $key_provinces) {
+					// 	$polyg = $key_provinces['POLY'];
+					// 	$prov_name = $key_provinces['PROVINCE_NAME'];
+
+					// }
 					
-					//carte
+
+
 					$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
 					$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
 					$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
@@ -676,6 +683,7 @@ class Dashboard extends CI_Controller
 
 								}
 							// $vitesse_exces.='@';
+
 							// $vitesse_exces = str_replace(',@', "", $vitesse_exces);
 							}else{
 
@@ -744,7 +752,7 @@ class Dashboard extends CI_Controller
 										"map_filtre"=>$map_filtre,
 										"score_finale"=>$point_final,
 										"vitesse_max"=>$vitesse_max['max_vitesse'],
-										// "ligne_arret"=>$ligne_arret
+						// "ligne_arret"=>$ligne_arret
 
 
 									);
@@ -753,7 +761,7 @@ class Dashboard extends CI_Controller
 
 								}
 
-								//Fonction pour voir la position du vehicule
+					//Fonction pour voir la position de la voiture
 								function position_voiture($CODE){
 									$fontinfo = $this->input->post('rtoggle');
 									$info = '';
