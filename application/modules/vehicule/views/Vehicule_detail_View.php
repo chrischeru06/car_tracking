@@ -30,7 +30,7 @@
       text-align: center;
     }
     #tracking{
-      font-size: 40px;
+      font-size: 25px;
       color: gray;
     }
     #tracking:hover{
@@ -210,44 +210,49 @@
                   <tr>
 
                     <td>
-                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['CODE']?></label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-barcode"> Code</i>
+                      <i class="text-muted small pt-2 ps-1 fa fa-code"> Code</i><br>
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['CODE']?></label>
                     </td>
 
                     <td >
-                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['DESC_MARQUE']?></label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-bookmark-o"> Marque</i>
+                       <i class="text-muted small pt-2 ps-1 fa fa-bookmark-o"> Marque</i><br>
+                       <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['DESC_MARQUE']?></label>
                     </td>
 
                     <td >
-                      <label class="text-muted small pt-2 dash_v"><?= $infos_vehicule['DESC_MODELE']?></label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-bolt"> Modèle</i>
+                      <i class="text-muted small pt-2 ps-1 fa fa-bolt"> Modèle</i><br>
+                      <label class="text-muted small pt-2 dash_v"><?= $infos_vehicule['DESC_MODELE']?></label>
                     </td>
 
                     <td >
-                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['COULEUR']?></label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-circle"> Couleur</i>
+                      <i class="text-muted small pt-2 ps-1 fa fa-circle"> Couleur</i><br>
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['COULEUR']?></label>
                     </td>
 
                     <td >
-                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['KILOMETRAGE']?> Litres / km</label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-beer"> Consommation</i>
+                      <i class="text-muted small pt-2 ps-1 fa fa-beer"> Consommation</i><br>
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['KILOMETRAGE']?> Litres / km</label>
                     </td>
 
                   </tr>
 
                   <tr>
                     <td >
+                      <font>
+                        <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['photo_pro'])?>" style="width: 20px;height: 20px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                      <i class="text-muted small pt-2 ps-1 fa fa-"> Propriétaire</i><br>
+                      </font>
                       <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
-                      <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['proprio_desc']?></font></a><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-user"> Propriétaire</i>
-                    
+                      <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['proprio_desc']?></font></a>
                     </td>
 
                     <td >
+                      <font>
+                      <img src="<?=base_url('/upload/chauffeur/'.$infos_vehicule['photo_chauf'])?>" style="width: 20px;height: 20px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                      <i class="text-muted small pt-2 ps-1 fa fa-"> Chauffeur</i><br>
+                      </font>
                       <a href="#" class="dash" title="Cliquer pour visualiser le détail">
-                      <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['chauffeur_desc']?></font></a><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-user-md"> Chauffeur</i>
+                      <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['chauffeur_desc']?></font></a>
                     
                     </td>
 
@@ -257,15 +262,17 @@
                       if($infos_vehicule['IS_ACTIVE'] == 1)
                       {
                         ?>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check">Actif</label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-cog"> Statut</i>
+                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> Statut</i><br>
+                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check">Actif</label>
+                      
                           <?php
                       }
                       else
                       {
                         ?>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close">Désactif</label><br>
-                      <i class="text-small small pt-2 ps-1 fa fa-close"> Statut</i>
+                        <i class="text-small small pt-2 ps-1 fa fa-close"> Statut</i><br>
+                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close">Désactif</label>
+                      
                           <?php
                       }
                       ?> 
@@ -278,15 +285,17 @@
                       if($infos_vehicule['DATE_FIN_ASSURANCE'] > date('Y-m-d'))
                       {
                         ?>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check">Valide</label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-retweet"> Assurance</i>
+                        <i class="text-muted small pt-2 ps-1 fa fa-retweet"> Assurance</i><br>
+                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check">Valide</label>
+                      
                           <?php
                       }
                       else if($infos_vehicule['DATE_FIN_ASSURANCE'] < date('Y-m-d'))
                       {
                         ?>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close">Expirée</label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-retweet"> Assurance</i>
+                        <i class="text-muted small pt-2 ps-1 fa fa-retweet"> Assurance</i><br>
+                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close">Expirée</label>
+                      
                           <?php
                       }
                       ?> 
@@ -298,15 +307,17 @@
                       if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] > date('Y-m-d'))
                       {
                         ?>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check">Valide</label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> Contrôle technique</i>
+                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> Contrôle technique</i><br>
+                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check">Valide</label>
+                      
                           <?php
                       }
                       else if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] < date('Y-m-d'))
                       {
                         ?>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close">Expirée</label><br>
-                      <i class="text-small small pt-2 ps-1 fa fa-tripadvisor"> Contrôle technique</i>
+                        <i class="text-small small pt-2 ps-1 fa fa-tripadvisor"> Contrôle technique</i><br>
+                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close">Expirée</label>
+                      
                           <?php
                       }
                       ?> 
@@ -314,7 +325,7 @@
 
                   </tr>
                 </table>
-                <center><a href="<?=base_url('centre_situation/Centre_situation/index/').$infos_vehicule['VEHICULE_ID']?>" id="tracking"> <i class="small pt-2 ps-1 fa fa-map-marker"> Tracking</i></a></center>
+                <center><a href="<?=base_url('centre_situation/Centre_situation/index/').$infos_vehicule['VEHICULE_ID']?>" id="tracking"> <i class="small pt-2 ps-1 fa fa-map-marker"> Emplacement du véhicule</i></a></center>
                 <input type="hidden" value="<?=$infos_vehicule['VEHICULE_ID']?>" id="VEHICULE_TRACK">
                 <input type="hidden" value="<?=$infos_vehicule['latitude'].','.$infos_vehicule['longitude']?>" id="COORD_TRACK">
               </div>
@@ -339,8 +350,37 @@
                   <table class="table table-borderless">
                   <tr>
                     <td>
-                      <font class="text-muted small">Du&nbsp;&nbsp;&nbsp;</font> <label class="text-muted small pt-2 ps-1 dash_v"> <?= date('d-m-Y',strtotime($infos_vehicule['DATE_DEBUT_ASSURANCE']))?> </label><font class="text-muted small">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;&nbsp;</font><label class="text-muted small pt-2 ps-1 dash_v">  <?= date('d-m-Y',strtotime($infos_vehicule['DATE_FIN_ASSURANCE']))?></label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-calendar-o"> Echéance</i>
+                      <i class="text-muted small pt-2 ps-1 fa fa-picture-o"> Photo</i><br>
+
+                      <img src="<?=base_url('/upload/photo_vehicule/'.$infos_vehicule['FILE_ASSURANCE'])?>" style="width: 50px;height: 50px;border-radius: 5px;margin-top: -5px;" class="zoomable-image">
+                    </td>
+
+                    <td >
+                      
+                      <?php
+
+                      if($infos_vehicule['DATE_FIN_ASSURANCE'] > date('Y-m-d'))
+                      {
+                        ?>
+                        <i class="text-muted small pt-2 ps-1 fa fa-history"> Etat</i><br>
+                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check">Valide</label>
+                      
+                          <?php
+                      }
+                      else if($infos_vehicule['DATE_FIN_ASSURANCE'] < date('Y-m-d'))
+                      {
+                        ?>
+                        <i class="text-muted small pt-2 ps-1 fa fa-history"> Etat</i><br>
+                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close">Expirée</label>
+                      
+                          <?php
+                      }
+                      ?> 
+                    </td>
+
+                    <td>
+                      <i class="text-muted small pt-2 ps-1 fa fa-calendar-o"> Echéance</i><br>
+                      <font class="text-muted small">Du&nbsp;&nbsp;&nbsp;</font> <label class="text-muted small pt-2 ps-1 dash_v"> <?= date('d-m-Y',strtotime($infos_vehicule['DATE_DEBUT_ASSURANCE']))?> </label><font class="text-muted small">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;&nbsp;</font><label class="text-muted small pt-2 ps-1 dash_v">  <?= date('d-m-Y',strtotime($infos_vehicule['DATE_FIN_ASSURANCE']))?></label>
                     </td>
                   </tr>
                 </table>
@@ -353,9 +393,39 @@
                 <div class="col-md-12">
                   <table class="table table-borderless">
                   <tr>
+
+                     <td>
+                      <i class="text-muted small pt-2 ps-1 fa fa-picture-o"> Photo</i><br>
+
+                      <img src="<?=base_url('/upload/photo_vehicule/'.$infos_vehicule['FILE_CONTRO_TECHNIQUE'])?>" style="width: 50px;height: 50px;border-radius: 5px;margin-top: -5px;" class="zoomable-image">
+                    </td>
+
+                    <td >
+                      
+                      <?php
+
+                      if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] > date('Y-m-d'))
+                      {
+                        ?>
+                        <i class="text-muted small pt-2 ps-1 fa fa-history"> Etat</i><br>
+                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check">Valide</label>
+                      
+                          <?php
+                      }
+                      else if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] < date('Y-m-d'))
+                      {
+                        ?>
+                        <i class="text-muted small pt-2 ps-1 fa fa-history"> Etat</i><br>
+                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close">Expirée</label>
+                      
+                          <?php
+                      }
+                      ?> 
+                    </td>
+
                     <td>
-                      <font class="text-muted small">Du&nbsp;&nbsp;&nbsp;</font> <label class="text-muted small pt-2 ps-1 dash_v"> <?= date('d-m-Y',strtotime($infos_vehicule['DATE_DEBUT_CONTROTECHNIK']))?> </label><font class="text-muted small">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;&nbsp;</font><label class="text-muted small pt-2 ps-1 dash_v">  <?= date('d-m-Y',strtotime($infos_vehicule['DATE_FIN_CONTROTECHNIK']))?></label><br>
-                      <i class="text-muted small pt-2 ps-1 fa fa-calendar-o"> Echéance</i>
+                      <i class="text-muted small pt-2 ps-1 fa fa-calendar-o"> Echéance</i><br>
+                      <font class="text-muted small">Du&nbsp;&nbsp;&nbsp;</font> <label class="text-muted small pt-2 ps-1 dash_v"> <?= date('d-m-Y',strtotime($infos_vehicule['DATE_DEBUT_CONTROTECHNIK']))?> </label><font class="text-muted small">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;&nbsp;</font><label class="text-muted small pt-2 ps-1 dash_v">  <?= date('d-m-Y',strtotime($infos_vehicule['DATE_FIN_CONTROTECHNIK']))?></label>
                     </td>
                   </tr>
                 </table>
