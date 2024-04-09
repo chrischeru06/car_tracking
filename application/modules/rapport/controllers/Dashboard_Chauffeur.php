@@ -276,11 +276,13 @@ class Dashboard_Chauffeur extends CI_Controller
                           }]
                           });
                           </script>";
+
+                          
     //rapport2:chauffeur affecté vs non affectés
-     $chauffeur_statut=$this->Model->getRequete('SELECT chauffeur.STATUT_VEHICULE as ID, if(chauffeur.STATUT_VEHICULE=1,"Chaufeur affecté","Chaufeur non affecté")as statut ,COUNT(`CHAUFFEUR_ID`) as NBR FROM `chauffeur` WHERE 1 GROUP by ID,statut ');
+     $chauffeur_affectation=$this->Model->getRequete('SELECT chauffeur.STATUT_VEHICULE as ID, if(chauffeur.STATUT_VEHICULE=1,"Chaufeur affecté","Chaufeur non affecté")as statut ,COUNT(`CHAUFFEUR_ID`) as NBR FROM `chauffeur` WHERE 1 GROUP by ID,statut ');
     $donnees2="";
     $total2=0;
-    foreach ($chauffeur_statut as  $value) 
+    foreach ($chauffeur_affectation as  $value) 
     {
       $color=$this->getcolor();
       $total2+=$value['NBR'];
