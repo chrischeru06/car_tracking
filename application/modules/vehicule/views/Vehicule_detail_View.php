@@ -282,7 +282,7 @@
                       
                       <?php
 
-                      if($infos_vehicule['DATE_FIN_ASSURANCE'] > date('Y-m-d'))
+                      if($infos_vehicule['DATE_FIN_ASSURANCE'] >= date('Y-m-d'))
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-retweet"> Assurance</i><br>
@@ -304,7 +304,7 @@
                     <td>
 
                      <?php 
-                      if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] > date('Y-m-d'))
+                      if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] >= date('Y-m-d'))
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> Contrôle technique</i><br>
