@@ -693,7 +693,7 @@ class Dashboard_General extends CI_Controller
    //rapport3:vehicule en mouvement vs stationnement
    // $vehicule_mouvet_stationnema=$this->Model->getRequete('SELECT tracking_data.mouvement as ID, if(tracking_data.mouvement=1,"Véhicule en mouvement","Véhicule en stationnement")as statut ,COUNT(tracking_data.device_uid) as NBR FROM `tracking_data` JOIN vehicule ON  tracking_data.device_uid=vehicule.CODE  WHERE 1 GROUP by tracking_data.mouvement,statut  ');
 
-     $vehicule_mouvet_stationnema=$this->Model->getRequete("SELECT id,vehicule.CODE,mouv as ID ,if(mouv=1,'Véhicule en mouvement','Véhicule en stationnement') as statut,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by  mouv,if(mouv=1,'Véhicule en mouvement','Véhicule en stationnement')");
+     $vehicule_mouvet_stationnema=$this->Model->getRequete("SELECT mouv as ID ,if(mouv=1,'Véhicule en mouvement','Véhicule en stationnement') as statut,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by  mouv,if(mouv=1,'Véhicule en mouvement','Véhicule en stationnement')");
    
     $donnees3="";
     foreach ($vehicule_mouvet_stationnema as  $value) 
@@ -1096,16 +1096,21 @@ class Dashboard_General extends CI_Controller
                           }]
                           });
                           </script>";
+
+    $chauffeur_affectation=$this->Model->getRequete('SELECT chauffeur.STATUT_VEHICULE as ID, if(chauffeur.STATUT_VEHICULE=1,"Chaufeur affecté","Chaufeur non affecté")as statut_aff ,COUNT(`CHAUFFEUR_ID`) as NBR FROM `chauffeur` WHERE 1 GROUP by ID,statut_aff ');
+
     $donnees6="";
+
     $total6=0;
-    foreach ($chauffeur_statut as  $value) 
+    foreach ($chauffeur_affectation as  $value) 
     {
       $color=$this->getcolor();
       $total6+=$value['NBR'];
       $key_id6=($value['ID']>0) ? $value['ID'] : "0" ;
       $somme6=($value['NBR']>0) ? $value['NBR'] : "0" ;
-      $donnees6.="{name:'".$value['statut']." :". $somme6."', y:". $somme6.",color:'".$color."',key6:'". $key_id6."'},";
+      $donnees6.="{name:'".$value['statut_aff']." :". $somme6."', y:". $somme6.",color:'".$color."',key6:'". $key_id6."'},";
     }
+    
     $rapp6="<script type=\"text/javascript\">
     Highcharts.chart('container6', 
     {

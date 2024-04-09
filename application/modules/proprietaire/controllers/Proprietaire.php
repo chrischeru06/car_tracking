@@ -138,7 +138,7 @@ class Proprietaire extends CI_Controller
 					$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 				}if(empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD) )
 				{
-				 $this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 				}
 
 				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
@@ -777,7 +777,7 @@ class Proprietaire extends CI_Controller
 			}
 			
 			$sub_array[]=$row->DESC_TYPE_PROPRIETAIRE;
-               
+
 			
 			if (!empty($row->EMAIL)) 
 			{
@@ -823,6 +823,16 @@ class Proprietaire extends CI_Controller
 				';
 			}
 
+			// $sub_array[]='<label class="text-center btn btn-outline-primary rounded-pill">'.$NOMBRE['nombre'].'</label>';
+
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+			$my_select = $this->getBindParms('COUNT(VEHICULE_ID) as nombre', 'proprietaire LEFT JOIN vehicule ON vehicule.PROPRIETAIRE_ID = proprietaire.PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID ='.$row->PROPRIETAIRE_ID.'', 'proprietaire.PROPRIETAIRE_ID ASC');
+			$NOMBRE = $this->ModelPs->getRequeteOne($proce_requete, $my_select);
+
+			if(!empty($NOMBRE))
+			{
+				$sub_array[]="<a class='btn btn-outline-primary rounded-pill' href='" . base_url('proprietaire/Proprietaire/Detail_vehicule/'.md5($row->PROPRIETAIRE_ID)). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a>";
+			}
 			$action = '<div class="dropdown text-center" style="color:#fff;">
 			<a class=" btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown"><i class="bi bi-three-dots h5" style="color:blue;"></i>  <span class="caret"></span>
 			</a>
@@ -986,6 +996,7 @@ class Proprietaire extends CI_Controller
 
 	//function pour l'affichage de la page de detail
 	function Detail(){
+
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
 		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO ,proprietaire.FILE_NIF,proprietaire.FILE_RC,proprietaire.RC,categories.DESC_CATEGORIE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID left join  categories on proprietaire.CATEGORIE_ID=categories.CATEGORIE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
 
@@ -1007,6 +1018,41 @@ class Proprietaire extends CI_Controller
 		$data['PROPRIETAIRE_ID'] = $data['proprietaire']['proprietaire_ID'];
 		// print_r($data['proprietaire_ID']);die();
 		$data['dte'] =date("d-m-Y H:i:s", strtotime($proprietaire['DATE_INSERTION']));
+
+		$VEHICULE_PRO = " ";
+		$data['VEHICULE_PRO'] = $VEHICULE_PRO;
+
+		$this->load->view('Detail_proprietaire_view',$data);
+
+	}
+
+
+	//function pour l'affichage de la page de detail avec les vehicules
+	function Detail_vehicule($VEHICULE_PRO = " "){
+		
+		//$PROPRIETAIRE_ID=$this->uri->segment(4);
+		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO ,proprietaire.FILE_NIF,proprietaire.FILE_RC,proprietaire.RC,categories.DESC_CATEGORIE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID left join  categories on proprietaire.CATEGORIE_ID=categories.CATEGORIE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$VEHICULE_PRO."'");
+
+
+		$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$VEHICULE_PRO."'");
+		if ($proprietaire['TYPE_PROPRIETAIRE_ID']==1) 
+		{
+			
+			$label_cni='NIF';
+		}elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {
+			$label_cni='CNI / Numéro passport';
+			
+		}
+
+		$data['proprietaire']=$proprietaire;
+		$data['label_cni']=$label_cni;
+
+		$data['desactive']=$desactive;
+		$data['PROPRIETAIRE_ID'] = $data['proprietaire']['proprietaire_ID'];
+		// print_r($data['proprietaire_ID']);die();
+		$data['dte'] =date("d-m-Y H:i:s", strtotime($proprietaire['DATE_INSERTION']));
+
+		$data['VEHICULE_PRO'] = $VEHICULE_PRO;
 
 		$this->load->view('Detail_proprietaire_view',$data);
 
@@ -1136,27 +1182,27 @@ class Proprietaire extends CI_Controller
 	{
 		$USER_ID=$this->session->userdata('USER_ID');
 
-      
+
 		if($status==2)
 		{
            //pour desactivation
-		  $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>2));
+			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>2));
 
-		  $ID_MOTIF_des = $this->input->post('ID_MOTIF_des');
+			$ID_MOTIF_des = $this->input->post('ID_MOTIF_des');
 
-		   $data = array('ID_MOTIF'=>$ID_MOTIF_des,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>2);
+			$data = array('ID_MOTIF'=>$ID_MOTIF_des,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>2);
 
-		   $result = $this->Model->create('historique_proprietaire',$data);
+			$result = $this->Model->create('historique_proprietaire',$data);
 
 		}else if($status==1)
 		{
 		//pour activation
-		 $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>1));
+			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),array('IS_ACTIVE'=>1));
 
-	     $ID_MOTIF = $this->input->post('ID_MOTIF');
-		  $data = array('ID_MOTIF'=>$ID_MOTIF,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>1);
+			$ID_MOTIF = $this->input->post('ID_MOTIF');
+			$data = array('ID_MOTIF'=>$ID_MOTIF,'USER_ID'=>$USER_ID,'IS_ACTIVE'=>1);
 
-		  $result = $this->Model->create('historique_proprietaire',$data);
+			$result = $this->Model->create('historique_proprietaire',$data);
 
 		}
 

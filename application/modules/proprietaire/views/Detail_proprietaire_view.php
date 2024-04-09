@@ -39,7 +39,7 @@
          <!--  <li class="breadcrumb-item"><a href="index.html">Détail</a></li>  -->
        <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Détail</a></li>
+          <li class="breadcrumb-item"><i class="fa fa-dashboard"> </i> <a href="index.html"> Détail</a></li>
       
         </ol>
       </nav>
@@ -112,11 +112,11 @@
                   if ($proprietaire['TYPE_PROPRIETAIRE_ID']==1) 
                     {?>
                       <li class="nav-item">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#info_generales">Informations générales</button>
+                        <button class="nav-link <?php if($VEHICULE_PRO == " "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#info_generales">Informations générales</button>
                       </li>
 
                       <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules</button>
+                        <button class="nav-link <?php if($VEHICULE_PRO !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules</button>
                       </li>
 
                       <li class="nav-item">
@@ -127,11 +127,11 @@
                   {
                     ?>
                     <li class="nav-item">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#info_generales">Informations générales</button>
+                        <button class="nav-link <?php if($VEHICULE_PRO ==" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#info_generales">Informations générales</button>
                       </li>
 
                       <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules</button>
+                        <button class="nav-link <?php if($VEHICULE_PRO !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules</button>
                       </li>
                     <?php
 
@@ -144,7 +144,7 @@
               </ul>
               <div class="tab-content pt-2">
 
-                <div class="tab-pane fade show active profile-overview" id="info_generales">
+                <div class="tab-pane fade  <?php if($VEHICULE_PRO == " "){echo " show active";}else{echo "";}?> profile-overview" id="info_generales">
 
                   <h5 class="card-title">A propos</h5>
                   <?php 
@@ -324,7 +324,7 @@
 
 
 
-                <div class="tab-pane fade pt-3" id="voitures">
+                <div class="tab-pane fade <?php if($VEHICULE_PRO != " "){echo " show active";}else{echo "";}?> pt-3" id="voitures">
 
                   <!-- <h5 class="card-title">A propos</h5> -->
                   <input type="hidden" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" value="<?=$PROPRIETAIRE_ID?>">
