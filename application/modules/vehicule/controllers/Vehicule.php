@@ -43,7 +43,7 @@
 
 			// $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT,`LOGO` FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
 
-			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -100,16 +100,16 @@
 				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
 				if($row->STATUT_VEH_AJOUT==2){
-				$sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
-				<span class="badge badge-pill badge-warning" ></span>';
-			}elseif ($row->STATUT_VEH_AJOUT==1) 
-			{
-				$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: orange;"></i><font style="font-size:13px;font-weight: bold;color: orange;">Véhicule en attente</font><span class="badge badge-pill badge-warning" ></span>';
+					$sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
+					<span class="badge badge-pill badge-warning" ></span>';
+				}elseif ($row->STATUT_VEH_AJOUT==1) 
+				{
+					$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: orange;"></i><font style="font-size:13px;font-weight: bold;color: orange;">Véhicule en attente</font><span class="badge badge-pill badge-warning" ></span>';
 
-			}else
-			{
-				$sub_array[]='<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: red;">Véhicule refusé</font><span class="badge badge-pill badge-warning" ></span>';
-			}
+				}else
+				{
+					$sub_array[]='<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: red;"></i><font style="font-size:13px;font-weight: bold;color: red;">Véhicule refusé</font><span class="badge badge-pill badge-warning" ></span>';
+				}
 
 				if($row->IS_ACTIVE==1){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
@@ -117,7 +117,7 @@
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
 					<table>
-					<td><label class="text-primary">Activé</label></td>
+					<td><label class="text-primary small">Activé</label></td>
 					<td><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked>
 					<span class="slider round"></span>
@@ -135,7 +135,7 @@
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
 					<table>
-					<td><label class="text-danger">Désactivé</label></td>
+					<td><label class="text-danger small">Désactivé</label></td>
 					<td><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_active(' . $row->VEHICULE_ID . ')">
 					<span class="slider round"></span>
@@ -153,13 +153,37 @@
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu dropdown-menu-right">
 				';
+
+
+				if($row->DATE_FIN_ASSURANCE >= date('Y-m-d'))
+				{
+					$sub_array[] = '<i class="fa fa-check text-success small"></i><font class="text-success small"> Valide</font>';
+				}
+				else
+				{
+					$sub_array[] = '<i class="fa fa-close text-danger  small"></i><font class="text-danger small"> Expirée</font>';
+
+					$option.='<li style="margin:0px;cursor:pointer;"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td><a class="text-dark" onclick="assure_controle('.$row->VEHICULE_ID.',1)">Renouveler l\'assurance</a></td></tr></table></li>';
+				}
+				
+				if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
+				{
+					$sub_array[] = '<i class="fa fa-check text-success small"></i><font class="text-success small"> Valide</font>';
+				}
+				else
+				{
+					$sub_array[] = '<i class="fa fa-close text-danger small"></i><font class="text-danger small"> Expirée</font>';
+
+					$option.='<li style="margin:0px;cursor:pointer;"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td><a class="text-dark" onclick="assure_controle('.$row->VEHICULE_ID.',2)">Renouveler le contrôle technique</a></td></tr></table></li>';
+				}
+
+				
 				if ($row->STATUT_VEH_AJOUT==1)
 				{
-				 $option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><label class='text-dark'><i class='bi bi-pencil'></i>&nbsp;&nbsp;Modifier</label></a></li>";
+					$option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><label class='text-dark'><i class='bi bi-pencil'></i>&nbsp;&nbsp;Modifier</label></a></li>";
+				}
 
-                  $option.='<li><a class="btn-md" onclick="traiter_demande('.$row->VEHICULE_ID.','.$row->STATUT_VEH_AJOUT.')"><i class="bi bi-plus h5" ></i>&nbsp;Traiter&nbsp;la demande</a></li>';
-                   }
-                   
+
 				$option .="
 				</div>
 				<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."' style='border-radius:100px;'>
@@ -227,18 +251,18 @@
 				</tr>
 
 				<tr>
-					<td><strong>Documents</strong></td>
+				<td><strong>Documents</strong></td>
 				</tr>
 				<tr>
-				  <td><label class='fa fa-book'></label> ASSURANCE</td>
-				  <td><a href='#' data-toggle='modal' data-target='#info_documa" .$row->VEHICULE_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
-				  </td>
-			    </tr>
-			    <tr>
-				  <td><label class='fa fa-book'></label>CONTROLE TECHNIQUE</td>
-				  <td><a href='#' data-toggle='modal' data-target='#info_documa2" .$row->VEHICULE_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
-				  </td>
-			    </tr>
+				<td><label class='fa fa-book'></label> ASSURANCE</td>
+				<td><a href='#' data-toggle='modal' data-target='#info_documa" .$row->VEHICULE_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+				</td>
+				</tr>
+				<tr>
+				<td><label class='fa fa-book'></label>CONTROLE TECHNIQUE</td>
+				<td><a href='#' data-toggle='modal' data-target='#info_documa2" .$row->VEHICULE_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
+				</td>
+				</tr>
 
 				</table>
 
@@ -249,45 +273,45 @@
 				</div>
 				</div>
 
-				        <div class='modal fade' id='info_documa" .$row->VEHICULE_ID. "'>
-						<div class='modal-dialog'>
-						<div class='modal-content'>
-						<div class='modal-header' style='background:cadetblue;color:white;'>
-				        <h6 class='modal-title'>Assurance</h6>
-				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	   </div>
-						<div class='modal-body'>
-						<div class='scroller'>
-						<div class='table-responsive'>
+				<div class='modal fade' id='info_documa" .$row->VEHICULE_ID. "'>
+				<div class='modal-dialog'>
+				<div class='modal-content'>
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>Assurance</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+				<div class='scroller'>
+				<div class='table-responsive'>
 
-					       <img src = '".base_url('upload/photo_vehicule/'.$row->FILE_ASSURANCE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
-					       </div>
-					       </div>
-						</div>
-						</div>
-						</div>
-						</div>
+				<img src = '".base_url('upload/photo_vehicule/'.$row->FILE_ASSURANCE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>
 
-						<div class='modal fade' id='info_documa2" .$row->VEHICULE_ID. "'>
-						<div class='modal-dialog'>
-						<div class='modal-content'>
-						<div class='modal-header' style='background:cadetblue;color:white;'>
-				        <h6 class='modal-title'>Contrôle technique</h6>
-				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	   </div>
-						<div class='modal-body'>
-						<div class='scroller'>
-						<div class='table-responsive'>
+				<div class='modal fade' id='info_documa2" .$row->VEHICULE_ID. "'>
+				<div class='modal-dialog'>
+				<div class='modal-content'>
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>Contrôle technique</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+				<div class='scroller'>
+				<div class='table-responsive'>
 
-					       <img src = '".base_url('upload/photo_vehicule/'.$row->FILE_CONTRO_TECHNIQUE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
-					       </div>
-					       </div>
-						</div>
-						</div>
-						</div>
-						</div>
+				<img src = '".base_url('upload/photo_vehicule/'.$row->FILE_CONTRO_TECHNIQUE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>
 
-						";
+				";
 
 
 
@@ -297,126 +321,126 @@
 
 
 				
-                if ($row->TYPE_PROPRIETAIRE_ID==1)
-                {
-                	$option .="
-                	</div>
-                	<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:100px;'>
-                	<div class='modal-dialog modal-lg'>
-                	<div class='modal-content'>
+				if ($row->TYPE_PROPRIETAIRE_ID==1)
+				{
+					$option .="
+					</div>
+					<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:100px;'>
+					<div class='modal-dialog modal-lg'>
+					<div class='modal-content'>
 
-                	<div class='modal-header' style='background:cadetblue;color:white;'>
-                	<h5 class='modal-title'>Information du propriétaire</h5>
-                	<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
-                	</div>
-                	<div class='modal-body'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h5 class='modal-title'>Information du propriétaire</h5>
+					<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
 
-                	<h4 class=''></h4>
+					<h4 class=''></h4>
 
-                	<div class='row'>
+					<div class='row'>
 
-                	<div class='col-md-6'>
-                	<img src = '".base_url('upload/proprietaire/photopassport/'.$row->LOGO)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
-                	</div>
+					<div class='col-md-6'>
+					<img src = '".base_url('upload/proprietaire/photopassport/'.$row->LOGO)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
+					</div>
 
-                	<div class='col-md-6'>
+					<div class='col-md-6'>
 
-                	<h4></h4>
+					<h4></h4>
 
-                	<table class='table table-borderless'>
+					<table class='table table-borderless'>
 
-                	<tr>
-                	<td class='btn-sm'>Nom</td>
+					<tr>
+					<td class='btn-sm'>Nom</td>
 
-                	<th class='btn-sm'>".$row->NOM_PROPRIETAIRE."</th>
-                	</tr>
+					<th class='btn-sm'>".$row->NOM_PROPRIETAIRE."</th>
+					</tr>
 
-                	<tr>
-                	<td class='btn-sm'>Adresse</td>
+					<tr>
+					<td class='btn-sm'>Adresse</td>
 
-                	<th class='btn-sm'>".$row->ADRESSE."</th>
-                	</tr>
+					<th class='btn-sm'>".$row->ADRESSE."</th>
+					</tr>
 
-                	<tr class='btn-sm'>
-                	<td>Email</td>
+					<tr class='btn-sm'>
+					<td>Email</td>
 
-                	<th class='btn-sm'>".$row->EMAIL."</th>
-                	</tr>
+					<th class='btn-sm'>".$row->EMAIL."</th>
+					</tr>
 
-                	<tr>
-                	<td class='btn-sm'>Téléphone</td>
+					<tr>
+					<td class='btn-sm'>Téléphone</td>
 
-                	<td class='btn-sm'>".$row->TELEPHONE."</td>
-                	</tr>
+					<td class='btn-sm'>".$row->TELEPHONE."</td>
+					</tr>
 
-                	</table>
+					</table>
 
-                	</div>
-                	</div>
+					</div>
+					</div>
 
-                	</div>
-                	</div>
-                	</div>";
+					</div>
+					</div>
+					</div>";
 
-                }else
-                {
-                	$option .="
-                	</div>
-                	<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:100px;'>
-                	<div class='modal-dialog modal-lg'>
-                	<div class='modal-content'>
+				}else
+				{
+					$option .="
+					</div>
+					<div class='modal fade' id='proprio" .$row->VEHICULE_ID."' style='border-radius:100px;'>
+					<div class='modal-dialog modal-lg'>
+					<div class='modal-content'>
 
-                	<div class='modal-header' style='background:cadetblue;color:white;'>
-                	<h5 class='modal-title'>Information du propriétaire</h5>
-                	<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
-                	</div>
-                	<div class='modal-body'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h5 class='modal-title'>Information du propriétaire</h5>
+					<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
 
-                	<h4 class=''></h4>
+					<h4 class=''></h4>
 
-                	<div class='row'>
+					<div class='row'>
 
-                	<div class='col-md-6'>
-                	<img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
-                	</div>
+					<div class='col-md-6'>
+					<img src = '".base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT)."' height='100%'  width='100%'  style= 'border-radius:50%;'>
+					</div>
 
-                	<div class='col-md-6'>
+					<div class='col-md-6'>
 
-                	<h4></h4>
+					<h4></h4>
 
-                	<table class='table table-borderless'>
+					<table class='table table-borderless'>
 
-                	<tr>
-                	<td class='btn-sm'>Nom</td>
-                	<th class='btn-sm'>".$row->NOM_PROPRIETAIRE."</th>
-                	</tr>
+					<tr>
+					<td class='btn-sm'>Nom</td>
+					<th class='btn-sm'>".$row->NOM_PROPRIETAIRE."</th>
+					</tr>
 
-                	<tr>
-                	<td class='btn-sm'>Adresse</td>
+					<tr>
+					<td class='btn-sm'>Adresse</td>
 
-                	<th class='btn-sm'>".$row->ADRESSE."</th>
-                	</tr>
+					<th class='btn-sm'>".$row->ADRESSE."</th>
+					</tr>
 
-                	<tr class='btn-sm'>
-                	<td>Email</td>
+					<tr class='btn-sm'>
+					<td>Email</td>
 
-                	<th class='btn-sm'>".$row->EMAIL."</th>
-                	</tr>
+					<th class='btn-sm'>".$row->EMAIL."</th>
+					</tr>
 
-                	<tr>
-                	<td class='btn-sm'>Téléphone</td>
+					<tr>
+					<td class='btn-sm'>Téléphone</td>
 
-                	<td class='btn-sm'>".$row->TELEPHONE."</td>
-                	</tr>
+					<td class='btn-sm'>".$row->TELEPHONE."</td>
+					</tr>
 
-                	</table>
+					</table>
 
-                	</div>
-                	</div>
+					</div>
+					</div>
 
-                	</div>
-                	</div>
-                	</div>";
+					</div>
+					</div>
+					</div>";
 				}
 
 				$sub_array[]=$option;
@@ -431,56 +455,56 @@
 			echo json_encode($output);
 		}
 		
-    function get_all_statut()
-	{
-		$all_statut = $this->Model->getRequete("SELECT `TRAITEMENT_DEMANDE_ID`,`DESC_TRATDEMANDE` FROM `traitement_demande` WHERE 1");
-		$html='<option value="">--- Sélectionner ----</option>';
-		if(!empty($all_statut))
+		function get_all_statut()
 		{
-			foreach($all_statut as $key)
+			$all_statut = $this->Model->getRequete("SELECT `TRAITEMENT_DEMANDE_ID`,`DESC_TRATDEMANDE` FROM `traitement_demande` WHERE 1");
+			$html='<option value="">--- Sélectionner ----</option>';
+			if(!empty($all_statut))
 			{
-				$html.='<option value="'.$key['TRAITEMENT_DEMANDE_ID'].'">'.$key['DESC_TRATDEMANDE'].' </option>';
+				foreach($all_statut as $key)
+				{
+					$html.='<option value="'.$key['TRAITEMENT_DEMANDE_ID'].'">'.$key['DESC_TRATDEMANDE'].' </option>';
+				}
 			}
-		}
 
-	  
+
 		  // // $ouput= array(
          // //        'html'=>$html,
          // //        'html1'=>$html1,
 		 // );
-		echo json_encode($html);
-	}
+			echo json_encode($html);
+		}
 
-	function save_stat_vehicul()
-	{
+		function save_stat_vehicul()
+		{
 		// $statut=1 traitement avec succes;
 		// $statut=2:possedent une autre chauffeur;
 		// $statut=3: traitement echoue
-		$statut=3;
+			$statut=3;
 		// $CODE= $this->input->post('code_vehicule');
 
-		$STATUT_VEH_AJOUT = $this->input->post('STATUT_VEH_AJOUT');
+			$STATUT_VEH_AJOUT = $this->input->post('STATUT_VEH_AJOUT');
 
-		$VEHICULE_ID = $this->input->post('VEHICULE_ID');
-		$TRAITEMENT_DEMANDE_ID = $this->input->post('TRAITEMENT_DEMANDE_ID');
-		$COMMENTAIRE = $this->input->post('COMMENTAIRE');
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+			$TRAITEMENT_DEMANDE_ID = $this->input->post('TRAITEMENT_DEMANDE_ID');
+			$COMMENTAIRE = $this->input->post('COMMENTAIRE');
 
-		if ($STATUT_VEH_AJOUT==1) 
-		{
-		   $vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>2));
-		}else
-		{ 
-		  $vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>3)); 
+			if ($STATUT_VEH_AJOUT==1) 
+			{
+				$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>2));
+			}else
+			{ 
+				$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>3)); 
+			}
+			if($vehcul==true )
+			{
+				$statut=1;
+			}else
+			{
+				$statut=2;
+			}
+			echo json_encode($statut);
 		}
-		if($vehcul==true )
-		{
-		 $statut=1;
-		}else
-		{
-		  $statut=2;
-	   }
-		echo json_encode($statut);
-	}
 
 		//Fonction pour activer/desactiver un vehicule
 		function active_desactive($status,$VEHICULE_ID){
@@ -546,7 +570,7 @@
 				$modele = $this->getBindParms('ID_MODELE ,DESC_MODELE','vehicule_modele',' 1 ','DESC_MODELE ASC');
 				$modele = $this->ModelPs->getRequete($psgetrequete, $modele);
 				$usage = $this->getBindParms('USAGE_ID,USAGE_DESC','veh_usage',' 1 ','USAGE_DESC ASC');
-			  $usage = $this->ModelPs->getRequete($psgetrequete, $usage);
+				$usage = $this->ModelPs->getRequete($psgetrequete, $usage);
 
 
 				$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
@@ -636,10 +660,10 @@
 				$this->form_validation->set_rules('KILOMETRAGE','KILOMETRAGE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 				$this->form_validation->set_rules('USAGE_ID','USAGE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));$this->form_validation->set_rules('NUMERO_CHASSIS','NUMERO_CHASSIS','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));$this->form_validation->set_rules('ANNEE_FABRICATION','ANNEE_FABRICATION','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-                $this->form_validation->set_rules('DATE_DEBUT_CONTROTECHNIK','DATE_DEBUT_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-                $this->form_validation->set_rules('DATE_FIN_CONTROTECHNIK','DATE_FIN_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-                $this->form_validation->set_rules('DATE_DEBUT_ASSURANCE','DATE_DEBUT_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-                $this->form_validation->set_rules('DATE_FIN_ASSURANCE','DATE_FIN_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('DATE_DEBUT_CONTROTECHNIK','DATE_DEBUT_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('DATE_FIN_CONTROTECHNIK','DATE_FIN_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('DATE_DEBUT_ASSURANCE','DATE_DEBUT_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('DATE_FIN_ASSURANCE','DATE_FIN_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('PROPRIETAIRE_ID','PROPRIETAIRE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
@@ -678,10 +702,10 @@
 						'USAGE_ID'=>$this->input->post('USAGE_ID'),
 						'NUMERO_CHASSIS'=>$this->input->post('NUMERO_CHASSIS'),
 						'ANNEE_FABRICATION'=>$this->input->post('ANNEE_FABRICATION'),
-					   'DATE_DEBUT_ASSURANCE'=>$this->input->post('DATE_DEBUT_ASSURANCE'),
-					   	'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
-					   	'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
-					   	'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
+						'DATE_DEBUT_ASSURANCE'=>$this->input->post('DATE_DEBUT_ASSURANCE'),
+						'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
+						'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
+						'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
 						'FILE_ASSURANCE'=>$file_assurance,
 						'FILE_CONTRO_TECHNIQUE'=>$file_controtechnik,
 
@@ -725,10 +749,10 @@
 				$this->form_validation->set_rules('PROPRIETAIRE_ID','PROPRIETAIRE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 				$this->form_validation->set_rules('USAGE_ID','USAGE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));$this->form_validation->set_rules('NUMERO_CHASSIS','NUMERO_CHASSIS','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));$this->form_validation->set_rules('ANNEE_FABRICATION','ANNEE_FABRICATION','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
-                $this->form_validation->set_rules('DATE_DEBUT_CONTROTECHNIK','DATE_DEBUT_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-                $this->form_validation->set_rules('DATE_FIN_CONTROTECHNIK','DATE_FIN_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-                $this->form_validation->set_rules('DATE_DEBUT_ASSURANCE','DATE_DEBUT_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-                $this->form_validation->set_rules('DATE_FIN_ASSURANCE','DATE_FIN_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('DATE_DEBUT_CONTROTECHNIK','DATE_DEBUT_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('DATE_FIN_CONTROTECHNIK','DATE_FIN_CONTROTECHNIK','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('DATE_DEBUT_ASSURANCE','DATE_DEBUT_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('DATE_FIN_ASSURANCE','DATE_FIN_ASSURANCE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 
 				if($this->form_validation->run() == FALSE)
@@ -744,16 +768,16 @@
 					$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
 					$check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,"PLAQUE",PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and CODE='.$this->input->post('CODE').'','VEHICULE_ID ASC');
-				     $check_existe=str_replace('\"', '"', $check_existe);
-				     $check_existe=str_replace('\n', '', $check_existe);
-				     $check_existe=str_replace('\"', '', $check_existe);
+					$check_existe=str_replace('\"', '"', $check_existe);
+					$check_existe=str_replace('\n', '', $check_existe);
+					$check_existe=str_replace('\"', '', $check_existe);
 
 					$check_existe1 = $this->ModelPs->getRequete($psgetrequete, $check_existe);
-                     $val_plaque=$this->input->post('PLAQUE');
+					$val_plaque=$this->input->post('PLAQUE');
 					$check_existe_plak = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,"PLAQUE",PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and PLAQUE="'.$val_plaque.'"','VEHICULE_ID ASC');
-					 $check_existe_plak=str_replace('\"', '"', $check_existe_plak);
-				     $check_existe_plak=str_replace('\n', '', $check_existe_plak);
-				     $check_existe_plak=str_replace('\"', '', $check_existe_plak);
+					$check_existe_plak=str_replace('\"', '"', $check_existe_plak);
+					$check_existe_plak=str_replace('\n', '', $check_existe_plak);
+					$check_existe_plak=str_replace('\"', '', $check_existe_plak);
 
 					$check_existe_plak1 = $this->ModelPs->getRequete($psgetrequete, $check_existe_plak);
 					 // print_r($check_existe1);die();
@@ -777,34 +801,34 @@
 						// 	$PHOTO=$this->input->post('PHOTO');
 						// }
 
-		 $PHOTO_OUT = $this->input->post('PHOTO');
-		if(empty($_FILES['PHOTO_OUT']['name']))
-		{
-			$file_contro = $this->input->post('PHOTO');
-		}
-		else
-		{
-			$file_contro = $this->upload_file($_FILES['PHOTO_OUT']['tmp_name'],$_FILES['PHOTO_OUT']['name']);
-		}			
+						$PHOTO_OUT = $this->input->post('PHOTO');
+						if(empty($_FILES['PHOTO_OUT']['name']))
+						{
+							$file_contro = $this->input->post('PHOTO');
+						}
+						else
+						{
+							$file_contro = $this->upload_file($_FILES['PHOTO_OUT']['tmp_name'],$_FILES['PHOTO_OUT']['name']);
+						}			
 
-	   $FILE_CONTRO_TECHNIQUE = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
-		if(empty($_FILES['FILE_CONTRO_TECHNIQUE']['name']))
-		{
-			$file_contro = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
-		}
-		else
-		{
-			$file_contro = $this->upload_file($_FILES['FILE_CONTRO_TECHNIQUE']['tmp_name'],$_FILES['FILE_CONTRO_TECHNIQUE']['name']);
-		}
-		 $FILE_ASSURANCE = $this->input->post('FILE_ASSURANCE_OLD');
-		if(empty($_FILES['FILE_ASSURANCE']['name']))
-		{
-			$file_assurance = $this->input->post('FILE_ASSURANCE_OLD');
-		}
-		else
-		{
-			$file_assurance = $this->upload_file($_FILES['FILE_ASSURANCE']['tmp_name'],$_FILES['FILE_ASSURANCE']['name']);
-		}
+						$FILE_CONTRO_TECHNIQUE = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
+						if(empty($_FILES['FILE_CONTRO_TECHNIQUE']['name']))
+						{
+							$file_contro = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
+						}
+						else
+						{
+							$file_contro = $this->upload_file($_FILES['FILE_CONTRO_TECHNIQUE']['tmp_name'],$_FILES['FILE_CONTRO_TECHNIQUE']['name']);
+						}
+						$FILE_ASSURANCE = $this->input->post('FILE_ASSURANCE_OLD');
+						if(empty($_FILES['FILE_ASSURANCE']['name']))
+						{
+							$file_assurance = $this->input->post('FILE_ASSURANCE_OLD');
+						}
+						else
+						{
+							$file_assurance = $this->upload_file($_FILES['FILE_ASSURANCE']['tmp_name'],$_FILES['FILE_ASSURANCE']['name']);
+						}
 
 						$data=array
 						(
@@ -822,10 +846,10 @@
 							'USAGE_ID'=>$this->input->post('USAGE_ID'),
 							'NUMERO_CHASSIS'=>$this->input->post('NUMERO_CHASSIS'),
 							'ANNEE_FABRICATION'=>$this->input->post('ANNEE_FABRICATION'),
-						'DATE_DEBUT_ASSURANCE'=>$this->input->post('DATE_DEBUT_ASSURANCE'),
-					   	'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
-					   	'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
-					   	'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
+							'DATE_DEBUT_ASSURANCE'=>$this->input->post('DATE_DEBUT_ASSURANCE'),
+							'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
+							'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
+							'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
 
 						);
 
@@ -861,13 +885,105 @@
 
 		function get_detail_vehicule($VEHICULE_ID = '')
 		{
-			$infos_vehicule = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,FILE_ASSURANCE,FILE_CONTRO_TECHNIQUE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,tracking_data.accident FROM vehicule LEFT JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid LEFT JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE LEFT JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1  AND VEHICULE_ID = "'.$VEHICULE_ID.'" ORDER BY id DESC LIMIT 1');
+			$infos_vehicule = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,FILE_ASSURANCE,FILE_CONTRO_TECHNIQUE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident FROM vehicule LEFT JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid LEFT JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE LEFT JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1  AND VEHICULE_ID = "'.$VEHICULE_ID.'" ORDER BY id DESC LIMIT 1');
 
 			// print_r($infos_vehicule);die();
 			
 			$data['infos_vehicule'] = $infos_vehicule;
 
 			$this->load->view('Vehicule_detail_View',$data);
+		}
+
+        // Fonction pour afficher les assureurs
+		function select_assureur()
+		{
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+			$my_select = $this->getBindParms('`ID_ASSUREUR`, `ASSURANCE`', 'assureur', '1', '`ASSURANCE` ASC');
+			$assureur = $this->ModelPs->getRequete($proce_requete, $my_select);
+
+			$html_assureur='<option value="">Sélectionner</option>';
+			foreach ($assureur as $key)
+			{
+				$html_assureur.='<option value="'.$key['ID_ASSUREUR'].'">'.$key['ASSURANCE'].' </option>';
+			}
+
+			$array = array('html_assureur'=>$html_assureur);
+			echo json_encode($array);
+		}
+
+		//Fonction pour l'enregistrement d'assurance et controle technique
+
+		function save_assure_controle()
+		{
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID_ASSURE_CONTROLE');
+			$USER_ID = $this->input->post('USER_ID');
+
+			$ACTION = $this->input->post('ACTION');
+
+			$ID_ASSUREUR = $this->input->post('ID_ASSUREUR');
+			$DATE_DEBUT_ASSURANCE = $this->input->post('DATE_DEBUT_ASSURANCE');
+			$DATE_FIN_ASSURANCE = $this->input->post('DATE_FIN_ASSURANCE');
+			$FILE_ASSURANCE = $this->upload_file('FILE_ASSURANCE');
+
+			$DATE_DEBUT_CONTROTECHNIK = $this->input->post('DATE_DEBUT_CONTROTECHNIK');
+			$DATE_FIN_CONTROTECHNIK = $this->input->post('DATE_FIN_CONTROTECHNIK');
+			$FILE_CONTRO_TECHNIQUE = $this->upload_file('FILE_CONTRO_TECHNIQUE');
+
+			if($ACTION == 1) //Enregistrement d'assurance
+			{
+				//Mise à jour ds la table vehicule
+				$data = array(
+					'DATE_DEBUT_ASSURANCE' => $DATE_DEBUT_ASSURANCE,
+					'DATE_FIN_ASSURANCE' => $DATE_FIN_ASSURANCE,
+					'FILE_ASSURANCE' => $FILE_ASSURANCE,
+				);
+
+				$table='vehicule';
+				$this->Model->update($table,array('VEHICULE_ID'=>$VEHICULE_ID),$data);
+
+			  // Enregistrement dans la table d'historique d'assurance
+
+			  $data_histo = array(
+			  	'VEHICULE_ID' => $VEHICULE_ID,
+			  	'ID_ASSUREUR'=> $ID_ASSUREUR,
+			  	'USER_ID' => $USER_ID,
+			  	'DATE_DEBUT_ASSURANCE' => $DATE_DEBUT_ASSURANCE,
+			  	'DATE_FIN_ASSURANCE' => $DATE_FIN_ASSURANCE,
+			  	'FILE_ASSURANCE' => $FILE_ASSURANCE,
+			  );
+
+			  $table2 = 'historique_assurance';
+			  $create = $this->Model->create($table2,$data_histo);
+
+			  echo json_encode(array('status' => TRUE));
+			}
+			else if($ACTION == 2) //Enregistrement du controle technique
+			{
+				//Mise à jour ds la table vehicule
+				$data = array(
+					'DATE_DEBUT_CONTROTECHNIK' => $DATE_DEBUT_CONTROTECHNIK,
+					'DATE_FIN_CONTROTECHNIK' => $DATE_FIN_CONTROTECHNIK,
+					'FILE_CONTRO_TECHNIQUE' => $FILE_CONTRO_TECHNIQUE,
+				);
+
+				$table='vehicule';
+				$this->Model->update($table,array('VEHICULE_ID'=>$VEHICULE_ID),$data);
+
+			  // Enregistrement dans la table d'historique du controle technique
+
+			  $data_histo = array(
+			  	'VEHICULE_ID' => $VEHICULE_ID,
+			  	'USER_ID' => $USER_ID,
+			  	'DATE_DEBUT_CONTROTECHNIK' => $DATE_DEBUT_CONTROTECHNIK,
+			  	'DATE_FIN_CONTROTECHNIK' => $DATE_FIN_CONTROTECHNIK,
+			  	'FILE_CONTRO_TECHNIQUE' => $FILE_CONTRO_TECHNIQUE,
+			  );
+
+			  $table2 = 'historique_controle_technique';
+			  $create = $this->Model->create($table2,$data_histo);
+
+			  echo json_encode(array('status' => TRUE));
+			}
 		}
 
 

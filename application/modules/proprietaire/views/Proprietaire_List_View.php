@@ -213,6 +213,7 @@ input:checked + .slider:before {
                       <th class="text-dark">EMAIL</th>
                       <th class="text-dark">TELEPHONE</th>
                       <th>STATUT</th>
+                      <th>NBR&nbsp;VEHICULE</th>
                       <th class="text-dark">OPTIONS</th>
                     </tr>
                   </thead>
