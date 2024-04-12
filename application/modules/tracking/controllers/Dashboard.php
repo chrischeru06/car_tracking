@@ -202,12 +202,17 @@ class Dashboard extends CI_Controller
 
 
 		$distance=0;
-		
+
 		//Calcul de la distance parcourue
 		if(!empty($get_data)){
 
+
+
 			$i=0;
 			foreach ($get_data as $value_get_arret) {
+
+				
+
 				if ($value_get_arret['ignition']==1) {
 
 					if ($i==0) {
@@ -291,6 +296,7 @@ class Dashboard extends CI_Controller
 		//Calcul du score
 		$point_final=20;
 		$point_point=20;
+		
 		if(!empty($get_arret_date)){
 
 			$data_arret=array();
@@ -305,7 +311,7 @@ class Dashboard extends CI_Controller
 			$point_distance_fin=array();
 			for($i=0,$j=1;$i<$nbre,$j<$nbre;$i++,$j++){
 
-				$my_selectrequete = $this->getBindParms('count(id) as idsup', 'tracking_data', '1 AND vitesse>60 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"' , '`id` ASC');
+				$my_selectrequete = $this->getBindParms('count(id) as idsup', 'tracking_data', '1 AND vitesse >= 50 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"' , '`id` ASC');
 				$my_selectrequete=str_replace('\"', '"', $my_selectrequete);
 				$my_selectrequete=str_replace('\n', '', $my_selectrequete);
 				$my_selectrequete=str_replace('\"', '', $my_selectrequete);
@@ -334,6 +340,19 @@ class Dashboard extends CI_Controller
 
 			$point_final=$point_point-$add;
 
+		}
+		if(!empty($CODE_COURSE)){
+			$my_selectrequete_excsee = $this->getBindParms('id', 'tracking_data', '1 AND vitesse >= 50 AND md5(tracking_data.CODE_COURSE)= "'.$CODE_COURSE.'"' , '`id` ASC');
+			$my_selectrequete_excsee=str_replace('\"', '"', $my_selectrequete_excsee);
+			$my_selectrequete_excsee=str_replace('\n', '', $my_selectrequete_excsee);
+			$my_selectrequete_excsee=str_replace('\"', '', $my_selectrequete_excsee);
+			$requete_exces = $this->ModelPs->getRequete($proce_requete, $my_selectrequete_excsee);
+			 // print_r($requete_exces);die();
+			if(!empty($requete_exces)){
+
+				$point_final=$point_point-1;
+				
+			}
 		}
 
 		//le Resume des courses se trouvant sur la carte
@@ -951,7 +970,7 @@ class Dashboard extends CI_Controller
 										}
 
 									}
-
+									//Fonction pour la verification
 									function check(){
 										$proce_requete = "CALL `getRequete`(?,?,?,?);";
 										$my_selectprovinces = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ', '1 AND CODE ="4.4098856886e-314" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
@@ -975,7 +994,7 @@ class Dashboard extends CI_Controller
 											$polygone[]=$COORD_POLY;
 
 											$in_out=$this->notifications->pointInPolygon($point,$polygone);
-											print_r($in_out);die();
+											// print_r($in_out);die();
 
 										}
 
