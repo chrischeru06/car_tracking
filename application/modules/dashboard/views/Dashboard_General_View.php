@@ -32,7 +32,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-          <li class="breadcrumb-item active">Dashbord véhicules</li>
+          <li class="breadcrumb-item active">Dashbord général</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
