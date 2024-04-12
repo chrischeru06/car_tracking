@@ -602,11 +602,12 @@
 			echo json_encode($data);
 
 		}
-	// Recuperation des fichiers(pdf)
+
+		// Recuperation des fichiers(pdf)
 		public function upload_document($nom_file,$nom_champ)
 		{
 			$rep_doc =FCPATH.'upload/chauffeur/';
-			$fichier=basename("piece".uniqid());
+			$fichier=uniqid();
 			$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
 			$file_extension = strtolower($file_extension);
 			$valid_ext = array('pdf');
@@ -896,7 +897,6 @@
 
 				'FILE_PERMIS' => $this->upload_document($_FILES['file_permis']['tmp_name'],$_FILES['file_permis']['name']),
 				'PHOTO_PASSPORT' => $this->upload_document($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name']),
-
 				'PROVINCE_ID' => $this->input->post('PROVINCE_ID'),
 				'COMMUNE_ID' => $this->input->post('COMMUNE_ID'),
 				'ZONE_ID' => $this->input->post('ZONE_ID'),
