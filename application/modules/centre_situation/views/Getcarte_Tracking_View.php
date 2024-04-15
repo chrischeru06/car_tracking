@@ -69,22 +69,27 @@
 
 		var icon_vehicule = ' ';
 
-		if(index[13] == 1 && index[15] == 0) //Vehicule actif
+		if(index[10] != '')
 		{
-			icon_vehicule = '<?=base_url()?>/upload/iconecartracking-03.png';
+			icon_vehicule = '<?=base_url()?>/upload/photo_vehicule/'+ index[10] +'';
 		}
-		else if(index[13] == 2 && index[15] == 0)             //Vehicule inactif
-		{
-			icon_vehicule = '<?=base_url()?>/upload/iconecartracking-04.png';
-		}
-		else if(index[13] == 1 && index[15] == 1)             //Vehicule en accident
-		{
-			icon_vehicule = '<?=base_url()?>/upload/iconecartracking-05.png';
-		}
-		else if(index[13] == 2 && index[15] == 1)             //Vehicule en accident
-		{
-			icon_vehicule = '<?=base_url()?>/upload/iconecartracking-05.png';
-		}
+
+		// if(index[13] == 1 && index[15] == 0) //Vehicule actif
+		// {
+		// 	icon_vehicule = '<?=base_url()?>/upload/iconecartracking-03.png';
+		// }
+		// else if(index[13] == 2 && index[15] == 0)             //Vehicule inactif
+		// {
+		// 	icon_vehicule = '<?=base_url()?>/upload/iconecartracking-04.png';
+		// }
+		// else if(index[13] == 1 && index[15] == 1)             //Vehicule en accident
+		// {
+		// 	icon_vehicule = '<?=base_url()?>/upload/iconecartracking-05.png';
+		// }
+		// else if(index[13] == 2 && index[15] == 1)             //Vehicule en accident
+		// {
+		// 	icon_vehicule = '<?=base_url()?>/upload/iconecartracking-05.png';
+		// }
 
 		var markerIcon = L.icon({
             iconUrl: icon_vehicule, // Spécifiez le chemin vers votre image locale
@@ -111,7 +116,10 @@
 			});
 		});
 
-		marker.bindPopup ('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;<a href="<?= base_url()?>proprietaire/Proprietaire/Detail/'+index[17]+'" class="" style="" title="Détail">'+index[9]+'</a></th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/'+index[18]+'" class="" style="" title="Détail">'+index[12]+'</a></th></tr></table> <p class="text-center text-muted small pt-2 ps-1"> <i class="text-muted small pt-2 ps-1 fa fa-map-marker"></i><label class="text-muted small pt-2 ps-1" id="place"></label></p> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>');
+		// marker.bindPopup ('<h3 class="text-center" style="background:cadetblue;color:white;padding:10px;margin-top:-11px;margin-left:-11px;margin-right:-11px;"><strong>Détail du véhicule </strong></h3> <p class="text-center"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" alt="" style="width: 50px;height: 50px;border-radius:20px;"> </p> <p class="text-center text-muted small pt-2 ps-1">'+ index[4] +' - '+ index[5] +'</p> <table> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-code"></i>&nbsp;&nbsp;&nbsp;'+ index[3] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-circle"></i>&nbsp;&nbsp;&nbsp;'+ index[7] +'</th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user"></i>&nbsp;&nbsp;&nbsp;<a href="<?= base_url()?>proprietaire/Proprietaire/Detail/'+index[17]+'" class="" style="" title="Détail">'+index[9]+'</a></th><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-user-md"></i>&nbsp;&nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/'+index[18]+'" class="" style="" title="Détail">'+index[12]+'</a></th></tr></table> <p class="text-center text-muted small pt-2 ps-1"> <i class="text-muted small pt-2 ps-1 fa fa-map-marker"></i><label class="text-muted small pt-2 ps-1" id="place"></label></p> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>');                                                                          <th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th>
+
+
+		marker.bindPopup ('<div class="row"><div class="col-md-12"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" style="width: 50px;height: 50px;border-radius: 10px; margin-top:0px;" class="zoomable-image"><strong class="text-muted small" style="font-size:17px;"> '+ index[4] +' - '+ index[5] +'</strong></div> </div> <table class="table table-borderless"> <tr><th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;'+ index[6] +'</th> <th class="text-muted small pt-2 ps-1"><i class="text-muted small pt-2 ps-1 fa fa-beer"></i>&nbsp;&nbsp;&nbsp;'+ index[8] +' Litres / km</th></tr> <tr><th class="text-muted small pt-2 ps-1"><img src="<?= base_url()?>/upload/proprietaire/photopassport/'+ index[19] +'" style="width: 20px;height: 20px;border-radius: 50%;" class="zoomable-image" title="Propriétaire">&nbsp;&nbsp;<a href="<?= base_url()?>proprietaire/Proprietaire/Detail/'+index[17]+'" class="" style="" title="Détail propriétaire">'+index[9]+'</a></th><th class="text-muted small pt-2 ps-1"><img src="<?= base_url()?>/upload/chauffeur/'+ index[20] +'" style="width: 20px;height: 20px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/'+index[18]+'" class="" style="" title="Détail chauffeur">'+index[12]+'</a></th> </tr></table> <p class="text-center text-muted small "> <i class="text-muted small  fa fa-map-marker"></i>&nbsp;<label class="text-muted small " id="place"></label></p> <p class = "text-center"><label class = "text-center"> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="card dash_card fa fa-info-circle" style="border-radius:20px;padding:10px; margin-bottom:-8px;" title=""> Informations trajet </a></label></p>',{maxWidth : 1000});
 
 		markers.push(marker);
 
@@ -204,7 +212,7 @@
 	updateMarkerPosition();
 
 // Définir l'intervalle de mise à jour toutes les 10 secondes (10000 millisecondes)
-	// setInterval(updateMarkerPosition, 10000);
+	setInterval(updateMarkerPosition, 10000);
 
 	var timer = setInterval(async () => {
 		// alert('jdshjhk')

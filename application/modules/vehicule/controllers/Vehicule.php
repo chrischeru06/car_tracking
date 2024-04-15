@@ -987,6 +987,106 @@
 		}
 
 
+		//Fonction pour une liste d'historique assurance
+		function liste_assurance()
+		{
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+
+			$critaire = '' ;
+
+			$query_principal='SELECT ID_HISTORIQUE_ASSURANCE,ASSURANCE,IDENTIFICATION,historique_assurance.DATE_DEBUT_ASSURANCE,historique_assurance.DATE_FIN_ASSURANCE,historique_assurance.FILE_ASSURANCE,historique_assurance.DATE_SAVE FROM historique_assurance JOIN vehicule ON vehicule.VEHICULE_ID = historique_assurance.VEHICULE_ID JOIN assureur ON assureur.ID_ASSUREUR = historique_assurance.ID_ASSUREUR JOIN users ON users.USER_ID = historique_assurance.USER_ID WHERE 1';
+
+		$critaire.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+
+		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+		$var_search = str_replace("'", "\'", $var_search);
+		$group = "";
+
+		$limit = 'LIMIT 0,1000';
+		if ($_POST['length'] != -1) {
+			$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+		}
+		$order_by='';
+
+		$order_column=array('ID_HISTORIQUE_ASSURANCE','ASSURANCE','IDENTIFICATION','historique_assurance.DATE_DEBUT_ASSURANCE','historique_assurance.DATE_FIN_ASSURANCE','historique_assurance.DATE_SAVE');
+
+		if ($_POST['order']['0']['column'] != 0) {
+			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_HISTORIQUE_ASSURANCE ASC';
+		}
+
+
+
+		$search = !empty($_POST['search']['value']) ? (' AND (`ID_HISTORIQUE_ASSURANCE` LIKE "%' . $var_search . '%" OR ASSURANCE LIKE "%' . $var_search . '%"
+			OR IDENTIFICATION LIKE "%' . $var_search . '%" OR historique_assurance.DATE_DEBUT_ASSURANCE LIKE "%' . $var_search . '%" OR historique_assurance.DATE_FIN_ASSURANCE LIKE "%' . $var_search . '%" OR historique_assurance.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
+
+
+        //condition pour le query principale
+		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+
+        // condition pour le query filter
+		$conditionsfilter = $critaire . ' ' . $group;
+
+
+		$requetedebase=$query_principal.$conditions;
+		$requetedebasefilter=$query_principal.$conditionsfilter;
+
+
+
+		$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+        // echo $query_secondaire;
+		$fetch_data = $this->ModelPs->datatable($query_secondaire);
+		$data = array();
+		$i=0;
+
+		foreach ($fetch_data as $row) {
+			$i=$i+1;
+
+			$sub_array=array();
+			$sub_array[]=$i;
+			$sub_array[]="<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->ID_HISTORIQUE_ASSURANCE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+			$sub_array[]= date('d-m-Y',strtotime($row->DATE_DEBUT_ASSURANCE));
+			$sub_array[]= date('d-m-Y',strtotime($row->DATE_FIN_ASSURANCE));
+			$sub_array[]=$row->ASSURANCE;
+			$sub_array[]=$row->IDENTIFICATION;
+			$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
+
+            $option = " ";
+			$option .="
+				<div class='modal fade' id='mypicture" .$row->ID_HISTORIQUE_ASSURANCE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>Document d'assurance</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<img src = '".base_url('upload/photo_vehicule/'.$row->FILE_ASSURANCE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+
+				
+				";
+
+			$sub_array[]=$option;
+			$data[]=$sub_array;
+		}
+		$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+		$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+		$output = array(
+			"draw" => intval($_POST['draw']),
+			"recordsTotal" => count($recordsTotal),
+			"recordsFiltered" => count($recordsFiltered),
+			"data" => $data,
+		);
+		echo json_encode($output);
+		}
+
+
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 		public function getBindParms($columnselect, $table, $where, $orderby)
 		{

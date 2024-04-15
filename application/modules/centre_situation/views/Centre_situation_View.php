@@ -54,6 +54,20 @@
 
     }
 
+    #eye{
+    color: black;
+  }
+  #eye:hover {
+    color: blue;
+  }
+
+   .zoomable-image {
+      transition: transform 0.3s ease;
+    }
+
+    .zoomable-image:hover {
+      transform: scale(4.2);
+
 		
 	</style>
 </head>
@@ -583,6 +597,7 @@
 												<th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 												<th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 												<th>STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th>NBR&nbsp;VEHICULE</th>
 
 											</tr>
 										</thead>
