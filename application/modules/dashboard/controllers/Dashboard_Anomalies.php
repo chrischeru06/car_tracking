@@ -575,28 +575,36 @@ class Dashboard_Anomalies extends CI_Controller
    </script>";
 
    //rapport des conmsomation par vehicules
-   $DATE_SELECT = $this->input->post('DATE_DAT');
+   $DATE_DEBUT = $this->input->post('DATE_DAT');
    $DATE_DAT_FIN = $this->input->post('DATE_DAT_FIN');
+    $critere=" ";
 
-   if(!empty($DATE_SELECT) && !empty($DATE_DAT_FIN)){
+   if(!empty($DATE_DEBUT) && !empty($DATE_DAT_FIN)){
 
-      $critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_SELECT.'" AND "'.$DATE_DAT_FIN.'" ';
+      $critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_DEBUT.'" AND "'.$DATE_DAT_FIN.'" ';
 
 
     }
 
-    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 and '.$critere.' GROUP BY ID,NAME');
+    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1  GROUP BY ID,NAME');
+
+  $proce_requete = "CALL `getRequete`(?,?,?,?);";
+  $my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 '.$critere.'' , '`id` ASC');
+    $my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
+    $my_selectget_arret_date=str_replace('\n', '', $my_selectget_arret_date);
+    $my_selectget_arret_date=str_replace('\"', '', $my_selectget_arret_date);
+    $get_arret_date = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret_date);
 
   $nvldistance=0;
-   $proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-   $my_selectmin_arret = $this->getBindParms('MIN(id) as minimum', 'tracking_data', '1  ' , '`id` ASC');
+
+   $my_selectmin_arret = $this->getBindParms('MIN(id) as minimum', 'tracking_data', '1 '.$critere.'' , '`id` ASC');
     $my_selectmin_arret=str_replace('\"', '"', $my_selectmin_arret);
     $my_selectmin_arret=str_replace('\n', '', $my_selectmin_arret);
     $my_selectmin_arret=str_replace('\"', '', $my_selectmin_arret);
     $min_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret);
 
-    $my_selectmax_arret = $this->getBindParms('MAX(id) as maximum', 'tracking_data', '1' , '`id` ASC');
+    $my_selectmax_arret = $this->getBindParms('MAX(id) as maximum', 'tracking_data', '1 '.$critere.'' , '`id` ASC');
     $my_selectmax_arret=str_replace('\"', '"', $my_selectmax_arret);
     $my_selectmax_arret=str_replace('\n', '', $my_selectmax_arret);
     $my_selectmax_arret=str_replace('\"', '', $my_selectmax_arret);

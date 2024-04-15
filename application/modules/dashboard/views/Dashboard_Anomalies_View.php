@@ -79,11 +79,11 @@
 
       <div class="form-group col-md-6">
       <label class="form-label">Date début</label>
-      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();viderh();">
+      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="get_rapport();viderh();">
     </div>
     <div class="form-group col-md-6">
       <label class="form-label">Date fin</label>
-      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= date('Y-m-d')?>" onchange="change_carte();">
+      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= date('Y-m-d')?>" onchange="get_rapport()">
     </div>
   </div>
                       <div id="container10" style="min-height: 280px;"></div>
@@ -246,6 +246,8 @@
 <script>
   function get_rapport()
   {
+    var DATE_DAT=$('#DATE_DAT').val();
+    var DATE_DAT_FIN=$('#DATE_DAT_FIN').val();
 
     $.ajax(
     {
@@ -253,7 +255,11 @@
       type : "POST",
       dataType: "JSON",
       cache:false,
-      data:{},
+      data:
+      { 
+        DATE_DAT : DATE_DAT,
+        DATE_DAT_FIN : DATE_DAT_FIN
+      },
       success:function(data)
       {   
         $('#nouveau').html(data.rapp);
