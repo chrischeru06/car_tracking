@@ -82,20 +82,20 @@
 				$sub_array=array();
 				$sub_array[]=$u++;
 				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
-			
+
 				</div>
 				<div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID. '">
-              <div class="modal-dialog modal-dialog-centered ">
-              <div class="modal-content">
-              <div class="modal-header" style="background:cadetblue;color:white;">
-              <button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-              <center><img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" ></center>
-              </div>
-              </div>
-              </div>
-              </div>
+				<div class="modal-dialog modal-dialog-centered ">
+				<div class="modal-content">
+				<div class="modal-header" style="background:cadetblue;color:white;">
+				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				<center><img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" ></center>
+				</div>
+				</div>
+				</div>
+				</div>
 
 				';
 
@@ -124,17 +124,17 @@
 
 				if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 				{
-					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le chauffeur</a></li>';
+					$option.='<li><a class="btn-md" href="'.base_url('chauffeur/Chauffeur/affecter_chauff/'.$row->CHAUFFEUR_ID).'"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le chauffeur</a></li>';
 					
 				}
 				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
-					{
-						$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
+				{
+					$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
 
-						$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
+					$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
 
-					}
-					if($row->IS_ACTIVE==1){
+				}
+				if($row->IS_ACTIVE==1){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
@@ -170,312 +170,312 @@
 
 					//fin activer desactiver
 					//DEBUT modal pour retirer la voiture
-					$option .= " </ul>
-					</div>
-					 <div class='modal fade' id='modal_retirer" .$row->CHAUFFEUR_ID. "'>
-					 <div class='modal-dialog modal-dialog-centered modal-lg'>
-					 <div class='modal-content'>
-					 <div class='modal-header' style='background:cadetblue;color:white;'>
-					 <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-					 </div>
-					 <div class='modal-body'>
-					 <center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
-					 <div class='modal-footer'>
-					 <a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
-					 </div>
-					 </div>
-					 </div>
-					 </div>
-					 </div>";
+				$option .= " </ul>
+				</div>
+				<div class='modal fade' id='modal_retirer" .$row->CHAUFFEUR_ID. "'>
+				<div class='modal-dialog modal-dialog-centered modal-lg'>
+				<div class='modal-content'>
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+				<center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
+				<div class='modal-footer'>
+				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>";
 
 					//fin modal retire voiture
 					//debut Detail cahuffeur
-					if ($row->STATUT_VEHICULE==2)
-						{
-							$option .="
-							</div>
-							<div class='modal fade' tabindex='-1' data-bs-backdrop='false' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
-							<div class='modal-dialog modal-dialog-centered modal-lg'>
+				if ($row->STATUT_VEHICULE==2)
+				{
+					$option .="
+					</div>
+					<div class='modal fade' tabindex='-1' data-bs-backdrop='false' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
+					<div class='modal-dialog modal-dialog-centered modal-lg'>
 
-							<div class='modal-content'>
-							<div class='modal-header' style='background:cadetblue;color:white;'>
-							<h6 class='modal-title'>Détails du chauffeur&nbsp;&nbsp;" .$row->NOM." "." ".$row->PRENOM."</h6>
-							<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-							</div>
-							<div class='modal-body'>
-							<div class='row'>
-							<div class='col-md-4'>
-							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='auto'  width='80%'  style= 'border-radius:20px;'>
-							</div>
-							<div class='col-md-8'>
-							<div class='table-responsive'>
-							<table class='table table-borderless'>
-							<tr>
-							<td><label class='fa fa-book'></label> Carte d'identité</td>
-							<th>".$row->NUMERO_CARTE_IDENTITE."</th>
-							</tr>
+					<div class='modal-content'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h6 class='modal-title'>Détails du chauffeur&nbsp;&nbsp;" .$row->NOM." "." ".$row->PRENOM."</h6>
+					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
+					<div class='row'>
+					<div class='col-md-4'>
+					<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='auto'  width='80%'  style= 'border-radius:20px;'>
+					</div>
+					<div class='col-md-8'>
+					<div class='table-responsive'>
+					<table class='table table-borderless'>
+					<tr>
+					<td><label class='fa fa-book'></label> Carte d'identité</td>
+					<th>".$row->NUMERO_CARTE_IDENTITE."</th>
+					</tr>
 
-							<tr>
-							<td><label class='fa fa-envelope-o '></label>  Email</td>
-							<th>".$row->ADRESSE_MAIL."</th>
-							</tr>
-							<tr>
-							<td><label class='fa fa-phone'></label> Téléphone</td>
-							<th>".$row->NUMERO_TELEPHONE."</th>
-							</tr>
+					<tr>
+					<td><label class='fa fa-envelope-o '></label>  Email</td>
+					<th>".$row->ADRESSE_MAIL."</th>
+					</tr>
+					<tr>
+					<td><label class='fa fa-phone'></label> Téléphone</td>
+					<th>".$row->NUMERO_TELEPHONE."</th>
+					</tr>
 
-							<tr>
-							<td><label class='fa fa-calendar '></label> Date naissance</td>
-							<th>".$row->DATE_NAISSANCE."</th>
-							</tr>
+					<tr>
+					<td><label class='fa fa-calendar '></label> Date naissance</td>
+					<th>".$row->DATE_NAISSANCE."</th>
+					</tr>
 
-							<tr>
-							<td><label class='fa fa-map-marker'></label> Adresse physique</td>
-							<th>".$row->ADRESSE_PHYSIQUE."</th>
-							</tr>
-							<tr>
-							<td><label class='fa fa-map-marker'></label> Localité</td>
-							<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
-							</tr>
+					<tr>
+					<td><label class='fa fa-map-marker'></label> Adresse physique</td>
+					<th>".$row->ADRESSE_PHYSIQUE."</th>
+					</tr>
+					<tr>
+					<td><label class='fa fa-map-marker'></label> Localité</td>
+					<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
+					</tr>
 
-							<tr>
-							<td><label class='fa fa-info'></label> Information&nbsp;véhicule</td>
-							<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
-							</tr>
-							</table>
-
-
-                          
-					        <div class='row'>
-					        <label><strong>Documents</strong></label>
-					        <div class='col-md-5'>
-							<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
-							 </a><br>
-							 <label>CNI</label>
-					        </div>
-
-					        <div class='col-md-7'>
-							<a href='#'data-toggle='modal' data-target='#info_documa2".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='50%' width='50%' >
-							</a><br>
-                             
-							 <label>Permis de conduire</label>
-					        </div>
-					        </div>    
-
-							</div>
-							</div>
-							</div>
-							</div>
-							</div>
-							</div>
-							</div>
+					<tr>
+					<td><label class='fa fa-info'></label> Information&nbsp;véhicule</td>
+					<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
+					</tr>
+					</table>
 
 
-						<div class='modal fade' id='info_documa" .$row->CHAUFFEUR_ID. "'>
-						<div class='modal-dialog'>
-						<div class='modal-content'>
-						<div class='modal-header' style='background:cadetblue;color:white;'>
-				        <h6 class='modal-title'>Carte d'identité</h6>
-				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	   </div>
-						<div class='modal-body'>
-						<div class='scroller'>
-						<div class='table-responsive'>
 
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
-					       </div>
-					       </div>
-						</div>
-						</div>
-						</div>
-						</div>
-						
+					<div class='row'>
+					<label><strong>Documents</strong></label>
+					<div class='col-md-5'>
+					<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
+					</a><br>
+					<label>CNI</label>
+					</div>
 
-                            
-                        <div class='modal fade' id='info_documa2" .$row->CHAUFFEUR_ID. "'>
-						<div class='modal-dialog'>
-						<div class='modal-content'>
-						<div class='modal-header' style='background:cadetblue;color:white;'>
-				        <h6 class='modal-title'>Permis de conduire</h6>
-				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	   </div>
-						<div class='modal-body'>
-						<div class='scroller'>
-						<div class='table-responsive'>
+					<div class='col-md-7'>
+					<a href='#'data-toggle='modal' data-target='#info_documa2".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='50%' width='50%' >
+					</a><br>
 
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
-					       </div>
-					       </div>
-						</div>
-						</div>
-						</div>
-						</div>
-							";
-						}else
-						{
-							$option .="
-							</div>
-							<div class='modal fade' tabindex='-1' data-bs-backdrop='false' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
-							<div class='modal-dialog modal-dialog-centered modal-lg'>
+					<label>Permis de conduire</label>
+					</div>
+					</div>    
 
-							<div class='modal-content'>
-							<div class='modal-header' style='background:cadetblue;color:white;'>
-							<h6 class='modal-title'>Détails du chauffeur:" .$row->NOM." "." ".$row->PRENOM."</h6>
-							<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-							</div>
-							<div class='modal-body'>
-							<div class='row'>
-							<div class='col-md-4'>
-							<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='auto'  width='80%'  style= 'border-radius:20px;'>
-							</div>
-							<div class='col-md-8'>
-							<div class='table-responsive'>
-							<table class='table table-borderless'>
-							<tr>
-							<td ><label class='fa fa-book'></label> Carte d'identité</td>
-							<th> ".$row->NUMERO_CARTE_IDENTITE."</th>
-							</tr>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
 
-							<tr>
-							<td><label class='fa fa-envelope-o '></label> Email</td>
-							<th>".$row->ADRESSE_MAIL."</th>
-							</tr>
- 
-							<tr>
-							<td><label class='fa fa-phone'></label> Téléphone</td>
-							<th>".$row->NUMERO_TELEPHONE."</th>
-							</tr>
 
-							<tr>
-							<td><label class='fa fa-calendar '></label> Date naissance</td>
-							<th>".$row->DATE_NAISSANCE."</th>
-							</tr>
-							</table>
+					<div class='modal fade' id='info_documa" .$row->CHAUFFEUR_ID. "'>
+					<div class='modal-dialog'>
+					<div class='modal-content'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h6 class='modal-title'>Carte d'identité</h6>
+					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
+					<div class='scroller'>
+					<div class='table-responsive'>
 
-					        <div class='row'>
-					        <label><strong>Documents</strong></label>
-					        <div class='col-md-5'>
-							<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
-							 </a><br>
-							 <label>CNI</label>
-					        </div>
+					<img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
 
-					        <div class='col-md-7'>
-							<a href='#'data-toggle='modal' data-target='#info_documa2".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='50%' width='50%' >
-							</a><br>
-                             
-							 <label>Permis de conduire</label>
-					        </div>
-					        </div>  
-					        
-							</div>
-							</div>
-							</div>
-							</div>
-							</div>
-							</div>
-							</div>
 
-						<div class='modal fade' id='info_documa" .$row->CHAUFFEUR_ID. "'>
-						<div class='modal-dialog'>
-						<div class='modal-content'>
-						<div class='modal-header' style='background:cadetblue;color:white;'>
-				        <h6 class='modal-title'> Carte d'identité</h6>
-				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	   </div>
-						<div class='modal-body'>
-						<div class='scroller'>
-						<div class='table-responsive'>
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
-					       </div>
-					       </div>
-						</div>
-						</div>
-						</div>
-						</div>
-						
 
-                            
-                        <div class='modal fade' id='info_documa2" .$row->CHAUFFEUR_ID. "'>
-						<div class='modal-dialog'>
-						<div class='modal-content'>
-						<div class='modal-header' style='background:cadetblue;color:white;'>
-				        <h6 class='modal-title'>Permis de conduire</h6>
-				        <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	   </div>
-						<div class='modal-body'>
-						<div class='scroller'>
-						<div class='table-responsive'>
+					<div class='modal fade' id='info_documa2" .$row->CHAUFFEUR_ID. "'>
+					<div class='modal-dialog'>
+					<div class='modal-content'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h6 class='modal-title'>Permis de conduire</h6>
+					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
+					<div class='scroller'>
+					<div class='table-responsive'>
 
-					       <img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
-					      </div>
-					      </div>
-						</div>
-						</div>
-						</div>
-						</div>
+					<img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					";
+				}else
+				{
+					$option .="
+					</div>
+					<div class='modal fade' tabindex='-1' data-bs-backdrop='false' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
+					<div class='modal-dialog modal-dialog-centered modal-lg'>
+
+					<div class='modal-content'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h6 class='modal-title'>Détails du chauffeur:" .$row->NOM." "." ".$row->PRENOM."</h6>
+					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
+					<div class='row'>
+					<div class='col-md-4'>
+					<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='auto'  width='80%'  style= 'border-radius:20px;'>
+					</div>
+					<div class='col-md-8'>
+					<div class='table-responsive'>
+					<table class='table table-borderless'>
+					<tr>
+					<td ><label class='fa fa-book'></label> Carte d'identité</td>
+					<th> ".$row->NUMERO_CARTE_IDENTITE."</th>
+					</tr>
+
+					<tr>
+					<td><label class='fa fa-envelope-o '></label> Email</td>
+					<th>".$row->ADRESSE_MAIL."</th>
+					</tr>
+
+					<tr>
+					<td><label class='fa fa-phone'></label> Téléphone</td>
+					<th>".$row->NUMERO_TELEPHONE."</th>
+					</tr>
+
+					<tr>
+					<td><label class='fa fa-calendar '></label> Date naissance</td>
+					<th>".$row->DATE_NAISSANCE."</th>
+					</tr>
+					</table>
+
+					<div class='row'>
+					<label><strong>Documents</strong></label>
+					<div class='col-md-5'>
+					<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
+					</a><br>
+					<label>CNI</label>
+					</div>
+
+					<div class='col-md-7'>
+					<a href='#'data-toggle='modal' data-target='#info_documa2".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='50%' width='50%' >
+					</a><br>
+
+					<label>Permis de conduire</label>
+					</div>
+					</div>  
+
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+
+					<div class='modal fade' id='info_documa" .$row->CHAUFFEUR_ID. "'>
+					<div class='modal-dialog'>
+					<div class='modal-content'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h6 class='modal-title'> Carte d'identité</h6>
+					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
+					<div class='scroller'>
+					<div class='table-responsive'>
+					<img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+
+
+
+					<div class='modal fade' id='info_documa2" .$row->CHAUFFEUR_ID. "'>
+					<div class='modal-dialog'>
+					<div class='modal-content'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h6 class='modal-title'>Permis de conduire</h6>
+					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
+					<div class='scroller'>
+					<div class='table-responsive'>
+
+					<img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
 					
 
 
 
-							";
-						}
+					";
+				}
 						//fin debut Detail cahuffeur
-						$info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID.'');
+				$info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID.'');
 						//debut modal de info voiture(id=info_voitu)
-						if (!empty($info_vehicul)) 
-						{
-							$option .="
-						</div>
-						<div class='modal fade' id='info_voitu" .$row->CHAUFFEUR_ID. "'>
-						<div class='modal-dialog'>
-						<div class='modal-content'>
-						<div class='modal-header' style='background:cadetblue;color:white;'>
-				      <h6 class='modal-title'>Détails du véhicule</h6>
-				      <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			      	</div>
-						<div class='modal-body'>
-						<div class='row'>
-						<div class='col-md-6' >
-						<img src = '".base_url('upload/photo_vehicule/').$info_vehicul['PHOTO']."' height='100%' width='100%' >
-						</div>
-						<div class='col-md-6'>
-						<table class='table table-borderless table-hover text-dark'>
+				if (!empty($info_vehicul)) 
+				{
+					$option .="
+					</div>
+					<div class='modal fade' id='info_voitu" .$row->CHAUFFEUR_ID. "'>
+					<div class='modal-dialog'>
+					<div class='modal-content'>
+					<div class='modal-header' style='background:cadetblue;color:white;'>
+					<h6 class='modal-title'>Détails du véhicule</h6>
+					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
+					<div class='row'>
+					<div class='col-md-6' >
+					<img src = '".base_url('upload/photo_vehicule/').$info_vehicul['PHOTO']."' height='100%' width='100%' >
+					</div>
+					<div class='col-md-6'>
+					<table class='table table-borderless table-hover text-dark'>
 
-						<tr>
-						<td>Marque
-						<th>".$info_vehicul['DESC_MARQUE']."</th>
-						</tr>
+					<tr>
+					<td>Marque
+					<th>".$info_vehicul['DESC_MARQUE']."</th>
+					</tr>
 
-						<tr>
-						<td>Modèle</td>
-						<th>".$info_vehicul['DESC_MODELE']."</th>
-						</tr>
+					<tr>
+					<td>Modèle</td>
+					<th>".$info_vehicul['DESC_MODELE']."</th>
+					</tr>
 
-						<tr>
-						<td>Couleur</td>
-						<th>".$info_vehicul['COULEUR']."</th>
-						</tr>
+					<tr>
+					<td>Couleur</td>
+					<th>".$info_vehicul['COULEUR']."</th>
+					</tr>
 
-						<tr>
-						<td>Plaque</td>
-						<th>".$info_vehicul['PLAQUE']."</th>
-						</tr>
-						</table>
-						</div>
-						</div>
-						</div>
-						
-						</div>
-						</div>
-						</div>";
-						}
-						
+					<tr>
+					<td>Plaque</td>
+					<th>".$info_vehicul['PLAQUE']."</th>
+					</tr>
+					</table>
+					</div>
+					</div>
+					</div>
+
+					</div>
+					</div>
+					</div>";
+				}
+
 						//fin modal de info voiture(id=info_voitu)
-						$sub_array[]=$option;
-						$data[] = $sub_array;
-					}
-					$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+				$sub_array[]=$option;
+				$data[] = $sub_array;
+			}
+			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
 			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
 			$output = array(
 				"draw" => intval($_POST['draw']),
@@ -485,79 +485,132 @@
 			);
 			echo json_encode($output);
 		}
+		//Fonction pour affecter le chauffeur
+		function affecter_chauff($CHAUFFEUR_ID)
+		{
+			$centre = '-2.84551,30.3337';
+			$zoom = 9;
+			$CHAUFFEUR_ID=$CHAUFFEUR_ID;
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+			$my_select= $this->getBindParms('COORD,chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID','chauffeur_zone_affectation join chauffeur_vehicule on chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID=chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID','chauffeur_vehicule.STATUT_AFFECT=1 AND  chauffeur_vehicule.CHAUFFEUR_ID ="'.$CHAUFFEUR_ID.'"' , 'chauffeur_zone_affectation.`CHAUFF_ZONE_AFFECTATION_ID` ASC');
+			$my_select=str_replace('\"', '"', $my_select);
+			$my_select=str_replace('\n', '', $my_select);
+			$my_select=str_replace('\"', '', $my_select);
 
+			$get_data = $this->ModelPs->getRequete($proce_requete, $my_select);
+
+
+			$my_select_chauffeur= $this->getBindParms('CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM','chauffeur','CHAUFFEUR_ID ="'.$CHAUFFEUR_ID.'"' , '`CHAUFFEUR_ID` ASC');
+			$my_select_chauffeur=str_replace('\"', '"', $my_select_chauffeur);
+			$my_select_chauffeur=str_replace('\n', '', $my_select_chauffeur);
+			$my_select_chauffeur=str_replace('\"', '', $my_select_chauffeur);
+
+			$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
+
+
+			$i = 1;
+			$champ_increment=1;
+			$champ_increment++;
+			$limites='';
+			$truc='NAME_2';
+			$i = $i+1;
+			$number_color=2;
+			$number_color2=3;
+			$number_color3=8;
+			$colo='#'.$number_color.'4'. $number_color2.''.$number_color3.'FA';
+			if(!empty($get_data)){
+				foreach ($get_data as $keyget_data) {
+
+					$limites.= 'var latlngs'.$champ_increment.' = ['.$keyget_data['COORD'].'];var polygon = L.polygon(latlngs'.$champ_increment.', {color: "#048360"}).bindPopup("<center><b>ok </b></center><br>",{maxWidth:700});polygon.addTo(map);';
+				}
+			}
+
+			$data['limites']=$limites;
+			$data['get_chauffeur']=$get_chauffeur;
+			$data['get_data']=$get_data;
+			$data['CHAUFFEUR_ID']=$CHAUFFEUR_ID;
+			$data['centre']=$centre;
+			$data['zoom']=$zoom;
+
+			$data['title'] = "Affecter un chauffeur";
+
+
+			$this->load->view('Add_Affectation_View',$data);
+
+		}
 
 	//Fonction pour ajouter les provinces,communes,zones et collines
-	function ajouter()
-	{
-		$data['provinces'] = $this->Model->getRequete("SELECT `PROVINCE_ID`, `PROVINCE_NAME` FROM `provinces` WHERE 1 ORDER BY PROVINCE_NAME ASC");
-		$data['communes'] = $this->Model->getRequete('SELECT COMMUNE_ID, COMMUNE_NAME FROM communes WHERE 1 ORDER BY COMMUNE_NAME ASC');
-		$data['zones'] = $this->Model->getRequete('SELECT ZONE_ID ,ZONE_NAME,COMMUNE_ID FROM zones WHERE 1 ORDER BY ZONE_NAME ASC');
-		$data['collines'] = $this->Model->getRequete('SELECT COLLINE_ID, COLLINE_NAME FROM collines WHERE 1 ORDER BY COLLINE_NAME ASC');
-		$data['title'] = 'Nouveau chauffeur';
-		$data['type_genre'] = $this->Model->getRequete('SELECT GENRE_ID, DESCR_GENRE FROM syst_genre WHERE 1 ORDER BY DESCR_GENRE ASC');
+		function ajouter()
+		{
+			$data['provinces'] = $this->Model->getRequete("SELECT `PROVINCE_ID`, `PROVINCE_NAME` FROM `provinces` WHERE 1 ORDER BY PROVINCE_NAME ASC");
+			$data['communes'] = $this->Model->getRequete('SELECT COMMUNE_ID, COMMUNE_NAME FROM communes WHERE 1 ORDER BY COMMUNE_NAME ASC');
+			$data['zones'] = $this->Model->getRequete('SELECT ZONE_ID ,ZONE_NAME,COMMUNE_ID FROM zones WHERE 1 ORDER BY ZONE_NAME ASC');
+			$data['collines'] = $this->Model->getRequete('SELECT COLLINE_ID, COLLINE_NAME FROM collines WHERE 1 ORDER BY COLLINE_NAME ASC');
+			$data['title'] = 'Nouveau chauffeur';
+			$data['type_genre'] = $this->Model->getRequete('SELECT GENRE_ID, DESCR_GENRE FROM syst_genre WHERE 1 ORDER BY DESCR_GENRE ASC');
 		// $data['ethnie'] = $this->Model->getRequete('SELECT ETHNIE_ID, DESCR_ETHNIE FROM syst_ethnie WHERE 1 ORDER BY DESCR_ETHNIE ASC');
-		$this->load->view('Chauffeur_Add_View',$data);
-	}
+			$this->load->view('Chauffeur_Add_View',$data);
+		}
 
 	//Fonction pour filter les communes
-	function get_communes($ID_PROVINCE=0)
-	{
-		$communes = $this->Model->getRequete('SELECT `COMMUNE_ID`, `COMMUNE_NAME` FROM `communes` WHERE PROVINCE_ID='.$ID_PROVINCE.' ORDER BY COMMUNE_NAME ASC');
-		$html='<option value="">---sélectionner---</option>';
-		foreach ($communes as $key)
+		function get_communes($ID_PROVINCE=0)
 		{
-			$html.='<option value="'.$key['COMMUNE_ID'].'">'.$key['COMMUNE_NAME'].'</option>';
+			$communes = $this->Model->getRequete('SELECT `COMMUNE_ID`, `COMMUNE_NAME` FROM `communes` WHERE PROVINCE_ID='.$ID_PROVINCE.' ORDER BY COMMUNE_NAME ASC');
+			$html='<option value="">---sélectionner---</option>';
+			foreach ($communes as $key)
+			{
+				$html.='<option value="'.$key['COMMUNE_ID'].'">'.$key['COMMUNE_NAME'].'</option>';
+			}
+			echo json_encode($html);
 		}
-		echo json_encode($html);
-	}
 
   	//Fonction pour filtrer les zones
-	function get_zones($ID_COMMUNE=0)
-	{
-		$zones = $this->Model->getRequete('SELECT `ZONE_ID`, `ZONE_NAME` FROM `zones` WHERE COMMUNE_ID='.$ID_COMMUNE.' ORDER BY ZONE_NAME ASC');
-		$html='<option value="">---sélectionner---</option>';
-		foreach ($zones as $key)
+		function get_zones($ID_COMMUNE=0)
 		{
-			$html.='<option value="'.$key['ZONE_ID'].'">'.$key['ZONE_NAME'].'</option>';
+			$zones = $this->Model->getRequete('SELECT `ZONE_ID`, `ZONE_NAME` FROM `zones` WHERE COMMUNE_ID='.$ID_COMMUNE.' ORDER BY ZONE_NAME ASC');
+			$html='<option value="">---sélectionner---</option>';
+			foreach ($zones as $key)
+			{
+				$html.='<option value="'.$key['ZONE_ID'].'">'.$key['ZONE_NAME'].'</option>';
+			}
+			echo json_encode($html);
 		}
-		echo json_encode($html);
-	}
 
   	//Fonction pour filtrer les collines
-	function get_collines($ID_ZONE=0)
-	{
-		$collines = $this->Model->getRequete('SELECT `COLLINE_ID`, `COLLINE_NAME` FROM `collines` WHERE ZONE_ID='.$ID_ZONE.' ORDER BY COLLINE_NAME ASC');
-		$html='<option value="">---sélectionner---</option>';
-		foreach ($collines as $key)
+		function get_collines($ID_ZONE=0)
 		{
-			$html.='<option value="'.$key['COLLINE_ID'].'">'.$key['COLLINE_NAME'].'</option>';
+			$collines = $this->Model->getRequete('SELECT `COLLINE_ID`, `COLLINE_NAME` FROM `collines` WHERE ZONE_ID='.$ID_ZONE.' ORDER BY COLLINE_NAME ASC');
+			$html='<option value="">---sélectionner---</option>';
+			foreach ($collines as $key)
+			{
+				$html.='<option value="'.$key['COLLINE_ID'].'">'.$key['COLLINE_NAME'].'</option>';
+			}
+			echo json_encode($html);
 		}
-		echo json_encode($html);
-	}
 
 	//Fonction pour le controle de la date de naissance
 
-	function verif_date()
-	{
-		$DATE_NAISSANCE=$this->input->post('DATE_NAISSANCE');
-		
-		$aujourdhui = date("Y-m-d");
+		function verif_date()
+		{
+			$DATE_NAISSANCE=$this->input->post('DATE_NAISSANCE');
 
-		$diff = date_diff(date_create($DATE_NAISSANCE), date_create($aujourdhui));
-		$data = $diff->format('%y');
+			$aujourdhui = date("Y-m-d");
 
-		echo json_encode($data);
+			$diff = date_diff(date_create($DATE_NAISSANCE), date_create($aujourdhui));
+			$data = $diff->format('%y');
 
-	}
-	// Recuperation des fichiers(pdf)
-	public function upload_document($nom_file,$nom_champ)
-	{
-		$rep_doc =FCPATH.'upload/chauffeur/';
-		$fichier=basename("piece".uniqid());
-		$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
-		$file_extension = strtolower($file_extension);
-		$valid_ext = array('pdf');
+			echo json_encode($data);
+
+		}
+
+		// Recuperation des fichiers(pdf)
+		public function upload_document($nom_file,$nom_champ)
+		{
+			$rep_doc =FCPATH.'upload/chauffeur/';
+			$fichier=uniqid();
+			$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
+			$file_extension = strtolower($file_extension);
+			$valid_ext = array('pdf');
 		if(!is_dir($rep_doc)) //crée un dossier s'il n'existe pas déja   
 		{
 			mkdir($rep_doc,0777,TRUE);
@@ -567,7 +620,7 @@
 		return $pathfile;
 	}
 
-    function get_all_voiture()
+	function get_all_voiture()
 	{
 		$all_voiture = $this->Model->getRequete("SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule.ID_MODELE=vehicule_modele.ID_MODELE WHERE 1 AND vehicule.STATUT=1");
 		$html='<option value="">--- Sélectionner ----</option>';
@@ -579,49 +632,42 @@
 			}
 		}
 
-	   $all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
+	
 
-		$html1='<option value="">--- Sélectionner ----</option>';
-		if(!empty($all_zone_affectation))
-		{
-			foreach($all_zone_affectation as $key1)
-			{
-				$html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
-			}
-		}
+		
 		$ouput= array(
-         'html'=>$html,
-         'html1'=>$html1,
+			'html'=>$html,
 		);
 		echo json_encode($ouput);
+
 	}
 
-	  function get_zone_affect($CHAUFFEUR_ID)
+	function get_zone_affect($CHAUFFEUR_ID)
 	{
-	  $zone_affect=$this->ModelPs->getRequeteOne('SELECT chauffeur_zone_affectation.`CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION`,chauffeur.CHAUFFEUR_ID,chauffeur_vehicule.DATE_DEBUT_AFFECTATION,chauffeur_vehicule.DATE_FIN_AFFECTATION FROM `chauffeur_zone_affectation` join chauffeur_vehicule on chauffeur_zone_affectation.CHAUFF_ZONE_AFFECTATION_ID=chauffeur_vehicule.CHAUFF_ZONE_AFFECTATION_ID JOIN chauffeur on chauffeur_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID WHERE chauffeur.CHAUFFEUR_ID='.$CHAUFFEUR_ID);
+		$zone_affect=$this->ModelPs->getRequeteOne('SELECT `DESCR_ZONE_AFFECTATION`,chauffeur.CHAUFFEUR_ID,chauffeur_vehicule.DATE_DEBUT_AFFECTATION,chauffeur_vehicule.DATE_FIN_AFFECTATION FROM `chauffeur_zone_affectation` join chauffeur_vehicule on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID=chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID JOIN chauffeur on chauffeur_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID WHERE chauffeur.CHAUFFEUR_ID='.$CHAUFFEUR_ID);
 
 	   // print_r($zone_affect);exit();
-	   $all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
+		// $all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
 
-		$html1='<option value="">--- Sélectionner ----</option>';
-		if(!empty($all_zone_affectation))
-		{
-			foreach($all_zone_affectation as $key1)
-			{
-				if ($key1['CHAUFF_ZONE_AFFECTATION_ID']==$zone_affect['CHAUFF_ZONE_AFFECTATION_ID']) 
-				{
-				 $html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'" selected>'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
-				}else
-				{
-             $html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
-				}
+		// $html1='<option value="">--- Sélectionner ----</option>';
+		// if(!empty($all_zone_affectation))
+		// {
+		// 	foreach($all_zone_affectation as $key1)
+		// 	{
+		// 		if ($key1['CHAUFF_ZONE_AFFECTATION_ID']==$zone_affect['CHAUFF_ZONE_AFFECTATION_ID']) 
+		// 		{
+		// 			$html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'" selected>'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+		// 		}else
+		// 		{
+		// 			$html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
+		// 		}
 				
-			}
-		}
+		// 	}
+		// }
 		$ouput=array(
 			'htmldbut'=>$zone_affect['DATE_DEBUT_AFFECTATION'],
 			'htmlfin'=>$zone_affect['DATE_FIN_AFFECTATION'],
-			'html1'=>$html1,
+			// 'html1'=>$html1,
 
 		);
 
@@ -639,17 +685,17 @@
 		$CHAUFF_ZONE_AFFECTATION_ID = $this->input->post('CHAUFF_ZONE_AFFECTATION_ID_MOD');
 		$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION_MOD');
 		$DATE_FIN_AFFECTATION = $this->input->post('DATE_FIN_AFFECTATION_MOD');
-	    $today = date('Y-m-d H:i:s');
+		$today = date('Y-m-d H:i:s');
 
 		$result = $this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('CHAUFF_ZONE_AFFECTATION_ID'=>$CHAUFF_ZONE_AFFECTATION_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'DATE_INSERTION'=>$today));
-	
+
 		if($result==true )
 		{
-		 $statut=1;
+			$statut=1;
 		}else
 		{
-		  $statut=2;
-	   }
+			$statut=2;
+		}
 		echo json_encode($statut);
 	}
 	
@@ -677,14 +723,76 @@
 		
 		if($result==true )
 		{
-		 $statut=1;
+			$statut=1;
 		}else
 		{
-		  $statut=2;
-	   }
+			$statut=2;
+		}
 		echo json_encode($statut);
 	}
 
+
+	//Fonction pour enregistrer l'affectation d'un chauffeur sur un vehicule 
+	function save_chauffeur_voiture()
+	{
+		// $statut=1 attribution avec succes;
+		// $statut=2:possedent une autre voiture qu'on l'a deja attribuée;
+		// $statut=3: attribution echoue
+		$statut=3;
+		// $CODE= $this->input->post('code_vehicule');
+		$CODE = $this->input->post('VEHICULE_ID');
+		$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID');
+		$COORD = $this->input->post('COORD');
+		$COORD = str_replace("LatLng(", "[", $COORD);
+		$COORD = str_replace(")", "]", $COORD);
+		$COORD = '['.$COORD.']';
+
+		$COORD_POLY = $COORD;
+
+		$COORD_POLY = explode(',[', $COORD_POLY);
+		$COORD_POLY_SEND = '';
+		for ($i=0; $i < count($COORD_POLY); $i++) { 
+
+			$COORD_POLY2 = $COORD_POLY[$i];
+
+			$COORD_POLY2 = str_replace(']', '', $COORD_POLY2);
+			$COORD_POLY2 = str_replace('[', '', $COORD_POLY2);
+
+			$COORD_POLY2 = explode(',', $COORD_POLY2);
+			$COORD_POLY_SEND.= '['.$COORD_POLY2[1].','.$COORD_POLY2[0].'],';
+
+		}
+
+		$COORD_POLY_SEND .= '@';
+		$COORD_POLY_SEND = str_replace(',@', '', $COORD_POLY_SEND);
+
+		$COORD_POLY_SEND = '[['.$COORD_POLY_SEND.']]';
+
+		
+		
+		$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION');
+		$DATE_FIN_AFFECTATION = $this->input->post('DATE_FIN_AFFECTATION');
+
+
+
+		$data = array('CODE'=>$CODE,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'STATUT_AFFECT'=>1);
+
+		$CHAUFFEUR_VEH = $this->Model->insert_last_id('chauffeur_vehicule',$data);
+		$data_2 = array('COORD'=>$COORD_POLY_SEND,'CHAUFFEUR_VEHICULE_ID'=>$CHAUFFEUR_VEH);
+
+		$CHAUFFEUR_AFF = $this->Model->create('chauffeur_zone_affectation',$data_2);
+		$result = $this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('STATUT_VEHICULE'=>2));
+		$result = $this->Model->update('vehicule',array('CODE'=>$CODE),array('STATUT'=>2));
+		
+		if($result==true )
+		{
+			$statut=1;
+		}else
+		{
+			$statut=2;
+		}
+		echo json_encode($statut);
+	}
 	function retirer_voiture()
 	{
 		$statut=2;
@@ -714,17 +822,17 @@
 		
 	}
 	//Fonction pour activer/desactiver un proprietaire
-    function active_desactive($status,$CHAUFFEUR_ID)
-    {
-    	if($status==1){
-    		$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>2));
+	function active_desactive($status,$CHAUFFEUR_ID)
+	{
+		if($status==1){
+			$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>2));
 
-    	}else if($status==2){
-    		$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>1));
-    	}
+		}else if($status==2){
+			$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>1));
+		}
 
-    	echo json_encode(array('status'=>$status));
-    }
+		echo json_encode(array('status'=>$status));
+	}
 
   	//Fonction pour inserer dans la BD
 	function add()
@@ -789,31 +897,30 @@
 
 				'FILE_PERMIS' => $this->upload_document($_FILES['file_permis']['tmp_name'],$_FILES['file_permis']['name']),
 				'PHOTO_PASSPORT' => $this->upload_document($_FILES['photo_passport']['tmp_name'],$_FILES['photo_passport']['name']),
-
 				'PROVINCE_ID' => $this->input->post('PROVINCE_ID'),
 				'COMMUNE_ID' => $this->input->post('COMMUNE_ID'),
 				'ZONE_ID' => $this->input->post('ZONE_ID'),
 				'COLLINE_ID' => $this->input->post('COLLINE_ID'),
 				'DATE_NAISSANCE' => $this->input->post('date_naissance'),
-				 'DATE_EXPIRATION_PERMIS' => $this->input->post('date_expiration'),
+				'DATE_EXPIRATION_PERMIS' => $this->input->post('date_expiration'),
 				'GENRE_ID' => $this->input->post('GENRE_ID')
 			);
 			
 			$inser = $this->Model->create($table,$data_insert);
 			// if($CHAUFFEUR_ID>0)
 			// {
-				if($inser)
-				{
-					
-					
-					$data['message']='<div class="alert alert-success text-center" id="message">Ajout effectuer avec succès</div>';
-					$this->session->set_flashdata($data);
-					redirect(base_url('chauffeur/Chauffeur/index'));
-				}
-				else
-				{
-					$this->load->view('Chauffeur_Add_View',$data);
-				}
+			if($inser)
+			{
+
+
+				$data['message']='<div class="alert alert-success text-center" id="message">Ajout effectuer avec succès</div>';
+				$this->session->set_flashdata($data);
+				redirect(base_url('chauffeur/Chauffeur/index'));
+			}
+			else
+			{
+				$this->load->view('Chauffeur_Add_View',$data);
+			}
 			//}
 			// else
 			// {
@@ -933,6 +1040,19 @@
 	}
 
 
-
+	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
+	public function getBindParms($columnselect, $table, $where, $orderby)
+	{
+		$bindparams = array(
+			'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+			'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+			'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+			'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+		);
+		return $bindparams;
 	}
+
+
+
+}
 ?>

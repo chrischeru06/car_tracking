@@ -144,17 +144,19 @@ input:checked + .slider:before {
                 <table id="mytable" class="table table-hover" style="width:100%;">
                   <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                     <tr>
-                    <!--   <th class="">CODE</th> -->
+                      <!--   <th class="">CODE</th> -->
                       <th class="">#</th>
-                     <!-- <th class="">PROPRIETAIRE</th> -->
+                      <!-- <th class="">PROPRIETAIRE</th> -->
                       <th class="">PLAQUE</th>
                       <th class="">MARQUE</th>
-                     <!--  <th class="">MODELE</th> -->
+                      <!--  <th class="">MODELE</th> -->
                       <th class="">COULEUR</th>
                       <!-- <th class="">CONSOMMATION</th> -->
                       <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
                       <th class="">TRAITEMENT&nbsp;DEMANDE</th>
                       <th class="">STATUT</th>
+                      <th class="">VALIDITE&nbsp;ASSURENCE</th>
+                      <th class="">VALIDITE&nbsp;CONTROLE&nbsp;TECHNIQUE</th>
                       <th class="">ACTION</th>
                     </tr>
                   </thead>
@@ -220,6 +222,101 @@ input:checked + .slider:before {
   </div>
 </div><!-- End Modal-->
 
+
+
+<!--******** Modal pour assurance et controle technique *********-->
+
+<div class="modal fade" id="Modal_assure_controle" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
+
+        --><h5 class="modal-title" id="titre">Assurance et contrôle technique</h5>
+
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form_assure_controle" enctype="multipart/form-data" action="#" method="post">
+          <div class="modal-body mb-1">
+            <div class="row">
+
+              <input type="hidden" name="VEHICULE_ID_ASSURE_CONTROLE" id="VEHICULE_ID_ASSURE_CONTROLE">
+              <input type="hidden" name="ACTION" id="ACTION">
+              <input type="hidden" name="USER_ID" id="USER_ID" value="<?=$this->session->userdata('USER_ID')?>">
+
+              <div class="col-md-6" id="assureur">
+                <label>Assureur<font color="red">*</font></label> 
+                <select class="form-control" name="ID_ASSUREUR"  id="ID_ASSUREUR">
+                 <option value="">Sélectionner</option>
+
+               </select>
+               <font id="error_ID_ASSUREUR" color="red"></font>
+             </div>
+
+             <div class="col-md-6" id="debut_assurance">
+              <label ><small>Date début assurance</small><span  style="color:red;">*</span></label>
+              <input type="date" name="DATE_DEBUT_ASSURANCE" autocomplete="off" id="DATE_DEBUT_ASSURANCE" value=""  class="form-control" onchange="get_date_fin_assurance(this.value)" min="<?= date('Y-m-d')?>">
+
+              <font id="error_DATE_DEBUT_ASSURANCE" color="red"></font>
+
+            </div>
+
+            <div class="col-md-6" id="debut_controle">
+              <label ><small>Date début contrôle technique</small><span  style="color:red;">*</span></label>
+              <input type="date" name="DATE_DEBUT_CONTROTECHNIK" autocomplete="off" id="DATE_DEBUT_CONTROTECHNIK" value=""  class="form-control" onchange="get_date_fin_controle(this.value)" min="<?= date('Y-m-d')?>">
+
+              <font id="error_DATE_DEBUT_CONTROTECHNIK" color="red"></font>
+
+            </div>
+
+            <div class="col-md-6" id="fin_assurance">
+              <label ><small>Date fin assurance</small><span  style="color:red;">*</span></label>
+              <input type="date" name="DATE_FIN_ASSURANCE" autocomplete="off" id="DATE_FIN_ASSURANCE" value=""  class="form-control" >
+
+              <font id="error_DATE_FIN_ASSURANCE" color="red"></font>
+
+            </div>
+
+            <div class="col-md-6" id="fin_controle">
+              <label ><small>Date fin contrôle technique</small><span  style="color:red;">*</span></label>
+              <input type="date" name="DATE_FIN_CONTROTECHNIK" autocomplete="off" id="DATE_FIN_CONTROTECHNIK" value=""  class="form-control" >
+
+              <font id="error_DATE_FIN_CONTROTECHNIK" color="red"></font>
+            </div>
+
+
+            <div class="col-md-6" id="photo_assurance">
+              <label> <small>Photo assurance</small> </label>
+
+              <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+
+              <span id="error_FILE_ASSURANCE" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6" id="photo_controle">
+              <label> <small>Photo contrôle technique</small> </label>
+
+              <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+
+              <span id="error_FILE_CONTRO_TECHNIQUE" class="text-danger"></span>
+            </div>
+
+          </div>
+        </div> 
+        <div class="modal-footer">
+          <!-- <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Traiter" onclick="save_statut_vehicul();" /> -->
+          <button type="button" class="btn btn-outline-primary rounded-pill" id="btnSave" onclick="save_assure_controle()"> <i class="fa fa-save"> </i> Enregistrer</button>
+
+          <button type="reset" class='btn btn-outline-warning rounded-pill' style="float:right;" data-dismiss="modal" id="btnCancel"><i class="fa fa-close"> </i> Annuler</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div><!-- End Modal-->
+
 </main><!-- End #main -->
 
 <?php include VIEWPATH . 'includes/footer.php'; ?>
@@ -232,6 +329,7 @@ input:checked + .slider:before {
   // Fonction pour le chargement de donnees par defaut
   $(document).ready( function ()
   {
+
     liste();
 
   });
@@ -380,7 +478,6 @@ input:checked + .slider:before {
 
 function save_statut_vehicul()
 {
-
   var statut=1;
   $('#errorCOMMENTAIRE').html('');
   $('#errorTRAITEMENT_DEMANDE_ID').html('');
@@ -453,6 +550,192 @@ function save_statut_vehicul()
     });
   }
 }
+</script>
+
+<script>
+  //Fonction pour afficher le formulaire de renouvellement assurance et controle technique
+  function assure_controle(VEHICULE_ID_ASSURE_CONTROLE ='',ACTION = '')
+  {
+    $('#VEHICULE_ID_ASSURE_CONTROLE').val(VEHICULE_ID_ASSURE_CONTROLE);
+    $('#ACTION').val(ACTION);
+
+    if($('#ACTION').val() == 1) //Assurance
+    {
+      $('#titre').text('Renouvelement de l\'assurance');
+
+      $('#assureur').show();
+      $('#debut_assurance').show();
+      $('#fin_assurance').show();
+      $('#photo_assurance').show();
+
+      $('#debut_controle').hide();
+      $('#fin_controle').hide();
+      $('#photo_controle').hide();
+    }
+    else if($('#ACTION').val() == 2) //Controle technique
+    {
+      $('#titre').text('Renouvellement du contrôle technique');
+
+      $('#assureur').hide();
+      $('#debut_assurance').hide();
+      $('#fin_assurance').hide();
+      $('#photo_assurance').hide();
+
+      $('#debut_controle').show();
+      $('#fin_controle').show();
+      $('#photo_controle').show();
+    }
+
+    $('#Modal_assure_controle').modal('show');
+
+    $.ajax(
+    {
+      url: "<?= base_url() ?>vehicule/Vehicule/select_assureur/",
+      type: "GET",
+      dataType: "JSON",
+      success: function(data)
+      {
+        if (data) {
+          $('#ID_ASSUREUR').html(data.html_assureur);
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown)
+      {
+        alert('Erreur');
+      }
+    });
+  }
+</script>
+
+
+<!---CONTROLE DES DATES------>
+<script type="text/javascript">
+  function get_date_fin_assurance()
+  {
+    $("#DATE_FIN_ASSURANCE").prop('min',$("#DATE_DEBUT_ASSURANCE").val());
+
+    if($("#DATE_FIN_ASSURANCE").val() < $("#DATE_DEBUT_ASSURANCE").val() )
+    {
+      $("#DATE_FIN_ASSURANCE").val($("#DATE_DEBUT_ASSURANCE").val());
+    }
+    
+  }
+</script>
+
+<script type="text/javascript">
+  function get_date_fin_controle()
+  {
+    $("#DATE_FIN_CONTROTECHNIK").prop('min',$("#DATE_DEBUT_CONTROTECHNIK").val());
+
+    if($("#DATE_FIN_CONTROTECHNIK").val() < $("#DATE_DEBUT_CONTROTECHNIK").val() )
+    {
+      $("#DATE_FIN_CONTROTECHNIK").val($("#DATE_DEBUT_CONTROTECHNIK").val());
+    }
+    
+  }
+</script>
+
+<script>
+  //Fonction pour proceder à l'enregistrement de l'assurance et controle technique
+  function save_assure_controle()
+  {
+    var statut = 1;
+
+    var ACTION = $('#ACTION').val();
+
+    var ID_ASSUREUR = $('#ID_ASSUREUR').val();
+    var DATE_DEBUT_ASSURANCE = $('#DATE_DEBUT_ASSURANCE').val();
+    var DATE_FIN_ASSURANCE = $('#DATE_FIN_ASSURANCE').val();
+    var FILE_ASSURANCE = $('#FILE_ASSURANCE').val();
+
+    var DATE_DEBUT_CONTROTECHNIK = $('#DATE_DEBUT_CONTROTECHNIK').val();
+    var DATE_FIN_CONTROTECHNIK = $('#DATE_FIN_CONTROTECHNIK').val();
+    var FILE_CONTRO_TECHNIQUE = $('#FILE_CONTRO_TECHNIQUE').val();
+
+    if(ACTION == 1)
+    {
+
+     if(ID_ASSUREUR == '')
+     {
+      $('#error_ID_ASSUREUR').text('Le champ est obligatoire !');
+      statut = 2;
+     }else{$('#error_ID_ASSUREUR').text('');}
+
+     if(DATE_DEBUT_ASSURANCE == '')
+     {
+      $('#error_DATE_DEBUT_ASSURANCE').text('Le champ est obligatoire !');
+      statut = 2;
+     }else{$('#error_DATE_DEBUT_ASSURANCE').text('');}
+
+     if(DATE_FIN_ASSURANCE == '')
+     {
+      $('#error_DATE_FIN_ASSURANCE').text('Le champ est obligatoire !');
+      statut = 2;
+     }else{$('#error_DATE_FIN_ASSURANCE').text('');}
+
+      if(FILE_ASSURANCE == '')
+     {
+      $('#error_FILE_ASSURANCE').text('Le champ est obligatoire !');
+      statut = 2;
+     }else{$('#error_FILE_ASSURANCE').text('');}
+
+
+    }
+    else if(ACTION == 2)
+    {
+
+      if(DATE_DEBUT_CONTROTECHNIK == '')
+     {
+      $('#error_DATE_DEBUT_CONTROTECHNIK').text('Le champ est obligatoire !');
+      statut = 2;
+     }else{$('#error_DATE_DEBUT_CONTROTECHNIK').text('');}
+
+     if(DATE_FIN_CONTROTECHNIK == '')
+     {
+      $('#error_DATE_FIN_CONTROTECHNIK').text('Le champ est obligatoire !');
+      statut = 2;
+     }else{$('#error_DATE_FIN_CONTROTECHNIK').text('');}
+
+      if(FILE_CONTRO_TECHNIQUE == '')
+     {
+      $('#error_FILE_CONTRO_TECHNIQUE').text('Le champ est obligatoire !');
+      statut = 2;
+     }else{$('#error_FILE_CONTRO_TECHNIQUE').text('');}
+
+    }
+
+
+    if(statut == 1)
+    {
+      var form_data = new FormData($("#form_assure_controle")[0]);
+      url = "<?= base_url('vehicule/Vehicule/save_assure_controle/') ?>";
+      $.ajax({
+        url: url,
+        type: 'POST',
+        dataType:'JSON',
+        data: form_data ,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function(data) {
+          console.log(data)
+                               //alert(data)
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Enregistrement avec succès !',
+            timer: 2000,
+          }).then(() => {
+            window.location.reload();
+          })
+          $("#form_assure_controle")[0].reset();
+        }
+      })
+    }
+
+
+
+  }
 </script>
 
 </html>
