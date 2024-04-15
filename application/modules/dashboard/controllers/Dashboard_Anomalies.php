@@ -27,7 +27,6 @@ class Dashboard_Anomalies extends CI_Controller
      //print_r($data['reflesh']);die();
     $this->load->view('Dashboard_Anomalies_View',$data);
   }
-
    //detail pour le rapport2:vehicules par exces vs normal
   function detail_exces()
   {
@@ -36,7 +35,6 @@ class Dashboard_Anomalies extends CI_Controller
     $ID=$KEY8;
     $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
     $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM`vehicule`  JOIN tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
-
 
     $limit='LIMIT 0,10';
     if($_POST['length'] != -1)
@@ -257,10 +255,6 @@ class Dashboard_Anomalies extends CI_Controller
     );
     echo json_encode($output);
   }
-
-
-
-
 
   public function get_rapport()
   {
@@ -578,12 +572,10 @@ class Dashboard_Anomalies extends CI_Controller
    $DATE_DEBUT = $this->input->post('DATE_DAT');
    $DATE_DAT_FIN = $this->input->post('DATE_DAT_FIN');
     $critere=" ";
-
+  
    if(!empty($DATE_DEBUT) && !empty($DATE_DAT_FIN)){
 
       $critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_DEBUT.'" AND "'.$DATE_DAT_FIN.'" ';
-
-
     }
 
     $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1  GROUP BY ID,NAME');
@@ -723,7 +715,7 @@ class Dashboard_Anomalies extends CI_Controller
              click: function()
              {
                $(\"#titre\").html(\"LISTE DES AGENTS \");
-               $(\"#myModal\").modal('show');
+               $(\"#myModal\").modal('');
                var row_count ='1000000';
                $(\"#mytable\").DataTable({
                \"processing\":true,
@@ -798,6 +790,9 @@ class Dashboard_Anomalies extends CI_Controller
     }]
     });
    </script>";
+   //RAPPORT4:NBR ARRET PAR VEHICULE
+
+    //SELECT DISTINCT vehicule.VEHICULE_ID as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(mouvement) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE='18ea3866126861' GROUP BY IDENTIIANT,NAME
 
 
 
