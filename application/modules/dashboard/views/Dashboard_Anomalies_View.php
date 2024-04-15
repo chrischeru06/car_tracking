@@ -22,7 +22,7 @@
   <!-- ======= Sidebar ======= -->
   <?php include VIEWPATH . 'includes/menu_left.php'; ?>
   <!-- End Sidebar-->
-  <?php header("refresh:180; url=$reflesh/dashboard/Dashboard_Anomalies");?>
+<!--   <?php header("refresh:180; url=$reflesh/dashboard/Dashboard_Anomalies");?> -->
 
 
   <main id="main" class="main">
@@ -75,8 +75,20 @@
                   <div class="card">
                     <div class="card-body pb-0">
                       <h5 class="card-title"></h5>
+           <div class="row">
+
+      <div class="form-group col-md-6">
+      <label class="form-label">Date début</label>
+      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="change_carte();viderh();">
+    </div>
+    <div class="form-group col-md-6">
+      <label class="form-label">Date fin</label>
+      <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= date('Y-m-d')?>" onchange="change_carte();">
+    </div>
+  </div>
                       <div id="container10" style="min-height: 280px;"></div>
                       <div id="nouveau10"></div>
+
                     </div>
                   </div>
                   <!--vehicule en stationnemenr vs en mouvement begin -->
@@ -251,6 +263,9 @@
         // $('#nouveau5').html(data.rapp5);
         // $('#nouveau6').html(data.rapp6);
         // $('#nouveau7').html(data.rapp7);
+
+
+
 
 
       },            

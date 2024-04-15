@@ -5,13 +5,16 @@ mail:ella_dancilla@mediabox.bi
 dashboard des anomalies
 tel:71379943
 */
+ini_set('max_execution_time', 2000);
+ini_set('memory_limit','2048M');
+
 class Dashboard_Anomalies extends CI_Controller
 {
   public function getcolor() 
   {
     $chars = 'ABCDEF0123456789';
     $color = '#';
-    for ( $i= 0; $i < 6; $i++ )
+    for ( $i= 0; $i < 6; $i++ ) 
     {
       $color.= $chars[rand(0, strlen($chars) -1)];
     }
@@ -572,66 +575,90 @@ class Dashboard_Anomalies extends CI_Controller
    </script>";
 
    //rapport des conmsomation par vehicules
-      $vehicule_consomation=$this->Model->getRequete('SELECT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule` WHERE 1 GROUP BY ID,NAME');
-   // $proce_requete = "CALL `getRequete`(?,?,?,?);";
+   $DATE_SELECT = $this->input->post('DATE_DAT');
+   $DATE_DAT_FIN = $this->input->post('DATE_DAT_FIN');
 
-   // $my_selectmin_arret = $this->getBindParms('MIN(id) as minimum', 'tracking_data', '1  ' , '`id` ASC');
-   //  $my_selectmin_arret=str_replace('\"', '"', $my_selectmin_arret);
-   //  $my_selectmin_arret=str_replace('\n', '', $my_selectmin_arret);
-   //  $my_selectmin_arret=str_replace('\"', '', $my_selectmin_arret);
-   //  $min_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret);
+   if(!empty($DATE_SELECT) && !empty($DATE_DAT_FIN)){
 
-   //  $my_selectmax_arret = $this->getBindParms('MAX(id) as maximum', 'tracking_data', '1' , '`id` ASC');
-   //  $my_selectmax_arret=str_replace('\"', '"', $my_selectmax_arret);
-   //  $my_selectmax_arret=str_replace('\n', '', $my_selectmax_arret);
-   //  $my_selectmax_arret=str_replace('\"', '', $my_selectmax_arret);
-   //  $max_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmax_arret);
+      $critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_SELECT.'" AND "'.$DATE_DAT_FIN.'" ';
 
-   //  $min_arret_plus=$min_arret['minimum']+1;
 
-   //  for ($i=$min_arret['minimum'],$j=$min_arret_plus; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++) {
+    }
 
-   //    $my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1' , '`id` ASC');
-   //    $my_selectarret1=str_replace('\"', '"', $my_selectarret1);
-   //    $my_selectarret1=str_replace('\n', '', $my_selectarret1);
-   //    $my_selectarret1=str_replace('\"', '', $my_selectarret1);
+    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 and '.$critere.' GROUP BY ID,NAME');
 
-   //    $point_distance = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret1);
+  $nvldistance=0;
+   $proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-   //    $my_selectarret2= $this->getBindParms('latitude,longitude', 'tracking_data', '1 ' , '`id` ASC');
-   //    $my_selectarret2=str_replace('\"', '"', $my_selectarret2);
-   //    $my_selectarret2=str_replace('\n', '', $my_selectarret2);
-   //    $my_selectarret2=str_replace('\"', '', $my_selectarret2);
+   $my_selectmin_arret = $this->getBindParms('MIN(id) as minimum', 'tracking_data', '1  ' , '`id` ASC');
+    $my_selectmin_arret=str_replace('\"', '"', $my_selectmin_arret);
+    $my_selectmin_arret=str_replace('\n', '', $my_selectmin_arret);
+    $my_selectmin_arret=str_replace('\"', '', $my_selectmin_arret);
+    $min_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret);
 
-   //    $point_distance2 = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret2);
-   //    if(!empty($point_distance) && !empty($point_distance2)){
+    $my_selectmax_arret = $this->getBindParms('MAX(id) as maximum', 'tracking_data', '1' , '`id` ASC');
+    $my_selectmax_arret=str_replace('\"', '"', $my_selectmax_arret);
+    $my_selectmax_arret=str_replace('\n', '', $my_selectmax_arret);
+    $my_selectmax_arret=str_replace('\"', '', $my_selectmax_arret);
+    $max_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmax_arret);
 
-   //      $nvldistance+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
-   //    }else{
+    $min_arret_plus=$min_arret['minimum']+1;
 
-   //      $nvldistance+=0;
-   //    } 
+    for ($i=$min_arret['minimum'],$j=$min_arret_plus; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++) {
+
+      $my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
+      $my_selectarret1=str_replace('\"', '"', $my_selectarret1);
+      $my_selectarret1=str_replace('\n', '', $my_selectarret1);
+      $my_selectarret1=str_replace('\"', '', $my_selectarret1);
+
+      $point_distance = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret1);
+
+      $my_selectarret2= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$j.'"' , '`id` ASC');
+      $my_selectarret2=str_replace('\"', '"', $my_selectarret2);
+      $my_selectarret2=str_replace('\n', '', $my_selectarret2);
+      $my_selectarret2=str_replace('\"', '', $my_selectarret2);
+
+      $point_distance2 = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret2);
+
+      if(!empty($point_distance) && !empty($point_distance2)){
+
+        $nvldistance+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
+      }else{
+
+        $nvldistance+=0;
+      } 
       
       
-   //  }
-   //  $nvldistance_arrondie=round($nvldistance);
+    }
+    $nvldistance_arrondie=round($nvldistance);
+  //print_r($nvldistance_arrondie);exit();
 
-   //    $proce_requete = "CALL `getRequete`(?,?,?,?);";
-   //    $vehicule_cons= $this->getBindParms('vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR', 'vehicule', '1 AND  `id` = (SELECT MAX(`id`) FROM tracking_data)' , '`id` ASC');
-   //    $vehicule_cons=str_replace('\"', '"', $vehicule_cons);
-   //    $vehicule_cons=str_replace('\n', '', $vehicule_cons);
-   //    $vehicule_cons=str_replace('\"', '', $vehicule_cons);
-   //     $vehicule_consomation = $this->ModelPs->getRequeteOne($proce_requete, $vehicule_cons);
+      // $proce_requete = "CALL `getRequete`(?,?,?,?);";
+      // $vehicule_cons= $this->getBindParms('vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR', 'vehicule', '1 AND  `id` = (SELECT MAX(`id`) FROM tracking_data)' , '`id` ASC');
+      // $vehicule_cons=str_replace('\"', '"', $vehicule_cons);
+      // $vehicule_cons=str_replace('\n', '', $vehicule_cons);
+      // $vehicule_cons=str_replace('\"', '', $vehicule_cons);
+      //  $vehicule_consomation = $this->ModelPs->getRequeteOne($proce_requete, $vehicule_cons);
 
-    $donnees10="";
+        $donnees10="";
     foreach ($vehicule_consomation as  $value) 
     {
-      // $littre_consom=$value['NBR']*$nvldistance_arrondie;
+       $littre_consom=$value['NBR']*$nvldistance_arrondie;
       $color=$this->getcolor();
-      $nb10 = (!empty($value['NBR'])) ? $value['NBR'] : "0" ;
+      $nb10 = (!empty($littre_consom)) ? $littre_consom : "0" ;
       $donnees10.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb10.",color:'".$color."',key2:".$value['ID']."},"; 
       
     }
+
+    // $donnees10="";
+    // foreach ($vehicule_consomation as  $value) 
+    // {
+    //   // $littre_consom=$value['NBR']*$nvldistance_arrondie;
+    //   $color=$this->getcolor();
+    //   $nb10 = (!empty($value['NBR'])) ? $value['NBR'] : "0" ;
+    //   $donnees10.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb10.",color:'".$color."',key2:".$value['ID']."},"; 
+      
+    // }
 
    
    
