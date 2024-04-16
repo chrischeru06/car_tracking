@@ -11,7 +11,7 @@
     -progress: [object Object];
     flex-flow: column;
     overflow-y: auto;
-    border: solid 1px rgba(128, 128, 128, 0.3);
+/*    border: solid 1px rgba(128, 128, 128, 0.3);*/
   }
   .jss408:hover {
     border: solid 1px rgb(128, 128, 128);
@@ -135,7 +135,7 @@
   padding: 20px;
   position: relative;
   background: #fff;
-  border: solid 1px rgba(128, 128, 128, 0.3);
+/*  border: solid 1px rgba(128, 128, 128, 0.3);*/
 }
 .jss110:hover{
   border: solid 1px rgb(128, 128, 128);
@@ -472,7 +472,7 @@ z-index: 100;
                 'fill-opacity': 0.4
               }
             });
-        // Add a black outline around the polygon.
+      // Add a black outline around the polygon.
       map_map.addLayer({
         'id': 'outline',
         'type': 'line',

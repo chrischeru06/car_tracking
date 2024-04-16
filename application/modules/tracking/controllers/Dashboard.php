@@ -399,7 +399,8 @@ class Dashboard extends CI_Controller
 		//calcul du temps d'arret
 		if(!empty($get_data_arret)){
 			$tabl=array();
-			
+			$dist_geofenc=array();
+			$depasse_zone=0;
 			foreach ($get_data_arret as $value_get_arret_code) {
 				$my_selectone_element = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" ' , '`id` ASC');
 				$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
@@ -450,14 +451,76 @@ class Dashboard extends CI_Controller
 
 				}
 
-				$tabl[]=[$this->notifications->ago($one_element['date_vu'],$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM']];
+				//geofence
 
+				$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" ' , '`id` ASC');
+				$my_select_geo_el=str_replace('\"', '"', $my_select_geo_el);
+				$my_select_geo_el=str_replace('\n', '', $my_select_geo_el);
+				$my_select_geo_el=str_replace('\"', '', $my_select_geo_el);
+
+				$elt_geofence_course = $this->ModelPs->getRequete($proce_requete, $my_select_geo_el);
+
+				$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ', '1 AND md5(CODE) ="'.$CODE.'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
+				$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
+				$my_selectdelim=str_replace('\n', '', $my_selectdelim);
+				$my_selectdelim=str_replace('\"', '', $my_selectdelim);
+				$zones_delim = $this->ModelPs->getRequeteOne($proce_requete, $my_selectdelim);
+
+				$COORD_POLYGONE = $zones_delim['COORD'];
+				$COORD_POLYGONE = str_replace('[[', '', $COORD_POLYGONE);
+				$COORD_POLYGONE = str_replace(']]', '', $COORD_POLYGONE);
+
+				$COORD_POLYGONE_P = $COORD_POLYGONE;
+
+				$COORD_POLY = $COORD_POLYGONE_P;
+
+				$COORD_POLY = explode('],[', $COORD_POLY);
+				$COORD_POLY = str_replace('[', '', $COORD_POLY);
+				$COORD_POLY = str_replace(']', '', $COORD_POLY);
+
+				$COORD_POLY_SEND=array();
+
+				for ($i=0; $i < count($COORD_POLY); $i++) { 
+
+
+					$COORD_POLY2 = $COORD_POLY[$i];
+
+					$COORD_POLY2 = str_replace(']', '', $COORD_POLY2);
+					$COORD_POLY2 = str_replace('[', '', $COORD_POLY2);
+
+					$COORD_POLY2 = explode(',', $COORD_POLY2);
+
+					$COORD_POLY_SEND[].= $COORD_POLY2[0].','.$COORD_POLY2[1];
+
+				}
 				
+				$polygon_die = array();
+				foreach ($COORD_POLY_SEND as $coord) {
+					list($x, $y) = explode(",", $coord);
+					$polygon_die[] = array((string)$x, (string)$y);
+				}
+				$COORD_POLY_repl = str_replace('[', '', $polygon_die);
 				
+				foreach ($elt_geofence_course as $key_geo) {
+
+					
+					$point_check=array($key_geo['longitude'],$key_geo['latitude']);
+					$response[]=$this->Model->isPointInsidePolygon($point_check, $COORD_POLY_repl);
+
+				}
+
+				foreach ($response as $keyresponse) {
+					if($keyresponse==1){
+						$depasse_zone=1;
+					}else{
+						$depasse_zone=2;
+					}
+				}
+
+				$tabl[]=[$this->notifications->ago($one_element['date_vu'],$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM'],$depasse_zone];
 
 
 			}
-
 
 			$data['tabl'] = $tabl;
 
@@ -500,6 +563,14 @@ class Dashboard extends CI_Controller
 					}
 					$lat = $keytabl[8];
 					$lng = $keytabl[9];
+
+					if($keytabl[18]==1){
+						$ch_color='border: solid 1px rgba(128, 128, 128, 0.3);';
+
+					}else{
+						$ch_color='border: solid 1px rgba(244, 10, 10, 100);';
+
+					}
 
 					$dataplace.= '<script>
 
@@ -545,7 +616,7 @@ class Dashboard extends CI_Controller
 								if ($keytabl[12]==1) {
 
 									$card_card.='<div class="card" onclick="change_carte(\''.$keytabl[1].'\')">
-									<div class="jss408">
+									<div class="jss408" style="'.$ch_color.'">
 									<div class="jss491" style="cursor: pointer;">
 									<div class="jss490">
 									<div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 css-wmagas" style="margin: 4px 7px 7px auto; color: grey; font-size: 11px;">
@@ -566,8 +637,8 @@ class Dashboard extends CI_Controller
 								}
 								elseif ($keytabl[12]==0) 
 								{
-									$card_card.='<div class="card" onclick="change_carte(\''.$keytabl[1].'\')">
-									<div class="jss110" style="cursor: pointer;">
+									$card_card.='<div class="card"  onclick="change_carte(\''.$keytabl[1].'\')">
+									<div class="jss110" style="cursor: pointer;'.$ch_color.'" >
 									<div class="jss111">
 									<div class="jss112" style="width: 78px; font-size: 11px; font-weight: 500;"><p><sup class="jss500 jss501"> '.$keytabl[13].'</sup>'.$keytabl[4].'<span class="jss119">:'.$keytabl[5].'</span></p><span style="display: block; height: 2px;"></span><p style="position: relative;"><sup class="jss500 jss501">'.$keytabl[14].'</sup>'.$keytabl[6].'<span class="jss119">:'.$keytabl[7].'&nbsp;</span></p>
 									</div>
@@ -636,7 +707,7 @@ class Dashboard extends CI_Controller
 										'coordinates': [".$keyprovinces_delim['COORD']."]
 									}
 								},";
-
+								
 
 							}
 
@@ -818,7 +889,7 @@ class Dashboard extends CI_Controller
 									}
 
 
-					//Fonction pour afficher la position de la voiture
+									//Fonction pour afficher la position de la voiture
 									function getmap($CODE){
 
 										$DATE_SELECT = $this->input->post('DATE_DAT');
@@ -970,40 +1041,9 @@ class Dashboard extends CI_Controller
 										}
 
 									}
-									//Fonction pour la verification
-									function check(){
-										$proce_requete = "CALL `getRequete`(?,?,?,?);";
-										$my_selectprovinces = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ', '1 AND CODE ="4.4098856886e-314" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
-										$my_selectprovinces=str_replace('\"', '"', $my_selectprovinces);
-										$my_selectprovinces=str_replace('\n', '', $my_selectprovinces);
-										$my_selectprovinces=str_replace('\"', '', $my_selectprovinces);
-										$provinces_delim = $this->ModelPs->getRequete($proce_requete, $my_selectprovinces);
-										// $point="[ -3.5382336 , 29.910701 ]";
-										$point="[ 29.38373 , -3.3844266 ]";
+									
 
-										$x =  (int) ((MAP_WIDTH/360.0) * (180 + lon));
-										$y =  (int) ((MAP_HEIGHT/180.0) * (90 - lat));
-
-										foreach ($provinces_delim as $keyprovinces_delim) {
-
-											$COORD_POLY = $keyprovinces_delim['COORD'];
-											// $COORD_POLY = explode(',[[', $COORD_POLY);
-											
-											$COORD_POLY = str_replace('[[', '', $COORD_POLY);
-											$COORD_POLY = str_replace(']]', '', $COORD_POLY);
-											$polygone[]=$COORD_POLY;
-
-											$in_out=$this->notifications->pointInPolygon($point,$polygone);
-											// print_r($in_out);die();
-
-										}
-
-
-
-									}
-
-
-					//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
+									//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 									public function getBindParms($columnselect, $table, $where, $orderby)
 									{
 										$bindparams = array(
