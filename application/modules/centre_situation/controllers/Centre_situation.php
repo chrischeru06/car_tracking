@@ -110,7 +110,7 @@
 			$COORD_TRACK = $this->input->post('COORD_TRACK');
 
 			$coordinates = '-3.3944616,29.3726466';
-			$zoom = 18;
+			$zoom = 12;
 
 			$critere_proprietaire = '';
 			$critere_vehicule = '';
@@ -627,7 +627,28 @@
 				$critaire_select = ' AND STATUT_VEH_AJOUT = 3';
 			}
 
-			$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT AS photo_pro,proprietaire.EMAIL AS mail_pro,proprietaire.ADRESSE AS adress_pro,proprietaire.TELEPHONE AS telephone_pro,DATE_SAVE,vehicule.IS_ACTIVE AS vehicule_is_active,STATUT_VEH_AJOUT FROM vehicule JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv,tracking_data.accident as accident,tracking_data.ignition as ignition FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' ';
+			$CHECK_VALIDE = $this->input->post('CHECK_VALIDE');
+			$critaire_doc_valide = '' ;
+			$date_now = date('Y-m-d');
+
+			if($CHECK_VALIDE == 1) // Assurance valide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_ASSURANCE >= "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 2) // Assurance invalide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_ASSURANCE < "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 3) // Controle technique valide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK >= "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 4) // Controle technique invalide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK < "'.$date_now.'"';
+			}
+
+			$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT AS photo_pro,proprietaire.EMAIL AS mail_pro,proprietaire.ADRESSE AS adress_pro,proprietaire.TELEPHONE AS telephone_pro,DATE_SAVE,vehicule.IS_ACTIVE AS vehicule_is_active,STATUT_VEH_AJOUT FROM vehicule JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv,tracking_data.accident as accident,tracking_data.ignition as ignition FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.''.$critaire_doc_valide.'';
 
 			$critaire = ' ';
 
@@ -645,7 +666,7 @@
 
 			$order_by = ' ORDER BY id DESC';
 
-			$search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%' OR DATE_SAVE LIKE '%$var_search%' )"):'';
+			$search=!empty($_POST['search']['value']) ? (" AND (vehicule.CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%' OR DATE_SAVE LIKE '%$var_search%' )"):'';
 
 			$query_secondaire=$query_principal.''.$critaire.''.$search.''.$order_by. '';
 
@@ -838,6 +859,134 @@
 
 
 			
+		}
+
+
+		//fonction pour recuperer le nombre des vehicules selon la validation des documments
+
+		function get_nbr_vehicule($CHECK_VALIDE, $id = '')
+		{
+			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+
+			$critere_proprietaire = '';
+			$critere_vehicule = '';
+			$critere_user = '';
+
+			$critaireVehicule2= '';
+
+			$USER_ID = $this->session->userdata('USER_ID');
+
+			if($this->session->userdata('PROFIL_ID') != 1) // Si c'est pas l'admin : condition 
+			{
+				$critere_user.= ' AND users.USER_ID = '.$USER_ID;
+			}
+
+			if($PROPRIETAIRE_ID > 0){ // Condition selon le proprieataire selectionné
+				$critere_proprietaire.= ' AND proprietaire.PROPRIETAIRE_ID = '.$PROPRIETAIRE_ID;
+				$zoom = 10; 
+			}
+
+			if($VEHICULE_ID > 0){ // Condition selon le vehicule selectionné
+				$critere_vehicule.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+			}
+
+			$critaire_select = ' ';
+
+			if(!empty($VEHICULE_ID) && $id >= 0) // Condition selon le vehicule selectionné
+			{
+				$critaire_select = ' AND vehicule.VEHICULE_ID ='.$VEHICULE_ID;
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_ACTIF') // vehicule actif
+			{
+				$critaire_select = ' AND vehicule.IS_ACTIVE = 1';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_INACTIF') // vehicule inactif
+			{
+				$critaire_select = ' AND vehicule.IS_ACTIVE = 2';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_CREVAISON') // vehicule en accident
+			{
+				$critaire_select = ' AND accident = 1';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_MOUVEMENT') // vehicule en mouvent
+			{
+				$critaire_select = ' AND mouv = 1';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_ETEINT') // vehicule eteint
+			{
+				$critaire_select = ' AND ignition = 0';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_ALLUME') // vehicule allumé
+			{
+				$critaire_select = ' AND ignition = 1';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_STATIONNE') // vehicule stationné
+			{
+				$critaire_select = ' AND mouv = 0 OR mouv is NULL';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_ATTENTE') // Demande en attente
+			{
+				$critaire_select = ' AND STATUT_VEH_AJOUT = 1';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_APROUVE') // Demande approuvee
+			{
+				$critaire_select = ' AND STATUT_VEH_AJOUT = 2';
+			}
+			else if(empty($VEHICULE_ID) && $id == 'V_REFUSE') // Demande refusee
+			{
+				$critaire_select = ' AND STATUT_VEH_AJOUT = 3';
+			}
+
+			$critaire_doc_valide = '' ;
+
+			$date_now = date('Y-m-d');
+
+			if($CHECK_VALIDE == 1) // Assurance valide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_ASSURANCE >= "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 2) // Assurance invalide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_ASSURANCE < "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 3) // Controle technique valide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK >= "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 4) // Controle technique invalide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK < "'.$date_now.'"';
+			}
+
+			$vehicule = $this->Model->getRequeteOne('SELECT COUNT(VEHICULE_ID) AS nombre_v FROM vehicule JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv,tracking_data.accident as accident,tracking_data.ignition as ignition FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.''.$critaire_doc_valide.'');
+
+			echo $vehicule['nombre_v'];
+		}
+
+
+		// Fonction pour requiperer la photo du vehicule
+		function get_image_v($VEHICULE_ID)
+		{
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+			$my_query = $this->getBindParms('PHOTO', 'vehicule', '1 AND VEHICULE_ID = '.$VEHICULE_ID.'', '`VEHICULE_ID` ASC');
+			$vehicule = $this->ModelPs->getRequeteOne($proce_requete, $my_query);
+
+			$html = " ";
+
+			if(!empty($vehicule))
+			{
+				$PHOTO = $vehicule['PHOTO'];
+
+				//$html.="<img id='phot_v_dash' src = '".base_url('upload/photo_vehicule/'.$PHOTO)."' height='100%'  width='100%'  style= 'border-radius:20px;'>";
+
+				$html.= base_url('upload/photo_vehicule/'.$PHOTO);
+			}
+
+			$output = array('photo'=>$html);
+
+			echo json_encode($output);
 		}
 
 		// Fonction pour la liste des chauffeurs
@@ -1562,6 +1711,9 @@
 			);
 			echo json_encode($output);
 		}
+
+
+        
 
 
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées

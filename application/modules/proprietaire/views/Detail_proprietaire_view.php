@@ -116,7 +116,7 @@
                       </li>
 
                       <li class="nav-item">
-                        <button class="nav-link <?php if($VEHICULE_PRO !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules</button>
+                        <button class="nav-link <?php if($VEHICULE_PRO !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules<span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:-10px;left:-2px;">4</span></button>
                       </li>
 
                       <li class="nav-item">
@@ -131,7 +131,7 @@
                       </li>
 
                       <li class="nav-item">
-                        <button class="nav-link <?php if($VEHICULE_PRO !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules</button>
+                        <button class="nav-link <?php if($VEHICULE_PRO !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules<span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:-10px;left:-2px;">4</span></button>
                       </li>
                     <?php
 
@@ -331,7 +331,7 @@
 
                   <div class="table-responsive">
 
-                    <table id="mytable" class="table table-bordered table-hover text-dark" style="width:100%">
+                    <table id="mytable" class="table table-hover text-dark" style="width:100%">
                       <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                         <tr>
                           <th class="text-dark">#</th>
@@ -491,8 +491,8 @@
 <script >
   $(document).ready( function ()
   {
-
    liste();
+   get_nbr_vehicule()
  });
 
   function liste()
@@ -512,6 +512,7 @@
         type:"POST",
         data : {PROPRIETAIRE_ID:PROPRIETAIRE_ID},
         beforeSend : function() {
+
         }
       },
       lengthMenu: [[10,50, 100, -1], [10,50, 100, "All"]],
@@ -545,9 +546,6 @@
         }
       }
     });
-
-
-
 
 
   }
@@ -598,4 +596,22 @@
   }
    
 </script>
+
+<script>
+ function get_nbr_vehicule()
+ {
+  var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+
+   $.ajax({
+    url: "<?= base_url() ?>proprietaire/Proprietaire/get_nbr_vehicule/" + PROPRIETAIRE_ID,
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
+     $('.nbr_vehicule').text(data);
+    },
+
+  });
+ }
+</script>
+
 </html>

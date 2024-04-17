@@ -126,8 +126,41 @@ input:checked + .slider:before {
 </div>
 
 <section class="section dashboard">
-  <div class="row">
 
+
+  <div class="card">
+    <div class="card-body">
+      <br>
+      <div class="row">
+
+        <div class="col-md-6">
+          <label class="text-dark" style="font-weight: 1000; color:#454545">Filtrage selon la validité des documments</label>
+          <select class="form-control" id="CHECK_VALIDE" name="CHECK_VALIDE" onchange="listing();get_nbr_vehicule();">
+            <option value="0"> Tous les véhicules</option>
+            <option value="1"> Véhicules avec assurances valides </option>
+            <option value="2"> Véhicules avec assurances invalides </option>
+            <option value="3"> Véhicules avec contrôles techniques valides </option>
+            <option value="4"> Véhicules avec contrôles techniques invalides </option>
+            
+          </select>
+
+          <label class="fa fa-check text-success" id="check" style="position: relative;top: -33%;left: 90%;"></label>
+
+          <label class="fa fa-ban text-danger" id="close" style="position: relative;top: -33%;left: 90%;"></label>
+
+        </div>
+
+        <div class="col-md-6">
+          <span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:6px;left:-23px;">4</span>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
     <!-- Left side columns -->
     <div class="col-lg-12">
       <div class="row">
@@ -136,7 +169,7 @@ input:checked + .slider:before {
         <!-- Reports -->
         <div class="col-12">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body"><br>
 
               <?= $this->session->flashdata('message'); ?>
 
@@ -330,68 +363,97 @@ input:checked + .slider:before {
   $(document).ready( function ()
   {
 
-    liste();
+    $('#close').hide();
+    $('#check').hide();
+
+    listing();
+
+    get_nbr_vehicule();
 
   });
 
-  function liste()
+  //Fonction pour l'affichage
+  function listing()
   {
-   $('#message').delay('slow').fadeOut(10000);
-   $(document).ready(function()
-   {
+    var CHECK_VALIDE = $('#CHECK_VALIDE').val();
+
+    if(CHECK_VALIDE == 1 || CHECK_VALIDE == 3)
+    {
+      $('#close').hide();
+      $('#check').show();
+    }
+    else if(CHECK_VALIDE == 2 || CHECK_VALIDE == 4)
+    {
+      $('#close').show();
+      $('#check').hide();
+    }
+    else
+    {
+      $('#close').hide();
+      $('#check').hide();
+    }
+
+
+    $('#message').delay('slow').fadeOut(10000);
+    $(document).ready(function()
+    {
     // var row_count ="1000000";
 
-    $("#mytable").DataTable({
-      "processing":true,
-      "destroy" : true,
-      "serverSide":true,
-      "oreder":[[ 0, 'desc' ]],
-      "ajax":{
-        url:"<?php echo base_url('vehicule/Vehicule/listing');?>",
-        type:"POST", 
-      },
-      // lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
-      pageLength: 10,
-      "columnDefs":[{
-        "targets":[],
-        "orderable":false
-      }],
+      $("#mytable").DataTable({
+        "processing":true,
+        "destroy" : true,
+        "serverSide":true,
+        "oreder":[[ 0, 'desc' ]],
+        "ajax":{
+          url:"<?php echo base_url('vehicule/Vehicule/listing');?>",
+          type:"POST",
+          data : {CHECK_VALIDE:CHECK_VALIDE},
+          beforeSend : function() {
 
-      dom: 'Bfrtlip',
-      buttons: [
-        'pdf', 'print'
-        ],
-      language: {
-        "sProcessing":     "Traitement en cours...",
-        "sSearch":         "Rechercher&nbsp;:",
-        "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-        "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-        "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-        "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-        "sInfoPostFix":    "",
-        "sLoadingRecords": "Chargement en cours...",
-        "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-        "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
-        "oPaginate": {
-          "sFirst":      "Premier",
-          "sPrevious":   "Pr&eacute;c&eacute;dent",
-          "sNext":       "Suivant",
-          "sLast":       "Dernier"
+          } 
         },
-        "oAria": {
-          "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-          "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+      // lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+        pageLength: 10,
+        "columnDefs":[{
+          "targets":[],
+          "orderable":false
+        }],
+
+        dom: 'Bfrtlip',
+        buttons: [
+          'pdf', 'print'
+          ],
+        language: {
+          "sProcessing":     "Traitement en cours...",
+          "sSearch":         "Rechercher&nbsp;:",
+          "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+          "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          "sInfoPostFix":    "",
+          "sLoadingRecords": "Chargement en cours...",
+          "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+          "oPaginate": {
+            "sFirst":      "Premier",
+            "sPrevious":   "Pr&eacute;c&eacute;dent",
+            "sNext":       "Suivant",
+            "sLast":       "Dernier"
+          },
+          "oAria": {
+            "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+            "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          }
         }
-      }
 
-      
+        
 
+      });
     });
-  });
- }
+  }
 
- 
 </script>
+
 
 <script>
   // Fonction pour activer le statut du véhicule
@@ -659,83 +721,102 @@ function save_statut_vehicul()
      {
       $('#error_ID_ASSUREUR').text('Le champ est obligatoire !');
       statut = 2;
-     }else{$('#error_ID_ASSUREUR').text('');}
+    }else{$('#error_ID_ASSUREUR').text('');}
 
-     if(DATE_DEBUT_ASSURANCE == '')
-     {
+    if(DATE_DEBUT_ASSURANCE == '')
+    {
       $('#error_DATE_DEBUT_ASSURANCE').text('Le champ est obligatoire !');
       statut = 2;
-     }else{$('#error_DATE_DEBUT_ASSURANCE').text('');}
+    }else{$('#error_DATE_DEBUT_ASSURANCE').text('');}
 
-     if(DATE_FIN_ASSURANCE == '')
-     {
+    if(DATE_FIN_ASSURANCE == '')
+    {
       $('#error_DATE_FIN_ASSURANCE').text('Le champ est obligatoire !');
       statut = 2;
-     }else{$('#error_DATE_FIN_ASSURANCE').text('');}
+    }else{$('#error_DATE_FIN_ASSURANCE').text('');}
 
-      if(FILE_ASSURANCE == '')
-     {
+    if(FILE_ASSURANCE == '')
+    {
       $('#error_FILE_ASSURANCE').text('Le champ est obligatoire !');
       statut = 2;
-     }else{$('#error_FILE_ASSURANCE').text('');}
-
-
-    }
-    else if(ACTION == 2)
-    {
-
-      if(DATE_DEBUT_CONTROTECHNIK == '')
-     {
-      $('#error_DATE_DEBUT_CONTROTECHNIK').text('Le champ est obligatoire !');
-      statut = 2;
-     }else{$('#error_DATE_DEBUT_CONTROTECHNIK').text('');}
-
-     if(DATE_FIN_CONTROTECHNIK == '')
-     {
-      $('#error_DATE_FIN_CONTROTECHNIK').text('Le champ est obligatoire !');
-      statut = 2;
-     }else{$('#error_DATE_FIN_CONTROTECHNIK').text('');}
-
-      if(FILE_CONTRO_TECHNIQUE == '')
-     {
-      $('#error_FILE_CONTRO_TECHNIQUE').text('Le champ est obligatoire !');
-      statut = 2;
-     }else{$('#error_FILE_CONTRO_TECHNIQUE').text('');}
-
-    }
-
-
-    if(statut == 1)
-    {
-      var form_data = new FormData($("#form_assure_controle")[0]);
-      url = "<?= base_url('vehicule/Vehicule/save_assure_controle/') ?>";
-      $.ajax({
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data) {
-          console.log(data)
-                               //alert(data)
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Enregistrement avec succès !',
-            timer: 2000,
-          }).then(() => {
-            window.location.reload();
-          })
-          $("#form_assure_controle")[0].reset();
-        }
-      })
-    }
-
+    }else{$('#error_FILE_ASSURANCE').text('');}
 
 
   }
+  else if(ACTION == 2)
+  {
+
+    if(DATE_DEBUT_CONTROTECHNIK == '')
+    {
+      $('#error_DATE_DEBUT_CONTROTECHNIK').text('Le champ est obligatoire !');
+      statut = 2;
+    }else{$('#error_DATE_DEBUT_CONTROTECHNIK').text('');}
+
+    if(DATE_FIN_CONTROTECHNIK == '')
+    {
+      $('#error_DATE_FIN_CONTROTECHNIK').text('Le champ est obligatoire !');
+      statut = 2;
+    }else{$('#error_DATE_FIN_CONTROTECHNIK').text('');}
+
+    if(FILE_CONTRO_TECHNIQUE == '')
+    {
+      $('#error_FILE_CONTRO_TECHNIQUE').text('Le champ est obligatoire !');
+      statut = 2;
+    }else{$('#error_FILE_CONTRO_TECHNIQUE').text('');}
+
+  }
+
+
+  if(statut == 1)
+  {
+    var form_data = new FormData($("#form_assure_controle")[0]);
+    url = "<?= base_url('vehicule/Vehicule/save_assure_controle/') ?>";
+    $.ajax({
+      url: url,
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data) {
+        console.log(data)
+                               //alert(data)
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Enregistrement avec succès !',
+          timer: 2000,
+        }).then(() => {
+          window.location.reload();
+        })
+        $("#form_assure_controle")[0].reset();
+      }
+    })
+  }
+
+}
 </script>
+
+
+<script>
+ function get_nbr_vehicule()
+ {
+  var CHECK_VALIDE = $('#CHECK_VALIDE').val();
+
+   $.ajax({
+    url: "<?= base_url() ?>vehicule/Vehicule/get_nbr_vehicule/" + CHECK_VALIDE,
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
+     $('.nbr_vehicule').text(data);
+    },
+
+  });
+ }
+</script>
+
+
+
 
 </html>
