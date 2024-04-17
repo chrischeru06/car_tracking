@@ -174,7 +174,7 @@
                     </li>
 
                     <li class="nav-item">
-                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#controle_technique"><i class="fa fa-tripadvisor"></i> Contrôle technique</button>
+                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#controle_technique"><i class="fa fa-tripadvisor"></i> Historique contrôle technique</button>
                     </li>
                     
 
@@ -400,7 +400,7 @@
 
                 <div class="table-responsive">
 
-                  <table id="table_assurance" class="table table-bordered table-hover text-dark" style="width:100%">
+                  <table id="table_assurance" class="table table-hover text-dark" style="width:100%">
                       <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                         <tr>
                           <th class="text-dark">#</th>
@@ -424,48 +424,33 @@
             </div>
 
              <div class="tab-pane fade " id="controle_technique">
-              <div class="row">
-                <div class="col-md-12">
-                  <table class="table table-borderless">
-                  <tr>
 
-                     <td>
-                      <i class="text-muted small pt-2 ps-1 fa fa-"> </i><font class="text-muted small pt-2 ps-1"></font><br>
+             <div class="row">
 
-                      <img src="<?=base_url('/upload/photo_vehicule/'.$infos_vehicule['FILE_CONTRO_TECHNIQUE'])?>" style="width: 50px;height: 50px;border-radius: 5px;margin-top: -5px;" class="zoomable-image">
-                    </td>
+                <div class="table-responsive">
 
-                    <td >
-                      
-                      <?php
-
-                      if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] > date('Y-m-d'))
-                      {
-                        ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-history"> </i><font class="text-muted small pt-2 ps-1">Etat</font><br>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Valide</font>
-                      
-                          <?php
-                      }
-                      else if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] < date('Y-m-d'))
-                      {
-                        ?>
-                       <i class="text-muted small pt-2 ps-1 fa fa-history"> </i><font class="text-muted small pt-2 ps-1">Etat</font><br>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Expirée</font>
-                      
-                          <?php
-                      }
-                      ?> 
-                    </td>
-
-                    <td>
-                      <i class="text-muted small pt-2 ps-1 fa fa-calendar-o"> </i><font class="text-muted small pt-2 ps-1">Echéance</font><br>
-                      <font class="text-muted small">Du&nbsp;&nbsp;&nbsp;</font> <label class="text-muted small pt-2 ps-1 dash_v"> <?= date('d-m-Y',strtotime($infos_vehicule['DATE_DEBUT_CONTROTECHNIK']))?> </label><font class="text-muted small">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;&nbsp;</font><label class="text-muted small pt-2 ps-1 dash_v">  <?= date('d-m-Y',strtotime($infos_vehicule['DATE_FIN_CONTROTECHNIK']))?></label>
-                    </td>
-                  </tr>
-                </table>
+                  <table id="table_controle" class="table table-hover text-dark" style="width:100%">
+                      <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
+                        <tr>
+                          <th class="text-dark">#</th>
+                          <th class="text-dark">DOCUMENT</th>
+                          <th class="text-dark">DATE&nbsp;DEBUT</th>
+                          <th class="text-dark">DATE&nbsp;FIN</th>
+                          <th class="text-dark">ENREGISTRE&nbsp;PAR</th>
+                          <th class="text-dark">DATE&nbsp;D'ENREGISTREMENT</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-dark">
+                      </tbody>
+                    </table>
+                  
                 </div>
+                
               </div>
+
+
+
             </div>
 
           </div>
@@ -493,6 +478,7 @@
 
     getmap();
     liste_assurance();
+    liste_controle();
 
   });
 
@@ -530,7 +516,7 @@
 </script>
 
 <script >
-
+  //Fonction pour afficher l'historique d'assurance
   function liste_assurance()
   {
 
@@ -582,9 +568,62 @@
       }
     });
 
+  }
+</script>
 
 
+<script >
+  //Fonction pour afficher l'historique du controle technique
+  function liste_controle()
+  {
 
+    var VEHICULE_ID = $('#VEHICULE_TRACK').val();
+
+    var row_count ="1000000";
+    $("#table_controle").DataTable({
+      "destroy" : true,
+      "processing":true,
+      "serverSide":true,
+      "destroy":true,
+      "oreder":[[ 1, 'asc' ]],
+      "ajax":{
+        url: "<?php echo base_url('/vehicule/Vehicule/liste_controle');?>", 
+        type:"POST",
+        data : {VEHICULE_ID:VEHICULE_ID},
+        beforeSend : function() {
+        }
+      },
+      lengthMenu: [[10,50, 100, -1], [10,50, 100, "All"]],
+      pageLength: 10,
+      "columnDefs":[{
+        "targets":[],
+        "orderable":false
+      }],
+      dom: 'Bfrtlip',
+      buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'  ],
+      language: {
+        "sProcessing":     "Traitement en cours...",
+        "sSearch":         "Recherche&nbsp;:",
+        "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+        "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+        "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+        "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+        "sInfoPostFix":    "",
+        "sLoadingRecords": "Chargement en cours...",
+        "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+        "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+        "oPaginate": {
+          "sFirst":      "Premier",
+          "sPrevious":   "Pr&eacute;c&eacute;dent",
+          "sNext":       "Suivant",
+          "sLast":       "Dernier"
+        },
+        "oAria": {
+          "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+          "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+        }
+      }
+    });
 
   }
 </script>

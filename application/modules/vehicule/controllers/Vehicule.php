@@ -34,16 +34,39 @@
 		{
 			$USER_ID = $this->session->userdata('USER_ID');
 
+			$CHECK_VALIDE = $this->input->post('CHECK_VALIDE');
+
 			$critaire = '' ;
+			$critaire_doc_valide = '' ;
+
+			$date_now = date('Y-m-d');
 
 			if($this->session->userdata('PROFIL_ID') != 1)
 			{
 				$critaire.= ' AND users.USER_ID = '.$USER_ID;
 			}
 
+			if($CHECK_VALIDE == 1) // Assurance valide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_ASSURANCE >= "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 2) // Assurance invalide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_ASSURANCE < "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 3) // Controle technique valide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK >= "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 4) // Controle technique invalide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK < "'.$date_now.'"';
+			}
+
+
 			// $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT,`LOGO` FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
 
-			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_doc_valide.'';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -60,7 +83,7 @@
 
 			$order_by = ' ORDER BY VEHICULE_ID DESC';
 
-			$search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%' OR DATE_SAVE LIKE '%$var_search%' )"):'';
+			$search=!empty($_POST['search']['value']) ? (" AND (vehicule.CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%' OR DATE_SAVE LIKE '%$var_search%' )"):'';
 
 			$query_secondaire=$query_principal.''.$critaire.''.$search.''.$order_by. ''. $limit;
 
@@ -182,7 +205,6 @@
 				{
 					$option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><label class='text-dark'><i class='bi bi-pencil'></i>&nbsp;&nbsp;Modifier</label></a></li>";
 				}
-
 
 				$option .="
 				</div>
@@ -526,13 +548,12 @@
        // Appel du formulaire d'enregistrement
 		function ajouter()
 		{			
-
 			$VEHICULE_ID = $this->uri->segment(4);
 
 			$data['btn'] = "Enregistrer";
 			$data['title']="Enregistrement du véhicule";
 
-			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL);
+			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL,'ID_ASSUREUR'=>NULL);
 			
 			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
@@ -551,13 +572,16 @@
 
 			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
 
+			$assureur = $this->getBindParms('`ID_ASSUREUR`, `ASSURANCE`', 'assureur', '1', '`ASSURANCE` ASC');
+			$assureur = $this->ModelPs->getRequete($psgetrequete, $assureur);
+
 
 			if(!empty($VEHICULE_ID))
 			{
 				$data['btn'] = "Modifier";
 				$data['title'] = "Modification du véhicule";
 
-				$vehicule = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,DATE_FIN_CONTROTECHNIK,DATE_FIN_ASSURANCE,DATE_DEBUT_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,FILE_CONTRO_TECHNIQUE,FILE_ASSURANCE FROM vehicule WHERE md5(VEHICULE_ID)='".$VEHICULE_ID."'");
+				$vehicule = $this->Model->getRequeteOne("SELECT vehicule.VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,vehicule.DATE_FIN_CONTROTECHNIK,vehicule.DATE_FIN_ASSURANCE,vehicule.DATE_DEBUT_ASSURANCE,vehicule.DATE_DEBUT_CONTROTECHNIK,vehicule.FILE_CONTRO_TECHNIQUE,vehicule.FILE_ASSURANCE,ID_ASSUREUR FROM vehicule LEFT JOIN historique_assurance ON historique_assurance.VEHICULE_ID = vehicule.VEHICULE_ID WHERE md5(vehicule.VEHICULE_ID)='".$VEHICULE_ID."'");
 
 				// if(empty($vehicule))
 				// {
@@ -581,6 +605,9 @@
 
 				$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
 
+				$assureur = $this->getBindParms('`ID_ASSUREUR`, `ASSURANCE`', 'assureur', '1', '`ASSURANCE` ASC');
+				$assureur = $this->ModelPs->getRequete($psgetrequete, $assureur);
+
 			}
 
 			$data['vehicule'] = $vehicule;
@@ -588,6 +615,7 @@
 			$data['modele'] = $modele;
 			$data['usage'] = $usage;
 			$data['proprio'] = $proprio;
+			$data['assureur'] = $assureur;
 
 
 			$this->load->view('Vehicule_add_View',$data);
@@ -943,19 +971,19 @@
 
 			  // Enregistrement dans la table d'historique d'assurance
 
-			  $data_histo = array(
-			  	'VEHICULE_ID' => $VEHICULE_ID,
-			  	'ID_ASSUREUR'=> $ID_ASSUREUR,
-			  	'USER_ID' => $USER_ID,
-			  	'DATE_DEBUT_ASSURANCE' => $DATE_DEBUT_ASSURANCE,
-			  	'DATE_FIN_ASSURANCE' => $DATE_FIN_ASSURANCE,
-			  	'FILE_ASSURANCE' => $FILE_ASSURANCE,
-			  );
+				$data_histo = array(
+					'VEHICULE_ID' => $VEHICULE_ID,
+					'ID_ASSUREUR'=> $ID_ASSUREUR,
+					'USER_ID' => $USER_ID,
+					'DATE_DEBUT_ASSURANCE' => $DATE_DEBUT_ASSURANCE,
+					'DATE_FIN_ASSURANCE' => $DATE_FIN_ASSURANCE,
+					'FILE_ASSURANCE' => $FILE_ASSURANCE,
+				);
 
-			  $table2 = 'historique_assurance';
-			  $create = $this->Model->create($table2,$data_histo);
+				$table2 = 'historique_assurance';
+				$create = $this->Model->create($table2,$data_histo);
 
-			  echo json_encode(array('status' => TRUE));
+				echo json_encode(array('status' => TRUE));
 			}
 			else if($ACTION == 2) //Enregistrement du controle technique
 			{
@@ -971,18 +999,18 @@
 
 			  // Enregistrement dans la table d'historique du controle technique
 
-			  $data_histo = array(
-			  	'VEHICULE_ID' => $VEHICULE_ID,
-			  	'USER_ID' => $USER_ID,
-			  	'DATE_DEBUT_CONTROTECHNIK' => $DATE_DEBUT_CONTROTECHNIK,
-			  	'DATE_FIN_CONTROTECHNIK' => $DATE_FIN_CONTROTECHNIK,
-			  	'FILE_CONTRO_TECHNIQUE' => $FILE_CONTRO_TECHNIQUE,
-			  );
+				$data_histo = array(
+					'VEHICULE_ID' => $VEHICULE_ID,
+					'USER_ID' => $USER_ID,
+					'DATE_DEBUT_CONTROTECHNIK' => $DATE_DEBUT_CONTROTECHNIK,
+					'DATE_FIN_CONTROTECHNIK' => $DATE_FIN_CONTROTECHNIK,
+					'FILE_CONTRO_TECHNIQUE' => $FILE_CONTRO_TECHNIQUE,
+				);
 
-			  $table2 = 'historique_controle_technique';
-			  $create = $this->Model->create($table2,$data_histo);
+				$table2 = 'historique_controle_technique';
+				$create = $this->Model->create($table2,$data_histo);
 
-			  echo json_encode(array('status' => TRUE));
+				echo json_encode(array('status' => TRUE));
 			}
 		}
 
@@ -996,62 +1024,62 @@
 
 			$query_principal='SELECT ID_HISTORIQUE_ASSURANCE,ASSURANCE,IDENTIFICATION,historique_assurance.DATE_DEBUT_ASSURANCE,historique_assurance.DATE_FIN_ASSURANCE,historique_assurance.FILE_ASSURANCE,historique_assurance.DATE_SAVE FROM historique_assurance JOIN vehicule ON vehicule.VEHICULE_ID = historique_assurance.VEHICULE_ID JOIN assureur ON assureur.ID_ASSUREUR = historique_assurance.ID_ASSUREUR JOIN users ON users.USER_ID = historique_assurance.USER_ID WHERE 1';
 
-		$critaire.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+			$critaire.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
 
-		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-		$var_search = str_replace("'", "\'", $var_search);
-		$group = "";
+			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+			$var_search = str_replace("'", "\'", $var_search);
+			$group = "";
 
-		$limit = 'LIMIT 0,1000';
-		if ($_POST['length'] != -1) {
-			$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
-		}
-		$order_by='';
+			$limit = 'LIMIT 0,1000';
+			if ($_POST['length'] != -1) {
+				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+			}
+			$order_by='';
 
-		$order_column=array('ID_HISTORIQUE_ASSURANCE','ASSURANCE','IDENTIFICATION','historique_assurance.DATE_DEBUT_ASSURANCE','historique_assurance.DATE_FIN_ASSURANCE','historique_assurance.DATE_SAVE');
+			$order_column=array('ID_HISTORIQUE_ASSURANCE','ASSURANCE','IDENTIFICATION','historique_assurance.DATE_DEBUT_ASSURANCE','historique_assurance.DATE_FIN_ASSURANCE','historique_assurance.DATE_SAVE');
 
-		if ($_POST['order']['0']['column'] != 0) {
-			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_HISTORIQUE_ASSURANCE ASC';
-		}
+			if ($_POST['order']['0']['column'] != 0) {
+				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_HISTORIQUE_ASSURANCE ASC';
+			}
 
 
 
-		$search = !empty($_POST['search']['value']) ? (' AND (`ID_HISTORIQUE_ASSURANCE` LIKE "%' . $var_search . '%" OR ASSURANCE LIKE "%' . $var_search . '%"
-			OR IDENTIFICATION LIKE "%' . $var_search . '%" OR historique_assurance.DATE_DEBUT_ASSURANCE LIKE "%' . $var_search . '%" OR historique_assurance.DATE_FIN_ASSURANCE LIKE "%' . $var_search . '%" OR historique_assurance.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
+			$search = !empty($_POST['search']['value']) ? (' AND (`ID_HISTORIQUE_ASSURANCE` LIKE "%' . $var_search . '%" OR ASSURANCE LIKE "%' . $var_search . '%"
+				OR IDENTIFICATION LIKE "%' . $var_search . '%" OR historique_assurance.DATE_DEBUT_ASSURANCE LIKE "%' . $var_search . '%" OR historique_assurance.DATE_FIN_ASSURANCE LIKE "%' . $var_search . '%" OR historique_assurance.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
 
 
         //condition pour le query principale
-		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
 
         // condition pour le query filter
-		$conditionsfilter = $critaire . ' ' . $group;
+			$conditionsfilter = $critaire . ' ' . $group;
 
 
-		$requetedebase=$query_principal.$conditions;
-		$requetedebasefilter=$query_principal.$conditionsfilter;
+			$requetedebase=$query_principal.$conditions;
+			$requetedebasefilter=$query_principal.$conditionsfilter;
 
 
 
-		$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
         // echo $query_secondaire;
-		$fetch_data = $this->ModelPs->datatable($query_secondaire);
-		$data = array();
-		$i=0;
+			$fetch_data = $this->ModelPs->datatable($query_secondaire);
+			$data = array();
+			$i=0;
 
-		foreach ($fetch_data as $row) {
-			$i=$i+1;
+			foreach ($fetch_data as $row) {
+				$i=$i+1;
 
-			$sub_array=array();
-			$sub_array[]=$i;
-			$sub_array[]="<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->ID_HISTORIQUE_ASSURANCE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
-			$sub_array[]= date('d-m-Y',strtotime($row->DATE_DEBUT_ASSURANCE));
-			$sub_array[]= date('d-m-Y',strtotime($row->DATE_FIN_ASSURANCE));
-			$sub_array[]=$row->ASSURANCE;
-			$sub_array[]=$row->IDENTIFICATION;
-			$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
+				$sub_array=array();
+				$sub_array[]=$i;
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->ID_HISTORIQUE_ASSURANCE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+				$sub_array[]= date('d-m-Y',strtotime($row->DATE_DEBUT_ASSURANCE));
+				$sub_array[]= date('d-m-Y',strtotime($row->DATE_FIN_ASSURANCE));
+				$sub_array[]=$row->ASSURANCE;
+				$sub_array[]=$row->IDENTIFICATION;
+				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
 
-            $option = " ";
-			$option .="
+				$option = " ";
+				$option .="
 				<div class='modal fade' id='mypicture" .$row->ID_HISTORIQUE_ASSURANCE."' style='border-radius:100px;'>
 				<div class='modal-dialog modal-lg'>
 				<div class='modal-content'>
@@ -1072,20 +1100,157 @@
 				
 				";
 
-			$sub_array[]=$option;
-			$data[]=$sub_array;
-		}
-		$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
-		$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
-		$output = array(
-			"draw" => intval($_POST['draw']),
-			"recordsTotal" => count($recordsTotal),
-			"recordsFiltered" => count($recordsFiltered),
-			"data" => $data,
-		);
-		echo json_encode($output);
+				$sub_array[]=$option;
+				$data[]=$sub_array;
+			}
+			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+			$output = array(
+				"draw" => intval($_POST['draw']),
+				"recordsTotal" => count($recordsTotal),
+				"recordsFiltered" => count($recordsFiltered),
+				"data" => $data,
+			);
+			echo json_encode($output);
 		}
 
+
+
+		//Fonction pour une liste d'historique controle technique
+		function liste_controle()
+		{
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+
+			$critaire = '' ;
+
+			$query_principal='SELECT ID_HISTORIQUE_CONTROLE,IDENTIFICATION,historique_controle_technique.DATE_DEBUT_CONTROTECHNIK,historique_controle_technique.DATE_FIN_CONTROTECHNIK,historique_controle_technique.FILE_CONTRO_TECHNIQUE,historique_controle_technique.DATE_SAVE FROM historique_controle_technique JOIN vehicule ON vehicule.VEHICULE_ID = historique_controle_technique.VEHICULE_ID JOIN users ON users.USER_ID = historique_controle_technique.USER_ID WHERE 1';
+
+			$critaire.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+
+			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+			$var_search = str_replace("'", "\'", $var_search);
+			$group = "";
+
+			$limit = 'LIMIT 0,1000';
+			if ($_POST['length'] != -1) {
+				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+			}
+			$order_by='';
+
+			$order_column=array('ID_HISTORIQUE_CONTROLE','IDENTIFICATION','historique_controle_technique.DATE_DEBUT_CONTROTECHNIK','historique_controle_technique.DATE_FIN_CONTROTECHNIK','historique_controle_technique.DATE_SAVE');
+
+			if ($_POST['order']['0']['column'] != 0) {
+				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_HISTORIQUE_CONTROLE ASC';
+			}
+
+
+
+			$search = !empty($_POST['search']['value']) ? (' AND (`ID_HISTORIQUE_CONTROLE` LIKE "%' . $var_search . '%" OR IDENTIFICATION LIKE "%' . $var_search . '%" OR historique_controle_technique.DATE_DEBUT_CONTROTECHNIK LIKE "%' . $var_search . '%" OR historique_controle_technique.DATE_FIN_CONTROTECHNIK LIKE "%' . $var_search . '%" OR historique_controle_technique.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
+
+
+        //condition pour le query principale
+			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+
+        // condition pour le query filter
+			$conditionsfilter = $critaire . ' ' . $group;
+
+
+			$requetedebase=$query_principal.$conditions;
+			$requetedebasefilter=$query_principal.$conditionsfilter;
+
+
+
+			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+        // echo $query_secondaire;
+			$fetch_data = $this->ModelPs->datatable($query_secondaire);
+			$data = array();
+			$i=0;
+
+			foreach ($fetch_data as $row) {
+				$i=$i+1;
+
+				$sub_array=array();
+				$sub_array[]=$i;
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->ID_HISTORIQUE_CONTROLE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+				$sub_array[]= date('d-m-Y',strtotime($row->DATE_DEBUT_CONTROTECHNIK));
+				$sub_array[]= date('d-m-Y',strtotime($row->DATE_FIN_CONTROTECHNIK));
+				$sub_array[]=$row->IDENTIFICATION;
+				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
+
+				$option = " ";
+				$option .="
+				<div class='modal fade' id='mypicture" .$row->ID_HISTORIQUE_CONTROLE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>Document du contrôle technique</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<img src = '".base_url('upload/photo_vehicule/'.$row->FILE_CONTRO_TECHNIQUE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+
+				
+				";
+
+				$sub_array[]=$option;
+				$data[]=$sub_array;
+			}
+			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+			$output = array(
+				"draw" => intval($_POST['draw']),
+				"recordsTotal" => count($recordsTotal),
+				"recordsFiltered" => count($recordsFiltered),
+				"data" => $data,
+			);
+			echo json_encode($output);
+		}
+
+
+		//fonction pour recuperer le nombre des vehicules selon la validation des documments
+
+		function get_nbr_vehicule($CHECK_VALIDE)
+		{
+			$critaire_doc_valide = '' ;
+
+			$date_now = date('Y-m-d');
+
+			if($CHECK_VALIDE == 1) // Assurance valide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_ASSURANCE >= "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 2) // Assurance invalide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_ASSURANCE < "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 3) // Controle technique valide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK >= "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 4) // Controle technique invalide
+			{
+				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK < "'.$date_now.'"';
+			}
+
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+			$vehicule = $this->getBindParms('COUNT(VEHICULE_ID) AS nombre_v', 'vehicule', ' 1 '.$critaire_doc_valide.'', '`VEHICULE_ID` ASC');
+
+			$vehicule = str_replace('\"', '"', $vehicule);
+			$vehicule = str_replace('\n', '', $vehicule);
+			$vehicule = str_replace('\"', '', $vehicule);
+
+			$vehicule = $this->ModelPs->getRequeteOne($proce_requete, $vehicule);
+
+			echo $vehicule['nombre_v'];
+		}
 
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 		public function getBindParms($columnselect, $table, $where, $orderby)
