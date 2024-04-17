@@ -264,34 +264,46 @@ class Dashboard extends CI_Controller
 		$my_selectmax_arret=str_replace('\"', '', $my_selectmax_arret);
 		$max_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmax_arret);
 
-		$min_arret_plus=$min_arret['minimum']+1;
 
-		for ($i=$min_arret['minimum'],$j=$min_arret_plus; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++) {
+		$my_selectmin_arret_plus = $this->getBindParms('id as arret_min_deux', 'tracking_data', '1 AND id = (SELECT MIN(id) FROM tracking_data WHERE id NOT IN (SELECT MIN(id) FROM tracking_data)) AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.'' , '`id` ASC');
+		$my_selectmin_arret_plus=str_replace('\"', '"', $my_selectmin_arret_plus);
+		$my_selectmin_arret_plus=str_replace('\n', '', $my_selectmin_arret_plus);
+		$my_selectmin_arret_plus=str_replace('\"', '', $my_selectmin_arret_plus);
+		$min_arret_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret_plus);
+		// $min_arret_plus=$min_arret['minimum']+1;
 
-			$my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
-			$my_selectarret1=str_replace('\"', '"', $my_selectarret1);
-			$my_selectarret1=str_replace('\n', '', $my_selectarret1);
-			$my_selectarret1=str_replace('\"', '', $my_selectarret1);
+		// print_r($max_arret);die();
+		$nvldistance_arrondie=0;
+		if(!empty($min_arret) && !empty($min_arret_plus) && !empty($max_arret)){
 
-			$point_distance = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret1);
+			for ($i=$min_arret['minimum'],$j=$min_arret_plus['arret_min_deux']; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++) {
 
-			$my_selectarret2= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$j.'"' , '`id` ASC');
-			$my_selectarret2=str_replace('\"', '"', $my_selectarret2);
-			$my_selectarret2=str_replace('\n', '', $my_selectarret2);
-			$my_selectarret2=str_replace('\"', '', $my_selectarret2);
+				$my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
+				$my_selectarret1=str_replace('\"', '"', $my_selectarret1);
+				$my_selectarret1=str_replace('\n', '', $my_selectarret1);
+				$my_selectarret1=str_replace('\"', '', $my_selectarret1);
 
-			$point_distance2 = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret2);
-			if(!empty($point_distance) && !empty($point_distance2)){
+				$point_distance = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret1);
 
-				$nvldistance+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
-			}else{
+				$my_selectarret2= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$j.'"' , '`id` ASC');
+				$my_selectarret2=str_replace('\"', '"', $my_selectarret2);
+				$my_selectarret2=str_replace('\n', '', $my_selectarret2);
+				$my_selectarret2=str_replace('\"', '', $my_selectarret2);
 
-				$nvldistance+=0;
-			} 
-			
-			
+				$point_distance2 = $this->ModelPs->getRequeteOne($proce_requete, $my_selectarret2);
+				if(!empty($point_distance) && !empty($point_distance2)){
+
+					$nvldistance+=$this->Model->getDistance($point_distance['latitude'],$point_distance['longitude'],$point_distance2['latitude'],$point_distance2['longitude']);
+				}else{
+
+					$nvldistance+=0;
+				} 
+
+
+			}
+			$nvldistance_arrondie=round($nvldistance);
 		}
-		$nvldistance_arrondie=round($nvldistance);
+		
 
 		//Calcul du score
 		$point_final=20;
@@ -396,6 +408,7 @@ class Dashboard extends CI_Controller
 		$get_data_arret = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE CODE_COURSE IS NOT NULL and  md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE');
 		$dataplace = '';
 		$dataplace1 = '';
+		$card_card1='';
 		//calcul du temps d'arret
 		if(!empty($get_data_arret)){
 			$tabl=array();
@@ -406,9 +419,7 @@ class Dashboard extends CI_Controller
 				$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
 				$my_selectone_element=str_replace('\n', '', $my_selectone_element);
 				$my_selectone_element=str_replace('\"', '', $my_selectone_element);
-
 				$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
-
 
 				$my_select_date_compare2 = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_code['CODE_COURSE'].'" ', 'id DESC');
 				$my_select_date_compare2=str_replace('\"', '"', $my_select_date_compare2);
@@ -416,14 +427,18 @@ class Dashboard extends CI_Controller
 				$my_select_date_compare2=str_replace('\"', '', $my_select_date_compare2);
 				$date_compare2 = $this->ModelPs->getRequeteOne($proce_requete, $my_select_date_compare2);
 
-				$my_selectone_element_moins = $this->getBindParms('id', 'tracking_data', 'id > "'.$one_element['id'].'" ' , '`id` ASC');
+				$my_selectone_element_moins = $this->getBindParms('id', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" AND id > "'.$one_element['id'].'" ' , '`id` ASC');
 				$my_selectone_element_moins=str_replace('\"', '"', $my_selectone_element_moins);
 				$my_selectone_element_moins=str_replace('\n', '', $my_selectone_element_moins);
 				$my_selectone_element_moins=str_replace('\"', '', $my_selectone_element_moins);
 
 				$min_arret_plus_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);
 
-				for ($i=$one_element['id'],$j=$min_arret_plus_plus['id']; $i <$date_compare2['id'],$j <$date_compare2['id'] ; $i++,$j++) {
+				
+				// print_r($date_compare2);die();
+				if(!empty($one_element) && !empty($min_arret_plus_plus) && !empty($date_compare2)){
+
+					for ($i=$one_element['id'],$j=$min_arret_plus_plus['id']; $i <$date_compare2['id'],$j <$date_compare2['id'] ; $i++,$j++) {
 
 
 					$my_selectarret1= $this->getBindParms('latitude,longitude', 'tracking_data', '1 AND tracking_data.id = "'.$i.'"' , '`id` ASC');
@@ -450,6 +465,9 @@ class Dashboard extends CI_Controller
 
 
 				}
+
+				}
+				
 
 				//geofence
 
@@ -524,7 +542,6 @@ class Dashboard extends CI_Controller
 
 			$data['tabl'] = $tabl;
 
-			
 
 			$v=1;
 			if (!empty($tabl)) 
@@ -549,7 +566,7 @@ class Dashboard extends CI_Controller
 
 					}else{
 						// $valeur_ceinture='<div class="fa fa-close" style="color:red"></div>';
-						$valeur_ceinture='<label style="color:red">OFF</label>';
+						$valeur_ceinture='<label style="color:#dc3545">OFF</label>';
 
 					}
 					if($keytabl[17]==1){
@@ -558,7 +575,7 @@ class Dashboard extends CI_Controller
 
 					}else{
 						// $valeur_clim='<div class="fa fa-close" style="color:red"></div>';
-						$valeur_clim='<label style="color:red">OFF</label>';
+						$valeur_clim='<label style="color:#dc3545">OFF</label>';
 
 					}
 					$lat = $keytabl[8];
@@ -566,10 +583,15 @@ class Dashboard extends CI_Controller
 
 					if($keytabl[18]==1){
 						$ch_color='border: solid 1px rgba(128, 128, 128, 0.3);';
+						$alert='';
 
 					}else{
-						$ch_color='border: solid 1px rgba(244, 10, 10, 100);';
+						$ch_color='border: solid 1px rgba(220, 53, 69, 1);';
+						$card_card1='<div class="card">
+						<center><h5 class="card-title" style="font-size: .8rem; color:#dc3545;"><span class="fa fa-warning text-danger"></span> Il a dépassé la zone<span style="font-size: .8rem;"></span></h5></center>
 
+						</div>';
+						$alert='<div style="top: 10px;position: absolute;right: 10px;font-size: .8rem; color:#dc3545;"><span class="fa fa-warning text-danger"></span></div>';
 					}
 
 					$dataplace.= '<script>
@@ -625,7 +647,7 @@ class Dashboard extends CI_Controller
 									</div>
 									</div>
 									<div class="jss503">
-									<div class="jss509">
+									<div class="jss509">'.$alert.'
 									<div class="jss511"><sup class="jss507">'.$keytabl[13].'</sup><span class="jss510 jss512">'.$keytabl[4].'<span class="jss494">:'.$keytabl[5].'&nbsp;</span></span><span class="jss517"><label id="getplacesname'.$getplacesname.'"></label></span></div><div class="jss513">'.$keytabl[0].'<span style="float: right;">'.$keytabl[15].' km</span></div><div class="jss511"><sup class="jss507">'.$keytabl[14].'</sup><span class="jss510 jss514">'.$keytabl[6].'<span class="jss494">:'.$keytabl[7].'</span></span><span class="jss518"><label id="getplacesname1'.$getplacesname1.'"></label></span>
 									</div>
 									</div>
@@ -638,7 +660,7 @@ class Dashboard extends CI_Controller
 								elseif ($keytabl[12]==0) 
 								{
 									$card_card.='<div class="card"  onclick="change_carte(\''.$keytabl[1].'\')">
-									<div class="jss110" style="cursor: pointer;'.$ch_color.'" >
+									<div class="jss110" style="cursor: pointer;'.$ch_color.'" >'.$alert.'
 									<div class="jss111">
 									<div class="jss112" style="width: 78px; font-size: 11px; font-weight: 500;"><p><sup class="jss500 jss501"> '.$keytabl[13].'</sup>'.$keytabl[4].'<span class="jss119">:'.$keytabl[5].'</span></p><span style="display: block; height: 2px;"></span><p style="position: relative;"><sup class="jss500 jss501">'.$keytabl[14].'</sup>'.$keytabl[6].'<span class="jss119">:'.$keytabl[7].'&nbsp;</span></p>
 									</div>
@@ -844,7 +866,7 @@ class Dashboard extends CI_Controller
 										$data['dataplace']=$dataplace;
 										$data['vitesse_exces'] = $vitesse_exces;
 										$data['geojsonexces'] = $geojsonexces;
-
+										$data['card_card1'] = $card_card1;
 
 										$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
 
