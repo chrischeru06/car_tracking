@@ -59,7 +59,6 @@
                </div>
 
                  <div class="col-md-4 projet_par_mid">
-                  
                   <!--vehicule allumé vs en eteint begin -->
                   <div class="card">
                     <div class="card-body pb-0">
@@ -70,8 +69,20 @@
                   </div>
                   <!--vehicule allumé vs en eteint begin -->
                 </div>
-                 <div class="col-md-4 projet_par_mid">
-                  <!--vehicule en stationnemenr vs en mouvement begin -->
+                 <div class="col-md-4 ">
+                    <!-- debut arret par course -->
+                    <div class="card">
+                      <div class="card-body pb-0">
+                        <h5 class="card-title"></h5>
+                        <div id="container11" style="min-height: 280px;"></div>
+                        <div id="nouveau11"></div>
+                      </div>
+                    </div>
+                    <!--fin arret par course -->
+                 </div>
+                   <div class="col-md-8 projet_par_mid">
+                  <!--debut consomation par vehicule -->
+                   <input type="hidden" name="CODE" id="CODE" >
                   <div class="card">
                     <div class="card-body pb-0">
                      <div class="row">
@@ -90,29 +101,17 @@
 
                     </div>
                   </div>
-                  <!--vehicule en stationnemenr vs en mouvement begin -->
+                  <!--fin consommation vehicule-->
                 </div>
-                 <div class="col-md-8 ">
-                    <!-- vehicule par marque begin -->
-                   <!--  <div class="card">
-                      <div class="card-body pb-0">
-                        <h5 class="card-title"></h5>
-                        <div id="container2" style="min-height: 280px;"></div>
-                        <div id="nouveau2"></div>
-                      </div>
-                    </div> -->
-                    <!-- vehicule par marque end -->
-           
-                 </div>
                  <div class="col-md-4 ">
             <!-- proprietaire begin -->
-        <!--     <div class="card">
+            <div class="card">
               <div class="card-body pb-0">
                 <h5 class="card-title"></h5>
-                <div id="container7" style="min-height: 280px;"></div>
-                <div id="nouveau7"></div>
+                <div id="container12" style="min-height: 280px;"></div>
+                <div id="nouveau12"></div>
               </div>
-            </div> -->
+            </div>
             <!-- proprietaireend --> 
           </div>
              </div>
@@ -157,6 +156,47 @@
   </div>
 </div>
 </div>
+
+<!-- debut modal nbr course par voiture -->
+
+<div class="modal fade" id="myModal12" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">LISTE DES VEHICULES
+        </a></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <div class="table-responsive">
+         <table id="mytable12" class="table table-hover" style="width:100%;">
+          <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+            <tr>
+              <th class="">#</th>
+              <th class="">CODE&nbsp;VEHICULE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+             <th class="">PLAQUE</th>
+             <!--  <th class="">MARQUE</th>
+              <th class="">MODELE</th>
+            
+              <th class="">COULEUR</th>
+              <th class="">LITRE&nbsp;/&nbsp;KM</th>
+              <th class="">PROPRIETAIRE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              <th class="">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
+             
+
+
+            </tr>
+          </thead>
+          <tbody class="text-dark">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- fin modal nbr course par voiture -->
 
 
   <!--                
@@ -264,8 +304,8 @@
         $('#nouveau').html(data.rapp);
         $('#nouveau2').html(data.rapp2);
         $('#nouveau10').html(data.rapp10);
-        // $('#nouveau4').html(data.rapp4);
-        // $('#nouveau5').html(data.rapp5);
+        $('#nouveau11').html(data.rapp11);
+         $('#nouveau12').html(data.rapp12);
         // $('#nouveau6').html(data.rapp6);
         // $('#nouveau7').html(data.rapp7);
 
