@@ -42,9 +42,19 @@
     <!--***************************** Modal datail end ***********************************-->
 
     <section class="section dashboard">
-      <div class="row align-items-top">
+      <div class="row align-items-top"> <div class="row">
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Date début</label>
+                        <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="get_rapport();viderh();">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Date fin</label>
+                        <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= date('Y-m-d')?>" onchange="get_rapport()">
+                      </div>
+                    </div>
       <fieldset class="border p-2">
         <legend  class="float-none w-auto p-2">Dashboard des anomalies</legend>
+
         <div class="row">
           <div class="col-md-4 projet_par_mid">
             <!-- vehicule actifs vs inactif biggin -->
@@ -82,19 +92,9 @@
                  </div>
                    <div class="col-md-8 projet_par_mid">
                   <!--debut consomation par vehicule -->
-                   <input type="hidden" name="CODE" id="CODE" >
+                   
                   <div class="card">
                     <div class="card-body pb-0">
-                     <div class="row">
-                      <div class="form-group col-md-6">
-                        <label class="form-label">Date début</label>
-                        <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT" id="DATE_DAT" value="<?= date('Y-m-d')?>" onchange="get_rapport();viderh();">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label">Date fin</label>
-                        <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= date('Y-m-d')?>" onchange="get_rapport()">
-                      </div>
-                    </div>
                       <h5 class="card-title"></h5>
                       <div id="container10" style="min-height: 280px;"></div>
                       <div id="nouveau10"></div>
@@ -174,14 +174,16 @@
             <tr>
               <th class="">#</th>
               <th class="">CODE&nbsp;VEHICULE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-             <th class="">PLAQUE</th>
-             <!--  <th class="">MARQUE</th>
+              <th class="">CODE&nbsp;COURSE</th>
+              <th class="">DATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+              <th class="">MARQUE</th>
               <th class="">MODELE</th>
-            
+             <th class="">PLAQUE</th>
               <th class="">COULEUR</th>
               <th class="">LITRE&nbsp;/&nbsp;KM</th>
               <th class="">PROPRIETAIRE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-              <th class="">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
+              <th class="">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
              
 
 

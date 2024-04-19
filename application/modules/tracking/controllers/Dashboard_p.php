@@ -226,11 +226,8 @@ class Dashboard_old extends CI_Controller
 
 			$distance_finale=$distance;
 			$distance_arrondie=round($distance_finale);
-
-
 		}
-
-
+		
 		//calcul de la distance	par filtre	
 		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.'  AND ignition=0' , '`id` ASC');
 		$my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
