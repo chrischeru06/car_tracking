@@ -22,6 +22,7 @@ class Dashboard_Anomalies extends CI_Controller
   }
   function index()
   {
+    
     $reflesh=base_url();
     $data['reflesh']=$reflesh;
      //print_r($data['reflesh']);die();
