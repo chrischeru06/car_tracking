@@ -301,6 +301,7 @@ margin: 0px 0;
 z-index: 100;
 
 }
+
 #button-container { position: absolute; top: 95%; right: 10px; z-index: 1; }
 </style>
 
@@ -319,7 +320,7 @@ z-index: 100;
 
       <div id="map_maps" style="width: 100%;height: 720px;">
         <div id='button-container'>
-          <button id='toggle-button' style="background-color: cadetblue; color:white; border-color: cadetblue;">Visibilité du polygone</button>
+          <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border-color: cadetblue;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button>
         </div>
 
         <div class="map-overlay top">
@@ -611,10 +612,6 @@ z-index: 100;
 
 
 
-
-
-
-
       var donn='<?= $mark_vprim ?>';
 
       var donn=donn.split('@');
@@ -628,7 +625,10 @@ z-index: 100;
         .then(data => {
           adress = data.features[0].place_name;
           const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +''
+            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[6] +''
+            );
+          const popupParking = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;' + index[5] +'&nbsp;&nbsp;-&nbsp;&nbsp;' + index[6] +''
             );
           var couleur='';
           if(index[4]==0){
@@ -637,15 +637,15 @@ z-index: 100;
               const marker2 = new FontawesomeMarker({
                 icon: 'fa fa-product-hunt',
                 iconColor: 'white',
-                color: '#0000FF',
+                color: '#0000FF',//rouge
 
               })
 
 
-              .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
+              .setLngLat([index[2],index[3]]).setPopup(popupParking).addTo(map_map);
               
             }else{
-              couleur='#FF0000';
+              couleur='#FF0000';//rouge
               const marker2 = new mapboxgl.Marker({ color: couleur})
               .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
 
@@ -674,10 +674,10 @@ z-index: 100;
           .then(data => {
             adresse = data.features[0].place_name;
             const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
+              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[5] +''
               );
 
-            const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
+            const marker1 = new mapboxgl.Marker({ color:'#00FF00'})//vert
             .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
 
             map_map.flyTo({
