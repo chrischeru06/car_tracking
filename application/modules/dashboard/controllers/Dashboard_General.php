@@ -850,7 +850,7 @@ class Dashboard_General extends CI_Controller
      },
      subtitle:
      {
-     text: '<b><br> Rapport du ".date('d-m-Y')."</b><br> <b>Total= ".$total4."'
+     text: '<b><br> Rapport du ".date('d-m-Y')."</b>'
      },
       xAxis: 
      {

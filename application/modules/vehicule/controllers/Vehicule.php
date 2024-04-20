@@ -25,7 +25,14 @@
 		//la fonction index visualise la liste des vehicules
 		function index()
 		{
-			$this->load->view('Vehicule_liste_View');
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+			$motif_activation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=1', 'DESC_MOTIF ASC');
+			$data['motif_ativ'] = $this->ModelPs->getRequete($proce_requete, $motif_activation);
+
+			$motif_desactivation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=2', 'DESC_MOTIF ASC');
+			$data['motif_des'] = $this->ModelPs->getRequete($proce_requete, $motif_desactivation);
+			$this->load->view('Vehicule_liste_View',$data);
 		}
 
 
@@ -35,6 +42,9 @@
 			$USER_ID = $this->session->userdata('USER_ID');
 
 			$CHECK_VALIDE = $this->input->post('CHECK_VALIDE');
+			$PROFIL_ID=$this->session->userdata('PROFIL_ID');
+
+			// print_r($PROFIL_ID);die();
 
 			$critaire = '' ;
 			$critaire_doc_valide = '' ;
@@ -63,10 +73,7 @@
 				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK < "'.$date_now.'"';
 			}
 
-
-			// $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur,STATUT_VEH_AJOUT,`LOGO` FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
-
-			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,vehicule.IS_ACTIVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_doc_valide.'';
+			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_doc_valide.'';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -120,24 +127,14 @@
 
 				// $sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
-				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
+				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;&nbsp;&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
 				if($row->STATUT_VEH_AJOUT==2){
-					$sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
-					<span class="badge badge-pill badge-warning" ></span>';
-				}elseif ($row->STATUT_VEH_AJOUT==1) 
-				{
-					$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: orange;"></i><font style="font-size:13px;font-weight: bold;color: orange;">Véhicule en attente</font><span class="badge badge-pill badge-warning" ></span>';
-
-				}else
-				{
-					$sub_array[]='<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: red;"></i><font style="font-size:13px;font-weight: bold;color: red;">Véhicule refusé</font><span class="badge badge-pill badge-warning" ></span>';
-				}
-
-				if($row->IS_ACTIVE==1){
+					// $sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
+					// <span class="badge badge-pill badge-warning" ></span>';
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
-					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 
 					<table>
 					<td><label class="text-primary small">Activé</label></td>
@@ -152,13 +149,19 @@
 					</form>
 
 					';
-				}else{
+				}elseif ($row->STATUT_VEH_AJOUT==1) 
+				{
+					$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:14px;color: orange;"></i><font style="font-size:14px;color: orange;"> Véhicule en attente</font><span class="badge badge-pill badge-warning" ></span>';
+
+				}elseif ($row->STATUT_VEH_AJOUT==3) 
+				{
+					$sub_array[]='<i class="fa fa-close text-danger  small"></i></i><font style="font-size:14px;" class="text-danger"> Véhicule refusé</font>';
+				}elseif($row->STATUT_VEH_AJOUT==4){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
-					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
-
+					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 					<table>
-					<td><label class="text-danger small">Désactivé</label></td>
+					<td><label class="text-danger small" >Désactivé</label></td>
 					<td><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_active(' . $row->VEHICULE_ID . ')">
 					<span class="slider round"></span>
@@ -169,10 +172,44 @@
 					';
 				}
 
+				// if($row->IS_ACTIVE==1){
+				// 	$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+
+				// 	<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+
+				// 	<table>
+				// 	<td><label class="text-primary small">Activé</label></td>
+				// 	<td><label class="switch"> 
+				// 	<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked>
+				// 	<span class="slider round"></span>
+				// 	</label></td>
+				// 	</table>
+
+
+
+				// 	</form>
+
+				// 	';
+				// }else{
+				// 	$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+
+				// 	<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+
+				// 	<table>
+				// 	<td><label class="text-danger small">Désactivé</label></td>
+				// 	<td><label class="switch"> 
+				// 	<input type="checkbox" id="myCheck" onclick="statut_active(' . $row->VEHICULE_ID . ')">
+				// 	<span class="slider round"></span>
+				// 	</label></td>
+				// 	</table>
+				// 	</form>
+
+				// 	';
+				// }
+
 				$option = '<div class="dropdown text-center">
 				<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
-				<i class="bi bi-three-dots h5" style="color:blue;"></i> 
-				
+				<i class="bi bi-three-dots h5" style="color:blue;"></i>	
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu dropdown-menu-right">
 				';
@@ -186,7 +223,7 @@
 				{
 					$sub_array[] = '<i class="fa fa-close text-danger  small"></i><font class="text-danger small"> Expirée</font>';
 
-					$option.='<li style="margin:0px;cursor:pointer;"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td><a class="text-dark" onclick="assure_controle('.$row->VEHICULE_ID.',1)">Renouveler l\'assurance</a></td></tr></table></li>';
+					$option.='<li style="margin:0px;cursor:pointer;margin-top:-30px;margin-bottom:-30px"><a class="btn-md" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</a></td></tr></table></li>';
 				}
 				
 				if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
@@ -197,13 +234,18 @@
 				{
 					$sub_array[] = '<i class="fa fa-close text-danger small"></i><font class="text-danger small"> Expirée</font>';
 
-					$option.='<li style="margin:0px;cursor:pointer;"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td><a class="text-dark" onclick="assure_controle('.$row->VEHICULE_ID.',2)">Renouveler le contrôle technique</a></td></tr></table></li>';
+					$option.='<li style="margin:0px;cursor:pointer;margin-top:-40px;margin-bottom:-30px;"><a class="btn-md" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</a></td></tr></table></li>';
 				}
 
 				
-				if ($row->STATUT_VEH_AJOUT==1)
+				if ($row->STATUT_VEH_AJOUT==1 || $row->STATUT_VEH_AJOUT==2)
 				{
-					$option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><label class='text-dark'><i class='bi bi-pencil'></i>&nbsp;&nbsp;Modifier</label></a></li>";
+					$option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><i class='fa fa-edit'></i>&nbsp;&nbsp;Modifier</a></li>";
+					
+				}
+				if($row->STATUT_VEH_AJOUT==1 && $PROFIL_ID==1){
+					$option .= "<li><a class='btn-md' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><i class='fa fa-cog'></i>&nbsp;&nbsp;Traiter</a></li>";
+
 				}
 
 				$option .="
@@ -500,44 +542,78 @@
 		function save_stat_vehicul()
 		{
 		// $statut=1 traitement avec succes;
-		// $statut=2:possedent une autre chauffeur;
-		// $statut=3: traitement echoue
+		// $statut=2:traitement echoue
+		// $statut=3: traitement 
 			$statut=3;
-		// $CODE= $this->input->post('code_vehicule');
+
 
 			$STATUT_VEH_AJOUT = $this->input->post('STATUT_VEH_AJOUT');
-
 			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
 			$TRAITEMENT_DEMANDE_ID = $this->input->post('TRAITEMENT_DEMANDE_ID');
 			$COMMENTAIRE = $this->input->post('COMMENTAIRE');
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-			if ($STATUT_VEH_AJOUT==1) 
-			{
-				$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>2));
-			}else
-			{ 
-				$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>3)); 
+			if ($TRAITEMENT_DEMANDE_ID==1) {
+				$CODE = $this->input->post('CODE');
+				$my_select_code_veh = $this->getBindParms('CODE', 'vehicule', '1 AND CODE="'.$CODE.'"', '`VEHICULE_ID` ASC');
+				$my_select_code_veh=str_replace('\"', '"', $my_select_code_veh);
+				$my_select_code_veh=str_replace('\n', '', $my_select_code_veh);
+				$my_select_code_veh=str_replace('\"', '', $my_select_code_veh);
+				$code_vehicule = $this->ModelPs->getRequete($proce_requete, $my_select_code_veh);
+
+				if (!empty($code_vehicule)) {
+					$statut=4;
+				}else{
+					$statut=3;
+				}
 			}
-			if($vehcul==true )
-			{
-				$statut=1;
-			}else
-			{
-				$statut=2;
+			
+
+			if($statut==3){
+
+				if ($STATUT_VEH_AJOUT==1 && $TRAITEMENT_DEMANDE_ID==1) 
+				{
+					$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>2,'CODE'=>$CODE));
+				}else if ($STATUT_VEH_AJOUT==1 && $TRAITEMENT_DEMANDE_ID==2) {
+					$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>3)); 
+				}
+
+				if($vehcul==true )
+				{
+					$statut=1;
+				}else
+				{
+					$statut=2;
+				}
 			}
+			
 			echo json_encode($statut);
 		}
 
 		//Fonction pour activer/desactiver un vehicule
-		function active_desactive($status,$VEHICULE_ID){
+		function active_desactive($status){
+			$USER_ID = $this->session->userdata('USER_ID');
 
-			if($status == 1){
-				$this->Model->update('vehicule', array('VEHICULE_ID'=>$VEHICULE_ID),array('IS_ACTIVE'=>2));
+			if($status == 2){
+				$ID_MOTIF_des = $this->input->post('ID_MOTIF_des');
+				$VEHICULE_ID = $this->input->post('VEHICULE_ID_ID');
+
+				$this->Model->update('vehicule', array('VEHICULE_ID'=>$VEHICULE_ID),array('STATUT_VEH_AJOUT'=>4));
+				
+				$data = array('USER_ID'=>$USER_ID,'STATUT'=>4,'ID_MOTIF'=>$ID_MOTIF_des,'VEHICULE_ID'=>$VEHICULE_ID);
+
+				$result = $this->Model->create('historique_activ_des_vehicule',$data);
 
 				$status = 2;
 
-			}else if($status == 2){
-				$this->Model->update('vehicule', array('VEHICULE_ID'=>$VEHICULE_ID),array('IS_ACTIVE'=>1));
+			}else if($status == 4){
+				$ID_MOTIF = $this->input->post('ID_MOTIF');
+				$VEHICULE_ID = $this->input->post('VEHICULE_ID_I');
+
+				$data = array('USER_ID'=>$USER_ID,'STATUT'=>2,'ID_MOTIF'=>$ID_MOTIF,'VEHICULE_ID'=>$VEHICULE_ID);
+
+				$result = $this->Model->create('historique_activ_des_vehicule',$data);
+				$this->Model->update('vehicule', array('VEHICULE_ID'=>$VEHICULE_ID),array('STATUT_VEH_AJOUT'=>2));
 				$status = 1;
 			}
 
@@ -581,7 +657,7 @@
 				$data['btn'] = "Modifier";
 				$data['title'] = "Modification du véhicule";
 
-				$vehicule = $this->Model->getRequeteOne("SELECT vehicule.VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,vehicule.DATE_FIN_CONTROTECHNIK,vehicule.DATE_FIN_ASSURANCE,vehicule.DATE_DEBUT_ASSURANCE,vehicule.DATE_DEBUT_CONTROTECHNIK,vehicule.FILE_CONTRO_TECHNIQUE,vehicule.FILE_ASSURANCE,ID_ASSUREUR FROM vehicule LEFT JOIN historique_assurance ON historique_assurance.VEHICULE_ID = vehicule.VEHICULE_ID WHERE md5(vehicule.VEHICULE_ID)='".$VEHICULE_ID."'");
+				$vehicule = $this->Model->getRequeteOne("SELECT vehicule.VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,vehicule.DATE_FIN_CONTROTECHNIK,vehicule.DATE_FIN_ASSURANCE,vehicule.DATE_DEBUT_ASSURANCE,vehicule.DATE_DEBUT_CONTROTECHNIK,vehicule.FILE_CONTRO_TECHNIQUE,vehicule.FILE_ASSURANCE,vehicule.ID_ASSUREUR FROM vehicule LEFT JOIN historique_assurance ON historique_assurance.VEHICULE_ID = vehicule.VEHICULE_ID WHERE md5(vehicule.VEHICULE_ID)='".$VEHICULE_ID."'");
 
 				// if(empty($vehicule))
 				// {
@@ -605,8 +681,7 @@
 
 				$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
 
-				$assureur = $this->getBindParms('`ID_ASSUREUR`, `ASSURANCE`', 'assureur', '1', '`ASSURANCE` ASC');
-				$assureur = $this->ModelPs->getRequete($psgetrequete, $assureur);
+				
 
 			}
 
@@ -675,10 +750,11 @@
 			if(empty($VEHICULE_ID))   //Controle d'enregistrement
 			{
 
-				$this->form_validation->set_rules("CODE"," ","trim|required|is_unique[vehicule.CODE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le code existe déjà !</font>'));
+				// $this->form_validation->set_rules("CODE"," ","trim|required|is_unique[vehicule.CODE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le code existe déjà !</font>'));
 
 				$this->form_validation->set_rules('ID_MARQUE','ID_MARQUE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
+				$this->form_validation->set_rules('ID_ASSUREUR','ID_ASSUREUR','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 				$this->form_validation->set_rules('ID_MODELE','ID_MODELE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules("PLAQUE"," ","trim|required|is_unique[vehicule.PLAQUE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le plaque existe déjà !</font>'));
@@ -719,7 +795,7 @@
 					$file_assurance = $this->upload_file('FILE_ASSURANCE');
 
 					$data = array(
-						'CODE'=>$this->input->post('CODE'),
+						'ID_ASSUREUR'=>$this->input->post('ID_ASSUREUR'),
 						'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
 						'ID_MODELE'=>$this->input->post('ID_MODELE'),
 						'PLAQUE'=>$this->input->post('PLAQUE'),
@@ -795,12 +871,12 @@
 
 					$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
-					$check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,"PLAQUE",PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and CODE='.$this->input->post('CODE').'','VEHICULE_ID ASC');
-					$check_existe=str_replace('\"', '"', $check_existe);
-					$check_existe=str_replace('\n', '', $check_existe);
-					$check_existe=str_replace('\"', '', $check_existe);
+					// $check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,"PLAQUE",PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and CODE='.$this->input->post('CODE').'','VEHICULE_ID ASC');
+					// $check_existe=str_replace('\"', '"', $check_existe);
+					// $check_existe=str_replace('\n', '', $check_existe);
+					// $check_existe=str_replace('\"', '', $check_existe);
 
-					$check_existe1 = $this->ModelPs->getRequete($psgetrequete, $check_existe);
+					// $check_existe1 = $this->ModelPs->getRequete($psgetrequete, $check_existe);
 					$val_plaque=$this->input->post('PLAQUE');
 					$check_existe_plak = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,"PLAQUE",PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and PLAQUE="'.$val_plaque.'"','VEHICULE_ID ASC');
 					$check_existe_plak=str_replace('\"', '"', $check_existe_plak);
@@ -809,13 +885,14 @@
 
 					$check_existe_plak1 = $this->ModelPs->getRequete($psgetrequete, $check_existe_plak);
 					 // print_r($check_existe1);die();
-					if(!empty($check_existe1) )
-					{
-						$message['message']='<div class="alert alert-danger text-center" id="message">le code existe déjà !</div>';
-						$this->session->set_flashdata($message);
-						redirect(base_url('vehicule/Vehicule/ajouter'));
-					}
-					else if(!empty($check_existe_plak1))
+					// if(!empty($check_existe1) )
+					// {
+					// 	$message['message']='<div class="alert alert-danger text-center" id="message">le code existe déjà !</div>';
+					// 	$this->session->set_flashdata($message);
+					// 	redirect(base_url('vehicule/Vehicule/ajouter'));
+					// }
+					// else 
+					if(!empty($check_existe_plak1))
 					{
 						$message['message']='<div class="alert alert-danger text-center" id="message">le plaque existe déjà !</div>';
 						$this->session->set_flashdata($message);
@@ -887,13 +964,13 @@
 
 						if ($update)
 						{
-							$message['message']='<div class="alert alert-success text-center" id="message">Modification du vehicule avec succès</div>';
+							$message['message']='<div class="alert alert-success text-center" id="message">Modification du véhicule faite avec succès <i class="fa fa-check"></i></div>';
 							$this->session->set_flashdata($message);
 							redirect(base_url('vehicule/Vehicule'));
 
 						}else
 						{
-							$message['message']='<div class="alert alert-danger text-center" id="message">Echec de modification </div>';
+							$message['message']='<div class="alert alert-danger text-center" id="message">Echec de modification</div>';
 							$this->session->set_flashdata($message);
 							redirect(base_url('vehicule/Vehicule'));
 
@@ -922,17 +999,42 @@
 			$this->load->view('Vehicule_detail_View',$data);
 		}
 
+		function check_val_code()
+		{
+			$CODE = $this->input->post('CODE');
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+			$my_select_code_veh = $this->getBindParms('CODE', 'vehicule', '1 AND CODE="'.$CODE.'"', '`VEHICULE_ID` ASC');
+			$my_select_code_veh=str_replace('\"', '"', $my_select_code_veh);
+			$my_select_code_veh=str_replace('\n', '', $my_select_code_veh);
+			$my_select_code_veh=str_replace('\"', '', $my_select_code_veh);
+			$code_vehicule = $this->ModelPs->getRequete($proce_requete, $my_select_code_veh);
+			if(!empty($code_vehicule)){
+
+				$verify=2;
+			}else{
+
+				$verify=1;
+			}
+
+			echo json_encode($verify);
+		}
+
         // Fonction pour afficher les assureurs
-		function select_assureur()
+		function select_assureur($VEHICULE_ID_ASSURE)
 		{
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
 			$my_select = $this->getBindParms('`ID_ASSUREUR`, `ASSURANCE`', 'assureur', '1', '`ASSURANCE` ASC');
 			$assureur = $this->ModelPs->getRequete($proce_requete, $my_select);
 
+			$my_select_vehicul = $this->getBindParms('`ID_ASSUREUR`', 'vehicule', '1 AND VEHICULE_ID='.$VEHICULE_ID_ASSURE, '`ID_ASSUREUR` ASC');
+			$assureur_vehi = $this->ModelPs->getRequeteOne($proce_requete, $my_select_vehicul);
 			$html_assureur='<option value="">Sélectionner</option>';
 			foreach ($assureur as $key)
 			{
+				
 				$html_assureur.='<option value="'.$key['ID_ASSUREUR'].'">'.$key['ASSURANCE'].' </option>';
+				
+				
 			}
 
 			$array = array('html_assureur'=>$html_assureur);
@@ -964,12 +1066,13 @@
 					'DATE_DEBUT_ASSURANCE' => $DATE_DEBUT_ASSURANCE,
 					'DATE_FIN_ASSURANCE' => $DATE_FIN_ASSURANCE,
 					'FILE_ASSURANCE' => $FILE_ASSURANCE,
+					'ID_ASSUREUR' => $ID_ASSUREUR,
 				);
 
 				$table='vehicule';
 				$this->Model->update($table,array('VEHICULE_ID'=>$VEHICULE_ID),$data);
 
-			  // Enregistrement dans la table d'historique d'assurance
+				// Enregistrement dans la table d'historique d'assurance
 
 				$data_histo = array(
 					'VEHICULE_ID' => $VEHICULE_ID,
@@ -997,7 +1100,7 @@
 				$table='vehicule';
 				$this->Model->update($table,array('VEHICULE_ID'=>$VEHICULE_ID),$data);
 
-			  // Enregistrement dans la table d'historique du controle technique
+				// Enregistrement dans la table d'historique du controle technique
 
 				$data_histo = array(
 					'VEHICULE_ID' => $VEHICULE_ID,
@@ -1006,6 +1109,7 @@
 					'DATE_FIN_CONTROTECHNIK' => $DATE_FIN_CONTROTECHNIK,
 					'FILE_CONTRO_TECHNIQUE' => $FILE_CONTRO_TECHNIQUE,
 				);
+
 
 				$table2 = 'historique_controle_technique';
 				$create = $this->Model->create($table2,$data_histo);
@@ -1048,10 +1152,10 @@
 				OR IDENTIFICATION LIKE "%' . $var_search . '%" OR historique_assurance.DATE_DEBUT_ASSURANCE LIKE "%' . $var_search . '%" OR historique_assurance.DATE_FIN_ASSURANCE LIKE "%' . $var_search . '%" OR historique_assurance.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
 
 
-        //condition pour le query principale
+			//condition pour le query principale
 			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
 
-        // condition pour le query filter
+			// condition pour le query filter
 			$conditionsfilter = $critaire . ' ' . $group;
 
 
@@ -1061,7 +1165,7 @@
 
 
 			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
-        // echo $query_secondaire;
+			// echo $query_secondaire;
 			$fetch_data = $this->ModelPs->datatable($query_secondaire);
 			$data = array();
 			$i=0;
@@ -1148,10 +1252,10 @@
 			$search = !empty($_POST['search']['value']) ? (' AND (`ID_HISTORIQUE_CONTROLE` LIKE "%' . $var_search . '%" OR IDENTIFICATION LIKE "%' . $var_search . '%" OR historique_controle_technique.DATE_DEBUT_CONTROTECHNIK LIKE "%' . $var_search . '%" OR historique_controle_technique.DATE_FIN_CONTROTECHNIK LIKE "%' . $var_search . '%" OR historique_controle_technique.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
 
 
-        //condition pour le query principale
+			//condition pour le query principale
 			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
 
-        // condition pour le query filter
+			// condition pour le query filter
 			$conditionsfilter = $critaire . ' ' . $group;
 
 
@@ -1161,7 +1265,7 @@
 
 
 			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
-        // echo $query_secondaire;
+			// echo $query_secondaire;
 			$fetch_data = $this->ModelPs->datatable($query_secondaire);
 			$data = array();
 			$i=0;
@@ -1255,7 +1359,7 @@
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 		public function getBindParms($columnselect, $table, $where, $orderby)
 		{
-        // code...
+			// code...
 			$bindparams = array(
 				'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
 				'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,

@@ -81,7 +81,7 @@
 
 				$sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->desc_proprio . '</td></tr></table></a>';
 
-				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
+				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "' >&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
 				if($row->IS_ACTIVE==1){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
@@ -303,14 +303,14 @@
        // Appel du formulaire d'enregistrement
 		function ajouter()
 		{	
-		  	$USER_ID = $this->session->userdata('USER_ID');
+			$USER_ID = $this->session->userdata('USER_ID');
 
 			$VEHICULE_ID = $this->uri->segment(4);
 
 			$data['btn'] = "Enregistrer";
 			$data['title']="Enregistrement du véhicule";
 
-			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL);
+			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL,'ID_ASSUREUR'=>NULL);
 			
 			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
@@ -329,13 +329,15 @@
 
 			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
 
+			$assureur = $this->getBindParms('`ID_ASSUREUR`, `ASSURANCE`', 'assureur', '1', '`ASSURANCE` ASC');
+			$assureur = $this->ModelPs->getRequete($psgetrequete, $assureur);
 
 			if(!empty($VEHICULE_ID))
 			{
 				$data['btn'] = "Modifier";
 				$data['title'] = "Modification du véhicule";
 
-				$vehicule = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,DATE_FIN_CONTROTECHNIK,DATE_FIN_ASSURANCE,DATE_DEBUT_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,FILE_CONTRO_TECHNIQUE,FILE_ASSURANCE FROM vehicule WHERE md5(VEHICULE_ID)='".$VEHICULE_ID."'");
+				$vehicule = $this->Model->getRequeteOne("SELECT VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,DATE_FIN_CONTROTECHNIK,DATE_FIN_ASSURANCE,DATE_DEBUT_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,FILE_CONTRO_TECHNIQUE,FILE_ASSURANCE,ID_ASSUREUR FROM vehicule WHERE md5(VEHICULE_ID)='".$VEHICULE_ID."'");
 
 				// if(empty($vehicule))
 				// {
@@ -348,7 +350,7 @@
 				$modele = $this->getBindParms('ID_MODELE ,DESC_MODELE','vehicule_modele',' 1 ','DESC_MODELE ASC');
 				$modele = $this->ModelPs->getRequete($psgetrequete, $modele);
 				$usage = $this->getBindParms('USAGE_ID,USAGE_DESC','veh_usage',' 1 ','USAGE_DESC ASC');
-			   $usage = $this->ModelPs->getRequete($psgetrequete, $usage);
+				$usage = $this->ModelPs->getRequete($psgetrequete, $usage);
 
 
 				// $proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
@@ -359,6 +361,7 @@
 				$proprio=str_replace('\"', '', $proprio);
 
 				$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+				
 
 			}
 
@@ -367,6 +370,7 @@
 			$data['modele'] = $modele;
 			$data['usage'] = $usage;
 			$data['proprio'] = $proprio;
+			$data['assureur'] = $assureur;
 
 
 			$this->load->view('Vehicule_add_View',$data);
@@ -424,8 +428,9 @@
 			if(empty($VEHICULE_ID))   //Controle d'enregistrement
 			{
 
-				$this->form_validation->set_rules("CODE"," ","trim|required|is_unique[vehicule.CODE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le code existe déjà !</font>'));
+				// $this->form_validation->set_rules("CODE"," ","trim|required|is_unique[vehicule.CODE]",array('required'=>'<font style="color:red;size:2px;">Le champ est obligatoire</font>', 'is_unique'=>'<font style="color:red;size:2px;">Le code existe déjà !</font>'));
 
+				$this->form_validation->set_rules('ID_ASSUREUR','ID_ASSUREUR','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 				$this->form_validation->set_rules('ID_MARQUE','ID_MARQUE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
 				$this->form_validation->set_rules('ID_MODELE','ID_MODELE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
@@ -467,9 +472,8 @@
 					$file_controtechnik = $this->upload_file('FILE_CONTRO_TECHNIQUE');
 					$file_assurance = $this->upload_file('FILE_ASSURANCE');
 
-					$data = array
-					(
-						'CODE'=>$this->input->post('CODE'),
+					$data = array(
+						'ID_ASSUREUR'=>$this->input->post('ID_ASSUREUR'),
 						'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
 						'ID_MODELE'=>$this->input->post('ID_MODELE'),
 						'PLAQUE'=>$this->input->post('PLAQUE'),
@@ -486,7 +490,6 @@
 						'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
 						'FILE_ASSURANCE'=>$file_assurance,
 						'FILE_CONTRO_TECHNIQUE'=>$file_controtechnik,
-
 						
 					);
 					
@@ -546,21 +549,21 @@
 
 					$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
-					$check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and CODE='.$this->input->post('CODE').'','VEHICULE_ID ASC');
-					$check_existe1 = $this->ModelPs->getRequete($psgetrequete, $check_existe);
+					// $check_existe = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and CODE='.$this->input->post('CODE').'','VEHICULE_ID ASC');
+					// $check_existe1 = $this->ModelPs->getRequete($psgetrequete, $check_existe);
 					$check_existe_plak = $this->getBindParms('VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,PROPRIETAIRE_ID','vehicule',' VEHICULE_ID !='.$VEHICULE_ID.' and PLAQUE="'.$this->input->post('PLAQUE').'"','VEHICULE_ID ASC');
-		           $check_existe_plak=str_replace('\"', '"', $check_existe_plak);
-		           $check_existe_plak=str_replace('\n', '', $check_existe_plak);
-		           $check_existe_plak=str_replace('\"', '', $check_existe_plak);
+					$check_existe_plak=str_replace('\"', '"', $check_existe_plak);
+					$check_existe_plak=str_replace('\n', '', $check_existe_plak);
+					$check_existe_plak=str_replace('\"', '', $check_existe_plak);
 					$check_existe_plak1 = $this->ModelPs->getRequete($psgetrequete, $check_existe_plak);
 					 // print_r($check_existe1);die();
-					if(!empty($check_existe1) )
-					{
-						$message['message']='<div class="alert alert-danger text-center" id="message">le code existe déjà !</div>';
-						$this->session->set_flashdata($message);
-						redirect(base_url('proprietaire/Proprietaire_vehicule/ajouter'));
-					}
-					else if(!empty($check_existe_plak1))
+					// if(!empty($check_existe1) )
+					// {
+					// 	$message['message']='<div class="alert alert-danger text-center" id="message">le code existe déjà !</div>';
+					// 	$this->session->set_flashdata($message);
+					// 	redirect(base_url('proprietaire/Proprietaire_vehicule/ajouter'));
+					// }
+					if(!empty($check_existe_plak1))
 					{
 						$message['message']='<div class="alert alert-danger text-center" id="message">le plaque existe déjà !</div>';
 						$this->session->set_flashdata($message);
