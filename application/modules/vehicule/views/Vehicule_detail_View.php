@@ -247,7 +247,7 @@
                   <tr>
                     <td >
                       <font>
-                        <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['photo_pro'])?>" style="width: 20px;height: 20px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                        <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['photo_pro'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
                       <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Propriétaire</font><br>
                       </font>
                       <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
@@ -256,30 +256,59 @@
 
                     <td >
                       <font>
-                      <img src="<?=base_url('/upload/chauffeur/'.$infos_vehicule['photo_chauf'])?>" style="width: 20px;height: 20px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                      <img src="<?= isset($infos_vehicule['photo_chauf'])?base_url('/upload/chauffeur/'.$infos_vehicule['photo_chauf']):base_url('/upload/iconecartracking-02.png')?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
                       <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Chauffeur</font><br>
                       </font>
-                      <a href="#" class="dash" title="Cliquer pour visualiser le détail">
+                      
+                      <?php if(!empty($infos_vehicule['CHAUFFEUR_ID']))
+                      {
+                        ?>
+                        <a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/<?=md5($infos_vehicule['CHAUFFEUR_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
                       <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['chauffeur_desc']?></font></a>
+                        <?php
+                      }
+                      else
+                      {
+                        ?>
+                        <font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
+                        <?php
+                      }
+                      ?>
                     
                     </td>
 
                     <td >
                       
                       <?php 
-                      if($infos_vehicule['IS_ACTIVE'] == 1)
+                      if($infos_vehicule['STATUT_VEH_AJOUT'] == 1)
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Actif</font>
+                        <label class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin"></label><font class="text-warning small pt-2 ps-1">demande en attente</font>
                       
                           <?php
                       }
-                      else
+                      else if($infos_vehicule['STATUT_VEH_AJOUT'] == 2)
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Désactif</font>
+                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Vécule activé</font>
+                      
+                          <?php
+                      }
+                      else if($infos_vehicule['STATUT_VEH_AJOUT'] == 3)
+                      {
+                        ?>
+                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
+                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">demande refusé</font>
+                      
+                          <?php
+                      }
+                      else if($infos_vehicule['STATUT_VEH_AJOUT'] == 4)
+                      {
+                        ?>
+                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
+                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Vécule désactivé</font>
                       
                           <?php
                       }
@@ -333,21 +362,21 @@
 
                   </tr>
                 </table>
-                <center><a href="<?=base_url('centre_situation/Centre_situation/index/').$infos_vehicule['VEHICULE_ID']?>" id="tracking"> <i class="small pt-2 ps-1 fa fa-map-marker"> </i><font class="text-muted small pt-2 ps-1">Emplacement du véhicule</font></a></center>
+                <center><a href="<?=base_url('centre_situation/Centre_situation/index/').$infos_vehicule['VEHICULE_ID']?>" id="tracking"> <i class="small pt-2 ps-1 fa fa-map-marker"> </i><font class=" small pt-2 ps-1">Emplacement du véhicule</font></a></center>
                 <input type="hidden" value="<?=$infos_vehicule['VEHICULE_ID']?>" id="VEHICULE_TRACK">
                 <input type="hidden" value="<?=$infos_vehicule['latitude'].','.$infos_vehicule['longitude']?>" id="COORD_TRACK">
               </div>
 
               <hr>
 
-              <br>
+              <!-- <br>
 
               <div class="row">
 
-                <div id="mapView">
+               <div id="mapView">
                 </div>
 
-              </div>
+              </div> -->
 
 
             </div>
