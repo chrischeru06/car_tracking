@@ -177,7 +177,7 @@ class Dashboard extends CI_Controller
 		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
 
 		//Requete pour recuperer partout ou il ya eu exces de vitesse
-		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' vitesse >= 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour', 'tracking_data', ' vitesse >= 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
 		$my_selectget_exces_vitesse=str_replace('\"', '"', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\"', '"', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\n', '', $my_selectget_exces_vitesse);
@@ -185,7 +185,7 @@ class Dashboard extends CI_Controller
 		$get_data_exces_vitesse = $this->ModelPs->getRequete($proce_requete, $my_selectget_exces_vitesse);
 
 		////Requete pour recuperer partout ou il ya eu accident
-		$my_selectget_accident= $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' accident=1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+		$my_selectget_accident= $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour', 'tracking_data', ' accident=1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
 		$my_selectget_accident=str_replace('\"', '"', $my_selectget_accident);
 		$my_selectget_accident=str_replace('\"', '"', $my_selectget_accident);
 		$my_selectget_accident=str_replace('\n', '', $my_selectget_accident);
@@ -399,7 +399,7 @@ class Dashboard extends CI_Controller
 			if (!empty($tabl_prime)) {
 				foreach ($tabl_prime as $keytablprim) {
 
-					$mark_vprim=$mark_vprim.$keytablprim[9].'<>'.$keytablprim[8].'<>'.$keytablprim[11].'<>'.$keytablprim[10].'<>'.$keytablprim[12].'<>@';
+					$mark_vprim=$mark_vprim.$keytablprim[9].'<>'.$keytablprim[8].'<>'.$keytablprim[11].'<>'.$keytablprim[10].'<>'.$keytablprim[12].'<>'.$keytablprim[4].'<>'.$keytablprim[6].'<>@';
 
 				}
 			}
@@ -789,7 +789,7 @@ class Dashboard extends CI_Controller
 										'type': 'Feature',
 										'properties': {
 											'description':
-											'<strong>Exces de vitesse</strong><p>".$value_data_exces_vitesse['vitesse']." Km/h</p>'
+											'<span class=\"fa fa-warning\">&nbsp;&nbsp;Excès de vitesse</span>&nbsp;&nbsp;".$value_data_exces_vitesse['vitesse']." Km/h<br><i class=\"fa fa-clock-o \">&nbsp;&nbsp;".$value_data_exces_vitesse['hour']."</p>'
 											},
 											'geometry': {
 												'type': 'Point',
@@ -828,7 +828,7 @@ class Dashboard extends CI_Controller
 												'type': 'Feature',
 												'properties': {
 													'description':
-													'<strong><font  style=\"color:red;\">Accident !</font></strong>'
+													'<font  style=\"color:red;\">Accident !</font><br><i class=\"fa fa-clock-o\" style=\"color:red;\">&nbsp;&nbsp;".$keyget_data_accident['hour']."</i>'
 													},
 													'geometry': {
 														'type': 'Point',
