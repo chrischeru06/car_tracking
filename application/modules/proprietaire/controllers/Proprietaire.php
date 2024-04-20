@@ -647,11 +647,11 @@ class Proprietaire extends CI_Controller
 
 		$provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', 'PROVINCE_NAME ASC');
 		$data['provinces'] = $this->ModelPs->getRequete($proce_requete, $provinces);
-		$motifs = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=1', 'DESC_MOTIF ASC');
-		$data['motif_des'] = $this->ModelPs->getRequete($proce_requete, $motifs);
+		$motif_desactivation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=1', 'DESC_MOTIF ASC');
+		$data['motif_des'] = $this->ModelPs->getRequete($proce_requete, $motif_desactivation);
 
-		$motifs = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=2', 'DESC_MOTIF ASC');
-		$data['motif_ativ'] = $this->ModelPs->getRequete($proce_requete, $motifs);
+		$motif_ativation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=2', 'DESC_MOTIF ASC');
+		$data['motif_ativ'] = $this->ModelPs->getRequete($proce_requete, $motif_ativation);
 
 
 		
@@ -792,7 +792,6 @@ class Proprietaire extends CI_Controller
 				$sub_array[]='<form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
 				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
-
 				<table>
 				<td><label class="text-primary">Activé</label></td>
 				<td><label class="switch"> 
@@ -800,9 +799,6 @@ class Proprietaire extends CI_Controller
 				<span class="slider round"></span>
 				</label></td>
 				</table>
-
-
-
 				</form>
 
 				';

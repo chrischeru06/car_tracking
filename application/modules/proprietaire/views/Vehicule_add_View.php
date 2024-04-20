@@ -22,24 +22,24 @@
     <div class="col-sm-10">
       <div class="welcome-text">
         <center>
-       <table>
-        <tr>
-          <td> 
-            <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
-          </td>
-          <td>  
-            <h4 class="text-dark"><?=$title?></h4>
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <!-- <li class="breadcrumb-item"><a href="#">Véhicule</a></li> -->
-                <li class="breadcrumb-item"><a href="#"></a></li>
-                <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
-              </ol>
-            </nav>
-          </td>
-        </tr>
-      </table>
-    </center>
+         <table>
+          <tr>
+            <td> 
+              <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
+            </td>
+            <td>  
+              <h4 class="text-dark"><?=$title?></h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <!-- <li class="breadcrumb-item"><a href="#">Véhicule</a></li> -->
+                  <li class="breadcrumb-item"><a href="#"></a></li>
+                  <!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
+                </ol>
+              </nav>
+            </td>
+          </tr>
+        </table>
+      </center>
     </div>
   </div>
   <div class="col-md-2">
@@ -67,18 +67,18 @@
              <fieldset class="border p-2">
               <legend  class="float-none w-auto p-2">Informations générales</legend>
               <div class="row text-dark">
-
-                <div class="col-md-4">
+                <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule['VEHICULE_ID']?>">
+                <!-- <div class="col-md-4">
                   <div class="form-group">
                     <label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
-                    <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule['VEHICULE_ID']?>">
+                    
 
                     <input class="form-control" type='text' name="CODE" id="CODE" placeholder='saisir ici !' value="<?=$vehicule['CODE']?>"/>
 
                   </div>
                   <span id="errorCODE" class="text-danger"></span>
                   <?php echo form_error('CODE', '<div class="text-danger">', '</div>'); ?>
-                </div>
+                </div> -->
                 <div class="col-md-4">
                   <div class="form-group">
                     <label ><small>Marque</small><span  style="color:red;">*</span></label>
@@ -120,24 +120,23 @@
                   <span id="errorID_MODELE" class="text-danger"></span>
                   <?php echo form_error('ID_MODELE', '<div class="text-danger">', '</div>'); ?>
                 </div>
-              </div>
-              <br>
-              <div  class="row text-dark">
 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label ><small>Plaque</small><span  style="color:red;">*</span></label>
 
-                    <input class="form-control" type='text' name="PLAQUE" id="PLAQUE" placeholder='saisir ici !' value="<?=$vehicule['PLAQUE']?>"/>
+                    <input class="form-control" type='text' name="PLAQUE" id="PLAQUE" placeholder='Plaque' value="<?=$vehicule['PLAQUE']?>"/>
                   </div>
                   <span id="errorPLAQUE" class="text-danger"></span>
                   <?php echo form_error('PLAQUE', '<div class="text-danger">', '</div>'); ?>
                 </div>
-
+              </div>
+              <br>
+              <div  class="row text-dark">
                 <div class="col-md-4">
                   <div class="form-group">
                     <label ><small>Numéro chassis</small><span  style="color:red;">*</span></label>
-                    <input class="form-control" type='text' name="NUMERO_CHASSIS" id="NUMERO_CHASSIS" placeholder='saisir ici !' value="<?=$vehicule['NUMERO_CHASSIS']?>"/>
+                    <input class="form-control" type='text' name="NUMERO_CHASSIS" id="NUMERO_CHASSIS" placeholder='Numéro chassis' value="<?=$vehicule['NUMERO_CHASSIS']?>"/>
                   </div>
                   <span id="errorNUMERO_CHASSIS" class="text-danger"></span>
                   <?php echo form_error('NUMERO_CHASSIS', '<div class="text-danger">', '</div>'); ?>
@@ -146,95 +145,112 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label ><small>Couleur</small><span  style="color:red;">*</span></label>
-                    <input class="form-control" type='text' name="COULEUR" id="COULEUR" placeholder='saisir ici !' value="<?=$vehicule['COULEUR']?>"/>
+                    <input class="form-control" type='text' name="COULEUR" id="COULEUR" placeholder='Couleur' value="<?=$vehicule['COULEUR']?>"/>
 
                   </div>
                   <span id="errorCOULEUR" class="text-danger"></span>
                   <?php echo form_error('COULEUR', '<div class="text-danger">', '</div>'); ?>
                 </div>
+                <div class="col-md-4">
+                  <label ><small>Année de fabrication</small><span  style="color:red;">*</span></label>
+                  <input type="date" name="ANNEE_FABRICATION" autocomplete="off" id="ANNEE_FABRICATION" value="<?=$vehicule['ANNEE_FABRICATION']?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
+
+                  <font id="error_ANNEE_FABRICATION" color="red"></font>
+                  <?php echo form_error('ANNEE_FABRICATION', '<div class="text-danger">', '</div>'); ?>
+                </div>
               </div>
               <br>
-              <div  class="row text-dark">
-               <div class="col-md-4">
-                <label ><small>Année de fabrication</small><span  style="color:red;">*</span></label>
-                <input type="date" name="ANNEE_FABRICATION" autocomplete="off" id="ANNEE_FABRICATION" value="<?=$vehicule['ANNEE_FABRICATION']?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
+              <div  class="row text-dark">              
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label ><small>Consommation de litres / KM</small><span  style="color:red;">*</span></label>
 
-                <font id="error_ANNEE_FABRICATION" color="red"></font>
-                <?php echo form_error('ANNEE_FABRICATION', '<div class="text-danger">', '</div>'); ?>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label ><small>Consommation de litres / KM</small><span  style="color:red;">*</span></label>
+                    <input class="form-control" type='text' name="KILOMETRAGE" id="KILOMETRAGE" placeholder='Consommation de litres / KM' value="<?=$vehicule['KILOMETRAGE']?>"/>
 
-                  <input class="form-control" type='text' name="KILOMETRAGE" id="KILOMETRAGE" placeholder='saisir ici !' value="<?=$vehicule['KILOMETRAGE']?>"/>
-
+                  </div>
+                  <span id="errorKILOMETRAGE" class="text-danger"></span>
+                  <?php echo form_error('KILOMETRAGE', '<div class="text-danger">', '</div>'); ?>
                 </div>
-                <span id="errorKILOMETRAGE" class="text-danger"></span>
-                <?php echo form_error('KILOMETRAGE', '<div class="text-danger">', '</div>'); ?>
-              </div>
 
 
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label><small>propriétaire</small><span  style="color:red;">*</span></label>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label><small>propriétaire</small><span  style="color:red;">*</span></label>
 
-                  <select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID">
-                    <option value="" selected>-- Séléctionner --</option>
-                    <?php
-                    foreach ($proprio as $proprio)
-                    {
-                      ?>
-                      <option value="<?=$proprio['PROPRIETAIRE_ID']?>"<?php if($proprio['PROPRIETAIRE_ID']==$vehicule['PROPRIETAIRE_ID']) echo " selected";?>><?=$proprio['proprio_desc']?></option>
+                    <select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID">
+                      <option value="" selected>-- Séléctionner --</option>
                       <?php
-                    }
-                    ?>
-                  </select>
+                      foreach ($proprio as $proprio)
+                      {
+                        ?>
+                        <option value="<?=$proprio['PROPRIETAIRE_ID']?>"<?php if($proprio['PROPRIETAIRE_ID']==$vehicule['PROPRIETAIRE_ID']) echo " selected";?>><?=$proprio['proprio_desc']?></option>
+                        <?php
+                      }
+                      ?>
+                    </select>
+                  </div>
+                  <span id="errorPROPRIETAIRE_ID" class="text-danger"></span>
+                  <?php echo form_error('PROPRIETAIRE_ID', '<div class="text-danger">', '</div>'); ?>
                 </div>
-                <span id="errorPROPRIETAIRE_ID" class="text-danger"></span>
-                <?php echo form_error('PROPRIETAIRE_ID', '<div class="text-danger">', '</div>'); ?>
-              </div>
 
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label><small>Usage du véhicule</small><span  style="color:red;">*</span></label>
+
+
+                    <select class="form-control" name="USAGE_ID" id="USAGE_ID">
+                      <option value="" selected>-- Séléctionner --</option>
+                      <?php
+                      foreach ($usage as $key)
+                      {
+                        ?>
+                        <option value="<?=$key['USAGE_ID']?>"<?php if($key['USAGE_ID']==$vehicule['USAGE_ID']) echo " selected";?>><?=$key['USAGE_DESC']?></option>
+                        <?php
+                      }
+                      ?>
+                    </select>
+                  </div>
+                  <span id="errorUSAGE_ID" class="text-danger"></span>
+                  <?php echo form_error('USAGE_ID', '<div class="text-danger">', '</div>'); ?>
+                </div>
+              </div>
+              <br>
+              <div  class="row text-dark">  
+                <div class="col-md-4" id="assureur">
+                 <label><small>Assureur</small><span  style="color:red;">*</span></label>
+                 <select class="form-control" name="ID_ASSUREUR"  id="ID_ASSUREUR">
+                   <option value="" selected>-- Séléctionner --</option>
+                   <?php
+                   foreach ($assureur as $assureur)
+                   {
+                    ?>
+                    <option value="<?=$assureur['ID_ASSUREUR']?>"<?php if($assureur['ID_ASSUREUR']==$vehicule['ID_ASSUREUR']) echo " selected";?>><?=$assureur['ASSURANCE']?></option>
+                    <?php
+                  }
+                  ?>
+
+                </select>
+                <font id="error_ID_ASSUREUR" color="red"></font>
+              </div>     
+              <div class="col-md-4">
+                <label ><small>Date début assurance</small><span  style="color:red;">*</span></label>
+                <input type="date" name="DATE_DEBUT_ASSURANCE" autocomplete="off" id="DATE_DEBUT_ASSURANCE" value="<?=$vehicule['DATE_DEBUT_ASSURANCE']?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
+
+                <font id="error_DATE_DEBUT_ASSURANCE" color="red"></font>
+                <?php echo form_error('DATE_DEBUT_ASSURANCE', '<div class="text-danger">', '</div>'); ?>
+              </div>
+              <div class="col-md-4">
+                <label ><small>Date fin assurance</small><span  style="color:red;">*</span></label>
+                <input type="date" name="DATE_FIN_ASSURANCE" autocomplete="off" id="DATE_FIN_ASSURANCE" value="<?=$vehicule['DATE_FIN_ASSURANCE']?>"  class="form-control" onchange="verif_date();" min="<?= date('Y-m-d')?>">
+
+                <font id="error_DATE_FIN_ASSURANCE" color="red"></font>
+                <?php echo form_error('DATE_FIN_ASSURANCE', '<div class="text-danger">', '</div>'); ?>
+              </div>
+              
             </div>
             <br>
             <div  class="row text-dark">
              <div class="col-md-4">
-              <div class="form-group">
-                <label><small>Usage du véhicule</small><span  style="color:red;">*</span></label>
-
-                <select class="form-control" name="USAGE_ID" id="USAGE_ID">
-                  <option value="" selected>-- Séléctionner --</option>
-                  <?php
-                  foreach ($usage as $key)
-                  {
-                    ?>
-                    <option value="<?=$key['USAGE_ID']?>"<?php if($key['USAGE_ID']==$vehicule['USAGE_ID']) echo " selected";?>><?=$key['USAGE_DESC']?></option>
-                    <?php
-                  }
-                  ?>
-                </select>
-              </div>
-              <span id="errorUSAGE_ID" class="text-danger"></span>
-              <?php echo form_error('USAGE_ID', '<div class="text-danger">', '</div>'); ?>
-            </div>
-            <div class="col-md-4">
-              <label ><small>Date début assurance</small><span  style="color:red;">*</span></label>
-              <input type="date" name="DATE_DEBUT_ASSURANCE" autocomplete="off" id="DATE_DEBUT_ASSURANCE" value="<?=$vehicule['DATE_DEBUT_ASSURANCE']?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
-
-              <font id="error_DATE_DEBUT_ASSURANCE" color="red"></font>
-              <?php echo form_error('DATE_DEBUT_ASSURANCE', '<div class="text-danger">', '</div>'); ?>
-            </div>
-            <div class="col-md-4">
-              <label ><small>Date fin assurance</small><span  style="color:red;">*</span></label>
-              <input type="date" name="DATE_FIN_ASSURANCE" autocomplete="off" id="DATE_FIN_ASSURANCE" value="<?=$vehicule['DATE_FIN_ASSURANCE']?>"  class="form-control" onchange="verif_date();" min="<?= date('Y-m-d')?>">
-
-              <font id="error_DATE_FIN_ASSURANCE" color="red"></font>
-              <?php echo form_error('DATE_FIN_ASSURANCE', '<div class="text-danger">', '</div>'); ?>
-            </div>
-
-          </div>
-          <br>
-          <div  class="row text-dark">
-            <div class="col-md-4">
               <label ><small>Date début contrôle technique</small><span  style="color:red;">*</span></label>
               <input type="date" name="DATE_DEBUT_CONTROTECHNIK" autocomplete="off" id="DATE_DEBUT_CONTROTECHNIK" value="<?=$vehicule['DATE_DEBUT_CONTROTECHNIK']?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
 
@@ -256,7 +272,7 @@
           <legend  class="float-none w-auto p-2">Documents</legend>
           <div  class="row text-dark">
             <div class="col-md-4">
-              <label> <small>Photo passeport</small> </label>
+              <label> <small>Photo véhicule</small><span  style="color:red;">*</span></label>
               <input class="form-control" type="hidden" name="PHOTO" id="PHOTO"  value="<?=$vehicule['PHOTO'];?>">
 
               <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept="image/png, image/jpeg" title="Veillez entrer le fichier avec l'extention png ou jpeg">
@@ -264,7 +280,7 @@
               <span id="errorPHOTO_OUT" class="text-danger"></span>
             </div>
             <div class="col-md-4">
-              <label> <small>Photo assurance</small> </label>
+              <label> <small>Photo assurance</small><span  style="color:red;">*</span></label>
               <input class="form-control" type="hidden" name="FILE_ASSURANCE_OLD" id="FILE_ASSURANCE_OLD"  value="<?=$vehicule['FILE_ASSURANCE'];?>">
               <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept="image/png, image/jpeg" title="Veillez entrer le fichier avec l'extention png ou jpeg">
               <font color='red'><?php echo form_error('FILE_ASSURANCE'); ?></font>
@@ -272,7 +288,7 @@
             </div>
 
             <div class="col-md-4">
-              <label> <small>Photo contrôle technique</small> </label>
+              <label> <small>Photo contrôle technique</small><span  style="color:red;">*</span></label>
               <input class="form-control" type="hidden" name="FILE_CONTRO_TECHNIQUE_OLD" id="FILE_CONTRO_TECHNIQUE_OLD"  value="<?=$vehicule['FILE_CONTRO_TECHNIQUE'];?>">
               <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept="image/png, image/jpeg" title="Veillez entrer le fichier avec l'extention png ou jpeg">
               <font color='red'><?php echo form_error('FILE_CONTRO_TECHNIQUE'); ?></font>
@@ -357,11 +373,11 @@
   {
     var statut=1;
 
-    if($('#CODE').val()=='')
+    if($('#ID_ASSUREUR').val()=='')
     {
       statut=2;
-      $('#errorCODE').html('Le champ est obligatoire');
-    }else{$('#errorCODE').html('');}
+      $('#error_ID_ASSUREUR').html('Le champ est obligatoire');
+    }else{$('#error_ID_ASSUREUR').html('');}
 
     if($('#ID_MARQUE').val()=='')
     {
@@ -400,6 +416,18 @@
         statut=2;
         $('#errorPHOTO_OUT').html('Le champ est obligatoire');
       }else{$('#errorPHOTO_OUT').html('');}
+
+      if($('#FILE_ASSURANCE').val()=='')
+      {
+        statut=2;
+        $('#errorFILE_ASSURANCE').html('Le champ est obligatoire');
+      }else{$('#errorFILE_ASSURANCE').html('');}
+
+      if($('#FILE_CONTRO_TECHNIQUE').val()=='')
+      {
+        statut=2;
+        $('#errorFILE_CONTRO_TECHNIQUE').html('Le champ est obligatoire');
+      }else{$('#errorFILE_CONTRO_TECHNIQUE').html('');}
     }
 
     if($('#PROPRIETAIRE_ID').val()=='')
@@ -408,6 +436,49 @@
       $('#errorPROPRIETAIRE_ID').html('Le champ est obligatoire');
     }else{$('#errorPROPRIETAIRE_ID').html('');}
 
+
+    if($('#NUMERO_CHASSIS').val()=='')
+    {
+      statut=2;
+      $('#errorNUMERO_CHASSIS').html('Le champ est obligatoire');
+    }else{$('#errorNUMERO_CHASSIS').html('');}
+
+    if($('#ANNEE_FABRICATION').val()=='')
+    {
+      statut=2;
+      $('#error_ANNEE_FABRICATION').html('Le champ est obligatoire');
+    }else{$('#error_ANNEE_FABRICATION').html('');}
+
+    if($('#USAGE_ID').val()=='')
+    {
+      statut=2;
+      $('#errorUSAGE_ID').html('Le champ est obligatoire');
+    }else{$('#errorUSAGE_ID').html('');}
+
+    if($('#DATE_DEBUT_ASSURANCE').val()=='')
+    {
+      statut=2;
+      $('#error_DATE_DEBUT_ASSURANCE').html('Le champ est obligatoire');
+    }else{$('#error_DATE_DEBUT_ASSURANCE').html('');}
+
+
+    if($('#DATE_FIN_ASSURANCE').val()=='')
+    {
+      statut=2;
+      $('#error_DATE_FIN_ASSURANCE').html('Le champ est obligatoire');
+    }else{$('#error_DATE_FIN_ASSURANCE').html('');}
+
+    if($('#DATE_DEBUT_CONTROTECHNIK').val()=='')
+    {
+      statut=2;
+      $('#error_DATE_DEBUT_CONTROTECHNIK').html('Le champ est obligatoire');
+    }else{$('#error_DATE_DEBUT_CONTROTECHNIK').html('');}
+
+    if($('#DATE_FIN_CONTROTECHNIK').val()=='')
+    {
+      statut=2;
+      $('#error_DATE_FIN_CONTROTECHNIK').html('Le champ est obligatoire');
+    }else{$('#error_DATE_FIN_CONTROTECHNIK').html('');}
 
     var VEHICULE_ID = $('#VEHICULE_ID').val();
     var CODE = $('#CODE').val();
