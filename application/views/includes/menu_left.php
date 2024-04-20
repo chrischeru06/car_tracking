@@ -18,7 +18,7 @@ if ($this->session->PROFIL_ID == 1) {
      <li class="nav-item">
       <a class="nav-link " href="<?=base_url()?>centre_situation/Centre_situation">
         <i class="bi bi-grid"></i>
-        <span>Dashboard</span>
+        <span>Centre de situation</span>
       </a>
     </li> <!-- End Dashboard Nav -->
 
