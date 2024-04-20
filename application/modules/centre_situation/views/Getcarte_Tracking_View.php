@@ -213,12 +213,12 @@
 	updateMarkerPosition();
 
 // Définir l'intervalle de mise à jour toutes les 10 secondes (10000 millisecondes)
-	// setInterval(updateMarkerPosition, 10000);
+	//setInterval(updateMarkerPosition, 10000);
 
-	// var timer = setInterval(async () => {
-	// 	// alert('jdshjhk')
-	// 	updateMarkerPosition();
-	// }, 10000);
+	var timer = setInterval(async () => {
+		// alert('jdshjhk')
+		updateMarkerPosition();
+	}, 10000);
 
 //.....Fin...........
 
