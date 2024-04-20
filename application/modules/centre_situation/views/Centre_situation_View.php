@@ -1068,12 +1068,11 @@ margin-right: -50px;
           		{
           			V_ENREGITRE = $('#V_ENREGITRE').val();
           		}
-          		
+
           		//get_nbr_vehicule();
 
           		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
           		var VEHICULE_ID = $('#VEHICULE_ID').val();
-
           		var CHECK_VALIDE = $('#CHECK_VALIDE').val();
 
           		if(CHECK_VALIDE == 1 || CHECK_VALIDE == 3)
@@ -1153,6 +1152,8 @@ margin-right: -50px;
           <script>
           	function get_nbr_vehicule(id)
           	{
+          		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          		var VEHICULE_ID = $('#VEHICULE_ID').val();
           		var CHECK_VALIDE = $('#CHECK_VALIDE').val();
 
           		var V_ENREGITRE = '';
@@ -1163,9 +1164,12 @@ margin-right: -50px;
           		}
 
           		$.ajax({
-          			url: "<?= base_url() ?>centre_situation/Centre_situation/get_nbr_vehicule/" + CHECK_VALIDE+'/'+id,
+          			url: "<?= base_url() ?>centre_situation/Centre_situation/get_nbr_vehicule/" + id,
           			type: "POST",
           			data: {
+          				   PROPRIETAIRE_ID:PROPRIETAIRE_ID,
+          					VEHICULE_ID:VEHICULE_ID,
+          					CHECK_VALIDE:CHECK_VALIDE,
           					V_ENREGITRE:V_ENREGITRE,
           				},
           			dataType: "JSON",
@@ -1280,10 +1284,10 @@ margin-right: -50px;
 
     // Zoomer/dézoomer sur double clic
 			document.getElementById('phot_v').addEventListener('dblclick', function() {
-            if (this.style.transform === "scale(1)") {
-                this.style.transform = "scale(2)";
-            } else {
+            if (this.style.transform === "scale(2)") {
                 this.style.transform = "scale(1)";
+            } else {
+                this.style.transform = "scale(2)";
             }
         });
     // Déplacer en maintenant le clic gauche
