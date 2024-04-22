@@ -83,12 +83,12 @@ if ($this->session->PROFIL_ID == 1) {
       <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li class="sou_menu">
           <a href="<?=base_url()?>dashboard/Dashboard_General">
-            <i class="bi bi-person"></i><span>Tableau de bord général</span>
+            <i class="bi bi-person"></i><span> Général</span>
           </a>
         </li>
         <li>
           <a href="<?=base_url()?>dashboard/Dashboard_Anomalies">
-            <i class="bi bi-person"></i><span>Tableau de bord des anomalies</span>
+            <i class="bi bi-person"></i><span>Anomalies</span>
           </a>
         </li>
 
