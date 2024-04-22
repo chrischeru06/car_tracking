@@ -49,7 +49,13 @@ class Dashboard_General extends CI_Controller
     }
     $search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
 
-    $critaire=" AND vehicule.STATUT=".$ID;
+    // $critaire=" AND vehicule.STATUT_VEH_AJOUT=".$ID;
+    $critaire="";
+    if ($ID==2) {
+    $critaire=" AND vehicule.STATUT_VEH_AJOUT=2";
+    }elseif ($ID==4) {
+      $critaire=" AND vehicule.STATUT_VEH_AJOUT=4";
+    }
     $query_secondaire=$query_principal.'  '.$critaire.' '.$search.' '.$order_by.'   '.$limit;
     $query_filter=$query_principal.'  '.$critaire.' '.$search;
     $fetch_data = $this->Model->datatable($query_secondaire);
@@ -420,16 +426,31 @@ class Dashboard_General extends CI_Controller
 
   public function get_rapport()
   {
-    $vehicule_statut=$this->Model->getRequete('SELECT vehicule.STATUT as ID, if(vehicule.STATUT=1,"Actif","Inactif")as statut ,COUNT(`VEHICULE_ID`) as NBR FROM `vehicule` WHERE 1 GROUP by ID,statut ');
+    // $vehicule_statut=$this->Model->getRequete('SELECT vehicule.STATUT as ID, if(vehicule.STATUT=1,"Actif","Inactif")as statut ,COUNT(`VEHICULE_ID`) as NBR FROM `vehicule` WHERE 1 GROUP by ID,statut ');
 
+ $vehicule_actif=$this->Model->getRequete('SELECT vehicule.STATUT_VEH_AJOUT as ID,`VEHICULE_ID` as NBR FROM `vehicule` WHERE `STATUT_VEH_AJOUT`=2 ');
+  $vehicule_inactif=$this->Model->getRequete('SELECT vehicule.STATUT_VEH_AJOUT as ID,`VEHICULE_ID` as NBR FROM `vehicule` WHERE `STATUT_VEH_AJOUT`=4 ');
     $donnees1="";
-    foreach ($vehicule_statut as  $value) 
+    $compteur=0;
+    foreach ($vehicule_actif as  $value) 
     {
       $color=$this->getcolor();
+      $compteur++;
       $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme=($value['NBR']>0) ? $value['NBR'] : "0" ;
-      $donnees1.="{name:'".$value['statut']." :". $somme."', y:". $somme.",color:'".$color."',key:'". $key_id."'},";
+      $somme=($compteur>0) ? $compteur : "0" ;
+     // $donnees9.="{name:'Accident', y:".$test9.",color:'".$color."',key9:1},";
     }
+    $donnees1.="{name:'Actif:". $somme ."', y:". $somme.",color:'".$color."',key:2},";
+     $donnees11="";
+     $compteur1=0;
+    foreach ($vehicule_inactif as  $value) 
+    { $compteur1++;
+      $color11=$this->getcolor();
+      $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
+      $somme11=($compteur1>0) ? $compteur1 : "0" ;
+    }
+    $donnees1.="{name:'Inactif:". $somme11."', y:". $somme11.",color:'".$color11."',key:4},";
+  
     $rapp="
     <script type=\"text/javascript\">
     Highcharts.chart('container',
