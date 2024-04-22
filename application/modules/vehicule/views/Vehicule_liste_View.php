@@ -126,8 +126,41 @@ input:checked + .slider:before {
 </div>
 
 <section class="section dashboard">
-  <div class="row">
 
+
+  <div class="card">
+    <div class="card-body">
+      <br>
+      <div class="row">
+
+        <div class="col-md-6">
+          <label class="text-dark" style="font-weight: 1000; color:#454545">Filtrage selon la validité des documents</label>
+          <select class="form-control" id="CHECK_VALIDE" name="CHECK_VALIDE" onchange="listing();get_nbr_vehicule();">
+            <option value="0"> Tous les véhicules</option>
+            <option value="1"> Véhicules avec assurances valides </option>
+            <option value="2"> Véhicules avec assurances invalides </option>
+            <option value="3"> Véhicules avec contrôles techniques valides </option>
+            <option value="4"> Véhicules avec contrôles techniques invalides </option>
+            
+          </select>
+
+          <label class="fa fa-check text-success" id="check" style="position: relative;top: -33%;left: 90%;"></label>
+
+          <label class="fa fa-ban text-danger" id="close" style="position: relative;top: -33%;left: 90%;"></label>
+
+        </div>
+
+        <div class="col-md-6">
+          <span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:6px;left:-23px;">4</span>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
     <!-- Left side columns -->
     <div class="col-lg-12">
       <div class="row">
@@ -136,7 +169,7 @@ input:checked + .slider:before {
         <!-- Reports -->
         <div class="col-12">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body"><br>
 
               <?= $this->session->flashdata('message'); ?>
 
@@ -153,10 +186,10 @@ input:checked + .slider:before {
                       <th class="">COULEUR</th>
                       <!-- <th class="">CONSOMMATION</th> -->
                       <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
-                      <th class="">TRAITEMENT&nbsp;DEMANDE</th>
-                      <th class="">STATUT</th>
-                      <th class="">VALIDITE&nbsp;ASSURENCE</th>
-                      <th class="">VALIDITE&nbsp;CONTROLE&nbsp;TECHNIQUE</th>
+                      <!-- <th class="">TRAITEMENT&nbsp;DEMANDE</th> -->
+                      <th class="">STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th class="">ASSURANCE</th>
+                      <th class="">CONTROLE&nbsp;TECHNIQUE</th>
                       <th class="">ACTION</th>
                     </tr>
                   </thead>
@@ -183,7 +216,7 @@ input:checked + .slider:before {
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
 
-        --><h5 class="modal-title">Traiter la demande  de</h5>
+        --><h5 class="modal-title">Traiter la demande </h5>
 
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -195,19 +228,27 @@ input:checked + .slider:before {
               <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID">
               <input type="hidden" name="STATUT_VEH_AJOUT" id="STATUT_VEH_AJOUT">
 
-
-              <div class="col-md-6">
-                <label for="description" class="text-dark">Statut</label>
-                <select class="form-control" id="TRAITEMENT_DEMANDE_ID" name="TRAITEMENT_DEMANDE_ID">
+              <div class="col-md-4">
+                <label for="description"><small>Statut</small><span  style="color:red;">*</span></label>
+                <select class="form-control" id="TRAITEMENT_DEMANDE_ID" name="TRAITEMENT_DEMANDE_ID" onchange="traiter_view_code()">
                 </select>
                 <span id="errorTRAITEMENT_DEMANDE_ID" class="text-danger"></span>
               </div>
-              <div class = 'col-md-4'>
+              <div class="col-md-4" id="code_device_uid">
+                <div class="form-group">
+                  <label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
 
-                <label style='color:black'>Commentaire</label>
+                  <input class="form-control" type='text' name="CODE" id="CODE" placeholder='' onchange="check_val_code();" value=""/>
+
+                </div>
+                <span id="errorCODE" class="text-danger"></span>
+                <?php echo form_error('CODE', '<div class="text-danger">', '</div>'); ?>
+              </div>
+
+              <div class = 'col-md-4'>
+                <label><small>Commentaire</small><span  style="color:red;">*</span></label>
                 <textarea class='form-control' name ='COMMENTAIRE' id="COMMENTAIRE"></textarea>
                 <span id="errorCOMMENTAIRE" class="text-danger"></span>
-
               </div>
             </div>
           </div> 
@@ -317,6 +358,91 @@ input:checked + .slider:before {
 </div>
 </div><!-- End Modal-->
 
+<!--******** Debut Modal pour motif_activation *********-->
+
+<div class="modal fade" id="Modal_activation" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Activation  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="active_form" enctype="multipart/form-data" action="#" method="post">
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="VEHICULE_ID_I" id="VEHICULE_ID_I">
+
+              <div class="col-md-12" id="div_type">
+                <label class="text-dark">Motif <font color="red">*</font></label>
+                <select class="form-control" id="ID_MOTIF" name="ID_MOTIF" >
+                  <option value="">-- Sélectionner --</option>
+                  <?php
+                  foreach ($motif_ativ as $key) 
+                  {
+                    echo "<option value=".$key['ID_MOTIF'].">".$key['DESC_MOTIF']."</option>";
+                  }
+                  ?>
+                </select>
+
+                <font class="text-danger" id="errorID_MOTIF"></font>
+              </div>
+
+            </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Activer" onclick="save_motif_active();" />
+            <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin modal motif_activation -->
+<!--******** Debut Modal pour motif_desactivationa *********-->
+
+<div class="modal fade" id="Modal_desactivation" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Désactivation  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="desactive_form" enctype="multipart/form-data" action="#" method="post">
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="VEHICULE_ID_ID" id="VEHICULE_ID_ID">
+
+              <div class="col-md-12" id="div_type">
+                <label class="text-dark">Motif <font color="red">*</font></label>
+                <select class="form-control" id="ID_MOTIF_des" name="ID_MOTIF_des" >
+                  <option value="">-- Sélectionner --</option>
+                  <?php
+                  foreach ($motif_des as $key) 
+                  {
+                    echo "<option value=".$key['ID_MOTIF'].">".$key['DESC_MOTIF']."</option>";
+                  }
+                  ?>
+                </select>
+
+                <font class="text-danger" id="errorID_MOTIF_des"></font>
+              </div>
+
+            </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Désactiver" onclick="save_motif_desactive();" />
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin modal motif_desactivation -->
 </main><!-- End #main -->
 
 <?php include VIEWPATH . 'includes/footer.php'; ?>
@@ -330,80 +456,124 @@ input:checked + .slider:before {
   $(document).ready( function ()
   {
 
-    liste();
+    $('#close').hide();
+    $('#check').hide();
+
+    listing();
+
+    get_nbr_vehicule();
 
   });
 
-  function liste()
+  //Fonction pour l'affichage
+  function listing()
   {
-   $('#message').delay('slow').fadeOut(10000);
-   $(document).ready(function()
-   {
+    var CHECK_VALIDE = $('#CHECK_VALIDE').val();
+
+    if(CHECK_VALIDE == 1 || CHECK_VALIDE == 3)
+    {
+      $('#close').hide();
+      $('#check').show();
+    }
+    else if(CHECK_VALIDE == 2 || CHECK_VALIDE == 4)
+    {
+      $('#close').show();
+      $('#check').hide();
+    }
+    else
+    {
+      $('#close').hide();
+      $('#check').hide();
+    }
+
+
+    $('#message').delay('slow').fadeOut(10000);
+    $(document).ready(function()
+    {
     // var row_count ="1000000";
 
-    $("#mytable").DataTable({
-      "processing":true,
-      "destroy" : true,
-      "serverSide":true,
-      "oreder":[[ 0, 'desc' ]],
-      "ajax":{
-        url:"<?php echo base_url('vehicule/Vehicule/listing');?>",
-        type:"POST", 
-      },
-      // lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
-      pageLength: 10,
-      "columnDefs":[{
-        "targets":[],
-        "orderable":false
-      }],
+      $("#mytable").DataTable({
+        "processing":true,
+        "destroy" : true,
+        "serverSide":true,
+        "oreder":[[ 0, 'desc' ]],
+        "ajax":{
+          url:"<?php echo base_url('vehicule/Vehicule/listing');?>",
+          type:"POST",
+          data : {CHECK_VALIDE:CHECK_VALIDE},
+          beforeSend : function() {
 
-      dom: 'Bfrtlip',
-      buttons: [
-        'pdf', 'print'
-        ],
-      language: {
-        "sProcessing":     "Traitement en cours...",
-        "sSearch":         "Rechercher&nbsp;:",
-        "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-        "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-        "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-        "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-        "sInfoPostFix":    "",
-        "sLoadingRecords": "Chargement en cours...",
-        "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-        "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
-        "oPaginate": {
-          "sFirst":      "Premier",
-          "sPrevious":   "Pr&eacute;c&eacute;dent",
-          "sNext":       "Suivant",
-          "sLast":       "Dernier"
+          } 
         },
-        "oAria": {
-          "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-          "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+      // lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+        pageLength: 10,
+        "columnDefs":[{
+          "targets":[],
+          "orderable":false
+        }],
+
+        dom: 'Bfrtlip',
+        buttons: [
+          'pdf', 'print'
+          ],
+        language: {
+          "sProcessing":     "Traitement en cours...",
+          "sSearch":         "Rechercher&nbsp;:",
+          "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+          "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          "sInfoPostFix":    "",
+          "sLoadingRecords": "Chargement en cours...",
+          "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+          "oPaginate": {
+            "sFirst":      "Premier",
+            "sPrevious":   "Pr&eacute;c&eacute;dent",
+            "sNext":       "Suivant",
+            "sLast":       "Dernier"
+          },
+          "oAria": {
+            "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+            "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          }
         }
-      }
 
-      
+        
 
+      });
     });
-  });
- }
+  }
 
- 
 </script>
+
 
 <script>
   // Fonction pour activer le statut du véhicule
-  function statut_active(VEHICULE_ID) {
+ function statut_active(VEHICULE_ID) {
+  var VEHICULE_ID=$('#VEHICULE_ID_I').val(VEHICULE_ID);
+
+  $('#Modal_activation').modal('show'); 
+}
+function save_motif_active() {
+  var statut=1;
+  $('#errorID_MOTIF').html('');
+
+  if($('#ID_MOTIF').val()=='')
+  {
+    $('#errorID_MOTIF').html('Le champ est obligatoire');
+    statut=2;
+  }
+  if (statut==1) {
+
     var checkBox = document.getElementById("myCheck");
     var status=$('#status').val();
-    status = 2;
+    status = 4;
 
-    var form_data = new FormData($("#myform_check")[0]);
+    var form_data = new FormData($("#active_form")[0]);
     $.ajax(
     {
-      url:"<?=base_url()?>vehicule/Vehicule/active_desactive/"+status+'/'+VEHICULE_ID,
+      url:"<?=base_url()?>vehicule/Vehicule/active_desactive/"+status,
       type: 'POST',
       dataType:'JSON',
       data: form_data ,
@@ -412,49 +582,102 @@ input:checked + .slider:before {
       processData: false,
       success: function(data)
       {
-       window.location.href='<?=base_url('')?>vehicule/Vehicule';
-     }
-   });
 
+       if(data.status==1)
+       {
+        Swal.fire(
+        {
+          icon: 'success',
+          title: 'Success',
+          text: 'Activation faite avec succès',
+          timer: 1500,
+        }).then(() =>
+        {
+         window.location.href='<?=base_url('')?>vehicule/Vehicule';
+       });
+      }
+    }
+  });
   }
+  
+
+}
 </script>
 
 <script>
   // Fonction pour désactiver le statut du véhicule
-  function statut_desactive(VEHICULE_ID) {
-    var checkBox = document.getElementById("myCheck");
-    var status=$('#status').val();
+ function statut_desactive(VEHICULE_ID) {
+  var VEHICULE_ID=$('#VEHICULE_ID_ID').val(VEHICULE_ID);
 
-    status = 1;
+  $('#Modal_desactivation').modal('show'); 
+}
+function save_motif_desactive() {
+  var statut=1;
+  $('#errorID_MOTIF_des').html('');
 
-    var form_data = new FormData($("#myform_check")[0]);
-    $.ajax(
+  if($('#ID_MOTIF_des').val()=='')
+  {
+    $('#errorID_MOTIF_des').html('Le champ est obligatoire');
+    statut=2;
+  }
+  if (statut==1) {
+   var checkBox = document.getElementById("myCheck");
+   var status=$('#status').val();
+
+   status = 2;
+
+   var form_data = new FormData($("#desactive_form")[0]);
+   $.ajax(
+   {
+    url:"<?=base_url()?>vehicule/Vehicule/active_desactive/"+status,
+    type: 'POST',
+    dataType:'JSON',
+    data: form_data ,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function(data)
     {
-      url:"<?=base_url()?>vehicule/Vehicule/active_desactive/"+status+'/'+VEHICULE_ID,
-      type: 'POST',
-      dataType:'JSON',
-      data: form_data ,
-      contentType: false,
-      cache: false,
-      processData: false,
-      success: function(data)
+
+     if(data.status==2)
+     {
+      Swal.fire(
+      {
+        icon: 'success',
+        title: 'Success',
+        text: 'désactivation faite avec succès',
+        timer: 1500,
+      }).then(() =>
       {
        window.location.href='<?=base_url('')?>vehicule/Vehicule';
-     }
-   });
-
+     });
+    }
   }
+});
+ }
+ 
+
+}
 </script>
 
 <script type="text/javascript">
- function traiter_demande(VEHICULE_ID='',STATUT_VEH_AJOUT='')
 
- {
+  function traiter_view_code() {
+   var decision = $('#TRAITEMENT_DEMANDE_ID').val();
+   if (decision==1) {
+    $('#code_device_uid').show();
+  }else{
+    $('#code_device_uid').hide();
+  }
+}
+function traiter_demande(VEHICULE_ID='',STATUT_VEH_AJOUT='')
+
+{
   $('#Modal_traiter').modal('show');
     //VEHICULE_ID du 2eme ca vient du VEHICULE_ID du paramentre la en haut 
   $('#VEHICULE_ID').val(VEHICULE_ID);
   $('#STATUT_VEH_AJOUT').val(STATUT_VEH_AJOUT);
-
+  $('#code_device_uid').hide();
     // var TRAITEMENT_DEMANDE_ID=$('#TRAITEMENT_DEMANDE_ID').val();
   $('#errorVEHICULE_ID').html('');
   $('#errorTRAITEMENT_DEMANDE_ID').html('');
@@ -468,6 +691,7 @@ input:checked + .slider:before {
     {
 
       $('#TRAITEMENT_DEMANDE_ID').html(data);
+
     },
     error: function (jqXHR, textStatus, errorThrown)
     {
@@ -476,6 +700,30 @@ input:checked + .slider:before {
   });
 }
 
+function check_val_code() {
+  var code_vehicule=$('#CODE').val();
+  var form_data = new FormData($("#attribution_form")[0]);
+  // alert(code_vehicule)
+  $.ajax(
+  {
+    url:"<?=base_url()?>vehicule/Vehicule/check_val_code/",
+    type: 'POST',
+    dataType:'JSON',
+    data: form_data ,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function(data)
+    {
+      if(data==1)
+      {
+        $('#errorCODE').text("");
+      }
+      else
+        {$('#errorCODE').text("Ce Code du véhicule existe déjà!");}
+    }
+  });
+}
 function save_statut_vehicul()
 {
   var statut=1;
@@ -484,71 +732,86 @@ function save_statut_vehicul()
 
   if($('#TRAITEMENT_DEMANDE_ID').val()=='')
   {
-    $('#errorTRAITEMENT_DEMANDE_ID').html('Le champ est obligatoire');
+    $('#errorTRAITEMENT_DEMANDE_ID').html('Le champ est obligatoire !');
     statut=2;
   }
   if($('#COMMENTAIRE').val()=='')
   {
-    $('#errorCOMMENTAIRE').html('Le champ est obligatoire');
+    $('#errorCOMMENTAIRE').html('Le champ est obligatoire !');
     statut=2;
   } 
-  if(statut<2)
+  if($('#TRAITEMENT_DEMANDE_ID').val()==1)
   {
-    var form_data = new FormData($("#attribution_form")[0]);
-    var url="<?= base_url('vehicule/Vehicule/save_stat_vehicul')?>";
-    $.ajax(
-    {
-      url: url,
-      type: 'POST',
-      dataType:'JSON',
-      data: form_data ,
-      contentType: false,
-      cache: false,
-      processData: false,
-      success: function(data)
-      {
-        if(data==1)
-        {
-          Swal.fire(
-          {
-            icon: 'success',
-            title: 'Success',
-            text: 'Traitement fait avec succès',
-            timer: 1500,
-          }).then(() =>
-          {
-            window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-          });
-        }
-        else if(data==2)
-        {
-          Swal.fire(
-          {
-            icon: 'success',
-            title: 'Success',
-            text: 'Le vehicule possède déjà chauffeur ',
-            timer: 1500,
-          }).then(() =>
-          {
-            window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-          });
-        }
-        else
-        {
-          Swal.fire(
-          {
-            icon: 'success',
-            title: 'Success',
-            text: 'Traitement échoué',
-            timer: 1500,
-          }).then(() =>
-          {
-            window.location.reload('<?=base_url('vehicule/Vehicule')?>');
-          });
-        }
-      }
-    });
+    if ($('#CODE').val()=='') {
+
+     $('#errorCODE').html('Le champ est obligatoire !');
+     statut=2;
+
+   }
+   else if( $('#errorCODE').val()!='')
+   {
+    statut=2;
   }
+
+}
+
+if(statut<2)
+{
+  var form_data = new FormData($("#attribution_form")[0]);
+  var url="<?= base_url('vehicule/Vehicule/save_stat_vehicul')?>";
+  $.ajax(
+  {
+    url: url,
+    type: 'POST',
+    dataType:'JSON',
+    data: form_data ,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function(data)
+    {
+      if(data==1)
+      {
+        Swal.fire(
+        {
+          icon: 'success',
+          title: 'Success',
+          text: 'Traitement fait avec succès',
+          timer: 1500,
+        }).then(() =>
+        {
+          window.location.reload('<?=base_url('vehicule/Vehicule')?>');
+        });
+      }
+      else if(data==2)
+      {
+        Swal.fire(
+        {
+          icon: 'success',
+          title: 'Success',
+          text: 'Traitement échoué !',
+          timer: 1500,
+        }).then(() =>
+        {
+          window.location.reload('<?=base_url('vehicule/Vehicule')?>');
+        });
+      }
+      else
+      {
+        Swal.fire(
+        {
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Le code du véhicule existe déjà !',
+          timer: 1500,
+        }).then(() =>
+        {
+          window.location.reload('<?=base_url('vehicule/Vehicule')?>');
+        });
+      }
+    }
+  });
+}
 }
 </script>
 
@@ -557,7 +820,10 @@ function save_statut_vehicul()
   function assure_controle(VEHICULE_ID_ASSURE_CONTROLE ='',ACTION = '')
   {
     $('#VEHICULE_ID_ASSURE_CONTROLE').val(VEHICULE_ID_ASSURE_CONTROLE);
+
+    //alert(VEHICULE_ID_ASSURE_CONTROLE)
     $('#ACTION').val(ACTION);
+
 
     if($('#ACTION').val() == 1) //Assurance
     {
@@ -590,7 +856,7 @@ function save_statut_vehicul()
 
     $.ajax(
     {
-      url: "<?= base_url() ?>vehicule/Vehicule/select_assureur/",
+      url: "<?= base_url() ?>vehicule/Vehicule/select_assureur/"+VEHICULE_ID_ASSURE_CONTROLE,
       type: "GET",
       dataType: "JSON",
       success: function(data)
@@ -659,83 +925,101 @@ function save_statut_vehicul()
      {
       $('#error_ID_ASSUREUR').text('Le champ est obligatoire !');
       statut = 2;
-     }else{$('#error_ID_ASSUREUR').text('');}
+    }else{$('#error_ID_ASSUREUR').text('');}
 
-     if(DATE_DEBUT_ASSURANCE == '')
-     {
+    if(DATE_DEBUT_ASSURANCE == '')
+    {
       $('#error_DATE_DEBUT_ASSURANCE').text('Le champ est obligatoire !');
       statut = 2;
-     }else{$('#error_DATE_DEBUT_ASSURANCE').text('');}
+    }else{$('#error_DATE_DEBUT_ASSURANCE').text('');}
 
-     if(DATE_FIN_ASSURANCE == '')
-     {
+    if(DATE_FIN_ASSURANCE == '')
+    {
       $('#error_DATE_FIN_ASSURANCE').text('Le champ est obligatoire !');
       statut = 2;
-     }else{$('#error_DATE_FIN_ASSURANCE').text('');}
+    }else{$('#error_DATE_FIN_ASSURANCE').text('');}
 
-      if(FILE_ASSURANCE == '')
-     {
+    if(FILE_ASSURANCE == '')
+    {
       $('#error_FILE_ASSURANCE').text('Le champ est obligatoire !');
       statut = 2;
-     }else{$('#error_FILE_ASSURANCE').text('');}
-
-
-    }
-    else if(ACTION == 2)
-    {
-
-      if(DATE_DEBUT_CONTROTECHNIK == '')
-     {
-      $('#error_DATE_DEBUT_CONTROTECHNIK').text('Le champ est obligatoire !');
-      statut = 2;
-     }else{$('#error_DATE_DEBUT_CONTROTECHNIK').text('');}
-
-     if(DATE_FIN_CONTROTECHNIK == '')
-     {
-      $('#error_DATE_FIN_CONTROTECHNIK').text('Le champ est obligatoire !');
-      statut = 2;
-     }else{$('#error_DATE_FIN_CONTROTECHNIK').text('');}
-
-      if(FILE_CONTRO_TECHNIQUE == '')
-     {
-      $('#error_FILE_CONTRO_TECHNIQUE').text('Le champ est obligatoire !');
-      statut = 2;
-     }else{$('#error_FILE_CONTRO_TECHNIQUE').text('');}
-
-    }
-
-
-    if(statut == 1)
-    {
-      var form_data = new FormData($("#form_assure_controle")[0]);
-      url = "<?= base_url('vehicule/Vehicule/save_assure_controle/') ?>";
-      $.ajax({
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data) {
-          console.log(data)
-                               //alert(data)
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Enregistrement avec succès !',
-            timer: 2000,
-          }).then(() => {
-            window.location.reload();
-          })
-          $("#form_assure_controle")[0].reset();
-        }
-      })
-    }
-
+    }else{$('#error_FILE_ASSURANCE').text('');}
 
 
   }
+  else if(ACTION == 2)
+  {
+
+    if(DATE_DEBUT_CONTROTECHNIK == '')
+    {
+      $('#error_DATE_DEBUT_CONTROTECHNIK').text('Le champ est obligatoire !');
+      statut = 2;
+    }else{$('#error_DATE_DEBUT_CONTROTECHNIK').text('');}
+
+    if(DATE_FIN_CONTROTECHNIK == '')
+    {
+      $('#error_DATE_FIN_CONTROTECHNIK').text('Le champ est obligatoire !');
+      statut = 2;
+    }else{$('#error_DATE_FIN_CONTROTECHNIK').text('');}
+
+    if(FILE_CONTRO_TECHNIQUE == '')
+    {
+      $('#error_FILE_CONTRO_TECHNIQUE').text('Le champ est obligatoire !');
+      statut = 2;
+    }else{$('#error_FILE_CONTRO_TECHNIQUE').text('');}
+
+  }
+
+  if(statut == 1)
+  {
+    var form_data = new FormData($("#form_assure_controle")[0]);
+    url = "<?= base_url('vehicule/Vehicule/save_assure_controle/') ?>";
+    $.ajax({
+      url: url,
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data) {
+        console.log(data)
+                               //alert(data)
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Enregistrement avec succès !',
+          timer: 2000,
+        }).then(() => {
+          window.location.reload();
+        })
+        $("#form_assure_controle")[0].reset();
+      }
+    })
+  }
+
+}
 </script>
+
+
+<script>
+ function get_nbr_vehicule()
+ {
+  var CHECK_VALIDE = $('#CHECK_VALIDE').val();
+
+  $.ajax({
+    url: "<?= base_url() ?>vehicule/Vehicule/get_nbr_vehicule/" + CHECK_VALIDE,
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
+     $('.nbr_vehicule').text(data);
+   },
+
+ });
+}
+</script>
+
+
+
 
 </html>

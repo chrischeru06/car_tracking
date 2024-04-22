@@ -647,11 +647,11 @@ class Proprietaire extends CI_Controller
 
 		$provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', 'PROVINCE_NAME ASC');
 		$data['provinces'] = $this->ModelPs->getRequete($proce_requete, $provinces);
-		$motifs = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=1', 'DESC_MOTIF ASC');
-		$data['motif_des'] = $this->ModelPs->getRequete($proce_requete, $motifs);
+		$motif_desactivation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=1', 'DESC_MOTIF ASC');
+		$data['motif_des'] = $this->ModelPs->getRequete($proce_requete, $motif_desactivation);
 
-		$motifs = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=2', 'DESC_MOTIF ASC');
-		$data['motif_ativ'] = $this->ModelPs->getRequete($proce_requete, $motifs);
+		$motif_ativation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=2', 'DESC_MOTIF ASC');
+		$data['motif_ativ'] = $this->ModelPs->getRequete($proce_requete, $motif_ativation);
 
 
 		
@@ -792,7 +792,6 @@ class Proprietaire extends CI_Controller
 				$sub_array[]='<form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
 				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
-
 				<table>
 				<td><label class="text-primary">Activé</label></td>
 				<td><label class="switch"> 
@@ -800,9 +799,6 @@ class Proprietaire extends CI_Controller
 				<span class="slider round"></span>
 				</label></td>
 				</table>
-
-
-
 				</form>
 
 				';
@@ -1088,7 +1084,7 @@ class Proprietaire extends CI_Controller
 			OR PLAQUE LIKE "%' . $var_search . '%" )') : '';
 
 
-		$query_principal='SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
+		$query_principal = 'SELECT vehicule.VEHICULE_ID,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.COULEUR,vehicule.PHOTO,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE vehicule.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID;
 
         //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -1166,6 +1162,8 @@ class Proprietaire extends CI_Controller
 		}
 		$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
 		$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+
+		$nbr_vehicule = $i;
 		$output = array(
 			"draw" => intval($_POST['draw']),
 			"recordsTotal" => count($recordsTotal),
@@ -1174,14 +1172,12 @@ class Proprietaire extends CI_Controller
 		);
 		echo json_encode($output);
 
-
 	}
 
 	//Fonction pour activer/desactiver un proprietaire et enregistrer l'historique
 	function active_desactive($status,$PROPRIETAIRE_ID)
 	{
 		$USER_ID=$this->session->userdata('USER_ID');
-
 
 		if($status==2)
 		{
@@ -1309,6 +1305,19 @@ class Proprietaire extends CI_Controller
 			$html.='<option value="'.$colline['COLLINE_ID'].'">'.$colline['COLLINE_NAME'].'</option>';
 		}
 		echo json_encode($html);
+	}
+
+	//fonction pour recuperer le nombre des vehicules d'un proprietaire
+
+	function get_nbr_vehicule($PROPRIETAIRE_ID)
+	{
+
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+		$my_query = $this->getBindParms('COUNT(VEHICULE_ID) AS nombre_v', 'vehicule', '1 AND PROPRIETAIRE_ID = '.$PROPRIETAIRE_ID.'', '`VEHICULE_ID` ASC');
+		$vehicule = $this->ModelPs->getRequeteOne($proce_requete, $my_query);
+
+		echo $vehicule['nombre_v'];
 	}
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées

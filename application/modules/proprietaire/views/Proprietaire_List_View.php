@@ -392,31 +392,31 @@ input:checked + .slider:before {
 </div><!-- End Modal-->
 
 
-  <!--******** Debut Modal pour motif_activation *********-->
-  <?php
-  $desc_button='';
-  ?>
+<!--******** Debut Modal pour motif_activation *********-->
+<?php
+$desc_button='';
+?>
 
 
-  <div class="modal fade" id="Modal_active" tabindex="-1" >
+<div class="modal fade" id="Modal_active" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
-        <div class='modal-header' style='background:cadetblue;color:white;'>      
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
         <h5 class="modal-title">Activation  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="active_form" enctype="multipart/form-data" action="#" method="post">
-            <div class="modal-body mb-1">
-              <div class="row">
-                <input type="hidden" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID">
-               
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID">
+
                <!--  <div class = 'col-md-8'>
                 <label style='color:black'>Motif</label>
                 <textarea class='form-control' name ="MOTIF_DESACT_ACTIVATION" id="MOTIF_DESACT_ACTIVATION"></textarea>
                 <span id="errorMOTIF_DESACT_ACTIVATION" class="text-danger"></span>
               </div> -->
-                <div class="col-md-12" id="div_type">
+              <div class="col-md-12" id="div_type">
                 <label class="text-dark">Motif <font color="red">*</font></label>
                 <select class="form-control" id="ID_MOTIF" name="ID_MOTIF" >
                   <option value="">-- Sélectionner --</option>
@@ -431,38 +431,38 @@ input:checked + .slider:before {
                 <font class="text-danger" id="errorID_MOTIF"></font>
               </div>
 
-              </div>
-            </div> 
-            <div class="modal-footer">
-              <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Activer" onclick="save_motif_active();" />
-             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
-
             </div>
-          </form>
-       </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Activer" onclick="save_motif_active();" />
+            <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
+
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 <!-- fin modal motif_activation -->
- <!--******** Debut Modal pour motif_desactivationa *********-->
-  <?php
-  $desc_button='';
-  ?>
+<!--******** Debut Modal pour motif_desactivationa *********-->
+<?php
+$desc_button='';
+?>
 
 
-  <div class="modal fade" id="Modal_desactivation" tabindex="-1" >
+<div class="modal fade" id="Modal_desactivation" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
-        <div class='modal-header' style='background:cadetblue;color:white;'>      
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
         <h5 class="modal-title">Désactivation  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="desactive_form" enctype="multipart/form-data" action="#" method="post">
-            <div class="modal-body mb-1">
-              <div class="row">
-                <input type="hidden" name="PROPRIETAIRE_ID_des" id="PROPRIETAIRE_ID_des">
-               
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="PROPRIETAIRE_ID_des" id="PROPRIETAIRE_ID_des">
+
                <!--  <div class = 'col-md-8'>
                 <label style='color:black'>Motif</label>
                 <textarea class='form-control' name ='MOTIF_DESACT_ACTIVATION_des' id="MOTIF_DESACT_ACTIVATION_des"></textarea>
@@ -483,14 +483,14 @@ input:checked + .slider:before {
                 <font class="text-danger" id="errorID_MOTIF_des"></font>
               </div>
 
-              </div>
-            </div> 
-            <div class="modal-footer">
-              <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Désactiver" onclick="save_motif_desactive();" />
-
             </div>
-          </form>
-       </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Désactiver" onclick="save_motif_desactive();" />
+
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -703,7 +703,7 @@ function myFunction(PROPRIETAIRE_ID)
 {
   var PROPRIETAIRE_ID=$('#PROPRIETAIRE_ID').val(PROPRIETAIRE_ID);
 
-   $('#Modal_active').modal('show'); 
+  $('#Modal_active').modal('show'); 
 }
 
 function save_motif_active()
@@ -711,77 +711,83 @@ function save_motif_active()
   var statut=1;
   $('#errorID_MOTIF').html('');
 
-   if($('#ID_MOTIF').val()=='')
-    {
-      $('#errorID_MOTIF').html('Le champ est obligatoire');
-      statut=2;
-    }
-
-  var checkBox = document.getElementById("myCheck");
-  // Get the output text
-  var PROPRIETAIRE_ID=$('#PROPRIETAIRE_ID').val();
-
-  var status=$('#status').val();
-  status=1;
-  var form_data = new FormData($("#active_form")[0]);
-  $.ajax(
+  if($('#ID_MOTIF').val()=='')
   {
-    url:"<?=base_url()?>proprietaire/Proprietaire/active_desactive/"+status+'/'+PROPRIETAIRE_ID,
+    $('#errorID_MOTIF').html('Le champ est obligatoire');
+    statut=2;
+  }
+  if (statut==1) {
 
-    type: 'POST',
-    dataType:'JSON',
-    data: form_data ,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data)
+    var checkBox = document.getElementById("myCheck");
+  // Get the output text
+    var PROPRIETAIRE_ID=$('#PROPRIETAIRE_ID').val();
+
+    var status=$('#status').val();
+    status=1;
+    var form_data = new FormData($("#active_form")[0]);
+    $.ajax(
     {
-      if(data.status==1)
+      url:"<?=base_url()?>proprietaire/Proprietaire/active_desactive/"+status+'/'+PROPRIETAIRE_ID,
+
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data)
+      {
+        if(data.status==1)
+        {
+          Swal.fire(
           {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'Activation faite avec succès',
-              timer: 1500,
-            }).then(() =>
-            {
-       window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste';
-             });
-          }
-    }
-  });
+            icon: 'success',
+            title: 'Success',
+            text: 'Activation faite avec succès',
+            timer: 1500,
+          }).then(() =>
+          {
+           window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste';
+         });
+        }
+      }
+    });
+  }
+  
 
 }
 
 function myFunction_desactive(PROPRIETAIRE_ID) 
 {
-  
+
  var PROPRIETAIRE_ID_des=$('#PROPRIETAIRE_ID_des').val(PROPRIETAIRE_ID);
 
-   $('#Modal_desactivation').modal('show'); 
+ $('#Modal_desactivation').modal('show'); 
 }
+
 
 function save_motif_desactive()
 {
   var statut=1;
   $('#errorID_MOTIF_des').html('');
 
-   if($('#ID_MOTIF_des').val()=='')
-    {
-      $('#errorID_MOTIF_des').html('Le champ est obligatoire');
-      statut=2;
-    }
-
-  var checkBox = document.getElementById("myCheck");
-  // Get the output text
-  var PROPRIETAIRE_ID_des=$('#PROPRIETAIRE_ID_des').val();
-
-  var status=$('#status').val();
-  status=2;
-  var form_data = new FormData($("#desactive_form")[0]);
-  $.ajax(
+  if($('#ID_MOTIF_des').val()=='')
   {
+    $('#errorID_MOTIF_des').html('Le champ est obligatoire');
+    statut=2;
+  }
+
+  if (statut==1) {
+
+   var checkBox = document.getElementById("myCheck");
+  // Get the output text
+   var PROPRIETAIRE_ID_des=$('#PROPRIETAIRE_ID_des').val();
+
+   var status=$('#status').val();
+   status=2;
+   var form_data = new FormData($("#desactive_form")[0]);
+   $.ajax(
+   {
     url:"<?=base_url()?>proprietaire/Proprietaire/active_desactive/"+status+'/'+PROPRIETAIRE_ID_des,
 
     type: 'POST',
@@ -793,20 +799,22 @@ function save_motif_desactive()
     success: function(data)
     {
       if(data.status==2)
-          {
-            Swal.fire(
-            {
-              icon: 'success',
-              title: 'Success',
-              text: 'désactivation faite avec succès',
-              timer: 1500,
-            }).then(() =>
-            {
-       window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste';
-             });
-          }
+      {
+        Swal.fire(
+        {
+          icon: 'success',
+          title: 'Success',
+          text: 'désactivation faite avec succès',
+          timer: 1500,
+        }).then(() =>
+        {
+         window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste';
+       });
+      }
     }
   });
+ }
+ 
 
 }
 

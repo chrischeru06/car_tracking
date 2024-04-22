@@ -47,7 +47,7 @@ class Proprietaire_vehicule extends CI_Controller
 		}
 
 
-		$query_principal='SELECT VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,PHOTO,if(`TYPE_proprietaire_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprietaire,PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,STATUT_VEH_AJOUT FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID LEFT JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE 1';
+		$query_principal='SELECT VEHICULE_ID,CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,PHOTO,if(`TYPE_proprietaire_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprietaire,PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,STATUT_VEH_AJOUT,vehicule.DATE_FIN_ASSURANCE,vehicule.DATE_FIN_CONTROTECHNIK FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID LEFT JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE 1';
 
 
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -75,13 +75,21 @@ class Proprietaire_vehicule extends CI_Controller
 		$data=array();
 		foreach ($fetch_data as $row)
 		{
+			if(!empty($row->CODE)){
+				$proce_requete = "CALL `getRequete`(?,?,?,?);";
+				$my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.NUMERO_PERMIS', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'STATUT_AFFECT=1 AND chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
+				$chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
+			}
 			
-			$proce_requete = "CALL `getRequete`(?,?,?,?);";
-			$my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.NUMERO_PERMIS', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'STATUT_AFFECT=1 AND chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
-			$chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
 
 			$sub_array=array();
-			$sub_array[]=$row->CODE;
+			if(!empty($row->CODE)){
+				$sub_array[]=$row->CODE;
+			}else{
+				$sub_array[]='N/A';
+
+			}
+			
 			$sub_array[]=$row->DESC_MARQUE;
 			$sub_array[]=$row->DESC_MODELE;
 			$sub_array[]=$row->PLAQUE;
@@ -99,14 +107,45 @@ class Proprietaire_vehicule extends CI_Controller
 			{
 				$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: orange;"></i><font style="font-size:13px;font-weight: bold;color: orange;">Véhicule en attente</font><span class="badge badge-pill badge-warning" ></span>';
 
-			}else
+			}elseif ($row->STATUT_VEH_AJOUT==4) {
+				$sub_array[] ='<i class="fa fa-close text-danger  small"></i></i><font style="font-size:14px;" class="text-danger"> Véhicule désactivé</font>';
+
+			}elseif ($row->STATUT_VEH_AJOUT==3) 
 			{
-				$sub_array[]='<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: red;">Véhicule refusé</font><span class="badge badge-pill badge-warning" ></span>';
+				$sub_array[]='<i class="fa fa-close text-danger  small"></i></i><font style="font-size:14px;" class="text-danger"> Véhicule refusé</font>';
+			}
+
+			if($row->DATE_FIN_ASSURANCE >= date('Y-m-d'))
+			{
+				$sub_array[] = '<i class="fa fa-check text-success small"></i><font class="text-success small"> Valide</font>';
+			}
+			else
+			{
+				$sub_array[] = '<i class="fa fa-close text-danger  small"></i><font class="text-danger small"> Expirée</font>';
+
+				
+			}
+
+			if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
+			{
+				$sub_array[] = '<i class="fa fa-check text-success small"></i><font class="text-success small"> Valide</font>';
+			}
+			else
+			{
+				$sub_array[] = '<i class="fa fa-close text-danger small"></i><font class="text-danger small"> Expirée</font>';
+
+				
 			}
 
 			if(!empty($chauffeur)){
+				if(!empty($row->CODE)){
+					$result_code=$row->CODE;
+				}else{
+					$result_code='N/A';
 
-				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
+				}
+
+				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a  href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
 
 				</div>
 				<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."'>
@@ -130,7 +169,7 @@ class Proprietaire_vehicule extends CI_Controller
 
 				<h4></h4>
 
-				<p><label class='fa fa'>Code &nbsp;&nbsp;<strong>".$row->CODE."</strong></label></p>
+				<p><label class='fa fa'>Code &nbsp;&nbsp;<strong>".$result_code."</strong></label></p>
 				<p><label class='fa fa'>Marque &nbsp;&nbsp; <strong>".$row->DESC_MARQUE."</strong></label></p>
 				<p><label class='fa fa'>Modèle &nbsp;&nbsp; <strong>".$row->DESC_MODELE."</strong></label></p>
 				<p><label class='fa fa'>Plaque &nbsp;&nbsp; <strong>".$row->PLAQUE."</strong></label></p>
@@ -184,8 +223,14 @@ class Proprietaire_vehicule extends CI_Controller
 				</div>";
 
 			}else{
+				if(!empty($row->CODE)){
+					$result_code=$row->CODE;
+				}else{
+					$result_code='N/A';
 
-				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='#' data-toggle='modal' data-target='#mypictureoff" . $row->VEHICULE_ID. "'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
+				}
+
+				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a  href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'><font style='float: right;'><span class='bi bi-eye'></span></font></a>
 
 				</div>
 				<div class='modal fade' id='mypictureoff" .$row->VEHICULE_ID."'>
@@ -208,7 +253,7 @@ class Proprietaire_vehicule extends CI_Controller
 
 				<h4></h4>
 
-				<p><label class='fa fa'>Code &nbsp;&nbsp;<strong>".$row->CODE."</strong></label></p>
+				<p><label class='fa fa'>Code &nbsp;&nbsp;<strong>".$result_code."</strong></label></p>
 				<p><label class='fa fa'>Marque &nbsp;&nbsp; <strong>".$row->DESC_MARQUE."</strong></label></p>
 				<p><label class='fa fa'>Modèle &nbsp;&nbsp; <strong>".$row->DESC_MODELE."</strong></label></p>
 				<p><label class='fa fa'>Plaque &nbsp;&nbsp; <strong>".$row->PLAQUE."</strong></label></p>
@@ -232,8 +277,27 @@ class Proprietaire_vehicule extends CI_Controller
 			// {
 			// 	$option .= "";
 			// }
+			if ($row->STATUT_VEH_AJOUT==1 || $row->STATUT_VEH_AJOUT==2) 
+			{
 
-			$option .= "<li><a class='btn-md' href='" . base_url('proprietaire/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</a></li>";
+				$option .= "<li><a class='btn-md' href='" . base_url('proprietaire/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;&nbsp;Modifier</a></li>";
+			}
+
+			if($row->DATE_FIN_ASSURANCE <= date('Y-m-d'))
+				
+			{
+
+
+				$option.='<li style="margin:0px;cursor:pointer;margin-top:-30px;"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td><a class="btn-md" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)">Renouveler l\'assurance</a></td></tr></table></li>';
+			}
+
+			if($row->DATE_FIN_CONTROTECHNIK <= date('Y-m-d'))
+				
+			{
+
+				$option.='<li style="margin:0px;cursor:pointer;margin-top:-30px;"><a class="btn-md" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</a></td></tr></table></li>';
+			}
+			
 			// if($row->STATUT_VEH_AJOUT==2)
 			// {
 
@@ -289,7 +353,7 @@ class Proprietaire_vehicule extends CI_Controller
 		);
 		echo json_encode($ouput);
 	}
-		function save_choffeur()
+	function save_choffeur()
 	{
 		// $statut=1 attribution avec succes;
 		// $statut=2:possedent une autre voiture qu'on l'a deja attribuée;
@@ -313,11 +377,11 @@ class Proprietaire_vehicule extends CI_Controller
 		
 		if($result==true )
 		{
-		 $statut=1;
+			$statut=1;
 		}else
 		{
-		  $statut=2;
-	   }
+			$statut=2;
+		}
 		echo json_encode($statut);
 	}
 

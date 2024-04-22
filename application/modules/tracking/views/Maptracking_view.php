@@ -11,48 +11,48 @@
     -progress: [object Object];
     flex-flow: column;
     overflow-y: auto;
-    border: solid 1px rgba(128, 128, 128, 0.3);
-  }
-  .jss408:hover {
-    border: solid 1px rgb(128, 128, 128);
-  }
-  .jss408:focus {
-    color:#4154f1;
-  }
-  .jss511 {
-    display: flex;
-    position: relative;
-    align-items: stretch;
-    margin-bottom: 15px;
-  }
-  .jss513 {
-    color: #72848C;
-    margin: 15px 0;
-    font-size: 12px;
-    padding-left: 96px;
-    text-transform: uppercase;
-  }
+/*    border: solid 1px rgba(128, 128, 128, 0.3);*/
+}
+.jss408:hover {
+  border: solid 1px rgb(128, 128, 128);
+}
+.jss408:focus {
+  color:#4154f1;
+}
+.jss511 {
+  display: flex;
+  position: relative;
+  align-items: stretch;
+  margin-bottom: 15px;
+}
+.jss513 {
+  color: #72848C;
+  margin: 15px 0;
+  font-size: 12px;
+  padding-left: 96px;
+  text-transform: uppercase;
+}
 
-  .jss509 {
-    color: #465157;
-    float: left;
-    width: 100%;
-    padding: 20px;
-  }
-  .jss490 {
-    right: 0;
-    width: 117px;
-    bottom: 0;
-    display: flex;
-    z-index: 1;
-    position: absolute;
-    align-items: center;
-  }
-  .jss517 {
-    width: 61%;
-    display: inline-block;
-    font-size: 12px;
-    padding-left: 15px;
+.jss509 {
+  color: #465157;
+  float: left;
+  width: 100%;
+  padding: 20px;
+}
+.jss490 {
+  right: 0;
+  width: 117px;
+  bottom: 0;
+  display: flex;
+  z-index: 1;
+  position: absolute;
+  align-items: center;
+}
+.jss517 {
+  width: 61%;
+  display: inline-block;
+  font-size: 12px;
+  padding-left: 15px;
 /*    text-transform: uppercase;*/
 }
 .jss512 {
@@ -135,7 +135,7 @@
   padding: 20px;
   position: relative;
   background: #fff;
-  border: solid 1px rgba(128, 128, 128, 0.3);
+/*  border: solid 1px rgba(128, 128, 128, 0.3);*/
 }
 .jss110:hover{
   border: solid 1px rgb(128, 128, 128);
@@ -301,6 +301,8 @@ margin: 0px 0;
 z-index: 100;
 
 }
+
+#button-container { position: absolute; top: 95%; right: 10px; z-index: 1; }
 </style>
 
 
@@ -317,7 +319,9 @@ z-index: 100;
       
 
       <div id="map_maps" style="width: 100%;height: 720px;">
-
+        <div id='button-container'>
+          <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border-color: cadetblue;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button>
+        </div>
 
         <div class="map-overlay top">
           <!-- <div class="scroller"> -->
@@ -326,7 +330,7 @@ z-index: 100;
 
 
               <h5 class="card-title">Résumés des courses </h5>
-
+              <?=$card_card1?>
               <?=$card_card?>
 
               <br>
@@ -449,7 +453,7 @@ z-index: 100;
 
 
     });
-
+    var polygonVisible = true;
     map_map.on('load', () => {
 
 
@@ -472,15 +476,45 @@ z-index: 100;
                 'fill-opacity': 0.4
               }
             });
-        // Add a black outline around the polygon.
+      // Add a black outline around the polygon.
       map_map.addLayer({
-        'id': 'outline',
-        'type': 'line',
-        'source': 'provinces',
-        'layout': {},
-        'paint': {
+            'id': 'outline',
+            'type': 'line',
+            'source': 'provinces',
+            'layout': {},
+            'paint': {
           'line-color': '#f40a0a',//rouge, noir:#000
           'line-width': 3
+        }
+      });
+
+      document.getElementById('toggle-button').addEventListener('click', function() {
+        if (polygonVisible) {
+          map_map.removeLayer('provinces');
+          map_map.removeLayer('outline');
+          polygonVisible = false;
+        } else {
+          map_map.addLayer({
+        'id': 'provinces',
+        'type': 'fill',
+            'source': 'provinces', // reference the data source
+            'layout': {},
+            'paint': {
+                'fill-color': '#888888', // gris color fill, blue:#0080ff
+                'fill-opacity': 0.4
+              }
+            });
+          map_map.addLayer({
+            'id': 'outline',
+            'type': 'line',
+            'source': 'provinces',
+            'layout': {},
+            'paint': {
+          'line-color': '#f40a0a',//rouge, noir:#000
+          'line-width': 3
+        }
+      });
+          polygonVisible = true;
         }
       });
       const geojsonexces = {
@@ -578,10 +612,6 @@ z-index: 100;
 
 
 
-
-
-
-
       var donn='<?= $mark_vprim ?>';
 
       var donn=donn.split('@');
@@ -595,7 +625,10 @@ z-index: 100;
         .then(data => {
           adress = data.features[0].place_name;
           const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +''
+            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[6] +''
+            );
+          const popupParking = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;' + index[5] +'&nbsp;&nbsp;-&nbsp;&nbsp;' + index[6] +''
             );
           var couleur='';
           if(index[4]==0){
@@ -604,15 +637,15 @@ z-index: 100;
               const marker2 = new FontawesomeMarker({
                 icon: 'fa fa-product-hunt',
                 iconColor: 'white',
-                color: '#0000FF',
+                color: '#0000FF',//rouge
 
               })
 
 
-              .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
+              .setLngLat([index[2],index[3]]).setPopup(popupParking).addTo(map_map);
               
             }else{
-              couleur='#FF0000';
+              couleur='#FF0000';//rouge
               const marker2 = new mapboxgl.Marker({ color: couleur})
               .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
 
@@ -641,10 +674,10 @@ z-index: 100;
           .then(data => {
             adresse = data.features[0].place_name;
             const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +''
+              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[5] +''
               );
 
-            const marker1 = new mapboxgl.Marker({ color:'#00FF00'})
+            const marker1 = new mapboxgl.Marker({ color:'#00FF00'})//vert
             .setLngLat([index[0],index[1]]).setPopup(popupup).addTo(map_map);
 
             map_map.flyTo({
