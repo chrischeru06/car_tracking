@@ -91,6 +91,8 @@ if ($this->session->PROFIL_ID == 1) {
             <i class="bi bi-person"></i><span>Tableau de bord des anomalies</span>
           </a>
         </li>
+
+        
          <!-- <li>
           <a href="<?=base_url()?>dashboard/Dashboard_Vehicule">
             <i class="bi bi-person"></i><span>Véhicule</span>
