@@ -737,45 +737,85 @@ class Proprietaire extends CI_Controller
 			$sub_array=array();
 			$sub_array[]=$i;
 
-			if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
-				$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
-				';
+			// if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
+			// 	$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
+			// 	';
 
-			}elseif(!empty($row->LOGO)){
+			// }elseif(!empty($row->LOGO)){
 
-				$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+			// 	$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
 				
-				<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
-				<div class="modal-dialog">
-				<div class="modal-content">
-				<div class="modal-body">
-				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
-				</div>
-				<div class="modal-footer">
-				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-				</div>
-				</div>
-				</div>
-				</div>';
+			// 	<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+			// 	<div class="modal-dialog">
+			// 	<div class="modal-content">
+			// 	<div class="modal-body">
+			// 	<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
+			// 	</div>
+			// 	<div class="modal-footer">
+			// 	<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+			// 	</div>
+			// 	</div>
+			// 	</div>
+			// 	</div>';
 
-			}else{
+			// }else{
 
-				$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+			// 	$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
 				
-				<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
-				<div class="modal-dialog">
-				<div class="modal-content">
-				<div class="modal-body">
-				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
-				</div>
-				<div class="modal-footer">
-				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-				</div>
-				</div>
-				</div>
-				</div>';
-			}
+			// 	<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+			// 	<div class="modal-dialog">
+			// 	<div class="modal-content">
+			// 	<div class="modal-body">
+			// 	<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
+			// 	</div>
+			// 	<div class="modal-footer">
+			// 	<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+			// 	</div>
+			// 	</div>
+			// 	</div>
+			// 	</div>';
+			// }
 			
+			if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
+						$sub_array[] ='<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><i class="bi bi-info-square h5" ></i>
+						style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
+						';
+
+					}elseif(!empty($row->LOGO)){
+
+						$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+
+						<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+						<div class="modal-dialog">
+						<div class="modal-content">
+						<div class="modal-body">
+						<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
+						</div>
+						<div class="modal-footer">
+						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+						</div>
+						</div>
+						</div>
+						</div>';
+
+					}else{
+
+						$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+
+						<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+						<div class="modal-dialog">
+						<div class="modal-content">
+						<div class="modal-body">
+						<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
+						</div>
+						<div class="modal-footer">
+						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+						</div>
+						</div>
+						</div>
+						</div>';
+					}
+					
 			$sub_array[]=$row->DESC_TYPE_PROPRIETAIRE;
 
 			

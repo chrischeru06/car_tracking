@@ -80,19 +80,22 @@
 
 		#image-container{
 			position: relative;
-			width: 475px; 
-			height: 350px; 
+			left:10px;
+			width: 770px; 
+			height: 700px;
 			overflow: hidden;
 		}
 
 		#phot_v {
-			position: absolute;
+			position: relative;
 			cursor: grab;
 			transition: transform 0.2s;
-			border-radius: 10px; 
-/*			height: 99%;*/
-margin-right: -50px; 
-}
+			border-radius: 10px;
+
+			width: 105%; 
+			height: 100%;
+			margin-left: -12px;
+		}
 
 
 </style>
@@ -658,10 +661,10 @@ margin-right: -50px;
 
       				<div class="row">
 
-      					<div class="col-md-6">
+      					<div class="col-md-5">
       						<label class="text-dark" style="font-weight: 1000; color:#454545">Filtrage selon la validité des documments</label>
       						<select class="form-control" id="CHECK_VALIDE" name="CHECK_VALIDE" onchange="GetVehicule();get_nbr_vehicule();">
-      							<option value="0"> Tous les véhicules</option>
+      							<option value="0"> Sélectionner</option>
       							<option value="1"> Véhicules avec assurances valides </option>
       							<option value="2"> Véhicules avec assurances invalides </option>
       							<option value="3"> Véhicules avec contrôles techniques valides </option>
@@ -669,9 +672,9 @@ margin-right: -50px;
 
       						</select>
 
-      						<label class="fa fa-check text-success" id="check" style="position: relative;top: -33%;left: 90%;"></label>
+      						<label class="fa fa-check text-success" id="check" style="position: relative;top: -33%;left: 93%;"></label>
 
-      						<label class="fa fa-ban text-danger" id="close" style="position: relative;top: -33%;left: 90%;"></label>
+      						<label class="fa fa-ban text-danger" id="close" style="position: relative;top: -33%;left: 93%;"></label>
 
       					</div>
 
@@ -729,17 +732,17 @@ margin-right: -50px;
 			<!-- Modal photo du vehicule-->
 
 			<div class="modal fade" id="Modal_photo_vehicule">
-				<div class="modal-dialog modal-dialog-centered ">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
 					<div class="modal-content">
 						<div class="modal-header" style='background:cadetblue;color:white;'>
-							<h6 class="modal-title">Photo véhicule</h6>
+							<h6 class="modal-title"></h6>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
 						</div>
 						<div class="modal-body">
 
 							<div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
 
-								<div class="col-md-2">
+								<div class="col-md-4">
 
 								</div>
 
@@ -753,7 +756,7 @@ margin-right: -50px;
 									<i onclick="zoomOut()" class="fa fa-minus-circle text-muted"></i>
 								</div>
 
-								<div class="col-md-1">
+								<!-- <div class="col-md-1">
 									<i onclick="moveX(-1)" class="fa fa-arrow-circle-left text-muted"></i>
 								</div>
 
@@ -767,7 +770,7 @@ margin-right: -50px;
 
 								<div class="col-md-1">
 									<i onclick="moveY(1)" class="fa fa-arrow-circle-down text-muted"></i>
-								</div>
+								</div> -->
 
 								<div class="col-md-1">
 									<i onclick="rotate_op()" class="fa fa-rotate-right text-muted"></i>
@@ -1334,6 +1337,69 @@ margin-right: -50px;
           	 // Fonction pour mettre à jour la transformation CSS de la photo
 			function updateTransform() {
 				photo.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+			}
+		</script>
+
+
+		<script>
+          	// Fonction pour afficher les chauffeurs
+			function GetChauffeur(id)
+			{
+				var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+				var VEHICULE_ID = $('#VEHICULE_ID').val();
+
+				$('#ModalChauffeurPro').modal('show');
+				var row_count ="1000000";
+				table=$("#table_chauffeur_pro").DataTable({
+					"processing":true,
+					"destroy" : true,
+					"serverSide":true,
+					"oreder":[[ 0, 'desc' ]],
+					"ajax":{
+						url:"<?=base_url()?>centre_situation/Centre_situation/GetChauffeur/"+id,
+						type:"POST",
+						data: {
+
+							PROPRIETAIRE_ID:PROPRIETAIRE_ID,
+							VEHICULE_ID:VEHICULE_ID,
+						},
+					},
+					lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+					pageLength: 10,
+					"columnDefs":[{
+						"targets":[],
+						"orderable":false
+					}],
+					dom: 'Bfrtlip',
+					buttons: ['excel', 'pdf'],  
+
+					language: {
+						"sProcessing": "Traitement en cours...",
+						"sSearch": "Recherche&nbsp;:",
+						"sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+						"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+						"sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+						"sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+						"sInfoPostFix": "",
+						"sLoadingRecords": "Chargement en cours...",
+						"sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+						"sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+						"oPaginate":
+						{
+							"sFirst": "Premier",
+							"sPrevious": "Pr&eacute;c&eacute;dent",
+							"sNext": "Suivant",
+							"sLast": "Dernier"
+						},
+						"oAria":
+						{
+							"sSortAscending": ": activer pour trier la colonne par ordre croissant",
+							"sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+						}
+					}
+
+				});
+
 			}
 		</script>
 
