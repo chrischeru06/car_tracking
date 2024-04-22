@@ -6,7 +6,7 @@
  * Le 11/2/2024
  * Dashboard de tracking des chauffeurs
  */
-class Dashboard extends CI_Controller
+class Dashboard_old extends CI_Controller
 {
 	
 	function __construct()
@@ -177,12 +177,18 @@ class Dashboard extends CI_Controller
 		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
 
 		//Requete pour recuperer partout ou il ya eu exces de vitesse
+<<<<<<< HEAD:application/modules/tracking/controllers/Dashboard_p.php
+		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' vitesse > 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+=======
 		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour', 'tracking_data', ' vitesse >= 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+>>>>>>> c237b7a9ef0a835d9ad3143739cfc56bebdecd39:application/modules/tracking/controllers/Dashboard.php
 		$my_selectget_exces_vitesse=str_replace('\"', '"', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\"', '"', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\n', '', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\"', '', $my_selectget_exces_vitesse);
 		$get_data_exces_vitesse = $this->ModelPs->getRequete($proce_requete, $my_selectget_exces_vitesse);
+<<<<<<< HEAD:application/modules/tracking/controllers/Dashboard_p.php
+=======
 
 		////Requete pour recuperer partout ou il ya eu accident
 		$my_selectget_accident= $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour', 'tracking_data', ' accident=1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
@@ -191,6 +197,7 @@ class Dashboard extends CI_Controller
 		$my_selectget_accident=str_replace('\n', '', $my_selectget_accident);
 		$my_selectget_accident=str_replace('\"', '', $my_selectget_accident);
 		$get_data_accident = $this->ModelPs->getRequete($proce_requete, $my_selectget_accident);
+>>>>>>> c237b7a9ef0a835d9ad3143739cfc56bebdecd39:application/modules/tracking/controllers/Dashboard.php
 		
 		//requete pour recuperer les arrets
 		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
@@ -202,17 +209,12 @@ class Dashboard extends CI_Controller
 
 
 		$distance=0;
-
+		
 		//Calcul de la distance parcourue
 		if(!empty($get_data)){
 
-
-
 			$i=0;
 			foreach ($get_data as $value_get_arret) {
-
-				
-
 				if ($value_get_arret['ignition']==1) {
 
 					if ($i==0) {
@@ -239,11 +241,8 @@ class Dashboard extends CI_Controller
 
 			$distance_finale=$distance;
 			$distance_arrondie=round($distance_finale);
-
-
 		}
-
-
+		
 		//calcul de la distance	par filtre	
 		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.'  AND ignition=0' , '`id` ASC');
 		$my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
@@ -308,7 +307,6 @@ class Dashboard extends CI_Controller
 		//Calcul du score
 		$point_final=20;
 		$point_point=20;
-		
 		if(!empty($get_arret_date)){
 
 			$data_arret=array();
@@ -323,7 +321,7 @@ class Dashboard extends CI_Controller
 			$point_distance_fin=array();
 			for($i=0,$j=1;$i<$nbre,$j<$nbre;$i++,$j++){
 
-				$my_selectrequete = $this->getBindParms('count(id) as idsup', 'tracking_data', '1 AND vitesse >= 50 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"' , '`id` ASC');
+				$my_selectrequete = $this->getBindParms('count(id) as idsup', 'tracking_data', '1 AND vitesse>60 AND tracking_data.id between "'.$data_arret[$i].'" AND "'.$data_arret[$j].'"' , '`id` ASC');
 				$my_selectrequete=str_replace('\"', '"', $my_selectrequete);
 				$my_selectrequete=str_replace('\n', '', $my_selectrequete);
 				$my_selectrequete=str_replace('\"', '', $my_selectrequete);
@@ -352,19 +350,6 @@ class Dashboard extends CI_Controller
 
 			$point_final=$point_point-$add;
 
-		}
-		if(!empty($CODE_COURSE)){
-			$my_selectrequete_excsee = $this->getBindParms('id', 'tracking_data', '1 AND vitesse >= 50 AND md5(tracking_data.CODE_COURSE)= "'.$CODE_COURSE.'"' , '`id` ASC');
-			$my_selectrequete_excsee=str_replace('\"', '"', $my_selectrequete_excsee);
-			$my_selectrequete_excsee=str_replace('\n', '', $my_selectrequete_excsee);
-			$my_selectrequete_excsee=str_replace('\"', '', $my_selectrequete_excsee);
-			$requete_exces = $this->ModelPs->getRequete($proce_requete, $my_selectrequete_excsee);
-			 // print_r($requete_exces);die();
-			if(!empty($requete_exces)){
-
-				$point_final=$point_point-1;
-				
-			}
 		}
 
 		//le Resume des courses se trouvant sur la carte
@@ -702,6 +687,8 @@ class Dashboard extends CI_Controller
 
 
 
+<<<<<<< HEAD:application/modules/tracking/controllers/Dashboard_p.php
+=======
 					//delimitation : geofencing
 					$my_selectprovinces = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ', '1 AND md5(CODE) ="'.$CODE.'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
 					$my_selectprovinces=str_replace('\"', '"', $my_selectprovinces);
@@ -736,53 +723,57 @@ class Dashboard extends CI_Controller
 						}
 						$i=1;
 
+>>>>>>> c237b7a9ef0a835d9ad3143739cfc56bebdecd39:application/modules/tracking/controllers/Dashboard.php
 					//carte
-						$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
-						$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
-						$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
-						$my_selectvitesse_max=str_replace('\"', '', $my_selectvitesse_max);
+					$my_selectprovinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME,OBJECTIF,PROVINCE_LATITUDE,PROVINCE_LONGITUDE,POLY,COLOR', 'provinces', '1 ' , 'PROVINCE_ID ASC');
+					$provinces = $this->ModelPs->getRequete($proce_requete, $my_selectprovinces);
+					$limites='';
+					$i=1;
+					foreach ($provinces as $key_provinces) {
+						$polyg = $key_provinces['POLY'];
+						$prov_name = $key_provinces['PROVINCE_NAME'];
 
-						$vitesse_max = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvitesse_max);
-
-						if(empty($vitesse_max['max_vitesse']))
-
-						{
-							$vitesse_max['max_vitesse']=0;
-						}
+					}
+					
 
 
+					$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$DATE_SELECT.'"' , '`id` ASC');
+					$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
+					$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
+					$my_selectvitesse_max=str_replace('\"', '', $my_selectvitesse_max);
 
+					$vitesse_max = $this->ModelPs->getRequeteOne($proce_requete, $my_selectvitesse_max);
 
-						$track = '';
-						$vitesse_exces = '';
-						$geojsonexces='';
+					if(empty($vitesse_max['max_vitesse']))
 
-						if ($CODE_COURSE!='') {
-							if(!empty($get_data)){
-
-
-								foreach ($get_data as $key) {
-
-									$track.='['.$key['longitude'].','.$key['latitude'].'],';
-								}
+					{
+						$vitesse_max['max_vitesse']=0;
+					}
 
 
 
-							}else{
-								$number='1';
 
-								$track.='['.$number.','.$number.'],';
+					$track = '';
+					$vitesse_exces = '';
+					$geojsonexces='';
+
+					if ($CODE_COURSE!='') {
+						if(!empty($get_data)){
 
 
+							foreach ($get_data as $key) {
+
+								$track.='['.$key['longitude'].','.$key['latitude'].'],';
 							}
 
-							$track.='@';
-
-							$track = str_replace(',@', "", $track);
 
 
-							if (!empty($get_data_exces_vitesse)) {
+						}else{
+							$number='1';
 
+<<<<<<< HEAD:application/modules/tracking/controllers/Dashboard_p.php
+							$track.='['.$number.','.$number.'],';
+=======
 								foreach ($get_data_exces_vitesse as $value_data_exces_vitesse) {
 									$vitesse_exces.='['.$value_data_exces_vitesse['longitude'].','.$value_data_exces_vitesse['latitude'].'],';
 									$geojsonexces.="{
@@ -797,27 +788,52 @@ class Dashboard extends CI_Controller
 											}
 											},
 											" ;
+>>>>>>> c237b7a9ef0a835d9ad3143739cfc56bebdecd39:application/modules/tracking/controllers/Dashboard.php
 
 
+						}
 
+						$track.='@';
+
+						$track = str_replace(',@', "", $track);
+
+
+						if (!empty($get_data_exces_vitesse)) {
+
+							foreach ($get_data_exces_vitesse as $value_data_exces_vitesse) {
+								$vitesse_exces.='['.$value_data_exces_vitesse['longitude'].','.$value_data_exces_vitesse['latitude'].'],';
+								$geojsonexces.="{
+									'type': 'Feature',
+									'properties': {
+										'description':
+										'<strong>Exces de vitesse</strong><p>".$value_data_exces_vitesse['vitesse']." Km/h</p>'
+										},
+										'geometry': {
+											'type': 'Point',
+											'coordinates': [".$value_data_exces_vitesse['longitude'].", ".$value_data_exces_vitesse['latitude']."]
 										}
-										$vitesse_exces.='@';
-
-										$vitesse_exces = str_replace(',@', "", $vitesse_exces);
-									}else{
-
-										$vitesse_exces.='[1,1],';
+										},
+										" ;
+										
+										$paint="
+										'paint': {
+											'line-color': '#310bf6',
+											'line-width': 4,
+											'line-opacity': 0.7
+										}";
 
 									}
-							// $vitesse_exces.='@';
-							// $vitesse_exces = str_replace(',@', "", $vitesse_exces);
+									$vitesse_exces.='@';
+
+									$vitesse_exces = str_replace(',@', "", $vitesse_exces);
 								}else{
 
-									$track.= '';
-									$vitesse_exces.= '[1,1]';
-
+									$vitesse_exces.='[1,1],';
 
 								}
+<<<<<<< HEAD:application/modules/tracking/controllers/Dashboard_p.php
+							// $vitesse_exces.='@';
+=======
 								$accident='';
 								$geojsonaccident='';
 								if(!empty($track)){
@@ -836,20 +852,23 @@ class Dashboard extends CI_Controller
 													}
 													},
 													" ;
+>>>>>>> c237b7a9ef0a835d9ad3143739cfc56bebdecd39:application/modules/tracking/controllers/Dashboard.php
 
-													$accident.='@';
+							// $vitesse_exces = str_replace(',@', "", $vitesse_exces);
+							}else{
 
-													$accident = str_replace(',@', "", $accident);
-												}
-											}else{
-
-												$accident.='[1,1]';
-											}
-										}
+								$track.= '';
+								$vitesse_exces.= '[1,1]';
 
 
+							}
 
 
+
+
+<<<<<<< HEAD:application/modules/tracking/controllers/Dashboard_p.php
+
+=======
 										$data['geojsonaccident'] = $geojsonaccident;
 										$data['track'] = $track;
 										$data['get_chauffeur'] = $get_chauffeur;
@@ -867,201 +886,242 @@ class Dashboard extends CI_Controller
 										$data['vitesse_exces'] = $vitesse_exces;
 										$data['geojsonexces'] = $geojsonexces;
 										$data['card_card1'] = $card_card1;
+>>>>>>> c237b7a9ef0a835d9ad3143739cfc56bebdecd39:application/modules/tracking/controllers/Dashboard.php
 
-										$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
-
-										$output = array(
-											"distance_finale" => $nvldistance_arrondie,
-											"carburant" => $carburant,
-											"DATE"=>$DATE_SELECT,
-											"CODE"=>$CODE,
-											"map_filtre"=>$map_filtre,
-											"score_finale"=>$point_final,
-											"vitesse_max"=>$vitesse_max['max_vitesse'],
-										// "ligne_arret"=>$ligne_arret
-
-
-										);
-
-										echo json_encode($output);
-
-									}
-
-								//Fonction pour voir la position du vehicule
-									function position_voiture($CODE){
-										$fontinfo = $this->input->post('rtoggle');
-										$info = '';
-
-										if($fontinfo == ''){
-
-											$info = 'streets';
-
-										}else{
-
-											$info = $fontinfo;
-										}
-
-										$data['info'] = $info;
-										$CODE_VEH=$this->uri->segment(4);
-										$data['CODE_VEH']=$CODE_VEH;
-										$this->load->view('Position_vehicule_View',$data);
+							$data['track'] = $track;
+							$data['get_chauffeur'] = $get_chauffeur;
+							$data['get_arret'] = $get_arret;
+							$data['distance_finale'] = $nvldistance_arrondie;
+							$data['carburant'] = $carburant;
+							$data['CODE'] = $CODE;
+							$data['DATE'] = $DATE_SELECT;
+							$data['score'] = $score_finale;
+							$data['limites']=$limites;
+							$data['card_card']=$card_card;
+							$data['tabl']=$tabl;
+							$data['mark_vprim']=$mark_vprim;
+							$data['dataplace']=$dataplace;
+							$data['vitesse_exces'] = $vitesse_exces;
+							$data['geojsonexces'] = $geojsonexces;
 
 
+							$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
 
-									}
+							$output = array(
+								"distance_finale" => $nvldistance_arrondie,
+								"carburant" => $carburant,
+								"DATE"=>$DATE_SELECT,
+								"CODE"=>$CODE,
+								"map_filtre"=>$map_filtre,
+								"score_finale"=>$point_final,
+								"vitesse_max"=>$vitesse_max['max_vitesse'],
+						// "ligne_arret"=>$ligne_arret
 
 
+							);
+
+							echo json_encode($output);
+
+						}
+
+					//Fonction pour voir la position de la voiture
+						function position_voiture($CODE){
+							$fontinfo = $this->input->post('rtoggle');
+							$info = '';
+
+							if($fontinfo == ''){
+
+								$info = 'streets';
+
+							}else{
+
+								$info = $fontinfo;
+							}
+
+							$data['info'] = $info;
+							$CODE_VEH=$this->uri->segment(4);
+							$data['CODE_VEH']=$CODE_VEH;
+							$this->load->view('Position_vehicule_View',$data);
+
+
+
+						}
+
+
+<<<<<<< HEAD:application/modules/tracking/controllers/Dashboard_p.php
+					//Fonction pour afficher la position de la voiture
+						function getmap($CODE){
+=======
 									//Fonction pour afficher la position de la voiture
 									function getmap($CODE){
+>>>>>>> c237b7a9ef0a835d9ad3143739cfc56bebdecd39:application/modules/tracking/controllers/Dashboard.php
 
-										$DATE_SELECT = $this->input->post('DATE_DAT');
+							$DATE_SELECT = $this->input->post('DATE_DAT');
 
-										$proce_requete = "CALL `getRequete`(?,?,?,?);";
+							$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 						// $my_selectget_data= $this->getBindParms(' id,latitude,longitude', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND `id` = (SELECT MAX(`id`) FROM tracking_data ) ' , '`id` ASC');
-										$my_selectget_data= $this->getBindParms('id,latitude,longitude,ignition,vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND  `id` = (SELECT MAX(`id`) FROM tracking_data)' , '`id` ASC');
-										$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
-										$my_selectget_data=str_replace('\n', '', $my_selectget_data);
-										$my_selectget_data=str_replace('\"', '', $my_selectget_data);
+							$my_selectget_data= $this->getBindParms('id,latitude,longitude,ignition,vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND  `id` = (SELECT MAX(`id`) FROM tracking_data)' , '`id` ASC');
+							$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
+							$my_selectget_data=str_replace('\n', '', $my_selectget_data);
+							$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
-										$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
+							$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
 
 
-										if ($get_data['ignition']==0) 
-										{
+							if ($get_data['ignition']==0) 
+							{
 							// color red
-											$color = '255, 0, 0';
-										}
-										else
-										{
+								$color = '255, 0, 0';
+							}
+							else
+							{
 							//color blue
-											$color = '20, 100, 500';
+								$color = '20, 100, 500';
 
-										}
-
-
-
-										$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"vitesse":'.$get_data['vitesse'].',"ignition":"'.$color.'","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
+							}
 
 
-										echo $data;
-									}
+
+							$data = '{"name":"iss","id":25544,"latitude":'.$get_data['latitude'].',"longitude":'.$get_data['longitude'].',"altitude":427.6731067247,"vitesse":'.$get_data['vitesse'].',"ignition":"'.$color.'","footprint":4546.2965721564,"timestamp":1690338162,"daynum":2460151.5990972,"solar_lat":19.512848632241,"solar_lon":145.96751425687,"units":"kilometers"}';
+
+
+							echo $data;
+						}
 
 					//Fonction pour la selection des heures
-									function get_heures()
-									{
-										$html="<option value=''>Séléctionner</option>";
+						function get_heures()
+						{
+							$html="<option value=''>Séléctionner</option>";
 
-										$proce_requete = "CALL `getRequete`(?,?,?,?);";
+							$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 
 
-										$my_select_heure_trajet = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', '1', '`HEURE_ID` ASC');
-										$heure_trajet = $this->ModelPs->getRequete($proce_requete, $my_select_heure_trajet);
-										foreach ($heure_trajet as $heure_trajets)
-										{
-											$html.="<option value='".$heure_trajets['HEURE_ID']."'>".$heure_trajets['HEURE']."</option>";
-										}
+							$my_select_heure_trajet = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', '1', '`HEURE_ID` ASC');
+							$heure_trajet = $this->ModelPs->getRequete($proce_requete, $my_select_heure_trajet);
+							foreach ($heure_trajet as $heure_trajets)
+							{
+								$html.="<option value='".$heure_trajets['HEURE_ID']."'>".$heure_trajets['HEURE']."</option>";
+							}
 
-										echo json_encode($html);
-									}
+							echo json_encode($html);
+						}
 
 
 
 					//fonction clones alerte exces de vitesse
-									function alerte_exces_vitesse()
-									{
-										$proce_requete = "CALL `getRequete`(?,?,?,?);";
+						function alerte_exces_vitesse()
+						{
+							$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 
 
-										$get_device = $this->Model->getRequete('SELECT device_uid FROM tracking_data where 1 GROUP BY device_uid');
-										foreach ($get_device as $keyget_device) {
+							$get_device = $this->Model->getRequete('SELECT device_uid FROM tracking_data where 1 GROUP BY device_uid');
+							foreach ($get_device as $keyget_device) {
 
 
-											$my_selectget_data= $this->getBindParms('max(id) as maximum,latitude,longitude,ignition,vitesse','tracking_data',' MESSAGE=0 AND device_uid ="'.$keyget_device['device_uid'].'"' , '`id` ASC');
-											$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
-											$my_selectget_data=str_replace('\n', '', $my_selectget_data);
-											$my_selectget_data=str_replace('\"', '', $my_selectget_data);
+								$my_selectget_data= $this->getBindParms('max(id) as maximum,latitude,longitude,ignition,vitesse','tracking_data',' MESSAGE=0 AND device_uid ="'.$keyget_device['device_uid'].'"' , '`id` ASC');
+								$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
+								$my_selectget_data=str_replace('\n', '', $my_selectget_data);
+								$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 
-											$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
-											if($get_data['vitesse']>50){
+								$get_data = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_data);
+								if($get_data['vitesse']>50){
 
 
-												$my_selectget_proprio=$this->getBindParms('vehicule.`PROPRIETAIRE_ID`,proprietaire.EMAIL,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule.PLAQUE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE', 'vehicule join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE', '1 AND vehicule.CODE ="'.$keyget_device['device_uid'].'"' , 'vehicule.CODE ASC');
-												$my_selectget_proprio=str_replace('\"', '"', $my_selectget_proprio);
-												$my_selectget_proprio=str_replace('\n', '', $my_selectget_proprio);
-												$my_selectget_proprio=str_replace('\"', '', $my_selectget_proprio);
+									$my_selectget_proprio=$this->getBindParms('vehicule.`PROPRIETAIRE_ID`,proprietaire.EMAIL,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule.PLAQUE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE', 'vehicule join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE', '1 AND vehicule.CODE ="'.$keyget_device['device_uid'].'"' , 'vehicule.CODE ASC');
+									$my_selectget_proprio=str_replace('\"', '"', $my_selectget_proprio);
+									$my_selectget_proprio=str_replace('\n', '', $my_selectget_proprio);
+									$my_selectget_proprio=str_replace('\"', '', $my_selectget_proprio);
 
-												$get_proprio = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_proprio);
+									$get_proprio = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_proprio);
 
-												$my_selectget_chauffeur=$this->getBindParms('chauffeur_vehicule.`CHAUFFEUR_ID`,chauffeur.ADRESSE_MAIL,chauffeur.NOM,chauffeur.PRENOM', '`chauffeur_vehicule` join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', '1 AND `STATUT_AFFECT`=1 AND CODE ="'.$keyget_device['device_uid'].'"' , 'chauffeur_vehicule.CODE ASC');
-												$my_selectget_chauffeur=str_replace('\"', '"', $my_selectget_chauffeur);
-												$my_selectget_chauffeur=str_replace('\n', '', $my_selectget_chauffeur);
-												$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
+									$my_selectget_chauffeur=$this->getBindParms('chauffeur_vehicule.`CHAUFFEUR_ID`,chauffeur.ADRESSE_MAIL,chauffeur.NOM,chauffeur.PRENOM', '`chauffeur_vehicule` join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', '1 AND `STATUT_AFFECT`=1 AND CODE ="'.$keyget_device['device_uid'].'"' , 'chauffeur_vehicule.CODE ASC');
+									$my_selectget_chauffeur=str_replace('\"', '"', $my_selectget_chauffeur);
+									$my_selectget_chauffeur=str_replace('\n', '', $my_selectget_chauffeur);
+									$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
 
-												$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
+									$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
 
 								//Notification au proprietaire du vehicule
-												$mess="Cher(e) <b>".$get_proprio['NOM_PROPRIETAIRE']." ".$get_proprio['PRENOM_PROPRIETAIRE']."</b>,<br><br>
+									$mess="Cher(e) <b>".$get_proprio['NOM_PROPRIETAIRE']." ".$get_proprio['PRENOM_PROPRIETAIRE']."</b>,<br><br>
 
-												Votre véhicule ".$get_proprio['DESC_MARQUE']." / ".$get_proprio['DESC_MODELE']." ayant ".$get_proprio['PLAQUE']." comme plaque d'immatriculation  est en train d'être conduit  à ".$get_data['vitesse']." Km/h !<br>
-												Veuillez contacter votre chauffeur ".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']." !
-												";
-												$subjet="Excès de vitesse";
-												$message1=$this->notifications->send_mail(array($get_proprio['EMAIL']),$subjet,array(),$mess,array());
+									Votre véhicule ".$get_proprio['DESC_MARQUE']." / ".$get_proprio['DESC_MODELE']." ayant ".$get_proprio['PLAQUE']." comme plaque d'immatriculation  est en train d'être conduit  à ".$get_data['vitesse']." Km/h !<br>
+									Veuillez contacter votre chauffeur ".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']." !
+									";
+									$subjet="Excès de vitesse";
+									$message1=$this->notifications->send_mail(array($get_proprio['EMAIL']),$subjet,array(),$mess,array());
 								//Notification au chauffeur
-												$mess2="Cher(e) <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b>,<br><br>
-												Vous êtes entrain de conduire à une vitesse de ".$get_data['vitesse']." Km/h <br>
-												Veuillez ralentir pour votre sécurité!
+									$mess2="Cher(e) <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b>,<br><br>
+									Vous êtes entrain de conduire à une vitesse de ".$get_data['vitesse']." Km/h <br>
+									Veuillez ralentir pour votre sécurité!
 
-												";
-												$subjet="Excès de vitesse";
-												$message2=$this->notifications->send_mail(array($get_chauffeur['ADRESSE_MAIL']),$subjet,array(),$mess2,array());
+									";
+									$subjet="Excès de vitesse";
+									$message2=$this->notifications->send_mail(array($get_chauffeur['ADRESSE_MAIL']),$subjet,array(),$mess2,array());
 
-												$update=$this->Model->update('tracking_data',array('id'=>$get_data['maximum']),array('MESSAGE'=>1));
-											}
+									$update=$this->Model->update('tracking_data',array('id'=>$get_data['maximum']),array('MESSAGE'=>1));
+								}
 
-										}
+							}
 
-									}
+						}
 					//fonction clones alerte assurance termine
-									function check_assurance(){
-										$proce_requete = "CALL `getRequete`(?,?,?,?);";
-										$DATE_JOUR=date('Y-m-d');
-										$my_selectget_assurance=$this->getBindParms('DATE_DEBUT_ASSURANCE,DATE_FORMAT(DATE_FIN_ASSURANCE,"%Y/%m/%d") as date_fin,DATE_FORMAT(DATE_FIN_ASSURANCE,"%d/%m/%Y") as date_fin_format,DATE_FORMAT(DATE_FIN_CONTROTECHNIK,"%Y/%m/%d") as date_fin_contr_technik,DATE_FORMAT(DATE_FIN_CONTROTECHNIK,"%d/%m/%Y") as date_fin_contr_technikformat,proprietaire.EMAIL,vehicule.PLAQUE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE', 'vehicule join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE', '1 AND vehicule.IS_ACTIVE=1 AND proprietaire.IS_ACTIVE=1' , 'proprietaire.PROPRIETAIRE_ID ASC');
-										$my_selectget_assurance=str_replace('\"', '"', $my_selectget_assurance);
-										$my_selectget_assurance=str_replace('\n', '', $my_selectget_assurance);
-										$my_selectget_assurance=str_replace('\"', '', $my_selectget_assurance);
+						function check_assurance(){
+							$proce_requete = "CALL `getRequete`(?,?,?,?);";
+							$DATE_JOUR=date('Y-m-d');
+							$my_selectget_assurance=$this->getBindParms('DATE_DEBUT_ASSURANCE,DATE_FORMAT(DATE_FIN_ASSURANCE,"%Y/%m/%d") as date_fin,DATE_FORMAT(DATE_FIN_ASSURANCE,"%d/%m/%Y") as date_fin_format,DATE_FORMAT(DATE_FIN_CONTROTECHNIK,"%Y/%m/%d") as date_fin_contr_technik,DATE_FORMAT(DATE_FIN_CONTROTECHNIK,"%d/%m/%Y") as date_fin_contr_technikformat,proprietaire.EMAIL,vehicule.PLAQUE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE', 'vehicule join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE', '1 AND vehicule.IS_ACTIVE=1 AND proprietaire.IS_ACTIVE=1' , 'proprietaire.PROPRIETAIRE_ID ASC');
+							$my_selectget_assurance=str_replace('\"', '"', $my_selectget_assurance);
+							$my_selectget_assurance=str_replace('\n', '', $my_selectget_assurance);
+							$my_selectget_assurance=str_replace('\"', '', $my_selectget_assurance);
 
-										$get_assurance = $this->ModelPs->getRequete($proce_requete, $my_selectget_assurance);
+							$get_assurance = $this->ModelPs->getRequete($proce_requete, $my_selectget_assurance);
 
 						// print_r(expression)
-										foreach ($get_assurance as $key) {
-											$nb_jr_new=1;
-											$your_date_new = strtotime("-".$nb_jr_new." day", strtotime($key['date_fin']));
-											$new_date_new = date("Y-m-d", $your_date_new++);
+							foreach ($get_assurance as $key) {
+								$nb_jr_new=1;
+								$your_date_new = strtotime("-".$nb_jr_new." day", strtotime($key['date_fin']));
+								$new_date_new = date("Y-m-d", $your_date_new++);
 
-											$your_date_new_technik = strtotime("-".$nb_jr_new." day", strtotime($key['date_fin_contr_technik']));
-											$new_date_new_technik = date("Y-m-d", $your_date_new_technik++);
-											if ($DATE_JOUR==$new_date_new) {
-												$subjet="Assurance expirée";
+								$your_date_new_technik = strtotime("-".$nb_jr_new." day", strtotime($key['date_fin_contr_technik']));
+								$new_date_new_technik = date("Y-m-d", $your_date_new_technik++);
+								if ($DATE_JOUR==$new_date_new) {
+									$subjet="Assurance expirée";
 
-												$email = $key['EMAIL'];
-												$message="Cher propriétaire du véhicule ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE']." ,Votre assurance expirera demain le '".$key['date_fin_format']."'!<br> veuillez la renouveler !";
-												$this->notifications->send_mail(array($email),$subjet,array(),$message,array());
-											}
-											if($DATE_JOUR==$new_date_new_technik){
+									$email = $key['EMAIL'];
+									$message="Cher propriétaire du véhicule ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE']." ,Votre assurance expirera demain le '".$key['date_fin_format']."'!<br> veuillez la renouveler !";
+									$this->notifications->send_mail(array($email),$subjet,array(),$message,array());
+								}
+								if($DATE_JOUR==$new_date_new_technik){
 
-												$subjet="Contrôle technique expiré";
+									$subjet="Contrôle technique expiré";
 
-												$email = $key['EMAIL'];
-												$message="Cher propriétaire  du véhicule ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE'].",Votre Contrôle technique expirera demain le '".$key['date_fin_contr_technikformat']."'! <br> veuillez la renouveler !";
-												$this->notifications->send_mail(array($email),$subjet,array(),$message,array());
+									$email = $key['EMAIL'];
+									$message="Cher propriétaire  du véhicule ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE'].",Votre Contrôle technique expirera demain le '".$key['date_fin_contr_technikformat']."'! <br> veuillez la renouveler !";
+									$this->notifications->send_mail(array($email),$subjet,array(),$message,array());
 
-											}
-										}
+								}
+							}
 
+<<<<<<< HEAD:application/modules/tracking/controllers/Dashboard_p.php
+						}
+
+
+
+					//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
+						public function getBindParms($columnselect, $table, $where, $orderby)
+						{
+							$bindparams = array(
+								'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+								'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+								'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+								'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+							);
+							return $bindparams;
+						}
+					}?>
+=======
 									}
 									
 
@@ -1077,3 +1137,4 @@ class Dashboard extends CI_Controller
 										return $bindparams;
 									}
 								}?>
+>>>>>>> c237b7a9ef0a835d9ad3143739cfc56bebdecd39:application/modules/tracking/controllers/Dashboard.php

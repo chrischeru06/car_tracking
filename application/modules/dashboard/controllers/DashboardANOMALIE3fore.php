@@ -8,7 +8,7 @@ tel:71379943
 ini_set('max_execution_time', 2000);
 ini_set('memory_limit','2048M');
 
-class Dashboard_Anomalies extends CI_Controller
+class DashboardANOMALIE3fore extends CI_Controller
 {
   public function getcolor() 
   {
@@ -22,7 +22,6 @@ class Dashboard_Anomalies extends CI_Controller
   }
   function index()
   {
-    
     $reflesh=base_url();
     $data['reflesh']=$reflesh;
      //print_r($data['reflesh']);die();
@@ -91,7 +90,7 @@ class Dashboard_Anomalies extends CI_Controller
     );
     echo json_encode($output);
   }
-    //list du detail nbr exces par voiture
+   //list du detail nbr exces par voiture
   function listing_exces($CODE)
   {
     
@@ -206,7 +205,7 @@ class Dashboard_Anomalies extends CI_Controller
     );
     echo json_encode($output);
   }
-   //list dudetail du nbr accident par voiture
+    //list dudetail du nbr accident par voiture
   function listing_acc($CODE)
   {
     
@@ -245,6 +244,65 @@ class Dashboard_Anomalies extends CI_Controller
    
       
 
+      $data[] = $intrant;
+    }
+
+    $output = array(
+      "draw" => intval($_POST['draw']),
+      "recordsTotal" =>$this->Model->all_data($query_principal),
+      "recordsFiltered" => $this->Model->filtrer($query_filter),
+      "data" => $data
+    );
+    echo json_encode($output);
+  }
+   //detail di rapport nbr course par voiture
+
+  function detail_course_voiture()
+  {
+    $KEY12=$this->input->post('key12');
+    $break=explode(".",$KEY12);
+    $ID=$KEY12;
+    $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+    $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,CODE_COURSE,date,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur,CODE_COURSE FROM`vehicule` LEFT JOIN tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+
+
+    $limit='LIMIT 0,10';
+    if($_POST['length'] != -1)
+    {
+      $limit='LIMIT '.$_POST["start"].','.$_POST["length"];
+    }
+
+    $order_by='';
+    if($_POST['order']['0']['column']!=0)
+    {
+      $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column'] .'  '.$_POST['order']['0']['dir'] : ' ORDER BY VEHICULE_ID   DESC';
+    }
+    $search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
+     $critaire="";
+  
+    $critaire=" AND vehicule.CODE=".$ID;
+    
+   
+    $query_secondaire=$query_principal.'  '.$critaire.' '.$search.' '.$order_by.'   '.$limit;
+    $query_filter=$query_principal.'  '.$critaire.' '.$search;
+    $fetch_data = $this->Model->datatable($query_secondaire);
+    $u=0;
+    $data = array();
+    foreach ($fetch_data as $row)
+    {
+     
+      $u++;
+      $intrant=array();
+      $intrant[] ="<strong class='text-dark'/>".$u; 
+      $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+      $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
+      $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
+      $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
+      $intrant[] ="<strong class='text-dark'/>".$row->COULEUR;
+      $intrant[] ="<strong class='text-dark'/>".$row->KILOMETRAGE;
+      $intrant[] ="<strong class='text-dark'/>".$row->desc_proprio;
+      $intrant[] ="<strong class='text-dark'/>".$row->desc_chauffeur;
+    
 
       $data[] = $intrant;
     }
@@ -257,32 +315,13 @@ class Dashboard_Anomalies extends CI_Controller
     );
     echo json_encode($output);
   }
-
   
 
   public function get_rapport()
   {
+    $vehicule_exces=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `accident`=1)') ;
 
-    $DATE_DEBUT = $this->input->post('DATE_DAT');
-    $DATE_DAT_FIN = $this->input->post('DATE_DAT_FIN');
-    $critere=" ";
-  
-   if(!empty($DATE_DEBUT) && !empty($DATE_DAT_FIN))
-   {
-
-      $critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_DEBUT.'" AND "'.$DATE_DAT_FIN.'" ';
-    }
-     $proce_requete = "CALL `getRequete`(?,?,?,?);";
-     $my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 '.$critere.'' , '`id` ASC');
-    $my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
-    $my_selectget_arret_date=str_replace('\n', '', $my_selectget_arret_date);
-    $my_selectget_arret_date=str_replace('\"', '', $my_selectget_arret_date);
-    $get_arret_date = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret_date);
-
-    $vehicule_exces=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `accident`=1 '.$critere.')') ;
-
-      $vehicule_normal=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM  vehicule  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' and vehicule.VEHICULE_ID not in (SELECT DISTINCT vehicule.VEHICULE_ID   FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `accident`=1))') ;
-
+      $vehicule_normal=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM  vehicule  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE vehicule.VEHICULE_ID not in (SELECT DISTINCT vehicule.VEHICULE_ID   FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `accident`=1))') ;
 
     $donnees9="";
     $test=0;
@@ -435,9 +474,9 @@ class Dashboard_Anomalies extends CI_Controller
 
 
 
-     $vehicule_exces=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `vitesse`>50 '.$critere.')') ;
+     $vehicule_exces=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `vitesse`>50)') ;
 
-      $vehicule_normal=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM  vehicule  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.'  and vehicule.VEHICULE_ID not in (SELECT DISTINCT vehicule.VEHICULE_ID   FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `vitesse`>50 '.$critere.'))') ;
+      $vehicule_normal=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM  vehicule  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE vehicule.VEHICULE_ID not in (SELECT DISTINCT vehicule.VEHICULE_ID   FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `vitesse`>50))') ;
 
     $donnees8="";
     $test=0;
@@ -611,19 +650,32 @@ class Dashboard_Anomalies extends CI_Controller
    // $vehicule_code=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR,`latitude`,`longitude`,CODE FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1  GROUP BY ID,NAME,latitude,longitude');
     $vehicule_code=$this->Model->getRequete('SELECT `device_uid` as CODE FROM `tracking_data` WHERE 1 GROUP BY device_uid');
     $nvldistance=0;
+    $nvldistance_arrondie=array();
+      $tableau_id=array();
+
    foreach ($vehicule_code as $key) 
    {
-      $min_arret=$this->Model->getRequeteOne('SELECT MIN(id) as minimum FROM `tracking_data` WHERE 1 '.$critere.' and tracking_data.device_uid='.$key['CODE']);
-      $max_arret=$this->Model->getRequeteOne('SELECT MAX(id) as maximum FROM `tracking_data` WHERE 1 '.$critere.' and tracking_data.device_uid='.$key['CODE']);
-      
+      $min_arret=$this->Model->getRequeteOne('SELECT MIN(id) as minimum FROM `tracking_data` WHERE 1 and tracking_data.device_uid='.$key['CODE']);
+      $max_arret=$this->Model->getRequeteOne('SELECT MAX(id) as maximum FROM `tracking_data` WHERE 1 and tracking_data.device_uid='.$key['CODE']);
+      $tab_id=$this->Model->getRequete('SELECT id from tracking_data where tracking_data.device_uid='.$key['CODE']);
+
+      $u=0;
+       foreach ($tab_id as $keytab_id) {
+        $tableau_id[]=[$keytab_id['id']];
+        $u++;
             
+            }     
       $min_arret_plus=$min_arret['minimum']+1;
+        // print_r($tableau_id);die();
+
       // $min_arret_plus=$this->Model->getRequeteOne('select id as arret_min_deux from tracking_data where id = (SELECT MIN(id) FROM tracking_data WHERE id NOT IN (SELECT MIN(id) FROM tracking_data)) and tracking_data.device_uid='.$key['CODE']);
       // if(!empty($min_arret) && !empty($min_arret_plus) && !empty($max_arret))
       // {
+        // for ($i=$min_arret['minimum'],$j=$min_arret_plus['arret_min_deux']; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++)
+      foreach ($tableau_id as $keytableau_id) 
+      {
 
-
-          for ($i=$min_arret['minimum'],$j=$min_arret_plus; $i <$max_arret['maximum'],$j <$max_arret['maximum'] ; $i++,$j++)
+            for ($i=$min_arret,$j=$keytableau_id[1]; $i <$u,$j <$u ; $i++,$j++)
         { 
         $point_distance=$this->Model->getRequeteOne('SELECT latitude,longitude FROM `tracking_data` WHERE 1 AND tracking_data.id = "'.$i.'"');
         $point_distance2=$this->Model->getRequeteOne('SELECT latitude,longitude FROM `tracking_data` WHERE 1 AND tracking_data.id = "'.$j.'"');
@@ -638,27 +690,32 @@ class Dashboard_Anomalies extends CI_Controller
           $nvldistance+=0;
         } 
       }
-      $nvldistance_arrondie=round($nvldistance);
-      }
-     //print_r($nvldistance_arrondie);exit();
+           $nvldistance_arrondie[]=round($nvldistance);
+    }
+       
+   
+  
+     
+ 
+     
+    }
+     print_r($nvldistance_arrondie);exit();
 
     $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1  GROUP BY ID,NAME');
     $donnees10="";
-    $donnees101="";
     foreach ($vehicule_consomation as  $value) 
     {
        $littre_consom=$value['NBR']*$nvldistance_arrondie;
-       $km=$nvldistance_arrondie;
       $color=$this->getcolor();
       $nb10 = (!empty($littre_consom)) ? $littre_consom : "0" ;
-      $donnees10.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb10.",color:'green',key2:".$value['ID']."},";
-      $donnees101.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$km.",color:'bleu',key2:".$value['ID']."},"; 
+      $donnees10.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb10.",color:'".$color."',key2:".$value['ID']."},"; 
       
     }
-     //print_r($donnees101);exit();
+    // print_r($nb10);exit();
 
+   
 
-
+   
    
 
     $rapp10="<script type=\"text/javascript\">
@@ -670,7 +727,7 @@ class Dashboard_Anomalies extends CI_Controller
       },
      title:
      {
-      text: 'Km parcouru Vs consommation par Véhicule'
+      text: 'Consommation par Véhicule'
      },
      subtitle:
      {
@@ -771,7 +828,7 @@ class Dashboard_Anomalies extends CI_Controller
       enabled: true,
      format: '{point.y:f}'
      },
-     showInLegend: true
+     showInLegend: false
     }
     }, 
     credits: 
@@ -783,13 +840,8 @@ class Dashboard_Anomalies extends CI_Controller
 
     series: [
     {
-     name:'Consomation en litre',
-     color:'green',
+     name:'',
      data:[".$donnees10."]
-    },{
-     name:'Km parcouru',
-     color:'bleu',
-     data:[".$donnees101."]
     }]
     });
    </script>";
@@ -799,8 +851,7 @@ class Dashboard_Anomalies extends CI_Controller
     foreach ($vehi_code_course as  $value) 
     {
 
-    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(mouvement) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE="'.$value['CODE_COURSE'].'" GROUP BY IDENTIIANT,NAME');
-
+    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(mouvement) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE="'.$value['CODE_COURSE'].'" GROUP BY IDENTIIANT,NAME'); 
     }
     //print_r($vehicule_consomation);exit();
 
@@ -943,7 +994,7 @@ class Dashboard_Anomalies extends CI_Controller
     });
    </script>";
    //rapport nbr course par voiture
-   $course_voiture=$this->Model->getRequete('SELECT DISTINCT vehicule.CODE as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(DISTINCT `CODE_COURSE`) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' GROUP BY IDENTIIANT,NAME'); 
+   $course_voiture=$this->Model->getRequete('SELECT DISTINCT vehicule.CODE as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(DISTINCT `CODE_COURSE`) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 GROUP BY IDENTIIANT,NAME'); 
    
     //print_r($vehicule_consomation);exit();
 
@@ -1104,77 +1155,5 @@ class Dashboard_Anomalies extends CI_Controller
               );
               return $bindparams;
             }
-
-               //detail di rapport nbr course par voiture
-
-  function detail_course_voiture()
-  {
-    $KEY12=$this->input->post('key12');
-    $break=explode(".",$KEY12);
-    $ID=$KEY12;
-    $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-    // $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,CODE_COURSE,date,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur,CODE_COURSE FROM`vehicule` LEFT JOIN tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
-       // $query_principal='SELECT  vehicule.CODE ,vehicule.PLAQUE,  `CODE_COURSE` as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 ';
-   $query_principal='SELECT  vehicule.CODE ,vehicule.PLAQUE,  `CODE_COURSE`,DESC_MARQUE,DESC_MODELE,PLAQUE,CODE_COURSE,date,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM `vehicule` LEFT  join tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1
-    ';
-    
-
-    $limit='LIMIT 0,10';
-    if($_POST['length'] != -1)
-    {
-      $limit='LIMIT '.$_POST["start"].','.$_POST["length"];
-    }
-
-    $order_by='';
-    if($_POST['order']['0']['column']!=0)
-    {
-      $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column'] .'  '.$_POST['order']['0']['dir'] : ' ORDER BY IDENTIIANT   DESC';
-    }
-    $search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
-     $critaire="";
-  
-    $critaire=" AND tracking_data.device_uid='".$ID."'";
-
-    $GROUPby='';
-    
-      $GROUPby ='GROUP BY CODE_COURSE  ';
-    
-
-
-    
-   
-    $query_secondaire=$query_principal.'  '.$critaire.' '.$search.' '.$GROUPby.' '.$order_by.'   '.$limit;
-    $query_filter=$query_principal.'  '.$critaire.' '.$search;
-    $fetch_data = $this->Model->datatable($query_secondaire);
-    $u=0;
-    $data = array();
-    foreach ($fetch_data as $row)
-    {
-      $u++;
-      $intrant=array();
-      $intrant[] ="<strong class='text-dark'/>".$u; 
-      $intrant[] ="<strong class='text-dark'/>".$row->CODE;
-      $intrant[] ="<strong class='text-dark'/>".$row->CODE_COURSE;
-      $intrant[] ="<strong class='text-dark'/>".$row->date;
-      $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
-      $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
-      $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
-      $intrant[] ="<strong class='text-dark'/>".$row->COULEUR;
-      $intrant[] ="<strong class='text-dark'/>".$row->KILOMETRAGE;
-      $intrant[] ="<strong class='text-dark'/>".$row->desc_proprio;
-      $intrant[] ="<strong class='text-dark'/>".$row->desc_chauffeur;
-    
-
-      $data[] = $intrant;
-    }
-
-    $output = array(
-      "draw" => intval($_POST['draw']),
-      "recordsTotal" =>$this->Model->all_data($query_principal),
-      "recordsFiltered" => $this->Model->filtrer($query_filter),
-      "data" => $data
-    );
-    echo json_encode($output);
-  }
    }
  ?>
