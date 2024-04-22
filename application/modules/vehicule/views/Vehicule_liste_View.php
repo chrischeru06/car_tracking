@@ -71,6 +71,16 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+#sou_menu{
+      color: black;
+      border-radius: 5px;
+    }
+
+#sou_menu:hover{
+      color: blue;
+      border-radius: 5px;
+    }
 </style>
 
 <head>
@@ -133,10 +143,10 @@ input:checked + .slider:before {
       <br>
       <div class="row">
 
-        <div class="col-md-6">
+        <div class="col-md-5">
           <label class="text-dark" style="font-weight: 1000; color:#454545">Filtrage selon la validité des documents</label>
           <select class="form-control" id="CHECK_VALIDE" name="CHECK_VALIDE" onchange="listing();get_nbr_vehicule();">
-            <option value="0"> Tous les véhicules</option>
+            <option value="0"> Sélectionner</option>
             <option value="1"> Véhicules avec assurances valides </option>
             <option value="2"> Véhicules avec assurances invalides </option>
             <option value="3"> Véhicules avec contrôles techniques valides </option>
@@ -144,9 +154,9 @@ input:checked + .slider:before {
             
           </select>
 
-          <label class="fa fa-check text-success" id="check" style="position: relative;top: -33%;left: 90%;"></label>
+          <label class="fa fa-check text-success" id="check" style="position: relative;top: -33%;left: 93%;"></label>
 
-          <label class="fa fa-ban text-danger" id="close" style="position: relative;top: -33%;left: 90%;"></label>
+          <label class="fa fa-ban text-danger" id="close" style="position: relative;top: -33%;left: 93%;"></label>
 
         </div>
 
@@ -189,7 +199,7 @@ input:checked + .slider:before {
                       <!-- <th class="">TRAITEMENT&nbsp;DEMANDE</th> -->
                       <th class="">STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                       <th class="">ASSURANCE</th>
-                      <th class="">CONTROLE&nbsp;TECHNIQUE</th>
+                      <th class="">C&nbsp;T</th>
                       <th class="">ACTION</th>
                     </tr>
                   </thead>

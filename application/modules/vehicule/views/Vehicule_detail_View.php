@@ -26,9 +26,9 @@
       text-align: center;
       font-weight:bold;
     }
-    table td{
+    /*table td{
       text-align: center;
-    }
+    }*/
     #tracking{
       font-size: 25px;
       color: gray;
@@ -61,8 +61,8 @@
 
     .custom-marker-icon {
       border:solid 2px;
-     border-radius: 50%;
-     background-color: rgba(95, 158, 160,0.3);
+      border-radius: 50%;
+      background-color: rgba(95, 158, 160,0.3);
 
     }
 
@@ -88,11 +88,30 @@
     }
 
     #eye{
-    color: black;
-  }
-  #eye:hover {
-    color: blue;
-  }
+      color: black;
+    }
+    #eye:hover {
+      color: blue;
+    }
+
+    #image-container{
+      position: relative;
+      left:10px;
+      width: 770px; 
+      height: 700px;
+      overflow: hidden;
+    }
+
+    #phot_v {
+      position: relative;
+      cursor: grab;
+      transition: transform 0.2s;
+      border-radius: 10px;
+
+      width: 105%;
+      height: 100%;
+      margin-left: -12px;
+    }
 
   </style>
 
@@ -151,7 +170,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
-                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px; margin-top:10px;" class="zoomable-image"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>
+                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px; margin-top:10px;margin-left: -50px;" class="zoomable-image"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>
                   
                 </div> 
                 <div class="col-md-3">
@@ -223,139 +242,144 @@
                     </td>
 
                     <td >
-                       <i class="text-muted small pt-2 ps-1 fa fa-bookmark-o"></i><font class="text-muted small pt-2 ps-1">Marque</font><br>
-                       <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['DESC_MARQUE']?></label>
-                    </td>
+                     <i class="text-muted small pt-2 ps-1 fa fa-bookmark-o"></i><font class="text-muted small pt-2 ps-1">Marque</font><br>
+                     <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['DESC_MARQUE']?></label>
+                   </td>
 
-                    <td >
-                      <i class="text-muted small pt-2 ps-1 fa fa-bolt"></i><font class="text-muted small pt-2 ps-1">Modèle</font><br>
-                      <label class="text-muted small pt-2 dash_v"><?= $infos_vehicule['DESC_MODELE']?></label>
-                    </td>
+                   <td >
+                    <i class="text-muted small pt-2 ps-1 fa fa-bolt"></i><font class="text-muted small pt-2 ps-1">Modèle</font><br>
+                    <label class="text-muted small pt-2 dash_v"><?= $infos_vehicule['DESC_MODELE']?></label>
+                  </td>
 
-                    <td >
-                      <i class="text-muted small pt-2 ps-1 fa fa-circle"></i><font class="text-muted small pt-2 ps-1">Couleur</font><br>
-                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['COULEUR']?></label>
-                    </td>
+                  <td >
+                    <i class="text-muted small pt-2 ps-1 fa fa-circle"></i><font class="text-muted small pt-2 ps-1">Couleur</font><br>
+                    <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['COULEUR']?></label>
+                  </td>
 
-                    <td >
-                      <i class="text-muted small pt-2 ps-1 fa fa-beer"> </i><font class="text-muted small pt-2 ps-1">Consommation</font><br>
-                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['KILOMETRAGE']?> Litres / km</label>
-                    </td>
+                  <td >
+                    <i class="text-muted small pt-2 ps-1 fa fa-beer"> </i><font class="text-muted small pt-2 ps-1">Consommation</font><br>
+                    <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['KILOMETRAGE']?> Litres / km</label>
+                  </td>
 
-                  </tr>
+                </tr>
 
-                  <tr>
-                    <td >
-                      <font>
-                        <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['photo_pro'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                <tr>
+                  <td >
+                    <font>
+                      <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['photo_pro'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
                       <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Propriétaire</font><br>
-                      </font>
-                      <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
+                    </font>
+                    <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
                       <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['proprio_desc']?></font></a>
                     </td>
 
                     <td >
+                      <?php if(!empty($infos_vehicule['CHAUFFEUR_ID'] && $infos_vehicule['STATUT_AFFECT'] == 1))
+                      {
+                        ?>
                       <font>
-                      <img src="<?= isset($infos_vehicule['photo_chauf'])?base_url('/upload/chauffeur/'.$infos_vehicule['photo_chauf']):base_url('/upload/iconecartracking-02.png')?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
-                      <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Chauffeur</font><br>
+                        <img src="<?= isset($infos_vehicule['photo_chauf'])?base_url('/upload/chauffeur/'.$infos_vehicule['photo_chauf']):base_url('/upload/iconecartracking-02.png')?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                        <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Chauffeur</font><br>
                       </font>
                       
-                      <?php if(!empty($infos_vehicule['CHAUFFEUR_ID']))
-                      {
-                        ?>
+                      
                         <a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/<?=md5($infos_vehicule['CHAUFFEUR_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
-                      <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['chauffeur_desc']?></font></a>
+                          <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['chauffeur_desc']?></font></a>
+                          <?php
+                        }
+                        else
+                        {
+                          ?>
+                          <font>
+                        <img src="<?= base_url('/upload/iconecartracking-02.png')?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                        <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Chauffeur</font><br>
+                      </font>
+                          <font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
+                          <?php
+                        }
+                        ?>
+
+                      </td>
+
+                      <td >
+
+                        <?php 
+                        if($infos_vehicule['STATUT_VEH_AJOUT'] == 1)
+                        {
+                          ?>
+                          <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
+                          <label class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin"></label><font class="text-warning small pt-2 ps-1">demande en attente</font>
+
+                          <?php
+                        }
+                        else if($infos_vehicule['STATUT_VEH_AJOUT'] == 2)
+                        {
+                          ?>
+                          <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
+                          <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Vécule activé</font>
+
+                          <?php
+                        }
+                        else if($infos_vehicule['STATUT_VEH_AJOUT'] == 3)
+                        {
+                          ?>
+                          <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
+                          <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">demande refusé</font>
+
+                          <?php
+                        }
+                        else if($infos_vehicule['STATUT_VEH_AJOUT'] == 4)
+                        {
+                          ?>
+                          <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
+                          <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Vécule désactivé</font>
+
+                          <?php
+                        }
+                        ?> 
+                      </td>
+
+                      <td >
+
                         <?php
-                      }
-                      else
-                      {
-                        ?>
-                        <font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
-                        <?php
-                      }
-                      ?>
-                    
-                    </td>
 
-                    <td >
-                      
-                      <?php 
-                      if($infos_vehicule['STATUT_VEH_AJOUT'] == 1)
-                      {
-                        ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin"></label><font class="text-warning small pt-2 ps-1">demande en attente</font>
-                      
-                          <?php
-                      }
-                      else if($infos_vehicule['STATUT_VEH_AJOUT'] == 2)
-                      {
-                        ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Vécule activé</font>
-                      
-                          <?php
-                      }
-                      else if($infos_vehicule['STATUT_VEH_AJOUT'] == 3)
-                      {
-                        ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">demande refusé</font>
-                      
-                          <?php
-                      }
-                      else if($infos_vehicule['STATUT_VEH_AJOUT'] == 4)
-                      {
-                        ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Vécule désactivé</font>
-                      
-                          <?php
-                      }
-                      ?> 
-                    </td>
+                        if($infos_vehicule['DATE_FIN_ASSURANCE'] >= date('Y-m-d'))
+                        {
+                          ?>
+                          <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
+                          <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Valide</font>
 
-                    <td >
-                      
-                      <?php
-
-                      if($infos_vehicule['DATE_FIN_ASSURANCE'] >= date('Y-m-d'))
-                      {
-                        ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Valide</font>
-                      
                           <?php
-                      }
-                      else if($infos_vehicule['DATE_FIN_ASSURANCE'] < date('Y-m-d'))
-                      {
-                        ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Expirée</font>
-                      
+                        }
+                        else if($infos_vehicule['DATE_FIN_ASSURANCE'] < date('Y-m-d'))
+                        {
+                          ?>
+                          <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
+                          <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Expirée</font>
+
                           <?php
-                      }
-                      ?> 
-                    </td>
+                        }
+                        ?> 
+                      </td>
 
-                    <td>
+                      <td>
 
-                     <?php 
-                      if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] >= date('Y-m-d'))
-                      {
+                       <?php 
+                       if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] >= date('Y-m-d'))
+                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
                         <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Valide</font>
-                      
-                          <?php
+
+                        <?php
                       }
                       else if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] < date('Y-m-d'))
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
                         <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Expirée</font>
-                      
-                          <?php
+
+                        <?php
                       }
                       ?> 
                     </td>
@@ -369,20 +393,20 @@
 
               <hr>
 
-              <!-- <br>
+              <br>
 
               <div class="row">
 
                <div id="mapView">
-                </div>
+               </div>
 
-              </div> -->
+             </div>
 
 
-            </div>
+           </div>
 
-            <div class="tab-pane fade " id="assurance">
-              
+           <div class="tab-pane fade " id="assurance">
+
               <!-- <div class="row">
                 <div class="col-md-12">
                   <table class="table table-borderless">
@@ -430,21 +454,21 @@
                 <div class="table-responsive">
 
                   <table id="table_assurance" class="table table-hover text-dark" style="width:100%">
-                      <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
-                        <tr>
-                          <th class="text-dark">#</th>
-                          <th class="text-dark">DOCUMENT</th>
-                          <th class="text-dark">DATE&nbsp;DEBUT</th>
-                          <th class="text-dark">DATE&nbsp;FIN</th>
-                          <th class="text-dark">ASSUREUR</th>
-                          <th class="text-dark">ENREGISTRE&nbsp;PAR</th>
-                          <th class="text-dark">DATE&nbsp;D'ENREGISTREMENT</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-dark">
-                      </tbody>
-                    </table>
+                    <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
+                      <tr>
+                        <th class="text-dark">#</th>
+                        <th class="text-dark">DOCUMENT</th>
+                        <th class="text-dark">DATE&nbsp;DEBUT</th>
+                        <th class="text-dark">DATE&nbsp;FIN</th>
+                        <th class="text-dark">ASSUREUR</th>
+                        <th class="text-dark">ENREGISTRE&nbsp;PAR</th>
+                        <th class="text-dark">DATE&nbsp;D'ENREGISTREMENT</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                    </tbody>
+                  </table>
                   
                 </div>
                 
@@ -452,49 +476,115 @@
 
             </div>
 
-             <div class="tab-pane fade " id="controle_technique">
+            <div class="tab-pane fade " id="controle_technique">
 
              <div class="row">
 
-                <div class="table-responsive">
+              <div class="table-responsive">
 
-                  <table id="table_controle" class="table table-hover text-dark" style="width:100%">
-                      <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
-                        <tr>
-                          <th class="text-dark">#</th>
-                          <th class="text-dark">DOCUMENT</th>
-                          <th class="text-dark">DATE&nbsp;DEBUT</th>
-                          <th class="text-dark">DATE&nbsp;FIN</th>
-                          <th class="text-dark">ENREGISTRE&nbsp;PAR</th>
-                          <th class="text-dark">DATE&nbsp;D'ENREGISTREMENT</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-dark">
-                      </tbody>
-                    </table>
-                  
-                </div>
-                
+                <table id="table_controle" class="table table-hover text-dark" style="width:100%">
+                  <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
+                    <tr>
+                      <th class="text-dark">#</th>
+                      <th class="text-dark">DOCUMENT</th>
+                      <th class="text-dark">DATE&nbsp;DEBUT</th>
+                      <th class="text-dark">DATE&nbsp;FIN</th>
+                      <th class="text-dark">ENREGISTRE&nbsp;PAR</th>
+                      <th class="text-dark">DATE&nbsp;D'ENREGISTREMENT</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-dark">
+                  </tbody>
+                </table>
+
               </div>
-
-
 
             </div>
 
+
+
           </div>
-          <!-- end tab content -->
 
         </div>
-
-        <!-- </div> -->
+        <!-- end tab content -->
 
       </div>
+
+      <!-- </div> -->
+
     </div>
   </div>
 </div>
+</div>
 <!-- </div> -->
 </section>
+
+
+
+<!-- Modal photo du vehicule-->
+
+      <div class="modal fade" id="Modal_photo_vehicule">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header" style='background:cadetblue;color:white;'>
+              <h6 class="modal-title"></h6>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+            </div>
+            <div class="modal-body">
+
+              <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
+
+                <div class="col-md-4">
+
+                </div>
+
+                <div class="col-md-1">
+                  <i onclick="zoomIn()" class="fa fa-plus-circle text-muted"></i>
+
+                  <input type="hidden" id="rotation" value="0">
+                </div>
+
+                <div class="col-md-1">
+                  <i onclick="zoomOut()" class="fa fa-minus-circle text-muted"></i>
+                </div>
+
+                <!-- <div class="col-md-1">
+                  <i onclick="moveX(-1)" class="fa fa-arrow-circle-left text-muted"></i>
+                </div>
+
+                <div class="col-md-1">
+                  <i onclick="moveX(1)" class="fa fa-arrow-circle-right text-muted"></i>
+                </div>
+
+                <div class="col-md-1">
+                  <i onclick="moveY(-1)" class="fa fa-arrow-circle-up text-muted"></i>
+                </div>
+
+                <div class="col-md-1">
+                  <i onclick="moveY(1)" class="fa fa-arrow-circle-down text-muted"></i>
+                </div> -->
+
+                <div class="col-md-1">
+                  <i onclick="rotate_op()" class="fa fa-rotate-right text-muted"></i>
+                </div>
+
+
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-12" id="image-container">
+                  <img src="" id="phot_v" alt="Description de l'image">
+                </div>
+
+              </div>
+
+            </div>
+            <!-- footer here -->
+          </div>
+        </div>
+      </div>
 
 </main><!-- End #main -->
 
@@ -656,6 +746,153 @@
 
   }
 </script>
+
+
+<script>
+  function show_image(VEHICULE_ID)
+  {
+    var imgElement = document.getElementById("phot_v");
+
+    $.ajax({
+      url: "<?= base_url() ?>centre_situation/Centre_situation/get_image_v/" + VEHICULE_ID,
+      type: "POST",
+      dataType: "JSON",
+      success: function(data) {
+
+        $('#Modal_photo_vehicule').modal('show');
+
+                  //$('#phot_v').html(data.photo);
+
+        imgElement.src = data.photo;
+      },
+    });
+
+              //phot_v
+  }
+</script>
+
+
+ <script>
+             //Operations photo avec les boutons
+
+        var scale = 1; // Facteur de zoom initial
+        var translateX = 0; // Décalage horizontal initial
+        var translateY = 0; // Décalage vertical initial
+
+        var photo = document.getElementById('phot_v');
+
+        // Fonction pour zoomer la photo
+        function zoomIn() {
+          scale += 0.1;
+          updateTransform();
+
+        }
+
+        // Fonction pour dézoomer la photo
+        function zoomOut() {
+          scale -= 0.1;
+          updateTransform();
+        }
+
+        // Fonction pour déplacer la photo horizontalement
+        function moveX(direction) {
+          translateX += direction * 50; // Changer la valeur de décalage
+          updateTransform();
+      }
+
+        // Fonction pour déplacer la photo verticalement
+      function moveY(direction) {
+          translateY += direction * 50; // Changer la valeur de décalage
+          updateTransform();
+      }
+
+        // Fonction pour mettre à jour la transformation CSS de la photo
+      function updateTransform() {
+        photo.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+      }
+
+      //Rotation de l'image
+
+      function rotate_op()
+      {
+        const image = document.getElementById('phot_v');
+      // const rotateBtn = document.getElementById('rotate-btn');
+        let rotation = Number($('#rotation').val());
+
+      //rotateBtn.addEventListener('click', () => {
+        rotation += 90;
+        image.style.transform = `rotate(${rotation}deg)`;
+        $('#rotation').val(rotation)
+      //});
+      }
+
+
+    </script>
+
+
+    <script>
+             //Operations photo avec la sourie
+
+      let container = document.getElementById('image-container');
+      let image = document.getElementById('phot_v');
+      let lastX, lastY;
+      let isDragging = false;
+      let rotationAngle = 0;
+
+    // Zoomer/dézoomer sur double clic
+      document.getElementById('phot_v').addEventListener('dblclick', function() {
+            if (this.style.transform === "scale(2)") {
+                this.style.transform = "scale(1)";
+            } else {
+                this.style.transform = "scale(2)";
+            }
+        });
+    // Déplacer en maintenant le clic gauche
+      image.addEventListener('mousedown', function(event) {
+        if (event.button === 0) {
+          isDragging = true;
+          lastX = event.clientX;
+          lastY = event.clientY;
+          image.style.cursor = 'grabbing';
+        }
+      });
+
+      document.addEventListener('mousemove', function(event) {
+        if (isDragging) {
+          let deltaX = event.clientX - lastX;
+          let deltaY = event.clientY - lastY;
+          let newX = image.offsetLeft + deltaX;
+          let newY = image.offsetTop + deltaY;
+          image.style.left = newX + 'px';
+          image.style.top = newY + 'px';
+          lastX = event.clientX;
+          lastY = event.clientY;
+        }
+      });
+
+      document.addEventListener('mouseup', function(event) {
+        if (event.button === 0) {
+          isDragging = false;
+          image.style.cursor = 'grab';
+        }
+      });
+
+    // Pivoter avec la molette de la souris
+      document.addEventListener('wheel', function(event) {
+        if (event.deltaY < 0) {
+          rotationAngle += 10;
+        } else {
+          rotationAngle -= 10;
+        }
+        image.style.transform = `rotate(${rotationAngle}deg)`;
+      });
+
+
+             // Fonction pour mettre à jour la transformation CSS de la photo
+      function updateTransform() {
+        photo.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+      }
+    </script>
 
 
 </html>

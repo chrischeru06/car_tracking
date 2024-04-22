@@ -201,7 +201,7 @@
 			{
 				foreach ($get_vihicule as $key) {
 
-					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident FROM tracking_data RIGHT JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE  JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" '.$critere_vehicule_track.' ORDER BY id DESC LIMIT 1');
+					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident FROM tracking_data RIGHT JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE  JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 AND chauffeur_vehicule.STATUT_AFFECT=1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" '.$critere_vehicule_track.' ORDER BY id DESC LIMIT 1');
 
 					// Nbr véhicules enregistrés
 					$nbrVehicule += 1;
@@ -705,15 +705,15 @@
 				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
 				if($row->vehicule_is_active == 1){
-					$sub_array[]='<td><label class="text-warning"><i class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin"></i>demande&nbsp;en&nbsp;attente</label></td>';
+					$sub_array[]='<td><label class="text-warning"><i class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin" title="demande en attente"></i></label></td>';
 				}else if($row->vehicule_is_active == 2){
-					$sub_array[]='<td><label class="text-success"><i class="text-success small pt-2 ps-1 dash_v fa fa-check"></i>Vécule&nbsp;activé</label></td>';
+					$sub_array[]='<td><label class="text-success"><i class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Vécule activé"></i></label></td>';
 				}
 				else if($row->vehicule_is_active == 3){
-					$sub_array[]='<td><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-close"></i>demande&nbsp;refusé</label></td>';
+					$sub_array[]='<td><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-ban" title="demande refusé"></i></label></td>';
 				}
 				else if($row->vehicule_is_active == 4){
-					$sub_array[]='<td><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-close"></i>Vécule&nbsp;désactivé</label></td>';
+					$sub_array[]='<td><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Vécule désactivé"></i></label></td>';
 				}
 
 				$option = ' ';

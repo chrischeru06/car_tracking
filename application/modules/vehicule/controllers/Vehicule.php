@@ -137,9 +137,9 @@
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 
 					<table>
-					<td><label class="text-primary small">Activé</label></td>
-					<td><label class="switch"> 
-					<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked>
+					<td title=""><label class="text-primary small fa fa-check" title="Activé"></label></td>
+					<td title="Désactiver"><label class="switch"> 
+					<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked >
 					<span class="slider round"></span>
 					</label></td>
 					</table>
@@ -151,18 +151,18 @@
 					';
 				}elseif ($row->STATUT_VEH_AJOUT==1) 
 				{
-					$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size:14px;color: orange;"></i><font style="font-size:14px;color: orange;"> Véhicule en attente</font><span class="badge badge-pill badge-warning" ></span>';
+					$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title="Véhicule en attente"></i>';
 
 				}elseif ($row->STATUT_VEH_AJOUT==3) 
 				{
-					$sub_array[]='<i class="fa fa-close text-danger  small"></i></i><font style="font-size:14px;" class="text-danger"> Véhicule refusé</font>';
+					$sub_array[]='<i class="fa fa-ban text-danger  small" title="Véhicule refusé"></i></i><font style="font-size:14px;" class="text-danger" title="Véhicule refusé"> </font>';
 				}elseif($row->STATUT_VEH_AJOUT==4){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 					<table>
-					<td><label class="text-danger small" >Désactivé</label></td>
-					<td><label class="switch"> 
+					<td title="Désactivé"><label class="text-danger small fa fa-close" title="Désactivé"></label></td>
+					<td title="Activer"><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_active(' . $row->VEHICULE_ID . ')">
 					<span class="slider round"></span>
 					</label></td>
@@ -217,34 +217,34 @@
 
 				if($row->DATE_FIN_ASSURANCE >= date('Y-m-d'))
 				{
-					$sub_array[] = '<i class="fa fa-check text-success small"></i><font class="text-success small"> Valide</font>';
+					$sub_array[] = '<i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font>';
 				}
 				else
 				{
-					$sub_array[] = '<i class="fa fa-close text-danger  small"></i><font class="text-danger small"> Expirée</font>';
+					$sub_array[] = '<i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font>';
 
-					$option.='<li style="margin:0px;cursor:pointer;margin-top:-30px;margin-bottom:-30px"><a class="btn-md" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</a></td></tr></table></li>';
+					$option.='<li style="margin:0px;cursor:pointer;margin-top:-30px;margin-bottom:-30px"><a class="btn-md" id="sou_menu" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</a></td></tr></table></li>';
 				}
 				
 				if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
 				{
-					$sub_array[] = '<i class="fa fa-check text-success small"></i><font class="text-success small"> Valide</font>';
+					$sub_array[] = '<i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font>';
 				}
 				else
 				{
-					$sub_array[] = '<i class="fa fa-close text-danger small"></i><font class="text-danger small"> Expirée</font>';
+					$sub_array[] = '<i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font>';
 
-					$option.='<li style="margin:0px;cursor:pointer;margin-top:-40px;margin-bottom:-30px;"><a class="btn-md" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</a></td></tr></table></li>';
+					$option.='<li style="margin:0px;cursor:pointer;margin-top:-40px;margin-bottom:-30px;"><a class="btn-md" id="sou_menu" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</a></td></tr></table></li>';
 				}
 
 				
 				if ($row->STATUT_VEH_AJOUT==1 || $row->STATUT_VEH_AJOUT==2)
 				{
-					$option .= "<li><a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><i class='fa fa-edit'></i>&nbsp;&nbsp;Modifier</a></li>";
+					$option .= "<li><a class='btn-md' id='sou_menu' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><i class='fa fa-edit'></i>&nbsp;&nbsp;Modifier</a></li>";
 					
 				}
 				if($row->STATUT_VEH_AJOUT==1 && $PROFIL_ID==1){
-					$option .= "<li><a class='btn-md' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><i class='fa fa-cog'></i>&nbsp;&nbsp;Traiter</a></li>";
+					$option .= "<li><a class='btn-md' id='sou_menu' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><i class='fa fa-cog'></i>&nbsp;&nbsp;Traiter</a></li>";
 
 				}
 
@@ -990,9 +990,7 @@
 
 		function get_detail_vehicule($VEHICULE_ID = '')
 		{
-			$infos_vehicule = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.STATUT_VEH_AJOUT,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,FILE_ASSURANCE,FILE_CONTRO_TECHNIQUE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,chauffeur.CHAUFFEUR_ID,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident FROM vehicule LEFT JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid LEFT JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE LEFT JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1  AND VEHICULE_ID = "'.$VEHICULE_ID.'" ORDER BY id DESC LIMIT 1');
-
-			// print_r($infos_vehicule);die();
+			$infos_vehicule = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.STATUT_VEH_AJOUT,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,FILE_ASSURANCE,FILE_CONTRO_TECHNIQUE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,chauffeur.CHAUFFEUR_ID,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident,chauffeur_vehicule.STATUT_AFFECT FROM vehicule LEFT JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid LEFT JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE LEFT JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE RIGHT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 AND VEHICULE_ID = "'.$VEHICULE_ID.'" ORDER BY chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID DESC LIMIT 1');
 			
 			$data['infos_vehicule'] = $infos_vehicule;
 
