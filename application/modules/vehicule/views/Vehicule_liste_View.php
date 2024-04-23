@@ -72,13 +72,8 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-#sou_menu{
-      color: black;
-      border-radius: 5px;
-    }
-
-#sou_menu:hover{
-      color: blue;
+.btn-md:hover{
+      background-color: rgba(95, 158, 160,0.3);
       border-radius: 5px;
     }
 </style>
@@ -197,7 +192,7 @@ input:checked + .slider:before {
                       <!-- <th class="">CONSOMMATION</th> -->
                       <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
                       <!-- <th class="">TRAITEMENT&nbsp;DEMANDE</th> -->
-                      <th class="">STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th class="">STATUT&nbsp;&nbsp;</th>
                       <th class="">ASSURANCE</th>
                       <th class="">C&nbsp;T</th>
                       <th class="">ACTION</th>
