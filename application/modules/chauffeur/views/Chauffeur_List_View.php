@@ -5,14 +5,24 @@
   <?php include VIEWPATH . 'includes/header.php'; ?>
   <style type="text/css">
 
+    .btn-md:hover{
+      background-color: rgba(210, 232, 249,100);
+      border-radius: 5px;
+    }
+  .dashboard .table-responsive .dropdown .dropdown-menu  li {
+   margin: 1rem 0; 
+   padding: 10px 0 10px 40px;
+}
+
+
 
     /* The switch - the box around the slider */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 20px;
-  }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 30px;
+      height: 20px;
+    }
 
 /* Hide default HTML checkbox */
 .switch input {
@@ -21,10 +31,10 @@
   height: 0;
 }
 .scroller {
-      height: 400px;
-      overflow-y: scroll;
-      border-radius: 10px;
-    }
+  height: 400px;
+  overflow-y: scroll;
+  border-radius: 10px;
+}
 
 /* The slider */
 .slider {
@@ -90,9 +100,9 @@ input:checked + .slider:before {
 
   <main id="main" class="main">
    <div class="row page-titles mx-0">
-      <div class="col-sm-10 p-md-0">
-        <div class="welcome-text">
-          <center>
+    <div class="col-sm-10 p-md-0">
+      <div class="welcome-text">
+        <center>
          <table>
           <tr>
 
@@ -100,40 +110,40 @@ input:checked + .slider:before {
               <h4 class="text-dark text-center" style="margin-bottom: 1px;">Liste des chauffeurs</h4>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-               
+
                 </ol>
               </nav>
             </td>
           </tr>
         </table>
-        </center>
-      </div>
-    </div>
-    <div class="col-md-2">
-
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
-
+      </center>
     </div>
   </div>
+  <div class="col-md-2">
+
+    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+
+  </div>
+</div>
 
 
-  <!-- End Page Title -->
-  
+<!-- End Page Title -->
 
-  <!--******** Debut Modal pour modifier l'affectation du chauffeur a une voiture *********-->
-  <div class="modal fade" id="modifvoitureModal" tabindex="-1" >
+
+<!--******** Debut Modal pour modifier l'affectation du chauffeur a une voiture *********-->
+<div class="modal fade" id="modifvoitureModal" tabindex="-1" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-        <div class='modal-header' style='background:cadetblue;color:white;'>      
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
         <h5 class="modal-title">Modifier l'affectation du chauffeur </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
        <form id="modf_affect_form" enctype="multipart/form-data" action="#" method="post">
-            <div class="modal-body mb-1">
-              <div class="row">
-               <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
-                <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
+        <div class="modal-body mb-1">
+          <div class="row">
+           <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
+           <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
 
                <!--  <div class="col-md-6">
                   <label for="description" class="text-dark">Zone d'affectation</label>
@@ -159,10 +169,10 @@ input:checked + .slider:before {
               <input type="button" class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Modifier" onclick="save_modif_chauffeur();" />
             </div>
           </form>
-       </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
   <!--******** Fin Modal pour modifier l'affectation du chauffeur a une voiture  ***********-->
 
 
@@ -170,79 +180,79 @@ input:checked + .slider:before {
   <div class="modal fade" id="retirvoiture" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel3" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
-     
-        
-            <div class="modal-body mb-1">
-             <center><h5><strong style='color:black'>Veuillez d'abord lui retirer la voiture </strong> <br><b style='background-color:prink;color:green;'> </b></h5></center>
-            </div>
-            <div class="modal-footer">
-              <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
+
+
+        <div class="modal-body mb-1">
+         <center><h5><strong style='color:black'>Veuillez d'abord lui retirer la voiture </strong> <br><b style='background-color:prink;color:green;'> </b></h5></center>
+       </div>
+       <div class="modal-footer">
+        <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
 
         
-        </div>
       </div>
     </div>
   </div>
-  <!-- fin modal pour retirer la voiture -->
-
-  
-
-        <section class="section dashboard">
-          <div class="row">
-
-            <!-- Left side columns -->
-            <div class="col-lg-12">
-              <div class="row">
-
-
-                <!-- Reports -->
-                <div class="col-12">
-                  <div class="card">
-
-
-                    <div class="card-body">
-
-                      <div class="table-responsive" style="padding-top: 60px;">
-                        <table id="mytable" class="table table-hover" >
-                         <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
-                          <tr>
-
-                            <th class="text-dark">#</th>
-                            <th class="text-dark">CHAUFFEUR</th>
-                            <th class="text-dark">TELEPHONE</th>
-                            <th class="text-dark">EMAIL</th>
-                            <th class="text-dark">STATUT</th>
-                            <th class="text-dark">OPTIONS</th>
-                          </tr>
-                        </thead>
-                        <tbody class="text-dark">
-                        </tbody>
-                      </table>
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
+</div>
+<!-- fin modal pour retirer la voiture -->
 
 
 
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-12">
+      <div class="row">
+
+
+        <!-- Reports -->
+        <div class="col-12">
+          <div class="card">
+
+
+            <div class="card-body">
+
+              <div class="table-responsive" style="padding-top: 60px;">
+                <table id="mytable" class="table table-hover" >
+                 <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                  <tr>
+
+                    <th class="text-dark">#</th>
+                    <th class="text-dark">CHAUFFEUR</th>
+                    <th class="text-dark">TELEPHONE</th>
+                    <th class="text-dark">EMAIL</th>
+                    <th class="text-dark">STATUT</th>
+                    <th class="text-dark">OPTIONS</th>
+                  </tr>
+                </thead>
+                <tbody class="text-dark">
+                </tbody>
+              </table>
             </div>
+
           </div>
 
-
-
         </div>
-      </section>
-
-    </main><!-- End #main -->
-
-    <?php include VIEWPATH . 'includes/footer.php'; ?>
-
-  </body>
+      </div>
 
 
-  <script>
+
+    </div>
+  </div>
+
+
+
+</div>
+</section>
+
+</main><!-- End #main -->
+
+<?php include VIEWPATH . 'includes/footer.php'; ?>
+
+</body>
+
+
+<script>
 
   // Fonction pour le chargement de donnees par defaut
   $(document).ready( function ()
@@ -259,51 +269,51 @@ input:checked + .slider:before {
     {
     // var row_count ="1000000";
 
-    $("#mytable").DataTable({
-      "processing":true,
-      "destroy" : true,
-      "serverSide":true,
-      "oreder":[[ 0, 'desc' ]],
-      "ajax":{
-        url:"<?php echo base_url('chauffeur/Chauffeur/listing');?>",
-        type:"POST", 
-      },
-      lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
-      //pageLength: 10,
-      "columnDefs":[{
-        "targets":[],
-        "orderable":false
-      }],
-
-      dom: 'Bfrtlip',
-      buttons: [
-      'pdf', 'print',
-      ],
-      language: {
-        "sProcessing":     "Traitement en cours...",
-        "sSearch":         "Rechercher&nbsp;:",
-        "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-        "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-        "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-        "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-        "sInfoPostFix":    "",
-        "sLoadingRecords": "Chargement en cours...",
-        "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-        "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
-        "oPaginate": {
-          "sFirst":      "Premier",
-          "sPrevious":   "Pr&eacute;c&eacute;dent",
-          "sNext":       "Suivant",
-          "sLast":       "Dernier"
+      $("#mytable").DataTable({
+        "processing":true,
+        "destroy" : true,
+        "serverSide":true,
+        "oreder":[[ 0, 'desc' ]],
+        "ajax":{
+          url:"<?php echo base_url('chauffeur/Chauffeur/listing');?>",
+          type:"POST", 
         },
-        "oAria": {
-          "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-          "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
-        }
-      } 
+        lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+      //pageLength: 10,
+        "columnDefs":[{
+          "targets":[],
+          "orderable":false
+        }],
 
+        dom: 'Bfrtlip',
+        buttons: [
+          'pdf', 'print',
+          ],
+        language: {
+          "sProcessing":     "Traitement en cours...",
+          "sSearch":         "Rechercher&nbsp;:",
+          "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+          "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          "sInfoPostFix":    "",
+          "sLoadingRecords": "Chargement en cours...",
+          "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+          "oPaginate": {
+            "sFirst":      "Premier",
+            "sPrevious":   "Pr&eacute;c&eacute;dent",
+            "sNext":       "Suivant",
+            "sLast":       "Dernier"
+          },
+          "oAria": {
+            "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+            "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          }
+        } 
+
+      });
     });
-  });
   }
 
 </script>
@@ -324,7 +334,7 @@ input:checked + .slider:before {
     $('#errorDATE_FIN_AFFECTATION').html('');
     $.ajax(
     {
-      
+
       url: "<?= base_url() ?>chauffeur/Chauffeur/get_all_voiture/",
 
       type: "GET",
@@ -360,16 +370,16 @@ input:checked + .slider:before {
      dataType: "JSON",
      success: function(data)
      {
-        
-        $('#DATE_DEBUT_AFFECTATION_MOD').val(data.htmldbut);
-        $('#DATE_FIN_AFFECTATION_MOD').val(data.htmlfin);
-        $('#modifvoitureModal').modal('show');
-      },
-      error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Erreur');
-      }
-    });
+
+      $('#DATE_DEBUT_AFFECTATION_MOD').val(data.htmldbut);
+      $('#DATE_FIN_AFFECTATION_MOD').val(data.htmlfin);
+      $('#modifvoitureModal').modal('show');
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+      alert('Erreur');
+    }
+  });
   }
 
   //save modification affectation chauffeur
@@ -457,34 +467,34 @@ input:checked + .slider:before {
 
   function myFunction(CHAUFFEUR_ID) {
   // Get the checkbox
-  var checkBox = document.getElementById("myCheck");
+    var checkBox = document.getElementById("myCheck");
   // Get the output text
 
-  var status=$('#status').val();
-  status=2;
-  var form_data = new FormData($("#myform_checked")[0]);
-  $.ajax(
-  {
-    url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
-    type: 'POST',
-    dataType:'JSON',
-    data: form_data ,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data)
+    var status=$('#status').val();
+    status=2;
+    var form_data = new FormData($("#myform_checked")[0]);
+    $.ajax(
     {
-      window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+      url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data)
+      {
+        window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
 
-    }
-  });
+      }
+    });
 
-}
-function myFunction_desactive(CHAUFFEUR_ID=0,STATUT_VEHICULE=0) {
+  }
+  function myFunction_desactive(CHAUFFEUR_ID=0,STATUT_VEHICULE=0) {
   // Get the checkbox
   //STATUT_VEHICULE:debut tester si le chauffeur a une voiture pour le desactiver
-  if (STATUT_VEHICULE==2) 
-  {
+    if (STATUT_VEHICULE==2) 
+    {
       var url="<?= base_url('chauffeur/Chauffeur/retirer_voiture')?>";
       $.ajax(
       {
@@ -513,65 +523,65 @@ function myFunction_desactive(CHAUFFEUR_ID=0,STATUT_VEHICULE=0) {
         }
       });
       //STATUT_VEHICULE:fin tester si le chauffeur a une voiture pour le desactiver
-  }else
-  {
-    //debut desactiver le chauffeur
-   var checkBox = document.getElementById("myCheck");
-  var status=$('#status').val();
-
-  status=1;
-
-  var form_data = new FormData($("#myform_check")[0]);
-  $.ajax(
-  {
-    url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
-
-    type: 'POST',
-    dataType:'JSON',
-    data: form_data ,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data)
+    }else
     {
-      window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
-    }
-  });
-}
+    //debut desactiver le chauffeur
+     var checkBox = document.getElementById("myCheck");
+     var status=$('#status').val();
+
+     status=1;
+
+     var form_data = new FormData($("#myform_check")[0]);
+     $.ajax(
+     {
+      url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
+
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data)
+      {
+        window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+      }
+    });
+   }
 //fin desactiver le chauffeur
 
 
-}
+ }
 
 </script>
 <script type="text/javascript">
-  
-   function get_date_fin()
-  {
-    $("#DATE_FIN_AFFECTATION").prop('min',$("#DATE_DEBUT_AFFECTATION").val());
 
-  }
+ function get_date_fin()
+ {
+  $("#DATE_FIN_AFFECTATION").prop('min',$("#DATE_DEBUT_AFFECTATION").val());
+
+}
   // DATE_DEBUT_AFFECTATION,DATE_FIN_AFFECTATION
 
-  function get_dates_deb()
-  {
-    $("#DATE_DEBUT_AFFECTATION").prop('min',$("#DATE_FIN_AFFECTATION").val());
+function get_dates_deb()
+{
+  $("#DATE_DEBUT_AFFECTATION").prop('min',$("#DATE_FIN_AFFECTATION").val());
 
-  }
+}
   ///verifier dates pour la modification de l'affectation
 
-   function get_date_fin_modif()
-  {
-    $("#DATE_FIN_AFFECTATION_MOD").prop('min',$("#DATE_DEBUT_AFFECTATION_MOD").val());
+function get_date_fin_modif()
+{
+  $("#DATE_FIN_AFFECTATION_MOD").prop('min',$("#DATE_DEBUT_AFFECTATION_MOD").val());
 
-  }
+}
 
 
-  function get_dates_deb_modif()
-  {
-    $("#DATE_DEBUT_AFFECTATION_MOD").prop('min',$("#DATE_FIN_AFFECTATION_MOD").val());
+function get_dates_deb_modif()
+{
+  $("#DATE_DEBUT_AFFECTATION_MOD").prop('min',$("#DATE_FIN_AFFECTATION_MOD").val());
 
-  }
+}
 </script>
 
 

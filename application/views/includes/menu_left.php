@@ -86,7 +86,7 @@ if ($this->session->PROFIL_ID == 1) {
             <i class="bi bi-person"></i><span> Général</span>
           </a>
         </li>
-        <li>
+        <li class="sou_menu">
           <a href="<?=base_url()?>dashboard/Dashboard_Anomalies">
             <i class="bi bi-person"></i><span>Anomalies</span>
           </a>

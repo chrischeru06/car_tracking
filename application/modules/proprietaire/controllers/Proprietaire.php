@@ -69,7 +69,7 @@ class Proprietaire extends CI_Controller
 			$data['title']="MODIFICATION D'UN proprietaire";
 
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
-			$my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT,LOGO,FILE_NIF,FILE_RC,FILE_CNI_PASSPORT,CATEGORIE_ID,COUNTRY_ID', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)="'.$PROPRIETAIRE_ID.'"', '`PROPRIETAIRE_ID` ASC');
+			$my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,proprietaire.TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT,LOGO,FILE_NIF,FILE_RC,FILE_CNI_PASSPORT,CATEGORIE_ID,COUNTRY_ID', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)="'.$PROPRIETAIRE_ID.'"', '`PROPRIETAIRE_ID` ASC');
 			$my_select_proprio=str_replace('\"', '"', $my_select_proprio);
 			$my_select_proprio=str_replace('\n', '', $my_select_proprio);
 			$my_select_proprio=str_replace('\"', '', $my_select_proprio);
@@ -671,25 +671,25 @@ class Proprietaire extends CI_Controller
 
 		$critaire = '';
 
-		if($TYPE_PROPRIETAIRE_ID != '' && $IS_ACTIVE != '')
+		if($TYPE_PROPRIETAIRE_ID != '' && $TYPE_PROPRIETAIRE_ID != 0 && $IS_ACTIVE != '' && $IS_ACTIVE != 0)
 		{
-			$critaire=" AND TYPE_PROPRIETAIRE_ID=".$TYPE_PROPRIETAIRE_ID;
-			$critaire.=" AND IS_ACTIVE = ".$IS_ACTIVE;
+			$critaire=" AND proprietaire.TYPE_PROPRIETAIRE_ID=".$TYPE_PROPRIETAIRE_ID;
+			$critaire.=" AND proprietaire.IS_ACTIVE = ".$IS_ACTIVE;
 		}
-		else if($TYPE_PROPRIETAIRE_ID != '' && $IS_ACTIVE == '')
+		else if($TYPE_PROPRIETAIRE_ID != '' && $TYPE_PROPRIETAIRE_ID != 0 && $IS_ACTIVE == 0)
 		{
-			$critaire=" AND TYPE_PROPRIETAIRE_ID=".$TYPE_PROPRIETAIRE_ID;
+			$critaire=" AND proprietaire.TYPE_PROPRIETAIRE_ID=".$TYPE_PROPRIETAIRE_ID;
 		}
-		else if($TYPE_PROPRIETAIRE_ID == '' && $IS_ACTIVE != '')
+		else if($TYPE_PROPRIETAIRE_ID == 0 && $IS_ACTIVE != '' && $IS_ACTIVE != 0)
 		{
-			$critaire=" AND IS_ACTIVE=".$IS_ACTIVE;
+			$critaire=" AND proprietaire.IS_ACTIVE=".$IS_ACTIVE;
 		}
 
 
 
-		if($PROVINCE_ID>0) $critaire.=" AND PROVINCE_ID=".$PROVINCE_ID;
-		if($COMMUNE_ID>0) $critaire.=" AND COMMUNE_ID=".$COMMUNE_ID;
-		if($COUNTRY_ID>0) $critaire.=" AND COUNTRY_ID=".$COUNTRY_ID;
+		if($PROVINCE_ID>0) $critaire.=" AND proprietaire.PROVINCE_ID=".$PROVINCE_ID;
+		if($COMMUNE_ID>0) $critaire.=" AND proprietaire.COMMUNE_ID=".$COMMUNE_ID;
+		if($COUNTRY_ID>0) $critaire.=" AND proprietaire.COUNTRY_ID=".$COUNTRY_ID;
 
 		
 
@@ -744,7 +744,7 @@ class Proprietaire extends CI_Controller
 			// }elseif(!empty($row->LOGO)){
 
 			// 	$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
-				
+
 			// 	<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
 			// 	<div class="modal-dialog">
 			// 	<div class="modal-content">
@@ -761,7 +761,7 @@ class Proprietaire extends CI_Controller
 			// }else{
 
 			// 	$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
-				
+
 			// 	<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
 			// 	<div class="modal-dialog">
 			// 	<div class="modal-content">
@@ -777,45 +777,45 @@ class Proprietaire extends CI_Controller
 			// }
 			
 			if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
-						$sub_array[] ='<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><i class="bi bi-info-square h5" ></i>
-						style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
-						';
+				$sub_array[] ='<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><i class="bi bi-info-square h5" ></i>
+				style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
+				';
 
-					}elseif(!empty($row->LOGO)){
+			}elseif(!empty($row->LOGO)){
 
-						$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+				$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
 
-						<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
-						<div class="modal-dialog">
-						<div class="modal-content">
-						<div class="modal-body">
-						<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
-						</div>
-						<div class="modal-footer">
-						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-						</div>
-						</div>
-						</div>
-						</div>';
+				<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-body">
+				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
+				</div>
+				<div class="modal-footer">
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				</div>
+				</div>
+				</div>
+				</div>';
 
-					}else{
+			}else{
 
-						$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+				$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
 
-						<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
-						<div class="modal-dialog">
-						<div class="modal-content">
-						<div class="modal-body">
-						<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
-						</div>
-						<div class="modal-footer">
-						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-						</div>
-						</div>
-						</div>
-						</div>';
-					}
-					
+				<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-body">
+				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
+				</div>
+				<div class="modal-footer">
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				</div>
+				</div>
+				</div>
+				</div>';
+			}
+
 			$sub_array[]=$row->DESC_TYPE_PROPRIETAIRE;
 
 			
@@ -1186,7 +1186,7 @@ class Proprietaire extends CI_Controller
 				';
 			}else{
 
-				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;cette&nbsp;voiture ! </font>';
+				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;ce&nbsp;véhicule ! </font>';
 			}
 			if(!empty($chauffeur)){
 
@@ -1194,7 +1194,7 @@ class Proprietaire extends CI_Controller
 
 			}else{
 
-				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;cette&nbsp;voiture ! </font>';
+				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;ce&nbsp;véhicule ! </font>';
 			}
 			
 
@@ -1246,6 +1246,60 @@ class Proprietaire extends CI_Controller
 
 
 	}
+
+	function get_nbr_proprio($TYPE_PROPRIETAIRE_ID,$IS_ACTIVE,$COUNTRY_ID,$PROVINCE_ID,$COMMUNE_ID)
+	{
+		$critaire_proprio = '' ;			
+
+			// if($TYPE_PROPRIETAIRE_ID == 1) // Assurance valide
+			// {
+			// 	$critaire_proprio = ' AND TYPE_PROPRIETAIRE_ID = "'.$TYPE_PROPRIETAIRE_ID.'"';
+			// }
+			// else if($TYPE_PROPRIETAIRE_ID == 2) // Assurance invalide
+			// {
+			// 	$critaire_proprio = ' AND TYPE_PROPRIETAIRE_ID ="'.$TYPE_PROPRIETAIRE_ID.'"';
+			// }
+
+		if($TYPE_PROPRIETAIRE_ID != '' && $TYPE_PROPRIETAIRE_ID != 0 && $IS_ACTIVE != '' && $IS_ACTIVE != 0)
+		{
+			$critaire_proprio=" AND proprietaire.TYPE_PROPRIETAIRE_ID=".$TYPE_PROPRIETAIRE_ID;
+			$critaire_proprio.=" AND proprietaire.IS_ACTIVE = ".$IS_ACTIVE;
+		}
+		else if($TYPE_PROPRIETAIRE_ID != '' && $TYPE_PROPRIETAIRE_ID != 0 && $IS_ACTIVE == 0)
+		{
+			$critaire_proprio=" AND proprietaire.TYPE_PROPRIETAIRE_ID=".$TYPE_PROPRIETAIRE_ID;
+		}
+		else if($TYPE_PROPRIETAIRE_ID == 0 && $IS_ACTIVE != '' && $IS_ACTIVE != 0)
+		{
+			$critaire_proprio=" AND proprietaire.IS_ACTIVE=".$IS_ACTIVE;
+		}
+
+		if($PROVINCE_ID>0){
+			$critaire_proprio.=" AND proprietaire.PROVINCE_ID=".$PROVINCE_ID;
+		} 
+		if($COMMUNE_ID>0){
+			$critaire_proprio.=" AND proprietaire.COMMUNE_ID=".$COMMUNE_ID;
+
+		}
+
+		if($COUNTRY_ID>0) {
+			$critaire_proprio.=" AND proprietaire.COUNTRY_ID=".$COUNTRY_ID;
+		}
+
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+		$proprio_req = $this->getBindParms('COUNT(PROPRIETAIRE_ID) AS nombre_p', 'proprietaire', ' 1 '.$critaire_proprio.'', '`PROPRIETAIRE_ID` ASC');
+
+		$proprio_req = str_replace('\"', '"', $proprio_req);
+		$proprio_req = str_replace('\n', '', $proprio_req);
+		$proprio_req = str_replace('\"', '', $proprio_req);
+
+		$proprio = $this->ModelPs->getRequeteOne($proce_requete, $proprio_req);
+
+		echo $proprio['nombre_p'];
+	}
+
+
 	// Recuperation des photos passeports
 	public function upload_document_nomdocument($nom_file,$nom_champ,$nomdocument)
 	{
@@ -1302,7 +1356,7 @@ class Proprietaire extends CI_Controller
 	 //Fonction pour la selection des communes
 	function get_communes($PROVINCE_ID)
 	{
-		$html="<option value=''>Séléctionner</option>";
+		$html="<option value='0'>Séléctionner</option>";
 		
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 

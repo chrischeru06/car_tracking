@@ -924,7 +924,7 @@ border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .dashboard .table-responsive .dropdown .dropdown-menu  li {
    margin: 1rem 0; 
-   padding: auto 1rem ;
+   padding: 10px 0 10px 40px;
 }
 .dashboard .table-responsive .dropdown .dropdown-menu  li a.btn-md{
   font-size: 1rem;

@@ -117,21 +117,21 @@
 				<ul class="dropdown-menu dropdown-menu-left">
 				';
 
-				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</a></li>";
+				$option .= "<li class='btn-md'><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a></li>";
 
-				$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>";
+				$option.= "<li class='btn-md'><a class='btn-md' href='".base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID))."' ><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détails</a></li>";
 
 
 				if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 				{
-					$option.='<li><a class="btn-md" href="'.base_url('chauffeur/Chauffeur/affecter_chauff/'.$row->CHAUFFEUR_ID).'"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le chauffeur</a></li>';
+					$option.='<li class="btn-md"><a class="btn-md" href="'.base_url('chauffeur/Chauffeur/affecter_chauff/'.$row->CHAUFFEUR_ID).'"><i class="bi bi-plus h5" ></i>&nbsp;&nbsp;Affecter le chauffeur</a></li>';
 					
 				}
 				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
 				{
-					$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
+					$option .= "<li class='btn-md'><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;&nbsp;&nbsp;Retirer&nbsp;voiture</a></li>";
 
-					$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
+					$option.='<li class="btn-md"><a class="btn-md" href="#" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
 
 				}
 				if($row->IS_ACTIVE==1){

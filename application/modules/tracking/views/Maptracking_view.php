@@ -320,7 +320,7 @@ z-index: 100;
 
       <div id="map_maps" style="width: 100%;height: 720px;">
         <div id='button-container'>
-          <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border-color: cadetblue;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button>
+          <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border:none;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button>
         </div>
 
         <div class="map-overlay top">
