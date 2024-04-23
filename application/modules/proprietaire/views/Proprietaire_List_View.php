@@ -133,18 +133,20 @@ input:checked + .slider:before {
                     <div class="row text-dark">
 
                       <div class="col-md-3">
-                        <label class="text-dark" style="font-weight: 1000; color:#454545">Type de propriétaire</label>
-                        <select class="form-control" id="TYPE_PROPRIETAIRE_ID" name="TYPE_PROPRIETAIRE_ID" onchange="change_type_personne();">
-                          <option value="">Sélectionner</option>
+                        <label class="text-dark" style="font-weight: 1000; color:#454545">Propriétaire</label>
+                        <select class="form-control" id="TYPE_PROPRIETAIRE_ID" name="TYPE_PROPRIETAIRE_ID" onchange="change_type_personne();get_nbr_proprio();">
+                          <option value="0">Sélectionner</option>
                           <option value="1">Personne morale</option>
                           <option value="2">Personne physique</option>
                         </select>
                       </div>
-
+                      <div class="col-md-1">
+                        <span class="badge bg-primary rounded-pill nbr_proprio" style="font-size:10px;position:relative;top:6px;left:-23px;"></span>
+                      </div>
                       <div class="col-md-3">
-                        <label class="text-dark" style="font-weight: 1000; color:#454545">Statut propriétaire</label>
-                        <select class="form-control" id="IS_ACTIVE" name="IS_ACTIVE" onchange="change_activation();">
-                          <option value="">Sélectionner</option>
+                        <label class="text-dark" style="font-weight: 1000; color:#454545">Statut</label>
+                        <select class="form-control" id="IS_ACTIVE" name="IS_ACTIVE" onchange="change_activation();get_nbr_proprio();">
+                          <option value="0">Sélectionner</option>
                           <option value="2">Désactivé</option>
                           <option value="1">Activé</option>
                         </select>
@@ -154,8 +156,8 @@ input:checked + .slider:before {
                         <label style="font-weight: 1000; color:#454545">Pays</label>
                         <div class="input-group has-validation">
 
-                          <select onchange="localisation();"  class="form-control" name="COUNTRY_ID" id="COUNTRY_ID">
-                           <option value="">Sélectionner</option>
+                          <select onchange="localisation();get_nbr_proprio();"  class="form-control" name="COUNTRY_ID" id="COUNTRY_ID">
+                           <option value="0">Sélectionner</option>
 
                            <?php
                            foreach($pays as $key) { 
@@ -177,23 +179,23 @@ input:checked + .slider:before {
 
                      <div class="col-md-3" id="div_prov">
                       <label class="text-dark" style="font-weight: 1000; color:#454545">Province</label>
-                      <select class="form-control" id="PROVINCE_ID" name="PROVINCE_ID" onchange="change_province()">
+                      <select onchange="change_province();get_nbr_proprio();" class="form-control" id="PROVINCE_ID" name="PROVINCE_ID">
                         <option value="0">Sélectionner</option>
-                        <?php
-                        foreach ($provinces as $key)
-                        {
-                          ?>
-                          <option value="<?=$key['PROVINCE_ID']?>"><?=$key['PROVINCE_NAME']?></option>
-                          <?php
-                        }
-                        ?>
+                       
+                         <?php
+                           foreach($provinces as $key) { 
+                            if ($key['PROVINCE_ID']==set_value('PROVINCE_ID')) { 
+                             echo "<option value='".$key['PROVINCE_ID']."' selected>".$key['PROVINCE_NAME']."</option>";
+                           }  else{
+                             echo "<option value='".$key['PROVINCE_ID']."' >".$key['PROVINCE_NAME']."</option>"; 
+                           } }?>
                       </select>
                     </div>
 
                     <div class="col-md-3" id="div_com">
                       <label class="text-dark" style="font-weight: 1000; color:#454545">Commune</label>
-                      <select class="form-control" id="COMMUNE_ID" name="COMMUNE_ID" onchange="change_commune();">
-                        <option value="">Sélectionner</option>
+                      <select class="form-control" id="COMMUNE_ID" name="COMMUNE_ID" onchange="change_commune();get_nbr_proprio();">
+                        <option value="0">Sélectionner</option>
                       </select>
                     </div>
 
@@ -502,7 +504,7 @@ $desc_button='';
     liste($('#TYPE_PROPRIETAIRE_ID').val(),0,0,$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
     $('#div_prov').attr('hidden',true); 
     $('#div_com').attr('hidden',true);  
-    
+    get_nbr_proprio();
 
   });
 
@@ -541,14 +543,14 @@ function change_activation()
   liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),$('#COMMUNE_ID').val(),$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
 }
 
-function get_commune(PROVINCE_ID)
-{
+// function get_commune(PROVINCE_ID)
+// {
 
-}
+// }
 
 function change_province()
 {
-  get_commune($('#PROVINCE_ID').val());
+  // get_commune($('#PROVINCE_ID').val());
   liste($('#TYPE_PROPRIETAIRE_ID').val(),$('#PROVINCE_ID').val(),0,$('#IS_ACTIVE').val(),$('#COUNTRY_ID').val());
 
   $.ajax(
@@ -851,6 +853,26 @@ function affiche_doc(){
 
 
 }
+
+ function get_nbr_proprio()
+ {
+  var TYPE_PROPRIETAIRE_ID = $('#TYPE_PROPRIETAIRE_ID').val();
+  var IS_ACTIVE = $('#IS_ACTIVE').val();
+  var COUNTRY_ID = $('#COUNTRY_ID').val();
+  var PROVINCE_IDD = $('#PROVINCE_ID').val();
+  var COMMUNE_IDS = $('#COMMUNE_ID').val();
+  $.ajax({
+    url: "<?= base_url() ?>proprietaire/Proprietaire/get_nbr_proprio/"+TYPE_PROPRIETAIRE_ID+'/'+IS_ACTIVE+'/'+COUNTRY_ID+'/'+PROVINCE_IDD+'/'+COMMUNE_IDS,
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
+     $('.nbr_proprio').text(data);
+   },
+
+ });
+}
+
+
 </script>
 
 </html>
