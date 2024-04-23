@@ -141,11 +141,10 @@
 
 				$critere_vehicule_track.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_TRACK;
 				$coordinates = $COORD_TRACK;
-				$zoom = 18; 
+				$zoom = 12; 
 			}
 
 			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
-
 
 			// Recherche des propriétaires
 

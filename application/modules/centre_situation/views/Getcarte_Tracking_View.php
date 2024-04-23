@@ -9,7 +9,7 @@
 
 	L.mapbox.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc1MmozajAwcGczZW1sMjMwZWxtZDQifQ.u8xhrt1Wn4A82X38f5_Iyw';
 
-	var coord = '<?= $coordinates; ?>';
+	var coord = '<?= $coordinates;?>';
 	var coord = coord.split(",");
 	var zoom = '<?= $zoom; ?>';
 

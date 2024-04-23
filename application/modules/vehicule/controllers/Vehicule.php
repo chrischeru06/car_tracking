@@ -151,11 +151,11 @@
 					';
 				}elseif ($row->STATUT_VEH_AJOUT==1) 
 				{
-					$sub_array[] = '<i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title="Véhicule en attente"></i>';
+					$sub_array[] = '<center><i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title="Véhicule en attente"></i></center>';
 
 				}elseif ($row->STATUT_VEH_AJOUT==3) 
 				{
-					$sub_array[]='<i class="fa fa-ban text-danger  small" title="Véhicule refusé"></i></i><font style="font-size:14px;" class="text-danger" title="Véhicule refusé"> </font>';
+					$sub_array[]='<center><i class="fa fa-ban text-danger  small" title="Véhicule refusé"></i></i><font style="font-size:14px;" class="text-danger" title="Véhicule refusé"> </font></center>';
 				}elseif($row->STATUT_VEH_AJOUT==4){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
@@ -223,7 +223,7 @@
 				{
 					$sub_array[] = '<i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font>';
 
-					$option.='<li style="margin:0px;cursor:pointer;margin-top:-30px;margin-bottom:-30px"><a class="btn-md" id="sou_menu" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</a></td></tr></table></li>';
+					$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"> <li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</td></tr></table></li></a>';
 				}
 				
 				if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
@@ -234,17 +234,17 @@
 				{
 					$sub_array[] = '<i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font>';
 
-					$option.='<li style="margin:0px;cursor:pointer;margin-top:-40px;margin-bottom:-30px;"><a class="btn-md" id="sou_menu" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</a></td></tr></table></li>';
+					$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</td></tr></table></li></a>';
 				}
 
 				
 				if ($row->STATUT_VEH_AJOUT==1 || $row->STATUT_VEH_AJOUT==2)
 				{
-					$option .= "<li><a class='btn-md' id='sou_menu' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><i class='fa fa-edit'></i>&nbsp;&nbsp;Modifier</a></li>";
+					$option .= "<a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-edit'></i>&nbsp;&nbsp;&nbsp;&nbsp;Modifier</li></a>";
 					
 				}
 				if($row->STATUT_VEH_AJOUT==1 && $PROFIL_ID==1){
-					$option .= "<li><a class='btn-md' id='sou_menu' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><i class='fa fa-cog'></i>&nbsp;&nbsp;Traiter</a></li>";
+					$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-cog'></i>&nbsp;&nbsp;&nbsp;&nbsp;Traiter</li></a>";
 
 				}
 
@@ -990,11 +990,34 @@
 
 		function get_detail_vehicule($VEHICULE_ID = '')
 		{
-			$infos_vehicule = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.STATUT_VEH_AJOUT,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,FILE_ASSURANCE,FILE_CONTRO_TECHNIQUE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,chauffeur.CHAUFFEUR_ID,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident,chauffeur_vehicule.STATUT_AFFECT FROM vehicule LEFT JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid LEFT JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE LEFT JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE RIGHT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 AND VEHICULE_ID = "'.$VEHICULE_ID.'" ORDER BY chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID DESC LIMIT 1');
+			$infos_vehicule = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.STATUT_VEH_AJOUT,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,FILE_ASSURANCE,vehicule.DATE_SAVE,FILE_CONTRO_TECHNIQUE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,chauffeur.CHAUFFEUR_ID,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident,chauffeur_vehicule.STATUT_AFFECT FROM vehicule LEFT JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid LEFT JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE LEFT JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 AND VEHICULE_ID = "'.$VEHICULE_ID.'" ORDER BY chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID DESC LIMIT 1');
 			
 			$data['infos_vehicule'] = $infos_vehicule;
 
+			//determination de nombre de jours qu'un vehicule a était enregistré
+		      $date = date('Y-m-d',strtotime($infos_vehicule['DATE_SAVE']));
+		      $aujourdhui = date("Y-m-d");
+		      // print_r($date);die();
+		      $nbr_jours = $this->NbJours($date, $aujourdhui);
+		      $data['nbr_jours'] = $nbr_jours;
+
 			$this->load->view('Vehicule_detail_View',$data);
+		}
+
+		//fonction pour determier le nombre de jour ecoulé entre deux dates
+
+		function NbJours($debut, $fin) {
+
+			$tDeb = explode("-", $debut);
+			$tFin = explode("-", $fin);
+
+			$diff = mktime(0, 0, 0, $tFin[1], $tFin[2], $tFin[0]) - 
+			mktime(0, 0, 0, $tDeb[1], $tDeb[2], $tDeb[0]);
+
+			$result = ($diff / 86400)+1;
+
+			return(round($result));
+
 		}
 
 		function check_val_code()
@@ -1302,6 +1325,94 @@
 				";
 
 				$sub_array[]=$option;
+				$data[]=$sub_array;
+			}
+			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+			$output = array(
+				"draw" => intval($_POST['draw']),
+				"recordsTotal" => count($recordsTotal),
+				"recordsFiltered" => count($recordsFiltered),
+				"data" => $data,
+			);
+			echo json_encode($output);
+		}
+
+		//Fonction pour une liste d'historique d'activation et desactivation du vehicule
+		function liste_active_desactive()
+		{
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+
+			$critaire = '' ;
+
+			$query_principal='SELECT historique_activ_des_vehicule.ID_HISTORIQUE,historique_activ_des_vehicule.STATUT,users.IDENTIFICATION,DESC_MOTIF,historique_activ_des_vehicule.DATE_SAVE FROM historique_activ_des_vehicule JOIN vehicule ON vehicule.VEHICULE_ID = historique_activ_des_vehicule.VEHICULE_ID JOIN users ON users.USER_ID = historique_activ_des_vehicule.USER_ID JOIN motif ON motif.ID_MOTIF = historique_activ_des_vehicule.ID_MOTIF WHERE 1 AND historique_activ_des_vehicule.STATUT != 1 AND historique_activ_des_vehicule.STATUT != 3';
+
+			$critaire.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+
+			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+			$var_search = str_replace("'", "\'", $var_search);
+			$group = "";
+
+			$limit = 'LIMIT 0,1000';
+			if ($_POST['length'] != -1) {
+				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+			}
+			$order_by='ORDER BY historique_activ_des_vehicule.ID_HISTORIQUE ASC';
+
+			$order_column=array('historique_activ_des_vehicule.ID_HISTORIQUE','historique_activ_des_vehicule.STATUT','IDENTIFICATION','DESC_MOTIF','historique_activ_des_vehicule.DATE_SAVE');
+
+			if ($_POST['order']['0']['column'] != 0) {
+				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_HISTORIQUE_CONTROLE ASC';
+			}
+
+
+
+			$search = !empty($_POST['search']['value']) ? (' AND (`IDENTIFICATION` LIKE "%' . $var_search . '%" OR DESC_MOTIF LIKE "%' . $var_search . '%" OR historique_activ_des_vehicule.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
+
+
+			//condition pour le query principale
+			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+
+			// condition pour le query filter
+			$conditionsfilter = $critaire . ' ' . $group;
+
+
+			$requetedebase=$query_principal.$conditions;
+			$requetedebasefilter=$query_principal.$conditionsfilter;
+
+
+
+			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+			// echo $query_secondaire;
+			$fetch_data = $this->ModelPs->datatable($query_secondaire);
+			$data = array();
+			$i=0;
+
+			foreach ($fetch_data as $row) {
+				$i=$i+1;
+
+				$sub_array=array();
+				$sub_array[]=$i;
+				
+				if($row->STATUT == 2)
+				{
+					$sub_array[] = '<label title="Vécule activé"><i class="text-success small fa fa-check" title="Vécule activé"></i><font class="text-success small "></font></label>';
+				}
+				else if($row->STATUT == 4)
+				{
+					$sub_array[] = '<label title="Vécule désactivé"><i class="text-danger small fa fa-close"></i><font class="text-danger small "></font></label>';
+				}
+				else{
+					$sub_array[] = '<label><font class="text-dark small ">N/A</font></label>';
+				}
+
+				$sub_array[] = $row->IDENTIFICATION;
+				$sub_array[] = $row->DESC_MOTIF;
+				
+				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
+
+				$option = " ";
+
 				$data[]=$sub_array;
 			}
 			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
