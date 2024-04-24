@@ -446,12 +446,13 @@ class Dashboard_General extends CI_Controller
      $somme11=0;
     foreach ($vehicule_inactif as  $value) 
     { $compteur1++;
-      $color11=$this->getcolor();
+      // $color11=$this->getcolor();
       $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
       // $somme11=($compteur1>0) ? $compteur1 : "0" ;
        $somme11=$compteur1;
+       
     }
-    $donnees1.="{name:'Inactif:". $somme11."', y:". $somme11.",color:'".$color11."',key:4},";
+    $donnees1.="{name:'Inactif:". $somme11."', y:". $somme11.",key:4},";
 
   
     $rapp="
