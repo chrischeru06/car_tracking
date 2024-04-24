@@ -800,7 +800,7 @@ class Dashboard_Anomalies extends CI_Controller
     foreach ($vehi_code_course as  $value) 
     {
 
-    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(mouvement) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE="'.$value['CODE_COURSE'].'" GROUP BY IDENTIIANT,NAME');
+    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID ,vehicule.PLAQUE,COUNT(mouvement) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE="'.$value['CODE_COURSE'].'" GROUP BY VEHICULE_ID,PLAQUE');
 
     }
     //print_r($vehicule_consomation);exit();
@@ -812,7 +812,7 @@ class Dashboard_Anomalies extends CI_Controller
        //$littre_consom=$value['NBR']*$nvldistance_arrondie;
       $color=$this->getcolor();
       $nb11 = (!empty($value['NBR'])) ? $value['NBR'] : "0" ;
-      $donnees11.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb11.",color:'".$color."',key2:".$value['IDENTIIANT']."},"; 
+      $donnees11.="{name:'".str_replace("'","\'",$value['PLAQUE'])."', y:".$nb11.",color:'".$color."',key2:".$value['VEHICULE_ID']."},"; 
       
     }
      $rapp11="<script type=\"text/javascript\">
@@ -944,7 +944,7 @@ class Dashboard_Anomalies extends CI_Controller
     });
    </script>";
    //rapport nbr course par voiture
-   $course_voiture=$this->Model->getRequete('SELECT DISTINCT vehicule.CODE as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(DISTINCT `CODE_COURSE`) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' GROUP BY IDENTIIANT,NAME'); 
+   $course_voiture=$this->Model->getRequete('SELECT DISTINCT vehicule.CODE,vehicule.PLAQUE,COUNT(DISTINCT `CODE_COURSE`) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' GROUP BY CODE,PLAQUE'); 
    
     //print_r($vehicule_consomation);exit();
 
@@ -955,7 +955,7 @@ class Dashboard_Anomalies extends CI_Controller
        //$littre_consom=$value['NBR']*$nvldistance_arrondie;
       $color=$this->getcolor();
       $nb12 = (!empty($value['NBR'])) ? $value['NBR'] : "0" ;
-      $donnees12.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb12.",color:'".$color."',key12:".$value['IDENTIIANT']."},"; 
+      $donnees12.="{name:'".str_replace("'","\'",$value['PLAQUE'])."', y:".$nb12.",color:'".$color."',key12:".$value['CODE']."},"; 
       
     }
 
