@@ -38,7 +38,7 @@
     }
 
 
-    #map {width: 102%;height: 600px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;z-index: 1;}
+    #map {width: 102%;height: 400px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;z-index: 1;}
 
     .mapbox-improve-map{
       display: none;
@@ -187,27 +187,27 @@
                   <table class="table table-borderless" style="width:108%">
                     <tr>
                       <td>
-                     <ul class="nav nav-tabs nav-tabs-bordered">
+                       <ul class="nav nav-tabs nav-tabs-bordered">
 
-                      <li class="nav-item">
-                        <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#info_generales"><i class="fa fa-info-circle"></i> Informations générales</button>
-                      </li>
+                        <li class="nav-item">
+                          <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#info_generales"><i class="fa fa-info-circle"></i> Informations générales</button>
+                        </li>
 
-                      <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#assurance"><i class="fa fa-retweet"></i> Historique assurances</button>
-                      </li>
+                        <li class="nav-item">
+                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#assurance"><i class="fa fa-retweet"></i> Historique assurances</button>
+                        </li>
 
-                      <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#controle_technique"><i class="fa fa-tripadvisor"></i> Historique contrôle technique</button>
-                      </li>
+                        <li class="nav-item">
+                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#controle_technique"><i class="fa fa-tripadvisor"></i> Historique contrôle technique</button>
+                        </li>
 
-                      <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#active_desactive"><i class="fa fa-cog"></i> Activation et Désactivation</button>
-                      </li>
+                        <li class="nav-item">
+                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#active_desactive"><i class="fa fa-cog"></i> Activation et Désactivation</button>
+                        </li>
 
 
-                    </ul>
-                  </td>
+                      </ul>
+                    </td>
                   </tr>
                 </table>
 
@@ -322,7 +322,8 @@
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin"></label><font class="text-warning small pt-2 ps-1">demande en attente</font>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin" title="demande en attente"></font>
+                        
 
                         <?php
                       }
@@ -330,7 +331,7 @@
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Vécule activé</font>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Vécule activé"></font>
 
                         <?php
                       }
@@ -338,7 +339,7 @@
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">demande refusé</font>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-ban" title="demande refusé"></label>
 
                         <?php
                       }
@@ -346,7 +347,7 @@
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Vécule désactivé</font>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Vécule désactivé"></label>
 
                         <?php
                       }
@@ -357,19 +358,30 @@
 
                       <?php
 
-                      if($infos_vehicule['DATE_FIN_ASSURANCE'] >= date('Y-m-d'))
+                      if(!empty($infos_vehicule['DATE_FIN_ASSURANCE']))
                       {
-                        ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
-                        <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Valide</font>
+                        if($infos_vehicule['DATE_FIN_ASSURANCE'] >= date('Y-m-d'))
+                        {
+                          ?>
+                          <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Valide"></label>
 
-                        <?php
+                          <?php
+                        }
+                        else if($infos_vehicule['DATE_FIN_ASSURANCE'] < date('Y-m-d'))
+                        {
+                          ?>
+                          <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Expirée"></label>
+
+                          <?php
+                        }
                       }
-                      else if($infos_vehicule['DATE_FIN_ASSURANCE'] < date('Y-m-d'))
+                      else
                       {
                         ?>
                         <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
-                        <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Expirée</font>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
 
                         <?php
                       }
@@ -379,21 +391,32 @@
                     <td>
 
                      <?php 
-                     if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] >= date('Y-m-d'))
+                     if(!empty($infos_vehicule['DATE_FIN_CONTROTECHNIK']))
                      {
-                      ?>
-                      <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
-                      <label class="text-success small pt-2 ps-1 dash_v fa fa-check"></label><font class="text-success small pt-2 ps-1">Valide</font>
+                      if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] >= date('Y-m-d'))
+                      {
+                        ?>
+                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Valide"></label>
 
-                      <?php
+                        <?php
+                      }
+                      else if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] < date('Y-m-d'))
+                      {
+                        ?>
+                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Expirée"></label>
+
+                        <?php
+                      }
                     }
-                    else if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] < date('Y-m-d'))
+                    else
                     {
                       ?>
-                      <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
-                      <label class="text-danger small pt-2 ps-1 dash_v fa fa-close"></label><font class="text-danger small pt-2 ps-1">Expirée</font>
+                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
 
-                      <?php
+                        <?php
                     }
                     ?> 
                   </td>
@@ -521,42 +544,42 @@
 
           <div class="tab-pane fade " id="active_desactive">
 
-             <div class="row">
+           <div class="row">
 
-              <div class="table-responsive">
+            <div class="table-responsive">
 
-                <table id="table_active_desactive" class="table table-hover text-dark" style="width:100%">
-                  <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
-                    <tr>
-                      <th class="text-dark">#</th>
-                      <th class="text-dark">STATUT</th>
-                      <th class="text-dark">FAIT&nbsp;PAR</th>
-                      <th class="text-dark">MOTIF</th>
-                      <th class="text-dark">&nbsp;DATE&nbsp;</th>
-                      <!-- <th></th> -->
-                    </tr>
-                  </thead>
-                  <tbody class="text-dark">
-                  </tbody>
-                </table>
-
-              </div>
+              <table id="table_active_desactive" class="table table-hover text-dark" style="width:100%">
+                <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
+                  <tr>
+                    <th class="text-dark">#</th>
+                    <th class="text-dark">STATUT</th>
+                    <th class="text-dark">FAIT&nbsp;PAR</th>
+                    <th class="text-dark">MOTIF</th>
+                    <th class="text-dark">&nbsp;DATE&nbsp;</th>
+                    <!-- <th></th> -->
+                  </tr>
+                </thead>
+                <tbody class="text-dark">
+                </tbody>
+              </table>
 
             </div>
 
-
-
           </div>
 
+
+
         </div>
-        <!-- end tab content -->
 
       </div>
-
-      <!-- </div> -->
+      <!-- end tab content -->
 
     </div>
+
+    <!-- </div> -->
+
   </div>
+</div>
 </div>
 </div>
 <!-- </div> -->

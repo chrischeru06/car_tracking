@@ -230,7 +230,7 @@ input:checked + .slider:before {
         <form id="attribution_form" enctype="multipart/form-data" action="#" method="post">
           <div class="modal-body mb-1">
             <div class="row">
-              <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID">
+              <input type="hidden" name="VEHICULE_TRAITE" id="VEHICULE_TRAITE">
               <input type="hidden" name="STATUT_VEH_AJOUT" id="STATUT_VEH_AJOUT">
 
               <div class="col-md-4">
@@ -680,7 +680,7 @@ function traiter_demande(VEHICULE_ID='',STATUT_VEH_AJOUT='')
 {
   $('#Modal_traiter').modal('show');
     //VEHICULE_ID du 2eme ca vient du VEHICULE_ID du paramentre la en haut 
-  $('#VEHICULE_ID').val(VEHICULE_ID);
+  $('#VEHICULE_TRAITE').val(VEHICULE_ID);
   $('#STATUT_VEH_AJOUT').val(STATUT_VEH_AJOUT);
   $('#code_device_uid').hide();
     // var TRAITEMENT_DEMANDE_ID=$('#TRAITEMENT_DEMANDE_ID').val();

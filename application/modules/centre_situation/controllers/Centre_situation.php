@@ -455,12 +455,12 @@
 
 					if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
 						$sub_array[] ='<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><i class="bi bi-info-square h5" ></i>
-						style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
+						style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne .'</td></tr></tbody></a>
 						';
 
 					}elseif(!empty($row->LOGO)){
 
-						$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+						$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></td><td> '.'      '.' ' . $row->info_personne . '</td></tr></tbody></a>
 
 						<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
 						<div class="modal-dialog">
@@ -477,7 +477,7 @@
 
 					}else{
 
-						$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
+						$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></td><td> '.'     '.' ' . $row->info_personne . ' </td></tr></tbody></a>
 
 						<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
 						<div class="modal-dialog">
@@ -578,7 +578,7 @@
 			{
 				$critaire_select = ' AND vehicule.VEHICULE_ID ='.$VEHICULE_ID;
 			}
-			else if(empty($VEHICULE_ID) && $id == 'V_ACTIF') // vehicule actif
+			if(empty($VEHICULE_ID) && $id == 'V_ACTIF') // vehicule actif
 			{
 				$critaire_select = ' AND vehicule.STATUT_VEH_AJOUT = 2';
 			}
@@ -604,7 +604,7 @@
 			}
 			else if(empty($VEHICULE_ID) && $id == 'V_STATIONNE') // vehicule stationné
 			{
-				$critaire_select = ' AND mouv = 0 OR mouv is NULL';
+				$critaire_select = ' AND mouv = 0 ';
 			}
 			else if(empty($VEHICULE_ID) && $id == 'V_ATTENTE') // Demande en attente
 			{
@@ -639,6 +639,8 @@
 				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK < "'.$date_now.'"';
 			}
 
+
+
 			$query_principal = '';
 			$order_by = ' ';
 
@@ -650,7 +652,7 @@
 			}
 			else
 			{
-				$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT AS photo_pro,proprietaire.EMAIL AS mail_pro,proprietaire.ADRESSE AS adress_pro,proprietaire.TELEPHONE AS telephone_pro,DATE_SAVE,vehicule.STATUT_VEH_AJOUT AS vehicule_is_active,STATUT_VEH_AJOUT FROM vehicule JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv,tracking_data.accident as accident,tracking_data.ignition as ignition FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.''.$critaire_doc_valide.'';
+				$query_principal = 'SELECT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,proprietaire.PHOTO_PASSPORT AS photo_pro,proprietaire.EMAIL AS mail_pro,proprietaire.ADRESSE AS adress_pro,proprietaire.TELEPHONE AS telephone_pro,DATE_SAVE,vehicule.STATUT_VEH_AJOUT AS vehicule_is_active,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,STATUT_VEH_AJOUT FROM vehicule JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv,tracking_data.accident as accident,tracking_data.ignition as ignition FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_select.''.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.''.$critaire_doc_valide.'';
 
 				$order_by = ' ORDER BY id DESC';
 			}
@@ -704,18 +706,60 @@
 				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
 				if($row->vehicule_is_active == 1){
-					$sub_array[]='<td><label class="text-warning"><i class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin" title="demande en attente"></i></label></td>';
+					$sub_array[]='<center><label class="text-warning"><i class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin" title="demande en attente"></i></label></center>';
 				}else if($row->vehicule_is_active == 2){
-					$sub_array[]='<td><label class="text-success"><i class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Vécule activé"></i></label></td>';
+					$sub_array[]='<center><label class="text-success"><i class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Vécule activé"></i></label></center>';
 				}
 				else if($row->vehicule_is_active == 3){
-					$sub_array[]='<td><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-ban" title="demande refusé"></i></label></td>';
+					$sub_array[]='<center><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-ban" title="demande refusé"></i></label></center>';
 				}
 				else if($row->vehicule_is_active == 4){
-					$sub_array[]='<td><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Vécule désactivé"></i></label></td>';
+					$sub_array[]='<center><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Vécule désactivé"></i></label></center>';
 				}
 
-				$option = ' ';
+				$option = '<div class="dropdown text-center">
+				<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
+				<i class="bi bi-three-dots h5" style="color:blue;"></i>	
+				<span class="caret"></span></a>
+				<ul class="dropdown-menu dropdown-menu-right">
+				';
+
+				if($this->session->userdata('PROFIL_ID') == 1 && $row->STATUT_VEH_AJOUT==1)
+				{
+					$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-cog'></i>&nbsp;&nbsp;&nbsp;&nbsp;Traiter</li></a>";
+				}
+
+				if(!empty($row->DATE_FIN_ASSURANCE))
+				{
+					if($row->DATE_FIN_ASSURANCE >= date('Y-m-d'))
+					{
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+					}
+					else
+					{
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+					}
+				}
+				else
+				{
+					$sub_array[] = '<center><font class="small" title="">N/A</font></center>';
+				}
+				
+				if(!empty($row->DATE_FIN_CONTROTECHNIK))
+				{
+					if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
+					{
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+					}
+					else
+					{
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+					}
+				}
+				else
+				{
+					$sub_array[] = '<center><font class="small" title="">N/A</font></center>';
+				}
 
 				$option .="
 				</div>
@@ -775,10 +819,10 @@
 
 				<tr>
 				<td class='btn-sm'>Propriétaire</td>
-				<th class='btn-sm' style='display: -webkit-box;
+				<td class='btn-sm' style='display: -webkit-box;
 				-webkit-line-clamp: 2;
 				-webkit-box-orient: vertical;
-				overflow: hidden;'><strong>".$row->desc_proprio." mushagalusa byamungu pacifique </strong></th>
+				overflow: hidden;'><strong>".$row->desc_proprio." </strong></td>
 				</tr>
 
 
@@ -879,18 +923,18 @@
 
 		function get_nbr_vehicule($id = '')
 		{
-			    $PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
-				$VEHICULE_ID = $this->input->post('VEHICULE_ID');
-				$V_ENREGITRE = $this->input->post('V_ENREGITRE');
-				$CHECK_VALIDE = $this->input->post('CHECK_VALIDE');
+			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+			$V_ENREGITRE = $this->input->post('V_ENREGITRE');
+			$CHECK_VALIDE = $this->input->post('CHECK_VALIDE');
 
-				$critere_proprietaire = '';
-				$critere_vehicule = '';
-				$critere_user = '';
+			$critere_proprietaire = '';
+			$critere_vehicule = '';
+			$critere_user = '';
 
-				$critaireVehicule2= '';
+			$critaireVehicule2= '';
 
-				$USER_ID = $this->session->userdata('USER_ID');
+			$USER_ID = $this->session->userdata('USER_ID');
 
 			if($this->session->userdata('PROFIL_ID') != 1) // Si c'est pas l'admin : condition 
 			{
@@ -938,7 +982,7 @@
 			}
 			else if(empty($VEHICULE_ID) && $id == 'V_STATIONNE') // vehicule stationné
 			{
-				$critaire_select = ' AND mouv = 0 OR mouv is NULL';
+				$critaire_select = ' AND mouv = 0 ';
 			}
 			else if(empty($VEHICULE_ID) && $id == 'V_ATTENTE') // Demande en attente
 			{
