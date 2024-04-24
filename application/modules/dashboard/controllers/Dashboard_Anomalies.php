@@ -642,7 +642,7 @@ class Dashboard_Anomalies extends CI_Controller
       }
      //print_r($nvldistance_arrondie);exit();
 
-    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1  GROUP BY ID,NAME');
+    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1  GROUP BY ID,NAME,NBR');
     $donnees10="";
     $donnees101="";
     foreach ($vehicule_consomation as  $value) 
