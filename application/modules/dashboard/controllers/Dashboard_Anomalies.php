@@ -800,7 +800,7 @@ class Dashboard_Anomalies extends CI_Controller
     foreach ($vehi_code_course as  $value) 
     {
 
-    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID ,vehicule.PLAQUE,COUNT(mouvement) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE="'.$value['CODE_COURSE'].'" GROUP BY VEHICULE_ID,PLAQUE');
+    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID ,vehicule.PLAQUE,COUNT(mouvement) as  NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE="'.$value['CODE_COURSE'].'" GROUP BY VEHICULE_ID,PLAQUE');
 
     }
     //print_r($vehicule_consomation);exit();
@@ -944,7 +944,7 @@ class Dashboard_Anomalies extends CI_Controller
     });
    </script>";
    //rapport nbr course par voiture
-   $course_voiture=$this->Model->getRequete('SELECT DISTINCT vehicule.CODE,vehicule.PLAQUE,COUNT(DISTINCT `CODE_COURSE`) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' GROUP BY CODE,PLAQUE'); 
+   $course_voiture=$this->Model->getRequete('SELECT DISTINCT vehicule.CODE,vehicule.PLAQUE,COUNT(DISTINCT `CODE_COURSE`) as  NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' GROUP BY CODE,PLAQUE'); 
    
     //print_r($vehicule_consomation);exit();
 
