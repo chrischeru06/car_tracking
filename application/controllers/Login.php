@@ -47,7 +47,7 @@ class Login extends CI_Controller
 		   // print_r($session);die();
 
 
-				$output = array("status"=>TRUE,'message'=>'<center>Connexion en cours ....</center>');
+				$output = array("status"=>TRUE,'message'=>'<center><font class="fa fa-spinner fa-spin"></font></center>');
 				if($user['STATUT']==2){
 
 					$output = array("status"=>false,'message'=>'<center>Votre compte a été désactivé! <br> Veuillez Contacter l\'administration !</center>');

@@ -1043,7 +1043,7 @@ class Proprietaire extends CI_Controller
 			
 			$label_cni='NIF';
 		}elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {
-			$label_cni='CNI / Numéro passport';
+			$label_cni='CNI / Passport';
 			
 		}
 

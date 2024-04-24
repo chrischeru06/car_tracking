@@ -3,7 +3,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <a href="<?= base_url()?>/template/Dashboard.php" class="logo d-flex align-items-center">
       <img src="<?= base_url()?>upload/Car_tracking_png-01.png" alt="" >
-      <span class="d-none d-lg-block">MediaTracking</span>
+      <span class="d-none d-lg-block">Mediatracking</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
