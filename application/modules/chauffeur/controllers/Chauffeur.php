@@ -805,14 +805,14 @@
 	public function retirer_voit($CHAUFFEUR_ID)
 	{
 
-		$chauf_v = $this->Model->getOne('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID));
+		$chauf_v = $this->Model->getOne('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'STATUT_AFFECT'=>1));
 		//print($chauf['CHAUFFEUR_ID']);exit();
 		
-		$this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID']),array('STATUT_VEHICULE'=>1));
+		$this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('STATUT_VEHICULE'=>1));
 
 		$this->Model->update('vehicule',array('CODE'=>$chauf_v['CODE']),array('STATUT'=>1));
 		// $today = date('Y-m-d H:s');
-		$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID']),array('STATUT_AFFECT'=>2));
+		$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID'],'STATUT_AFFECT'=>1),array('STATUT_AFFECT'=>2));
 
 		
 		$data['message'] = '<div class="alert alert-success text-center" id="message">' . " Vous avez bien retiré la voiture" . '</div>';
