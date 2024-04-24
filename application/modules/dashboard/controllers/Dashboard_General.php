@@ -450,6 +450,7 @@ class Dashboard_General extends CI_Controller
       $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
       // $somme11=($compteur1>0) ? $compteur1 : "0" ;
        $somme11=$compteur1;
+       
     }
     $donnees1.="{name:'Inactif:". $somme11."', y:". $somme11.",key:4},";
 
