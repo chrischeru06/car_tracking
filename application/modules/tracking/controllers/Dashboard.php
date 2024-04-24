@@ -728,7 +728,8 @@ class Dashboard extends CI_Controller
 										'type': 'MultiPolygon',
 										'coordinates': [".$keyprovinces_delim['COORD']."]
 									}
-								},";
+								},
+								";
 								
 
 							}
