@@ -462,7 +462,12 @@ z-index: 100;
       map_map.addSource('provinces',{
 
         'type': 'geojson',
-        'data': <?php echo $limites ?>
+        'data': {
+                'type': 'FeatureCollection',
+                'features': [
+                  <?php echo $limites ?>
+                    ]
+            }
       });
 
         // Add a new layer to visualize the polygon.
