@@ -432,24 +432,27 @@ class Dashboard_General extends CI_Controller
   $vehicule_inactif=$this->Model->getRequete('SELECT vehicule.STATUT_VEH_AJOUT as ID,`VEHICULE_ID` as NBR FROM `vehicule` WHERE `STATUT_VEH_AJOUT`=4 ');
     $donnees1="";
     $compteur=0;
+    $somme=0;
     foreach ($vehicule_actif as  $value) 
     {
-      $color=$this->getcolor();
       $compteur++;
       $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme=($compteur>0) ? $compteur : "0" ;
+      $somme=$compteur;
      // $donnees9.="{name:'Accident', y:".$test9.",color:'".$color."',key9:1},";
     }
-    $donnees1.="{name:'Actif:". $somme ."', y:". $somme.",color:'".$color."',key:2},";
+    $donnees1.="{name:'Actif:". $somme ."', y:". $somme.",key:2},";
      $donnees11="";
      $compteur1=0;
+     $somme11=0;
     foreach ($vehicule_inactif as  $value) 
     { $compteur1++;
       $color11=$this->getcolor();
       $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme11=($compteur1>0) ? $compteur1 : "0" ;
+      // $somme11=($compteur1>0) ? $compteur1 : "0" ;
+       $somme11=$compteur1;
     }
     $donnees1.="{name:'Inactif:". $somme11."', y:". $somme11.",color:'".$color11."',key:4},";
+
   
     $rapp="
     <script type=\"text/javascript\">
@@ -562,7 +565,7 @@ class Dashboard_General extends CI_Controller
                           series: [
                         {
                           name: '',
-                          data: [".$donnees1." ]
+                          data: [{name:'Actif:0', y:0,key:2},{name:'Inactif:3', y:3,color:'#0E62EE',key:4}, ]
                           }]
                           });
                           </script>";
@@ -712,18 +715,163 @@ class Dashboard_General extends CI_Controller
    </script>";
 
    //rapport3:vehicule en mouvement vs stationnement
-   // $vehicule_mouvet_stationnema=$this->Model->getRequete('SELECT tracking_data.mouvement as ID, if(tracking_data.mouvement=1,"Véhicule en mouvement","Véhicule en stationnement")as statut ,COUNT(tracking_data.device_uid) as NBR FROM `tracking_data` JOIN vehicule ON  tracking_data.device_uid=vehicule.CODE  WHERE 1 GROUP by tracking_data.mouvement,statut  ');
+  
 
-     $vehicule_mouvet_stationnema=$this->Model->getRequete("SELECT mouv as ID ,if(mouv=1,'Véhicule en mouvement','Véhicule en stationnement') as statut,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by  mouv,if(mouv=1,'Véhicule en mouvement','Véhicule en stationnement')");
+    $vehicule_mouvet_stationnema=$this->Model->getRequete("SELECT DISTINCT `mouvement` as ID_mouv,if(mouvement=1,'Véhicule en mouvement','Véhicule en stationnement') as statut FROM `tracking_data` WHERE 1");
    
     $donnees3="";
     foreach ($vehicule_mouvet_stationnema as  $value) 
     {
       $color=$this->getcolor();
-      $key_id3=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme3=($value['NBR']>0) ? $value['NBR'] : "0" ;
-      $donnees3.="{name:'".$value['statut']." :". $somme3."', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";
+      $key_id3=($value['ID_mouv']>0) ? $value['ID_mouv'] : "0" ;
+       $vehicule_mouvet_=$this->Model->getRequeteOne("SELECT count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE tracking_data.mouvement=1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1");
+        $somme3=0;
+        if ($vehicule_mouvet_) 
+        {
+         $somme3=$vehicule_mouvet_['NBR'] ;
+
+     
+        }
+      $donnees3.="{name:'".$value['statut']." :". $somme3."', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";    
+
     }
+
+    $donnees3="";
+
+    foreach ($vehicule_mouvet_stationnema as  $value) 
+    {
+      $color=$this->getcolor();
+      $key_id3=($value['ID_mouv']>0) ? $value['ID_mouv'] : "0" ;
+       $vehicule_mouvet_1=$this->Model->getRequeteOne("SELECT count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE tracking_data.mouvement=0) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1");
+        $somme33=0;
+        if ($vehicule_mouvet_1) 
+        {
+         $somme33=$vehicule_mouvet_1['NBR'] ;
+
+     
+        }
+      $donnees3.="{name:'".$value['statut']." :". $somme3."', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";    
+
+    }
+
+    // $rapp3="
+    // <script type=\"text/javascript\">
+    // Highcharts.chart('container3',
+    // {
+    //   chart:
+    //   {
+    //     plotBackgroundColor: null,
+    //     plotBorderWidth: null,
+    //     plotShadow: false,
+    //     type: 'pie'
+    //     },
+    //     title: {
+    //       text: 'Véhicule en mouvement Vs en stationnement'
+    //       },
+    //       subtitle: 
+    //       {
+    //        text: '<b><br> Rapport du ".date('d-m-Y')."</b><br> '
+    //        },
+    //        tooltip: {
+    //         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    //         },
+    //         accessibility: {
+    //           point: {
+    //             valueSuffix: '%'
+    //           }
+    //           },
+    //           plotOptions: {
+    //             pie: {
+    //               allowPointSelect: true,
+    //               cursor: 'pointer',
+
+
+    //               point:{
+    //                 events: {
+    //                  click: function()
+    //                  {
+    //                   $(\"#titre1\").html(\"LISTE DES VEHICULES \");
+
+    //                    $(\"#myModal\").modal('show');
+    //                    var row_count ='1000000';
+    //                    $(\"#mytable\").DataTable({
+    //                     \"processing\":true,
+    //                     \"serverSide\":true,
+    //                     \"bDestroy\": true,
+    //                     \"oreder\":[],
+    //                     \"ajax\":{
+    //                       url:\"".base_url('dashboard/Dashboard_General/detail_veh_station_mouv')."\",
+    //                       type:\"POST\",
+    //                       data:{
+
+    //                        key3:this.key3,
+
+    //                        ZONE_ID:$('#ZONE_ID').val(),
+    //                        QUARTIER_ID:$('#QUARTIER_ID').val(),
+
+    //                      }
+    //                      },
+    //                      lengthMenu: [[10,50, 100, row_count], [10,50, 100, \"All\"]],
+    //                      pageLength: 10,
+    //                      \"columnDefs\":[{
+    //                        \"targets\":[0],
+    //                        \"orderable\":false
+    //                        }],
+
+    //                        dom: 'Bfrtlip',
+    //                        buttons: [
+    //                        'excel', 'print','pdf'
+    //                        ],
+    //                        language: {
+    //                         \"sProcessing\":     \"Traitement en cours...\",
+    //                         \"sSearch\":         \"Recherche&nbsp;:\",
+    //                         \"sLengthMenu\":     \"Afficher _MENU_ &eacute;l&eacute;ments\",
+    //                         \"sInfo\":           \"Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments\",
+    //                         \"sInfoEmpty\":      \"Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment\",
+    //                         \"sInfoFiltered\":   \"(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)\",
+    //                         \"sInfoPostFix\":    \"\",
+    //                         \"sLoadingRecords\": \"Chargement en cours...\",
+    //                         \"sZeroRecords\":    \"Aucun &eacute;l&eacute;ment &agrave; afficher\",
+    //                         \"sEmptyTable\":     \"Aucune donn&eacute;e disponible dans le tableau\",
+    //                         \"oPaginate\": {
+    //                           \"sFirst\":      \"Premier\",
+    //                           \"sPrevious\":   \"Pr&eacute;c&eacute;dent\",
+    //                           \"sNext\":       \"Suivant\",
+    //                           \"sLast\":       \"Dernier\"
+    //                           },
+    //                           \"oAria\": {
+    //                             \"sSortAscending\":  \": activer pour trier la colonne par ordre croissant\",
+    //                             \"sSortDescending\": \": activer pour trier la colonne par ordre d&eacute;croissant\"
+    //                           }
+    //                         }
+    //                         });
+
+    //                       }
+    //                     }
+    //                     },
+
+    //                     dataLabels: {
+    //                       enabled: true
+    //                       },
+    //                       showInLegend: true
+    //                     }
+    //                     },
+    //                      credits: 
+    //                      {
+    //                       enabled: true,
+    //                       href: \"\",
+    //                       text: \"Mediabox\"
+    //                       },
+    //                       series: [
+    //                     {
+    //                       name: '',
+
+    //                       data: [".$donnees3." ]
+    //                       }]
+    //                       });
+    //                       </script>";
+
+  
     $rapp3="
     <script type=\"text/javascript\">
     Highcharts.chart('container3',
@@ -736,7 +884,7 @@ class Dashboard_General extends CI_Controller
         type: 'pie'
         },
         title: {
-          text: 'Véhicule en mouvement Vs en stationnement'
+          text: 'Véhicule actif Vs inactif'
           },
           subtitle: 
           {
@@ -760,7 +908,7 @@ class Dashboard_General extends CI_Controller
                     events: {
                      click: function()
                      {
-                      $(\"#titre1\").html(\"LISTE DES VEHICULES \");
+                      $(\"#titre1\").html(\"LISTE DES CHAUFFEUR \");
 
                        $(\"#myModal\").modal('show');
                        var row_count ='1000000';
@@ -770,11 +918,11 @@ class Dashboard_General extends CI_Controller
                         \"bDestroy\": true,
                         \"oreder\":[],
                         \"ajax\":{
-                          url:\"".base_url('dashboard/Dashboard_General/detail_veh_station_mouv')."\",
+                          url:\"".base_url('dashboard/Dashboard_General/detail_veh_statut')."\",
                           type:\"POST\",
                           data:{
 
-                           key3:this.key3,
+                           key:this.key,
 
                            ZONE_ID:$('#ZONE_ID').val(),
                            QUARTIER_ID:$('#QUARTIER_ID').val(),
@@ -826,8 +974,8 @@ class Dashboard_General extends CI_Controller
                           showInLegend: true
                         }
                         },
-                         credits: 
-                         {
+                        credits: 
+                        {
                           enabled: true,
                           href: \"\",
                           text: \"Mediabox\"
@@ -835,11 +983,11 @@ class Dashboard_General extends CI_Controller
                           series: [
                         {
                           name: '',
-
-                          data: [".$donnees3." ]
+                          data: [{name:'Véhicule en stationnement :2', y:2,color:'#C17CA9',key3:'0'},{name:'Véhicule en mouvement :0', y:0,color:'#70C245',key3:'1'}, ]
                           }]
                           });
                           </script>";
+        
 
     //rapport4:vehicule en allumé vs etteintes
    $vehicule_allume_eteinte=$this->Model->getRequete("SELECT ing as ID ,if(ing=1,'Véhicule allumé','Véhicule éteint') as statut,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.ignition as ing FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by  ing,if(ing=1,'Véhicule allumé','Véhicule ettient')");
