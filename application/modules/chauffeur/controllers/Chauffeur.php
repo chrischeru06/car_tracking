@@ -110,14 +110,16 @@
 				$sub_array[] = $row->NUMERO_TELEPHONE;
 				$sub_array[] = $row->ADRESSE_MAIL;
 
-				$option = '<div class="dropdown ">
-				<a class=" text-black btn-sm" data-toggle="dropdown">
+				$option = '<div class="dropdown text-center" style="color:#fff;">
+				<a class="btn-sm dropdown-toggle" style="color:white; hover:black; cursor:pointer;" data-toggle="dropdown">
 				<i class="bi bi-three-dots h5" style="color:blue;"></i>
 				<span class="caret"></span></a>
-				<ul class="dropdown-menu dropdown-menu-left">
+				<ul class="dropdown-menu dropdown-menu-right">
 				';
 
-				$option .= "<li class='btn-md'><a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a></li>";
+				$option .= "<li class='btn-md'>
+				<a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><i class='bi bi-pencil h5'></i>&nbsp;&nbsp;Modifier</a>
+				</li>";
 
 				$option.= "<li class='btn-md'><a class='btn-md' href='".base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID))."' ><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détails</a></li>";
 

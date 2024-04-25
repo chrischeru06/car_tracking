@@ -24,7 +24,20 @@
   <script src="https://unpkg.com/georaster-layer-for-leaflet"></script>
   <style>
     #mapinfo {width: 103%;height: 700px;border-radius: 20px; margin-top: 10px;margin-left:-19px;z-index: 1;}
-  </style>
+    
+
+    .capitalize-first {
+     color:  #899bbd;
+     font-weight: bold;
+     text-transform: lowercase;
+      font-variant: small-caps;
+
+}
+.capitalize-first::first-letter {
+  text-transform: uppercase;
+}
+
+</style>
 </head>
 
 <body>
@@ -39,7 +52,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Choisir la zone d'affectation du chauffeur <a id="NOM_CHAUFF"></a>&nbsp;&nbsp;<a id="PRENOM_CHAUFF"></a></h1>
+      <h1 style="color:  #899bbd;">Choisir la zone d'affectation du chauffeur <a id="NOM_CHAUFF" class="capitalize-first"></a>&nbsp;&nbsp;<a id="PRENOM_CHAUFF" class="capitalize-first"></a></h1>
       <nav>
         <ol class="breadcrumb">
           <!-- <li class="breadcrumb-item"><a href="">Affecter</a></li> -->
@@ -47,7 +60,7 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-<br>
+    <br>
     <section class="section">
       <!--  <div class="container text-center"> -->
         <div class="row">
@@ -215,7 +228,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      
-          <h5 class="modal-title">ATTRIBUER LE VEHICULE AU CHAUFFEUR <a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
+          <h5 class="modal-title" style="color: rgba(255, 255, 255, 0.8);">ATTRIBUER LE VEHICULE AU CHAUFFEUR <a id="NOM" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"></a>&nbsp;&nbsp;<a id="PRENOM" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"></a></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

@@ -133,7 +133,7 @@ a:hover {
   function login()
   {
     // alert('test')
-    $('#connexion').text('<font class="fa fa-spinner fa-spin"></font>'); 
+    $('#connexion').text('Connexion'); 
     $('#connexion').attr('disabled',true);
     $('#message_login').html('')
     

@@ -114,7 +114,7 @@
                   </li>
 
                   <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures">Informaton véhicules</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures">Information véhicules</button>
                   </li>
 
                   <li class="nav-item">
@@ -229,88 +229,85 @@
                     </div>
                     <div class="col-xl-2" >
                     </div>
-
-                    <div class="col-xl-6" >
-                      <table class='table table-borderless  text-dark'>
-                        <tr>
-                          <td><span class="fa fa-bookmark-o"></span>&nbsp;Marque</td>
-                          <th><?=$info_vehicul['DESC_MARQUE']?></th>
-                        </tr>
-                        <tr>
-                          <td><span class="fa fa-bolt"></span>&nbsp;Modèle</td>
-                          <th><?=$info_vehicul['DESC_MODELE']?></th>
-                        </tr> 
-                        <tr>
-                          <td><span class="fa fa-circle"></span>&nbsp;Couleur</td>
-                          <th><?=$info_vehicul['COULEUR']?></th>
-                        </tr>
-                        <tr>
-                          <td><span class="fa fa-calendar"></span>&nbsp;Plaque</td>
-                          <th><?=$info_vehicul['PLAQUE']?></th>
-                        </tr>
-                        <tr>
-                          <td><img src='<?=base_url("upload/proprietaire/photopassport/".$info_vehicul['PHOTO_PASSPORT'])?>' style="width: 15px;height: 15px;border-radius: 50%;cursor: pointer;" onclick='show_image_proprio();' title="Propriétaire">&nbsp;Propriétaire</td>
-                          <th><?=$info_vehicul['name']?></th>
-                        </tr>
-                      </table>
-                    </div>
+                    <?php
+                    if(!empty($info_vehicul))
+                    {
+                      ?>
+                      <div class="col-xl-6" >
+                        <table class='table table-borderless  text-dark'>
+                          <tr>
+                            <td><span class="fa fa-bookmark-o"></span>&nbsp;Marque</td>
+                            <th><?=$info_vehicul['DESC_MARQUE']?></th>
+                          </tr>
+                          <tr>
+                            <td><span class="fa fa-bolt"></span>&nbsp;Modèle</td>
+                            <th><?=$info_vehicul['DESC_MODELE']?></th>
+                          </tr> 
+                          <tr>
+                            <td><span class="fa fa-circle"></span>&nbsp;Couleur</td>
+                            <th><?=$info_vehicul['COULEUR']?></th>
+                          </tr>
+                          <tr>
+                            <td><span class="fa fa-calendar"></span>&nbsp;Plaque</td>
+                            <th><?=$info_vehicul['PLAQUE']?></th>
+                          </tr>
+                          <tr>
+                            <td><img src='<?=base_url("upload/proprietaire/photopassport/".$info_vehicul['PHOTO_PASSPORT'])?>' style="width: 15px;height: 15px;border-radius: 50%;cursor: pointer;" onclick='show_image_proprio();' title="Propriétaire">&nbsp;Propriétaire</td>
+                            <th><?=$info_vehicul['name']?></th>
+                          </tr>
+                        </table>
+                      </div>
+                    <?php }?>
                   </div>
                 </div>
+
                 <div class="tab-pane fade pt-3" id="doc_uploader">
+                  <div class="col-md-4">
                   <table class='table table-borderless  text-dark'>
                     <tr>
-                      <td>Permis de conduire</td>
 
                       <?php
                       if(!empty($chauff['FILE_PERMIS']))
                       {
                         ?>
-                        <td> <img style='border-radius: 5px;height: 50px;cursor: pointer;' src='<?=base_url("upload/chauffeur/".$chauff['FILE_PERMIS'])?>' onclick='show_image();'></td>
+                        <th> <img style='border-radius: 5px;height: 50px;cursor: pointer;' src='<?=base_url("upload/chauffeur/".$chauff['FILE_PERMIS'])?>' onclick='show_image();'></th>
 
                         <?php
                       }
                       else if(empty($chauff['FILE_PERMIS']))
                       {
                         ?>
-                        <td> <img style="border-radius: 5px;height: 50px;cursor: pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>"></td>
+                        <th> <img style="border-radius: 5px;height: 50px;cursor: pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>"></th>
                         <?php
                       }
                       ?>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td><td></td>
-                      <td></td>
-                      <td></td><td></td>
-                      <td></td>
-                      <td></td>
+                      
 
-                    </tr>
-                    <tr>
-                    </tr>
-                    <tr>
-                      <td>Carte d'identité</td>
+
+                      
 
                       <?php
                       if(!empty($chauff['FILE_CARTE_IDENTITE']))
                       {
                         ?>
-                        <td><img style='border-radius: 5px;height: 50px;cursor: pointer;' onclick='show_image_id();' src='<?=base_url("upload/chauffeur/".$chauff['FILE_CARTE_IDENTITE'])?>'></td>
+                        <th><img style='border-radius: 5px;height: 50px;cursor: pointer;' onclick='show_image_id();' src='<?=base_url("upload/chauffeur/".$chauff['FILE_CARTE_IDENTITE'])?>'></th>
 
                         <?php
                       }
                       else if(empty($chauff['FILE_CARTE_IDENTITE']))
                       {
                         ?>
-                        <td><img  style="border-radius: 5px;height: 50px;cursor: pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>"></td>
+                        <th><img  style="border-radius: 5px;height: 50px;cursor: pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>"></th>
                         <?php
                       }
                       ?>
                     </tr>
+                    <tr>
+                      <td>Permis de conduire</td>  
+                      <td>Carte d'identité</td>
+                    </tr>
                   </table>
-
+                </div>
                 </div>
               </div>
             </div>
@@ -596,7 +593,7 @@
     $('#Modal_photo_permis').modal('show');
 
   }
-   function show_image_proprio()
+  function show_image_proprio()
   {
     $('#Modal_proprio').modal('show');
 

@@ -132,12 +132,11 @@
 				if($row->STATUT_VEH_AJOUT==2){
 					// $sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
 					// <span class="badge badge-pill badge-warning" ></span>';
-					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+					$sub_array[]='<center> <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 
 					<table>
-					<td title=""><label class="text-primary small fa fa-check" title="Activé"></label></td>
 					<td title="Désactiver"><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked >
 					<span class="slider round"></span>
@@ -146,7 +145,7 @@
 
 					
 					
-					</form>
+					</form></center>
 
 					';
 				}elseif ($row->STATUT_VEH_AJOUT==1) 
@@ -157,17 +156,16 @@
 				{
 					$sub_array[]='<center><i class="fa fa-ban text-danger  small" title="Véhicule refusé"></i></i><font style="font-size:14px;" class="text-danger" title="Véhicule refusé"> </font></center>';
 				}elseif($row->STATUT_VEH_AJOUT==4){
-					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+					$sub_array[]='<center> <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 					<table>
-					<td title="Désactivé"><label class="text-danger small fa fa-close" title="Désactivé"></label></td>
 					<td title="Activer"><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_active(' . $row->VEHICULE_ID . ')">
 					<span class="slider round"></span>
 					</label></td>
 					</table>
-					</form>
+					</form></center>
 
 					';
 				}
@@ -208,7 +206,7 @@
 				// }
 
 				$option = '<div class="dropdown text-center">
-				<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
+				<a class="btn-sm dropdown-toggle" style="color:white; hover:black;cursor:pointer;" data-toggle="dropdown">
 				<i class="bi bi-three-dots h5" style="color:blue;"></i>	
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu dropdown-menu-right">
@@ -217,22 +215,22 @@
 
 				if($row->DATE_FIN_ASSURANCE >= date('Y-m-d'))
 				{
-					$sub_array[] = '<i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font>';
+					$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"></font><center>';
 				}
 				else
 				{
-					$sub_array[] = '<i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font>';
+					$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
 
 					$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"> <li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</td></tr></table></li></a>';
 				}
 				
 				if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
 				{
-					$sub_array[] = '<i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font>';
+					$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"></font></center>';
 				}
 				else
 				{
-					$sub_array[] = '<i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font>';
+					$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"></font></center>';
 
 					$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</td></tr></table></li></a>';
 				}

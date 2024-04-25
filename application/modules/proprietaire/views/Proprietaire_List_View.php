@@ -5,7 +5,10 @@
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
   <style type="text/css">
-
+.btn-md:hover{
+      background-color: rgba(210, 232, 249,100);
+      border-radius: 5px;
+    }
    /* The switch - the box around the slider */
    .switch {
     position: relative;
@@ -104,7 +107,7 @@ input:checked + .slider:before {
           <nav>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="index.html">Propriétaire</a></li>
-              <li class="breadcrumb-item active">Liste</li>
+              <li class="breadcrumb-item ">Liste</li>
             </ol>
           </nav>
         </div>
