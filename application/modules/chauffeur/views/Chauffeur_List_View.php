@@ -14,8 +14,6 @@
    padding: 10px 0 10px 40px;
 }
 
-
-
     /* The switch - the box around the slider */
     .switch {
       position: relative;
