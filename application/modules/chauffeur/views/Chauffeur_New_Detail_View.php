@@ -29,6 +29,13 @@
       height: 600px;
       overflow: hidden;
     }
+     #image-container_chof{
+      position: relative;
+      left:10px;
+      width: 670px; 
+      height: 600px;
+      overflow: hidden;
+    }
     #image-container2{
       position: relative;
       left:10px;
@@ -155,13 +162,15 @@
                         if(!empty($chauff['PHOTO_PASSPORT']))
                         {
                           ?>
-                          <img style='border-radius: 10px;height: 320px;width: 200%;' src='<?=base_url("upload/chauffeur/".$chauff['PHOTO_PASSPORT'])?>'>
+                          <img style='border-radius: 10px;height: 320px;width: 200%;' class="" onclick="show_imagechauff();" src='<?=base_url("upload/chauffeur/".$chauff['PHOTO_PASSPORT'])?>'>
+                          <input type="hidden" id="phot_chof2" value="<?= base_url()?>/upload/chauffeur/<?= $chauff['PHOTO_PASSPORT']?>">
                           <?php
                         }
                         else if(empty($chauff['PHOTO_PASSPORT']))
                         {
                           ?>
                           <img style="border-radius: 10px;height: 290px;width: 200%;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
+                           <input type="hidden" id="phot_chof2" value="<?= base_url()?>/upload/img_agent/phavatar.png">
                           <?php
                         }
                         ?>
@@ -314,6 +323,57 @@
           </div>
         </div>
       </div>
+
+
+<!-- Modal photo du chauffeur-->
+
+<div class="modal fade" id="Modal_photo_chof">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style='background:cadetblue;color:white;'>
+        <h6 class="modal-title"></h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
+
+          <div class="col-md-4">
+
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomIn_chof()" class="fa fa-plus-circle text-muted"></i>
+
+            <input type="hidden" id="rotation" value="0">
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomOut_chof()" class="fa fa-minus-circle text-muted"></i>
+          </div>
+
+                <div class="col-md-1">
+                  <i onclick="rotate_chof()" class="fa fa-rotate-right text-muted"></i>
+                </div>
+
+
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-12" id="image-container_chof">
+                  <img src="" id="phot_chof" alt="Description de l'image">
+                </div>
+
+
+              </div>
+
+            </div>
+            <!-- footer here -->
+          </div>
+        </div>
+      </div>
+
     </section>
 
   </main><!-- End #main -->
@@ -632,6 +692,16 @@
   });
  }
 </script>
+<script>
+    function show_image2()
+    {
+      var phot_v2 = $('#phot_v2').val();
+      var imgElement = document.getElementById("phot_v");
+      imgElement.src = phot_v2;
+      $('#Modal_photo_chof').modal('show');
+    }
+  </script>
+
 <script>
              //Operations photo avec les boutons
 
@@ -985,15 +1055,7 @@
           }
         });
 
-    // Pivoter avec la molette de la souris
-      // document.addEventListener('wheel', function(event) {
-      //   if (event.deltaY < 0) {
-      //     rotationAngle += 10;
-      //   } else {
-      //     rotationAngle -= 10;
-      //   }
-      //   image.style.transform = `rotate(${rotationAngle}deg)`;
-      // });
+    
 
 
              // Fonction pour mettre à jour la transformation CSS de la photo
@@ -1001,4 +1063,134 @@
           photo_proprio.style.transform = `scale(${scalePRO}) translate(${translateXPro}px, ${translateYPro}px)`;
         }
       </script>
+      <script>
+    function show_imagechauff()
+    {
+      var phot_chof2 = $('#phot_chof2').val();
+      var imgElement = document.getElementById("phot_chof");
+      imgElement.src = phot_chof2;
+      $('#Modal_photo_chof').modal('show');
+    }
+  </script>
+
+      <script>
+        //chauffeur
+             //Operations photo avec les boutons
+
+        var scalechof = 1; // Facteur de zoom initial
+        var translateXchof = 0; // Décalage horizontal initial
+        var translateYchof = 0; // Décalage vertical initial
+
+        var image_choff = document.getElementById('phot_chof');
+
+        // Fonction pour zoomer la photo
+        function zoomIn_chof() {
+          scalechof += 0.1;
+          updateTransformchof();
+
+        }
+
+        // Fonction pour dézoomer la photo
+        function zoomOut_chof() {
+          scalechof -= 0.1;
+          updateTransformchof();
+        }
+
+        // Fonction pour déplacer la photo horizontalement
+        function moveX(direction) {
+          translateXchof += direction * 50; // Changer la valeur de décalage
+          updateTransformchof();
+        }
+
+        // Fonction pour déplacer la photo verticalement
+        function moveY(direction) {
+          translateYchof += direction * 50; // Changer la valeur de décalage
+          updateTransformchof();
+        }
+
+        // Fonction pour mettre à jour la transformation CSS de la photo
+        function updateTransformchof() {
+          image_choff.style.transform = `scale(${scalechof}) translate(${translateXchof}px, ${translateYchof}px)`;
+        }
+
+      //Rotation de l'image
+
+        function rotate_chof()
+        {
+          const image_choff = document.getElementById('phot_chof');
+      // const rotateBtn = document.getElementById('rotate-btn');
+          let rotationchof = Number($('#rotation').val());
+
+      //rotateBtn.addEventListener('click', () => {
+          rotationchof += 90;
+          image_choff.style.transform = `rotate(${rotationchof}deg)`;
+          $('#rotation').val(rotationchof)
+      //});
+        }
+      </script>
+
+      <script>
+             //Operations photo avec la sourie
+
+        let container = document.getElementById('image-container_chof');
+        let image_choff = document.getElementById('phot_chof');
+        let lastX, lastY;
+        let isDragging = false;
+        let rotationAngle = 0;
+
+    // Zoomer/dézoomer sur double clic
+        document.getElementById('phot_chof').addEventListener('dblclick', function() {
+          if (this.style.transform === "scale(2)") {
+            this.style.transform = "scale(1)";
+          } else {
+            this.style.transform = "scale(2)";
+          }
+        });
+    // Déplacer en maintenant le clic gauche
+        image_choff.addEventListener('mousedown', function(event) {
+          if (event.button === 0) {
+            isDragging = true;
+            lastX = event.clientX;
+            lastY = event.clientY;
+            image_choff.style.cursor = 'grabbing';
+          }
+        });
+
+        document.addEventListener('mousemove', function(event) {
+          if (isDragging) {
+            let deltaX = event.clientX - lastX;
+            let deltaY = event.clientY - lastY;
+            let newX = image.offsetLeft + deltaX;
+            let newY = image.offsetTop + deltaY;
+            image_choff.style.left = newX + 'px';
+            image_choff.style.top = newY + 'px';
+            lastX = event.clientX;
+            lastY = event.clientY;
+          }
+        });
+
+        document.addEventListener('mouseup', function(event) {
+          if (event.button === 0) {
+            isDragging = false;
+            image_choff.style.cursor = 'grab';
+          }
+        });
+
+    // Pivoter avec la molette de la souris
+        document.addEventListener('wheel', function(event) {
+          if (event.deltaY < 0) {
+            rotationAngle += 10;
+          } else {
+            rotationAngle -= 10;
+          }
+          image_choff.style.transform = `rotate(${rotationAngle}deg)`;
+        });
+
+
+        // Fonction pour mettre à jour la transformation CSS de la photo
+        function updateTransform() {
+          image_choff.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+        }
+      </script>
+
       </html>
