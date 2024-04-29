@@ -120,7 +120,6 @@
 
 		markers.push(marker);
 
-
 		if(index[14] == 1)
 		{
 			marker.addTo(map);

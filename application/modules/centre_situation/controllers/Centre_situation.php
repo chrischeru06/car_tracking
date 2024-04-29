@@ -23,6 +23,7 @@
 
 			}
 		}
+		
 
 		//la fonction index visualise la liste des vehicules
 		function index()
