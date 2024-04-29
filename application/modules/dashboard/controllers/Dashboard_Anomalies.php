@@ -642,17 +642,18 @@ class Dashboard_Anomalies extends CI_Controller
       }
      //print_r($nvldistance_arrondie);exit();
 
-    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as ID,vehicule.PLAQUE as NAME,vehicule.KILOMETRAGE as NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1  GROUP BY ID,NAME');
+    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID ,vehicule.PLAQUE  FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1  GROUP BY VEHICULE_ID,PLAQUE');
     $donnees10="";
     $donnees101="";
     foreach ($vehicule_consomation as  $value) 
     {
-       $littre_consom=$value['NBR']*$nvldistance_arrondie;
+       $vehicule_km=$this->Model->getRequeteOne('SELECT  vehicule.KILOMETRAGE as NBR FROM `vehicule`   WHERE vehicule.VEHICULE_ID='.$value['VEHICULE_ID']);
+       $littre_consom=$vehicule_km['NBR']*$nvldistance_arrondie;
        $km=$nvldistance_arrondie;
       $color=$this->getcolor();
       $nb10 = (!empty($littre_consom)) ? $littre_consom : "0" ;
-      $donnees10.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb10.",color:'green',key2:".$value['ID']."},";
-      $donnees101.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$km.",color:'bleu',key2:".$value['ID']."},"; 
+      $donnees10.="{name:'".str_replace("'","\'",$value['PLAQUE'])."', y:".$nb10.",color:'green',key2:".$value['VEHICULE_ID']."},";
+      $donnees101.="{name:'".str_replace("'","\'",$value['PLAQUE'])."', y:".$km.",color:'bleu',key2:".$value['VEHICULE_ID']."},"; 
       
     }
      //print_r($donnees101);exit();
@@ -799,7 +800,7 @@ class Dashboard_Anomalies extends CI_Controller
     foreach ($vehi_code_course as  $value) 
     {
 
-    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(mouvement) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE="'.$value['CODE_COURSE'].'" GROUP BY IDENTIIANT,NAME');
+    $vehicule_consomation=$this->Model->getRequete('SELECT DISTINCT vehicule.VEHICULE_ID ,vehicule.PLAQUE,COUNT(mouvement) as  NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE mouvement=0 AND tracking_data.CODE_COURSE="'.$value['CODE_COURSE'].'" GROUP BY VEHICULE_ID,PLAQUE');
 
     }
     //print_r($vehicule_consomation);exit();
@@ -811,7 +812,7 @@ class Dashboard_Anomalies extends CI_Controller
        //$littre_consom=$value['NBR']*$nvldistance_arrondie;
       $color=$this->getcolor();
       $nb11 = (!empty($value['NBR'])) ? $value['NBR'] : "0" ;
-      $donnees11.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb11.",color:'".$color."',key2:".$value['IDENTIIANT']."},"; 
+      $donnees11.="{name:'".str_replace("'","\'",$value['PLAQUE'])."', y:".$nb11.",color:'".$color."',key2:".$value['VEHICULE_ID']."},"; 
       
     }
      $rapp11="<script type=\"text/javascript\">
@@ -943,7 +944,7 @@ class Dashboard_Anomalies extends CI_Controller
     });
    </script>";
    //rapport nbr course par voiture
-   $course_voiture=$this->Model->getRequete('SELECT DISTINCT vehicule.CODE as IDENTIIANT,vehicule.PLAQUE as NAME,COUNT(DISTINCT `CODE_COURSE`) as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' GROUP BY IDENTIIANT,NAME'); 
+   $course_voiture=$this->Model->getRequete('SELECT DISTINCT vehicule.CODE,vehicule.PLAQUE,COUNT(DISTINCT `CODE_COURSE`) as  NBR FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' GROUP BY CODE,PLAQUE'); 
    
     //print_r($vehicule_consomation);exit();
 
@@ -954,7 +955,7 @@ class Dashboard_Anomalies extends CI_Controller
        //$littre_consom=$value['NBR']*$nvldistance_arrondie;
       $color=$this->getcolor();
       $nb12 = (!empty($value['NBR'])) ? $value['NBR'] : "0" ;
-      $donnees12.="{name:'".str_replace("'","\'",$value['NAME'])."', y:".$nb12.",color:'".$color."',key12:".$value['IDENTIIANT']."},"; 
+      $donnees12.="{name:'".str_replace("'","\'",$value['PLAQUE'])."', y:".$nb12.",color:'".$color."',key12:".$value['CODE']."},"; 
       
     }
 
@@ -1128,7 +1129,7 @@ class Dashboard_Anomalies extends CI_Controller
     $order_by='';
     if($_POST['order']['0']['column']!=0)
     {
-      $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column'] .'  '.$_POST['order']['0']['dir'] : ' ORDER BY IDENTIIANT   DESC';
+      $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column'] .'  '.$_POST['order']['0']['dir'] : ' ORDER BY VEHICULE_ID   DESC';
     }
     $search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
      $critaire="";

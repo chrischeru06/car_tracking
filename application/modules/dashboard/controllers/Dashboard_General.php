@@ -92,7 +92,7 @@ class Dashboard_General extends CI_Controller
     $break=explode(".",$KEY2);
     $ID=$KEY2;
     $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-    $query_principal='SELECT distinct VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS desc_chauffeur FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+    $query_principal='SELECT distinct VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1';
 
 
     $limit='LIMIT 0,10';
@@ -116,8 +116,9 @@ class Dashboard_General extends CI_Controller
     $data = array();
     foreach ($fetch_data as $row)
     {
-      $u++;
-      $intrant=array();
+     $u++;
+     $intrant=array();
+     $desc_chauffeur=$this->Model->getRequeteOne(' SELECT CONCAT(`NOM`,"&nbsp;",`PRENOM`) AS desc_cho FROM `chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1 and STATUT_AFFECT=1 and chauffeur_vehicule.CODE="'.$row->CODE.'"');
       $intrant[] ="<strong class='text-dark'/>".$u; 
       $intrant[] ="<strong class='text-dark'/>".$row->CODE;
       $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
@@ -126,7 +127,14 @@ class Dashboard_General extends CI_Controller
       $intrant[] ="<strong class='text-dark'/>".$row->COULEUR;
       $intrant[] ="<strong class='text-dark'/>".$row->KILOMETRAGE;
       $intrant[] ="<strong class='text-dark'/>".$row->desc_proprio;
-      $intrant[] ="<strong class='text-dark'/>".$row->desc_chauffeur;
+       if (!empty($desc_chauffeur)) 
+     {
+       $intrant[] ="<strong class='text-dark'/>".$desc_chauffeur['desc_cho'];
+     }else
+     {
+       $intrant[] ="N/A";
+     }
+     
       $data[] = $intrant;
     }
 
@@ -253,8 +261,7 @@ class Dashboard_General extends CI_Controller
     $break=explode(".",$KEY5);
     $ID=$KEY5;
     $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-    $query_principal="SELECT CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_NAISSANCE FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1";
-
+    $query_principal="SELECT DISTINCT(chauffeur.CHAUFFEUR_ID),chauffeur.NOM,chauffeur.PRENOM,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.DATE_NAISSANCE FROM chauffeur  WHERE 1";
 
     $limit='LIMIT 0,10';
     if($_POST['length'] != -1)
@@ -269,16 +276,18 @@ class Dashboard_General extends CI_Controller
     }
     $search = !empty($_POST['search']['value']) ? (' AND (chauffeur.NOM LIKE "%' . $var_search . '%" 
         OR chauffeur.PRENOM LIKE "%' . $var_search . '%"
-        OR chauffeur.ADRESSE_PHYSIQUE LIKE "%' . $var_search . '%" 
-        OR provinces.PROVINCE_NAME LIKE "%' . $var_search . '%" 
-        OR communes.COMMUNE_NAME LIKE "%' . $var_search . '%"
-        OR zones.ZONE_NAME  LIKE "%' . $var_search . '%"
-        OR collines.COLLINE_NAME LIKE "%' . $var_search . '%"
-        OR chauffeur.NUMERO_TELEPHONE LIKE "%' . $var_search . '%"
-        OR chauffeur.ADRESSE_MAIL LIKE "%' . $var_search . '%"
-        OR chauffeur.NUMERO_CARTE_IDENTITE LIKE "%' . $var_search . '%")') : '';
+        OR chauffeur.ADRESSE_PHYSIQUE LIKE "%' . $var_search . '%"
+         OR chauffeur.NUMERO_TELEPHONE LIKE "%' . $var_search . '%" 
+          OR chauffeur.ADRESSE_MAIL LIKE "%' . $var_search . '%" 
+      )') : '';
 
     $critaire=" AND chauffeur.IS_ACTIVE=".$ID;
+      $critaire="";
+    if ($ID==1) {
+    $critaire=" AND chauffeur.IS_ACTIVE=1";
+    }elseif ($ID==0) {
+      $critaire=" AND chauffeur.IS_ACTIVE=2";
+    }
     $query_secondaire=$query_principal.'  '.$critaire.' '.$search.' '.$order_by.'   '.$limit;
     $query_filter=$query_principal.'  '.$critaire.' '.$search;
     $fetch_data = $this->Model->datatable($query_secondaire);
@@ -287,14 +296,34 @@ class Dashboard_General extends CI_Controller
     foreach ($fetch_data as $row)
     {
       $u++;
+      
       $intrant=array();
+    $veh_pro=$this->Model->getRequeteOne('SELECT vehicule.VEHICULE_ID,CONCAT(proprietaire.NOM_PROPRIETAIRE,"&nbsp;",proprietaire.PRENOM_PROPRIETAIRE) AS propri,vehicule.PLAQUE,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE from chauffeur_vehicule  left join vehicule on vehicule.CODE=chauffeur_vehicule.CODE  left join proprietaire on vehicule.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID  join vehicule_modele on vehicule.ID_MODELE=vehicule_modele.ID_MODELE join vehicule_marque on vehicule.ID_MARQUE=vehicule_marque.ID_MARQUE WHERE 1 and STATUT_AFFECT=1  and chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID);
+    // print_r($veh_pro);exit();
       $intrant[] ="<strong class='text-dark'/>".$u; 
       $intrant[] ="<strong class='text-dark'/>".$row->NOM." ".$row->PRENOM;
-      $intrant[] ="<strong class='text-dark'/>".$row->ADRESSE_PHYSIQUE;
+      if (!empty($veh_pro)) 
+      {
+        $intrant[] ="<strong class='text-dark'/>".$veh_pro['PLAQUE'];
+        $intrant[] ="<strong class='text-dark'/>".$veh_pro['DESC_MODELE'];
+        $intrant[] ="<strong class='text-dark'/>".$veh_pro['DESC_MARQUE'];
+
+        $intrant[] ="<strong class='text-dark'/>".$veh_pro['propri'];
+      }else
+      {
+        $intrant[] ="N/A";
+        $intrant[] ="N/A";
+        $intrant[] ="N/A";
+        $intrant[] ="N/A";
+      }
+
+      // $intrant[] ="<strong class='text-dark'/>".$row->ADRESSE_PHYSIQUE;
       $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_TELEPHONE;
       $intrant[] ="<strong class='text-dark'/>".$row->ADRESSE_MAIL;
-      $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_CARTE_IDENTITE;
-      $intrant[] ="<strong class='text-dark'/>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME;
+      // $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_CARTE_IDENTITE;
+      // $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_CARTE_IDENTITE;
+
+      // $intrant[] ="<strong class='text-dark'/>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME;
       
       $data[] = $intrant;
     }
@@ -314,7 +343,7 @@ class Dashboard_General extends CI_Controller
     $break=explode(".",$KEY6);
     $ID=$KEY6;
     $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-    $query_principal="SELECT CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_NAISSANCE FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1";
+    $query_principal="SELECT DISTINCT(chauffeur.CHAUFFEUR_ID),chauffeur.NOM,chauffeur.PRENOM,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.DATE_NAISSANCE FROM chauffeur  WHERE 1";
 
 
     $limit='LIMIT 0,10';
@@ -330,14 +359,10 @@ class Dashboard_General extends CI_Controller
     }
     $search = !empty($_POST['search']['value']) ? (' AND (chauffeur.NOM LIKE "%' . $var_search . '%" 
         OR chauffeur.PRENOM LIKE "%' . $var_search . '%"
-        OR chauffeur.ADRESSE_PHYSIQUE LIKE "%' . $var_search . '%" 
-        OR provinces.PROVINCE_NAME LIKE "%' . $var_search . '%" 
-        OR communes.COMMUNE_NAME LIKE "%' . $var_search . '%"
-        OR zones.ZONE_NAME  LIKE "%' . $var_search . '%"
-        OR collines.COLLINE_NAME LIKE "%' . $var_search . '%"
-        OR chauffeur.NUMERO_TELEPHONE LIKE "%' . $var_search . '%"
-        OR chauffeur.ADRESSE_MAIL LIKE "%' . $var_search . '%"
-        OR chauffeur.NUMERO_CARTE_IDENTITE LIKE "%' . $var_search . '%")') : '';
+        OR chauffeur.ADRESSE_PHYSIQUE LIKE "%' . $var_search . '%"
+         OR chauffeur.NUMERO_TELEPHONE LIKE "%' . $var_search . '%" 
+          OR chauffeur.ADRESSE_MAIL LIKE "%' . $var_search . '%" 
+      )') : '';
 
     $critaire=" AND chauffeur.STATUT_VEHICULE=".$ID;
     $query_secondaire=$query_principal.'  '.$critaire.' '.$search.' '.$order_by.'   '.$limit;
@@ -349,13 +374,39 @@ class Dashboard_General extends CI_Controller
     {
       $u++;
       $intrant=array();
+       $veh_pro=$this->Model->getRequeteOne('SELECT vehicule.VEHICULE_ID,CONCAT(proprietaire.NOM_PROPRIETAIRE,"&nbsp;",proprietaire.PRENOM_PROPRIETAIRE) AS propri,vehicule.PLAQUE,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE from chauffeur_vehicule  left join vehicule on vehicule.CODE=chauffeur_vehicule.CODE  left join proprietaire on vehicule.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID  join vehicule_modele on vehicule.ID_MODELE=vehicule_modele.ID_MODELE join vehicule_marque on vehicule.ID_MARQUE=vehicule_marque.ID_MARQUE WHERE 1 and STATUT_AFFECT=1  and chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID);
+      // $intrant[] ="<strong class='text-dark'/>".$u; 
+      // $intrant[] ="<strong class='text-dark'/>".$row->NOM." ".$row->PRENOM;
+
+      // $intrant[] ="<strong class='text-dark'/>".$row->ADRESSE_PHYSIQUE;
+      // $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_TELEPHONE;
+      // $intrant[] ="<strong class='text-dark'/>".$row->ADRESSE_MAIL;
+      // $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_CARTE_IDENTITE;
+      // $intrant[] ="<strong class='text-dark'/>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME;
       $intrant[] ="<strong class='text-dark'/>".$u; 
       $intrant[] ="<strong class='text-dark'/>".$row->NOM." ".$row->PRENOM;
-      $intrant[] ="<strong class='text-dark'/>".$row->ADRESSE_PHYSIQUE;
+      if (!empty($veh_pro)) 
+      {
+        $intrant[] ="<strong class='text-dark'/>".$veh_pro['PLAQUE'];
+        $intrant[] ="<strong class='text-dark'/>".$veh_pro['DESC_MODELE'];
+        $intrant[] ="<strong class='text-dark'/>".$veh_pro['DESC_MARQUE'];
+
+        $intrant[] ="<strong class='text-dark'/>".$veh_pro['propri'];
+      }else
+      {
+        $intrant[] ="N/A";
+        $intrant[] ="N/A";
+        $intrant[] ="N/A";
+        $intrant[] ="N/A";
+      }
+
+      // $intrant[] ="<strong class='text-dark'/>".$row->ADRESSE_PHYSIQUE;
       $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_TELEPHONE;
       $intrant[] ="<strong class='text-dark'/>".$row->ADRESSE_MAIL;
-      $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_CARTE_IDENTITE;
-      $intrant[] ="<strong class='text-dark'/>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME;
+      // $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_CARTE_IDENTITE;
+      // $intrant[] ="<strong class='text-dark'/>".$row->NUMERO_CARTE_IDENTITE;
+
+      // $intrant[] ="<strong class='text-dark'/>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME;
       
       $data[] = $intrant;
     }
@@ -429,27 +480,32 @@ class Dashboard_General extends CI_Controller
     // $vehicule_statut=$this->Model->getRequete('SELECT vehicule.STATUT as ID, if(vehicule.STATUT=1,"Actif","Inactif")as statut ,COUNT(`VEHICULE_ID`) as NBR FROM `vehicule` WHERE 1 GROUP by ID,statut ');
 
  $vehicule_actif=$this->Model->getRequete('SELECT vehicule.STATUT_VEH_AJOUT as ID,`VEHICULE_ID` as NBR FROM `vehicule` WHERE `STATUT_VEH_AJOUT`=2 ');
+
   $vehicule_inactif=$this->Model->getRequete('SELECT vehicule.STATUT_VEH_AJOUT as ID,`VEHICULE_ID` as NBR FROM `vehicule` WHERE `STATUT_VEH_AJOUT`=4 ');
     $donnees1="";
     $compteur=0;
+    $somme=0;
     foreach ($vehicule_actif as  $value) 
     {
-      $color=$this->getcolor();
       $compteur++;
       $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme=($compteur>0) ? $compteur : "0" ;
+      $somme=$compteur;
      // $donnees9.="{name:'Accident', y:".$test9.",color:'".$color."',key9:1},";
     }
-    $donnees1.="{name:'Actif:". $somme ."', y:". $somme.",color:'".$color."',key:2},";
+    $donnees1.="{name:'Actif:". $somme ."', y:". $somme.",key:2},";
      $donnees11="";
      $compteur1=0;
+     $somme11=0;
     foreach ($vehicule_inactif as  $value) 
     { $compteur1++;
-      $color11=$this->getcolor();
+      // $color11=$this->getcolor();
       $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme11=($compteur1>0) ? $compteur1 : "0" ;
+      // $somme11=($compteur1>0) ? $compteur1 : "0" ;
+       $somme11=$compteur1;
+
     }
-    $donnees1.="{name:'Inactif:". $somme11."', y:". $somme11.",color:'".$color11."',key:4},";
+    $donnees1.="{name:'Inactif:". $somme11."', y:". $somme11.",key:4},";
+
   
     $rapp="
     <script type=\"text/javascript\">
@@ -562,7 +618,7 @@ class Dashboard_General extends CI_Controller
                           series: [
                         {
                           name: '',
-                          data: [".$donnees1." ]
+                          data: [".$donnees1."]
                           }]
                           });
                           </script>";
@@ -712,152 +768,180 @@ class Dashboard_General extends CI_Controller
    </script>";
 
    //rapport3:vehicule en mouvement vs stationnement
-   // $vehicule_mouvet_stationnema=$this->Model->getRequete('SELECT tracking_data.mouvement as ID, if(tracking_data.mouvement=1,"Véhicule en mouvement","Véhicule en stationnement")as statut ,COUNT(tracking_data.device_uid) as NBR FROM `tracking_data` JOIN vehicule ON  tracking_data.device_uid=vehicule.CODE  WHERE 1 GROUP by tracking_data.mouvement,statut  ');
+  
 
-     $vehicule_mouvet_stationnema=$this->Model->getRequete("SELECT mouv as ID ,if(mouv=1,'Véhicule en mouvement','Véhicule en stationnement') as statut,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by  mouv,if(mouv=1,'Véhicule en mouvement','Véhicule en stationnement')");
+    $vehicule_mouvet_stationnema=$this->Model->getRequete("SELECT DISTINCT `mouvement` as ID_mouv,if(mouvement=1,'Véhicule en mouvement','Véhicule en stationnement') as statut FROM `tracking_data` WHERE 1");
    
     $donnees3="";
     foreach ($vehicule_mouvet_stationnema as  $value) 
     {
       $color=$this->getcolor();
-      $key_id3=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme3=($value['NBR']>0) ? $value['NBR'] : "0" ;
-      $donnees3.="{name:'".$value['statut']." :". $somme3."', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";
+      $key_id3=($value['ID_mouv']>0) ? $value['ID_mouv'] : "0" ;
+       $vehicule_mouvet_=$this->Model->getRequeteOne("SELECT count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE tracking_data.mouvement=".$value['ID_mouv'].") tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1");
+        $somme3=0;
+        if ($vehicule_mouvet_) 
+        {
+         $somme3=$vehicule_mouvet_['NBR'] ;
+
+     
+        }
+      $donnees3.="{name:'".$value['statut']." (". $somme3.")', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";    
+
     }
-    $rapp3="
-    <script type=\"text/javascript\">
-    Highcharts.chart('container3',
+
+   
+
+  $rapp3="<script type=\"text/javascript\">
+    Highcharts.chart('container3', 
     {
-      chart:
-      {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-        },
-        title: {
-          text: 'Véhicule en mouvement Vs en stationnement'
-          },
-          subtitle: 
-          {
-           text: '<b><br> Rapport du ".date('d-m-Y')."</b><br> '
-           },
-           tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            accessibility: {
-              point: {
-                valueSuffix: '%'
-              }
+     chart: 
+     {
+       type: 'bar'
+      },
+     title:
+     {
+      text: 'Véhicule en mouvement Vs en stationnement'
+     },
+     subtitle:
+     {
+     text: '<b><br> Rapport du ".date('d-m-Y')."</b>'
+     },
+      xAxis: 
+     {
+      type: 'category',
+      crosshair: true
+     },
+     yAxis: 
+     {
+     min: 0,
+     title: 
+     {
+      text: ''
+     }
+     },
+     tooltip: 
+     {
+      headerFormat: '<span style=\"font-size:10px\">{point.key}</span><table>',
+      pointFormat: '<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td>' +
+      '<td style=\"padding:0\"><b>{point.y:.f} </b></td></tr>',
+     footerFormat: '</table>',
+     shared: true,
+     useHTML: true
+     },
+     plotOptions: 
+     {
+       bar: 
+       {
+         pointPadding: 0.2,
+         borderWidth: 0,
+       
+         cursor:'pointer',
+         point:
+         {
+           events: 
+           {
+             click: function()
+             {
+             
+               $(\"#titre\").html(\"LISTE DES AGENTS \");
+               $(\"#myModal\").modal('show');
+               var row_count ='1000000';
+               $(\"#mytable\").DataTable({
+               \"processing\":true,
+               \"serverSide\":true,
+               \"bDestroy\": true,
+               \"oreder\":[],
+               \"ajax\":{
+               url:\"".base_url('dashboard/Dashboard_General/detail_veh_station_mouv')."\",
+               type:\"POST\",
+               data:
+               {
+                 key3:this.key3,
+
+
+                }
               },
-              plotOptions: {
-                pie: {
-                  allowPointSelect: true,
-                  cursor: 'pointer',
+             lengthMenu: [[10,50, 100, row_count], [10,50, 100, \"All\"]],
+             pageLength: 10,
+             \"columnDefs\":[{
+             \"targets\":[],
+             \"orderable\":false
+            }],
+            dom: 'Bfrtlip',
+            buttons: [
+            'excel', 'print','pdf'
+            ],
+            language: 
+            {
+              \"sProcessing\":     \"Traitement en cours...\",
+              \"sSearch\":         \"Rechercher&nbsp;:\",
+              \"sLengthMenu\":     \"Afficher _MENU_ &eacute;l&eacute;ments\",
+              \"sInfo\":           \"Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments\",
+              \"sInfoEmpty\":      \"Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment\",
+              \"sInfoFiltered\":   \"(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)\",
+              \"sInfoPostFix\":    \"\",
+              \"sLoadingRecords\": \"Chargement en cours...\",
+              \"sZeroRecords\":    \"Aucun &eacute;l&eacute;ment &agrave; afficher\",
+              \"sEmptyTable\":     \"Aucune donn&eacute;e disponible dans le tableau\",
+              \"oPaginate\": {
+              \"sFirst\":      \"Premier\",
+              \"sPrevious\":   \"Pr&eacute;c&eacute;dent\",
+              \"sNext\":       \"Suivant\",
+              \"sLast\":       \"Dernier\"
+            },
+            \"oAria\": {
+            \"sSortAscending\":  \": activer pour trier la colonne par ordre croissant\",
+            \"sSortDescending\": \": activer pour trier la colonne par ordre d&eacute;croissant\"
+          }
+        }
+     });
+    }
+     }
+     },
+     dataLabels: 
+     {
+      enabled: true,
+     format: '{point.y:f}'
+     },
+     showInLegend: false
+    }
+    }, 
+    credits: 
+    {
+    enabled: true,
+    href: \"\",
+    text: \"Mediabox\"
+    },
 
+    series: [
+    {
+     name:' total:',
+     data:[".$donnees3."]
+    }]
+    });
+   </script>";
 
-                  point:{
-                    events: {
-                     click: function()
-                     {
-                      $(\"#titre1\").html(\"LISTE DES VEHICULES \");
-
-                       $(\"#myModal\").modal('show');
-                       var row_count ='1000000';
-                       $(\"#mytable\").DataTable({
-                        \"processing\":true,
-                        \"serverSide\":true,
-                        \"bDestroy\": true,
-                        \"oreder\":[],
-                        \"ajax\":{
-                          url:\"".base_url('dashboard/Dashboard_General/detail_veh_station_mouv')."\",
-                          type:\"POST\",
-                          data:{
-
-                           key3:this.key3,
-
-                           ZONE_ID:$('#ZONE_ID').val(),
-                           QUARTIER_ID:$('#QUARTIER_ID').val(),
-
-                         }
-                         },
-                         lengthMenu: [[10,50, 100, row_count], [10,50, 100, \"All\"]],
-                         pageLength: 10,
-                         \"columnDefs\":[{
-                           \"targets\":[0],
-                           \"orderable\":false
-                           }],
-
-                           dom: 'Bfrtlip',
-                           buttons: [
-                           'excel', 'print','pdf'
-                           ],
-                           language: {
-                            \"sProcessing\":     \"Traitement en cours...\",
-                            \"sSearch\":         \"Recherche&nbsp;:\",
-                            \"sLengthMenu\":     \"Afficher _MENU_ &eacute;l&eacute;ments\",
-                            \"sInfo\":           \"Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments\",
-                            \"sInfoEmpty\":      \"Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment\",
-                            \"sInfoFiltered\":   \"(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)\",
-                            \"sInfoPostFix\":    \"\",
-                            \"sLoadingRecords\": \"Chargement en cours...\",
-                            \"sZeroRecords\":    \"Aucun &eacute;l&eacute;ment &agrave; afficher\",
-                            \"sEmptyTable\":     \"Aucune donn&eacute;e disponible dans le tableau\",
-                            \"oPaginate\": {
-                              \"sFirst\":      \"Premier\",
-                              \"sPrevious\":   \"Pr&eacute;c&eacute;dent\",
-                              \"sNext\":       \"Suivant\",
-                              \"sLast\":       \"Dernier\"
-                              },
-                              \"oAria\": {
-                                \"sSortAscending\":  \": activer pour trier la colonne par ordre croissant\",
-                                \"sSortDescending\": \": activer pour trier la colonne par ordre d&eacute;croissant\"
-                              }
-                            }
-                            });
-
-                          }
-                        }
-                        },
-
-                        dataLabels: {
-                          enabled: true
-                          },
-                          showInLegend: true
-                        }
-                        },
-                         credits: 
-                         {
-                          enabled: true,
-                          href: \"\",
-                          text: \"Mediabox\"
-                          },
-                          series: [
-                        {
-                          name: '',
-
-                          data: [".$donnees3." ]
-                          }]
-                          });
-                          </script>";
+  
+  
 
     //rapport4:vehicule en allumé vs etteintes
-   $vehicule_allume_eteinte=$this->Model->getRequete("SELECT ing as ID ,if(ing=1,'Véhicule allumé','Véhicule éteint') as statut,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.ignition as ing FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by  ing,if(ing=1,'Véhicule allumé','Véhicule ettient')");
-
-    // SELECT ing as ID ,if(ing=1,'allu','et') as NAME,count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.ignition as ing FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1 group by ing,NAME
-
-   $total4=0;
-    $donnees4="";
-    foreach ($vehicule_allume_eteinte as  $value) 
-    {  
+    $vehicule_allume_eteinte_cat=$this->Model->getRequete("SELECT DISTINCT ignition as ID_allu ,if(ignition=1,'Véhicule allumé','Véhicule éteint') as statut FROM `tracking_data` WHERE 1");
+     $total4=0;
+     $donnees4="";
+     foreach ($vehicule_allume_eteinte_cat as  $value) 
+    {
       $color=$this->getcolor();
-      $total4+=$value['NBR'];
-      $key_id4=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme4=($value['NBR']>0) ? $value['NBR'] : "0" ;
-      $donnees4.="{name:'".$value['statut']." :". $somme4."', y:". $somme4.",color:'".$color."',key4:'". $key_id4."'},";
+      $key_id4=($value['ID_allu']>0) ? $value['ID_allu'] : "0" ;
+       $vehicule_allu_ett=$this->Model->getRequeteOne("SELECT count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.ignition as ing FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE tracking_data.mouvement=".$value['ID_allu'].") tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1");
+
+        $somme4=0;
+        if ($vehicule_allu_ett) 
+        {
+         $somme4=$vehicule_allu_ett['NBR'] ;
+        }
+      $donnees4.="{name:'".$value['statut']." (". $somme4.")', y:". $somme4.",color:'".$color."',key4:'". $key_id4."'},";    
+
     }
-
-
   $rapp4="<script type=\"text/javascript\">
     Highcharts.chart('container4', 
     {
@@ -989,17 +1073,45 @@ class Dashboard_General extends CI_Controller
    </script>";
    //DEBUT DASHBOARD DES CHJAUFFEUR
    //Rapport1:chauffeur par ststut
-   $chauffeur_statut=$this->Model->getRequete('SELECT chauffeur.IS_ACTIVE as ID, if(chauffeur.IS_ACTIVE=1,"Actif","Inactif")as statut ,COUNT(`CHAUFFEUR_ID`) as NBR FROM `chauffeur` WHERE 1 GROUP by ID,statut ');
+   // $chauffeur_statut=$this->Model->getRequete('SELECT chauffeur.IS_ACTIVE as ID, if(chauffeur.IS_ACTIVE=1,"Actif","Inactif")as statut ,COUNT(`CHAUFFEUR_ID`) as NBR FROM `chauffeur` WHERE 1 GROUP by ID,statut ');
 
 
+   //  $donnees5="";
+   //  foreach ($chauffeur_statut as  $value) 
+   //  {
+   //    $color=$this->getcolor();
+   //    $key_id5=($value['ID']>0) ? $value['ID'] : "0" ;
+   //    $somme5=($value['NBR']>0) ? $value['NBR'] : "0" ;
+   //    $donnees5.="{name:'".$value['statut']." :". $somme5."', y:". $somme5.",color:'".$color."',key5:'". $key_id5."'},";
+   //  }
+
+
+   $chauffeur_actif=$this->Model->getRequete('SELECT chauffeur.IS_ACTIVE as ID,`CHAUFFEUR_ID` as NBR FROM `chauffeur` WHERE 1 and `IS_ACTIVE`=1');
+   $chauffeur_inactif=$this->Model->getRequete('SELECT chauffeur.IS_ACTIVE as ID,`CHAUFFEUR_ID` as NBR FROM `chauffeur` WHERE 1 and `IS_ACTIVE`=2 ');
     $donnees5="";
-    foreach ($chauffeur_statut as  $value) 
+    $compteur=0;
+    $somme=0;
+    foreach ($chauffeur_actif as  $value) 
     {
-      $color=$this->getcolor();
-      $key_id5=($value['ID']>0) ? $value['ID'] : "0" ;
-      $somme5=($value['NBR']>0) ? $value['NBR'] : "0" ;
-      $donnees5.="{name:'".$value['statut']." :". $somme5."', y:". $somme.",color:'".$color."',key5:'". $key_id5."'},";
+      $compteur++;
+      $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
+      $somme=$compteur;
+     // $donnees9.="{name:'Accident', y:".$test9.",color:'".$color."',key9:1},";
     }
+    $donnees5.="{name:'Actif:". $somme ."', y:". $somme.",key5:1},";
+     $donnees55="";
+     $compteur5=0;
+     $somme55=0;
+    foreach ($chauffeur_inactif as  $value) 
+    { $compteur5++;
+      $key_id=($value['ID']>0) ? $value['ID'] : "0" ;
+    
+       $somme55=$compteur5;
+    }
+    $donnees5.="{name:'Inactif:". $somme55."', y:". $somme55.",key5:0},";
+    // print_r($donnees5);exit();
+
+ 
 
     $rapp5="
     <script type=\"text/javascript\">

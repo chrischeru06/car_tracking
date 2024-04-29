@@ -133,7 +133,7 @@ a:hover {
   function login()
   {
     // alert('test')
-    $('#connexion').text('Connexion...'); 
+    $('#connexion').text('Connexion'); 
     $('#connexion').attr('disabled',true);
     $('#message_login').html('')
     

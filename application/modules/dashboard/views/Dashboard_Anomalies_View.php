@@ -59,7 +59,7 @@
 
         <div class="row">
           <div class="col-md-4 projet_par_mid">
-            <!-- vehicule actifs vs inactif biggin -->
+            <!-- debut vehicule avec accient vs sans -->
                      <div class="card">
                       <div class="card-body pb-0">
                         <h5 class="card-title"></h5>
@@ -67,34 +67,10 @@
                         <div id="nouveau"></div>
                       </div>
                     </div>
-                    <!--  vehicule actifs vs inactif biggin -->
+                    <!--  fin vehicule avec accient vs sans  -->
                </div>
-
-                 <div class="col-md-4 projet_par_mid">
-                  <!--vehicule allumé vs en eteint begin -->
-                  <div class="card">
-                    <div class="card-body pb-0">
-                      <h5 class="card-title"></h5>
-                      <div id="container2" style="min-height: 280px;"></div>
-                      <div id="nouveau2"></div>
-                    </div>
-                  </div>
-                  <!--vehicule allumé vs en eteint begin -->
-                </div>
-                 <div class="col-md-4 ">
-                    <!-- debut arret par course -->
-                    <div class="card">
-                      <div class="card-body pb-0">
-                        <h5 class="card-title"></h5>
-                        <div id="container11" style="min-height: 280px;"></div>
-                        <div id="nouveau11"></div>
-                      </div>
-                    </div>
-                    <!--fin arret par course -->
-                 </div>
                    <div class="col-md-8 projet_par_mid">
                   <!--debut consomation par vehicule -->
-                   
                   <div class="card">
                     <div class="card-body pb-0">
                       <h5 class="card-title"></h5>
@@ -105,8 +81,9 @@
                   </div>
                   <!--fin consommation vehicule-->
                 </div>
-                 <div class="col-md-4 ">
-            <!-- proprietaire begin -->
+        
+            <div class="col-md-8 ">
+            <!-- debut rapport course par vehicyle -->
             <div class="card">
               <div class="card-body pb-0">
                 <h5 class="card-title"></h5>
@@ -114,8 +91,32 @@
                 <div id="nouveau12"></div>
               </div>
             </div>
-            <!-- proprietaireend --> 
+            <!--  fin rapport course par vehicyle  --> 
           </div>
+             <div class="col-md-4 projet_par_mid">
+                  <!--debut exces de vitesse vs normal -->
+                  <div class="card">
+                    <div class="card-body pb-0">
+                      <h5 class="card-title"></h5>
+                      <div id="container2" style="min-height: 280px;"></div>
+                      <div id="nouveau2"></div>
+                    </div>
+                  </div>
+                  <!--fin exces de vitesse vs normal -->
+                </div>
+                    <!-- debut arret par course -->
+              <!--  <div class="col-md-4 ">
+                
+                    <div class="card">
+                      <div class="card-body pb-0">
+                        <h5 class="card-title"></h5>
+                        <div id="container11" style="min-height: 280px;"></div>
+                        <div id="nouveau11"></div>
+                      </div>
+                    </div>
+                   
+                 </div> -->
+                  <!--fin arret par course -->
              </div>
           
 

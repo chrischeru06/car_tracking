@@ -217,13 +217,14 @@ class Users extends CI_Controller
 	}
 
 	//Fonction pour modifier dans la BD un utilisateur
-
 	public function modifier(){
 		$id_aff=$this->input->post('id');
 		$identity= $this->input->post('IDENTIFICATION');
 		$email= $this->input->post('E-MAIL');
 		$profil= $this->input->post('PROFIL');
 		$tel= $this->input->post('numero_telephone');
+		$Passworde= $this->input->post('Passworde');
+
 
 		$this->form_validation->set_rules('IDENTIFICATION', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 
@@ -239,7 +240,12 @@ class Users extends CI_Controller
 		}
 
 		else{
-			$array= array('IDENTIFICATION'=>$identity,'USER_NAME'=>$email,'PROFIL_ID'=>$profil,'TELEPHONE'=>$tel);
+			if(!empty($Passworde)){
+				$array= array('IDENTIFICATION'=>$identity,'USER_NAME'=>$email,'PROFIL_ID'=>$profil,'TELEPHONE'=>$tel,'PASSWORD'=>md5($Passworde));	
+			}else{
+				$array= array('IDENTIFICATION'=>$identity,'USER_NAME'=>$email,'PROFIL_ID'=>$profil,'TELEPHONE'=>$tel);
+			}
+			
 			$this->Model->update('users',array('USER_ID'=>$id_aff),$array);
 
 			$data['message'] = '<div class="alert alert-primary text-center" id="message">' . "Modification faite avec succès" . '</div>';

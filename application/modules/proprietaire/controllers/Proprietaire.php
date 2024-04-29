@@ -870,16 +870,16 @@ class Proprietaire extends CI_Controller
 				$sub_array[]="<a class='btn btn-outline-primary rounded-pill' href='" . base_url('proprietaire/Proprietaire/Detail_vehicule/'.md5($row->PROPRIETAIRE_ID)). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a>";
 			}
 			$action = '<div class="dropdown text-center" style="color:#fff;">
-			<a class=" btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown"><i class="bi bi-three-dots h5" style="color:blue;"></i>  <span class="caret"></span>
+			<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown"><i class="bi bi-three-dots h5" style="color:blue;"></i>  <span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu dropdown-menu-right">';
 
-			$action .="<li>
+			$action .="<li class='btn-md'>
 
 			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a>
 			</li>"; 
 
-			$action .="<li>
+			$action .="<li class='btn-md'>
 
 			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détails</a>
 			</a>
@@ -1043,7 +1043,7 @@ class Proprietaire extends CI_Controller
 			
 			$label_cni='NIF';
 		}elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {
-			$label_cni='CNI / Numéro passport';
+			$label_cni='CNI / Passport';
 			
 		}
 
@@ -1174,6 +1174,7 @@ class Proprietaire extends CI_Controller
 			</div>
 			</div>
 			</div>';
+			$sub_array[]="<a href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;&nbsp;&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 			// $proce_requete = "CALL `getRequete`(?,?,?,?);";
 			// $my_select_chauffeur = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM,chauffeur.PHOTO_PASSPORT,chauffeur_vehicule.CODE', 'chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID', 'STATUT_AFFECT=1 AND chauffeur_vehicule.CODE='.$row->CODE.'', '`CHAUFFEUR_ID` ASC');
 			// $chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
