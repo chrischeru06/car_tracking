@@ -96,6 +96,8 @@
 
 			$query_filter=$query_principal.''.$critaire.''.$search;
 
+			//print_r($query_filter);die();
+
 			$fetch_data=$this->Model->datatable($query_secondaire);
 
 			$data=array();
@@ -132,20 +134,16 @@
 				if($row->STATUT_VEH_AJOUT==2){
 					// $sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
 					// <span class="badge badge-pill badge-warning" ></span>';
-					$sub_array[]='<center> <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 
-					<table>
-					<td title="Désactiver"><label class="switch"> 
+					
+					<center title="Désactiver"><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked >
 					<span class="slider round"></span>
-					</label></td>
-					</table>
-
-					
-					
-					</form></center>
+					</label></center>
+					</form>
 
 					';
 				}elseif ($row->STATUT_VEH_AJOUT==1) 
@@ -156,16 +154,17 @@
 				{
 					$sub_array[]='<center><i class="fa fa-ban text-danger  small" title="Véhicule refusé"></i></i><font style="font-size:14px;" class="text-danger" title="Véhicule refusé"> </font></center>';
 				}elseif($row->STATUT_VEH_AJOUT==4){
-					$sub_array[]='<center> <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
-					<table>
-					<td title="Activer"><label class="switch"> 
+					
+					
+					<center title="Activer"><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_active(' . $row->VEHICULE_ID . ')">
 					<span class="slider round"></span>
-					</label></td>
-					</table>
-					</form></center>
+					</label></center>
+					
+					</form>
 
 					';
 				}
@@ -206,33 +205,48 @@
 				// }
 
 				$option = '<div class="dropdown text-center">
-				<a class="btn-sm dropdown-toggle" style="color:white; hover:black;cursor:pointer;" data-toggle="dropdown">
+				<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
 				<i class="bi bi-three-dots h5" style="color:blue;"></i>	
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu dropdown-menu-right">
 				';
 
 
-				if($row->DATE_FIN_ASSURANCE >= date('Y-m-d'))
+				if(!empty($row->DATE_FIN_ASSURANCE))
 				{
-					$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"></font><center>';
+					if(date('Y-m-d',strtotime($row->DATE_FIN_ASSURANCE)) >= date('Y-m-d'))
+					{
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+					}
+					else 
+					{
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+
+						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"> <li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</td></tr></table></li></a>';
+						
+					}
 				}
 				else
 				{
-					$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
-
-					$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"> <li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</td></tr></table></li></a>';
+					$sub_array[] = '<center><font class="small" title="">N/A</font></center>';
 				}
 				
-				if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
+				if(!empty($row->DATE_FIN_CONTROTECHNIK))
 				{
-					$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"></font></center>';
+					if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
+					{
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+					}
+					else
+					{
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+
+						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</td></tr></table></li></a>';
+					}
 				}
 				else
 				{
-					$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"></font></center>';
-
-					$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</td></tr></table></li></a>';
+					$sub_array[] = '<center><font class="small" title="">N/A</font></center>';
 				}
 
 				
@@ -546,7 +560,7 @@
 
 
 			$STATUT_VEH_AJOUT = $this->input->post('STATUT_VEH_AJOUT');
-			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+			$VEHICULE_ID = $this->input->post('VEHICULE_TRAITE');
 			$TRAITEMENT_DEMANDE_ID = $this->input->post('TRAITEMENT_DEMANDE_ID');
 			$COMMENTAIRE = $this->input->post('COMMENTAIRE');
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
@@ -572,6 +586,7 @@
 				if ($STATUT_VEH_AJOUT==1 && $TRAITEMENT_DEMANDE_ID==1) 
 				{
 					$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>2,'CODE'=>$CODE));
+
 				}else if ($STATUT_VEH_AJOUT==1 && $TRAITEMENT_DEMANDE_ID==2) {
 					$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>3)); 
 				}
@@ -993,11 +1008,11 @@
 			$data['infos_vehicule'] = $infos_vehicule;
 
 			//determination de nombre de jours qu'un vehicule a était enregistré
-		      $date = date('Y-m-d',strtotime($infos_vehicule['DATE_SAVE']));
-		      $aujourdhui = date("Y-m-d");
+			$date = date('Y-m-d',strtotime($infos_vehicule['DATE_SAVE']));
+			$aujourdhui = date("Y-m-d");
 		      // print_r($date);die();
-		      $nbr_jours = $this->NbJours($date, $aujourdhui);
-		      $data['nbr_jours'] = $nbr_jours;
+			$nbr_jours = $this->NbJours($date, $aujourdhui);
+			$data['nbr_jours'] = $nbr_jours;
 
 			$this->load->view('Vehicule_detail_View',$data);
 		}
