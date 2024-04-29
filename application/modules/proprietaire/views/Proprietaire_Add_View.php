@@ -843,7 +843,7 @@ function localisation(){
     $(this).val($(this).val().toUpperCase());
   });
 
-  $("#RC,#CNI_OU_NIF").on('input', function()
+  $("#CNI_OU_NIF").on('input', function()
   {
     var perso_physk=$('#TYPE_PROPRIETAIRE_ID').val();
     if (perso_physk==1) {
@@ -857,7 +857,7 @@ function localisation(){
     //   $(this).val($(this).val().replace(/[^0-9a-z]*$/gi, ''));
     // });
 
-  $("#ADRESSE").keypress(function(event) {
+  $("#ADRESSE,#RC").keypress(function(event) {
     var character = String.fromCharCode(event.keyCode);
     return isValid(character);     
   });
