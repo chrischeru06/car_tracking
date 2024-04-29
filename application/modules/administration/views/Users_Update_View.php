@@ -110,11 +110,14 @@
 
 
 <script type="text/javascript">
-  $(document).ready(function()
- {
-  $('#Passworde').val()='';
+  window.onload = function() {
+    document.getElementById("Passworde").value == "";
+};
+ //  $(document).ready(function()
+ // {
+ //  document.getElementById("Passworde").value = "";
 
- });
+ // });
   $('#numero_telephone').on('input change',function()
   {
 
