@@ -37,6 +37,7 @@ class Profil extends CI_Controller
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_utilisateur = $this->getBindParms('users.USER_ID,users.IDENTIFICATION,users.TELEPHONE,users.USER_NAME,profil.DESCRIPTION_PROFIL as profile,STATUT,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT,proprietaire.PROPRIETAIRE_ID,proprietaire.COUNTRY_ID,countries.CommonName,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,zones.ZONE_NAME,collines.COLLINE_NAME,proprietaire.PERSONNE_REFERENCE,proprietaire.CNI_OU_NIF,PASSWORD,LOGO', ' `users` join profil on users.PROFIL_ID=profil.PROFIL_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID JOIN countries ON countries.COUNTRY_ID=proprietaire.COUNTRY_ID JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID JOIN communes ON communes.COMMUNE_ID=proprietaire.COMMUNE_ID JOIN zones ON zones.ZONE_ID=proprietaire.ZONE_ID JOIN collines ON collines.COLLINE_ID=proprietaire.COLLINE_ID', ' users.USER_ID='.$USER_ID.'', '`USER_ID` ASC');
 		$utilisateur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_utilisateur);
+		// print_r($utilisateur);exit();
 
 			// $my_select_proprio= $this->getBindParms('proprietaire.PROPRIETAIRE_ID,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT','proprietaire JOIN users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID','users.USER_ID='.$USER_ID.'','PROPRIETAIRE_ID ASC');
 
@@ -48,7 +49,7 @@ class Profil extends CI_Controller
 		$pays =$this->ModelPs->getRequete($proce_requete, $pay);
 
 		$html1='<option value="">--- Sélectionner ----</option>';
-		if(!empty($pays))
+		if(!empty($pays) && !empty($proprietaire['COUNTRY_ID']))
 		{
 			foreach($pays as $key1)
 			{
@@ -67,7 +68,7 @@ class Profil extends CI_Controller
 		$provinces = $this->ModelPs->getRequete($proce_requete, $my_select_provinces);
 
 		$html2='<option value="">--- Sélectionner ----</option>';
-		if(!empty($provinces))
+		if(!empty($provinces) && !empty($proprietaire['PROVINCE_ID']))
 		{
 			foreach($provinces as $key2)
 			{
@@ -81,7 +82,7 @@ class Profil extends CI_Controller
 				
 			}
 		}
-
+        $html3='';
 		if(!empty($proprietaire['PROVINCE_ID'])){
 
 			$my_select_communes = $this->getBindParms('COMMUNE_ID,COMMUNE_NAME', 'communes', '1 AND PROVINCE_ID='.$proprietaire['PROVINCE_ID'].'', '`COMMUNE_NAME` ASC');
@@ -105,6 +106,8 @@ class Profil extends CI_Controller
 
 		}
 
+		$html4='';
+
 		if(!empty($proprietaire['COMMUNE_ID'])){
 
 			$my_select_zones = $this->getBindParms('ZONE_ID,ZONE_NAME', 'zones', '1 AND COMMUNE_ID='.$proprietaire['COMMUNE_ID'].'', '`ZONE_NAME` ASC');
@@ -127,6 +130,7 @@ class Profil extends CI_Controller
 
 
 		}
+		$html5='';
 
 		if(!empty($proprietaire['ZONE_ID'])){
 

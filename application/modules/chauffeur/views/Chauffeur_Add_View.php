@@ -648,13 +648,13 @@
       $(this).val($(this).val().replace(/[^a-z-\s]/gi, '').toUpperCase());
     });
 
-    $("#NUMERO_CARTE_IDENTITE").on('input paste change keyup', function()
-    {
-      $('#error_NUMERO_CARTE_IDENTITE').hide();
-      $(this).val($(this).val().replace(/[^0-9/.]*$/gi, ''));
-    });
+    // $("#NUMERO_CARTE_IDENTITE").on('input paste change keyup', function()
+    // {
+    //   $('#error_NUMERO_CARTE_IDENTITE').hide();
+    //   $(this).val($(this).val().replace(/[^0-9/.]*$/gi, ''));
+    // });
 
-    $("#adresse_physique").keypress(function(event)
+    $("#adresse_physique,#NUMERO_CARTE_IDENTITE").keypress(function(event)
     {
       $('#error_adresse_physique').hide();
       var character = String.fromCharCode(event.keyCode);
