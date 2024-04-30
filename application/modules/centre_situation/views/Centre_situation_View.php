@@ -99,9 +99,9 @@
 		}
 
 		.btn-md:hover{
-      background-color: rgba(95, 158, 160,0.3);
-      border-radius: 5px;
-    }
+			background-color: rgba(95, 158, 160,0.3);
+			border-radius: 5px;
+		}
 
 
 	</style>
@@ -698,31 +698,38 @@
       						<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
       							<tr>
       								<th class="">#</th>
-      								<th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-      								<th class="">MARQUE</th>
-      								<th class="">MODELE</th>
-      								<th class="">PLAQUE</th>
-      								<th class="">COULEUR</th>
-      								<th class="">CONSOMMATION</th>
-      								<!-- <th class="">PROPRIETAIRE</th> -->
-      								<th class="">DATE&nbsp;ENREGISTREMENT</th>
-      								<th class="">STATUT</th>
-      								<th class="">ASSURANCE</th>
-      								<th class="">C&nbsp;T</th>
-      								<th class="">ACTION</th>
-      								
-      							</tr>
-      						</thead>
-      						<tbody class="text-dark">
-      						</tbody>
-      					</table>
-      				</div>
+      								<?php
+      								if($this->session->userdata('PROFIL_ID') == 1)
+      									{?>
+      										<th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      										<?php
+      									}
+      									?>
+      									
+      									<th class="">MARQUE</th>
+      									<th class="">MODELE</th>
+      									<th class="">PLAQUE</th>
+      									<th class="">COULEUR</th>
+      									<th class="">CONSOMMATION</th>
+      									<!-- <th class="">PROPRIETAIRE</th> -->
+      									<th class="">DATE&nbsp;ENREGISTREMENT</th>
+      									<th class="">STATUT</th>
+      									<th class="">ASSURANCE</th>
+      									<th class="">C&nbsp;T</th>
+      									<th class="">ACTION</th>
+      									
+      								</tr>
+      							</thead>
+      							<tbody class="text-dark">
+      							</tbody>
+      						</table>
+      					</div>
 
+      				</div>
+      				<!-- footer here -->
       			</div>
-      			<!-- footer here -->
       		</div>
       	</div>
-      </div>
 
 
      <!-- <div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID. '">
@@ -1551,8 +1558,8 @@
 							{
 								Swal.fire(
 								{
-									icon: 'success',
-									title: 'Success',
+									icon: 'error',
+									title: 'Erreur',
 									text: 'Traitement échoué !',
 									timer: 1500,
 								}).then(() =>

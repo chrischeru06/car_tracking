@@ -183,7 +183,7 @@
 
               <div class="row">
 
-                <div class="col-md-12 table-responsive">
+                <div class="col-md-12 <?php if($this->session->userdata('PROFIL_ID') == 1){echo "table-responsive";}?>">
 
                   <table class="table table-borderless" style="width:108%">
                     <tr>
@@ -202,9 +202,17 @@
                           <button class="nav-link" data-bs-toggle="tab" data-bs-target="#controle_technique"><i class="fa fa-tripadvisor"></i> Historique contrôle technique</button>
                         </li>
 
-                        <li class="nav-item">
-                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#active_desactive"><i class="fa fa-cog"></i> Activation et Désactivation</button>
-                        </li>
+                        <?php
+                        if($this->session->userdata('PROFIL_ID') == 1)
+                        {
+                          ?>
+                          <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#active_desactive"><i class="fa fa-cog"></i> Activation et Désactivation</button>
+                          </li>
+                          <?php
+                        }
+
+                        ?>
 
 
                       </ul>
@@ -251,10 +259,19 @@
               <table class="table table-borderless">
                 <tr>
 
-                  <td>
-                    <i class="text-muted small pt-2 ps-1 fa fa-code"></i><font class="text-muted small pt-2 ps-1">Code</font><br>
-                    <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['CODE']?></label>
-                  </td>
+                  <?php
+                  if($this->session->userdata('PROFIL_ID') == 1)
+                  {
+                    ?>
+                    <td>
+                      <i class="text-muted small pt-2 ps-1 fa fa-code"></i><font class="text-muted small pt-2 ps-1">Code</font><br>
+                      <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['CODE']?></label>
+                    </td>
+
+                    <?php
+                  }
+
+                  ?>
 
                   <td >
                    <i class="text-muted small pt-2 ps-1 fa fa-bookmark-o"></i><font class="text-muted small pt-2 ps-1">Marque</font><br>
@@ -414,10 +431,10 @@
                     else
                     {
                       ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
+                      <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
 
-                        <?php
+                      <?php
                     }
                     ?> 
                   </td>

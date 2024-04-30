@@ -74,9 +74,9 @@ input:checked + .slider:before {
 }
 
 .btn-md:hover{
-      background-color: rgba(95, 158, 160,0.3);
-      border-radius: 5px;
-    }
+  background-color: rgba(95, 158, 160,0.3);
+  border-radius: 5px;
+}
 </style>
 
 <head>
@@ -157,7 +157,7 @@ input:checked + .slider:before {
         </div>
 
         <div class="col-md-6">
-          <span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:6px;left:-23px;">4</span>
+          <span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:6px;left:-23px;">0</span>
         </div>
 
 
@@ -183,43 +183,48 @@ input:checked + .slider:before {
                 <table id="mytable" class="table table-hover" style="width:100%;">
                   <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                     <tr>
-                      <!--   <th class="">CODE</th> -->
                       <th class="">#</th>
-                      <!-- <th class="">PROPRIETAIRE</th> -->
-                      <th class="">PLAQUE</th>
-                      <th class="">MARQUE</th>
-                      <!--  <th class="">MODELE</th> -->
-                      <th class="">COULEUR</th>
-                      <!-- <th class="">CONSOMMATION</th> -->
-                      <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
-                      <!-- <th class="">TRAITEMENT&nbsp;DEMANDE</th> -->
-                      <th class="">STATUT&nbsp;&nbsp;</th>
-                      <th class="">ASSURANCE</th>
-                      <th class="">C&nbsp;T</th>
-                      <th class="">ACTION</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-dark">
-                  </tbody>
-                </table>
+                      <?php
+                      if($this->session->userdata('PROFIL_ID') == 1)
+                        {?>
+                          <th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <?php
+                        }
+                        ?>
+                        <th class="">PLAQUE</th>
+                        <th class="">MARQUE</th>
+                        <!--  <th class="">MODELE</th> -->
+                        <th class="">COULEUR</th>
+                        <!-- <th class="">CONSOMMATION</th> -->
+                        <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
+                        <!-- <th class="">TRAITEMENT&nbsp;DEMANDE</th> -->
+                        <th class="">STATUT&nbsp;&nbsp;</th>
+                        <th class="">ASSURANCE</th>
+                        <th class="">C&nbsp;T</th>
+                        <th class="">ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                    </tbody>
+                  </table>
+                </div>
+
               </div>
 
             </div>
-
           </div>
+
+
+
         </div>
-
-
-
       </div>
     </div>
-  </div>
-</section>
-<!--******** Debut Modal pour attribue une voiture *********-->
+  </section>
+  <!--******** Debut Modal pour attribue une voiture *********-->
 
-<div class="modal fade" id="Modal_traiter" tabindex="-1" >
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
+  <div class="modal fade" id="Modal_traiter" tabindex="-1" >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
 
         --><h5 class="modal-title">Traiter la demande </h5>
@@ -793,8 +798,8 @@ if(statut<2)
       {
         Swal.fire(
         {
-          icon: 'success',
-          title: 'Success',
+          icon: 'error',
+          title: 'Erreur',
           text: 'Traitement échoué !',
           timer: 1500,
         }).then(() =>
