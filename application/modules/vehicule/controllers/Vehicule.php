@@ -25,6 +25,8 @@
 		//la fonction index visualise la liste des vehicules
 		function index()
 		{
+			$PROFIL_ID = $this->session->userdata('PROFIL_ID');
+
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 			$motif_activation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=1', 'DESC_MOTIF ASC');
@@ -32,6 +34,10 @@
 
 			$motif_desactivation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=2', 'DESC_MOTIF ASC');
 			$data['motif_des'] = $this->ModelPs->getRequete($proce_requete, $motif_desactivation);
+			if ($PROFIL_ID=1) {
+				$this->Model->update('vehicule',array('STAT_NOTIFICATION'=>1),array('STAT_NOTIFICATION'=>2));
+			}
+			
 			$this->load->view('Vehicule_liste_View',$data);
 		}
 
@@ -108,7 +114,13 @@
 
 				if($this->session->userdata('PROFIL_ID') == 1)
 				{
-					$sub_array[]=$row->CODE;
+					if (!empty($row->CODE)) {
+						$sub_array[]=$row->CODE;
+					}else{
+						$sub_array[]='N/A';
+
+					}
+					
 				}
 
 				$sub_array[]=$row->PLAQUE;
@@ -817,8 +829,7 @@
 							$file_assurance = $this->upload_file($_FILES['FILE_ASSURANCE']['tmp_name'],$_FILES['FILE_ASSURANCE']['name']);
 						}
 
-						$data=array
-						(
+						$data=array(
 							'CODE'=>$this->input->post('CODE'),
 							'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
 							'ID_MODELE'=>$this->input->post('ID_MODELE'),
