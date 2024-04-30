@@ -82,7 +82,7 @@ function out_application()
                   <div>
                     <h4><?=$keyvehicule['IDENTIFICATION']?></h4>
                     <p>Plaque : <?=$keyvehicule['PLAQUE']?></p>
-                    <p><?=$maintenant?> ago</p>
+                    <p>Il y a <?=$maintenant?></p>
                   </div>
                 </li>
               </a>
@@ -135,15 +135,15 @@ function out_application()
       <?php
       if ($PROFIL_IDENTIFIANT==1) {?>
         <li class="dropdown-header">
-          You have <?=$message['nbre_msg']?> new messages
-          <a href="<?=base_url()?>administration/Message/message"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+          Vous avez <?=$message['nbre_msg']?> nouveaux messages
+          <a href="<?=base_url()?>administration/Message/message"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
         </li>
         <?php
       }else{?>
 
         <li class="dropdown-header">
-          You have <?=$message_users['nbre_msg']?> new messages
-          <a href="<?=base_url()?>administration/Message/message"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+          Vous avez <?=$message_users['nbre_msg']?> nouveaux messages
+          <a href="<?=base_url()?>administration/Message/message"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
         </li>
 
 
@@ -175,7 +175,7 @@ function out_application()
                 <div>
                   <h4><?=$key_message['IDENTIFICATION']?></h4>
                   <p><?=$key_message['MESSAGE']?></p>
-                  <p><?=$heure?> ago</p>
+                  <p>Il y a <?=$heure?></p>
                 </div>
               </a>
             </li>
@@ -198,7 +198,7 @@ function out_application()
                 <div>
                   <h4><?=$keymessageutilisateur['IDENTIFICATION']?></h4>
                   <p><?=$keymessageutilisateur['MESSAGE']?></p>
-                  <p><?=$heure1?> ago</p>
+                  <p>Il y a <?=$heure1?></p>
                 </div>
               </a>
             </li>
