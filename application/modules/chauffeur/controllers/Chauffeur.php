@@ -27,7 +27,14 @@
 		//la fonction index visualise la liste des vehicules
 		function index()
 		{
-			$this->load->view('Chauffeur_List_View');
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+			$motif_activation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=1', 'DESC_MOTIF ASC');
+			$data['motif_ativ'] = $this->ModelPs->getRequete($proce_requete, $motif_activation);
+
+			$motif_desactivation = $this->getBindParms('ID_MOTIF,DESC_MOTIF', 'motif', '1 AND ID_TYPE=2', 'DESC_MOTIF ASC');
+			$data['motif_des'] = $this->ModelPs->getRequete($proce_requete, $motif_desactivation);
+			$this->load->view('Chauffeur_List_View',$data);
 		}
 
 
@@ -143,8 +150,9 @@
 
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
+
 					<table>
-					<td><label class="text-primary">Activé</label></td>
+					<td><label class="text-primary"></label></td>
 					<td><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->CHAUFFEUR_ID . ','.$row->STATUT_VEHICULE.')" checked>
 					<span class="slider round"></span>
@@ -160,7 +168,7 @@
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
 					<table>
-					<td><label class="text-danger">Désactivé</label></td>
+					<td><label class="text-danger"></label></td>
 					<td><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->CHAUFFEUR_ID . ')">
 					<span class="slider round"></span>
@@ -828,11 +836,27 @@
 	//Fonction pour activer/desactiver un proprietaire
 	function active_desactive($status,$CHAUFFEUR_ID)
 	{
-		if($status==1){
+		$USER_ID = $this->session->userdata('USER_ID');
+	
+		if($status==1)
+		{
+			//desactivation
+			$ID_MOTIF_des = $this->input->post('ID_MOTIF_des');
 			$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>2));
 
-		}else if($status==2){
+			$data = array('USER_ID'=>$USER_ID,'STATUT'=>2,'ID_MOTIF'=>$ID_MOTIF_des,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID);
+			$result = $this->Model->create('historique_act_desac_chauffeur',$data);
+
+		}else if($status==2)
+		{
+			//activation
+			$ID_MOTIF = $this->input->post('ID_MOTIF');
 			$this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('IS_ACTIVE'=>1));
+
+			$data = array('USER_ID'=>$USER_ID,'STATUT'=>1,'ID_MOTIF'=>$ID_MOTIF,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID);
+
+			$result = $this->Model->create('historique_act_desac_chauffeur',$data);
+
 		}
 
 		echo json_encode(array('status'=>$status));

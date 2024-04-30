@@ -193,6 +193,92 @@ input:checked + .slider:before {
 </div>
 <!-- fin modal pour retirer la voiture -->
 
+<!--******** Debut Modal pour motif_activation *********-->
+
+<div class="modal fade" id="Modal_activation" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Activation  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="active_form" enctype="multipart/form-data" action="#" method="post">
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="CHAUFFEUR_ID_I" id="CHAUFFEUR_ID_I">
+
+              <div class="col-md-12" id="div_type">
+                <label class="text-dark">Motif <font color="red">*</font></label>
+                <select class="form-control" id="ID_MOTIF" name="ID_MOTIF" >
+                  <option value="">-- Sélectionner --</option>
+                  <?php
+                  foreach ($motif_ativ as $key) 
+                  {
+                    echo "<option value=".$key['ID_MOTIF'].">".$key['DESC_MOTIF']."</option>";
+                  }
+                  ?>
+                </select>
+
+                <font class="text-danger" id="errorID_MOTIF"></font>
+              </div>
+
+            </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Activer" onclick="save_motif_active();" />
+            <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin modal motif_activation -->
+<!--******** Debut Modal pour motif_desactivationa *********-->
+
+<div class="modal fade" id="Modal_desactivation" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>      
+        <h5 class="modal-title">Désactivation  </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="desactive_form" enctype="multipart/form-data" action="#" method="post">
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="CHAUFFEUR_ID_ID" id="CHAUFFEUR_ID_ID">
+
+              <div class="col-md-12" id="div_type">
+                <label class="text-dark">Motif <font color="red">*</font></label>
+                <select class="form-control" id="ID_MOTIF_des" name="ID_MOTIF_des" >
+                  <option value="">-- Sélectionner --</option>
+                  <?php
+                  foreach ($motif_des as $key) 
+                  {
+                    echo "<option value=".$key['ID_MOTIF'].">".$key['DESC_MOTIF']."</option>";
+                  }
+                  ?>
+                </select>
+
+                <font class="text-danger" id="errorID_MOTIF_des"></font>
+              </div>
+
+            </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Désactiver" onclick="save_motif_desactive();" />
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin modal motif_desactivation -->
+
 
 
 <section class="section dashboard">
@@ -461,11 +547,12 @@ input:checked + .slider:before {
       });
     }
   }
-
-
   function myFunction(CHAUFFEUR_ID) {
   // Get the checkbox
     var checkBox = document.getElementById("myCheck");
+   var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_I').val(CHAUFFEUR_ID);
+  $('#Modal_activation').modal('show');
+
   // Get the output text
 
     var status=$('#status').val();
@@ -491,6 +578,8 @@ input:checked + .slider:before {
   function myFunction_desactive(CHAUFFEUR_ID=0,STATUT_VEHICULE=0) {
   // Get the checkbox
   //STATUT_VEHICULE:debut tester si le chauffeur a une voiture pour le desactiver
+   var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_ID').val(CHAUFFEUR_ID);
+    $('#Modal_desactivation').modal('show');
     if (STATUT_VEHICULE==2) 
     {
       var url="<?= base_url('chauffeur/Chauffeur/retirer_voiture')?>";
@@ -548,10 +637,111 @@ input:checked + .slider:before {
    }
 //fin desactiver le chauffeur
 
-
  }
 
 </script>
+<script>
+
+function save_motif_active() {
+  //activation
+ var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_I').val();
+
+  var statut=1;
+  $('#errorID_MOTIF').html('');
+
+  if($('#ID_MOTIF').val()=='')
+  {
+    $('#errorID_MOTIF').html('Le champ est obligatoire');
+    statut=2;
+  }
+  if (statut==1) {
+
+    var checkBox = document.getElementById("myCheck");
+    var status=$('#status').val();
+    status = 2;
+
+    var form_data = new FormData($("#active_form")[0]);
+    $.ajax(
+    {
+      url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
+
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data)
+      {
+
+       if(data.status==2)
+       {
+        Swal.fire(
+        {
+          icon: 'success',
+          title: 'Success',
+          text: 'Activation faite avec succès',
+          timer: 1500,
+        }).then(() =>
+        {
+         window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+       });
+      }
+    }
+  });
+  }
+}
+
+function save_motif_desactive() {
+  //desactivation
+ var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_ID').val();
+  var statut=1;
+  $('#errorID_MOTIF_des').html('');
+
+  if($('#ID_MOTIF_des').val()=='')
+  {
+    $('#errorID_MOTIF_des').html('Le champ est obligatoire');
+    statut=2;
+  }
+  if (statut==1) {
+   var checkBox = document.getElementById("myCheck");
+   var status=$('#status').val();
+
+   status = 1;
+
+   var form_data = new FormData($("#desactive_form")[0]);
+   $.ajax(
+   {
+    url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
+    type: 'POST',
+    dataType:'JSON',
+    data: form_data ,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function(data)
+    {
+
+     if(data.status==1)
+     {
+      Swal.fire(
+      {
+        icon: 'success',
+        title: 'Success',
+        text: 'désactivation faite avec succès',
+        timer: 1500,
+      }).then(() =>
+      {
+       window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+     });
+    }
+  }
+});
+ }
+}
+</script>
+
+
 <script type="text/javascript">
 
  function get_date_fin()
