@@ -547,8 +547,6 @@ input:checked + .slider:before {
       });
     }
   }
-
-
   function myFunction(CHAUFFEUR_ID) {
   // Get the checkbox
     var checkBox = document.getElementById("myCheck");

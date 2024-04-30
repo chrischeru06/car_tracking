@@ -150,6 +150,7 @@
 
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
+
 					<table>
 					<td><label class="text-primary"></label></td>
 					<td><label class="switch"> 
