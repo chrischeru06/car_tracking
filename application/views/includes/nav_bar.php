@@ -1,4 +1,19 @@
-<header id="header" class="header fixed-top d-flex align-items-center"  style="background-color: cadetblue">
+
+<?php
+function __construct()
+{
+  $this->out_application();
+  $this->load->helper('email');
+}
+  //Fonction pour rediriger vers la page d'accueil,une fois la session perdue
+function out_application()
+{
+  if(empty($this->session->userdata('USER_ID')))
+  {
+    redirect(base_url('Login/logout'));
+  }
+}
+?><header id="header" class="header fixed-top d-flex align-items-center"  style="background-color: cadetblue">
 
   <div class="d-flex align-items-center justify-content-between">
     <a href="<?= base_url()?>/template/Dashboard.php" class="logo d-flex align-items-center">
