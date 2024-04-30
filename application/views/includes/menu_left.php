@@ -116,14 +116,16 @@ else if ($this->session->PROFIL_ID == 2) {
   ?>
 
 
-  <aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php echo base_url().'template/images/sidebar123-01s.png'; ?>')">
+  <!--<aside id="sidebar" class="sidebar" style="background-color: cadetblue; background-size: cover; background-repeat: no-repeat;background-image: url('<?php //echo base_url().'template/images/sidebar123-01s.png'; ?>')">-->
+
+  <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
         <a class="nav-link " href="<?=base_url()?>centre_situation/Centre_situation">
           <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
+          <span>Centre de situation</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
@@ -144,7 +146,7 @@ else if ($this->session->PROFIL_ID == 2) {
       </li> --><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_vehicule">
+        <a class="nav-link collapsed" href="<?=base_url()?>vehicule/Vehicule">
           <i class="bi bi-journal-text"></i>
           <span>Mes véhicules</span>
         </a>

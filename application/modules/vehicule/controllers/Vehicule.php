@@ -35,7 +35,6 @@
 			$this->load->view('Vehicule_liste_View',$data);
 		}
 
-
 		//Fonction pour l'affichage
 		function listing()
 		{
@@ -73,7 +72,7 @@
 				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK < "'.$date_now.'"';
 			}
 
-			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_doc_valide.'';
+			$query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.PHOTO_PASSPORT,proprietaire.EMAIL,proprietaire.ADRESSE,proprietaire.TELEPHONE,DATE_SAVE,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,STATUT_VEH_AJOUT,`LOGO`,vehicule.FILE_ASSURANCE,vehicule.FILE_CONTRO_TECHNIQUE,vehicule.STATUT FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID  WHERE 1 '.$critaire_doc_valide.'';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -106,39 +105,26 @@
 			{
 				$sub_array=array();
 				$sub_array[]=$u++;
-				
-				// if ($row->TYPE_PROPRIETAIRE_ID==1) 
-				// {
-				//  $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->NOM_PROPRIETAIRE . ' </td></tr></table></a>';
-				// }else
-				// {
-                //  $sub_array[]=' <table><tr><td style = "width:5000px;"><a title=" " href="#"  data-toggle="modal" data-target="#proprio' . $row->VEHICULE_ID. '"><img " style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->NOM_PROPRIETAIRE . ''.'  ' . $row->PRENOM_PROPRIETAIRE . '</td></tr></table></a>';
-				// }
-				
 
-				// $sub_array[]=$row->CODE;
+				if($this->session->userdata('PROFIL_ID') == 1)
+				{
+					$sub_array[]=$row->CODE;
+				}
+
 				$sub_array[]=$row->PLAQUE;
 				$sub_array[]=$row->DESC_MARQUE;
 				// $sub_array[]=$row->DESC_MODELE;
 				$sub_array[]=$row->COULEUR;
-				// $sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' litres / KM' : 'N/A');
 
-				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
-
-				
-
-				// $sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
 				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;&nbsp;&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
-				if($row->STATUT_VEH_AJOUT==2){
-					// $sub_array[]= '<i class="fa fa-check fa-check fa-3x fa-fw"  style="font-size:13px;font-weight: bold;color: green;"></i><font style="font-size:13px;font-weight: bold;color: green;">Véhicule approuvé</font> 
-					// <span class="badge badge-pill badge-warning" ></span>';
+				if($row->STATUT_VEH_AJOUT == 2 && $this->session->userdata('PROFIL_ID') == 1){
+
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 
-					
 					<center title="Désactiver"><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked >
 					<span class="slider round"></span>
@@ -146,14 +132,19 @@
 					</form>
 
 					';
-				}elseif ($row->STATUT_VEH_AJOUT==1) 
+				}
+				elseif($row->STATUT_VEH_AJOUT == 2 && $this->session->userdata('PROFIL_ID') != 1){
+
+					$sub_array[]='<center><i class="fa fa-check text-success  small" title="Démande approuvée"></i></i><font style="font-size:14px;" class="text-success" title="Démande approuvée"> </font></center>';
+				}
+				elseif ($row->STATUT_VEH_AJOUT==1) 
 				{
 					$sub_array[] = '<center><i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title="Véhicule en attente"></i></center>';
 
 				}elseif ($row->STATUT_VEH_AJOUT==3) 
 				{
 					$sub_array[]='<center><i class="fa fa-ban text-danger  small" title="Véhicule refusé"></i></i><font style="font-size:14px;" class="text-danger" title="Véhicule refusé"> </font></center>';
-				}elseif($row->STATUT_VEH_AJOUT==4){
+				}elseif($row->STATUT_VEH_AJOUT == 4 && $this->session->userdata('PROFIL_ID') == 1){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
@@ -168,41 +159,9 @@
 
 					';
 				}
-
-				// if($row->IS_ACTIVE==1){
-				// 	$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
-
-				// 	<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
-
-				// 	<table>
-				// 	<td><label class="text-primary small">Activé</label></td>
-				// 	<td><label class="switch"> 
-				// 	<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked>
-				// 	<span class="slider round"></span>
-				// 	</label></td>
-				// 	</table>
-
-
-
-				// 	</form>
-
-				// 	';
-				// }else{
-				// 	$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
-
-				// 	<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
-
-				// 	<table>
-				// 	<td><label class="text-danger small">Désactivé</label></td>
-				// 	<td><label class="switch"> 
-				// 	<input type="checkbox" id="myCheck" onclick="statut_active(' . $row->VEHICULE_ID . ')">
-				// 	<span class="slider round"></span>
-				// 	</label></td>
-				// 	</table>
-				// 	</form>
-
-				// 	';
-				// }
+				elseif($row->STATUT_VEH_AJOUT == 4 && $this->session->userdata('PROFIL_ID') != 1){
+					$sub_array[]='<center><i class="fa fa-close text-danger  small" title="Vécule désactivé"></i></i><font style="font-size:14px;" class="text-danger" title="Vécule désactivé"> </font></center>';
+				}
 
 				$option = '<div class="dropdown text-center">
 				<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
@@ -250,151 +209,54 @@
 				}
 
 				
-				if ($row->STATUT_VEH_AJOUT==1 || $row->STATUT_VEH_AJOUT==2)
+				if ($row->STATUT_VEH_AJOUT == 1 || $row->STATUT_VEH_AJOUT ==2 )
 				{
 					$option .= "<a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-edit'></i>&nbsp;&nbsp;&nbsp;&nbsp;Modifier</li></a>";
 					
 				}
-				if($row->STATUT_VEH_AJOUT==1 && $PROFIL_ID==1){
-					$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-cog'></i>&nbsp;&nbsp;&nbsp;&nbsp;Traiter</li></a>";
 
+				if($PROFIL_ID == 1)
+				{
+					if($row->STATUT_VEH_AJOUT == 1 || $row->STATUT_VEH_AJOUT == 3){
+						$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='bi bi-pen'></i>&nbsp;&nbsp;&nbsp;&nbsp;Traiter</li></a>";
+
+					}
+					if($row->STATUT == 1 && $row->STATUT_VEH_AJOUT == 2)
+					{
+
+						$option.='<a class="btn-md" href="'.base_url('vehicule/Vehicule/affecter_vehicule/'.$row->VEHICULE_ID).'"><li class="btn-md" style=""><table><tr><td><i class="fa fa-plus h5" ></i></td><td>Affecter au chauffeur</td></tr></table></li></a>';
+					}
+					else if($row->STATUT == 2)
+					{
+
+						$option .= "<a class='btn-md' href='#' data-toggle='modal' data-target='#modal_retirer" . $row->VEHICULE_ID . "'><li class='btn-md'><table><tr><td><i class='fa fa-close h5' ></i></td><td>Annuler l'affectation</td></tr></table></li></a>";
+					}
 				}
 
-				$option .="
-				</div>
-				<div class='modal fade' id='mypicture" .$row->VEHICULE_ID."' style='border-radius:100px;'>
-				<div class='modal-dialog modal-lg'>
-				<div class='modal-content'>
-
-				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<h6 class='modal-title'>Détail du véhicule</h6>
-				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-				</div>
-				<div class='modal-body'>
-
-				<h4 class=''></h4>
-
-				<div class='row'>
-
-				<div class='col-md-6'>
-				<img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
-				</div>
-
-				<div class='col-md-6'>
-
-				<h4></h4>
-
-				<table class='table table-borderless'>
-
-				<tr>
-				<td class='btn-sm'>Code</td>
-				<th class='btn-sm'>".$row->CODE."</th>
-				</tr>
-
-				<tr>
-				<td class='btn-sm'>Marque</td>
-				<th class='btn-sm'>".$row->DESC_MARQUE."</th>
-				</tr>
-
-				<tr class='btn-sm'>
-				<td>Modèle</td>
-				<th class='btn-sm'>".$row->DESC_MODELE."</th>
-				</tr>
-
-				<tr>
-				<td class='btn-sm'>Plaque</td>
-				<th class='btn-sm'>".$row->PLAQUE."</th>
-				</tr>
-
-				<tr>
-				<td class='btn-sm'>Couleur</td>
-				<th class='btn-sm'>".$row->COULEUR."</th>
-				</tr>
-
-				<tr>
-				<td class='btn-sm'>Consommation / km</td>
-				<th class='btn-sm'>".$row->KILOMETRAGE."</th>
-				</tr>
-
-				<tr>
-				<td class='btn-sm'>propriétaire</td>
-				<th class='btn-sm'><strong>".$row->NOM_PROPRIETAIRE."</strong></th>
-				</tr>
-
-				<tr>
-				<td class='btn-sm'>Chauffeur</td>
-				<th class='btn-sm'><strong>".(isset($row->desc_chauffeur)?$row->desc_chauffeur:'N/A')."</strong></th>
-				</tr>
-
-				<tr>
-				<td><strong>Documents</strong></td>
-				</tr>
-				<tr>
-				<td><label class='fa fa-book'></label> ASSURANCE</td>
-				<td><a href='#' data-toggle='modal' data-target='#info_documa" .$row->VEHICULE_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
-				</td>
-				</tr>
-				<tr>
-				<td><label class='fa fa-book'></label>CONTROLE TECHNIQUE</td>
-				<td><a href='#' data-toggle='modal' data-target='#info_documa2" .$row->VEHICULE_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
-				</td>
-				</tr>
-
-				</table>
-
-				</div>
-				</div>
 				
-				</div>
-				</div>
-				</div>
+				
 
-				<div class='modal fade' id='info_documa" .$row->VEHICULE_ID. "'>
-				<div class='modal-dialog'>
+				$option .= " </ul>
+				</div>
+				<div class='modal fade' id='modal_retirer" .$row->VEHICULE_ID. "'>
+				<div class='modal-dialog modal-dialog-centered modal-lg'>
 				<div class='modal-content'>
 				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<h6 class='modal-title'>Assurance</h6>
+				<h5></h5>
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
-				<div class='scroller'>
-				<div class='table-responsive'>
+				<center><h5>Voulez-vous annuler l'affectation du véhicule <b>" . $row->DESC_MARQUE.' - '.$row->DESC_MODELE." ? </b></h5></center>
+				<div class='modal-footer'>
 
-				<img src = '".base_url('upload/photo_vehicule/'.$row->FILE_ASSURANCE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
+				<a class='btn btn-outline-primary rounded-pill' href='".base_url('vehicule/Vehicule/annuler_affectation/'.md5($row->CODE))."' ><font class='fa fa-check'></font> Valider</a>
 
-				<div class='modal fade' id='info_documa2" .$row->VEHICULE_ID. "'>
-				<div class='modal-dialog'>
-				<div class='modal-content'>
-				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<h6 class='modal-title'>Contrôle technique</h6>
-				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-				</div>
-				<div class='modal-body'>
-				<div class='scroller'>
-				<div class='table-responsive'>
-
-				<img src = '".base_url('upload/photo_vehicule/'.$row->FILE_CONTRO_TECHNIQUE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+				<button type='button' class='btn btn-outline-warning rounded-pill' data-dismiss='modal' aria-label='Close'><font class='fa fa-close'></font> Quitter</button>
 				</div>
 				</div>
 				</div>
 				</div>
-				</div>
-				</div>
-
-				";
-
-
-
-
-
-
-
+				</div>";
 
 				
 				if ($row->TYPE_PROPRIETAIRE_ID==1)
@@ -565,7 +427,7 @@
 			$COMMENTAIRE = $this->input->post('COMMENTAIRE');
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-			if ($TRAITEMENT_DEMANDE_ID==1) {
+			if ($TRAITEMENT_DEMANDE_ID == 1) {
 				$CODE = $this->input->post('CODE');
 				$my_select_code_veh = $this->getBindParms('CODE', 'vehicule', '1 AND CODE="'.$CODE.'"', '`VEHICULE_ID` ASC');
 				$my_select_code_veh=str_replace('\"', '"', $my_select_code_veh);
@@ -580,18 +442,25 @@
 				}
 			}
 			
+			$vehcul = false;
 
 			if($statut==3){
 
-				if ($STATUT_VEH_AJOUT==1 && $TRAITEMENT_DEMANDE_ID==1) 
+				if ($STATUT_VEH_AJOUT == 1 && $TRAITEMENT_DEMANDE_ID==1) 
 				{
 					$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>2,'CODE'=>$CODE));
 
-				}else if ($STATUT_VEH_AJOUT==1 && $TRAITEMENT_DEMANDE_ID==2) {
+				}
+				else if ($STATUT_VEH_AJOUT == 3 && $TRAITEMENT_DEMANDE_ID==1) 
+				{
+					$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>2,'CODE'=>$CODE));
+
+				}
+				else if ($STATUT_VEH_AJOUT==1 && $TRAITEMENT_DEMANDE_ID==2) {
 					$vehcul = $this->Model->update('vehicule',array('VEHICULE_ID'=>$VEHICULE_ID,),array('TRAITEMENT_DEMANDE_ID'=>$TRAITEMENT_DEMANDE_ID,'COMMENTAIRE'=>$COMMENTAIRE,'STATUT_VEH_AJOUT'=>3)); 
 				}
 
-				if($vehcul==true )
+				if($vehcul==true)
 				{
 					$statut=1;
 				}else
@@ -1444,9 +1313,24 @@
 
 		function get_nbr_vehicule($CHECK_VALIDE)
 		{
+			$USER_ID = $this->session->userdata('USER_ID');
+
+			$CHECK_VALIDE = $CHECK_VALIDE;
+			$PROFIL_ID=$this->session->userdata('PROFIL_ID');
+
+			// print_r($PROFIL_ID);die();
+
+			$critaire = ' ' ;
 			$critaire_doc_valide = '' ;
 
 			$date_now = date('Y-m-d');
+
+			if($this->session->userdata('PROFIL_ID') != 1)
+			{
+				$critaire.= ' AND users.USER_ID = '.$USER_ID;
+			}
+
+			$critaire_doc_valide = '' ;
 
 			if($CHECK_VALIDE == 1) // Assurance valide
 			{
@@ -1467,7 +1351,7 @@
 
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-			$vehicule = $this->getBindParms('COUNT(VEHICULE_ID) AS nombre_v', 'vehicule', ' 1 '.$critaire_doc_valide.'', '`VEHICULE_ID` ASC');
+			$vehicule = $this->getBindParms('COUNT(VEHICULE_ID) AS nombre_v', 'vehicule JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON users.PROPRIETAIRE_ID = proprietaire.PROPRIETAIRE_ID', ' 1 '.$critaire.''.$critaire_doc_valide.'', '`VEHICULE_ID` ASC');
 
 			$vehicule = str_replace('\"', '"', $vehicule);
 			$vehicule = str_replace('\n', '', $vehicule);
@@ -1476,6 +1360,180 @@
 			$vehicule = $this->ModelPs->getRequeteOne($proce_requete, $vehicule);
 
 			echo $vehicule['nombre_v'];
+		}
+
+		// Fonction pour affecter le vehicule au chauffeur
+
+		function affecter_vehicule($VEHICULE_ID)
+		{
+			$centre = '-2.84551,30.3337';
+			$zoom = 9;
+
+			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+			// Recherche des chauffeurs
+
+			$chauffeur = $this->getBindParms('chauffeur.CHAUFFEUR_ID,CONCAT(NOM," ",PRENOM) AS chauffeur_desc','chauffeur',' 1 AND STATUT_VEHICULE = 1 AND IS_ACTIVE = 1','chauffeur_desc ASC');
+
+			$chauffeur = str_replace('\"', '"', $chauffeur);
+			$chauffeur = str_replace('\n', '', $chauffeur);
+			$chauffeur = str_replace('\"', '', $chauffeur);
+
+			$chauffeur = $this->ModelPs->getRequete($psgetrequete, $chauffeur);
+
+			//Recherche du detail du vehicule
+
+			$vehicule = $this->getBindParms('vehicule.VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE','vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MARQUE = vehicule_marque.ID_MARQUE',' 1 AND vehicule.VEHICULE_ID = '.$VEHICULE_ID.'','vehicule.VEHICULE_ID ASC');
+
+			$vehicule = str_replace('\"', '"', $vehicule);
+			$vehicule = str_replace('\n', '', $vehicule);
+			$vehicule = str_replace('\"', '', $vehicule);
+
+			$vehicule = $this->ModelPs->getRequeteOne($psgetrequete, $vehicule);
+			
+			$data['vehicule']=$vehicule;
+			$data['centre']=$centre;
+			$data['zoom']=$zoom;
+			$data['chauffeur']=$chauffeur;
+
+			$this->load->view('Vehicule_Affectation_View',$data);
+		}
+
+		//Fonction pour enregistrer l'affectation d'un vehicule au chauffeur
+		function save_affect_vehicule()
+		{
+		// $statut=1 attribution avec succes;
+		// $statut=2: attribution echoue
+
+			$statut=2;
+
+			$CODE = $this->input->post('CODE');
+			$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID');
+
+			$COORD = $this->input->post('COORD');
+			$COORD = str_replace("LatLng(", "[", $COORD);
+			$COORD = str_replace(")", "]", $COORD);
+			$COORD = '['.$COORD.']';
+
+			$COORD_POLY = $COORD;
+
+			$COORD_POLY = explode(',[', $COORD_POLY);
+			$COORD_POLY_SEND = '';
+			for ($i=0; $i < count($COORD_POLY); $i++) { 
+
+				$COORD_POLY2 = $COORD_POLY[$i];
+
+				$COORD_POLY2 = str_replace(']', '', $COORD_POLY2);
+				$COORD_POLY2 = str_replace('[', '', $COORD_POLY2);
+
+				$COORD_POLY2 = explode(',', $COORD_POLY2);
+				$COORD_POLY_SEND.= '['.$COORD_POLY2[1].','.$COORD_POLY2[0].'],';
+
+			}
+
+			$COORD_POLY_SEND .= '@';
+			$COORD_POLY_SEND = str_replace(',@', '', $COORD_POLY_SEND);
+
+			$COORD_POLY_SEND = '[['.$COORD_POLY_SEND.']]';
+
+
+
+			$DATE_DEBUT_AFFECTATION = $this->input->post('DATE_DEBUT_AFFECTATION');
+			$DATE_FIN_AFFECTATION = $this->input->post('DATE_FIN_AFFECTATION');
+
+			$result1 = false;
+			$result2 = false;
+
+			$data = array('CODE'=>$CODE,'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,'DATE_DEBUT_AFFECTATION'=>$DATE_DEBUT_AFFECTATION,'DATE_FIN_AFFECTATION'=>$DATE_FIN_AFFECTATION,'STATUT_AFFECT'=>1);
+
+			$CHAUFFEUR_VEH = $this->Model->insert_last_id('chauffeur_vehicule',$data);
+
+			$data_2 = array('COORD'=>$COORD_POLY_SEND,'CHAUFFEUR_VEHICULE_ID'=>$CHAUFFEUR_VEH);
+			$CHAUFFEUR_AFF = $this->Model->create('chauffeur_zone_affectation',$data_2);
+
+			$result1 = $this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),array('STATUT_VEHICULE'=>2));
+
+			$result2 = $this->Model->update('vehicule',array('CODE'=>$CODE),array('STATUT'=>2));
+
+			if($result1 == true && $result2 == true)
+			{
+				$statut = 1;
+			}else
+			{
+				$statut = 2;
+			}
+			echo json_encode($statut);
+		}
+
+			//fonction pour annuler l'affectation du vehicule
+		public function annuler_affectation($CODE)
+		{
+			$chauf_v = $this->Model->getOne('chauffeur_vehicule',array('md5(CODE)'=>$CODE,'STATUT_AFFECT'=>1));
+
+			$this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID']),array('STATUT_VEHICULE'=>1));
+
+			$this->Model->update('vehicule',array('md5(CODE)'=>$CODE),array('STATUT'=>1));
+
+			$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID'],'STATUT_AFFECT'=>1),array('STATUT_AFFECT'=>2));
+
+
+			$data['message'] = '<div class="alert alert-success text-center" id="message">' . " l'affectation annulée avec succès !" . '</div>';
+
+			$this->session->set_flashdata($data);
+
+			redirect(base_url('vehicule/Vehicule'));
+
+
+		}
+
+
+		//Annulation de l'affectation du vehicule automatique si la date fin est expirée
+		function annule_affect_auto()
+		{
+			$date_now = date('Y-m-d');
+
+			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+			// Recherche des chauffeurs
+
+			$all_affect = $this->getBindParms('DATE_FIN_AFFECTATION,chauffeur_vehicule.CODE,chauffeur_vehicule.CHAUFFEUR_ID,STATUT_AFFECT','chauffeur_vehicule',' 1 AND DATE_FIN_AFFECTATION < "'.$date_now.'" AND STATUT_AFFECT = 1 ','DATE_FIN_AFFECTATION ASC');
+
+			$all_affect = str_replace('\"', '"', $all_affect);
+			$all_affect = str_replace('\n', '', $all_affect);
+			$all_affect = str_replace('\"', '', $all_affect);
+
+			$all_affect = $this->ModelPs->getRequete($psgetrequete, $all_affect);
+
+			//print_r($all_affect);die();
+
+			$result1 = false;
+			$result2 = false;
+			$result3 = false;
+
+			if(!empty($all_affect))
+			{
+				foreach($all_affect as $key)
+				{
+					$result1 = $this->Model->update('chauffeur',array('CHAUFFEUR_ID'=>$key['CHAUFFEUR_ID']),array('STATUT_VEHICULE'=>1));
+
+					$result2 = $this->Model->update('vehicule',array('CODE'=>$key['CODE']),array('STATUT'=>1));
+
+					$result3 = $this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$key['CHAUFFEUR_ID'],'STATUT_AFFECT'=>1),array('STATUT_AFFECT'=>2));
+				}
+
+				if($result1 == true && $result2 == true && $result3 == true)
+				{
+					echo 'Annulation automatique d\'affectation faite avec succès';
+				}else
+				{
+					echo 'Echec !';
+				}
+			}
+			else
+			{
+				echo 'Pas d\'affectation expirée avec un chauffeur affecté au vehicule !';
+			}
+
 		}
 
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées

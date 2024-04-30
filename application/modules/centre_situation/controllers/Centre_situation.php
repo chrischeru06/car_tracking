@@ -640,8 +640,6 @@
 				$critaire_doc_valide = ' AND DATE_FIN_CONTROTECHNIK < "'.$date_now.'"';
 			}
 
-
-
 			$query_principal = '';
 			$order_by = ' ';
 
@@ -691,7 +689,10 @@
 			{
 				$sub_array=array();
 				$sub_array[]=$u++;
-				$sub_array[]=$row->CODE;
+				if($this->session->userdata('PROFIL_ID') == 1)
+                {
+                	$sub_array[]=$row->CODE;
+                }
 				$sub_array[]=$row->DESC_MARQUE;
 				$sub_array[]=$row->DESC_MODELE;
 				$sub_array[]=$row->PLAQUE;
@@ -725,10 +726,14 @@
 				<ul class="dropdown-menu dropdown-menu-right">
 				';
 
-				if($this->session->userdata('PROFIL_ID') == 1 && $row->STATUT_VEH_AJOUT==1)
+				if($this->session->userdata('PROFIL_ID') == 1)
 				{
-					$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-cog'></i>&nbsp;&nbsp;&nbsp;&nbsp;Traiter</li></a>";
+					if($row->STATUT_VEH_AJOUT == 1 || $row->STATUT_VEH_AJOUT == 3)
+					{
+						$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='bi bi-pen'></i>&nbsp;&nbsp;&nbsp;&nbsp;Traiter</li></a>";
+					}
 				}
+
 
 				if(!empty($row->DATE_FIN_ASSURANCE))
 				{

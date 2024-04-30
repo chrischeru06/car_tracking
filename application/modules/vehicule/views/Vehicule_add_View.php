@@ -283,7 +283,7 @@
               </fieldset>
               <br>
               <fieldset class="border p-2">
-                <legend  class="float-none w-auto p-2">Dossiers</legend>
+                <legend  class="float-none w-auto p-2">Documents</legend>
                 <div  class="row">
 
                   <div class="col-md-4">
