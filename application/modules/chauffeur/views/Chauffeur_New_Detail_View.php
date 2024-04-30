@@ -29,7 +29,7 @@
       height: 600px;
       overflow: hidden;
     }
-     #image-container_chof{
+    #image-container_chof{
       position: relative;
       left:10px;
       width: 670px; 
@@ -53,6 +53,12 @@
       width: 105%; 
       height: 100%;
       margin-left: -12px;
+    }
+
+    .dash_card:hover {
+      color: cadetblue;
+      background-color: rgba(95, 158, 160,0.3);
+      cursor: pointer;
     }
   </style>
 </head>
@@ -170,7 +176,7 @@
                         {
                           ?>
                           <img style="border-radius: 10px;height: 290px;width: 200%;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
-                           <input type="hidden" id="phot_chof2" value="<?= base_url()?>/upload/img_agent/phavatar.png">
+                          <input type="hidden" id="phot_chof2" value="<?= base_url()?>/upload/img_agent/phavatar.png">
                           <?php
                         }
                         ?>
@@ -272,7 +278,7 @@
 
                 <div class="tab-pane fade pt-3" id="doc_uploader">
                   <div class="col-md-4">
-                  <table class='table table-borderless  text-dark'>
+                  <!-- <table class='table table-borderless  text-dark'>
                     <tr>
 
                       <?php
@@ -315,70 +321,107 @@
                       <td>Permis de conduire</td>  
                       <td>Carte d'identité</td>
                     </tr>
-                  </table>
-                </div>
-                </div>
+                  </table> -->
+
+                  <table class="table table-borderless">
+                   <tr>
+
+                    <?php
+                    if(!empty($chauff['FILE_PERMIS']))
+                    {
+                      ?>
+                      <td class="text-center">
+                        <font class="card dash_card" onclick="get_document(1);">
+                          <i class="text-danger small pt-2 ps-1 fa fa-file-pdf-o" style="font-size: 30px;margin-top: 5px;"></i><br>
+                          <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Permis de conduire</font>
+                        </font>
+                        
+                      </td>
+
+                      <?php
+                    }
+
+                    if(!empty($chauff['FILE_CARTE_IDENTITE']))
+                    {
+                      ?>
+                      <td class="text-center">
+                        <font class="card dash_card" onclick="get_document(2);">
+                          <i class="text-danger small pt-2 ps-1 fa fa-file-pdf-o" style="font-size: 30px;margin-top: 5px;"></i><br>
+                          <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Carte d'identité</font>
+                        </font>
+                      </td>
+
+                      <?php
+                    }
+
+                    ?>
+                  </tr>
+                </table>
+
+
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
 
 
-<!-- Modal photo du chauffeur-->
+  <!-- Modal photo du chauffeur-->
 
-<div class="modal fade" id="Modal_photo_chof">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header" style='background:cadetblue;color:white;'>
-        <h6 class="modal-title"></h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-      </div>
-      <div class="modal-body">
+  <div class="modal fade" id="Modal_photo_chof">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style='background:cadetblue;color:white;'>
+          <h6 class="modal-title"></h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+        </div>
+        <div class="modal-body">
 
-        <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
+          <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
 
-          <div class="col-md-4">
-
-          </div>
-
-          <div class="col-md-1">
-            <i onclick="zoomIn_chof()" class="fa fa-plus-circle text-muted"></i>
-
-            <input type="hidden" id="rotation" value="0">
-          </div>
-
-          <div class="col-md-1">
-            <i onclick="zoomOut_chof()" class="fa fa-minus-circle text-muted"></i>
-          </div>
-
-                <div class="col-md-1">
-                  <i onclick="rotate_chof()" class="fa fa-rotate-right text-muted"></i>
-                </div>
-
-
-              </div>
-
-              <div class="row">
-
-                <div class="col-md-12" id="image-container_chof">
-                  <img src="" id="phot_chof" alt="Description de l'image">
-                </div>
-
-
-              </div>
+            <div class="col-md-4">
 
             </div>
-            <!-- footer here -->
+
+            <div class="col-md-1">
+              <i onclick="zoomIn_chof()" class="fa fa-plus-circle text-muted"></i>
+
+              <input type="hidden" id="rotation" value="0">
+            </div>
+
+            <div class="col-md-1">
+              <i onclick="zoomOut_chof()" class="fa fa-minus-circle text-muted"></i>
+            </div>
+
+            <div class="col-md-1">
+              <i onclick="rotate_chof()" class="fa fa-rotate-right text-muted"></i>
+            </div>
+
+
           </div>
+
+          <div class="row">
+
+            <div class="col-md-12" id="image-container_chof">
+              <img src="" id="phot_chof" alt="Description de l'image">
+            </div>
+
+
+          </div>
+
         </div>
+        <!-- footer here -->
       </div>
+    </div>
+  </div>
 
-    </section>
+</section>
 
-  </main><!-- End #main -->
+</main><!-- End #main -->
 
-  <?php include VIEWPATH . 'includes/footer.php'; ?>
+<?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
 <!------------------------ Modal detail chauff type physique' ------------------------>
@@ -585,6 +628,46 @@
 </div>
 <!-- fin-->
 
+
+<!-- Modal permis doc-->
+
+<div class="modal fade" id="Modal_permis_doc">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style='background:cadetblue;color:white;'>
+        <h6 class="modal-title"></h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+
+          <div class="col-md-12" id="">
+
+            
+            <div id="div_permis">
+              <input type="hidden" id="file_permis" value="<?=base_url("upload/chauffeur/".$chauff['FILE_PERMIS'])?>">
+
+            <embed id="file_permis2" src="" #toolbar=0 scrolling="auto" height="500px" width="100%" frameborder="0"></embed>
+            </div>
+
+            <div id="div_carte_id">
+              <input type="hidden" id="file_carte_id" value="<?=base_url("upload/chauffeur/".$chauff['FILE_CARTE_IDENTITE'])?>">
+
+            <embed id="file_carte_id2" src="" #toolbar=0 scrolling="auto" height="500px" width="100%" frameborder="0"></embed>
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+      <!-- footer here -->
+    </div>
+  </div>
+</div>
+
 <script >
   $(document).ready( function ()
   {
@@ -693,14 +776,14 @@
  }
 </script>
 <script>
-    function show_image2()
-    {
-      var phot_v2 = $('#phot_v2').val();
-      var imgElement = document.getElementById("phot_v");
-      imgElement.src = phot_v2;
-      $('#Modal_photo_chof').modal('show');
-    }
-  </script>
+  function show_image2()
+  {
+    var phot_v2 = $('#phot_v2').val();
+    var imgElement = document.getElementById("phot_v");
+    imgElement.src = phot_v2;
+    $('#Modal_photo_chof').modal('show');
+  }
+</script>
 
 <script>
              //Operations photo avec les boutons
@@ -1055,7 +1138,7 @@
           }
         });
 
-    
+
 
 
              // Fonction pour mettre à jour la transformation CSS de la photo
@@ -1064,14 +1147,14 @@
         }
       </script>
       <script>
-    function show_imagechauff()
-    {
-      var phot_chof2 = $('#phot_chof2').val();
-      var imgElement = document.getElementById("phot_chof");
-      imgElement.src = phot_chof2;
-      $('#Modal_photo_chof').modal('show');
-    }
-  </script>
+        function show_imagechauff()
+        {
+          var phot_chof2 = $('#phot_chof2').val();
+          var imgElement = document.getElementById("phot_chof");
+          imgElement.src = phot_chof2;
+          $('#Modal_photo_chof').modal('show');
+        }
+      </script>
 
       <script>
         //chauffeur
@@ -1190,6 +1273,33 @@
         // Fonction pour mettre à jour la transformation CSS de la photo
         function updateTransform() {
           image_choff.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+        }
+      </script>
+
+      <script type="">
+        function get_document(id)
+        {
+          if(id == 1)
+          {
+            $('#div_permis').show();
+            $('#div_carte_id').hide();
+
+            var file_permis = $('#file_permis').val();
+            var imgElement = document.getElementById("file_permis2");
+            imgElement.src = file_permis;
+          }
+          else if(id == 2)
+          {
+            $('#div_permis').hide();
+            $('#div_carte_id').show();
+
+            var file_carte_id = $('#file_carte_id').val();
+            var imgElement2 = document.getElementById("file_carte_id2");
+            imgElement2.src = file_carte_id;
+          }
+
+
+          $('#Modal_permis_doc').modal('show');
         }
       </script>
 
