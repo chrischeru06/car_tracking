@@ -58,8 +58,8 @@
                         <th class="text-dark">#</th>
                         <th class="text-dark">UTILISATEUR</th>
                         <th class="text-dark">TELEPHONE</th>
-                        <th class="text-dark">MESSAGE</th>
-                        <th class="text-dark">ACTIONS</th>
+                        <th class="text-dark"><center>MESSAGE</center></th>
+                        <!-- <th class="text-dark">ACTIONS</th> -->
                         
                       </tr>
                     </thead>

@@ -185,19 +185,19 @@ class Message extends CI_Controller
 			
 			$sub_array[]=$row->IDENTIFICATION;
 			$sub_array[]=$row->TELEPHONE;
-			$sub_array[]="<a class='btn btn-outline-primary rounded-pill' href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a>";
+			$sub_array[]="<center><a class='btn btn-outline-primary rounded-pill' href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a></center>";
 			
-			$option = '<div class="dropdown "style="color:white;float:right;">
-			<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
-			<i class="bi bi-three-dots h5" style="color:blue;"></i>
-			<span class="caret"></span></a>
-			<ul class="dropdown-menu dropdown-menu-left">
-			';
-			$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOneAdmin/'.$row->USER_ID_ENVOIE). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Discussion</a></li>";
+			// $option = '<div class="dropdown "style="color:white;float:right;">
+			// <a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
+			// <i class="bi bi-three-dots h5" style="color:blue;"></i>
+			// <span class="caret"></span></a>
+			// <ul class="dropdown-menu dropdown-menu-left">
+			// ';
+			// $option .= "<li><a class='btn-md' href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Discussion</a></li>";
 			
 			
 			
-			$sub_array[]=$option;
+			// $sub_array[]=$option;
 
 			$data[]=$sub_array;
 		}
