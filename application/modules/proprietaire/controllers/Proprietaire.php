@@ -33,7 +33,6 @@ class Proprietaire extends CI_Controller
 		$data['btn']="Enregistrer";
 		$data['title']="NOUVEAU PROPRIETAIRE";
 		$proprietaire = array('PROPRIETAIRE_ID'=>NULL,'TYPE_PROPRIETAIRE_ID'=>NULL,'TYPE_SOCIETE_ID'=>NULL,'NOM_PROPRIETAIRE'=>NULL,'PRENOM_PROPRIETAIRE'=>NULL,'PERSONNE_REFERENCE'=>NULL,'EMAIL'=>NULL,'TELEPHONE'=>NULL,'CNI_OU_NIF'=>NULL,'RC'=>NULL,'PROVINCE_ID'=>NULL,'COMMUNE_ID'=>NULL,'ZONE_ID'=>NULL,'COLLINE_ID'=>NULL,'ADRESSE'=>NULL,'PHOTO_PASSPORT'=>NULL,'LOGO'=>NULL,'FILE_CNI_PASSPORT'=>NULL,'FILE_RC'=>NULL,'FILE_NIF'=>NULL,'CATEGORIE_ID'=>NULL,'COUNTRY_ID'=>NULL);
-
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 		$my_select_provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', '`PROVINCE_NAME` ASC');
@@ -492,7 +491,7 @@ class Proprietaire extends CI_Controller
 
 			if ($this->form_validation->run() == FALSE)
 			{
-				$this->ajouter($id);
+				$this->index($id);
 			}
 			else
 			{

@@ -519,13 +519,54 @@
 		function ajouter()
 		{			
 			$VEHICULE_ID = $this->uri->segment(4);
+			$USER_ID = $this->session->userdata('USER_ID');
+			$PROFIL_ID = $this->session->userdata('PROFIL_ID');
+			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+			if ($PROFIL_ID!=1) {
+
+
+
+				$user_req = $this->getBindParms('PROPRIETAIRE_ID','users','1 and USER_ID='.$USER_ID,'USER_ID ASC');
+				$user = $this->ModelPs->getRequeteOne($psgetrequete, $user_req);
+
+				$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 and PROPRIETAIRE_ID='.$user['PROPRIETAIRE_ID'],'proprio_desc ASC');
+
+				$proprio=str_replace('\"', '"', $proprio);
+				$proprio=str_replace('\n', '', $proprio);
+				$proprio=str_replace('\"', '', $proprio);
+
+				$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+				// print_r($proprio);die();
+
+				if (!empty($VEHICULE_ID)) {
+
+					$user_req = $this->getBindParms('PROPRIETAIRE_ID','users','1 and USER_ID='.$USER_ID,'USER_ID ASC');
+					$user = $this->ModelPs->getRequeteOne($psgetrequete, $user_req);
+
+					$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 and PROPRIETAIRE_ID='.$user['PROPRIETAIRE_ID'],'proprio_desc ASC');
+
+					$proprio=str_replace('\"', '"', $proprio);
+					$proprio=str_replace('\n', '', $proprio);
+					$proprio=str_replace('\"', '', $proprio);
+
+					$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+				}
+			}else{
+				$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
+
+				$proprio=str_replace('\"', '"', $proprio);
+				$proprio=str_replace('\n', '', $proprio);
+				$proprio=str_replace('\"', '', $proprio);
+
+				$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+			}
 
 			$data['btn'] = "Enregistrer";
 			$data['title']="Enregistrement du véhicule";
 
 			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL,'ID_ASSUREUR'=>NULL);
 			
-			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
 			$marque = $this->getBindParms('ID_MARQUE,DESC_MARQUE','vehicule_marque',' 1 ','DESC_MARQUE ASC');
 			$marque = $this->ModelPs->getRequete($psgetrequete, $marque);
@@ -534,13 +575,7 @@
 
 			$modele = $this->getBindParms('ID_MODELE ,DESC_MODELE','vehicule_modele',' 1 ','DESC_MODELE ASC');
 			$modele = $this->ModelPs->getRequete($psgetrequete, $modele);
-			$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
-
-			$proprio=str_replace('\"', '"', $proprio);
-			$proprio=str_replace('\n', '', $proprio);
-			$proprio=str_replace('\"', '', $proprio);
-
-			$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+			
 
 			$assureur = $this->getBindParms('`ID_ASSUREUR`, `ASSURANCE`', 'assureur', '1', '`ASSURANCE` ASC');
 			$assureur = $this->ModelPs->getRequete($psgetrequete, $assureur);
@@ -558,6 +593,8 @@
 				// 	redirect(base_url('Login/logout'));
 				// }
 
+				// print_r($vehicule);die();
+
 				$marque = $this->getBindParms('ID_MARQUE,DESC_MARQUE','vehicule_marque',' 1 ','DESC_MARQUE ASC');
 				$marque = $this->ModelPs->getRequete($psgetrequete, $marque);
 
@@ -566,27 +603,29 @@
 				$usage = $this->getBindParms('USAGE_ID,USAGE_DESC','veh_usage',' 1 ','USAGE_DESC ASC');
 				$usage = $this->ModelPs->getRequete($psgetrequete, $usage);
 
+				if ($PROFIL_ID==1) {
+					$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
 
-				$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
+					$proprio=str_replace('\"', '"', $proprio);
+					$proprio=str_replace('\n', '', $proprio);
+					$proprio=str_replace('\"', '', $proprio);
 
-				$proprio=str_replace('\"', '"', $proprio);
-				$proprio=str_replace('\n', '', $proprio);
-				$proprio=str_replace('\"', '', $proprio);
-
-				$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+					$proprio = $this->ModelPs->getRequete($psgetrequete, $proprio);
+				}
+				
 
 				
 
 			}
 
-			$data['vehicule'] = $vehicule;
-			$data['marque'] = $marque;
-			$data['modele'] = $modele;
-			$data['usage'] = $usage;
-			$data['proprio'] = $proprio;
+			$data['vehicule_data']=$vehicule;
+			$data['marque']=$marque;
+			$data['modele']=$modele;
+			$data['usage']=$usage;
+			$data['proprio']=$proprio;
 			$data['assureur'] = $assureur;
 
-
+			// print_r($vehicule);die();
 			$this->load->view('Vehicule_add_View',$data);
 		}
 
@@ -1547,6 +1586,50 @@
 
 		}
 
+		//Fonction pour les notifications des anomalies
+		function check_anomalies(){
+			$USER_ID = $this->session->userdata('USER_ID');
+			$PROFIL_ID = $this->session->userdata('PROFIL_ID');
+			$today = date('Y-m-d');
+
+			if ($PROFIL_ID==1) {
+				$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+				$anomalies_req = $this->getBindParms('device_uid','tracking_data','1 and vitesse>=50 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
+				$anomalies_req=str_replace('\"', '"', $anomalies_req);
+				$anomalies_req=str_replace('\n', '', $anomalies_req);
+				$anomalies_req=str_replace('\"', '', $anomalies_req);
+				$anomalies_exces_vitesse = $this->ModelPs->getRequete($psgetrequete, $anomalies_req);
+				$nbre_exces_vit=count($anomalies_exces_vitesse);
+
+				$acc_req = $this->getBindParms('device_uid','tracking_data','1 and accident=1 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
+				$acc_req=str_replace('\"', '"', $acc_req);
+				$acc_req=str_replace('\n', '', $acc_req);
+				$acc_req=str_replace('\"', '', $acc_req);
+				$anomalies_accident = $this->ModelPs->getRequete($psgetrequete, $acc_req);
+				$nbre_accident=count($anomalies_accident);
+
+			}else{
+				$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+				$anomalies_req = $this->getBindParms('device_uid','tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
+				$anomalies_req=str_replace('\"', '"', $anomalies_req);
+				$anomalies_req=str_replace('\n', '', $anomalies_req);
+				$anomalies_req=str_replace('\"', '', $anomalies_req);
+				$anomalies_exces_vitesse = $this->ModelPs->getRequete($psgetrequete, $anomalies_req);
+				$nbre_exces_vit=count($anomalies_exces_vitesse);
+				$acc_req = $this->getBindParms('device_uid','tracking_data','1 and accident=1 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
+				$acc_req=str_replace('\"', '"', $acc_req);
+				$acc_req=str_replace('\n', '', $acc_req);
+				$acc_req=str_replace('\"', '', $acc_req);
+				$anomalies_accident = $this->ModelPs->getRequete($psgetrequete, $acc_req);
+
+				$nbre_accident=count($anomalies_accident);
+
+			}
+			
+
+			print_r($nbre_exces_vit);die();
+
+		}
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 		public function getBindParms($columnselect, $table, $where, $orderby)
 		{
