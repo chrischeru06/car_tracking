@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
-		ul {
-			list-style-type: none;
-			padding: 0;
-		}
+	
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
 
-		li {
-			padding: 5px;
-			margin-bottom: 10px;
-			max-width: 80%;
-			list-style-type: none;
-		}
+	li {
+		padding: 5px;
+		margin-bottom: 10px;
+		max-width: 80%;
+		list-style-type: none;
+	}
 
-		.received {
-			background-color: #eaeaea;
-			text-align: left;
-		}
+	.received {
+		background-color: #eaeaea;
+		text-align: left;
+	}
 
-		.sent {
-			background-color: #DCF8C6;
-			text-align: right;
-		}
+	.sent {
+		background-color: #DCF8C6;
+		text-align: right;
+	}
 
-		.capitalize-first {
-			color:  #899bbd;
-			font-weight: bold;
-			text-transform: lowercase;
-			font-variant: small-caps;
+	.capitalize-first {
+		color:  #899bbd;
+		font-weight: bold;
+		text-transform: lowercase;
+		font-variant: small-caps;
 
-		}
-		.capitalize-first::first-letter {
-			text-transform: uppercase;
-		}
+	}
+	.capitalize-first::first-letter {
+		text-transform: uppercase;
+	}
 
-	</style>
+</style>
 <head>
 	<?php include VIEWPATH . 'includes/header.php'; ?>
 	
