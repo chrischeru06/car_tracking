@@ -313,21 +313,22 @@ z-index: 100;
   <div class="card-body">
     <div class="row">
 
-
-      <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-default me-md-2" type="button" style="background-color: cadetblue; color:white;"> <font class="fa fa-list"></font>
+        <!-- <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-default me-md-2" type="button" style="background-color: cadetblue; color:white;"> -->
+      <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-outline-primary" type="button"> <font class="fa fa-list"></font>
       </button>
       
 
       <div id="map_maps" style="width: 100%;height: 720px;">
         <div id='button-container'>
-          <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border:none;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button>
+          <button id='toggle-button' class="btn btn-outline-primary">Visibilité du polygone</button>
+           <!-- <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border:none;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button> -->
         </div>
 
         <div class="map-overlay top">
           <!-- <div class="scroller"> -->
             <div class="map-overlay-inner">
-              <button onclick="close_popup()" style="float: right; background-color: cadetblue; color: white;" class="btn btn-default me-md-2" type="button">X</button>
-
+              <button onclick="close_popup()" style="float: right;" class="btn btn-outline-primary" type="button">X</button>
+              <!-- <button onclick="close_popup()" style="float: right; background-color: cadetblue; color: white;" class="btn btn-default me-md-2" type="button">X</button> -->
 
               <h5 class="card-title">Résumés des courses </h5>
               <?=$card_card1?>

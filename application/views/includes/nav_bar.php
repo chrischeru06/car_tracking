@@ -13,6 +13,8 @@ function out_application()
     redirect(base_url('Login/logout'));
   }
 }
+
+
 ?>
 <style>
   .scroller {

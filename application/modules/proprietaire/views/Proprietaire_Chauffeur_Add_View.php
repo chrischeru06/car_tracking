@@ -162,7 +162,7 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro  personne de contact</label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro  personne de contact <font color="red">*</font></label>
                     <input type="text" name="personne_contact_telephone" autocomplete="off" 
                     id="personne_contact_telephone" value="<?= set_value('personne_contact_telephone') ?>"  class="form-control">
                     <font id="error_personne_contact_telephone" color="red"></font>
