@@ -185,7 +185,7 @@ class Message extends CI_Controller
 			
 			$sub_array[]=$row->IDENTIFICATION;
 			$sub_array[]=$row->TELEPHONE;
-			$sub_array[]="<center><a class='btn btn-outline-primary rounded-pill' href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a></center>";
+			$sub_array[]="<center><a class='btn btn-outline-primary rounded-pill' title='Nouveau message' href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a></center>";
 			
 			// $option = '<div class="dropdown "style="color:white;float:right;">
 			// <a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
