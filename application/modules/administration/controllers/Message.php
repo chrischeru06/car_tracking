@@ -138,13 +138,13 @@ class Message extends CI_Controller
 		$order_by='';
 		$order_column=array('id','IDENTIFICATION','TELEPHONE','MESSAGE');
 		if ($_POST['order']['0']['column'] != 0) {
-			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' PROFIL_ID DESC';
+			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_MESSAGE_USER DESC';
 		}
 		
 		$search = !empty($_POST['search']['value']) ? (' AND (users.IDENTIFICATION LIKE "%' . $var_search . '%" 
 			OR users.TELEPHONE LIKE "%' . $var_search . '%" OR MESSAGE LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT MESSAGE,USER_ID_ENVOIE,users.IDENTIFICATION,users.TELEPHONE FROM message_utilisateurs JOIN users ON users.USER_ID=message_utilisateurs.USER_ID_ENVOIE WHERE 1';
+		$query_principal='SELECT USER_ID_ENVOIE,message_utilisateurs.ID_MESSAGE_USER,MESSAGE,users.IDENTIFICATION,users.TELEPHONE FROM message_utilisateurs JOIN users ON users.USER_ID=message_utilisateurs.USER_ID_ENVOIE WHERE 1';
 		
 		
         //condition pour le query principale
@@ -167,14 +167,17 @@ class Message extends CI_Controller
 			{
 
 				$proce_requete = "CALL `getRequete`(?,?,?,?);";
-				$my_select = $this->getBindParms('COUNT(ID_MESSAGE_USER) as nombre', 'message_utilisateurs', '1 AND message_utilisateurs.STATUT_UTILISATEUR=1 AND message_utilisateurs.USER_ID_DESTINATAIRE ='.$row->USER_ID_ENVOIE.'', 'message_utilisateurs.ID_MESSAGE_USER ASC');
-				$NOMBRE = $this->ModelPs->getRequeteOne($proce_requete, $my_select);
+				$my_select = $this->getBindParms('ID_MESSAGE_USER', 'message_utilisateurs', '1 AND message_utilisateurs.STATUT_UTILISATEUR=1 AND message_utilisateurs.USER_ID_DESTINATAIRE ='.$row->USER_ID_ENVOIE.'', 'message_utilisateurs.ID_MESSAGE_USER ASC');
+				$NOMBRE = $this->ModelPs->getRequete($proce_requete, $my_select);
+				$nbre_msg=count($NOMBRE);
 
 			}else{
 
 				$proce_requete = "CALL `getRequete`(?,?,?,?);";
-				$my_select = $this->getBindParms('COUNT(ID_MESSAGE_USER) as nombre', 'message_utilisateurs', '1 AND message_utilisateurs.STATUT_ADMIN=1 AND message_utilisateurs.USER_ID_ENVOIE='.$row->USER_ID_ENVOIE.'', 'message_utilisateurs.ID_MESSAGE_USER ASC');
-				$NOMBRE = $this->ModelPs->getRequeteOne($proce_requete, $my_select);
+				$my_select = $this->getBindParms('ID_MESSAGE_USER', 'message_utilisateurs', '1 AND message_utilisateurs.STATUT_ADMIN=1 AND message_utilisateurs.USER_ID_ENVOIE='.$row->USER_ID_ENVOIE.'', 'message_utilisateurs.ID_MESSAGE_USER ASC');
+				$NOMBRE = $this->ModelPs->getRequete($proce_requete, $my_select);
+
+				$nbre_msg=count($NOMBRE);
 
 			}
 			
@@ -185,7 +188,7 @@ class Message extends CI_Controller
 			
 			$sub_array[]=$row->IDENTIFICATION;
 			$sub_array[]=$row->TELEPHONE;
-			$sub_array[]="<center><a class='btn btn-outline-primary rounded-pill' href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a></center>";
+			$sub_array[]="<center><a class='btn btn-outline-primary rounded-pill' title='Nouveau message' href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "' style='font-size:10px;'><label>".$nbre_msg."</label></a></center>";
 			
 			// $option = '<div class="dropdown "style="color:white;float:right;">
 			// <a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">

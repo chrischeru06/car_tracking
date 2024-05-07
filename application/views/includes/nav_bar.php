@@ -1,4 +1,9 @@
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <?php
 function __construct()
 {
@@ -43,7 +48,7 @@ function out_application()
         </a>
       </li><!-- End Search Icon-->
       <?php
-      $nbre_vehicule=$this->Model->getRequeteOne('SELECT count(VEHICULE_ID) as nbre FROM vehicule WHERE STAT_NOTIFICATION=1');
+
 
       $PROFIL_IDENTIFIANT = $this->session->userdata('PROFIL_ID');
       $USER_ID = $this->session->userdata('USER_ID');
@@ -57,45 +62,46 @@ function out_application()
 
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
-          <span class="badge bg-primary badge-number"><?=$nbre_vehicule['nbre']?></span>
+          <span class="badge bg-primary badge-number" id="compteur"></span>
         </a><!-- End Notification Icon -->
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
           <li class="dropdown-header">
-            Vous avez <?=$nbre_vehicule['nbre']?> nouvelles notifications
-            <a href="<?=base_url()?>vehicule/Vehicule"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
+            Vous avez <a id="compteur2"></a> nouvelles notifications
+            <!-- <a href="<?=base_url()?>vehicule/Vehicule"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a> -->
           </li>
           
           <li>
             <hr class="dropdown-divider">
           </li>
-          <?php
-          $vehicule=$this->Model->getRequete('SELECT vehicule.VEHICULE_ID,vehicule.PLAQUE,vehicule.PROPRIETAIRE_ID,users.IDENTIFICATION,DATE_SAVE FROM vehicule join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID WHERE STAT_NOTIFICATION=1');
-          $maintenant=date('Y-m-d H:i:s');
-          foreach ($vehicule as $keyvehicule) {
-            $heure_veh=$this->notifications->ago($keyvehicule['DATE_SAVE'],$maintenant);
+          <div  class="scroller" id="html2"></div>
+          <!-- <li class="dropdown-footer">
+            <a href="#">Show all notifications</a>
+          </li> -->
 
+        </ul><!-- End Notification Dropdown Items -->
 
-            ?>
-            <div class="scroller">
-              <a href="<?=base_url()?>vehicule/Vehicule" style="color:black;">
-                <li class="notification-item">
-                  <i class="bi bi-exclamation-circle text-warning"></i>
-                  <div>
-                    <h4><?=$keyvehicule['IDENTIFICATION']?></h4>
-                    <p>Plaque : <?=$keyvehicule['PLAQUE']?></p>
-                    <p>Il y a <?=$maintenant?></p>
-                  </div>
-                </li>
-              </a>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-            </div>
+      </li><!-- End Notification Nav -->
+      <?php
+    }else{?>
 
-            <?php
-          }
-          ?>
+      <li class="nav-item dropdown">
+
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-primary badge-number" id="compteur"></span>
+        </a><!-- End Notification Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <li class="dropdown-header">
+            Vous avez <a id="compteur2"></a> nouvelles notifications
+            <!-- <a href="<?=base_url()?>vehicule/Vehicule"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a> -->
+          </li>
+          
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <div  class="scroller" id="html2"></div>
           <!-- <li class="dropdown-footer">
             <a href="#">Show all notifications</a>
           </li> -->
@@ -105,7 +111,6 @@ function out_application()
       </li><!-- End Notification Nav -->
       <?php
     }?>
-
 
     <li class="nav-item dropdown">
      <?php
@@ -164,13 +169,15 @@ function out_application()
 
       $message_details_utilisateur=$this->Model->getRequete('SELECT ID_MESSAGE_USER,MESSAGE,USER_ID_ENVOIE,users.IDENTIFICATION,DATE as date_enreg,message_utilisateurs.USER_ID_DESTINATAIRE FROM message_utilisateurs JOIN users ON users.USER_ID=message_utilisateurs.USER_ID_ENVOIE WHERE message_utilisateurs.STATUT_UTILISATEUR=1 AND USER_ID_DESTINATAIRE='.$USER_ID);
       $now=date('Y-m-d H:i:s');
-      if ($PROFIL_IDENTIFIANT==1) {
-        foreach ($message_details as $key_message) {
+      if ($PROFIL_IDENTIFIANT==1) {?>
+        <div class="scroller">
 
-          $heure=$this->notifications->ago($key_message['date_enreg'],$now);
+          <?php
+          foreach ($message_details as $key_message) {
 
-          ?>
-          <div class="scroller">
+            $heure=$this->notifications->ago($key_message['date_enreg'],$now);
+
+            ?>
             <li class="message-item">
               <a href="<?=base_url('administration/Message/index/'.$key_message['USER_ID_ENVOIE'])?>">
                 <!-- <img src="<?= base_url()?>/template/assets/img/messages-1.jpg" alt="" class="rounded-circle"> -->
@@ -184,16 +191,19 @@ function out_application()
             <li>
               <hr class="dropdown-divider">
             </li>
-          </div>
+            <?php
+          }?>
+        </div>
+
+        <?php
+      }else{?>
+        <div class="scroller">
+
           <?php
-        }
-      }else{
+          foreach ($message_details_utilisateur as $keymessageutilisateur) {
+            $heure1=$this->notifications->ago($keymessageutilisateur['date_enreg'],$now);
 
-        foreach ($message_details_utilisateur as $keymessageutilisateur) {
-          $heure1=$this->notifications->ago($keymessageutilisateur['date_enreg'],$now);
-
-          ?>
-          <div class="scroller">
+            ?>
             <li class="message-item">
               <a href="<?=base_url('administration/Message/index/'.$keymessageutilisateur['USER_ID_DESTINATAIRE'])?>">
                 <!-- <img src="<?= base_url()?>/template/assets/img/messages-1.jpg" alt="" class="rounded-circle"> -->
@@ -207,9 +217,11 @@ function out_application()
             <li>
               <hr class="dropdown-divider">
             </li>
-          </div>
-          <?php
-        }
+            <?php
+          }?>
+        </div>
+        
+        <?php
       }
       ?>
 
@@ -301,3 +313,31 @@ function out_application()
 </nav><!-- End Icons Navigation -->
 
 </header>
+
+
+<script>
+  function goBackend(){
+    $.ajax({
+      url:"<?=base_url('vehicule/Vehicule/check_anomalies/')?>",
+      type: "GET",
+      dataType:"JSON",
+      success: function(data)
+      {
+        // $('#notif').html(data);
+        // alert(data)
+        $('#compteur').html(data.nbre_anomalies);
+        $('#compteur2').html(data.nbre_anomalies);
+        $('#html2').html(data.html);
+
+      },
+      error: function (jqXHR, textStatus, errorThrown)
+      {
+        alert('Erreur');
+      }
+    });
+    setTimeout(goBackend,5000)
+
+  };
+
+  setTimeout(goBackend,5000)
+</script>

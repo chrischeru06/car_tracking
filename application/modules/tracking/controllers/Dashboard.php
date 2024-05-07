@@ -478,7 +478,7 @@ class Dashboard extends CI_Controller
 
 				$elt_geofence_course = $this->ModelPs->getRequete($proce_requete, $my_select_geo_el);
 
-				$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ', '1 AND md5(CODE) ="'.$CODE.'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
+				$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ', '1 AND chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID=1 AND md5(CODE) ="'.$CODE.'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
 				$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
 				$my_selectdelim=str_replace('\n', '', $my_selectdelim);
 				$my_selectdelim=str_replace('\"', '', $my_selectdelim);
