@@ -74,7 +74,10 @@ function out_application()
           <li>
             <hr class="dropdown-divider">
           </li>
-          <div  class="scroller" id="html2"></div>
+          <div  class="scroller">
+            <div id="html2"></div>
+            <div id="html3"></div>
+          </div>
           <!-- <li class="dropdown-footer">
             <a href="#">Show all notifications</a>
           </li> -->
@@ -101,7 +104,10 @@ function out_application()
           <li>
             <hr class="dropdown-divider">
           </li>
-          <div  class="scroller" id="html2"></div>
+          <div  class="scroller" >
+            <div id="html2"></div>
+            <div id="html1"></div>
+          </div>
           <!-- <li class="dropdown-footer">
             <a href="#">Show all notifications</a>
           </li> -->
@@ -220,7 +226,7 @@ function out_application()
             <?php
           }?>
         </div>
-        
+
         <?php
       }
       ?>
@@ -328,6 +334,10 @@ function out_application()
         $('#compteur').html(data.nbre_anomalies);
         $('#compteur2').html(data.nbre_anomalies);
         $('#html2').html(data.html);
+        $('#html1').html(data.html1);
+        $('#html3').html(data.html1);
+
+
 
       },
       error: function (jqXHR, textStatus, errorThrown)

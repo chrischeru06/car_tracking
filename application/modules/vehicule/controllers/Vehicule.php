@@ -1603,6 +1603,7 @@
 			$nbre_vehicule=count($nbre_vehicule_voir);
 
 			$html='';
+			$html1='';
 			foreach ($nbre_vehicule_voir as $keyvehicule) {
 				$heure_veh=$this->notifications->ago($keyvehicule['DATE_SAVE'],$maintenant);
 
@@ -1766,9 +1767,9 @@
 					
 					$donnees = $keyresponse[0];
 					if($donnees==2) {
-					$a=$a+1;
+					$a=1;
 
-					$html.='
+					$html1='
 					<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
 					<li class="notification-item">
 					<i class="bi bi-exclamation-circle text-danger"></i>
@@ -1939,9 +1940,9 @@
 					
 					$donnees = $keyresponse[0];
 					if($donnees==2) {
-					$a=$a+1;
+					$a=1;
 
-					$html.='
+					$html1='
 					<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
 					<li class="notification-item">
 					<i class="bi bi-exclamation-circle text-danger"></i>
@@ -1970,6 +1971,8 @@
 			$output = array(
 				"nbre_anomalies" => $nbre_anomalies,
 				"html" => $html,
+				"html1" => $html1,
+
 
 			);
 			
