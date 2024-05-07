@@ -1761,12 +1761,11 @@
 					
 
 				}
-				foreach ($response as $keyresponse) {
+				if (!empty($response)) {
+					foreach ($response as $keyresponse) {
 					
 					$donnees = $keyresponse[0];
-					
-				}
-				if($donnees==2) {
+					if($donnees==2) {
 					$a=$a+1;
 
 					$html.='
@@ -1786,6 +1785,12 @@
 					</li>
 					';
 				}
+					
+				}
+				
+				}
+				// $donnees=0;
+				
 				  // print_r($html);die();
 
 
@@ -1800,7 +1805,7 @@
 				// $anomalies_req=str_replace('\"', '', $anomalies_req);
 				// $anomalies_exces_vitesse = $this->ModelPs->getRequete($psgetrequete, $anomalies_req);
 
-				$anomalies_exces_vitesse = $this->ModelPs->getRequete('select device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'"  GROUP BY device_uid');
+				$anomalies_exces_vitesse = $this->Model->getRequete('select device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'"  GROUP BY device_uid');
 				foreach ($anomalies_exces_vitesse as $keyexces) {
 
 					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
@@ -1838,7 +1843,7 @@
 				// $acc_req=str_replace('\"', '', $acc_req);
 				// $anomalies_accident = $this->ModelPs->getRequete($psgetrequete, $acc_req);
 
-				$anomalies_accident = $this->ModelPs->getRequete('SELECT device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and accident=1 and tracking_data.STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" and users.USER_ID="'.$USER_ID.'" GROUP BY device_uid');
+				$anomalies_accident = $this->Model->getRequete('SELECT device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and accident=1 and tracking_data.STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" and users.USER_ID="'.$USER_ID.'" GROUP BY device_uid');
 				foreach ($anomalies_accident as $keyaccident) {
 
 					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
@@ -1933,9 +1938,7 @@
 				foreach ($response as $keyresponse) {
 					
 					$donnees = $keyresponse[0];
-					
-				}
-				if($donnees==2) {
+					if($donnees==2) {
 					$a=$a+1;
 
 					$html.='
@@ -1955,6 +1958,9 @@
 					</li>
 					';
 				}
+					
+				}
+				
 				  // print_r($html);die();
 				$nbre_anomalies=$nbre_exces_vit+$nbre_accident+$a;
 
