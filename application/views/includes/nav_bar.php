@@ -169,13 +169,15 @@ function out_application()
 
       $message_details_utilisateur=$this->Model->getRequete('SELECT ID_MESSAGE_USER,MESSAGE,USER_ID_ENVOIE,users.IDENTIFICATION,DATE as date_enreg,message_utilisateurs.USER_ID_DESTINATAIRE FROM message_utilisateurs JOIN users ON users.USER_ID=message_utilisateurs.USER_ID_ENVOIE WHERE message_utilisateurs.STATUT_UTILISATEUR=1 AND USER_ID_DESTINATAIRE='.$USER_ID);
       $now=date('Y-m-d H:i:s');
-      if ($PROFIL_IDENTIFIANT==1) {
-        foreach ($message_details as $key_message) {
+      if ($PROFIL_IDENTIFIANT==1) {?>
+        <div class="scroller">
 
-          $heure=$this->notifications->ago($key_message['date_enreg'],$now);
+          <?php
+          foreach ($message_details as $key_message) {
 
-          ?>
-          <div class="scroller">
+            $heure=$this->notifications->ago($key_message['date_enreg'],$now);
+
+            ?>
             <li class="message-item">
               <a href="<?=base_url('administration/Message/index/'.$key_message['USER_ID_ENVOIE'])?>">
                 <!-- <img src="<?= base_url()?>/template/assets/img/messages-1.jpg" alt="" class="rounded-circle"> -->
@@ -189,16 +191,19 @@ function out_application()
             <li>
               <hr class="dropdown-divider">
             </li>
-          </div>
+            <?php
+          }?>
+        </div>
+
+        <?php
+      }else{?>
+        <div class="scroller">
+
           <?php
-        }
-      }else{
+          foreach ($message_details_utilisateur as $keymessageutilisateur) {
+            $heure1=$this->notifications->ago($keymessageutilisateur['date_enreg'],$now);
 
-        foreach ($message_details_utilisateur as $keymessageutilisateur) {
-          $heure1=$this->notifications->ago($keymessageutilisateur['date_enreg'],$now);
-
-          ?>
-          <div class="scroller">
+            ?>
             <li class="message-item">
               <a href="<?=base_url('administration/Message/index/'.$keymessageutilisateur['USER_ID_DESTINATAIRE'])?>">
                 <!-- <img src="<?= base_url()?>/template/assets/img/messages-1.jpg" alt="" class="rounded-circle"> -->
@@ -212,9 +217,11 @@ function out_application()
             <li>
               <hr class="dropdown-divider">
             </li>
-          </div>
-          <?php
-        }
+            <?php
+          }?>
+        </div>
+        
+        <?php
       }
       ?>
 
