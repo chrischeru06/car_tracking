@@ -113,8 +113,9 @@ class Message extends CI_Controller
 
 		$this->load->view('Message_list_View');
 	}
-	//Fonction pour la liste des messages
+
 	function listing(){
+
 		$USER_ID = $this->session->userdata('USER_ID');
 		$PROFIL_ID=$this->session->userdata('PROFIL_ID');
 
@@ -127,31 +128,32 @@ class Message extends CI_Controller
 
 
 		}
+
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-		$var_search = str_replace("'", "\'", $var_search);
-		$group = " GROUP BY message_utilisateurs.USER_ID_ENVOIE";
-		
-		$limit = 'LIMIT 0,1000';
-		if ($_POST['length'] != -1) {
-			$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+		$limit = 'LIMIT 0,10';
+		if(isset($_POST["length"]) && $_POST["length"] != -1)
+		{
+			$limit = 'LIMIT '.$_POST["start"].','.$_POST["length"];
+
 		}
-		$order_by='';
-		$order_column=array('id','IDENTIFICATION','TELEPHONE','MESSAGE');
-		if ($_POST['order']['0']['column'] != 0) {
-			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_MESSAGE_USER DESC';
-		}
-		
-		$search = !empty($_POST['search']['value']) ? (' AND (users.IDENTIFICATION LIKE "%' . $var_search . '%" 
-			OR users.TELEPHONE LIKE "%' . $var_search . '%" OR MESSAGE LIKE "%' . $var_search . '%")') : '';
+		$order_by = '';
+		$order_column = array('id','IDENTIFICATION','TELEPHONE','MESSAGE');
+
+		$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ORDER BY ID_MESSAGE_USER DESC';
+
+		$search = !empty($_POST['search']['value']) ? (' AND (users.IDENTIFICATION LIKE "%' . $var_search . '%" OR users.TELEPHONE LIKE "%' . $var_search . '%" OR MESSAGE LIKE "%' . $var_search . '%")') : '';
+
+		$order_by = '';
+
+		$group_by='GROUP by message_utilisateurs.USER_ID_ENVOIE';
 
 		$query_principal='SELECT USER_ID_ENVOIE,message_utilisateurs.ID_MESSAGE_USER,MESSAGE,users.IDENTIFICATION,users.TELEPHONE FROM message_utilisateurs JOIN users ON users.USER_ID=message_utilisateurs.USER_ID_ENVOIE WHERE 1';
-		
-		
+
         //condition pour le query principale
-		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+		$conditions = $critaire . ' ' . $search . ' ' . $group_by . ' ' . $order_by . '   ' . $limit;
 
         // condition pour le query filter
-		$conditionsfilter = $critaire . ' ' . $group;
+		$conditionsfilter = $critaire . ' ' . $group_by;
 		$requetedebase=$query_principal.$conditions;
 		$requetedebasefilter=$query_principal.$conditionsfilter;
 		$query_secondaire = "CALL `getTable`('".$requetedebase."');";
@@ -159,8 +161,6 @@ class Message extends CI_Controller
 		$fetch_data = $this->ModelPs->datatable($query_secondaire);
 		$data = array();
 		$i=0;
-
-		
 		foreach ($fetch_data as $row) {
 
 			if($this->session->userdata('PROFIL_ID') != 1)
@@ -214,7 +214,7 @@ class Message extends CI_Controller
 		);
 		echo json_encode($output);
 	}
-
+	
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 	public function getBindParms($columnselect, $table, $where, $orderby)
