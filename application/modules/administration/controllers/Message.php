@@ -144,7 +144,7 @@ class Message extends CI_Controller
 		$search = !empty($_POST['search']['value']) ? (' AND (users.IDENTIFICATION LIKE "%' . $var_search . '%" 
 			OR users.TELEPHONE LIKE "%' . $var_search . '%" OR MESSAGE LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT MESSAGE,USER_ID_ENVOIE,users.IDENTIFICATION,users.TELEPHONE FROM message_utilisateurs JOIN users ON users.USER_ID=message_utilisateurs.USER_ID_ENVOIE WHERE 1';
+		$query_principal='SELECT USER_ID_ENVOIE,MESSAGE,users.IDENTIFICATION,users.TELEPHONE FROM message_utilisateurs JOIN users ON users.USER_ID=message_utilisateurs.USER_ID_ENVOIE WHERE 1';
 		
 		
         //condition pour le query principale
