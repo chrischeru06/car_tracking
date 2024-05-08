@@ -91,11 +91,19 @@
 		// 	icon_vehicule = '<?=base_url()?>/upload/iconecartracking-05.png';
 		// }
 
+		var className = '';
+		if(index[21] == 1){
+			className = 'custom-marker-icon';
+		}
+		else{
+			className = 'custom-marker-icon2';
+		}
+
 		var markerIcon = L.icon({
             iconUrl: icon_vehicule, // Spécifiez le chemin vers votre image locale
             iconSize: [30, 30], // Définissez la taille de l'icône
             iconAnchor: [25, 50], // Définissez l'ancre de l'icône (position où le marqueur pointe)
-            className: 'custom-marker-icon' });
+            className: className });
 
 		var marker = L.marker([index[1], index[2]], {
 			icon: markerIcon

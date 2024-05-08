@@ -866,7 +866,7 @@ class Proprietaire extends CI_Controller
 
 			if(!empty($NOMBRE))
 			{
-				$sub_array[]="<a class='btn btn-outline-primary rounded-pill' href='" . base_url('proprietaire/Proprietaire/Detail_vehicule/'.md5($row->PROPRIETAIRE_ID)). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a>";
+				$sub_array[]="<center><a class='btn btn-outline-primary rounded-pill' href='" . base_url('proprietaire/Proprietaire/Detail_vehicule/'.md5($row->PROPRIETAIRE_ID)). "' style='font-size:10px;'><label>".$NOMBRE['nombre']."</label></a></center>";
 			}
 			$action = '<div class="dropdown text-center" style="color:#fff;">
 			<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown"><i class="bi bi-three-dots h5" style="color:blue;"></i>  <span class="caret"></span>
@@ -909,7 +909,7 @@ class Proprietaire extends CI_Controller
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_proprietaire = $this->getBindParms('proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,type_proprietaire.DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,proprietaire.PERSONNE_REFERENCE,proprietaire.ADRESSE,LOGO,FILE_CNI_PASSPORT,RC', 'proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_PROPRIETAIRE_ID=proprietaire.TYPE_PROPRIETAIRE_ID', '1 AND proprietaire.PROPRIETAIRE_ID='.$PROPRIETAIRE_ID.'', '`PROPRIETAIRE_ID` ASC');
 		$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprietaire);
-
+     
 		if(empty($proprietaire['PERSONNE_REFERENCE'])){
 
 			$PERSONNE_REFERENCE='N/A';
@@ -1033,7 +1033,7 @@ class Proprietaire extends CI_Controller
 	function Detail(){
 
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
-		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO ,proprietaire.FILE_NIF,proprietaire.FILE_RC,proprietaire.RC,categories.DESC_CATEGORIE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID left join  categories on proprietaire.CATEGORIE_ID=categories.CATEGORIE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,provinces.PROVINCE_ID,PROVINCE_NAME,communes.COMMUNE_ID,COMMUNE_NAME,zones.ZONE_ID,ZONE_NAME,collines.COLLINE_ID,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO ,proprietaire.FILE_NIF,proprietaire.FILE_RC,proprietaire.RC,categories.DESC_CATEGORIE,proprietaire.FILE_CNI_PASSPORT FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID left join  categories on proprietaire.CATEGORIE_ID=categories.CATEGORIE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
 
 
 		$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
