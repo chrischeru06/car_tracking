@@ -193,7 +193,7 @@
 					{
 						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
 
-						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"> <li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler l\'assurance</td></tr></table></li></a>';
+						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"> <li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Assurance</td></tr></table></li></a>';
 						
 					}
 				}
@@ -212,7 +212,7 @@
 					{
 						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
 
-						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Renouveler le contrôle technique</td></tr></table></li></a>';
+						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Contrôle technique</td></tr></table></li></a>';
 					}
 				}
 				else
@@ -751,9 +751,34 @@
 
 					$table = "vehicule";
 
-					$creation=$this->Model->create($table,$data);
+					$VEHICULE_ID = $this->Model->insert_last_id($table,$data);
 
-					if ($creation)
+					// Enregistrement dans la table d'historique d'assaurance
+
+					$data_histo_assure = array(
+						'VEHICULE_ID' => $VEHICULE_ID,
+						'ID_ASSUREUR'=> $this->input->post('ID_ASSUREUR'),
+						'USER_ID' => $this->input->post('USER_ID'),
+						'DATE_DEBUT_ASSURANCE'=>$this->input->post('DATE_DEBUT_ASSURANCE'),
+						'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
+						'FILE_ASSURANCE' => $file_assurance,
+					);
+
+					$create_assure = $this->Model->create('historique_assurance',$data_histo_assure);
+
+				// Enregistrement dans la table d'historique du controle technique
+
+					$data_histo_controle = array(
+						'VEHICULE_ID' => $VEHICULE_ID,
+						'USER_ID' => $this->input->post('USER_ID'),
+						'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
+						'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
+						'FILE_CONTRO_TECHNIQUE' => $file_controtechnik,
+					);
+
+					$create_controle = $this->Model->create('historique_controle_technique',$data_histo_controle);
+
+					if ($create_assure && $create_controle)
 					{
 						$message['message']='<div class="alert alert-success text-center" id="message">Enregistrement du vehicule avec succès</div>';
 						$this->session->set_flashdata($message);
@@ -833,23 +858,28 @@
 					}
 					else
 					{
-						// if (!empty($_FILES["PHOTO_OUT"]["tmp_name"])) {
-						// 	$PHOTO=$this->upload_file('PHOTO_OUT');
-						// }else{
-						// 	$PHOTO=$this->input->post('PHOTO');
+						//Photo du vehicule
+						if (!empty($_FILES["PHOTO_OUT"]["tmp_name"])) {
+							$PHOTO = $this->upload_file('PHOTO_OUT');
+						}else{
+							$PHOTO = $this->input->post('PHOTO');
+						}
+
+						// $PHOTO_OUT = $this->input->post('PHOTO');
+
+						// if(empty($_FILES['PHOTO_OUT']['name']))
+						// {
+						// 	$file_contro = $this->input->post('PHOTO');
+						// }
+						// else
+						// {
+						// 	$file_contro = $this->upload_file($_FILES['PHOTO_OUT']['tmp_name'],$_FILES['PHOTO_OUT']['name']);
 						// }
 
-						$PHOTO_OUT = $this->input->post('PHOTO');
-						if(empty($_FILES['PHOTO_OUT']['name']))
-						{
-							$file_contro = $this->input->post('PHOTO');
-						}
-						else
-						{
-							$file_contro = $this->upload_file($_FILES['PHOTO_OUT']['tmp_name'],$_FILES['PHOTO_OUT']['name']);
-						}			
+						//Photo doc controle technique		
 
-						$FILE_CONTRO_TECHNIQUE = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
+						// $FILE_CONTRO_TECHNIQUE = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
+
 						if(empty($_FILES['FILE_CONTRO_TECHNIQUE']['name']))
 						{
 							$file_contro = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
@@ -858,7 +888,8 @@
 						{
 							$file_contro = $this->upload_file($_FILES['FILE_CONTRO_TECHNIQUE']['tmp_name'],$_FILES['FILE_CONTRO_TECHNIQUE']['name']);
 						}
-						$FILE_ASSURANCE = $this->input->post('FILE_ASSURANCE_OLD');
+						// $FILE_ASSURANCE = $this->input->post('FILE_ASSURANCE_OLD');
+
 						if(empty($_FILES['FILE_ASSURANCE']['name']))
 						{
 							$file_assurance = $this->input->post('FILE_ASSURANCE_OLD');
@@ -869,13 +900,15 @@
 						}
 
 						$data=array(
-							'CODE'=>$this->input->post('CODE'),
+							//'CODE'=>$this->input->post('CODE'),
+							'ID_ASSUREUR'=>$this->input->post('ID_ASSUREUR'),
 							'ID_MARQUE'=>$this->input->post('ID_MARQUE'),
 							'ID_MODELE'=>$this->input->post('ID_MODELE'),
 							'PLAQUE'=>$this->input->post('PLAQUE'),
 							'COULEUR'=>$this->input->post('COULEUR'),
 							'KILOMETRAGE'=>$this->input->post('KILOMETRAGE'),
-							'PHOTO'=>$PHOTO_OUT,
+							// 'PHOTO'=>$PHOTO_OUT,
+							'PHOTO'=>$PHOTO,
 							'FILE_ASSURANCE'=>$file_assurance,
 							'FILE_CONTRO_TECHNIQUE'=>$file_contro,
 
@@ -894,7 +927,32 @@
 
 						$update=$this->Model->update($table,array('VEHICULE_ID'=>$VEHICULE_ID),$data);
 
-						if ($update)
+						// Enregistrement dans la table d'historique d'assaurance
+
+						$data_histo_assure = array(
+							'VEHICULE_ID' => $VEHICULE_ID,
+							'ID_ASSUREUR'=> $this->input->post('ID_ASSUREUR'),
+							'USER_ID' => $this->input->post('USER_ID'),
+							'DATE_DEBUT_ASSURANCE'=>$this->input->post('DATE_DEBUT_ASSURANCE'),
+							'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
+							'FILE_ASSURANCE' => $file_assurance,
+						);
+
+						$create_assure = $this->Model->create('historique_assurance',$data_histo_assure);
+
+				// Enregistrement dans la table d'historique du controle technique
+
+						$data_histo_controle = array(
+							'VEHICULE_ID' => $VEHICULE_ID,
+							'USER_ID' => $this->input->post('USER_ID'),
+							'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
+							'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
+							'FILE_CONTRO_TECHNIQUE' => $file_contro,
+						);
+
+						$create_controle = $this->Model->create('historique_controle_technique',$data_histo_controle);
+
+						if ($update && $create_assure && $create_controle)
 						{
 							$message['message']='<div class="alert alert-success text-center" id="message">Modification du véhicule faite avec succès <i class="fa fa-check"></i></div>';
 							$this->session->set_flashdata($message);
@@ -922,7 +980,7 @@
 
 		function get_detail_vehicule($VEHICULE_ID = '')
 		{
-			$infos_vehicule = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.STATUT_VEH_AJOUT,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,FILE_ASSURANCE,vehicule.DATE_SAVE,FILE_CONTRO_TECHNIQUE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,chauffeur.CHAUFFEUR_ID,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident,chauffeur_vehicule.STATUT_AFFECT FROM vehicule LEFT JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid LEFT JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE LEFT JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 AND VEHICULE_ID = "'.$VEHICULE_ID.'" ORDER BY chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID DESC LIMIT 1');
+			$infos_vehicule = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.STATUT_VEH_AJOUT,DATE_DEBUT_ASSURANCE,DATE_FIN_ASSURANCE,DATE_DEBUT_CONTROTECHNIK,DATE_FIN_CONTROTECHNIK,FILE_ASSURANCE,vehicule.DATE_SAVE,FILE_CONTRO_TECHNIQUE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.LOGO,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,chauffeur.CHAUFFEUR_ID,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident,chauffeur_vehicule.STATUT_AFFECT FROM vehicule LEFT JOIN tracking_data ON vehicule.CODE = tracking_data.device_uid LEFT JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE LEFT JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 AND VEHICULE_ID = "'.$VEHICULE_ID.'" ORDER BY chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID DESC LIMIT 1');
 			
 			$data['infos_vehicule'] = $infos_vehicule;
 
@@ -1228,7 +1286,7 @@
 
 				$sub_array=array();
 				$sub_array[]=$i;
-				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->ID_HISTORIQUE_CONTROLE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#mypicture2" . $row->ID_HISTORIQUE_CONTROLE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
 				$sub_array[]= date('d-m-Y',strtotime($row->DATE_DEBUT_CONTROTECHNIK));
 				$sub_array[]= date('d-m-Y',strtotime($row->DATE_FIN_CONTROTECHNIK));
 				$sub_array[]=$row->IDENTIFICATION;
@@ -1236,7 +1294,7 @@
 
 				$option = " ";
 				$option .="
-				<div class='modal fade' id='mypicture" .$row->ID_HISTORIQUE_CONTROLE."' style='border-radius:100px;'>
+				<div class='modal fade' id='mypicture2" .$row->ID_HISTORIQUE_CONTROLE."' style='border-radius:100px;'>
 				<div class='modal-dialog modal-lg'>
 				<div class='modal-content'>
 
@@ -1764,31 +1822,31 @@
 				}
 				if (!empty($response)) {
 					foreach ($response as $keyresponse) {
-					
-					$donnees = $keyresponse[0];
-					if($donnees==2) {
-					$a=1;
 
-					$html1='
-					<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
-					<li class="notification-item">
-					<i class="bi bi-exclamation-circle text-danger"></i>
-					<div>
-					<h4 class="text-danger">Geofencing</h4>
+						$donnees = $keyresponse[0];
+						if($donnees==2) {
+							$a=1;
 
-					<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
-					<p>Il y a '.$keyresponse[4].' </p>
-					</div>
-					</li>
-					</a>
-					<li>
-					<hr class="dropdown-divider">
-					</li>
-					';
-				}
-					
-				}
-				
+							$html1='
+							<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
+							<li class="notification-item">
+							<i class="bi bi-exclamation-circle text-danger"></i>
+							<div>
+							<h4 class="text-danger">Geofencing</h4>
+
+							<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
+							<p>Il y a '.$keyresponse[4].' </p>
+							</div>
+							</li>
+							</a>
+							<li>
+							<hr class="dropdown-divider">
+							</li>
+							';
+						}
+
+					}
+
 				}
 				// $donnees=0;
 				
@@ -1940,25 +1998,25 @@
 					
 					$donnees = $keyresponse[0];
 					if($donnees==2) {
-					$a=1;
+						$a=1;
 
-					$html1='
-					<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
-					<li class="notification-item">
-					<i class="bi bi-exclamation-circle text-danger"></i>
-					<div>
-					<h4 class="text-danger">Geofencing</h4>
+						$html1='
+						<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
+						<li class="notification-item">
+						<i class="bi bi-exclamation-circle text-danger"></i>
+						<div>
+						<h4 class="text-danger">Geofencing</h4>
 
-					<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
-					<p>Il y a '.$keyresponse[4].' </p>
-					</div>
-					</li>
-					</a>
-					<li>
-					<hr class="dropdown-divider">
-					</li>
-					';
-				}
+						<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
+						<p>Il y a '.$keyresponse[4].' </p>
+						</div>
+						</li>
+						</a>
+						<li>
+						<hr class="dropdown-divider">
+						</li>
+						';
+					}
 					
 				}
 				

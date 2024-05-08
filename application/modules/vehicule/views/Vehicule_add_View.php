@@ -22,9 +22,8 @@
     <div class="col-sm-10">
       <div class="welcome-text">
        <center>
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
+        
+        <!-- <div class="col-md-4"> -->
 
 
           <!-- <div class="card" style="border-radius: 20px;margin-bottom: 10px;"> -->
@@ -47,7 +46,7 @@
               </tr>
             </table>
             <!-- </div> -->
-          </div>
+          <!-- </div> -->
         </center>
       </div>
     </div>
@@ -295,6 +294,7 @@
                     <font color='red'><?php echo form_error('PHOTO_OUT'); ?></font>
                     <span id="errorPHOTO_OUT" class="text-danger"></span>
                   </div>
+
                   <div class="col-md-4">
                     <label> <small>Photo assurance</small><span  style="color:red;">*</span></label>
                     <input class="form-control" type="hidden" name="FILE_ASSURANCE_OLD" id="FILE_ASSURANCE_OLD"  value="<?=$vehicule_data['FILE_ASSURANCE'];?>">
@@ -302,6 +302,7 @@
                     <font color='red'><?php echo form_error('FILE_ASSURANCE'); ?></font>
                     <span id="errorFILE_ASSURANCE" class="text-danger"></span>
                   </div>
+
                   <div class="col-md-4">
                     <label> <small>Photo contrôle technique</small><span  style="color:red;">*</span></label>
                     <input class="form-control" type="hidden" name="FILE_CONTRO_TECHNIQUE_OLD" id="FILE_CONTRO_TECHNIQUE_OLD"  value="<?=$vehicule_data['FILE_CONTRO_TECHNIQUE'];?>">
@@ -309,6 +310,7 @@
                     <font color='red'><?php echo form_error('FILE_CONTRO_TECHNIQUE'); ?></font>
                     <span id="errorFILE_CONTRO_TECHNIQUE" class="text-danger"></span>
                   </div>
+                  <input type="hidden" name="USER_ID" id="USER_ID" value="<?=$this->session->userdata('USER_ID')?>">
                 </div>
                 <br>
               </fieldset><br><br>

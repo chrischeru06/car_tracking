@@ -204,7 +204,7 @@ input:checked + .slider:before {
                         <th class="">ACTION</th>
                       </tr>
                     </thead>
-                    <tbody class="text-dark">
+                    <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     </tbody>
                   </table>
                 </div>
