@@ -1715,7 +1715,7 @@
 				$a=0;
 
 				foreach ($elt_geofence_course as $key) {
-					$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID', '1 AND chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID=1 AND CODE ="'.$key['CODE'].'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
+					$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND CODE ="'.$key['CODE'].'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
 					$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
 					$my_selectdelim=str_replace('\n', '', $my_selectdelim);
 					$my_selectdelim=str_replace('\"', '', $my_selectdelim);
