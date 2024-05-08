@@ -170,8 +170,8 @@
 
             <div class="card-body">
               <div class="row">
-                <div class="col-md-3">
-                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px; margin-top:10px;margin-left: -20px;cursor: pointer;" class="" onclick="show_image2();" title="Cliquer pour visualiser l'image"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>
+                <div class="col-md-4">
+                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px; margin-top:10px;margin-left: -10px;cursor: pointer;" class="" onclick="show_image2();" title="Cliquer pour visualiser l'image"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>&nbsp;&nbsp;&nbsp;<font class="text-muted small"><?=$infos_vehicule['PLAQUE']?></font>
 
                   <input type="hidden" id="phot_v2" value="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>">
                   
@@ -265,7 +265,17 @@
                     ?>
                     <td>
                       <i class="text-muted small pt-2 ps-1 fa fa-code"></i><font class="text-muted small pt-2 ps-1">Code</font><br>
+                      <?php
+                  if(!empty($infos_vehicule['CODE']))
+                  {
+                    ?>
                       <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['CODE']?></label>
+                      <?php
+                    }else{
+                      ?>
+                      <font class="text-center text-muted small pt-2 ps-1 dash_v">&nbsp;&nbsp;N/A</font>
+                      <?php
+                    }?>
                     </td>
 
                     <?php
@@ -298,7 +308,21 @@
               <tr>
                 <td >
                   <font>
-                    <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['photo_pro'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                    <?php
+                    if($infos_vehicule['TYPE_PROPRIETAIRE_ID'] == 1)
+                    {
+                      ?>
+                      <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['LOGO'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                      <?php
+                    }
+                    else
+                    {
+                      ?>
+                      <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['photo_pro'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                      <?php
+                    }
+                    ?>
+                    
                     <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Propriétaire</font><br>
                   </font>
                   <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
@@ -326,7 +350,7 @@
                           <img src="<?= base_url('/upload/iconecartracking-02.png')?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
                           <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Chauffeur</font><br>
                         </font>
-                        <font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
+                        <font class="text-center text-muted small pt-2 ps-1 dash_v">&nbsp;&nbsp;N/A</font>
                         <?php
                       }
                       ?>
@@ -521,7 +545,7 @@
                         <th></th>
                       </tr>
                     </thead>
-                    <tbody class="text-dark">
+                    <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     </tbody>
                   </table>
                   
@@ -549,7 +573,7 @@
                       <th></th>
                     </tr>
                   </thead>
-                  <tbody class="text-dark">
+                  <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                   </tbody>
                 </table>
 
@@ -577,7 +601,7 @@
                     <!-- <th></th> -->
                   </tr>
                 </thead>
-                <tbody class="text-dark">
+                <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                 </tbody>
               </table>
 
