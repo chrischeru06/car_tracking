@@ -41,7 +41,6 @@
 		//Fonction pour l'affichage
 		function listing()
 		{
-
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 			$var_search = str_replace("'", "\'", $var_search);
 			$group = "";

@@ -59,7 +59,13 @@
 		}
 
 		.custom-marker-icon {
-			border:solid 2px;
+			border:solid 2px green;
+			border-radius: 50%;
+			background-color: rgba(95, 158, 160,0.3);
+		}
+
+		.custom-marker-icon2 {
+			border:solid 2px red;
 			border-radius: 50%;
 			background-color: rgba(95, 158, 160,0.3);
 		}
@@ -627,20 +633,20 @@
 								<div class="modal-body">
 
 									<div class="table-responsive" style="padding-top: 20px;">
-										<table id="table_proprietaire" class="table table-hover" style="min-width: 100%">
+										<table id="table_proprietaire" class="table table-hover" style="min-width: 100%;padding-top: 20px;">
 											<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
 												<tr>
 													<th class="text-dark">#</th>
 
 													<th class="text-dark">IDENTIFICATION</th>
-													<th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-													<th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-													<th>STATUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+													<th class="text-dark">EMAIL</th>
+													<th class="text-dark">TELEPHONE</th>
+													<th>STATUT</th>
 													<th>NBR&nbsp;VEHICULE</th>
 
 												</tr>
 											</thead>
-											<tbody class="text-dark">
+											<tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
 											</tbody>
 										</table>
 									</div>
@@ -694,14 +700,14 @@
       				</div>
 
       				<div class="table-responsive" style="padding-top: 20px;">
-      					<table id="table_vehicule" class="table table-hover" style="min-width: 100%">
+      					<table id="table_vehicule" class="table table-hover" style="min-width: 100%;padding-top: 20px;">
       						<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
       							<tr>
       								<th class="">#</th>
       								<?php
       								if($this->session->userdata('PROFIL_ID') == 1)
       									{?>
-      										<th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      										<th class="">CODE</th>
       										<?php
       									}
       									?>
@@ -711,7 +717,6 @@
       									<th class="">PLAQUE</th>
       									<th class="">COULEUR</th>
       									<th class="">CONSOMMATION</th>
-      									<!-- <th class="">PROPRIETAIRE</th> -->
       									<th class="">DATE&nbsp;ENREGISTREMENT</th>
       									<th class="">STATUT</th>
       									<th class="">ASSURANCE</th>
@@ -720,7 +725,7 @@
       									
       								</tr>
       							</thead>
-      							<tbody class="text-dark">
+      							<tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
       							</tbody>
       						</table>
       					</div>
@@ -829,82 +834,73 @@
 										<tr>
 
 											<th class="text-dark">#</th>
-											<th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-
-											<!-- <th class="text-dark">ADRESSE</th> -->
-                          <!--   <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
-                            <th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-
-                            <th class="text-dark">STATUT&nbsp;&nbsp;&nbsp;</th>
-
-                            <th class="text-dark"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-dark">
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-        <!-- footer here -->
-    </div>
-</div>
-</div>
+											<th class="text-dark">CHAUFFEUR</th>
 
 
+											<th class="text-dark">TELEPHONE</th>
+											<th class="text-dark">EMAIL</th>
 
-<!-- Modal liste des chauffeurs pour le proprietaire connecte-->
+											<th class="text-dark">STATUT</th>
 
-<div class="modal fade" id="ModalChauffeurPro" tabindex="-1" style='border-radius:100px;'>
-	<div class="modal-dialog modal-xl">
-		<div class="modal-content">
-			<div class="modal-header" style='background:cadetblue;color:white;'>
-				<h6 class="modal-title">Liste des chauffeurs</h6>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											<th class="text-dark"></th>
+										</tr>
+									</thead>
+									<tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+						<!-- footer here -->
+					</div>
+				</div>
 			</div>
-			<div class="modal-body">
-
-				<div class="table-responsive" style="padding-top: 20px;">
-					<table id="table_chauffeur_pro" class="table table-hover" style="min-width: 100%">
-						<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
-							<tr>
-
-								<th class="text-dark">#</th>
-								<th class="text-dark">CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-
-								<!-- <th class="text-dark">ADRESSE</th> -->
-                          <!--   <th class="text-dark">Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Commune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Zonne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">Colline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
-                            <th class="text-dark">TELEPHONE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            <th class="text-dark">EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                            
-
-                            <th class="text-dark">OPTIONS</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-dark">
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-        <!-- footer here -->
-    </div>
-</div>
-</div>
 
 
-<!--******** Debut Modal pour le traitement de la demande *********-->
 
-<div class="modal fade" id="Modal_traiter" tabindex="-1" >
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<div class="modal-content">
+			<!-- Modal liste des chauffeurs pour le proprietaire connecte-->
+
+			<div class="modal fade" id="ModalChauffeurPro" tabindex="-1" style='border-radius:100px;'>
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header" style='background:cadetblue;color:white;'>
+							<h6 class="modal-title">Liste des chauffeurs</h6>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+
+							<div class="table-responsive" style="padding-top: 20px;">
+								<table id="table_chauffeur_pro" class="table table-hover" style="min-width: 100%">
+									<thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+										<tr>
+
+											<th class="text-dark">#</th>
+											<th class="text-dark">CHAUFFEUR</th>
+
+											<th class="text-dark">TELEPHONE</th>
+											<th class="text-dark">EMAI</th>
+
+
+											<th class="text-dark">OPTIONS</th>
+										</tr>
+									</thead>
+									<tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+						<!-- footer here -->
+					</div>
+				</div>
+			</div>
+
+
+			<!--******** Debut Modal pour le traitement de la demande *********-->
+
+			<div class="modal fade" id="Modal_traiter" tabindex="-1" >
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
 
         --><h5 class="modal-title">Traiter la demande </h5>

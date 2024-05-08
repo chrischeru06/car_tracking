@@ -208,12 +208,13 @@ input:checked + .slider:before {
 
               </div>
               <br>
-              <div class="table-responsive" style="padding-top: 20px;">
-                <table id="mytable" class="table table-hover" style="min-width: 100%">
+              <div class="table-responsive" >
+                
+                <table id="mytable" class="table table-hover" style="padding-top: 20px;">
                   <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                     <tr>
                       <th class="text-dark">#</th>
-                      <th class="text-dark">PROPRIETAIRE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th class="text-dark">PROPRIETAIRE</th>
                       <th class="text-dark">TYPE&nbsp;PROPRIETAIRE</th>
                       <th class="text-dark">EMAIL</th>
                       <th class="text-dark">TELEPHONE</th>
@@ -222,8 +223,10 @@ input:checked + .slider:before {
                       <th class="text-dark">OPTIONS</th>
                     </tr>
                   </thead>
-                  <tbody class="text-dark">
+
+                  <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                   </tbody>
+
                 </table>
               </div>
 

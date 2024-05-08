@@ -8,10 +8,10 @@
     
     .dropdown-toggle{
 
-  cursor: pointer;
-  
+      cursor: pointer;
+      
 
-}
+    }
   </style>
 
 </head>
@@ -53,7 +53,7 @@
         <div class="col-lg-12">
           <div class="row">
            <!-- Reports -->
-            <?= $this->session->flashdata('message');?>
+           <?= $this->session->flashdata('message');?>
 
            <div class="col-12">
             <div class="card">
@@ -67,14 +67,14 @@
                       <tr>
                         <th class="text-dark">#</th>
 
-                        <th class="text-dark">PROFIL&nbsp;</th>
-                        <th class="text-dark">ROLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-dark">PROFIL</th>
+                        <th class="text-dark">ROLE</th>
 
 
                         <th class="text-dark">OPTIONS</th>
                       </tr>
                     </thead>
-                    <tbody class="text-dark">
+                    <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     </tbody>
                   </table>
                 </div>

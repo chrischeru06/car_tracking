@@ -296,8 +296,9 @@ input:checked + .slider:before {
 
             <div class="card-body">
 
-              <div class="table-responsive" style="padding-top: 60px;">
-                <table id="mytable" class="table table-hover" >
+              <div class="table-responsive" style="padding-top: 20px;">
+
+                <table id="mytable" class="table table-hover" style="padding-top: 20px;">
                  <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                   <tr>
 
@@ -309,8 +310,10 @@ input:checked + .slider:before {
                     <th class="text-dark">OPTIONS</th>
                   </tr>
                 </thead>
-                <tbody class="text-dark">
+                
+                <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                 </tbody>
+
               </table>
             </div>
 

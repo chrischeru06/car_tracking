@@ -18,10 +18,30 @@
     #image-container{
       position: relative;
       left:10px;
-      width: 670px; 
-      height: 600px;
+      width: 770px; 
+      height: 700px;
       overflow: hidden;
     }
+
+    #image-containerPermisCarte{
+      position: relative;
+      left:10px;
+      width: 770px; 
+      height: 510px;
+      overflow: hidden;
+    }
+
+    #image_pop2 {
+      position: relative;
+      cursor: grab;
+      transition: transform 0.2s;
+      border-radius: 50%;
+
+      width: 103%;
+      height: 100%;
+      margin-left: -12px;
+    }
+
     #image-container_proprio{
       position: relative;
       left:10px;
@@ -29,30 +49,13 @@
       height: 600px;
       overflow: hidden;
     }
-    #image-container_chof{
-      position: relative;
-      left:10px;
-      width: 670px; 
-      height: 600px;
-      overflow: hidden;
-    }
+
     #image-container2{
       position: relative;
       left:10px;
       width: 670px; 
       height: 600px;
       overflow: hidden;
-    }
-
-    #phot_v {
-      position: relative;
-      cursor: grab;
-      transition: transform 0.2s;
-      border-radius: 10px;
-
-      width: 105%; 
-      height: 100%;
-      margin-left: -12px;
     }
 
     .dash_card:hover {
@@ -92,7 +95,7 @@
        <!--  <li class="breadcrumb-item"><a href="index.html">Détail</a></li>  -->
        <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Détail du chauffeur <strong><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Détail du chauffeur <strong class="text-primary"><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong></a></li>
 
         </ol>
       </nav>
@@ -154,72 +157,79 @@
               <div class="tab-content pt-2">
                 <div class="tab-pane fade show active profile-overview" id="info_generales">
                  <!-- <h5 class="card-title">A propos</h5> -->
-                 <br>
+                 
                  <div class="row">
+
                   <div class="col-xl-4">
 
                     <!-- <div class="card"> -->
-                      <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                        <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
-
+                      <div class="card-body profile-card pt-2 d-flex flex-column align-items-center">
 
                         <?php
                         if(!empty($chauff['PHOTO_PASSPORT']))
                         {
                           ?>
-                          <img style='border-radius: 10px;height: 320px;width: 200%;' class="" onclick="show_imagechauff();" src='<?=base_url("upload/chauffeur/".$chauff['PHOTO_PASSPORT'])?>'>
-                          <input type="hidden" id="phot_chof2" value="<?= base_url()?>/upload/chauffeur/<?= $chauff['PHOTO_PASSPORT']?>">
+                          <img style='border-radius: 50%;height:200px;width: 200px;cursor: pointer;' class="" onclick="show_imagechauff();" src='<?=base_url("upload/chauffeur/".$chauff['PHOTO_PASSPORT'])?>'>
+                          <input type="hidden" id="image_pop" value="<?= base_url()?>/upload/chauffeur/<?= $chauff['PHOTO_PASSPORT']?>">
                           <?php
                         }
                         else if(empty($chauff['PHOTO_PASSPORT']))
                         {
                           ?>
-                          <img style="border-radius: 10px;height: 290px;width: 200%;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
-                          <input type="hidden" id="phot_chof2" value="<?= base_url()?>/upload/img_agent/phavatar.png">
+                          <img style="border-radius: 50%;height: 200px;width: 200px; cursor:pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
+                          <input type="hidden" id="image_pop" value="<?= base_url()?>/upload/img_agent/phavatar.png">
                           <?php
                         }
                         ?>
-                        <h2><?=$chauff['NOM'].' '. $chauff['PRENOM']?></h2>
+                        <strong class="text-muted"><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong>
 
                       </div>
                       <!-- </div> -->
 
                     </div>
-                    <div class="col-xl-2">
+                    <!-- <div class="col-xl-2">
+                    </div> -->
+
+                    <div class="col-xl-8 table-responsive" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+
+                      <table class="table table-borderless">
+                        <tr>
+                          <td class="text-muted"><span class="fa fa-book"></span>&nbsp;&nbsp;CNI</td>
+                          <td class="text-muted"><b><?=$chauff['NUMERO_CARTE_IDENTITE']?></b></td>
+                        </tr>
+
+                        <tr>
+                          <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;E-mail</td>
+                          <td class="text-muted"><b><?=$chauff['ADRESSE_MAIL']?></b></td>
+                        </tr>
+
+                        <tr>
+                          <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;Téléphone</td>
+                          <td class="text-muted"><b><?=$chauff['NUMERO_TELEPHONE']?></b></td>
+                        </tr>
+
+                        <tr>
+                          <td class="text-muted"><span class="fa fa-calendar"></span>&nbsp;&nbsp;Date naissance</td>
+                          <td class="text-muted"><b><?=$chauff['DATE_NAISSANCE']?></b></td>
+                        </tr>
+
+                        <tr>
+                          <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Adresse</td>
+                          <td class="text-muted"><b><?=$chauff['ADRESSE_PHYSIQUE']?></b></td>
+                        </tr>
+
+                        <tr>
+                          <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Localité</td>
+                          <td class="text-muted"><b><?=$chauff['PROVINCE_NAME'].' / '.$chauff['COMMUNE_NAME'].' / '.$chauff['ZONE_NAME'].' / '.$chauff['COLLINE_NAME']?></b></td>
+                        </tr>
+
+                        
+                      </table>
+
                     </div>
-                    <div class="col-xl-6">
-                      <br>
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label "><span class="fa fa-book"></span>&nbsp;&nbsp;CNI</div>
-                        <div class="col-lg-9 col-md-8"><?=$chauff['NUMERO_CARTE_IDENTITE']?></div>
-                      </div>
 
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label"> <span class="fa fa-envelope-o"></span>&nbsp;&nbsp;E-mail</div>
-                        <div class="col-lg-9 col-md-8"><?=$chauff['ADRESSE_MAIL']?></div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label"><span class="fa fa-phone"></span>&nbsp;&nbsp;Téléphone</div>
-                        <div class="col-lg-9 col-md-8"><?=$chauff['NUMERO_TELEPHONE']?></div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label"><span class="fa fa-calendar"></span>&nbsp;&nbsp;Date&nbsp;naissance</div>
-                        <div class="col-lg-9 col-md-8"><?=$chauff['DATE_NAISSANCE']?></div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Adresse</div>
-                        <div class="col-lg-9 col-md-8"><?=$chauff['ADRESSE_PHYSIQUE']?></div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Localité</div>
-                        <div class="col-lg-9 col-md-8"><?=$chauff['PROVINCE_NAME'].' / '.$chauff['COMMUNE_NAME'].' / '.$chauff['ZONE_NAME'].' / '.$chauff['COLLINE_NAME']?></div>
-                      </div>
-                    </div>
                   </div>
+                  
                 </div>
                 <div class="tab-pane fade pt-3" id="voitures">
                   <div class="row">
@@ -228,7 +238,6 @@
                       if(!empty($info_vehicul['PHOTO']))
                       {
                         ?>
-                        <!-- <img style="border-radius: 10px;height: 290px;width: 200%;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/photo_vehicule'.$info_vehicul['PHOTO'])?>"> -->
                         <img style='border-radius: 10px;height: 300px;width: 100%;' src='<?=base_url("upload/photo_vehicule/".$info_vehicul['PHOTO'])?>'>
 
                         <?php
@@ -278,50 +287,7 @@
 
                 <div class="tab-pane fade pt-3" id="doc_uploader">
                   <div class="col-md-4">
-                  <!-- <table class='table table-borderless  text-dark'>
-                    <tr>
 
-                      <?php
-                      if(!empty($chauff['FILE_PERMIS']))
-                      {
-                        ?>
-                        <th> <img style='border-radius: 5px;height: 50px;cursor: pointer;' src='<?=base_url("upload/chauffeur/".$chauff['FILE_PERMIS'])?>' onclick='show_image();'></th>
-
-                        <?php
-                      }
-                      else if(empty($chauff['FILE_PERMIS']))
-                      {
-                        ?>
-                        <th> <img style="border-radius: 5px;height: 50px;cursor: pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>"></th>
-                        <?php
-                      }
-                      ?>
-                      
-
-
-                      
-
-                      <?php
-                      if(!empty($chauff['FILE_CARTE_IDENTITE']))
-                      {
-                        ?>
-                        <th><img style='border-radius: 5px;height: 50px;cursor: pointer;' onclick='show_image_id();' src='<?=base_url("upload/chauffeur/".$chauff['FILE_CARTE_IDENTITE'])?>'></th>
-
-                        <?php
-                      }
-                      else if(empty($chauff['FILE_CARTE_IDENTITE']))
-                      {
-                        ?>
-                        <th><img  style="border-radius: 5px;height: 50px;cursor: pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>"></th>
-                        <?php
-                      }
-                      ?>
-                    </tr>
-                    <tr>
-                      <td>Permis de conduire</td>  
-                      <td>Carte d'identité</td>
-                    </tr>
-                  </table> -->
 
                   <table class="table table-borderless">
                    <tr>
@@ -329,24 +295,35 @@
                     <?php
                     if(!empty($chauff['FILE_PERMIS']))
                     {
+                      $extension = pathinfo($chauff['FILE_PERMIS'], PATHINFO_EXTENSION);
                       ?>
+
                       <td class="text-center">
-                        <font class="card dash_card" onclick="get_document(1);">
-                          <i class="text-danger small pt-2 ps-1 fa fa-file-pdf-o" style="font-size: 30px;margin-top: 5px;"></i><br>
+
+                        <input type="hidden" id="ext_permis" value="<?=$extension?>">
+
+                        <font class="card dash_card" onclick="get_document(1,$('#ext_permis').val());">
+                          <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
                           <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Permis de conduire</font>
                         </font>
                         
                       </td>
 
                       <?php
+
+
                     }
 
                     if(!empty($chauff['FILE_CARTE_IDENTITE']))
                     {
+                      $extension = pathinfo($chauff['FILE_CARTE_IDENTITE'], PATHINFO_EXTENSION);
                       ?>
                       <td class="text-center">
-                        <font class="card dash_card" onclick="get_document(2);">
-                          <i class="text-danger small pt-2 ps-1 fa fa-file-pdf-o" style="font-size: 30px;margin-top: 5px;"></i><br>
+
+                        <input type="hidden" id="ext_carte_id" value="<?=$extension?>">
+
+                        <font class="card dash_card" onclick="get_document(2,$('#ext_carte_id').val());">
+                          <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
                           <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Carte d'identité</font>
                         </font>
                       </td>
@@ -386,17 +363,17 @@
             </div>
 
             <div class="col-md-1">
-              <i onclick="zoomIn_chof()" class="fa fa-plus-circle text-muted"></i>
+              <i onclick="zoomIn()" class="fa fa-plus-circle text-muted"></i>
 
               <input type="hidden" id="rotation" value="0">
             </div>
 
             <div class="col-md-1">
-              <i onclick="zoomOut_chof()" class="fa fa-minus-circle text-muted"></i>
+              <i onclick="zoomOut()" class="fa fa-minus-circle text-muted"></i>
             </div>
 
             <div class="col-md-1">
-              <i onclick="rotate_chof()" class="fa fa-rotate-right text-muted"></i>
+              <i onclick="rotate_op()" class="fa fa-rotate-right text-muted"></i>
             </div>
 
 
@@ -404,8 +381,8 @@
 
           <div class="row">
 
-            <div class="col-md-12" id="image-container_chof">
-              <img src="" id="phot_chof" alt="Description de l'image">
+            <div class="col-md-12" id="image-container">
+              <img src="" id="image_pop2" alt="Description de l'image">
             </div>
 
 
@@ -473,9 +450,6 @@
           </div>
 
 
-          <!-- <div id="CNI"></div> -->
-
-
 
         </div>
 
@@ -487,98 +461,14 @@
   </div>
 </div><!-- End Modal-->
 
-<!-- Modal photo du permis-->
 
-<div class="modal fade" id="Modal_photo_permis">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header" style='background:cadetblue;color:white;'>
-        <h6 class="modal-title"></h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-      </div>
-      <div class="modal-body">
-
-        <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
-
-          <div class="col-md-4">
-
-          </div>
-
-          <div class="col-md-1">
-            <i onclick="zoomIn()" class="fa fa-plus-circle text-muted"></i>
-
-            <input type="hidden" id="rotation" value="0">
-          </div>
-
-          <div class="col-md-1">
-            <i onclick="zoomOut()" class="fa fa-minus-circle text-muted"></i>
-          </div>
-          <div class="col-md-1">
-            <i onclick="rotate_op()" class="fa fa-rotate-right text-muted"></i>
-          </div>
-
-
-        </div>
-
-        <div class="row">
-
-          <div class="col-md-12" id="image-container">
-            <center><img  id="phot_v"  alt="Description de l'image" src='<?=base_url("upload/chauffeur/".$chauff['FILE_PERMIS'])?>'></center>
-          </div>
-
-        </div>
-
-      </div>
-      <!-- footer here -->
     </div>
   </div>
-</div>
-<!-- Modal fin-->
-<!-- Modal identite-->
-<div class="modal fade" id="Modal_photo_identite">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header" style='background:cadetblue;color:white;'>
-        <h6 class="modal-title"></h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-      </div>
-      <div class="modal-body">
+</div> -->
 
-        <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
-
-          <div class="col-md-4">
-
-          </div>
-
-          <div class="col-md-1">
-            <i onclick="zoomIn2()" class="fa fa-plus-circle text-muted"></i>
-
-            <input type="hidden" id="rotation" value="0">
-          </div>
-
-          <div class="col-md-1">
-            <i onclick="zoomOut2()" class="fa fa-minus-circle text-muted"></i>
-          </div>
-          <div class="col-md-1">
-            <i onclick="rotate_op2()" class="fa fa-rotate-right text-muted"></i>
-          </div>
-
-
-        </div>
-
-        <div class="row">
-
-          <div class="col-md-12" id="image-container2">
-            <center><img  id="phot_v2" style="border-radius: 5px;height: 700px;cursor: pointer;" alt="Description de l'image" src='<?=base_url("upload/chauffeur/".$chauff['FILE_CARTE_IDENTITE'])?>'></center>
-          </div>
-
-        </div>
-
-      </div>
-      <!-- footer here -->
     </div>
   </div>
-</div>
+</div> -->
 <!-- fin-->
 <!-- Modal photo du proprietaire-->
 
@@ -640,21 +530,67 @@
       </div>
       <div class="modal-body">
 
+
+        <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;" id="div_op_image_permis">
+
+          <div class="col-md-4">
+
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomInPermis()" class="fa fa-plus-circle text-muted"></i>
+
+            <input type="hidden" id="rotationPermis" value="0">
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomOutPermis()" class="fa fa-minus-circle text-muted"></i>
+          </div>
+          <div class="col-md-1">
+            <i onclick="rotate_opPermis()" class="fa fa-rotate-right text-muted"></i>
+          </div>
+
+
+        </div>
+
+
+        <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;" id="div_op_image_carte">
+
+          <div class="col-md-4">
+
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomInCarte()" class="fa fa-plus-circle text-muted"></i>
+
+            <input type="hidden" id="rotationCarte" value="0">
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomOutCarte()" class="fa fa-minus-circle text-muted"></i>
+          </div>
+          <div class="col-md-1">
+            <i onclick="rotate_opCarte()" class="fa fa-rotate-right text-muted"></i>
+          </div>
+
+
+        </div>
+
         <div class="row">
 
-          <div class="col-md-12" id="">
+          <div class="col-md-12" id="image-containerPermisCarte">
 
-            
+
             <div id="div_permis">
               <input type="hidden" id="file_permis" value="<?=base_url("upload/chauffeur/".$chauff['FILE_PERMIS'])?>">
 
-            <embed id="file_permis2" src="" #toolbar=0 scrolling="auto" height="500px" width="100%" frameborder="0"></embed>
+              <embed id="file_permis2" src="" #toolbar=0 scrolling="auto" height="500px" width="100%" frameborder="0"></embed>
             </div>
 
             <div id="div_carte_id">
               <input type="hidden" id="file_carte_id" value="<?=base_url("upload/chauffeur/".$chauff['FILE_CARTE_IDENTITE'])?>">
 
-            <embed id="file_carte_id2" src="" #toolbar=0 scrolling="auto" height="500px" width="100%" frameborder="0"></embed>
+              <embed id="file_carte_id2" src="" #toolbar=0 scrolling="auto" height="500px" width="100%" frameborder="0"></embed>
             </div>
 
           </div>
@@ -769,7 +705,6 @@
       $('#div_info').html(data.div_info);
 
 
-
     },
 
   });
@@ -785,6 +720,95 @@
   }
 </script>
 
+
+<script type="text/javascript">
+  function popup_nif()
+  {
+    $('#Modal_nif').modal('show');
+
+  }
+  function popup_rc()
+  {
+    $('#Modal_rc').modal('show');
+
+  } 
+  function popup_logo()
+  {
+    $('#Modal_logo').modal('show');
+
+  }
+
+</script>
+
+
+
+<script>
+  function show_imagechauff()
+  {
+    var image_pop = $('#image_pop').val();
+    var imgElement = document.getElementById("image_pop2");
+    imgElement.src = image_pop;
+    $('#Modal_photo_chof').modal('show');
+  }
+</script>
+
+
+<script type="">
+  function get_document(id,extention)
+  {
+    // var ext_permis = $('#ext_permis').val();
+    // var ext_carte_id = $('#ext_carte_id').val();
+
+
+    if(id == 1)
+    {
+      $('#div_permis').show();
+      $('#div_carte_id').hide();
+
+      var file_permis = $('#file_permis').val();
+      var imgElement = document.getElementById("file_permis2");
+      imgElement.src = file_permis;
+
+      if(extention == 'pdf')
+      {
+        $('#div_op_image_permis').hide();
+        $('#div_op_image_carte').hide();
+      }
+      else{
+        $('#div_op_image_permis').show();
+        $('#div_op_image_carte').hide();
+      }
+
+      //alert(extention)
+    }
+    else if(id == 2)
+    {
+      $('#div_permis').hide();
+      $('#div_carte_id').show();
+
+      var file_carte_id = $('#file_carte_id').val();
+      var imgElement2 = document.getElementById("file_carte_id2");
+      imgElement2.src = file_carte_id;
+
+      if(extention == 'pdf')
+      {
+        $('#div_op_image_permis').hide();
+        $('#div_op_image_carte').hide();
+      }
+      else{
+        $('#div_op_image_permis').hide();
+        $('#div_op_image_carte').show();
+      }
+
+      //alert(extention)
+    }
+
+
+    $('#Modal_permis_doc').modal('show');
+  }
+</script>
+
+
 <script>
              //Operations photo avec les boutons
 
@@ -792,7 +816,7 @@
         var translateX = 0; // Décalage horizontal initial
         var translateY = 0; // Décalage vertical initial
 
-        var photo = document.getElementById('phot_v');
+        var photo = document.getElementById('image_pop2');
 
         // Fonction pour zoomer la photo
         function zoomIn() {
@@ -828,7 +852,7 @@
 
         function rotate_op()
         {
-          const image = document.getElementById('phot_v');
+          const image = document.getElementById('image_pop2');
       // const rotateBtn = document.getElementById('rotate-btn');
           let rotation = Number($('#rotation').val());
 
@@ -841,17 +865,18 @@
 
 
       </script>
+
+
       <script>
              //Operations photo avec la sourie
 
-        let container = document.getElementById('image-container');
-        let image = document.getElementById('phot_v');
+        let image = document.getElementById('image_pop2');
         let lastX, lastY;
         let isDragging = false;
         let rotationAngle = 0;
 
     // Zoomer/dézoomer sur double clic
-        document.getElementById('phot_v').addEventListener('dblclick', function() {
+        document.getElementById('image_pop2').addEventListener('dblclick', function() {
           if (this.style.transform === "scale(2)") {
             this.style.transform = "scale(1)";
           } else {
@@ -889,418 +914,256 @@
         });
 
     // Pivoter avec la molette de la souris
-      // document.addEventListener('wheel', function(event) {
-      //   if (event.deltaY < 0) {
-      //     rotationAngle += 10;
-      //   } else {
-      //     rotationAngle -= 10;
-      //   }
-      //   image.style.transform = `rotate(${rotationAngle}deg)`;
-      // });
-
-
-             // Fonction pour mettre à jour la transformation CSS de la photo
-        function updateTransform() {
-          photo.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
-        }
-      </script>
-
-
-      <script>
-             //Operations photo avec les boutons
-
-        var scalee = 1; // Facteur de zoom initial
-        var translateXX = 0; // Décalage horizontal initial
-        var translateYY = 0; // Décalage vertical initial
-
-        var photo2 = document.getElementById('phot_v2');
-
-        // Fonction pour zoomer la photo
-        function zoomIn2() {
-          scalee += 0.1;
-          updateTransform2();
-
-        }
-
-        // Fonction pour dézoomer la photo
-        function zoomOut2() {
-          scalee -= 0.1;
-          updateTransform2();
-        }
-
-
-        // Fonction pour mettre à jour la transformation CSS de la photo
-        function updateTransform2() {
-          photo2.style.transform = `scale(${scalee}) translate(${translateXX}px, ${translateYY}px)`;
-        }
-
-      //Rotation de l'image
-
-        function rotate_op2()
-        {
-          const image = document.getElementById('phot_v2');
-      // const rotateBtn = document.getElementById('rotate-btn');
-          let rotation = Number($('#rotation').val());
-
-      //rotateBtn.addEventListener('click', () => {
-          rotation += 90;
-          image.style.transform = `rotate(${rotation}deg)`;
-          $('#rotation').val(rotation)
-      //});
-        }
-
-
-      </script>
-      <script>
-             //Operations photo avec la sourie
-
-        let containerr = document.getElementById('image-container2');
-        let imagee = document.getElementById('phot_v2');
-        let lastXX, lastYY;
-        let isDraggingG = false;
-        let rotationAnglee = 0;
-
-    // Zoomer/dézoomer sur double clic
-        document.getElementById('phot_v2').addEventListener('dblclick', function() {
-          if (this.style.transform === "scale(2)") {
-            this.style.transform = "scale(1)";
-          } else {
-            this.style.transform = "scale(2)";
-          }
-        });
-    // Déplacer en maintenant le clic gauche
-        imagee.addEventListener('mousedown', function(event) {
-          if (event.button === 0) {
-            isDraggingG = true;
-            lastXX = event.clientX;
-            lastYY = event.clientY;
-            imagee.style.cursor = 'grabbing';
-          }
-        });
-
-        document.addEventListener('mousemove', function(event) {
-          if (isDraggingG) {
-            let deltaXX = event.clientX - lastXX;
-            let deltaYY = event.clientY - lastYY;
-            let newXX = imagee.offsetLeft + deltaXX;
-            let newYY = imagee.offsetTop + deltaYY;
-            imagee.style.left = newXX + 'px';
-            imagee.style.top = newYY + 'px';
-            lastXX = event.clientX;
-            lastYY = event.clientY;
-          }
-        });
-
-        document.addEventListener('mouseup', function(event) {
-          if (event.button === 0) {
-            isDraggingG = false;
-            imagee.style.cursor = 'grab';
-          }
-        });
-
-    // Pivoter avec la molette de la souris
-      // document.addEventListener('wheel', function(event) {
-      //   if (event.deltaYY < 0) {
-      //     rotationAnglee += 10;
-      //   } else {
-      //     rotationAnglee -= 10;
-      //   }
-      //   imagee.style.transform = `rotate(${rotationAnglee}deg)`;
-      // });
-
-
-             // Fonction pour mettre à jour la transformation CSS de la photo
-        function updateTransform2() {
-          photo2.style.transform = `scale(${scalee}) translate(${translateXX}px, ${translateYY}px)`;
-        }
-      </script>
-      <script type="text/javascript">
-        function popup_nif()
-        {
-          $('#Modal_nif').modal('show');
-
-        }
-        function popup_rc()
-        {
-          $('#Modal_rc').modal('show');
-
-        } 
-        function popup_logo()
-        {
-          $('#Modal_logo').modal('show');
-
-        }
-
-      </script>
-
-
-      <script>
-        //Proprietaire
-             //Operations photo avec les boutons
-
-        var scalePRO = 1; // Facteur de zoom initial
-        var translateXPro = 0; // Décalage horizontal initial
-        var translateYPro = 0; // Décalage vertical initial
-
-        var photo_proprio = document.getElementById('imageproprio');
-
-        // Fonction pour zoomer la photo
-        function zoomIn_pro() {
-          scalePRO += 0.1;
-          updateTransformPRO();
-
-        }
-
-        // Fonction pour dézoomer la photo
-        function zoomOut_pro() {
-          scalePRO -= 0.1;
-          updateTransformPRO();
-        }
-
-        // Fonction pour déplacer la photo horizontalement
-        function moveX(direction) {
-          translateXPro += direction * 50; // Changer la valeur de décalage
-          updateTransformPRO();
-        }
-
-        // Fonction pour déplacer la photo verticalement
-        function moveY(direction) {
-          translateYPro += direction * 50; // Changer la valeur de décalage
-          updateTransformPRO();
-        }
-
-        // Fonction pour mettre à jour la transformation CSS de la photo
-        function updateTransformPRO() {
-          photo_proprio.style.transform = `scale(${scalePRO}) translate(${translateXPro}px, ${translateYPro}px)`;
-        }
-
-      //Rotation de l'image
-
-        function rotate_op_pro()
-        {
-          const image_pro = document.getElementById('imageproprio');
-      // const rotateBtn = document.getElementById('rotate-btn');
-          let rotationpro = Number($('#rotation').val());
-
-      //rotateBtn.addEventListener('click', () => {
-          rotationpro += 90;
-          image_pro.style.transform = `rotate(${rotationpro}deg)`;
-          $('#rotation').val(rotationpro)
-      //});
-        }
-
-
-      </script>
-      <script>
-             //Operations photo avec la sourie
-
-        let container_pro = document.getElementById('image-container_proprio');
-        let image_pro = document.getElementById('imageproprio');
-        let lastXPRO, lastYPRO;
-        let isDraggingPRO = false;
-        let rotationAnglePRO = 0;
-
-    // Zoomer/dézoomer sur double clic
-        document.getElementById('imageproprio').addEventListener('dblclick', function() {
-          if (this.style.transform === "scale(2)") {
-            this.style.transform = "scale(1)";
-          } else {
-            this.style.transform = "scale(2)";
-          }
-        });
-    // Déplacer en maintenant le clic gauche
-        image_pro.addEventListener('mousedown', function(event) {
-          if (event.button === 0) {
-            isDraggingPRO = true;
-            lastXPRO = event.clientX;
-            lastYPRO = event.clientY;
-            image_pro.style.cursor = 'grabbing';
-          }
-        });
-
-        document.addEventListener('mousemove', function(event) {
-          if (isDraggingPRO) {
-            let deltaX = event.clientX - lastXPRO;
-            let deltaY = event.clientY - lastYPRO;
-            let newX = image_pro.offsetLeft + deltaX;
-            let newY = image_pro.offsetTop + deltaY;
-            image_pro.style.left = newX + 'px';
-            image_pro.style.top = newY + 'px';
-            lastXPRO = event.clientX;
-            lastYPRO = event.clientY;
-          }
-        });
-
-        document.addEventListener('mouseup', function(event) {
-          if (event.button === 0) {
-            isDraggingPRO = false;
-            image_pro.style.cursor = 'grab';
-          }
-        });
-
-
-
-
-             // Fonction pour mettre à jour la transformation CSS de la photo
-        function updateTransform() {
-          photo_proprio.style.transform = `scale(${scalePRO}) translate(${translateXPro}px, ${translateYPro}px)`;
-        }
-      </script>
-      <script>
-        function show_imagechauff()
-        {
-          var phot_chof2 = $('#phot_chof2').val();
-          var imgElement = document.getElementById("phot_chof");
-          imgElement.src = phot_chof2;
-          $('#Modal_photo_chof').modal('show');
-        }
-      </script>
-
-      <script>
-        //chauffeur
-             //Operations photo avec les boutons
-
-        var scalechof = 1; // Facteur de zoom initial
-        var translateXchof = 0; // Décalage horizontal initial
-        var translateYchof = 0; // Décalage vertical initial
-
-        var image_choff = document.getElementById('phot_chof');
-
-        // Fonction pour zoomer la photo
-        function zoomIn_chof() {
-          scalechof += 0.1;
-          updateTransformchof();
-
-        }
-
-        // Fonction pour dézoomer la photo
-        function zoomOut_chof() {
-          scalechof -= 0.1;
-          updateTransformchof();
-        }
-
-        // Fonction pour déplacer la photo horizontalement
-        function moveX(direction) {
-          translateXchof += direction * 50; // Changer la valeur de décalage
-          updateTransformchof();
-        }
-
-        // Fonction pour déplacer la photo verticalement
-        function moveY(direction) {
-          translateYchof += direction * 50; // Changer la valeur de décalage
-          updateTransformchof();
-        }
-
-        // Fonction pour mettre à jour la transformation CSS de la photo
-        function updateTransformchof() {
-          image_choff.style.transform = `scale(${scalechof}) translate(${translateXchof}px, ${translateYchof}px)`;
-        }
-
-      //Rotation de l'image
-
-        function rotate_chof()
-        {
-          const image_choff = document.getElementById('phot_chof');
-      // const rotateBtn = document.getElementById('rotate-btn');
-          let rotationchof = Number($('#rotation').val());
-
-      //rotateBtn.addEventListener('click', () => {
-          rotationchof += 90;
-          image_choff.style.transform = `rotate(${rotationchof}deg)`;
-          $('#rotation').val(rotationchof)
-      //});
-        }
-      </script>
-
-      <script>
-             //Operations photo avec la sourie
-
-        let container = document.getElementById('image-container_chof');
-        let image_choff = document.getElementById('phot_chof');
-        let lastX, lastY;
-        let isDragging = false;
-        let rotationAngle = 0;
-
-    // Zoomer/dézoomer sur double clic
-        document.getElementById('phot_chof').addEventListener('dblclick', function() {
-          if (this.style.transform === "scale(2)") {
-            this.style.transform = "scale(1)";
-          } else {
-            this.style.transform = "scale(2)";
-          }
-        });
-    // Déplacer en maintenant le clic gauche
-        image_choff.addEventListener('mousedown', function(event) {
-          if (event.button === 0) {
-            isDragging = true;
-            lastX = event.clientX;
-            lastY = event.clientY;
-            image_choff.style.cursor = 'grabbing';
-          }
-        });
-
-        document.addEventListener('mousemove', function(event) {
-          if (isDragging) {
-            let deltaX = event.clientX - lastX;
-            let deltaY = event.clientY - lastY;
-            let newX = image.offsetLeft + deltaX;
-            let newY = image.offsetTop + deltaY;
-            image_choff.style.left = newX + 'px';
-            image_choff.style.top = newY + 'px';
-            lastX = event.clientX;
-            lastY = event.clientY;
-          }
-        });
-
-        document.addEventListener('mouseup', function(event) {
-          if (event.button === 0) {
-            isDragging = false;
-            image_choff.style.cursor = 'grab';
-          }
-        });
-
-    // Pivoter avec la molette de la souris
         document.addEventListener('wheel', function(event) {
           if (event.deltaY < 0) {
             rotationAngle += 10;
           } else {
             rotationAngle -= 10;
           }
-          image_choff.style.transform = `rotate(${rotationAngle}deg)`;
+          image.style.transform = `rotate(${rotationAngle}deg)`;
         });
 
+      </script>
+
+
+
+      <script>
+
+
+       //Operations photo permis avec les boutons
+
+        var scalePermis = 1; // Facteur de zoom initial
+        var translateXPermis = 0; // Décalage horizontal initial
+        var translateYPermis = 0; // Décalage vertical initial
+
+        var photoPermis = document.getElementById('file_permis2');
+
+        // Fonction pour zoomer la photo
+        function zoomInPermis() {
+          scalePermis += 0.1;
+          updateTransformPermis();
+
+        }
+
+        // Fonction pour dézoomer la photo
+        function zoomOutPermis() {
+          scalePermis -= 0.1;
+          updateTransformPermis();
+        }
+
+        // Fonction pour déplacer la photo horizontalement
+        function moveXPermis(direction) {
+          translateXPermis += direction * 50; // Changer la valeur de décalage
+          updateTransformPermis();
+        }
+
+        // Fonction pour déplacer la photo verticalement
+        function moveYPermis(direction) {
+          translateYPermis += direction * 50; // Changer la valeur de décalage
+          updateTransformPermis();
+        }
 
         // Fonction pour mettre à jour la transformation CSS de la photo
-        function updateTransform() {
-          image_choff.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+        function updateTransformPermis() {
+          photoPermis.style.transform = `scale(${scalePermis}) translate(${translateXPermis}px, ${translateYPermis}px)`;
         }
-      </script>
 
-      <script type="">
-        function get_document(id)
+      //Rotation de l'image
+
+        function rotate_opPermis()
         {
-          if(id == 1)
-          {
-            $('#div_permis').show();
-            $('#div_carte_id').hide();
+          const image = document.getElementById('file_permis2');
+      // const rotateBtn = document.getElementById('rotate-btn');
+          let rotation = Number($('#rotationPermis').val());
 
-            var file_permis = $('#file_permis').val();
-            var imgElement = document.getElementById("file_permis2");
-            imgElement.src = file_permis;
-          }
-          else if(id == 2)
-          {
-            $('#div_permis').hide();
-            $('#div_carte_id').show();
-
-            var file_carte_id = $('#file_carte_id').val();
-            var imgElement2 = document.getElementById("file_carte_id2");
-            imgElement2.src = file_carte_id;
-          }
-
-
-          $('#Modal_permis_doc').modal('show');
+      //rotateBtn.addEventListener('click', () => {
+          rotation += 90;
+          image.style.transform = `rotate(${rotation}deg)`;
+          $('#rotationPermis').val(rotation)
+      //});
         }
+
       </script>
 
-      </html>
+
+
+      <script>
+             //Operations photo permis avec la sourie
+
+        let image2 = document.getElementById('file_permis2');
+        let lastX2, lastY2;
+        let isDragging2 = false;
+        let rotationAngle2 = 0;
+
+    // Zoomer/dézoomer sur double clic
+        document.getElementById('file_permis2').addEventListener('dblclick', function() {
+          if (this.style.transform === "scale(2)") {
+            this.style.transform = "scale(1)";
+          } else {
+            this.style.transform = "scale(2)";
+          }
+        });
+
+    // Déplacer en maintenant le clic gauche
+        image2.addEventListener('mousedown', function(event) {
+          if (event.button === 0) {
+            isDragging2 = true;
+            lastX2 = event.clientX;
+            lastY2 = event.clientY;
+            image2.style.cursor = 'grabbing';
+          }
+        });
+
+        document.addEventListener('mousemove', function(event) {
+          if (isDragging2) {
+            let deltaX2 = event.clientX - lastX2;
+            let deltaY2 = event.clientY - lastY2;
+            let newX2 = image2.offsetLeft + deltaX2;
+            let newY2 = image2.offsetTop + deltaY2;
+            image2.style.left = newX2 + 'px';
+            image2.style.top = newY2 + 'px';
+            lastX2 = event.clientX;
+            lastY2 = event.clientY;
+          }
+        });
+
+        document.addEventListener('mouseup', function(event) {
+          if (event.button === 0) {
+            isDragging2 = false;
+            image2.style.cursor = 'grab';
+          }
+        });
+
+    // Pivoter avec la molette de la souris
+        document.addEventListener('wheel', function(event) {
+          if (event.deltaY2 < 0) {
+            rotationAngle2 += 10;
+          } else {
+            rotationAngle2 -= 10;
+          }
+          image2.style.transform = `rotate(${rotationAngle2}deg)`;
+        });
+
+      </script>
+
+
+      <script>
+
+
+       //Operations photo carte d'identite avec les boutons
+
+        var scaleCarte = 1; // Facteur de zoom initial
+        var translateXCarte = 0; // Décalage horizontal initial
+        var translateYCarte = 0; // Décalage vertical initial
+
+        var photoCarte = document.getElementById('file_carte_id2');
+
+        // Fonction pour zoomer la photo
+        function zoomInCarte() {
+          scaleCarte += 0.1;
+          updateTransformCarte();
+
+        }
+
+        // Fonction pour dézoomer la photo
+        function zoomOutCarte() {
+          scaleCarte -= 0.1;
+          updateTransformCarte();
+        }
+
+        // Fonction pour déplacer la photo horizontalement
+        function moveXCarte(direction) {
+          translateXPermis += direction * 50; // Changer la valeur de décalage
+          updateTransformCarte();
+        }
+
+        // Fonction pour déplacer la photo verticalement
+        function moveYCarte(direction) {
+          translateYCarte += direction * 50; // Changer la valeur de décalage
+          updateTransformCarte();
+        }
+
+        // Fonction pour mettre à jour la transformation CSS de la photo
+        function updateTransformCarte() {
+          photoCarte.style.transform = `scale(${scaleCarte}) translate(${translateXCarte}px, ${translateYCarte}px)`;
+        }
+
+      //Rotation de l'image
+
+        function rotate_opCarte()
+        {
+          const image = document.getElementById('file_carte_id2');
+      // const rotateBtn = document.getElementById('rotate-btn');
+          let rotation = Number($('#rotationCarte').val());
+
+      //rotateBtn.addEventListener('click', () => {
+          rotation += 90;
+          image.style.transform = `rotate(${rotation}deg)`;
+          $('#rotationCarte').val(rotation)
+      //});
+        }
+
+      </script>
+
+
+
+      <script>
+             //Operations photo carte d'identite avec la sourie
+
+        let image3 = document.getElementById('file_carte_id2');
+        let lastX3, lastY3;
+        let isDragging3 = false;
+        let rotationAngle3 = 0;
+
+    // Zoomer/dézoomer sur double clic
+        document.getElementById('file_carte_id2').addEventListener('dblclick', function() {
+          if (this.style.transform === "scale(2)") {
+            this.style.transform = "scale(1)";
+          } else {
+            this.style.transform = "scale(2)";
+          }
+        });
+
+    // Déplacer en maintenant le clic gauche
+        image3.addEventListener('mousedown', function(event) {
+          if (event.button === 0) {
+            isDragging3 = true;
+            lastX3 = event.clientX;
+            lastY3 = event.clientY;
+            image3.style.cursor = 'grabbing';
+          }
+        });
+
+        document.addEventListener('mousemove', function(event) {
+          if (isDragging3) {
+            let deltaX3 = event.clientX - lastX3;
+            let deltaY3 = event.clientY - lastY3;
+            let newX3 = image3.offsetLeft + deltaX3;
+            let newY3 = image3.offsetTop + deltaY3;
+            image3.style.left = newX3 + 'px';
+            image3.style.top = newY3 + 'px';
+            lastX3 = event.clientX;
+            lastY3 = event.clientY;
+          }
+        });
+
+        document.addEventListener('mouseup', function(event) {
+          if (event.button === 0) {
+            isDragging3 = false;
+            image3.style.cursor = 'grab';
+          }
+        });
+
+    // Pivoter avec la molette de la souris
+        document.addEventListener('wheel', function(event) {
+          if (event.deltaY3 < 0) {
+            rotationAngle3 += 10;
+          } else {
+            rotationAngle3 -= 10;
+          }
+          image3.style.transform = `rotate(${rotationAngle3}deg)`;
+        });
+
+      </script>
+
+</html>
