@@ -201,7 +201,7 @@
 			{
 				foreach ($get_vihicule as $key) {
 
-					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident FROM tracking_data RIGHT JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE  JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 AND chauffeur_vehicule.STATUT_AFFECT=1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" '.$critere_vehicule_track.' ORDER BY id DESC LIMIT 1');
+					$track_data = $this->Model->getRequeteOne('SELECT tracking_data.id,latitude,longitude,tracking_data.mouvement,tracking_data.ignition,VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,vehicule.IS_ACTIVE,proprietaire.PROPRIETAIRE_ID,STATUT_VEH_AJOUT,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE,"&nbsp;",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT AS photo_pro,proprietaire.LOGO,COULEUR,KILOMETRAGE,PHOTO,CONCAT(chauffeur.NOM,"&nbsp;",chauffeur.PRENOM) AS chauffeur_desc,chauffeur.CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT AS photo_chauf,tracking_data.accident FROM tracking_data RIGHT JOIN vehicule ON vehicule.CODE = tracking_data.device_uid JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE  JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1 AND chauffeur_vehicule.STATUT_AFFECT=1 '.$critere_proprietaire.' '.$critere_vehicule.''.$critere_user.' AND device_uid = "'.$key['CODE'].'" '.$critere_vehicule_track.' ORDER BY id DESC LIMIT 1');
 
 					// Nbr véhicules enregistrés
 					$nbrVehicule += 1;
@@ -345,8 +345,6 @@
 							$PHOTO = str_replace('"','',$PHOTO);
 							$PHOTO = str_replace("'",'',$PHOTO);
 
-
-
 							$photo_pro=trim($track_data['photo_pro']);
 							$photo_pro = str_replace("\n","",$photo_pro);
 							$photo_pro = str_replace("\r","",$photo_pro);
@@ -354,7 +352,12 @@
 							$photo_pro = str_replace('"','',$photo_pro);
 							$photo_pro = str_replace("'",'',$photo_pro);
 
-
+							$LOGO = trim($track_data['LOGO']);
+							$LOGO = str_replace("\n","",$LOGO);
+							$LOGO = str_replace("\r","",$LOGO);
+							$LOGO = str_replace("\t","",$LOGO);
+							$LOGO = str_replace('"','',$LOGO);
+							$LOGO = str_replace("'",'',$LOGO);
 
 							$photo_chauf=trim($track_data['photo_chauf']);
 							$photo_chauf = str_replace("\n","",$photo_chauf);
@@ -370,7 +373,7 @@
 							$CHAUFFEUR_ID = md5($track_data['CHAUFFEUR_ID']);
 							$mouvement = $track_data['mouvement'];
 
-							$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>'.$accident.'<>'.$VEHICULE_TRACK.'<>'.$PROPRIETAIRE_ID.'<>'.$CHAUFFEUR_ID.'<>'.$photo_pro.'<>'.$photo_chauf.'<>'.$mouvement.'<>@';
+							$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>'.$accident.'<>'.$VEHICULE_TRACK.'<>'.$PROPRIETAIRE_ID.'<>'.$CHAUFFEUR_ID.'<>'.$photo_pro.'<>'.$photo_chauf.'<>'.$mouvement.'<>'.$LOGO.'<>@';
 						}
 					}
 				}
