@@ -865,39 +865,23 @@
 							$PHOTO = $this->input->post('PHOTO');
 						}
 
-						// $PHOTO_OUT = $this->input->post('PHOTO');
+						//Photo assurance
 
-						// if(empty($_FILES['PHOTO_OUT']['name']))
-						// {
-						// 	$file_contro = $this->input->post('PHOTO');
-						// }
-						// else
-						// {
-						// 	$file_contro = $this->upload_file($_FILES['PHOTO_OUT']['tmp_name'],$_FILES['PHOTO_OUT']['name']);
-						// }
-
-						//Photo doc controle technique		
-
-						// $FILE_CONTRO_TECHNIQUE = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
-
-						if(empty($_FILES['FILE_CONTRO_TECHNIQUE']['name']))
-						{
-							$file_contro = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
-						}
-						else
-						{
-							$file_contro = $this->upload_file($_FILES['FILE_CONTRO_TECHNIQUE']['tmp_name'],$_FILES['FILE_CONTRO_TECHNIQUE']['name']);
-						}
-						// $FILE_ASSURANCE = $this->input->post('FILE_ASSURANCE_OLD');
-
-						if(empty($_FILES['FILE_ASSURANCE']['name']))
-						{
+						if (!empty($_FILES["FILE_ASSURANCE"]["tmp_name"])) {
+							$file_assurance = $this->upload_file('FILE_ASSURANCE');
+						}else{
 							$file_assurance = $this->input->post('FILE_ASSURANCE_OLD');
 						}
-						else
-						{
-							$file_assurance = $this->upload_file($_FILES['FILE_ASSURANCE']['tmp_name'],$_FILES['FILE_ASSURANCE']['name']);
+
+
+						//Photo controle technique
+
+						if (!empty($_FILES["FILE_CONTRO_TECHNIQUE"]["tmp_name"])) {
+							$file_contro = $this->upload_file('FILE_CONTRO_TECHNIQUE');
+						}else{
+							$file_contro = $this->input->post('FILE_CONTRO_TECHNIQUE_OLD');
 						}
+
 
 						$data=array(
 							//'CODE'=>$this->input->post('CODE'),
@@ -967,8 +951,6 @@
 						}
 						
 					}
-
-					
 
 				}
 			}

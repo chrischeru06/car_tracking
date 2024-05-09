@@ -61,10 +61,15 @@
     }
 
     .custom-marker-icon {
-      border:solid 2px;
+      border:solid 2px green;
       border-radius: 50%;
       background-color: rgba(95, 158, 160,0.3);
+    }
 
+    .custom-marker-icon2 {
+      border:solid 2px red;
+      border-radius: 50%;
+      background-color: rgba(95, 158, 160,0.3);
     }
 
     .dash{
@@ -171,7 +176,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
-                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px; margin-top:10px;margin-left: -10px;cursor: pointer;" class="" onclick="show_image2();" title="Cliquer pour visualiser l'image"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>&nbsp;&nbsp;&nbsp;<font class="text-muted small"><?=$infos_vehicule['PLAQUE']?></font>
+                  <img src="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>" style="width: 50px;height: 50px;border-radius: 10px; margin-top:10px;position:relative;margin-left:-50px;cursor: pointer;" class="" onclick="show_image2();" title="Cliquer pour visualiser l'image"><strong> <?= $infos_vehicule['DESC_MARQUE'].' - '.$infos_vehicule['DESC_MODELE']?></strong>&nbsp;&nbsp;&nbsp;<font class="text-muted small"><?=$infos_vehicule['PLAQUE']?></font>
 
                   <input type="hidden" id="phot_v2" value="<?= base_url()?>/upload/photo_vehicule/<?= $infos_vehicule['PHOTO']?>">
                   
