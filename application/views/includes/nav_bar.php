@@ -67,7 +67,7 @@ function out_application()
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
           <li class="dropdown-header">
-            Vous avez <a id="compteur2"></a> nouvelles notifications
+            Vous avez <a id="compteur2"></a> nouvelle(s) notification(s)
             <!-- <a href="<?=base_url()?>vehicule/Vehicule"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a> -->
           </li>
           
@@ -148,7 +148,7 @@ function out_application()
       <?php
       if ($PROFIL_IDENTIFIANT==1) {?>
         <li class="dropdown-header">
-          Vous avez <?=$message['nbre_msg']?> nouveaux messages
+          Vous avez <?=$message['nbre_msg']?> nouveau(x) message(s)
           <a href="<?=base_url()?>administration/Message/message"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
         </li>
         <?php

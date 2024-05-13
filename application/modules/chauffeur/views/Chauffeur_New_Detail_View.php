@@ -8,13 +8,7 @@
     {
       max-width: 290px;
     }
-    .zoomable-image{
-      transition: transform 0.2s ease;
-    }
-    .zoomable-image:hover{
-      transform: scale(2.0);
-
-    }
+   
     #image-container{
       position: relative;
       left:10px;
@@ -96,7 +90,7 @@
        <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Détail du chauffeur <strong class="text-primary"><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong></a></li>
-
+          <input type="hidden" id="CHAUFFEUR_ID" name="CHAUFFEUR_ID" value="<?=$chauff['CHAUFFEUR_ID']?>">
         </ol>
       </nav>
     </div>
@@ -145,13 +139,17 @@
                   </li>
 
                   <li class="nav-item">
-                    <button class="nav-link " data-bs-toggle="tab" data-bs-target="#doc_uploader">Documents</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#doc_uploader">Documents</button>
                   </li>
 
 
                   <?php
                 }
                 ?>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#historique">Historique</button>
+                </li>
 
               </ul>
               <div class="tab-content pt-2">
@@ -289,110 +287,165 @@
                   <div class="col-md-4">
 
 
-                  <table class="table table-borderless">
-                   <tr>
-
-                    <?php
-                    if(!empty($chauff['FILE_PERMIS']))
-                    {
-                      $extension = pathinfo($chauff['FILE_PERMIS'], PATHINFO_EXTENSION);
-                      ?>
-
-                      <td class="text-center">
-
-                        <input type="hidden" id="ext_permis" value="<?=$extension?>">
-
-                        <font class="card dash_card" onclick="get_document(1,$('#ext_permis').val());">
-                          <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
-                          <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Permis de conduire</font>
-                        </font>
-                        
-                      </td>
+                    <table class="table table-borderless">
+                     <tr>
 
                       <?php
+                      if(!empty($chauff['FILE_PERMIS']))
+                      {
+                        $extension = pathinfo($chauff['FILE_PERMIS'], PATHINFO_EXTENSION);
+                        ?>
+
+                        <td class="text-center">
+
+                          <input type="hidden" id="ext_permis" value="<?=$extension?>">
+
+                          <font class="card dash_card" onclick="get_document(1,$('#ext_permis').val());">
+                            <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
+                            <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Permis de conduire</font>
+                          </font>
+
+                        </td>
+
+                        <?php
 
 
-                    }
+                      }
 
-                    if(!empty($chauff['FILE_CARTE_IDENTITE']))
-                    {
-                      $extension = pathinfo($chauff['FILE_CARTE_IDENTITE'], PATHINFO_EXTENSION);
+                      if(!empty($chauff['FILE_CARTE_IDENTITE']))
+                      {
+                        $extension = pathinfo($chauff['FILE_CARTE_IDENTITE'], PATHINFO_EXTENSION);
+                        ?>
+                        <td class="text-center">
+
+                          <input type="hidden" id="ext_carte_id" value="<?=$extension?>">
+
+                          <font class="card dash_card" onclick="get_document(2,$('#ext_carte_id').val());">
+                            <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
+                            <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Carte d'identité</font>
+                          </font>
+                        </td>
+
+                        <?php
+                      }
+
                       ?>
-                      <td class="text-center">
-
-                        <input type="hidden" id="ext_carte_id" value="<?=$extension?>">
-
-                        <font class="card dash_card" onclick="get_document(2,$('#ext_carte_id').val());">
-                          <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
-                          <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Carte d'identité</font>
-                        </font>
-                      </td>
-
-                      <?php
-                    }
-
-                    ?>
-                  </tr>
-                </table>
+                    </tr>
+                  </table>
 
 
+                </div>
               </div>
+
+              <div class="tab-pane fade pt-3" id="historique">
+               <div class="row">
+
+                <!-- Left side columns -->
+                <div class="col-lg-12">
+                  <div class="row">
+
+
+                    <!-- Reports -->
+                    <div class="col-12">
+                      <div class="card">
+
+
+                        <div class="card-body">
+
+                          <div class="table-responsive" style="padding-top: 20px;">
+
+                            <table id="mytable" class="table table-hover" style="padding-top: 20px;width:100%;">
+                             <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                              <tr>
+
+                                <th class="text-dark">#</th>
+                                <th class="text-dark">PLAQUE</th>
+                                <th class="text-dark">MARQUE/MODELE</th>
+                                <th class="text-dark">PROPRIETAIRE</th>
+                                <th class="text-dark">DEBUT&nbsp;DE&nbsp;L'AFFECTATION</th>
+                                <th class="text-dark">FIN&nbsp;DE&nbsp;L'AFFECTATION</th>
+                                <th class="text-dark">RESUME&nbsp;DU&nbsp;PARCOURS</th>
+
+                              </tr>
+                            </thead>
+
+                            <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                            </tbody>
+
+                          </table>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+
+                </div>
+              </div>
+
+
+
             </div>
           </div>
+
+
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
-  <!-- Modal photo du chauffeur-->
+<!-- Modal photo du chauffeur-->
 
-  <div class="modal fade" id="Modal_photo_chof">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header" style='background:cadetblue;color:white;'>
-          <h6 class="modal-title"></h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-        </div>
-        <div class="modal-body">
-
-          <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
-
-            <div class="col-md-4">
-
-            </div>
-
-            <div class="col-md-1">
-              <i onclick="zoomIn()" class="fa fa-plus-circle text-muted"></i>
-
-              <input type="hidden" id="rotation" value="0">
-            </div>
-
-            <div class="col-md-1">
-              <i onclick="zoomOut()" class="fa fa-minus-circle text-muted"></i>
-            </div>
-
-            <div class="col-md-1">
-              <i onclick="rotate_op()" class="fa fa-rotate-right text-muted"></i>
-            </div>
-
-
-          </div>
-
-          <div class="row">
-
-            <div class="col-md-12" id="image-container">
-              <img src="" id="image_pop2" alt="Description de l'image">
-            </div>
-
-
-          </div>
-
-        </div>
-        <!-- footer here -->
+<div class="modal fade" id="Modal_photo_chof">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style='background:cadetblue;color:white;'>
+        <h6 class="modal-title"></h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
       </div>
+      <div class="modal-body">
+
+        <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
+
+          <div class="col-md-4">
+
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomIn()" class="fa fa-plus-circle text-muted"></i>
+
+            <input type="hidden" id="rotation" value="0">
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomOut()" class="fa fa-minus-circle text-muted"></i>
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="rotate_op()" class="fa fa-rotate-right text-muted"></i>
+          </div>
+
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-12" id="image-container">
+            <img src="" id="image_pop2" alt="Description de l'image">
+          </div>
+
+
+        </div>
+
+      </div>
+      <!-- footer here -->
     </div>
   </div>
+</div>
 
 </section>
 
@@ -462,13 +515,13 @@
 </div><!-- End Modal-->
 
 
-    </div>
-  </div>
-</div> -->
+<!-- </div>
+</div>
+</div> 
 
-    </div>
-  </div>
-</div> -->
+</div>
+</div>
+</div> --> 
 <!-- fin-->
 <!-- Modal photo du proprietaire-->
 
@@ -605,67 +658,132 @@
 </div>
 
 <script >
-  $(document).ready( function ()
+  $(document).ready(function ()
   {
-
    liste();
  });
+
+ //  function liste()
+ //  {
+ //    var CHAUFFEUR_ID = $('#CHAUFFEUR_ID').val();
+
+ //   $('#message').delay('slow').fadeOut(10000);
+ //   $(document).ready(function()
+ //   {
+ //    // var row_count ="1000000";
+
+ //    $("#mytable").DataTable({
+ //      "processing":true,
+ //      "destroy" : true,
+ //      "serverSide":true,
+ //      "oreder":[[ 0, 'desc' ]],
+ //      "ajax":{
+ //        url:"<?php echo base_url('chauffeur/Chauffeur_New/hist_chauff');?>",
+ //        type:"POST",
+ //        data: {CHAUFFEUR_ID:CHAUFFEUR_ID}, 
+ //      },
+ //      // lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
+ //      pageLength: 10,
+ //      "columnDefs":[{
+ //        "targets":[],
+ //        "orderable":false
+ //      }],
+
+ //      dom: 'Bfrtlip',
+ //      buttons: [
+ //        'pdf', 'print'
+ //        ],
+ //      language: {
+ //        "sProcessing":     "Traitement en cours...",
+ //        "sSearch":         "Rechercher&nbsp;:",
+ //        "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+ //        "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+ //        "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+ //        "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+ //        "sInfoPostFix":    "",
+ //        "sLoadingRecords": "Chargement en cours...",
+ //        "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+ //        "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+ //        "oPaginate": {
+ //          "sFirst":      "Premier",
+ //          "sPrevious":   "Pr&eacute;c&eacute;dent",
+ //          "sNext":       "Suivant",
+ //          "sLast":       "Dernier"
+ //        },
+ //        "oAria": {
+ //          "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+ //          "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+ //        }
+ //      }
+
+      
+
+ //    });
+ //  });
+ // }
 
   function liste()
   {
 
-    var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+    var CHAUFFEUR_ID = $('#CHAUFFEUR_ID').val();
 
-    var row_count ="1000000";
-    $("#mytable").DataTable({
-      "destroy" : true,
-      "processing":true,
-      "serverSide":true,
-      "destroy":true,
-      "oreder":[[ 1, 'asc' ]],
-      "ajax":{
-        url: "<?php echo base_url('chauff/Proprietaire/detail_vehicule_client');?>", 
-        type:"POST",
-        data : {PROPRIETAIRE_ID:PROPRIETAIRE_ID},
-        beforeSend : function() {
+    // alert(CHAUFFEUR_ID)
+    var row_count = 10000;
+    $('#message').delay('slow').fadeOut(3000);
+    $("#mytable").DataTable(
+    {
+      "destroy": true,
+      "processing": true,
+      "serverSide": true,
+      "oreder": [],
+      "ajax":
+      {
+        url: "<?php echo base_url('chauffeur/Chauffeur_New/hist_chauff'); ?>",
+        type: "POST",
+        data: {CHAUFFEUR_ID:CHAUFFEUR_ID},
+        beforeSend: function()
+        {
         }
       },
-      lengthMenu: [[10,50, 100, -1], [10,50, 100, "All"]],
+      // lengthMenu:
+      // [
+      //   [10, 50, 100, row_count],
+      //   [10, 50, 100, "All"]
+      //   ],
       pageLength: 10,
-      "columnDefs":[{
-        "targets":[],
-        "orderable":false
+      "columnDefs": [
+      {
+        "targets": [],
+        "orderable": false
       }],
       dom: 'Bfrtlip',
-      buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'  ],
-      language: {
-        "sProcessing":     "Traitement en cours...",
-        "sSearch":         "Recherche&nbsp;:",
-        "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-        "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-        "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-        "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-        "sInfoPostFix":    "",
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+      language:
+      {
+        "sProcessing": "Traitement en cours...",
+        "sSearch": "Recherche&nbsp;:",
+        "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+        "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+        "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+        "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+        "sInfoPostFix": "",
         "sLoadingRecords": "Chargement en cours...",
-        "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-        "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
-        "oPaginate": {
-          "sFirst":      "Premier",
-          "sPrevious":   "Pr&eacute;c&eacute;dent",
-          "sNext":       "Suivant",
-          "sLast":       "Dernier"
+        "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+        "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+        "oPaginate":
+        {
+          "sFirst": "Premier",
+          "sPrevious": "Pr&eacute;c&eacute;dent",
+          "sNext": "Suivant",
+          "sLast": "Dernier"
         },
-        "oAria": {
-          "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+        "oAria":
+        {
+          "sSortAscending": ": activer pour trier la colonne par ordre croissant",
           "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
         }
       }
     });
-
-
-
-
-
   }
   function show_image()
   {
@@ -1166,4 +1284,4 @@
 
       </script>
 
-</html>
+      </html>
