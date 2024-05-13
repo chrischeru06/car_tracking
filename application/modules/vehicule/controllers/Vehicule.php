@@ -1630,8 +1630,10 @@
 		function check_anomalies(){
 			$USER_ID = $this->session->userdata('USER_ID');
 			$PROFIL_ID = $this->session->userdata('PROFIL_ID');
-			// $today = date('Y-m-d');
-			$today = '2024-04-02';
+			if (!empty($USER_ID) && !empty($PROFIL_ID)) {
+
+			$today = date('Y-m-d');
+			// $today = '2024-04-02';
 			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 			//notifications apres l'ajout d'un vehicule par le proprietaire
 			$nbre_vehicule=$this->Model->getRequeteOne('SELECT count(VEHICULE_ID) as nbre FROM vehicule WHERE STAT_NOTIFICATION=1');
@@ -2043,6 +2045,13 @@
 			
 			echo json_encode($output);
 			// print_r($nbre_exces_vit);die();
+				
+			}else{
+
+				redirect(base_url('Login/logout'));
+
+			}
+			
 
 		}
 		//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
