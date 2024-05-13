@@ -28,12 +28,15 @@
             </ol>
           </nav>
         </div>
-        <!-- <div class="col-md-6">
+        <?php if ($PROFIL_ID!=1) {?>
+        <div class="col-md-6">
 
           <div class="justify-content-sm-end d-flex">
-            <a class="btn btn-outline-primary" href="<?=base_url('administration/Profil/add')?>"><i class="bi bi-plus h5"></i> Nouveau</a>
+            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('administration/Message/index/'.$USER_ID.'')?>"><i class="bi bi-plus h5"></i> Nouveau message</a>
           </div>
-        </div> --><!-- End Page Title -->
+        </div>
+        <?php 
+      }?>
       </div>
     </div>
     <section class="section">
