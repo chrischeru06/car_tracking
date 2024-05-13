@@ -211,13 +211,13 @@ class Users extends CI_Controller
 		// $geted= $this->Model->getOne('users', array(md5('USER_ID')=>$USER_ID));
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
-			$my_select_geted = $this->getBindParms('`USER_ID`,`IDENTIFICATION`,`USER_NAME`,`PASSWORD`,`TELEPHONE`,`PROFIL_ID`,`PROPRIETAIRE_ID`,`STATUT`', 'users', '1 AND md5(PROPRIETAIRE_ID)="'.$PROPRIETAIRE_ID.'"', '`USER_ID` ASC');
+			$my_select_geted = $this->getBindParms('`USER_ID`,`IDENTIFICATION`,`USER_NAME`,`PASSWORD`,`TELEPHONE`,`PROFIL_ID`,`PROPRIETAIRE_ID`,`STATUT`', 'users', '1 AND md5(USER_ID)="'.$id.'"', '`USER_ID` ASC');
 			$my_select_geted=str_replace('\"', '"', $my_select_geted);
 			$my_select_geted=str_replace('\n', '', $my_select_geted);
 			$my_select_geted=str_replace('\"', '', $my_select_geted);
 			$geted = $this->ModelPs->getRequeteOne($proce_requete, $my_select_geted);
 
-			// print_r($geted);die();
+			 // print_r($geted);die();
 		// $data['profiles']=$this->Model->getRequete('SELECT `PROFIL_ID`,`DESCRIPTION_PROFIL` FROM `profil` WHERE 1 ORDER BY DESCRIPTION_PROFIL ASC');
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
@@ -240,9 +240,10 @@ class Users extends CI_Controller
 			$my_select_proprio=str_replace('\n', '', $my_select_proprio);
 			$my_select_proprio=str_replace('\"', '', $my_select_proprio);
 			$proprietaire = $this->ModelPs->getRequeteOne($proce_requete, $my_select_proprio);
+			// print_r($proprietaire);die();
+			if(!empty($proprietaire['PROVINCE_ID'])){
 
-
-			$my_select_provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1 AND PROVINCE_ID='.$proprietaire['PROVINCE_ID'].'', '`PROVINCE_NAME` ASC');
+				$my_select_provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1 AND PROVINCE_ID='.$proprietaire['PROVINCE_ID'].'', '`PROVINCE_NAME` ASC');
 			$provinces = $this->ModelPs->getRequete($proce_requete, $my_select_provinces);
 			$data['provinces']=$provinces;
 
@@ -254,6 +255,25 @@ class Users extends CI_Controller
 
 			$my_select_collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME', 'collines', '1 AND ZONE_ID='.$proprietaire['ZONE_ID'].'', '`COLLINE_NAME` ASC');
 			$collines = $this->ModelPs->getRequete($proce_requete, $my_select_collines);
+
+			}else{
+
+				$my_select_provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', '`PROVINCE_NAME` ASC');
+			$provinces = $this->ModelPs->getRequete($proce_requete, $my_select_provinces);
+			$data['provinces']=$provinces;
+
+			$my_select_communes = $this->getBindParms('COMMUNE_ID,COMMUNE_NAME', 'communes', '1', '`COMMUNE_NAME` ASC');
+			$communes = $this->ModelPs->getRequete($proce_requete, $my_select_communes);
+
+			$my_select_zones = $this->getBindParms('ZONE_ID,ZONE_NAME', 'zones', '1', '`ZONE_NAME` ASC');
+			$zones = $this->ModelPs->getRequete($proce_requete, $my_select_zones);
+
+			$my_select_collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME', 'collines', '1', '`COLLINE_NAME` ASC');
+			$collines = $this->ModelPs->getRequete($proce_requete, $my_select_collines);
+
+			}
+
+			
 			$categorieun = $this->getBindParms('DESC_CATEGORIE,CATEGORIE_ID', 'categories', '1', 'DESC_CATEGORIE ASC');
 			// $cate = $this->ModelPs->getRequete($proce_requete, $categorieun);
 			$pay = $this->getBindParms('CommonName,COUNTRY_ID', 'countries', '1', 'CommonName ASC');
