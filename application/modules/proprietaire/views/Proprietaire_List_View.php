@@ -5,17 +5,17 @@
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
   <style type="text/css">
-.btn-md:hover{
+    .btn-md:hover{
       background-color: rgba(210, 232, 249,100);
       border-radius: 5px;
     }
-   /* The switch - the box around the slider */
-   .switch {
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 20px;
-  }
+    /* The switch - the box around the slider */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 30px;
+      height: 20px;
+    }
 
 /* Hide default HTML checkbox */
 .switch input {
@@ -184,18 +184,18 @@ input:checked + .slider:before {
                       <label class="text-dark" style="font-weight: 1000; color:#454545">Province</label>
                       <select onchange="change_province();get_nbr_proprio();" class="form-control" id="PROVINCE_ID" name="PROVINCE_ID">
                         <option value="0">Sélectionner</option>
-                       
-                         <?php
-                           foreach($provinces as $key) { 
-                            if ($key['PROVINCE_ID']==set_value('PROVINCE_ID')) { 
-                             echo "<option value='".$key['PROVINCE_ID']."' selected>".$key['PROVINCE_NAME']."</option>";
-                           }  else{
-                             echo "<option value='".$key['PROVINCE_ID']."' >".$key['PROVINCE_NAME']."</option>"; 
-                           } }?>
-                      </select>
-                    </div>
+                        
+                        <?php
+                        foreach($provinces as $key) { 
+                          if ($key['PROVINCE_ID']==set_value('PROVINCE_ID')) { 
+                           echo "<option value='".$key['PROVINCE_ID']."' selected>".$key['PROVINCE_NAME']."</option>";
+                         }  else{
+                           echo "<option value='".$key['PROVINCE_ID']."' >".$key['PROVINCE_NAME']."</option>"; 
+                         } }?>
+                       </select>
+                     </div>
 
-                    <div class="col-md-3" id="div_com">
+                     <div class="col-md-3" id="div_com">
                       <label class="text-dark" style="font-weight: 1000; color:#454545">Commune</label>
                       <select class="form-control" id="COMMUNE_ID" name="COMMUNE_ID" onchange="change_commune();get_nbr_proprio();">
                         <option value="0">Sélectionner</option>
@@ -208,12 +208,13 @@ input:checked + .slider:before {
 
               </div>
               <br>
-              <div class="table-responsive" style="padding-top: 20px;">
-                <table id="mytable" class="table table-hover" style="min-width: 100%">
+              <div class="table-responsive" >
+                
+                <table id="mytable" class="table table-hover" style="padding-top: 20px;">
                   <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                     <tr>
                       <th class="text-dark">#</th>
-                      <th class="text-dark">PROPRIETAIRE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th class="text-dark">PROPRIETAIRE</th>
                       <th class="text-dark">TYPE&nbsp;PROPRIETAIRE</th>
                       <th class="text-dark">EMAIL</th>
                       <th class="text-dark">TELEPHONE</th>
@@ -222,8 +223,10 @@ input:checked + .slider:before {
                       <th class="text-dark">OPTIONS</th>
                     </tr>
                   </thead>
-                  <tbody class="text-dark">
+
+                  <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                   </tbody>
+
                 </table>
               </div>
 
@@ -857,8 +860,8 @@ function affiche_doc(){
 
 }
 
- function get_nbr_proprio()
- {
+function get_nbr_proprio()
+{
   var TYPE_PROPRIETAIRE_ID = $('#TYPE_PROPRIETAIRE_ID').val();
   var IS_ACTIVE = $('#IS_ACTIVE').val();
   var COUNTRY_ID = $('#COUNTRY_ID').val();

@@ -129,11 +129,9 @@ input:checked + .slider:before {
            <div class="col-12">
             <div class="card">
               <div class="card-body">
-
-                <br>
-                <br>
+                
                 <div class="table-responsive" style="padding-top: 20px;">
-                  <table id="mytable" class="table table-hover" >
+                  <table id="mytable" class="table table-hover" style="padding-top: 20px;">
                     <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="text-dark">#</th>
@@ -145,7 +143,7 @@ input:checked + .slider:before {
                         <th class="text-dark" style="float: right;">ACTIONS</th>
                       </tr>
                     </thead>
-                    <tbody class="text-dark">
+                    <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     </tbody>
                   </table>
                 </div>
@@ -177,7 +175,7 @@ input:checked + .slider:before {
 <div class="modal fade" id="myModal" tabindex="-1" data-bs-backdrop="false">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-        <div class='modal-header' style='background:cadetblue;color:white;'>
+      <div class='modal-header' style='background:cadetblue;color:white;'>
         <h5 class="modal-title">Détail</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -238,7 +236,7 @@ input:checked + .slider:before {
 <div class="modal fade" id="myModal_Modal" tabindex="-1" data-bs-backdrop="false">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-        <div class='modal-header' style='background:cadetblue;color:white;'>
+      <div class='modal-header' style='background:cadetblue;color:white;'>
         <h5 class="modal-title">Détail</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>

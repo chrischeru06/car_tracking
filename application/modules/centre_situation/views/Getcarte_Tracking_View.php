@@ -91,11 +91,19 @@
 		// 	icon_vehicule = '<?=base_url()?>/upload/iconecartracking-05.png';
 		// }
 
+		var className = '';
+		if(index[21] == 1){
+			className = 'custom-marker-icon';
+		}
+		else{
+			className = 'custom-marker-icon2';
+		}
+
 		var markerIcon = L.icon({
             iconUrl: icon_vehicule, // Spécifiez le chemin vers votre image locale
             iconSize: [30, 30], // Définissez la taille de l'icône
             iconAnchor: [25, 50], // Définissez l'ancre de l'icône (position où le marqueur pointe)
-            className: 'custom-marker-icon' });
+            className: className });
 
 		var marker = L.marker([index[1], index[2]], {
 			icon: markerIcon
@@ -116,7 +124,15 @@
 			});
 		});
 
-		marker.bindPopup ('<div class="row" style="width:400px;"><div class="col-md-4"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" style="width: 135px;height: 135px;border-radius: 10px; margin-top:25px;margin-left:10px; cursor:pointer;" class="  " onclick = "show_image('+index[0]+');"></div> <div class="col-md-8"> <table class="table table-borderless" style="position:relative;left:10%;top:10%;"> <tr> <td class="text-muted small pt-2 ps-1">Chauffeur<br><img src="<?= base_url()?>/upload/chauffeur/'+ index[20] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/'+index[18]+'" class="" style="" title="Détail chauffeur">'+index[12]+'</a><br>Propriétaire<br><img src="<?= base_url()?>/upload/proprietaire/photopassport/'+ index[19] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Propriétaire">&nbsp;&nbsp;<a href="<?= base_url()?>proprietaire/Proprietaire/Detail/'+index[17]+'" class="" style="" title="Détail propriétaire">'+index[9]+'</a><br>Plaque<br><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;'+ index[6] +'</td> </tr>  </table> </div> </div>  <p class="text-center text-muted small " style=" "> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="info_trajet fa fa-map-marker" style="border-radius:20px;padding:10px;" title="Informations trajet"><br><label class="info_trajet small " id="place"></label> </a></p> ',{maxWidth : 5000});
+		var photo_pro = '';
+
+		if(index[19] != ''){
+			photo_pro = index[19];
+		}else{
+			photo_pro = index[22];
+		}
+
+		marker.bindPopup ('<div class="row" style="width:400px;"><div class="col-md-4"><img src="<?= base_url()?>/upload/photo_vehicule/'+ index[10] +'" style="width: 135px;height: 135px;border-radius: 10px; margin-top:25px;margin-left:5px; cursor:pointer;" class="  " onclick = "show_image('+index[0]+');"></div> <div class="col-md-8"> <table class="table table-borderless" style="position:relative;left:6%;top:10%;"> <tr> <td class="text-muted small pt-2 ps-1">Chauffeur<br><img src="<?= base_url()?>/upload/chauffeur/'+ index[20] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;<a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/'+index[18]+'" class="" style="" title="Détail chauffeur">'+index[12]+'</a><br>Propriétaire<br><img src="<?= base_url()?>/upload/proprietaire/photopassport/'+ photo_pro +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Propriétaire">&nbsp;&nbsp;<a href="<?= base_url()?>proprietaire/Proprietaire/Detail/'+index[17]+'" class="" style="" title="Détail propriétaire">'+index[9]+'</a><br>Plaque<br><i class="text-muted small pt-2 ps-1 fa fa-credit-card"></i>&nbsp;&nbsp;'+ index[6] +'</td> </tr>  </table> </div> </div>  <p class="text-center text-muted small " style=" "> <a href="<?= base_url()?>tracking/Dashboard/tracking_chauffeur/'+index[11]+'" class="info_trajet fa fa-map-marker" style="border-radius:20px;padding:10px;" title="Informations trajet"><br><label class="info_trajet small " id="place"></label> </a></p> ',{maxWidth : 5000});
 
 		markers.push(marker);
 
