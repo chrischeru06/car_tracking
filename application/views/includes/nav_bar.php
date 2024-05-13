@@ -345,7 +345,7 @@ function out_application()
         alert('Erreur');
       }
     });
-    setTimeout(goBackend,5000)
+    // setTimeout(goBackend,5000)
 
   };
 
