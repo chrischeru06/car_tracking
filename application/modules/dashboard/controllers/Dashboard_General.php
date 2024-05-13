@@ -89,8 +89,14 @@ class Dashboard_General extends CI_Controller
     {
       $u++;
       $intrant=array();
-      $intrant[] ="<strong class='text-dark'/>".$u; 
+      $intrant[] ="<strong class='text-dark'/>".$u;
+      if(!empty($row->CODE)){
       $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+      }else{
+
+      $intrant[] ="<strong class='text-dark'/> N/A";
+
+      } 
       $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
       $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
       $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;

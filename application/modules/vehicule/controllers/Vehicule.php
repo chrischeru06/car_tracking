@@ -1675,7 +1675,9 @@
 				// $anomalies_req=str_replace('\"', '', $anomalies_req);
 				// $anomalies_exces_vitesse = $this->ModelPs->getRequete($psgetrequete, $anomalies_req);
 				$anomalies_exces_vitesse =$this->Model->getRequete('SELECT device_uid FROM tracking_data WHERE 1 and vitesse>=50 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid');
-				foreach ($anomalies_exces_vitesse as $keyexces) {
+				$nbre_exces_vit=0;
+				if (!empty($anomalies_exces_vitesse)) {
+					foreach ($anomalies_exces_vitesse as $keyexces) {
 
 					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
 					$personal_req=str_replace('\"', '"', $personal_req);
@@ -1705,6 +1707,8 @@
 					'; 
 				}
 				$nbre_exces_vit=count($anomalies_exces_vitesse);
+				}
+				
 				//Notification lorsqu'il y a accident
 				// $acc_req = $this->getBindParms('device_uid','tracking_data','1 and accident=1 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
 				// $acc_req=str_replace('\"', '"', $acc_req);
@@ -1712,7 +1716,9 @@
 				// $acc_req=str_replace('\"', '', $acc_req);
 				// $anomalies_accident = $this->ModelPs->getRequete($psgetrequete, $acc_req);
 				$anomalies_accident =$this->Model->getRequete('SELECT device_uid FROM tracking_data WHERE 1 and accident=1 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid');
-				foreach ($anomalies_accident as $keyaccident) {
+				$nbre_accident=0;
+				if (!empty($anomalies_accident)) {
+					foreach ($anomalies_accident as $keyaccident) {
 
 					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
 					$personal_req=str_replace('\"', '"', $personal_req);
@@ -1742,6 +1748,8 @@
 					'; 
 				}
 				$nbre_accident=count($anomalies_accident);
+				}
+				
 				//Notification lorsqu'il y a eu depassement de la zone delimitée:geofencing
 
 				$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,latitude,longitude,CEINTURE,chauffeur.NOM,chauffeur.PRENOM,tracking_data.device_uid,vehicule.CODE', 'tracking_data join chauffeur_vehicule ON chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule on vehicule.CODE=chauffeur_vehicule.code', '1 and tracking_data.STATUT_NOTIF=1 and chauffeur_vehicule.STATUT_AFFECT=1' , '`id` ASC');
@@ -1754,7 +1762,8 @@
 				$response=array();
 				$a=0;
 
-				foreach ($elt_geofence_course as $key) {
+				if (!empty($elt_geofence_course)) {
+					foreach ($elt_geofence_course as $key) {
 					$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND CODE ="'.$key['CODE'].'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
 					$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
 					$my_selectdelim=str_replace('\n', '', $my_selectdelim);
@@ -1830,6 +1839,8 @@
 					}
 
 				}
+				}
+				
 				// $donnees=0;
 				
 				  // print_r($html);die();
@@ -1838,7 +1849,9 @@
 				$nbre_anomalies=$nbre_vehicule+$nbre_exces_vit+$nbre_accident+$a;
 
 			}else{
-				//Notification lorsqu'il y a exces de vitesse cote proprietaire
+				if(!empty($USER_ID)){
+
+					//Notification lorsqu'il y a exces de vitesse cote proprietaire
 				$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 				// $anomalies_req = $this->getBindParms('device_uid','tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
 				// $anomalies_req=str_replace('\"', '"', $anomalies_req);
@@ -1847,7 +1860,9 @@
 				// $anomalies_exces_vitesse = $this->ModelPs->getRequete($psgetrequete, $anomalies_req);
 
 				$anomalies_exces_vitesse = $this->Model->getRequete('select device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'"  GROUP BY device_uid');
-				foreach ($anomalies_exces_vitesse as $keyexces) {
+				$nbre_exces_vit=0;
+				if (!empty($anomalies_exces_vitesse)) {
+					foreach ($anomalies_exces_vitesse as $keyexces) {
 
 					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
 					$personal_req=str_replace('\"', '"', $personal_req);
@@ -1877,6 +1892,8 @@
 					'; 
 				}
 				$nbre_exces_vit=count($anomalies_exces_vitesse);
+				}
+				
 				//Notification lorsqu'il y a accident (cote proprietaire)
 				// $acc_req = $this->getBindParms('device_uid','tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and accident=1 and tracking_data.STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" and users.USER_ID="'.$USER_ID.'" GROUP BY device_uid','id ASC');
 				// $acc_req=str_replace('\"', '"', $acc_req);
@@ -1885,7 +1902,9 @@
 				// $anomalies_accident = $this->ModelPs->getRequete($psgetrequete, $acc_req);
 
 				$anomalies_accident = $this->Model->getRequete('SELECT device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and accident=1 and tracking_data.STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" and users.USER_ID="'.$USER_ID.'" GROUP BY device_uid');
-				foreach ($anomalies_accident as $keyaccident) {
+				$nbre_accident=0;
+				if (!empty($anomalies_accident)) {
+					foreach ($anomalies_accident as $keyaccident) {
 
 					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
 					$personal_req=str_replace('\"', '"', $personal_req);
@@ -1915,6 +1934,8 @@
 					'; 
 				}
 				$nbre_accident=count($anomalies_accident);
+				}
+				
 
 				//Notification lorsqu'il y a eu depassement de la zone delimitée:geofencing cote proprietaire
 
@@ -1927,8 +1948,8 @@
 				$elt_geofence_course = $this->ModelPs->getRequete($psgetrequete, $my_select_geo_el);
 				$response=array();
 				$a=0;
-
-				foreach ($elt_geofence_course as $key) {
+				if (!empty($elt_geofence_course)) {
+					foreach ($elt_geofence_course as $key) {
 					$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID', '1 AND chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID=1 AND CODE ="'.$key['CODE'].'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
 					$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
 					$my_selectdelim=str_replace('\n', '', $my_selectdelim);
@@ -2001,9 +2022,13 @@
 					}
 					
 				}
+				}
+				
 				
 				  // print_r($html);die();
 				$nbre_anomalies=$nbre_exces_vit+$nbre_accident+$a;
+				}
+				
 
 
 			}
