@@ -43,7 +43,7 @@ class Proprietaire_chauffeur extends CI_Controller
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 		$var_search = str_replace("'", "\'", $var_search);
 		$group = "";
-		$critaire = " AND proprietaire.PROPRIETAIRE_ID=".$get_user['PROPRIETAIRE_ID'];
+		$critaire = " AND chauffeur_vehicule.STATUT_AFFECT=1 AND users.USER_ID=".$USER_ID;
 		$limit = 'LIMIT 0,1000';
 		if ($_POST['length'] != -1) {
 			$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
@@ -67,7 +67,9 @@ class Proprietaire_chauffeur extends CI_Controller
 			OR chauffeur.NUMERO_CARTE_IDENTITE LIKE "%' . $var_search . '%"
 			OR chauffeur.DATE_INSERTION LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT DISTINCT chauffeur.`CHAUFFEUR_ID`,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,proprietaire.PROPRIETAIRE_ID,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME FROM `chauffeur` LEFT join proprietaire on chauffeur.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID left join chauffeur_vehicule on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID  left JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID left JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID left JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID left JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID WHERE 1';
+		// $query_principal='SELECT DISTINCT chauffeur.`CHAUFFEUR_ID`,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,proprietaire.PROPRIETAIRE_ID,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME FROM `chauffeur` LEFT join proprietaire on chauffeur.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID left join chauffeur_vehicule on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID  left JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID left JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID left JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID left JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID WHERE 1';
+
+		$query_principal='SELECT DISTINCT chauffeur.`CHAUFFEUR_ID`,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,proprietaire.PROPRIETAIRE_ID,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME FROM `chauffeur` JOIN chauffeur_vehicule ON chauffeur_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE JOIN users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID WHERE 1';
 
             //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;

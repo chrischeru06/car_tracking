@@ -1632,203 +1632,248 @@
 			$PROFIL_ID = $this->session->userdata('PROFIL_ID');
 			if (!empty($USER_ID) && !empty($PROFIL_ID)) {
 
-			$today = date('Y-m-d');
+				$today = date('Y-m-d');
 			// $today = '2024-04-02';
-			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+				$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 			//notifications apres l'ajout d'un vehicule par le proprietaire
-			$nbre_vehicule=$this->Model->getRequeteOne('SELECT count(VEHICULE_ID) as nbre FROM vehicule WHERE STAT_NOTIFICATION=1');
-			$maintenant=date('Y-m-d H:i:s');
+				$nbre_vehicule=$this->Model->getRequeteOne('SELECT count(VEHICULE_ID) as nbre FROM vehicule WHERE STAT_NOTIFICATION=1');
+				$maintenant=date('Y-m-d H:i:s');
 
-			$nbre_vehicule_req = $this->getBindParms('vehicule.VEHICULE_ID,vehicule.PLAQUE,vehicule.PROPRIETAIRE_ID,users.IDENTIFICATION,DATE_SAVE','vehicule join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and STAT_NOTIFICATION=1','VEHICULE_ID ASC');
+				$nbre_vehicule_req = $this->getBindParms('vehicule.VEHICULE_ID,vehicule.PLAQUE,vehicule.PROPRIETAIRE_ID,users.IDENTIFICATION,DATE_SAVE','vehicule join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and STAT_NOTIFICATION=1','VEHICULE_ID ASC');
 
-			$nbre_vehicule_voir = $this->ModelPs->getRequete($psgetrequete, $nbre_vehicule_req);
-			$nbre_vehicule=count($nbre_vehicule_voir);
+				$nbre_vehicule_voir = $this->ModelPs->getRequete($psgetrequete, $nbre_vehicule_req);
+				$nbre_vehicule=count($nbre_vehicule_voir);
 
-			$html='';
-			$html1='';
-			foreach ($nbre_vehicule_voir as $keyvehicule) {
-				$heure_veh=$this->notifications->ago($keyvehicule['DATE_SAVE'],$maintenant);
-
-
-
-				$html.='
-				<a href="' . base_url('vehicule/Vehicule'). '" style="color:black;">
-				<li class="notification-item">
-				<i class="bi bi-exclamation-circle text-warning"></i>
-				<div>
-				<h4>'.$keyvehicule['IDENTIFICATION'].'</h4>
-				<p>Plaque : '.$keyvehicule['PLAQUE'].'</p>
-				<p>Il y a '.$heure_veh.'</p>
-				</div>
-				</li>
-				</a>
-				<li>
-				<hr class="dropdown-divider">
-				</li>
-				'; 
-			}
+				$html='';
+				$html1='';
+				foreach ($nbre_vehicule_voir as $keyvehicule) {
+					$heure_veh=$this->notifications->ago($keyvehicule['DATE_SAVE'],$maintenant);
 
 
-			if ($PROFIL_ID==1) {
+
+					$html.='
+					<a href="' . base_url('vehicule/Vehicule'). '" style="color:black;">
+					<li class="notification-item">
+					<i class="bi bi-exclamation-circle text-warning"></i>
+					<div>
+					<h4>'.$keyvehicule['IDENTIFICATION'].'</h4>
+					<p>Plaque : '.$keyvehicule['PLAQUE'].'</p>
+					<p>Il y a '.$heure_veh.'</p>
+					</div>
+					</li>
+					</a>
+					<li>
+					<hr class="dropdown-divider">
+					</li>
+					'; 
+				}
+
+
+				if ($PROFIL_ID==1) {
 				//Notification lorsqu'il y a exces de vitesse
 				// $anomalies_req = $this->getBindParms('device_uid','tracking_data','1 and vitesse>=50 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
 				// $anomalies_req=str_replace('\"', '"', $anomalies_req);
 				// $anomalies_req=str_replace('\n', '', $anomalies_req);
 				// $anomalies_req=str_replace('\"', '', $anomalies_req);
 				// $anomalies_exces_vitesse = $this->ModelPs->getRequete($psgetrequete, $anomalies_req);
-				$anomalies_exces_vitesse =$this->Model->getRequete('SELECT device_uid FROM tracking_data WHERE 1 and vitesse>=50 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid');
-				$nbre_exces_vit=0;
-				if (!empty($anomalies_exces_vitesse)) {
-					foreach ($anomalies_exces_vitesse as $keyexces) {
+					$anomalies_exces_vitesse =$this->Model->getRequete('SELECT device_uid FROM tracking_data WHERE 1 and vitesse>=50 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid');
+					$nbre_exces_vit=0;
+					if (!empty($anomalies_exces_vitesse)) {
+						foreach ($anomalies_exces_vitesse as $keyexces) {
 
-					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
-					$personal_req=str_replace('\"', '"', $personal_req);
-					$personal_req=str_replace('\n', '', $personal_req);
-					$personal_req=str_replace('\"', '', $personal_req);
-					$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
-					$heure_exces=$this->notifications->ago($personal['date'],$maintenant);
+							$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
+							$personal_req=str_replace('\"', '"', $personal_req);
+							$personal_req=str_replace('\n', '', $personal_req);
+							$personal_req=str_replace('\"', '', $personal_req);
+							$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
+							$heure_exces=$this->notifications->ago($personal['date'],$maintenant);
 
 
 
-					$html.='
-					<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyexces['device_uid'])). '" style="color:black;">
-					<li class="notification-item">
-					<i class="bi bi-exclamation-circle text-warning"></i>
-					<div>
-					<h4 class="text-warning">Exces de Vitesse</h4>
-					<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-					<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-					<p>Plaque : '.$personal['PLAQUE'].'</p>
-					<p>Il y a '.$heure_exces.'</p>
-					</div>
-					</li>
-					</a>
-					<li>
-					<hr class="dropdown-divider">
-					</li>
-					'; 
-				}
-				$nbre_exces_vit=count($anomalies_exces_vitesse);
-				}
-				
+							$html.='
+							<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyexces['device_uid'])). '" style="color:black;">
+							<li class="notification-item">
+							<i class="bi bi-exclamation-circle text-warning"></i>
+							<div>
+							<h4 class="text-warning">Exces de Vitesse</h4>
+							<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+							<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+							<p>Plaque : '.$personal['PLAQUE'].'</p>
+							<p>Il y a '.$heure_exces.'</p>
+							</div>
+							</li>
+							</a>
+							<li>
+							<hr class="dropdown-divider">
+							</li>
+							'; 
+						}
+						$nbre_exces_vit=count($anomalies_exces_vitesse);
+					}
+
 				//Notification lorsqu'il y a accident
 				// $acc_req = $this->getBindParms('device_uid','tracking_data','1 and accident=1 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
 				// $acc_req=str_replace('\"', '"', $acc_req);
 				// $acc_req=str_replace('\n', '', $acc_req);
 				// $acc_req=str_replace('\"', '', $acc_req);
 				// $anomalies_accident = $this->ModelPs->getRequete($psgetrequete, $acc_req);
-				$anomalies_accident =$this->Model->getRequete('SELECT device_uid FROM tracking_data WHERE 1 and accident=1 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid');
-				$nbre_accident=0;
-				if (!empty($anomalies_accident)) {
-					foreach ($anomalies_accident as $keyaccident) {
+					$anomalies_accident =$this->Model->getRequete('SELECT device_uid FROM tracking_data WHERE 1 and accident=1 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid');
+					$nbre_accident=0;
+					if (!empty($anomalies_accident)) {
+						foreach ($anomalies_accident as $keyaccident) {
 
-					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
-					$personal_req=str_replace('\"', '"', $personal_req);
-					$personal_req=str_replace('\n', '', $personal_req);
-					$personal_req=str_replace('\"', '', $personal_req);
-					$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
-					$heure_accident=$this->notifications->ago($personal['date'],$maintenant);
-
-
-
-					$html.='
-					<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyaccident['device_uid'])). '" style="color:black;">
-					<li class="notification-item">
-					<i class="bi bi-exclamation-circle text-danger"></i>
-					<div>
-					<h4 class="text-danger">Accident</h4>
-					<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-					<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-					<p>Plaque : '.$personal['PLAQUE'].'</p>
-					<p>Il y a '.$heure_accident.'</p>
-					</div>
-					</li>
-					</a>
-					<li>
-					<hr class="dropdown-divider">
-					</li>
-					'; 
-				}
-				$nbre_accident=count($anomalies_accident);
-				}
-				
-				//Notification lorsqu'il y a eu depassement de la zone delimitée:geofencing
-
-				$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,latitude,longitude,CEINTURE,chauffeur.NOM,chauffeur.PRENOM,tracking_data.device_uid,vehicule.CODE', 'tracking_data join chauffeur_vehicule ON chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule on vehicule.CODE=chauffeur_vehicule.code', '1 and tracking_data.STATUT_NOTIF=1 and chauffeur_vehicule.STATUT_AFFECT=1' , '`id` ASC');
-				
-				$my_select_geo_el=str_replace('\"', '"', $my_select_geo_el);
-				$my_select_geo_el=str_replace('\n', '', $my_select_geo_el);
-				$my_select_geo_el=str_replace('\"', '', $my_select_geo_el);
-
-				$elt_geofence_course = $this->ModelPs->getRequete($psgetrequete, $my_select_geo_el);
-				$response=array();
-				$a=0;
-
-				if (!empty($elt_geofence_course)) {
-					foreach ($elt_geofence_course as $key) {
-					$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND CODE ="'.$key['CODE'].'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
-					$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
-					$my_selectdelim=str_replace('\n', '', $my_selectdelim);
-					$my_selectdelim=str_replace('\"', '', $my_selectdelim);
-					$zones_delim = $this->ModelPs->getRequeteOne($psgetrequete, $my_selectdelim);
-
-					$COORD_POLYGONE = $zones_delim['COORD'];
-					$COORD_POLYGONE = str_replace('[[', '', $COORD_POLYGONE);
-					$COORD_POLYGONE = str_replace(']]', '', $COORD_POLYGONE);
-
-					$COORD_POLYGONE_P = $COORD_POLYGONE;
-
-					$COORD_POLY = $COORD_POLYGONE_P;
-
-					$COORD_POLY = explode('],[', $COORD_POLY);
-					$COORD_POLY = str_replace('[', '', $COORD_POLY);
-					$COORD_POLY = str_replace(']', '', $COORD_POLY);
-
-					$COORD_POLY_SEND=array();
-					for ($i=0; $i < count($COORD_POLY); $i++) { 
+							$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
+							$personal_req=str_replace('\"', '"', $personal_req);
+							$personal_req=str_replace('\n', '', $personal_req);
+							$personal_req=str_replace('\"', '', $personal_req);
+							$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
+							$heure_accident=$this->notifications->ago($personal['date'],$maintenant);
 
 
-						$COORD_POLY2 = $COORD_POLY[$i];
 
-						$COORD_POLY2 = str_replace(']', '', $COORD_POLY2);
-						$COORD_POLY2 = str_replace('[', '', $COORD_POLY2);
-
-						$COORD_POLY2 = explode(',', $COORD_POLY2);
-
-						$COORD_POLY_SEND[].= $COORD_POLY2[0].','.$COORD_POLY2[1];
-
-					}
-
-					$polygon_die = array();
-					foreach ($COORD_POLY_SEND as $coord) {
-						list($x, $y) = explode(",", $coord);
-						$polygon_die[] = array((string)$x, (string)$y);
-					}
-					$COORD_POLY_repl = str_replace('[', '', $polygon_die);
-
-					
-					$point_check=array($key['longitude'],$key['latitude']);
-					$response[]=[$this->Model->isPointInsidePolygon($point_check, $COORD_POLY_repl),$key['NOM'],$key['PRENOM'],$key['CODE'],$this->notifications->ago($key['date_vu'],$maintenant)];
-
-					
-
-				}
-				if (!empty($response)) {
-					foreach ($response as $keyresponse) {
-
-						$donnees = $keyresponse[0];
-						if($donnees==2) {
-							$a=1;
-
-							$html1='
-							<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
+							$html.='
+							<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyaccident['device_uid'])). '" style="color:black;">
 							<li class="notification-item">
 							<i class="bi bi-exclamation-circle text-danger"></i>
 							<div>
-							<h4 class="text-danger">Geofencing</h4>
+							<h4 class="text-danger">Accident</h4>
+							<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+							<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+							<p>Plaque : '.$personal['PLAQUE'].'</p>
+							<p>Il y a '.$heure_accident.'</p>
+							</div>
+							</li>
+							</a>
+							<li>
+							<hr class="dropdown-divider">
+							</li>
+							'; 
+						}
+						$nbre_accident=count($anomalies_accident);
+					}
 
-							<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
-							<p>Il y a '.$keyresponse[4].' </p>
+				//Notification lorsqu'il y a eu depassement de la zone delimitée:geofencing
+
+					$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,latitude,longitude,CEINTURE,chauffeur.NOM,chauffeur.PRENOM,tracking_data.device_uid,vehicule.CODE', 'tracking_data join chauffeur_vehicule ON chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule on vehicule.CODE=chauffeur_vehicule.code', '1 and tracking_data.STATUT_NOTIF=1 and chauffeur_vehicule.STATUT_AFFECT=1' , '`id` ASC');
+
+					$my_select_geo_el=str_replace('\"', '"', $my_select_geo_el);
+					$my_select_geo_el=str_replace('\n', '', $my_select_geo_el);
+					$my_select_geo_el=str_replace('\"', '', $my_select_geo_el);
+
+					$elt_geofence_course = $this->ModelPs->getRequete($psgetrequete, $my_select_geo_el);
+					$response=array();
+					$a=0;
+
+					if (!empty($elt_geofence_course)) {
+						foreach ($elt_geofence_course as $key) {
+							$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND CODE ="'.$key['CODE'].'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
+							$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
+							$my_selectdelim=str_replace('\n', '', $my_selectdelim);
+							$my_selectdelim=str_replace('\"', '', $my_selectdelim);
+							$zones_delim = $this->ModelPs->getRequeteOne($psgetrequete, $my_selectdelim);
+
+							$COORD_POLYGONE = $zones_delim['COORD'];
+							$COORD_POLYGONE = str_replace('[[', '', $COORD_POLYGONE);
+							$COORD_POLYGONE = str_replace(']]', '', $COORD_POLYGONE);
+
+							$COORD_POLYGONE_P = $COORD_POLYGONE;
+
+							$COORD_POLY = $COORD_POLYGONE_P;
+
+							$COORD_POLY = explode('],[', $COORD_POLY);
+							$COORD_POLY = str_replace('[', '', $COORD_POLY);
+							$COORD_POLY = str_replace(']', '', $COORD_POLY);
+
+							$COORD_POLY_SEND=array();
+							for ($i=0; $i < count($COORD_POLY); $i++) { 
+
+
+								$COORD_POLY2 = $COORD_POLY[$i];
+
+								$COORD_POLY2 = str_replace(']', '', $COORD_POLY2);
+								$COORD_POLY2 = str_replace('[', '', $COORD_POLY2);
+
+								$COORD_POLY2 = explode(',', $COORD_POLY2);
+
+								$COORD_POLY_SEND[].= $COORD_POLY2[0].','.$COORD_POLY2[1];
+
+							}
+
+							$polygon_die = array();
+							foreach ($COORD_POLY_SEND as $coord) {
+								list($x, $y) = explode(",", $coord);
+								$polygon_die[] = array((string)$x, (string)$y);
+							}
+							$COORD_POLY_repl = str_replace('[', '', $polygon_die);
+
+
+							$point_check=array($key['longitude'],$key['latitude']);
+							$response[]=[$this->Model->isPointInsidePolygon($point_check, $COORD_POLY_repl),$key['NOM'],$key['PRENOM'],$key['CODE'],$this->notifications->ago($key['date_vu'],$maintenant)];
+
+
+
+						}
+						if (!empty($response)) {
+							foreach ($response as $keyresponse) {
+
+								$donnees = $keyresponse[0];
+								if($donnees==2) {
+									$a=1;
+
+									$html1='
+									<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
+									<li class="notification-item">
+									<i class="bi bi-exclamation-circle text-danger"></i>
+									<div>
+									<h4 class="text-danger">Geofencing</h4>
+
+									<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
+									<p>Il y a '.$keyresponse[4].' </p>
+									</div>
+									</li>
+									</a>
+									<li>
+									<hr class="dropdown-divider">
+									</li>
+									';
+								}
+
+							}
+
+						}
+					}
+					//Notif fin d'affectation
+					$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+					$all_affect_check = $this->getBindParms('t1.CHAUFFEUR_VEHICULE_ID,t1.DATE_INSERTION,t1.DATE_DEBUT_AFFECTATION,t1.DATE_FIN_AFFECTATION,t1.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM','chauffeur_vehicule t1 INNER JOIN (
+						SELECT CHAUFFEUR_ID, MAX(DATE_INSERTION) AS max_date
+						FROM chauffeur_vehicule
+						GROUP BY CHAUFFEUR_ID
+					) t2 ON t1.CHAUFFEUR_ID = t2.CHAUFFEUR_ID AND t1.DATE_INSERTION = t2.max_date join chauffeur on chauffeur.CHAUFFEUR_ID=t1.CHAUFFEUR_ID',' 1 AND DATE_FIN_AFFECTATION <= "'.$today.'" ','CHAUFFEUR_VEHICULE_ID DESC');
+
+					$all_affect_check = str_replace('\"', '"', $all_affect_check);
+					$all_affect_check = str_replace('\n', '', $all_affect_check);
+					$all_affect_check = str_replace('\"', '', $all_affect_check);
+					$all_affect_check = str_replace('\r', '', $all_affect_check);
+
+
+					$check_all_affect = $this->ModelPs->getRequete($psgetrequete, $all_affect_check);
+					// print_r($check_all_affect);die();
+					$html2='';
+					$nbre_fin_affect=0;
+					if (!empty($check_all_affect)) {
+						$nbre_fin_affect=count($check_all_affect);
+						foreach ($check_all_affect as $keycheck_all_affect) {
+							$interval=$this->notifications->ago($keycheck_all_affect['DATE_FIN_AFFECTATION'],$today);
+							$html2.='
+							<a href="' . base_url('chauffeur/Chauffeur/affecter_chauff/'.$keycheck_all_affect['CHAUFFEUR_ID']). '" style="color:black;">
+							<li class="notification-item">
+							<i class="bi bi-exclamation-circle text-danger"></i>
+							<div>
+							<h4 class="text-danger">Fin de l\'affectation</h4>
+
+							<p>Chauffeur : '.$keycheck_all_affect['NOM'].' '.$keycheck_all_affect['PRENOM'].'</p>
+							<p>Il y a '.$interval.' </p>
 							</div>
 							</li>
 							</a>
@@ -1837,65 +1882,68 @@
 							</li>
 							';
 						}
-
+						
+						
 					}
 
-				}
-				}
-				
-				// $donnees=0;
-				
-				  // print_r($html);die();
 
 
-				$nbre_anomalies=$nbre_vehicule+$nbre_exces_vit+$nbre_accident+$a;
+					// $check_all_affect = $this->Model->getRequete("SELECT t1.DATE_INSERTION,t1.DATE_DEBUT_AFFECTATION,t1.DATE_FIN_AFFECTATION,t1.CHAUFFEUR_ID
+					// 	FROM chauffeur_vehicule t1
+					// 	INNER JOIN (
+					// 		SELECT CHAUFFEUR_ID, MAX(DATE_INSERTION) AS max_date
+					// 		FROM chauffeur_vehicule
+					// 		GROUP BY CHAUFFEUR_ID
+					// 	) t2 ON t1.CHAUFFEUR_ID = t2.CHAUFFEUR_ID AND t1.DATE_INSERTION = t2.max_date WHERE DATE_FIN_AFFECTATION <='".$today."'");
 
-			}else{
-				if(!empty($USER_ID)){
+					$nbre_anomalies=$nbre_vehicule+$nbre_exces_vit+$nbre_accident+$a+$nbre_fin_affect;
+
+				}else{
+					if(!empty($USER_ID)){
 
 					//Notification lorsqu'il y a exces de vitesse cote proprietaire
-				$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+						$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 				// $anomalies_req = $this->getBindParms('device_uid','tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
 				// $anomalies_req=str_replace('\"', '"', $anomalies_req);
 				// $anomalies_req=str_replace('\n', '', $anomalies_req);
 				// $anomalies_req=str_replace('\"', '', $anomalies_req);
 				// $anomalies_exces_vitesse = $this->ModelPs->getRequete($psgetrequete, $anomalies_req);
 
-				$anomalies_exces_vitesse = $this->Model->getRequete('select device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'"  GROUP BY device_uid');
-				$nbre_exces_vit=0;
-				if (!empty($anomalies_exces_vitesse)) {
-					foreach ($anomalies_exces_vitesse as $keyexces) {
+						$anomalies_exces_vitesse = $this->Model->getRequete('select device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'"  GROUP BY device_uid');
+						$nbre_exces_vit=0;
+						if (!empty($anomalies_exces_vitesse)) {
+							foreach ($anomalies_exces_vitesse as $keyexces) {
 
-					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
-					$personal_req=str_replace('\"', '"', $personal_req);
-					$personal_req=str_replace('\n', '', $personal_req);
-					$personal_req=str_replace('\"', '', $personal_req);
-					$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
-					$heure_exces=$this->notifications->ago($personal['date'],$maintenant);
+								$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
+								$personal_req=str_replace('\"', '"', $personal_req);
+								$personal_req=str_replace('\n', '', $personal_req);
+								$personal_req=str_replace('\"', '', $personal_req);
+								$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
+								$heure_exces=$this->notifications->ago($personal['date'],$maintenant);
 
 
 
-					$html.='
-					<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyexces['device_uid'])). '" style="color:black;">
-					<li class="notification-item">
-					<i class="bi bi-exclamation-circle text-warning"></i>
-					<div>
-					<h4 class="text-warning">Exces de Vitesse</h4>
-					<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-					<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-					<p>Plaque : '.$personal['PLAQUE'].'</p>
-					<p>Il y a '.$heure_exces.'</p>
-					</div>
-					</li>
-					</a>
-					<li>
-					<hr class="dropdown-divider">
-					</li>
-					'; 
-				}
-				$nbre_exces_vit=count($anomalies_exces_vitesse);
-				}
-				
+								$html.='
+								<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyexces['device_uid'])). '" style="color:black;">
+								<li class="notification-item">
+								<i class="bi bi-exclamation-circle text-warning"></i>
+								<div>
+								<h4 class="text-warning">Exces de Vitesse</h4>
+								<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+								<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+								<p>Plaque : '.$personal['PLAQUE'].'</p>
+								<p>Il y a '.$heure_exces.'</p>
+								</div>
+								</li>
+								</a>
+								<li>
+								<hr class="dropdown-divider">
+								</li>
+								'; 
+							}
+							$nbre_exces_vit=count($anomalies_exces_vitesse);
+						}
+
 				//Notification lorsqu'il y a accident (cote proprietaire)
 				// $acc_req = $this->getBindParms('device_uid','tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and accident=1 and tracking_data.STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" and users.USER_ID="'.$USER_ID.'" GROUP BY device_uid','id ASC');
 				// $acc_req=str_replace('\"', '"', $acc_req);
@@ -1903,147 +1951,195 @@
 				// $acc_req=str_replace('\"', '', $acc_req);
 				// $anomalies_accident = $this->ModelPs->getRequete($psgetrequete, $acc_req);
 
-				$anomalies_accident = $this->Model->getRequete('SELECT device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and accident=1 and tracking_data.STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" and users.USER_ID="'.$USER_ID.'" GROUP BY device_uid');
-				$nbre_accident=0;
-				if (!empty($anomalies_accident)) {
-					foreach ($anomalies_accident as $keyaccident) {
+						$anomalies_accident = $this->Model->getRequete('SELECT device_uid FROM tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID where 1 and accident=1 and tracking_data.STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" and users.USER_ID="'.$USER_ID.'" GROUP BY device_uid');
+						$nbre_accident=0;
+						if (!empty($anomalies_accident)) {
+							foreach ($anomalies_accident as $keyaccident) {
 
-					$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
-					$personal_req=str_replace('\"', '"', $personal_req);
-					$personal_req=str_replace('\n', '', $personal_req);
-					$personal_req=str_replace('\"', '', $personal_req);
-					$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
-					$heure_accident=$this->notifications->ago($personal['date'],$maintenant);
+								$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
+								$personal_req=str_replace('\"', '"', $personal_req);
+								$personal_req=str_replace('\n', '', $personal_req);
+								$personal_req=str_replace('\"', '', $personal_req);
+								$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
+								$heure_accident=$this->notifications->ago($personal['date'],$maintenant);
 
 
 
-					$html.='
-					<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyaccident['device_uid'])). '" style="color:black;">
-					<li class="notification-item">
-					<i class="bi bi-exclamation-circle text-danger"></i>
-					<div>
-					<h4 class="text-danger">Accident</h4>
-					<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-					<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-					<p>Plaque : '.$personal['PLAQUE'].'</p>
-					<p>Il y a '.$heure_accident.'</p>
-					</div>
-					</li>
-					</a>
-					<li>
-					<hr class="dropdown-divider">
-					</li>
-					'; 
-				}
-				$nbre_accident=count($anomalies_accident);
-				}
-				
+								$html.='
+								<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyaccident['device_uid'])). '" style="color:black;">
+								<li class="notification-item">
+								<i class="bi bi-exclamation-circle text-danger"></i>
+								<div>
+								<h4 class="text-danger">Accident</h4>
+								<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+								<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+								<p>Plaque : '.$personal['PLAQUE'].'</p>
+								<p>Il y a '.$heure_accident.'</p>
+								</div>
+								</li>
+								</a>
+								<li>
+								<hr class="dropdown-divider">
+								</li>
+								'; 
+							}
+							$nbre_accident=count($anomalies_accident);
+						}
+
 
 				//Notification lorsqu'il y a eu depassement de la zone delimitée:geofencing cote proprietaire
 
-				$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,latitude,longitude,CEINTURE,chauffeur.NOM,chauffeur.PRENOM,tracking_data.device_uid,vehicule.CODE', 'tracking_data join chauffeur_vehicule ON chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule on vehicule.CODE=chauffeur_vehicule.code join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID', '1 and tracking_data.STATUT_NOTIF=1 and chauffeur_vehicule.STATUT_AFFECT=1 and users.USER_ID='.$USER_ID , '`id` ASC');
-				
-				$my_select_geo_el=str_replace('\"', '"', $my_select_geo_el);
-				$my_select_geo_el=str_replace('\n', '', $my_select_geo_el);
-				$my_select_geo_el=str_replace('\"', '', $my_select_geo_el);
+						$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,latitude,longitude,CEINTURE,chauffeur.NOM,chauffeur.PRENOM,tracking_data.device_uid,vehicule.CODE', 'tracking_data join chauffeur_vehicule ON chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule on vehicule.CODE=chauffeur_vehicule.code join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID', '1 and tracking_data.STATUT_NOTIF=1 and chauffeur_vehicule.STATUT_AFFECT=1 and users.USER_ID='.$USER_ID , '`id` ASC');
 
-				$elt_geofence_course = $this->ModelPs->getRequete($psgetrequete, $my_select_geo_el);
-				$response=array();
-				$a=0;
-				if (!empty($elt_geofence_course)) {
-					foreach ($elt_geofence_course as $key) {
-					$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID', '1 AND chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID=1 AND CODE ="'.$key['CODE'].'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
-					$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
-					$my_selectdelim=str_replace('\n', '', $my_selectdelim);
-					$my_selectdelim=str_replace('\"', '', $my_selectdelim);
-					$zones_delim = $this->ModelPs->getRequeteOne($psgetrequete, $my_selectdelim);
+						$my_select_geo_el=str_replace('\"', '"', $my_select_geo_el);
+						$my_select_geo_el=str_replace('\n', '', $my_select_geo_el);
+						$my_select_geo_el=str_replace('\"', '', $my_select_geo_el);
 
-					$COORD_POLYGONE = $zones_delim['COORD'];
-					$COORD_POLYGONE = str_replace('[[', '', $COORD_POLYGONE);
-					$COORD_POLYGONE = str_replace(']]', '', $COORD_POLYGONE);
+						$elt_geofence_course = $this->ModelPs->getRequete($psgetrequete, $my_select_geo_el);
+						$response=array();
+						$a=0;
+						if (!empty($elt_geofence_course)) {
+							foreach ($elt_geofence_course as $key) {
+								$my_selectdelim = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID', '1 AND chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID=1 AND CODE ="'.$key['CODE'].'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
+								$my_selectdelim=str_replace('\"', '"', $my_selectdelim);
+								$my_selectdelim=str_replace('\n', '', $my_selectdelim);
+								$my_selectdelim=str_replace('\"', '', $my_selectdelim);
+								$zones_delim = $this->ModelPs->getRequeteOne($psgetrequete, $my_selectdelim);
 
-					$COORD_POLYGONE_P = $COORD_POLYGONE;
+								$COORD_POLYGONE = $zones_delim['COORD'];
+								$COORD_POLYGONE = str_replace('[[', '', $COORD_POLYGONE);
+								$COORD_POLYGONE = str_replace(']]', '', $COORD_POLYGONE);
 
-					$COORD_POLY = $COORD_POLYGONE_P;
+								$COORD_POLYGONE_P = $COORD_POLYGONE;
 
-					$COORD_POLY = explode('],[', $COORD_POLY);
-					$COORD_POLY = str_replace('[', '', $COORD_POLY);
-					$COORD_POLY = str_replace(']', '', $COORD_POLY);
+								$COORD_POLY = $COORD_POLYGONE_P;
 
-					$COORD_POLY_SEND=array();
-					for ($i=0; $i < count($COORD_POLY); $i++) { 
+								$COORD_POLY = explode('],[', $COORD_POLY);
+								$COORD_POLY = str_replace('[', '', $COORD_POLY);
+								$COORD_POLY = str_replace(']', '', $COORD_POLY);
+
+								$COORD_POLY_SEND=array();
+								for ($i=0; $i < count($COORD_POLY); $i++) { 
 
 
-						$COORD_POLY2 = $COORD_POLY[$i];
+									$COORD_POLY2 = $COORD_POLY[$i];
 
-						$COORD_POLY2 = str_replace(']', '', $COORD_POLY2);
-						$COORD_POLY2 = str_replace('[', '', $COORD_POLY2);
+									$COORD_POLY2 = str_replace(']', '', $COORD_POLY2);
+									$COORD_POLY2 = str_replace('[', '', $COORD_POLY2);
 
-						$COORD_POLY2 = explode(',', $COORD_POLY2);
+									$COORD_POLY2 = explode(',', $COORD_POLY2);
 
-						$COORD_POLY_SEND[].= $COORD_POLY2[0].','.$COORD_POLY2[1];
+									$COORD_POLY_SEND[].= $COORD_POLY2[0].','.$COORD_POLY2[1];
 
-					}
+								}
 
-					$polygon_die = array();
-					foreach ($COORD_POLY_SEND as $coord) {
-						list($x, $y) = explode(",", $coord);
-						$polygon_die[] = array((string)$x, (string)$y);
-					}
-					$COORD_POLY_repl = str_replace('[', '', $polygon_die);
+								$polygon_die = array();
+								foreach ($COORD_POLY_SEND as $coord) {
+									list($x, $y) = explode(",", $coord);
+									$polygon_die[] = array((string)$x, (string)$y);
+								}
+								$COORD_POLY_repl = str_replace('[', '', $polygon_die);
 
-					
-					$point_check=array($key['longitude'],$key['latitude']);
-					$response[]=[$this->Model->isPointInsidePolygon($point_check, $COORD_POLY_repl),$key['NOM'],$key['PRENOM'],$key['CODE'],$this->notifications->ago($key['date_vu'],$maintenant)];
 
-					
+								$point_check=array($key['longitude'],$key['latitude']);
+								$response[]=[$this->Model->isPointInsidePolygon($point_check, $COORD_POLY_repl),$key['NOM'],$key['PRENOM'],$key['CODE'],$this->notifications->ago($key['date_vu'],$maintenant)];
 
-				}
-				foreach ($response as $keyresponse) {
-					
-					$donnees = $keyresponse[0];
-					if($donnees==2) {
-						$a=1;
 
-						$html1='
-						<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
-						<li class="notification-item">
-						<i class="bi bi-exclamation-circle text-danger"></i>
-						<div>
-						<h4 class="text-danger">Geofencing</h4>
 
-						<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
-						<p>Il y a '.$keyresponse[4].' </p>
-						</div>
-						</li>
-						</a>
-						<li>
-						<hr class="dropdown-divider">
-						</li>
-						';
-					}
-					
-				}
-				}
-				
-				
+							}
+							foreach ($response as $keyresponse) {
+
+								$donnees = $keyresponse[0];
+								if($donnees==2) {
+									$a=1;
+
+									$html1='
+									<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyresponse[3])). '" style="color:black;">
+									<li class="notification-item">
+									<i class="bi bi-exclamation-circle text-danger"></i>
+									<div>
+									<h4 class="text-danger">Geofencing</h4>
+
+									<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
+									<p>Il y a '.$keyresponse[4].' </p>
+									</div>
+									</li>
+									</a>
+									<li>
+									<hr class="dropdown-divider">
+									</li>
+									';
+								}
+
+							}
+						}
+
+//Notif fin d'affectation
+						$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+						$all_affect_check = $this->getBindParms('t1.CHAUFFEUR_VEHICULE_ID,t1.DATE_INSERTION,t1.DATE_DEBUT_AFFECTATION,t1.DATE_FIN_AFFECTATION,t1.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM','chauffeur_vehicule t1 INNER JOIN (
+							SELECT CHAUFFEUR_ID, MAX(DATE_INSERTION) AS max_date
+							FROM chauffeur_vehicule
+							GROUP BY CHAUFFEUR_ID
+						) t2 ON t1.CHAUFFEUR_ID = t2.CHAUFFEUR_ID AND t1.DATE_INSERTION = t2.max_date join chauffeur on chauffeur.CHAUFFEUR_ID=t1.CHAUFFEUR_ID join vehicule ON vehicule.CODE=t1.CODE JOIN users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 AND t1.STATUT_AFFECT=1 AND DATE_FIN_AFFECTATION <= "'.$today.'" and users.USER_ID="'.$USER_ID.'"','CHAUFFEUR_VEHICULE_ID DESC');
+
+						$all_affect_check = str_replace('\"', '"', $all_affect_check);
+						$all_affect_check = str_replace('\n', '', $all_affect_check);
+						$all_affect_check = str_replace('\"', '', $all_affect_check);
+						$all_affect_check = str_replace('\r', '', $all_affect_check);
+
+
+						$check_all_affect = $this->ModelPs->getRequete($psgetrequete, $all_affect_check);
+					// print_r($check_all_affect);die();
+						$html2='';
+						$nbre_fin_affect=0;
+						if (!empty($check_all_affect)) {
+							$nbre_fin_affect=count($check_all_affect);
+							foreach ($check_all_affect as $keycheck_all_affect) {
+								$interval=$this->notifications->ago($keycheck_all_affect['DATE_FIN_AFFECTATION'],$today);
+								// print_r($interval);die();
+								if ($interval=='1 Jr' || $interval=='2 Jr' || $interval=='3 Jr') {
+									// $tab = explode(":", $this->diff_time($today , $keycheck_all_affect['DATE_FIN_AFFECTATION'])); 
+									$html2.='
+									<a href="' . base_url('chauffeur/Chauffeur/affecter_chauff/'.$keycheck_all_affect['CHAUFFEUR_ID']). '" style="color:black;">
+									<li class="notification-item">
+									<i class="bi bi-exclamation-circle text-danger"></i>
+									<div>
+									<h4 class="text-danger">Fin de l\'affectation</h4>
+
+									<p>Chauffeur : '.$keycheck_all_affect['NOM'].' '.$keycheck_all_affect['PRENOM'].'</p>
+									<p>Il y a '.$interval.' </p>
+									</div>
+									</li>
+									</a>
+									<li>
+									<hr class="dropdown-divider">
+									</li>
+									';
+								}
+								
+							}
+
+
+						}
 				  // print_r($html);die();
-				$nbre_anomalies=$nbre_exces_vit+$nbre_accident+$a;
+						$nbre_anomalies=$nbre_exces_vit+$nbre_accident+$a+$nbre_fin_affect;
+					}
+
+
+
 				}
-				
+
+				$output = array(
+					"nbre_anomalies" => $nbre_anomalies,
+					"html" => $html,
+					"html1" => $html1,
+					"html2" =>$html2
 
 
-			}
+				);
 
-			$output = array(
-				"nbre_anomalies" => $nbre_anomalies,
-				"html" => $html,
-				"html1" => $html1,
-
-
-			);
-			
-			echo json_encode($output);
+				echo json_encode($output);
 			// print_r($nbre_exces_vit);die();
 				
 			}else{

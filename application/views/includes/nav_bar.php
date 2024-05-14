@@ -23,10 +23,13 @@ function out_application()
 ?>
 <style>
   .scroller {
-    height: 400px;
-    overflow-y: scroll;
-    border-radius: 10px;
-    background-color: white;
+    /* Définir une hauteur maximale pour le scroller */
+    max-height: 300px; /* Par exemple */
+    /* Ajouter une barre de défilement uniquement si nécessaire */
+    overflow-y: auto;
+    /* Optionnel : pour une apparence personnalisée de la barre de défilement */
+    scrollbar-width: thin; /* Pour les navigateurs prenant en charge le CSS personnalisé de la barre de défilement */
+/*    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1); /* Pour les navigateurs prenant en charge le CSS personnalisé de la barre de défilement */*/
   }
 </style>
 <header id="header" class="header fixed-top d-flex align-items-center"  style="background-color: cadetblue">
@@ -77,6 +80,8 @@ function out_application()
           <div  class="scroller">
             <div id="html2"></div>
             <div id="html3"></div>
+            <div id="html4"></div>
+
           </div>
           <!-- <li class="dropdown-footer">
             <a href="#">Show all notifications</a>
@@ -107,6 +112,7 @@ function out_application()
           <div  class="scroller" >
             <div id="html2"></div>
             <div id="html1"></div>
+            <div id="html4"></div>
           </div>
           <!-- <li class="dropdown-footer">
             <a href="#">Show all notifications</a>
@@ -336,6 +342,8 @@ function out_application()
         $('#html2').html(data.html);
         $('#html1').html(data.html1);
         $('#html3').html(data.html1);
+        $('#html4').html(data.html2);
+
 
 
 
