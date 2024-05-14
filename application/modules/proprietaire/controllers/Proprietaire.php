@@ -736,45 +736,6 @@ class Proprietaire extends CI_Controller
 			$sub_array=array();
 			$sub_array[]=$i;
 
-			// if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
-			// 	$sub_array[] ='<tbody><tr><td><a href="javascript:;" onclick="get_detail_pers_moral(' . $row->PROPRIETAIRE_ID . ')" style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
-			// 	';
-
-			// }elseif(!empty($row->LOGO)){
-
-			// 	$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
-
-			// 	<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
-			// 	<div class="modal-dialog">
-			// 	<div class="modal-content">
-			// 	<div class="modal-body">
-			// 	<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
-			// 	</div>
-			// 	<div class="modal-footer">
-			// 	<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-			// 	</div>
-			// 	</div>
-			// 	</div>
-			// 	</div>';
-
-			// }else{
-
-			// 	$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail(' . $row->PROPRIETAIRE_ID . ')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></a></td><td> '.'     '.' ' . $row->info_personne . '</td></tr></tbody></a>
-
-			// 	<div class="modal fade" id="mypicture' .$row->PROPRIETAIRE_ID.'">
-			// 	<div class="modal-dialog">
-			// 	<div class="modal-content">
-			// 	<div class="modal-body">
-			// 	<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
-			// 	</div>
-			// 	<div class="modal-footer">
-			// 	<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
-			// 	</div>
-			// 	</div>
-			// 	</div>
-			// 	</div>';
-			// }
-			
 			if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
 				$sub_array[] ='<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><i class="bi bi-info-square h5" ></i>
 				style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->info_personne . '</td></tr></tbody></a>
@@ -1033,7 +994,8 @@ class Proprietaire extends CI_Controller
 	function Detail(){
 
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
-		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,provinces.PROVINCE_ID,PROVINCE_NAME,communes.COMMUNE_ID,COMMUNE_NAME,zones.ZONE_ID,ZONE_NAME,collines.COLLINE_ID,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO ,proprietaire.FILE_NIF,proprietaire.FILE_RC,proprietaire.RC,categories.DESC_CATEGORIE,proprietaire.FILE_CNI_PASSPORT FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID left join  categories on proprietaire.CATEGORIE_ID=categories.CATEGORIE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
+
+		$proprietaire=$this->Model->getRequeteOne("SELECT proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,proprietaire.EMAIL,proprietaire.TELEPHONE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,CNI_OU_NIF,proprietaire.PHOTO_PASSPORT,provinces.PROVINCE_ID,PROVINCE_NAME,communes.COMMUNE_ID,COMMUNE_NAME,zones.ZONE_ID,ZONE_NAME,collines.COLLINE_ID,COLLINE_NAME,proprietaire.ADRESSE,proprietaire.LOGO ,proprietaire.FILE_NIF,proprietaire.FILE_RC,proprietaire.RC,categories.CATEGORIE_ID,categories.DESC_CATEGORIE,proprietaire.FILE_CNI_PASSPORT FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID LEFT JOIN provinces ON provinces.PROVINCE_ID=proprietaire.PROVINCE_ID LEFT JOIN communes ON communes.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN zones ON zones.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON collines.ZONE_ID=zones.ZONE_ID left join  categories on proprietaire.CATEGORIE_ID=categories.CATEGORIE_ID WHERE 1 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
 
 
 		$desactive=$this->Model->getRequeteOne("SELECT proprietaire.proprietaire_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,DESC_TYPE_PROPRIETAIRE,proprietaire.DATE_INSERTION,proprietaire.IS_ACTIVE FROM proprietaire left JOIN type_proprietaire ON type_proprietaire.TYPE_proprietaire_ID=proprietaire.TYPE_proprietaire_ID WHERE proprietaire.IS_ACTIVE=2 AND md5(proprietaire.proprietaire_ID)='".$PROPRIETAIRE_ID."'");
@@ -1182,20 +1144,20 @@ class Proprietaire extends CI_Controller
 
 				// $sub_array[] = '<a  href="' . base_url("tracking/Dashboard/position_voiture/".$row->CODE) . '" ><center><span class="bi bi-eye"></span></center></a>';
 
-				$sub_array[] = ' <tbody><tr><td><a href="javascript:;" onclick="get_detail_chauffeur(\'' .$row->CODE . '\')"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$chauffeur['PHOTO_PASSPORT'].'"></a></td>&nbsp;<td> '.'  '.' ' . $chauffeur['NOM']. ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
+				$sub_array[] = ' <tbody><tr><td><a title=" " href='.base_url('chauffeur/Chauffeur_New/Detail/'.md5($chauffeur['CHAUFFEUR_ID'])).'><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$chauffeur['PHOTO_PASSPORT'].'"></td>&nbsp;<td> '.'  '.' ' . $chauffeur['NOM']. ' '.$chauffeur['PRENOM'].'</td></tr></tbody></a>
 				';
 			}else{
 
 				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;ce&nbsp;véhicule ! </font>';
 			}
-			if(!empty($chauffeur)){
+			// if(!empty($chauffeur)){
 
-				$sub_array[] = '<a  href="' . base_url("tracking/Dashboard/position_voiture/".md5($row->CODE)) . '" ><center><span class="bi bi-eye"></span></center></a>';
+			// 	$sub_array[] = '<a  href="' . base_url("tracking/Dashboard/position_voiture/".md5($row->CODE)) . '" ><center><span class="bi bi-eye"></span></center></a>';
 
-			}else{
+			// }else{
 
-				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;ce&nbsp;véhicule ! </font>';
-			}
+			// 	$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;ce&nbsp;véhicule ! </font>';
+			// }
 			
 
 			$data[]=$sub_array;
@@ -1412,6 +1374,175 @@ class Proprietaire extends CI_Controller
 		$vehicule = $this->ModelPs->getRequeteOne($proce_requete, $my_query);
 
 		echo $vehicule['nombre_v'];
+	}
+
+	// Fonction pour recuperer les categories des personnes morales
+	function get_categorie_modif(){
+
+		$CATEGORIE_ID = $this->input->post('CATEGORIE_ID');
+		$PROVINCE_ID = $this->input->post('PROVINCE_ID');
+		$COMMUNE_ID = $this->input->post('COMMUNE_ID');
+		$ZONE_ID = $this->input->post('ZONE_ID');
+		$COLLINE_ID = $this->input->post('COLLINE_ID');
+
+		$html_cat ="<option value=''>Sélectionner</option>";
+		$html_prov ="<option value='0'>Sélectionner</option>";
+		$html_com ="<option value='0'>Sélectionner</option>";
+		$html_zon ="<option value='0'>Sélectionner</option>";
+		$html_coll ="<option value='0'>Sélectionner</option>";
+		
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+		$categories = $this->getBindParms('CATEGORIE_ID,DESC_CATEGORIE', 'categories', '1 ', '`DESC_CATEGORIE` ASC');
+		$categories = $this->ModelPs->getRequete($proce_requete, $categories);
+		foreach ($categories as $categorie)
+		{
+			if($categorie['CATEGORIE_ID'] == $CATEGORIE_ID)
+			{
+				$html_cat.="<option value='".$categorie['CATEGORIE_ID']."' selected>".$categorie['DESC_CATEGORIE']."</option>";
+			}
+			else{
+				$html_cat.="<option value='".$categorie['CATEGORIE_ID']."'>".$categorie['DESC_CATEGORIE']."</option>";
+			}
+		}
+
+		$provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1 ', '`PROVINCE_NAME` ASC');
+		$provinces = $this->ModelPs->getRequete($proce_requete, $provinces);
+		foreach ($provinces as $province)
+		{
+			if($province['PROVINCE_ID'] == $PROVINCE_ID)
+			{
+				$html_prov.="<option value='".$province['PROVINCE_ID']."' selected>".$province['PROVINCE_NAME']."</option>";
+			}
+			else{
+				$html_prov.="<option value='".$province['PROVINCE_ID']."'>".$province['PROVINCE_NAME']."</option>";
+			}
+		}
+
+
+		$communes = $this->getBindParms('COMMUNE_ID,COMMUNE_NAME', 'communes', '1 AND PROVINCE_ID = '.$PROVINCE_ID.'', '`COMMUNE_NAME` ASC');
+
+		$communes = $this->ModelPs->getRequete($proce_requete, $communes);
+		foreach ($communes as $commune)
+		{
+			if($commune['COMMUNE_ID'] == $COMMUNE_ID)
+			{
+				$html_com.="<option value='".$commune['COMMUNE_ID']."' selected>".$commune['COMMUNE_NAME']."</option>";
+			}
+			else{
+				$html_com.="<option value='".$commune['COMMUNE_ID']."'>".$commune['COMMUNE_NAME']."</option>";
+			}
+		}
+
+		$zones = $this->getBindParms('ZONE_ID,ZONE_NAME', 'zones', '1 AND COMMUNE_ID = '.$COMMUNE_ID.'', '`ZONE_NAME` ASC');
+
+		$zones = $this->ModelPs->getRequete($proce_requete, $zones);
+		foreach ($zones as $zone)
+		{
+			if($zone['ZONE_ID'] == $ZONE_ID)
+			{
+				$html_zon.="<option value='".$zone['ZONE_ID']."' selected>".$zone['ZONE_NAME']."</option>";
+			}
+			else{
+				$html_zon.="<option value='".$zone['ZONE_ID']."'>".$zone['ZONE_NAME']."</option>";
+			}
+		}
+
+		$collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME', 'collines', '1 AND ZONE_ID = '.$ZONE_ID.'', '`COLLINE_NAME` ASC');
+
+		$collines = $this->ModelPs->getRequete($proce_requete, $collines);
+		foreach ($collines as $colline)
+		{
+			if($colline['COLLINE_ID'] == $COLLINE_ID)
+			{
+				$html_coll.="<option value='".$colline['COLLINE_ID']."' selected>".$colline['COLLINE_NAME']."</option>";
+			}
+			else{
+				$html_coll.="<option value='".$colline['COLLINE_ID']."'>".$colline['COLLINE_NAME']."</option>";
+			}
+		}
+
+		$output = array('html_cat'=>$html_cat,'html_prov'=>$html_prov,'html_com'=>$html_com,'html_zon'=>$html_zon,'html_coll'=>$html_coll);
+
+		echo json_encode($output);
+	}
+
+
+	// Fonction pour la modification du proprietaire par detail des champs
+	function modif_pro_detail()
+	{
+		$PROPRIETAIRE_ID_modif = $this->input->post('PROPRIETAIRE_ID_modif');
+		$champ = $this->input->post('champ');
+		$TYPE_PRO_modif = $this->input->post('TYPE_PRO_modif');
+		$status = 0;
+
+		$NOM_modif = $this->input->post('NOM_modif');
+		$PRENOM_modif = $this->input->post('PRENOM_modif');
+		$EMAIL_modif = $this->input->post('EMAIL_modif');
+		$TELEPHONE_modif = $this->input->post('TELEPHONE_modif');
+		$CNI_OU_NIF_modif = $this->input->post('CNI_OU_NIF_modif');
+		$RC_modif = $this->input->post('RC_modif');
+		$CATEGORIE_ID_modif = $this->input->post('CATEGORIE_ID_modif');
+		$ADRESSE_modif = $this->input->post('ADRESSE_modif');
+		$PROVINCE_ID_modif = $this->input->post('PROVINCE_ID_modif');
+		$COMMUNE_ID_modif = $this->input->post('COMMUNE_ID_modif');
+		$ZONE_ID_modif = $this->input->post('ZONE_ID_modif');
+		$COLLINE_ID_modif = $this->input->post('COLLINE_ID_modif');
+
+		if($champ == 'NOM' && $TYPE_PRO_modif == 1)
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('NOM_PROPRIETAIRE'=>$NOM_modif));
+		}
+		else if($champ == 'NOM' && $TYPE_PRO_modif == 2)
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('NOM_PROPRIETAIRE'=>$NOM_modif,'PRENOM_PROPRIETAIRE'=>$PRENOM_modif));
+		}
+		else if($champ == 'EMAIL')
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('EMAIL'=>$EMAIL_modif));
+		}
+		else if($champ == 'TELEPHONE')
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('TELEPHONE'=>$TELEPHONE_modif));
+		}
+		else if($champ == 'CNI_OU_NIF')
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('CNI_OU_NIF'=>$CNI_OU_NIF_modif));
+		}
+		else if($champ == 'RC')
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('RC'=>$RC_modif));
+		}
+		else if($champ == 'CATEGORIE_ID')
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('CATEGORIE_ID'=>$CATEGORIE_ID_modif));
+		}
+		else if($champ == 'ADRESSE')
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('ADRESSE'=>$ADRESSE_modif));
+		}
+		else if($champ == 'LOCALITE')
+		{
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('PROVINCE_ID'=>$PROVINCE_ID_modif,'COMMUNE_ID'=>$COMMUNE_ID_modif,'ZONE_ID'=>$ZONE_ID_modif,'COLLINE_ID'=>$COLLINE_ID_modif));
+		}
+		else if($champ == 'PHOTO' && $TYPE_PRO_modif == 1)
+		{
+			$file_photo = $this->upload_document($_FILES['PHOTO_modif']['tmp_name'],$_FILES['PHOTO_modif']['name']);
+
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('LOGO'=>$file_photo));
+		}
+		else if($champ == 'PHOTO' && $TYPE_PRO_modif == 2)
+		{
+			$file_photo = $this->upload_document($_FILES['PHOTO_modif']['tmp_name'],$_FILES['PHOTO_modif']['name'],$NOM_modif);
+
+			$result = $this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID_modif),array('PHOTO_PASSPORT'=>$file_photo));
+		}
+		
+        if($result){
+        	$status = 1;
+        }
+		echo json_encode(array('status'=>$status));
+
 	}
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées

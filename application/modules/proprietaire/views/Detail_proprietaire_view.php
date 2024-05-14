@@ -118,13 +118,13 @@
                   <div class="col-xl-4">
 
                     <!-- <div class="card"> -->
-                      <div class="card-body profile-card pt-2 d-flex flex-column align-items-center">
+                      <div class="card-body profile-card pt-0 d-flex flex-column align-items-center">
 
                         <?php
                         if(!empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)
                         {
                           ?>
-                          <img style='border-radius: 50%;height:165px;width: 165px;cursor: pointer;' src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'])?>" onclick="show_photo_profile();">
+                          <img style='border-radius: 50%;height:200px;width: 200px;cursor: pointer;' src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'])?>" onclick="show_photo_profile();">
 
                           <input type="hidden" id="photo_profile" value="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['PHOTO_PASSPORT'])?>">
                           <?php
@@ -132,18 +132,18 @@
                         else if(empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)
                         {
                           ?>
-                          <img  style='border-radius: 50%;height:165px;width: 165px;cursor: pointer;' class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>" onclick="show_photo_profile();">
+                          <img  style='border-radius: 50%;height:200px;width: 200px;cursor: pointer;' class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>" onclick="show_photo_profile();">
 
                           <input type="hidden" id="photo_profile" value="<?=base_url('upload/img_agent/phavatar.png')?>">
                           <?php
                         }else if($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && empty($proprietaire['LOGO']))
                         {?>
 
-                          <span style="font-size:109px;" class="bi bi-bank"></span>
+                          <span style="font-size:110px;" class="bi bi-bank"></span>
 
                         <?php }elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==1 && !empty($proprietaire['LOGO'])) 
                         {?>
-                          <img  style='border-radius: 50%;height:170px;width: 170px;cursor: pointer;'  src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>" onclick="show_photo_profile();">
+                          <img  style='border-radius: 50%;height:205px;width: 205px;cursor: pointer;'  src="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>" onclick="show_photo_profile();">
 
                           <input type="hidden" id="photo_profile" value="<?=base_url('/upload/proprietaire/photopassport/'.$proprietaire['LOGO'])?>">
 
@@ -151,7 +151,8 @@
                         ?>
                         <!-- <h2><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></h2> -->
 
-                        <strong class="text-muted"><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></strong>
+                        <!-- <strong class="text-muted"><?=$proprietaire['NOM_PROPRIETAIRE'].' '. $proprietaire['PRENOM_PROPRIETAIRE']?></strong> -->
+                        <font class="bi bi-pencil" onclick="get_modif('PHOTO')"></font>
 
                       </div>
                       <!-- </div> -->
@@ -162,113 +163,139 @@
                     <div class="col-xl-8">
 
                       <tr>
-                          <td>
+                        <td>
+                          <input type="hidden" name="TYPE_PRO" id="TYPE_PRO" value="<?=$proprietaire['TYPE_PROPRIETAIRE_ID']?>">
+
+                          <input type="hidden" name="NOM" id="NOM" value="<?=$proprietaire['NOM_PROPRIETAIRE']?>">
+
+                          <input type="hidden" name="PRENOM" id="PRENOM" value="<?=$proprietaire['PRENOM_PROPRIETAIRE']?>">
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
                           <input type="hidden" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" value="<?=$proprietaire['proprietaire_ID']?>">
 
                           <input type="hidden" name="EMAIL" id="EMAIL" value="<?=$proprietaire['EMAIL']?>">
 
                           <input type="hidden" name="TELEPHONE" id="TELEPHONE" value="<?=$proprietaire['TELEPHONE']?>">
                         </td>
-                        </tr>
+                      </tr>
 
-                        <tr>
-                          <td>
+                      <tr>
+                        <td>
                           <input type="hidden" name="CNI_OU_NIF" id="CNI_OU_NIF" value="<?=$proprietaire['CNI_OU_NIF']?>">
                           
                           <input type="hidden" name="RC" id="RC" value="<?=$proprietaire['RC']?>">
 
-                          <input type="hidden" name="DESC_CATEGORIE" id="DESC_CATEGORIE" value="<?=$proprietaire['DESC_CATEGORIE']?>">
+                          <input type="hidden" name="CATEGORIE_ID" id="CATEGORIE_ID" value="<?=$proprietaire['CATEGORIE_ID']?>">
                         </td>
-                        </tr>
+                      </tr>
 
-                        <tr>
-                          <td>
+                      <tr>
+                        <td>
                           <input type="hidden" name="ADRESSE" id="ADRESSE" value="<?=$proprietaire['ADRESSE']?>">
                           
                           <input type="hidden" name="PROVINCE_ID" id="PROVINCE_ID" value="<?=$proprietaire['PROVINCE_ID']?>">
                           
                           <input type="hidden" name="COMMUNE_ID" id="COMMUNE_ID" value="<?=$proprietaire['COMMUNE_ID']?>">
                         </td>
-                        </tr>
+                      </tr>
 
-                        <tr>
-                          <td>
+                      <tr>
+                        <td>
                           <input type="hidden" name="ZONE_ID" id="ZONE_ID" value="<?=$proprietaire['ZONE_ID']?>">
                           
                           <input type="hidden" name="COLLINE_ID" id="COLLINE_ID" value="<?=$proprietaire['COLLINE_ID']?>">
                         </td>
-                        </tr>
+                      </tr>
 
                       <table class="table table-borderless">
 
                         <tbody style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                           <?php 
-                          if ($proprietaire['TYPE_PROPRIETAIRE_ID'] == 1)
+                          if ($proprietaire['TYPE_PROPRIETAIRE_ID'] == 1) //Personne morale
                           {
                             ?>
                             <tr>
+                              <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;Nom</td>
+                              <td class="text-muted"><b>
+                                <?=$proprietaire['NOM_PROPRIETAIRE']?></b>
+                              </td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('NOM')"></font></td>
+                            </tr>
+
+                            <tr>
                               <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;E-mail</td>
                               <td class="text-muted"><b><?=$proprietaire['EMAIL']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" ></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('EMAIL')"></font></td>
                             </tr>
 
                             <tr>
                               <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;Téléphone</td>
                               <td class="text-muted"><b><?=$proprietaire['TELEPHONE']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('TELEPHONE')"></font></td>
                             </tr>
 
                             <tr>
                               <td class="text-muted"><span class="fa fa-book"></span>&nbsp;&nbsp;<?=$label_cni?></td>
                               <td class="text-muted"><b><?=$proprietaire['CNI_OU_NIF']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('CNI_OU_NIF')"></font></td>
                             </tr>
 
                             <tr>
                               <td class="text-muted"><span class="fa fa-newspaper-o"></span>&nbsp;&nbsp;RC</td>
                               <td class="text-muted"><b><?=$proprietaire['RC']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('RC')"></font></td>
                             </tr>
 
                             <tr>
                               <td class="text-muted"><span class="fa fa-newspaper-o"></span>&nbsp;&nbsp;Catégorie</td>
                               <td class="text-muted"><b><?=$proprietaire['DESC_CATEGORIE']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('CATEGORIE_ID')"></font></td>
                             </tr>
                             <?php
                           }
-                          else
+                          else //Personne physique
                           {
                             ?>
 
                             <tr>
+                              <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;Nom & prenom</td>
+                              <td class="text-muted"><b>
+                                <?=$proprietaire['NOM_PROPRIETAIRE'].' '.$proprietaire['PRENOM_PROPRIETAIRE']?></b>
+                              </td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('NOM')"></font></td>
+                            </tr>
+
+                            <tr>
                               <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;E-mail</td>
                               <td class="text-muted"><b><?=$proprietaire['EMAIL']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('EMAIL')"></font></td>
                             </tr>
 
                             <tr>
                               <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;Téléphone</td>
                               <td class="text-muted"><b><?=$proprietaire['TELEPHONE']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('TELEPHONE')"></font></td>
                             </tr>
 
                             <tr>
                               <td class="text-muted"><span class="fa fa-book"></span>&nbsp;&nbsp;<?=$label_cni?></td>
                               <td class="text-muted"><b><?=$proprietaire['CNI_OU_NIF']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('CNI_OU_NIF')"></font></td>
                             </tr>
 
                             <tr>
                               <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Addresse</td>
                               <td class="text-muted"><b><?=$proprietaire['ADRESSE']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('ADRESSE')"></font></td>
                             </tr>
 
                             <tr>
                               <td class="text-muted"><span class="fa fa-map-marker"></span> Localité</td>
                               <td class="text-muted"><b><?=$proprietaire['PROVINCE_NAME'].' / '.$proprietaire['COMMUNE_NAME'].' / '.$proprietaire['ZONE_NAME'].' / '.$proprietaire['COLLINE_NAME']?></b></td>
-                              <td class="text-muted"><font class="btn btn-outline-primary rounded-pill fa fa-edit" style="font-size:10px;"></font></td>
+                              <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('LOCALITE')"></font></td>
                             </tr>
                             <?php
                           }
@@ -290,7 +317,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <a style="float:right;font-size: 10px;" class="btn btn-outline-primary rounded-pill" href="<?=base_url('administration/Users/getOne/'.$this->uri->segment(4))?>"><font class="fa fa-edit"></font> Modifier plusieurs</a>
+                      <a style="float:right;font-size: 12px;color: gray;" class=" " href="<?=base_url('proprietaire/Proprietaire/index/'.$this->uri->segment(4))?>"><font class="bi bi-pencil"></font> Modifier plusieurs</a>
                     </div>
                   </div>
                 </div>
@@ -407,7 +434,7 @@
                         <th class="text-dark">PHOTO</th>
                         <th class="text-dark">DETAIL</th>
                         <th class="text-dark">CHAUFFEUR</th>
-                        <th class="text-dark">LOCALISATION</th>
+                        <!-- <th class="text-dark">LOCALISATION</th> -->
 
                         <!-- <th class="text-dark"></th> -->
 
@@ -604,7 +631,143 @@
     </div>
   </div>
 </div>
-<!-- end modal -->
+<!-- end modal profil -->
+
+
+<!--******** Debut Modal pour la modification d'element du proprietaire *********-->
+
+<div class="modal fade" id="Modal_modif" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered  ">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'> 
+        <!-- <h5 class="modal-title">Traiter la demande </h5> -->
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="modif_form" enctype="multipart/form-data" action="#" method="post">
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="PROPRIETAIRE_ID_modif" id="PROPRIETAIRE_ID_modif">
+              <input type="hidden" name="champ" id="champ">
+              <input type="hidden" name="TYPE_PRO_modif" id="TYPE_PRO_modif">
+
+              <div id="div_modif_NOM_PRENOM">
+
+                <div class="col-xl-12" id="div_modif_NOM">
+                  <label for="description"><small>Nom</small><span  style="color:red;">*</span></label>
+                  <input type="text" name="NOM_modif" id="NOM_modif" class="form-control">
+                  <span id="errorNOM_modif" class="text-danger"></span>
+                </div>
+
+                <div class="col-xl-12" id="div_modif_PRENOM">
+                  <label for="description"><small>Prenom</small><span  style="color:red;">*</span></label>
+                  <input type="text" name="PRENOM_modif" id="PRENOM_modif" class="form-control">
+                  <span id="errorPRENOM_modif" class="text-danger"></span>
+                </div>
+
+              </div>
+
+              <div class="col-xl-12" id="div_modif_PHOTO">
+                <label for="description"><small>Photo passeport / logo</small><span  style="color:red;">*</span></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_modif" autocomplete="off" id="PHOTO_modif"   class="form-control" title="Extensions autorisées : .png,.PNG,.jpg,.JPG,.JEPG,.jepg">
+
+                <span id="errorPHOTO_modif" class="text-danger"></span>
+              </div>
+
+              <div class="col-xl-12" id="div_modif_EMAIL">
+                <label for="description"><small>Email</small><span  style="color:red;">*</span></label>
+                <input type="text" name="EMAIL_modif" id="EMAIL_modif" class="form-control">
+                <span id="errorEMAIL_modif" class="text-danger"></span>
+              </div>
+
+
+              <div class="col-xl-12" id="div_modif_TELEPHONE">
+                <label for="description"><small>Téléphone</small><span  style="color:red;">*</span></label>
+                <!-- <input type="text" name="TELEPHONE_modif" id="TELEPHONE_modif" class="form-control"> -->
+
+                <input class="form-control bg-light" type='tel' name="TELEPHONE_modif" id="TELEPHONE_modif"  pattern="^[0-9-+\s()]*$"/>
+
+                <span id="errorTELEPHONE_modif" class="text-danger"></span>
+              </div>
+
+              <div class="col-xl-12" id="div_modif_CNI_OU_NIF">
+                <label for="description"><small>NIF / CNI</small><span  style="color:red;">*</span></label>
+                <input type="text" name="CNI_OU_NIF_modif" id="CNI_OU_NIF_modif" class="form-control">
+                <span id="errorCNI_OU_NIF_modif" class="text-danger"></span>
+              </div>
+
+              <div class="col-xl-12" id="div_modif_RC">
+                <label for="description"><small>RC</small><span  style="color:red;">*</span></label>
+                <input type="text" name="RC_modif" id="RC_modif" class="form-control">
+                <span id="errorRC_modif" class="text-danger"></span>
+              </div>
+
+              <div class="col-xl-12" id="div_modif_CATEGORIE_ID">
+                <label for="description"><small>Catégorie</small><span  style="color:red;">*</span></label>
+                <select name="CATEGORIE_ID_modif" id="CATEGORIE_ID_modif" class="form-control">
+                </select>
+                <span id="errorCATEGORIE_ID_modif" class="text-danger"></span>
+              </div>
+
+
+              <div class="col-xl-12" id="div_modif_ADRESSE">
+                <label for="description"><small>Adresse</small><span  style="color:red;">*</span></label>
+                <input type="text" name="ADRESSE_modif" id="ADRESSE_modif" class="form-control">
+                <span id="errorADRESSE_modif" class="text-danger"></span>
+              </div>
+
+              <div id="div_modif_LOCALITE">
+
+                <div class="col-xl-12">
+                  <label for="description"><small>Province</small><span  style="color:red;">*</span></label>
+                  <select name="PROVINCE_ID_modif" id="PROVINCE_ID_modif" class="form-control" onchange="get_communes();">
+                    <option value="0">-- Sélectionner --</option>
+                  </select>
+                  <span id="errorPROVINCE_ID_modif" class="text-danger"></span>
+                </div>
+
+                <div class="col-xl-12">
+                  <label for="description"><small>Commune</small><span  style="color:red;">*</span></label>
+                  <select name="COMMUNE_ID_modif" id="COMMUNE_ID_modif" class="form-control" onchange="get_zones();">
+                    <option value="0">-- Sélectionner --</option>
+                  </select>
+                  <span id="errorCOMMUNE_ID_modif" class="text-danger"></span>
+                </div>
+
+                <div class="col-xl-12">
+                  <label for="description"><small>Zone</small><span  style="color:red;">*</span></label>
+                  <select name="ZONE_ID_modif" id="ZONE_ID_modif" class="form-control" onchange="get_collines();">
+                    <option value="0">-- Sélectionner --</option>
+                  </select>
+                  <span id="errorZONE_ID_modif" class="text-danger"></span>
+                </div>
+
+                <div class="col-xl-12">
+                  <label for="description"><small>Colline</small><span  style="color:red;">*</span></label>
+                  <select name="COLLINE_ID_modif" id="COLLINE_ID_modif" class="form-control">
+                    <option value="0">-- Sélectionner --</option>
+                  </select>
+                  <span id="errorCOLLINE_ID_modif" class="text-danger"></span>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Modifier" onclick="save();" />
+            <!-- <input type="button" class="btn btn-light btn btn-outline-warning rounded-pill" data-bs-dismiss="modal" id="cancel" value="Annuler"/> -->
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div><!-- End Modal modif-->
+
+
 <script >
   $(document).ready( function ()
   {
@@ -856,6 +1019,422 @@
           image.style.transform = `rotate(${rotationAngle}deg)`;
         });
 
+      </script>
+
+
+      <script>
+        //Fonction pour appel à la modification
+        function get_modif(champ)
+        {
+          var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+          $('#PROPRIETAIRE_ID_modif').val(PROPRIETAIRE_ID);
+          $('#champ').val(champ);
+
+          var NOM = $('#NOM').val();
+          var PRENOM = $('#PRENOM').val();
+          var TYPE_PRO = $('#TYPE_PRO').val();
+          var EMAIL = $('#EMAIL').val();
+          var TELEPHONE = $('#TELEPHONE').val();
+          var CNI_OU_NIF = $('#CNI_OU_NIF').val();
+          var RC = $('#RC').val();
+          var CATEGORIE_ID = $('#CATEGORIE_ID').val();
+          var ADRESSE = $('#ADRESSE').val();
+
+          var PROVINCE_ID = $('#PROVINCE_ID').val();
+          var COMMUNE_ID = $('#COMMUNE_ID').val();
+          var ZONE_ID = $('#ZONE_ID').val();
+          var COLLINE_ID = $('#COLLINE_ID').val();
+
+          $('#NOM_modif').val(NOM);
+          $('#PRENOM_modif').val(PRENOM);
+          $('#TYPE_PRO_modif').val(TYPE_PRO);
+          $('#EMAIL_modif').val(EMAIL);
+          $('#TELEPHONE_modif').val(TELEPHONE);
+          $('#CNI_OU_NIF_modif').val(CNI_OU_NIF);
+          $('#RC_modif').val(RC);
+          $('#ADRESSE_modif').val(ADRESSE);
+
+          $('#div_modif_EMAIL').hide();
+          $('#div_modif_TELEPHONE').hide();
+          $('#div_modif_CNI_OU_NIF').hide();
+          $('#div_modif_RC').hide();
+          $('#div_modif_CATEGORIE_ID').hide();
+          $('#div_modif_ADRESSE').hide();
+          $('#div_modif_LOCALITE').hide();
+          $('#div_modif_NOM_PRENOM').hide();
+          $('#div_modif_PRENOM').hide();
+          $('#div_modif_PHOTO').hide();
+
+          $.ajax(
+          {
+            url:"<?=base_url('proprietaire/Proprietaire/get_categorie_modif/')?>",
+            type: "POST",
+            data: {
+              CATEGORIE_ID:CATEGORIE_ID,
+              PROVINCE_ID:PROVINCE_ID,
+              COMMUNE_ID:COMMUNE_ID,
+              ZONE_ID:ZONE_ID,
+              COLLINE_ID:COLLINE_ID,
+            },
+            dataType:"JSON",
+            success: function(data)
+            {
+              $('#CATEGORIE_ID_modif').html(data.html_cat);
+              $('#PROVINCE_ID_modif').html(data.html_prov);
+              $('#COMMUNE_ID_modif').html(data.html_com);
+              $('#ZONE_ID_modif').html(data.html_zon);
+              $('#COLLINE_ID_modif').html(data.html_coll);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('Erreur');
+            }
+          });
+
+          if(champ == 'NOM'){
+            $('#div_modif_NOM_PRENOM').show();
+            if(TYPE_PRO == 2){
+              $('#div_modif_PRENOM').show();
+            }
+          }
+          else if(champ == 'PHOTO'){
+            $('#div_modif_PHOTO').show();
+          }
+          else if(champ == 'EMAIL'){
+            $('#div_modif_EMAIL').show();
+          }
+          else if(champ == 'TELEPHONE'){
+            $('#div_modif_TELEPHONE').show();
+          }
+          else if(champ == 'CNI_OU_NIF'){
+            $('#div_modif_CNI_OU_NIF').show();
+          }
+          else if(champ == 'RC'){
+            $('#div_modif_RC').show();
+          }
+          else if(champ == 'CATEGORIE_ID'){
+            $('#div_modif_CATEGORIE_ID').show();
+          }
+          else if(champ == 'ADRESSE'){
+            $('#div_modif_ADRESSE').show();
+          }
+          else if(champ == 'LOCALITE'){
+            $('#div_modif_LOCALITE').show();
+          }
+
+          $('#Modal_modif').modal('show');
+
+          //alert(PROPRIETAIRE_ID+' '+EMAIL)
+        }
+      </script>
+
+      <script>
+        //Fonction pour recuperer les communes selon la province
+        function get_communes()
+        {
+          $('#COMMUNE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+          $('#ZONE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+          $('#COLLINE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+
+          $.ajax(
+          {
+            url:"<?=base_url('proprietaire/Proprietaire/get_communes/')?>"+$('#PROVINCE_ID_modif').val(),
+            type: "GET",
+            dataType:"JSON",
+            success: function(data)
+            {
+              $('#COMMUNE_ID_modif').html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('Erreur');
+            }
+          });
+
+        }
+      </script>
+
+      <script>
+        // Fonction pour recuperer les zones selon la commune
+        function get_zones()
+        {
+          $('#ZONE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+          $('#COLLINE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+
+          $.ajax(
+          {
+            url:"<?=base_url('proprietaire/Proprietaire/get_zones/')?>"+$('#COMMUNE_ID_modif').val(),
+            type:"GET",
+            dataType:"JSON",
+            success: function(data)
+            {
+              $('#ZONE_ID_modif').html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('Erreur');
+            }
+          });
+
+        }
+      </script>
+
+
+      <script>
+        // Fonction pour recuperer les collines selon la zone
+        function get_collines()
+        {
+          $('#COLLINE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+
+          $.ajax(
+          {
+            url:"<?=base_url('proprietaire/Proprietaire/get_collines/')?>"+$('#ZONE_ID_modif').val(),
+            type:"GET",
+            dataType:"JSON",
+            success: function(data)
+            {
+              $('#COLLINE_ID_modif').html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('Erreur');
+            }
+          });
+
+        }
+      </script>
+
+      <script>
+        //Require phone
+
+        $('#TELEPHONE_modif').on('input change',function()
+        {
+          $(this).val($(this).val().replace(/[^0-9]*$/gi, ''));
+          $(this).val($(this).val().replace(' ', ''));
+          var subStr = this.value.substring(0,1);
+
+          if(subStr != '+')
+          {
+            $('[name = "TELEPHONE_modif"]').val('+257');
+          }
+
+          if(this.value.substring(0,4)=="+257")
+          {
+            if($(this).val().length == 12)
+            {
+              $('#errorTELEPHONE_modif').text('');
+            }
+            else
+            {
+              $('#errorTELEPHONE_modif').text('Numéro de téléphone est invalide ');
+              if($(this).val().length > 12)
+              {
+                $(this).val(this.value.substring(0,12));
+                $('#errorTELEPHONE_modif').text('');
+              }
+            }
+          }
+          else
+          {
+            if ($(this).val().length > 12)
+            {
+              $('#errorTELEPHONE_modif').text('');
+            }
+            else
+            {
+              $('#errorTELEPHONE_modif').text('Invalide numéro de téléphone');
+            }        
+          }
+        });
+      </script>
+
+      <script>
+        //fonction pour l'enregistrement de la modification
+        function save()
+        {
+          var champ = $('#champ').val();
+          var NOM_modif = $('#NOM_modif').val();
+          var PRENOM_modif = $('#PRENOM_modif').val();
+          var EMAIL_modif = $('#EMAIL_modif').val();
+          var TELEPHONE_modif = $('#TELEPHONE_modif').val();
+          var CNI_OU_NIF_modif = $('#CNI_OU_NIF_modif').val();
+          var RC_modif = $('#RC_modif').val();
+          var CATEGORIE_ID_modif = $('#CATEGORIE_ID_modif').val();
+          var ADRESSE_modif = $('#ADRESSE_modif').val();
+          var PROVINCE_ID_modif = $('#PROVINCE_ID_modif').val();
+          var COMMUNE_ID_modif = $('#COMMUNE_ID_modif').val();
+          var ZONE_ID_modif = $('#ZONE_ID_modif').val();
+          var COLLINE_ID_modif = $('#COLLINE_ID_modif').val();
+          var PHOTO_modif = $('#PHOTO_modif').val();
+
+          var TYPE_PRO_modif = $('#TYPE_PRO_modif').val();
+
+          var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+          var statut = 1;
+
+          if(champ == 'NOM' && TYPE_PRO_modif == 1)
+          {
+            if(NOM_modif == ''){
+              $('#errorNOM_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorNOM_modif').text('');}
+          }
+          else if(champ == 'NOM' && TYPE_PRO_modif == 2)
+          {
+            if(NOM_modif == ''){
+              $('#errorNOM_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorNOM_modif').text('');}
+
+            if(PRENOM_modif == ''){
+              $('#errorPRENOM_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorPRENOM_modif').text('');}
+          }
+          else if(champ == 'EMAIL')
+          { 
+
+            if(EMAIL_modif == ''){
+              $('#errorEMAIL_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else if(!emailReg.test($('#EMAIL_modif').val()))
+            {
+              $('#errorEMAIL_modif').html('Email invalide!');
+              statut=2
+            }
+            else{$('#errorEMAIL_modif').html('');}
+            
+          }
+          else if(champ == 'TELEPHONE'){
+            if(TELEPHONE_modif == ''){
+              $('#errorTELEPHONE_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorTELEPHONE_modif').text('');}
+          }
+          else if(champ == 'TELEPHONE'){
+            if(TELEPHONE_modif == ''){
+              $('#errorTELEPHONE_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorTELEPHONE_modif').text('');}
+          }
+          else if(champ == 'CNI_OU_NIF'){
+            if(CNI_OU_NIF_modif == ''){
+              $('#errorCNI_OU_NIF_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorCNI_OU_NIF_modif').text('');}
+          }
+          else if(champ == 'RC'){
+            if(RC_modif == ''){
+              $('#errorRC_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorRC_modif').text('');}
+          }
+          else if(champ == 'CATEGORIE_ID'){
+            if(CATEGORIE_ID_modif == ''){
+              $('#errorCATEGORIE_ID_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorCATEGORIE_ID_modif').text('');}
+          }
+          else if(champ == 'ADRESSE'){
+            if(ADRESSE_modif == ''){
+              $('#errorADRESSE_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorADRESSE_modif').text('');}
+          }
+          else if(champ == 'LOCALITE'){
+
+            if(PROVINCE_ID_modif == 0){
+              $('#errorPROVINCE_ID_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorPROVINCE_ID_modif').text('');}
+
+            if(COMMUNE_ID_modif == 0){
+              $('#errorCOMMUNE_ID_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorCOMMUNE_ID_modif').text('');}
+
+            if(ZONE_ID_modif == 0){
+              $('#errorZONE_ID_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorZONE_ID_modif').text('');}
+
+            if(COLLINE_ID_modif == 0){
+              $('#errorCOLLINE_ID_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorCOLLINE_ID_modif').text('');}
+
+          }
+          else if(champ == 'PHOTO'){
+            if(PHOTO_modif == ''){
+              $('#errorPHOTO_modif').text('Le champ est obligatoire !');
+              statut = 2;
+            }
+            else{$('#errorPHOTO_modif').text('');}
+          }
+
+          if (statut==1){  // si pas d'erreur
+
+            var form_data = new FormData($("#modif_form")[0]);
+
+            $.ajax(
+            {
+              url:"<?=base_url()?>proprietaire/Proprietaire/modif_pro_detail/",
+              type: 'POST',
+              dataType:'JSON',
+              data: form_data ,
+              contentType: false,
+              cache: false,
+              processData: false,
+              success: function(data)
+              {
+
+               if(data.status == 1)
+               {
+                Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Modification faite avec succès',
+                  timer: 1500,
+                }).then(() =>
+                {
+                 window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste/';
+               });
+              }
+              else if(data.status == 0)
+              {
+                Swal.fire(
+                {
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Modification echouée !',
+                  timer: 1500,
+                }).then(() =>
+                {
+                 window.location.href='<?=base_url('')?>proprietaire/Proprietaire/liste/';
+               });
+              }
+            }
+          });
+          }
+
+
+        }
       </script>
 
       </html>
