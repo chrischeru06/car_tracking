@@ -690,8 +690,10 @@
 
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 		$var_search = str_replace("'", "\'", $var_search);
-		$group = " group by chauffeur_vehicule.`CODE`";
-		$critaire = " and chauffeur_vehicule.CHAUFFEUR_ID=".$CHAUFFEUR_ID;
+		$group = "";
+		$critaire = " ";
+		$critere_veh = " and chauffeur_vehicule.CHAUFFEUR_ID=".$CHAUFFEUR_ID;
+
 		$limit = 'LIMIT 0,1000';
 		if ($_POST['length'] != -1) {
 			$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
@@ -712,7 +714,7 @@
 			OR concat(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE) LIKE "%' . $var_search . '%"
 			OR concat(PRENOM_PROPRIETAIRE," ",NOM_PROPRIETAIRE) LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT chauffeur_vehicule.`CODE`,DATE_FORMAT(chauffeur_vehicule.`DATE_FIN_AFFECTATION`,"%d-%m-%Y") as date_fin_format,DATE_FORMAT(chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,"%d-%m-%Y") as date_deb_format,chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,chauffeur_vehicule.`DATE_FIN_AFFECTATION`,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE FROM `chauffeur_vehicule` join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID WHERE 1';
+		$query_principal='SELECT DATE_FORMAT(chauffeur_vehicule.`DATE_FIN_AFFECTATION`,"%d-%m-%Y") as date_fin_format,DATE_FORMAT(chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,"%d-%m-%Y") as date_deb_format,chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,chauffeur_vehicule.`DATE_FIN_AFFECTATION`,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,chauffeur_vehicule.`CODE` FROM `chauffeur_vehicule` join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID WHERE 1 '.$critere_veh.' group by chauffeur_vehicule.`CODE`';
 
             //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
