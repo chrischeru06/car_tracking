@@ -2096,7 +2096,7 @@
 							$nbre_fin_affect=count($check_all_affect);
 							foreach ($check_all_affect as $keycheck_all_affect) {
 								$interval=$this->notifications->ago($keycheck_all_affect['DATE_FIN_AFFECTATION'],$today);
-								if ($interval=='1 Jr' || $interval=='2 Jr' || $interval=='3 Jr') {
+								if ($interval=='1 Jr' || $interval=='2 Jrs' || $interval=='3 Jrs') {
 									
 									$html2.='
 									<a href="' . base_url('chauffeur/Chauffeur/affecter_chauff/'.$keycheck_all_affect['CHAUFFEUR_ID']). '" style="color:black;">
