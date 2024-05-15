@@ -10,6 +10,21 @@ ini_set('memory_limit','2048M');
 
 class Dashboard_Anomalies extends CI_Controller
 {
+  function __construct()
+{
+  parent::__construct();
+  $this->out_application();
+  $this->load->helper('email');
+}
+  //Fonction pour rediriger vers la page d'accueil,une fois la session perdue
+function out_application()
+{
+  if(empty($this->session->userdata('USER_ID')))
+  {
+    redirect(base_url('Login/logout'));
+  }
+}
+
   public function getcolor() 
   {
     $chars = 'ABCDEF0123456789';
@@ -36,7 +51,7 @@ class Dashboard_Anomalies extends CI_Controller
     $break=explode(".",$KEY8);
     $ID=$KEY8;
     $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-    $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM`vehicule`  JOIN tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+    $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM `vehicule`  JOIN tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
 
     $limit='LIMIT 0,10';
     if($_POST['length'] != -1)
@@ -49,7 +64,7 @@ class Dashboard_Anomalies extends CI_Controller
     {
       $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column'] .'  '.$_POST['order']['0']['dir'] : ' ORDER BY VEHICULE_ID   DESC';
     }
-    $search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
+    $search=!empty($_POST['search']['value']) ? (" AND (vehicule.CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
      $critaire="";
     if ($ID==8) {
     $critaire=" AND tracking_data.vitesse>50";
@@ -65,11 +80,22 @@ class Dashboard_Anomalies extends CI_Controller
     $data = array();
     foreach ($fetch_data as $row)
     {
-      $nbr_exces=$this->Model->getRequeteOne('SELECT  COUNT(`CODE_COURSE`) AS NBR,`vitesse`,`device_uid` FROM `tracking_data` WHERE `device_uid`='.$row->CODE.'  AND vitesse>50');
+      if ($ID==8) {
+    $critaire11=" AND tracking_data.vitesse>50";
+    }elseif ($ID==81) {
+      $critaire11=" AND tracking_data.vitesse<=50";
+    }
+      $nbr_exces=$this->Model->getRequeteOne('SELECT  COUNT(`CODE_COURSE`) AS NBR FROM `tracking_data` WHERE `device_uid`="'.$row->CODE.'" '.$critaire11.' GROUP BY CODE_COURSE');
       $u++;
       $intrant=array();
-      $intrant[] ="<strong class='text-dark'/>".$u; 
+      $intrant[] ="<strong class='text-dark'/>".$u;
+      if (!empty($row->CODE)) {
       $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+         
+       }else{
+      $intrant[] ="<strong class='text-dark'> N/A </strong>";
+
+       }
       $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
       $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
       $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
@@ -111,7 +137,7 @@ class Dashboard_Anomalies extends CI_Controller
     {
       $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column'] .'  '.$_POST['order']['0']['dir'] : ' ORDER BY VEHICULE_ID   DESC';
     }
-    $search=!empty($_POST['search']['value']) ? (" AND (CODE_COURSE LIKE '%$var_search%'   OR vitesse LIKE '%$var_search%'  OR vitesse LIKE '%$var_search%')"):'';
+    $search=!empty($_POST['search']['value']) ? (" AND (tracking_data.CODE_COURSE LIKE '%$var_search%' OR tracking_data.vitesse LIKE '%$var_search%'  OR tracking_data.date LIKE '%$var_search%')"):'';
      $critaire="";
 
     $query_secondaire=$query_principal.'  '.$critaire.' '.$search.' '.$order_by.'   '.$limit;
@@ -149,7 +175,7 @@ class Dashboard_Anomalies extends CI_Controller
     $break=explode(".",$KEY9);
     $ID=$KEY9;
     $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-    $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM`vehicule`  JOIN tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
+    $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM `vehicule` JOIN tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
 
 
     $limit='LIMIT 0,10';
@@ -163,7 +189,7 @@ class Dashboard_Anomalies extends CI_Controller
     {
       $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column'] .'  '.$_POST['order']['0']['dir'] : ' ORDER BY VEHICULE_ID   DESC';
     }
-    $search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
+    $search=!empty($_POST['search']['value']) ? (" AND (vehicule.CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
      $critaire="";
     if ($ID==9) {
     $critaire=" AND tracking_data.accident=1";
@@ -179,11 +205,18 @@ class Dashboard_Anomalies extends CI_Controller
     $data = array();
     foreach ($fetch_data as $row)
     {
-      $nbr_accident=$this->Model->getRequeteOne('SELECT  COUNT(`CODE_COURSE`) AS NBR,`vitesse`,`device_uid` FROM `tracking_data` WHERE `device_uid`='.$row->CODE.'  AND accident=1');
+      $nbr_accident=$this->Model->getRequeteOne('SELECT  COUNT(`CODE_COURSE`) AS NBR FROM `tracking_data` WHERE `device_uid`='.$row->CODE.' AND accident=1 GROUP BY CODE_COURSE');
       $u++;
       $intrant=array();
       $intrant[] ="<strong class='text-dark'/>".$u; 
+      if (!empty($row->CODE)) {
       $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+        
+      }else{
+
+      $intrant[] ="<strong class='text-dark'> N/A </strong>";
+
+      }
       $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
       $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
       $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
@@ -1942,8 +1975,7 @@ class Dashboard_Anomalies extends CI_Controller
     $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
     // $query_principal='SELECT DISTINCT VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,CODE_COURSE,date,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur,CODE_COURSE FROM`vehicule` LEFT JOIN tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1';
        // $query_principal='SELECT  vehicule.CODE ,vehicule.PLAQUE,  `CODE_COURSE` as  NBR,id FROM `vehicule`  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 ';
-   $query_principal='SELECT  vehicule.CODE ,vehicule.PLAQUE,  `CODE_COURSE`,DESC_MARQUE,DESC_MODELE,PLAQUE,CODE_COURSE,date,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM `vehicule` LEFT  join tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1
-    ';
+   $query_principal='SELECT CODE_COURSE FROM tracking_data WHERE 1';
     
     $limit='LIMIT 0,10';
     if($_POST['length'] != -1)
@@ -1956,10 +1988,10 @@ class Dashboard_Anomalies extends CI_Controller
     {
       $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column'] .'  '.$_POST['order']['0']['dir'] : ' ORDER BY VEHICULE_ID   DESC';
     }
-    $search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
+    $search=!empty($_POST['search']['value']) ? (" AND (CODE_COURSE LIKE '%$var_search%')"):'';
   
     $critaire=" AND tracking_data.device_uid='".$ID."'"; 
-    $GROUPby ='GROUP BY CODE_COURSE  ';
+    $GROUPby =' GROUP BY CODE_COURSE  ';
       
    
     $query_secondaire=$query_principal.'  '.$critaire.' '.$search.' '.$GROUPby.' '.$order_by.'   '.$limit;
@@ -1972,19 +2004,28 @@ class Dashboard_Anomalies extends CI_Controller
     $data = array();
     foreach ($fetch_data as $row)
     {
+      $proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+      $my_select_info= $this->getBindParms('vehicule.CODE,vehicule.PLAQUE,`CODE_COURSE`,DESC_MARQUE,DESC_MODELE,PLAQUE,CODE_COURSE,date,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur','`vehicule` LEFT  join tracking_data on vehicule.CODE=tracking_data.device_uid left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID','tracking_data.CODE_COURSE ="'.$row->CODE_COURSE.'"' , 'tracking_data.id ASC');
+      $my_select_info=str_replace('\"', '"', $my_select_info);
+      $my_select_info=str_replace('\n', '', $my_select_info);
+      $my_select_info=str_replace('\"', '', $my_select_info);
+
+      $get_info = $this->ModelPs->getRequeteOne($proce_requete, $my_select_info);
+
       $u++;
       $intrant=array();
       $intrant[] ="<strong class='text-dark'/>".$u; 
-      $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+      $intrant[] ="<strong class='text-dark'/>".$get_info['CODE'];
       $intrant[] ="<strong class='text-dark'/>".$row->CODE_COURSE;
-      $intrant[] ="<strong class='text-dark'/>".$row->date;
-      $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
-      $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
-      $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
-      $intrant[] ="<strong class='text-dark'/>".$row->COULEUR;
-      $intrant[] ="<strong class='text-dark'/>".$row->KILOMETRAGE;
-      $intrant[] ="<strong class='text-dark'/>".$row->desc_proprio;
-      $intrant[] ="<strong class='text-dark'/>".$row->desc_chauffeur;
+      $intrant[] ="<strong class='text-dark'/>".$get_info['date'];
+      $intrant[] ="<strong class='text-dark'/>".$get_info['DESC_MARQUE'];
+      $intrant[] ="<strong class='text-dark'/>".$get_info['DESC_MODELE'];
+      $intrant[] ="<strong class='text-dark'/>".$get_info['PLAQUE'];
+      $intrant[] ="<strong class='text-dark'/>".$get_info['COULEUR'];
+      $intrant[] ="<strong class='text-dark'/>".$get_info['KILOMETRAGE'];
+      $intrant[] ="<strong class='text-dark'/>".$get_info['desc_proprio'];
+      $intrant[] ="<strong class='text-dark'/>".$get_info['desc_chauffeur'];
     
 
       $data[] = $intrant;

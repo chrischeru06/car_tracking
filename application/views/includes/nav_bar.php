@@ -4,23 +4,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<?php
-function __construct()
-{
-  $this->out_application();
-  $this->load->helper('email');
-}
-  //Fonction pour rediriger vers la page d'accueil,une fois la session perdue
-function out_application()
-{
-  if(empty($this->session->userdata('USER_ID')))
-  {
-    redirect(base_url('Login/logout'));
-  }
-}
 
-
-?>
 <style>
   .scroller {
     /* Définir une hauteur maximale pour le scroller */

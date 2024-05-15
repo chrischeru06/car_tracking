@@ -158,8 +158,14 @@ class Dashboard_General extends CI_Controller
      $u++;
      $intrant=array();
      $desc_chauffeur=$this->Model->getRequeteOne(' SELECT CONCAT(`NOM`,"&nbsp;",`PRENOM`) AS desc_cho FROM `chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1 and STATUT_AFFECT=1 and chauffeur_vehicule.CODE="'.$row->CODE.'"');
-     $intrant[] ="<strong class='text-dark'/>".$u; 
+     $intrant[] ="<strong class='text-dark'/>".$u;
+     if (!empty($row->CODE)) {
      $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+        
+      }else{
+     $intrant[] ="<strong class='text-dark'> N/A </strong>";
+
+      } 
      $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
      $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
      $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
@@ -228,7 +234,13 @@ foreach ($fetch_data as $row)
   $u++;
   $intrant=array();
   $intrant[] ="<strong class='text-dark'/>".$u; 
+  if (!empty($row->CODE)) {
   $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+    
+  }else{
+  $intrant[] ="<strong class='text-dark'> N/A </strong>";
+
+  }
   $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
   $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
   $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
@@ -291,8 +303,14 @@ function detail_veh_allum_etteint()
   {
     $u++;
     $intrant=array();
-    $intrant[] ="<strong class='text-dark'/>".$u; 
+    $intrant[] ="<strong class='text-dark'/>".$u;
+    if (!empty($row->CODE)) {
     $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+       
+     } else{
+    $intrant[] ="<strong class='text-dark'> N/A </strong>";
+
+     }
     $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
     $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
     $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
