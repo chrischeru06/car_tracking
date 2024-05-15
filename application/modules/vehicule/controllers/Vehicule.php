@@ -1987,7 +1987,7 @@
 						}
 
 
-				//Notification lorsqu'il y a eu depassement de la zone delimitée:geofencing cote proprietaire
+						//Notification lorsqu'il y a eu depassement de la zone delimitée:geofencing cote proprietaire
 
 						$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,latitude,longitude,CEINTURE,chauffeur.NOM,chauffeur.PRENOM,tracking_data.device_uid,vehicule.CODE', 'tracking_data join chauffeur_vehicule ON chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule on vehicule.CODE=chauffeur_vehicule.code join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID', '1 and tracking_data.STATUT_NOTIF=1 and chauffeur_vehicule.STATUT_AFFECT=1 and users.USER_ID='.$USER_ID , '`id` ASC');
 
@@ -2074,7 +2074,7 @@
 							}
 						}
 
-//Notif fin d'affectation
+						//Notif fin d'affectation
 						$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
 						$all_affect_check = $this->getBindParms('t1.CHAUFFEUR_VEHICULE_ID,t1.DATE_INSERTION,t1.DATE_DEBUT_AFFECTATION,t1.DATE_FIN_AFFECTATION,t1.CHAUFFEUR_ID,chauffeur.NOM,chauffeur.PRENOM','chauffeur_vehicule t1 INNER JOIN (
@@ -2090,16 +2090,14 @@
 
 
 						$check_all_affect = $this->ModelPs->getRequete($psgetrequete, $all_affect_check);
-					// print_r($check_all_affect);die();
 						$html2='';
 						$nbre_fin_affect=0;
 						if (!empty($check_all_affect)) {
 							$nbre_fin_affect=count($check_all_affect);
 							foreach ($check_all_affect as $keycheck_all_affect) {
 								$interval=$this->notifications->ago($keycheck_all_affect['DATE_FIN_AFFECTATION'],$today);
-								// print_r($interval);die();
 								if ($interval=='1 Jr' || $interval=='2 Jr' || $interval=='3 Jr') {
-									// $tab = explode(":", $this->diff_time($today , $keycheck_all_affect['DATE_FIN_AFFECTATION'])); 
+									
 									$html2.='
 									<a href="' . base_url('chauffeur/Chauffeur/affecter_chauff/'.$keycheck_all_affect['CHAUFFEUR_ID']). '" style="color:black;">
 									<li class="notification-item">
@@ -2122,7 +2120,6 @@
 
 
 						}
-				  // print_r($html);die();
 						$nbre_anomalies=$nbre_exces_vit+$nbre_accident+$a+$nbre_fin_affect;
 					}
 

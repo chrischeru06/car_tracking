@@ -30,7 +30,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashbord</h1>
+      <h1>Dashboard</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
@@ -324,7 +324,7 @@
 </script>
 <script type="text/javascript">
   
- function listing_exces(CODE)
+ function listing_exces(VEHICULE_ID)
   {
     $('#myModal_exces').modal('show');
     var row_count ="1000000";
@@ -335,7 +335,7 @@
       "destroy":true,
       "oreder":[[ 1, 'asc' ]],
       "ajax":{
-        url: "<?= base_url() ?>dashboard/Dashboard_Anomalies/listing_exces/" + CODE, 
+        url: "<?= base_url() ?>dashboard/Dashboard_Anomalies/listing_exces/" + VEHICULE_ID, 
         type:"POST",
         data : {},
         beforeSend : function() {
@@ -373,8 +373,10 @@
       }
     });
   }
-  function listing_acc(CODE)
+
+  function listing_acc(VEHICULE_ID)
   {
+    
     $('#myModal_acc').modal('show');
     var row_count ="1000000";
     $("#mytable_acc").DataTable({
@@ -384,7 +386,7 @@
       "destroy":true,
       "oreder":[[ 1, 'asc' ]],
       "ajax":{
-        url: "<?= base_url() ?>dashboard/Dashboard_Anomalies/listing_acc/" + CODE, 
+        url: "<?= base_url() ?>dashboard/Dashboard_Anomalies/listing_acc/" + VEHICULE_ID, 
         type:"POST",
         data : {},
         beforeSend : function() {
