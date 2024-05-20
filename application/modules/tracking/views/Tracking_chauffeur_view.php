@@ -113,6 +113,16 @@
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
 
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+  cursor:pointer;
+
 
  }
  .mena .profil-info .profil-text p.profil-name{
@@ -121,12 +131,31 @@
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
 
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+  cursor:pointer;
 
  }
 
  .profil-info .profil-text p.profil-phone{
   font-size: .6rem;
   margin: 0 0 .1rem 0;
+
+  /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+  cursor:pointer;
 }
 .profil-info .profil-img img{
   width:4rem;
@@ -297,15 +326,15 @@ font-family: 'Open Sans', sans-serif;
                      <?php
                      if(!empty($get_chauffeur)){?>
 
-                      <p class="profil-name"><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></p>
-                      <p class="profil-phone"> <span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></span></p>
-                      <p class="profil-phone"><i class="bi bi-envelope"></i>&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?></span></p>
-                      <p class="profil-phone"><i class="bi bi-geo-fill"></i>&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span></p>
+                      <p class="profil-name" title="<?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?>"><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></p>
+                      <p class="profil-phone" title="<?=$get_chauffeur['NUMERO_TELEPHONE']?>"> <span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></span></p>
+                      <p class="profil-phone" title="<?=$get_chauffeur['ADRESSE_MAIL']?>"><i class="bi bi-envelope"></i>&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?></span></p>
+                      <p class="profil-phone" title="<?=$get_chauffeur['ADRESSE_PHYSIQUE']?>"><i class="bi bi-geo-fill"></i>&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?></span></p>
                       
 
                       <?php
                     }else{?>
-                      <p class="profil-name" style="color: red;"> Pas de chauffeur affecté à cette voiture!
+                      <p class="profil-name" style="color: red;" title="Pas de chauffeur affecté à ce véhicule!"> Pas de chauffeur affecté à ce véhicule!
                       </p>
 
                       <?php
@@ -343,11 +372,13 @@ font-family: 'Open Sans', sans-serif;
                   </div>
                   <div class="col-md-8 profil-text">
 
-                    <p class="profil-name"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
-                    <p class="profil-phone"> <i class="bi bi-textarea-resize"></i><?=$get_vehicule['PLAQUE']?></p>
-                    <p class="profil-phone"> <i class="bi bi-palette"></i><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
+                    <p class="profil-name" title="<?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?>"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
+                    <p class="profil-phone" title="<?=$get_vehicule['PLAQUE']?>"> <i class="bi bi-textarea-resize"></i><?=$get_vehicule['PLAQUE']?></p>
+                    <p class="profil-phone" title="<?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
+                    <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?>"> <i class="bi bi-palette"></i><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
                     <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?></p>
-                    <p class="profil-phone"><i class="bi bi-vector-pen"></i> <?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
+                    <p class="profil-phone" title="<?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
+                    <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?>"><i class="bi bi-vector-pen"></i> <?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
                     <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?></p>
                   </div>
                 </div>

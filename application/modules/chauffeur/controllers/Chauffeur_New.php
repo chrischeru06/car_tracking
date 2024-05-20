@@ -685,14 +685,23 @@
 	//liste de l'Historique des chauffeurs
 	function hist_chauff()
 	{
+
+		$USER_ID=$this->session->userdata('USER_ID');
+		$PROFIL_ID=$this->session->userdata('PROFIL_ID');
+		
 		$CHAUFFEUR_ID=$this->input->post('CHAUFFEUR_ID');
-		// print_r($CHAUFFEUR_ID);die();
+		 // print_r($CHAUFFEUR_ID);die();
 
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 		$var_search = str_replace("'", "\'", $var_search);
 		$group = "";
 		$critaire = " ";
-		$critere_veh = " and chauffeur_vehicule.CHAUFFEUR_ID=".$CHAUFFEUR_ID;
+		if ($PROFIL_ID==1) {
+			$critere_veh = " and chauffeur_vehicule.CHAUFFEUR_ID=".$CHAUFFEUR_ID;
+		}else{
+			$critere_veh = " and chauffeur_vehicule.CHAUFFEUR_ID=".$CHAUFFEUR_ID." and users.USER_ID=".$USER_ID;
+
+		}
 
 		$limit = 'LIMIT 0,1000';
 		if ($_POST['length'] != -1) {
@@ -714,7 +723,14 @@
 			OR concat(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE) LIKE "%' . $var_search . '%"
 			OR concat(PRENOM_PROPRIETAIRE," ",NOM_PROPRIETAIRE) LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT chauffeur_vehicule.`CODE` FROM `chauffeur_vehicule`  WHERE 1 '.$critere_veh.' GROUP BY chauffeur_vehicule.`CODE`';
+		if ($PROFIL_ID==1) {
+			$query_principal='SELECT chauffeur_vehicule.CODE,CHAUFFEUR_VEHICULE_ID,DATE_FORMAT(chauffeur_vehicule.`DATE_FIN_AFFECTATION`,"%d-%m-%Y") as date_fin_format,DATE_FORMAT(chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,"%d-%m-%Y") as date_deb_format,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE FROM chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID  WHERE 1 '.$critere_veh.'';
+		}else{
+
+			$query_principal='SELECT chauffeur_vehicule.`CODE`,CHAUFFEUR_VEHICULE_ID,DATE_FORMAT(chauffeur_vehicule.`DATE_FIN_AFFECTATION`,"%d-%m-%Y") as date_fin_format,DATE_FORMAT(chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,"%d-%m-%Y") as date_deb_format,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE FROM `chauffeur_vehicule` join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE 1 '.$critere_veh.'';
+
+		}
+		
 
             //condition pour le query principale
 		$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -732,23 +748,16 @@
 		// print_r($fetch_data);die();
 		foreach ($fetch_data as $row) 
 		{
-			$proce_requete = "CALL `getRequete`(?,?,?,?);";
-
-			$my_select_chauffeur= $this->getBindParms('CHAUFFEUR_VEHICULE_ID,DATE_FORMAT(chauffeur_vehicule.`DATE_FIN_AFFECTATION`,"%d-%m-%Y") as date_fin_format,DATE_FORMAT(chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,"%d-%m-%Y") as date_deb_format,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE ',' `chauffeur_vehicule` join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','chauffeur_vehicule.`CODE` ="'.$row->CODE.'"' , 'chauffeur_vehicule.`CHAUFFEUR_ID` ASC');
-			$my_select_chauffeur=str_replace('\"', '"', $my_select_chauffeur);
-			$my_select_chauffeur=str_replace('\n', '', $my_select_chauffeur);
-			$my_select_chauffeur=str_replace('\"', '', $my_select_chauffeur);
-
-			$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_select_chauffeur);
+			
 
 			$sub_array=array();
 			$sub_array[]=$u++;
-			$sub_array[] = $get_chauffeur['PLAQUE'];
-			$sub_array[] = $get_chauffeur['DESC_MARQUE']." / ".$get_chauffeur['DESC_MODELE'];
-			$sub_array[] = $get_chauffeur['NOM_PROPRIETAIRE']." ".$get_chauffeur['PRENOM_PROPRIETAIRE'];
-			$sub_array[] = $get_chauffeur['date_deb_format'];
-			$sub_array[] = $get_chauffeur['date_fin_format'];
-			$sub_array[]="&nbsp;<a href='".base_url('chauffeur/Chauffeur_New/tracking_chauffeur/').md5($row->CODE).'/'.md5($get_chauffeur['CHAUFFEUR_VEHICULE_ID'])."'>&nbsp;&nbsp;&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
+			$sub_array[] = $row->PLAQUE;
+			$sub_array[] = $row->DESC_MARQUE." / ".$row->DESC_MODELE;
+			$sub_array[] = $row->NOM_PROPRIETAIRE." ".$row->PRENOM_PROPRIETAIRE;
+			$sub_array[] = $row->date_deb_format;
+			$sub_array[] = $row->date_fin_format;
+			$sub_array[]="&nbsp;<a href='".base_url('chauffeur/Chauffeur_New/tracking_chauffeur/').md5($row->CODE).'/'.md5($row->CHAUFFEUR_VEHICULE_ID)."'>&nbsp;&nbsp;&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 			$data[]=$sub_array;
 
 			
@@ -1616,16 +1625,16 @@
 										}
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
-	public function getBindParms($columnselect, $table, $where, $orderby)
-	{
-		$bindparams = array(
-			'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
-			'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
-			'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
-			'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
-		);
-		return $bindparams;
-	}
+										public function getBindParms($columnselect, $table, $where, $orderby)
+										{
+											$bindparams = array(
+												'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+												'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+												'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+												'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+											);
+											return $bindparams;
+										}
 
-}
-?>
+									}
+								?>
