@@ -364,7 +364,7 @@
                                 <th class="text-dark">PROPRIETAIRE</th>
                                 <th class="text-dark">DEBUT&nbsp;DE&nbsp;L'AFFECTATION</th>
                                 <th class="text-dark">FIN&nbsp;DE&nbsp;L'AFFECTATION</th>
-                                <th class="text-dark">RESUME&nbsp;DU&nbsp;PARCOURS</th>
+                                <th class="text-dark">RESUME&nbsp;DES&nbsp;PARCOURS</th>
 
                               </tr>
                             </thead>
@@ -662,65 +662,6 @@
   {
    liste();
  });
-
- //  function liste()
- //  {
- //    var CHAUFFEUR_ID = $('#CHAUFFEUR_ID').val();
-
- //   $('#message').delay('slow').fadeOut(10000);
- //   $(document).ready(function()
- //   {
- //    // var row_count ="1000000";
-
- //    $("#mytable").DataTable({
- //      "processing":true,
- //      "destroy" : true,
- //      "serverSide":true,
- //      "oreder":[[ 0, 'desc' ]],
- //      "ajax":{
- //        url:"<?php echo base_url('chauffeur/Chauffeur_New/hist_chauff');?>",
- //        type:"POST",
- //        data: {CHAUFFEUR_ID:CHAUFFEUR_ID}, 
- //      },
- //      // lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
- //      pageLength: 10,
- //      "columnDefs":[{
- //        "targets":[],
- //        "orderable":false
- //      }],
-
- //      dom: 'Bfrtlip',
- //      buttons: [
- //        'pdf', 'print'
- //        ],
- //      language: {
- //        "sProcessing":     "Traitement en cours...",
- //        "sSearch":         "Rechercher&nbsp;:",
- //        "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
- //        "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
- //        "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
- //        "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
- //        "sInfoPostFix":    "",
- //        "sLoadingRecords": "Chargement en cours...",
- //        "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
- //        "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
- //        "oPaginate": {
- //          "sFirst":      "Premier",
- //          "sPrevious":   "Pr&eacute;c&eacute;dent",
- //          "sNext":       "Suivant",
- //          "sLast":       "Dernier"
- //        },
- //        "oAria": {
- //          "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
- //          "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
- //        }
- //      }
-
-      
-
- //    });
- //  });
- // }
 
   function liste()
   {
