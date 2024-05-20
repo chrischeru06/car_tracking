@@ -113,6 +113,15 @@
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
 
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+  cursor:pointer;
 
  }
  .mena .profil-info .profil-text p.profil-name{
@@ -121,12 +130,32 @@
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
 
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+  cursor:pointer;
+
 
  }
 
  .profil-info .profil-text p.profil-phone{
   font-size: 1rem;
   margin: 0 0 .1rem 0;
+
+  /* noms qui depassent l'espace prevu*/
+  overflow-x: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* curseur*/
+
+  cursor:pointer;
 }
 .profil-info .profil-img img{
   width:4rem;
@@ -272,8 +301,8 @@ font-family: 'Open Sans', sans-serif;
             <div class="row">
               <!-- <div class="col-lg-3">
               </div> -->
-               <div class="col-md-2">
-               </div>
+              <div class="col-md-2">
+              </div>
               <div class="col-md-4">
                 <div class="card " style="">
 
@@ -301,15 +330,15 @@ font-family: 'Open Sans', sans-serif;
                      <?php
                      if(!empty($get_chauffeur)){?>
 
-                      <p class="profil-name"><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></p>
-                      <p class="profil-phone"> <span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></p>
-                      <p class="profil-phone"><i class="bi bi-envelope"></i>&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?></p>
-                      <p class="profil-phone"><i class="bi bi-geo-fill"></i>&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?></p>
+                      <p class="profil-name" title="<?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?>"><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></p>
+                      <p class="profil-phone" title="<?=$get_chauffeur['NUMERO_TELEPHONE']?>"> <span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></p>
+                      <p class="profil-phone" title="<?=$get_chauffeur['ADRESSE_MAIL']?>"><i class="bi bi-envelope"></i>&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?></p>
+                      <p class="profil-phone" title="<?=$get_chauffeur['ADRESSE_PHYSIQUE']?>"><i class="bi bi-geo-fill"></i>&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?></p>
                       
 
                       <?php
                     }else{?>
-                      <p class="profil-name" style="color: red;"> Pas de chauffeur affecté à cette voiture!
+                      <p class="profil-name" style="color: red;" title="Pas de chauffeur affecté à ce véhicule!"> Pas de chauffeur affecté à cette voiture!
                       </p>
 
                       <?php
@@ -347,11 +376,13 @@ font-family: 'Open Sans', sans-serif;
                   </div>
                   <div class="col-md-8 profil-text">
 
-                    <p class="profil-name"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
-                    <p class="profil-phone"> <i class="bi bi-textarea-resize"></i><?=$get_vehicule['PLAQUE']?></p>
-                    <p class="profil-phone"> <i class="bi bi-palette"></i><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
+                    <p class="profil-name" title="<?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?>"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
+                    <p class="profil-phone" title="<?=$get_vehicule['PLAQUE']?>"> <i class="bi bi-textarea-resize"></i><?=$get_vehicule['PLAQUE']?></p>
+                    <p class="profil-phone" title="<?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
+                    <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?>"> <i class="bi bi-palette"></i><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
                     <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?></p>
-                    <p class="profil-phone"><i class="bi bi-vector-pen"></i> <?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
+                    <p class="profil-phone" title="<?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
+                    <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?>"><i class="bi bi-vector-pen"></i> <?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
                     <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?></p>
                   </div>
                 </div>
@@ -359,8 +390,8 @@ font-family: 'Open Sans', sans-serif;
               </div>
             </div>
           </div>
-           <div class="col-md-2">
-           </div>
+          <div class="col-md-2">
+          </div>
         </div>
         <div class="row">
           <div class="col-md-3">
@@ -404,49 +435,49 @@ font-family: 'Open Sans', sans-serif;
           <div class="col-md-3">
 
 
-              <div class="card" style="border-radius: 10%">
-                <div class="card-body">
-                  <h5 class="card-title" style="font-size:.8rem;">Vitesse <span style="font-size:.6rem;">| Max</span></h5>
+            <div class="card" style="border-radius: 10%">
+              <div class="card-body">
+                <h5 class="card-title" style="font-size:.8rem;">Vitesse <span style="font-size:.6rem;">| Max</span></h5>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle">
-                      <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
-                    </div>
-                    <div class="ps-3">
-                      <h6><span class="text-success small pt-1 fw-bold"> <a id="vitesse_max"></a> Km/h</span></h6>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle">
+                    <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
+                  </div>
+                  <div class="ps-3">
+                    <h6><span class="text-success small pt-1 fw-bold"> <a id="vitesse_max"></a> Km/h</span></h6>
 
 
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col-md-3">
+          <div class="col-md-3">
 
 
-              <div class="card" style="border-radius: 10%">
-                <div class="card-body">
-                  <h5 class="card-title" style="font-size:.8rem;">Score <span style="font-size:.6rem;">| 20</span></h5>
+            <div class="card" style="border-radius: 10%">
+              <div class="card-body">
+                <h5 class="card-title" style="font-size:.8rem;">Score <span style="font-size:.6rem;">| 20</span></h5>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle">
-                      <img style="background-color: #829b35;" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/score.png')?>">
-                    </div>
-                    <div class="ps-3">
-                      <h6><span class="text-success small pt-1 fw-bold"> <a id="score"></a> Points</span></h6>
-                    </div>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle">
+                    <img style="background-color: #829b35;" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/score.png')?>">
+                  </div>
+                  <div class="ps-3">
+                    <h6><span class="text-success small pt-1 fw-bold"> <a id="score"></a> Points</span></h6>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
         </div>
         <div class="row">
           <!-- <div class="col-lg-12"> -->
 
-            
 
-            
+
+
             <!-- </div> -->
           </div>
         </div>
@@ -455,28 +486,28 @@ font-family: 'Open Sans', sans-serif;
 
 
 
-    </div>
+  </div>
 
-    <div class="row align-items-top">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <center><h6 class="card-title">Trajet parcouru</h6></center>
-            <div id="map_filtre" ></div>
+  <div class="row align-items-top">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <center><h6 class="card-title">Trajet parcouru</h6></center>
+          <div id="map_filtre" ></div>
 
-          </div>
         </div>
       </div>
-
-
-
-      <input type="hidden" id="ignition">
-      
-
-
-
     </div>
-  </section>
+
+
+
+    <input type="hidden" id="ignition">
+
+
+
+
+  </div>
+</section>
 
 </main><!-- End #main -->
 
@@ -492,7 +523,7 @@ font-family: 'Open Sans', sans-serif;
 
   });
 
-  </script>
+</script>
 
 
 <script>

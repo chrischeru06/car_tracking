@@ -95,12 +95,13 @@
       </nav>
     </div>
 
-    <div class="col-md-6">
+    <!-- <div class="col-md-6">
 
       <div class="justify-content-sm-end d-flex">
         <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur')?>"><i class="bi bi-plus"></i> Liste</a>
       </div>
-    </div><!-- End Page Title -->
+    </div> -->
+    <!-- End Page Title -->
   </div>
 </div>
 <!-- End Page Title -->

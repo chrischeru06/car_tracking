@@ -126,7 +126,7 @@ class Proprietaire_chauffeur extends CI_Controller
 
              
 			$option .= "<li><a class='btn-md' href='" . base_url('proprietaire/Proprietaire_chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</a></li>";
-			$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>";
+			$option.= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID)) . "' ><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>";
 			if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 				{
 					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le chauffeur</a></li>';
@@ -195,66 +195,7 @@ class Proprietaire_chauffeur extends CI_Controller
 			</div>";
 
 			
-			$option .="
-			</div>
-			<div class='modal fade' tabindex='-1' data-bs-backdrop='false' id='info_chauf" .$row->CHAUFFEUR_ID. "'>
-			<div class='modal-dialog modal-dialog-centered modal-lg'>
-
-			<div class='modal-content'>
-			<div class='modal-header' style='background:cadetblue;color:white;'>
-			<h6 class='modal-title'>Détails du chauffeur ".$row->NOM." ".$row->PRENOM."</h6>
-			<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-			</div>
-			<div class='modal-body'>
-			<div class='row'>
-			<div class='col-md-6'>
-			<img src = '".base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT)."' height='auto'  width='80%' >
-			</div>
-			<div class='col-md-6'>
-
-			<div class='table-responsive'>
-			<table class= 'table table-borderless'>
-			<tr>
-			<td><label class='fa fa-book'></label> Carte d'identité</td>
-			<td><strong>".$row->NUMERO_CARTE_IDENTITE."</strong></td>
-			</tr>
-
-			<tr>
-			<td><label class='fa fa-envelope-o '></label> Email</td>
-			<td><strong>".$row->ADRESSE_MAIL."</strong></td>
-			</tr>
-
-			<tr>
-			<td><label class='fa fa-phone'></label> Téléphone</td>
-			<td><strong>".$row->NUMERO_TELEPHONE."</strong></td>
-			</tr>
-
-			<tr>
-			<td><label class='fa fa-calendar '></label> Date naissance</td>
-			<td><strong>".$row->DATE_NAISSANCE."</strong></td>
-			</tr>
-
-			<tr>
-			<td><label class='fa fa-map-marker'></label> Adresse physique</td>
-			<td><strong>".$row->ADRESSE_PHYSIQUE."</strong></td>
-			</tr>
-			<tr>
-			<td><label class='fa fa-map-marker'></label> Localité</td>
-			<td><strong>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME."</strong></td>
-			</tr>
-
-			<tr>
-			<td>Information&nbsp;du&nbsp;vehicule</td>
-			<td><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></td>
-			</tr>
-			</table>
-			</div>
-			</div>
-			</div>
-			</div>
-			</div>
-			</div>
-			</div>";
+			
 			
 						//fin debut Detail cahuffeur
 			// $info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$row->CHAUFFEUR_ID.'');
