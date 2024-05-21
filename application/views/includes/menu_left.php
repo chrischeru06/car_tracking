@@ -59,17 +59,17 @@ if ($this->session->PROFIL_ID == 1) {
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li class="sou_menu">
             <a href="<?=base_url()?>proprietaire/Proprietaire/liste">
-              <i class="bi bi-circle"></i><span>Propriétaires</span>
+              <i class="fa fa-user"></i><span>Propriétaires</span>
             </a>
           </li>
           <li class="sou_menu">
             <a href="<?=base_url()?>vehicule/Vehicule">
-              <i class="bi bi-circle"></i><span>Véhicules</span>
+              <i class="fa fa-car"></i><span>Véhicules</span>
             </a>
           </li>
           <li class="sou_menu">
             <a href="<?=base_url()?>chauffeur/Chauffeur">
-              <i class="bi bi-circle"></i><span>Chauffeurs</span>
+              <i class="fa fa-user-md"></i><span>Chauffeurs</span>
             </a>
           </li>
 
@@ -101,6 +101,13 @@ if ($this->session->PROFIL_ID == 1) {
       -->
     </ul>
   </li><!-- End Tables Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?=base_url()?>sim_management/Sim_management">
+      <i class="fa fa-cogs"></i>
+      <span>Sim management</span>
+    </a>
+  </li>
 
 
 </ul>
