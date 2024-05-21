@@ -65,6 +65,7 @@
                         <th class="">CODE</th>
                         <th class="">DATE&nbsp;ACTIVATION&nbsp;FORFAIT</th>
                         <th class="">DATE&nbsp;EXPIRATION&nbsp;FORFAIT</th>
+                        <th class="">VALIDITE</th>
                         <th class="">STATUT</th>
                         <th class="">FAIT&nbsp;PAR</th>
                         <th class="">DATE</th>

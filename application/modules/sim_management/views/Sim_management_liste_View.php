@@ -95,6 +95,7 @@
                         <th class="">DATE&nbsp;ACTIVATION&nbsp;FORFAIT</th>
                         <th class="">DATE&nbsp;EXPIRATION&nbsp;FORFAIT</th>
                         <th class="">STATUT</th>
+                        <th class="">VALIDITE</th>
                         <th class="">DATE&nbsp;ENREGISTREMENT</th>
                         <th class="">ACTION</th>
                       </tr>

@@ -65,6 +65,8 @@
             <div id="html2"></div>
             <div id="html3"></div>
             <div id="html4"></div>
+            <div id="html5"></div>
+            <div id="html6"></div>
 
           </div>
           <!-- <li class="dropdown-footer">
@@ -327,6 +329,8 @@
         $('#html1').html(data.html1);
         $('#html3').html(data.html1);
         $('#html4').html(data.html2);
+        $('#html5').html(data.html_device);
+        $('#html6').html(data.html_device_exp);
 
 
 
