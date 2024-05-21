@@ -64,6 +64,14 @@ class Sim_management extends CI_Controller
 		foreach ($fetch_data as $row)
 		{
 			$sub_array=array();
+
+			$option = '<div class="dropdown text-center">
+			<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
+			<i class="bi bi-three-dots h5" style="color:blue;"></i>	
+			<span class="caret"></span></a>
+			<ul class="dropdown-menu dropdown-menu-right">
+			';
+
 			$sub_array[]=$u++;
 			$sub_array[]=$row->CODE;
 			$sub_array[]=$row->vehicule;
@@ -94,28 +102,31 @@ class Sim_management extends CI_Controller
 			else{
 				$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="device désactivé"></i></center>';
 			}
-			$sub_array[] = date('d-m-Y',strtotime($row->DATE_SAVE));
 
-			
-			$option = '<div class="dropdown text-center">
-			<a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">
-			<i class="bi bi-three-dots h5" style="color:blue;"></i>	
-			<span class="caret"></span></a>
-			<ul class="dropdown-menu dropdown-menu-right">
-			';
-
-			$desc_button='';
-
-			if ($row->IS_ACTIVE == 1)
+			if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
 			{
-				$option .="<li class='btn-md'>
-				<a class='btn-md' href='" . base_url('sim_management/Sim_management/ajouter/'.md5($row->DEVICE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a>
-				</li>";
+				$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+			}
+			else 
+			{
+				$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
 
 				$option .="<li class='btn-md'>
 				<a class='btn-md' onclick='renouvelerForfait(".$row->DEVICE_ID.")' style='cursor:pointer;'><span class='fa fa fa-rotate-right h2'></span>&nbsp;&nbsp;Renouveler méga</a>
 				</li>";
 
+			}
+
+			$sub_array[] = date('d-m-Y',strtotime($row->DATE_SAVE));
+
+			$option .="<li class='btn-md'>
+			<a class='btn-md' href='" . base_url('sim_management/Sim_management/ajouter/'.md5($row->DEVICE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a>
+			</li>";
+
+			$desc_button='';
+
+			if ($row->IS_ACTIVE == 1)
+			{
 				$desc_button='Désactiver';
 
 				$option .="<li class='btn-md'>
@@ -573,6 +584,15 @@ class Sim_management extends CI_Controller
 
 				if(!empty($row->DATE_EXPIRE_MEGA)){
 					$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA)).'</center>';
+
+					if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
+					{
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+					}
+					else 
+					{
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+					}
 				}
 				else{
 					$sub_array[]= '<center>N/A</center>';
