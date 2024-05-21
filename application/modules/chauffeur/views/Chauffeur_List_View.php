@@ -173,7 +173,6 @@ input:checked + .slider:before {
   </div>
   <!--******** Fin Modal pour modifier l'affectation du chauffeur a une voiture  ***********-->
 
-
   <!-- fin modal pour retirer la voiture -->
   <div class="modal fade" id="retirvoiture" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel3" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
