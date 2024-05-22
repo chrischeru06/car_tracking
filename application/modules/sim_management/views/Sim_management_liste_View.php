@@ -2,6 +2,70 @@
 <html lang="en">
 
 <style type="text/css">
+  /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+  }
+  
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: -8px;
+  bottom: 0px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
   .btn-md:hover{
     background-color: rgba(210, 232, 249,100);
     border-radius: 5px;
@@ -76,6 +140,8 @@
           <div class="col-12">
             <div class="card" style="border-radius: 20px;">
               <div class="card-body">
+                <br>
+                <label class="text-muted">Devices (<font id="nbr_device">0</font>) </label>
 
                 <?= $this->session->flashdata('message'); ?>
 
@@ -186,7 +252,7 @@
   $(document).ready( function ()
   {
     listing();
-    //get_nbr_vehicule();
+    get_nbr_device();
 
   });
 </script>
@@ -347,6 +413,46 @@
         }
       })
     }
+  }
+</script>
+
+<script>
+ function get_nbr_device()
+ {
+
+  $.ajax({
+    url: "<?= base_url() ?>sim_management/Sim_management/get_nbr_device/",
+    type: "POST",
+    dataType: "JSON",
+    success: function(data) {
+     $('#nbr_device').text(data);
+   },
+
+ });
+}
+</script>
+
+<script>
+  function verif_check()
+  {
+    // var check = document.getElementById('myChecked');
+
+    // if(check == false)
+    // {
+    //   check.checked = true;
+    // }else{
+    //   check.checked = false;
+    // }
+
+    // var uncheck = document.getElementById('myCheck');
+
+    // if(uncheck == false)
+    // {
+    //   uncheck.checked = true;
+    // }else{
+    //   uncheck.checked = false;
+    // }
+    
   }
 </script>
 

@@ -97,10 +97,39 @@ class Sim_management extends CI_Controller
 			$sub_array[]=date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA));
 
 			if($row->IS_ACTIVE == 1){
-				$sub_array[] = '<center><i class="fa fa-check text-success  small" title="device activé"></i></center>';
+				//$sub_array[] = '<center><i class="fa fa-check text-success  small" title="device activé"></i></center>';
+
+				$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+
+				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+
+				<center title="Désactiver"><label class="switch"> 
+
+
+				<input type="checkbox" id="myChecked" data-toggle="modal" data-target="#mystatut' . $row->DEVICE_ID. '" checked >
+
+				<span class="slider round"></span>
+				</label></center>
+				</form>
+
+				';
 			}
 			else{
-				$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="device désactivé"></i></center>';
+				//$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="device désactivé"></i></center>';
+
+				$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+
+				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
+
+
+				<center title="Activer"><label class="switch"> 
+				<input type="checkbox" id="myCheck" data-toggle="modal" data-target="#mystatut' . $row->DEVICE_ID. '" >
+				<span class="slider round"></span>
+				</label></center>
+
+				</form>
+
+				';
 			}
 
 			if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
@@ -163,7 +192,7 @@ class Sim_management extends CI_Controller
 			</div>
 			<div class='modal-footer'>
 			<a class='btn btn-outline-success rounded-pill btn-md' href='" . base_url('sim_management/Sim_management/change_status/'. md5($row->DEVICE_ID)) . "'>Oui</a>
-			<button class='btn btn-outline-danger rounded-pill btn-md' class='close' data-dismiss='modal'>Non</button>
+			<button class='btn btn-outline-danger rounded-pill btn-md' class='close' data-dismiss='modal' onclick='verif_check()'>Non</button>
 			</div>
 			</div>
 			</div>
@@ -584,7 +613,13 @@ class Sim_management extends CI_Controller
 
 				if(!empty($row->DATE_EXPIRE_MEGA)){
 					$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA)).'</center>';
+				}
+				else{
+					$sub_array[]= '<center>N/A</center>';
+				}
 
+
+				if(!empty($row->DATE_EXPIRE_MEGA)){
 					if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
 					{
 						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
@@ -597,12 +632,39 @@ class Sim_management extends CI_Controller
 				else{
 					$sub_array[]= '<center>N/A</center>';
 				}
+
 				
 				if($row->IS_ACTIVE == 1){
-					$sub_array[] = '<center><i class="fa fa-check text-success  small" title="device activé"></i></center>';
+				$sub_array[] = '<center><i class="fa fa-check text-success  small" title="device activé"></i></center>';
+
+					// $sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
+
+					// <center title="Désactiver"><label class="switch"> 
+
+
+					// <input type="checkbox" id="myChecked" disabled data-toggle="modal" data-target="" checked >
+
+					// <span class="slider round"></span>
+					// </label></center>
+					// </form>
+
+					// ';
 				}
-				else if($row->IS_ACTIVE == 2){
-					$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="device désactivé"></i></center>';
+				else if($row->IS_ACTIVE == 2)
+				{
+				$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="device désactivé"></i></center>';
+
+					// $sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
+
+					// <center title="Activer"><label class="switch"> 
+					// <input type="checkbox" id="myCheck" disabled data-toggle="modal" data-target="">
+
+					// <span class="slider round"></span>
+					// </label></center>
+
+					// </form>
+
+					// ';
 				}
 				else{
 					$sub_array[]= '<center>N/A</center>';
@@ -621,6 +683,19 @@ class Sim_management extends CI_Controller
 				"data" => $data,
 			);
 			echo json_encode($output);
+		}
+
+		//fonction pour recuperer le nombre des devices
+
+		function get_nbr_device()
+		{
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+			$device = $this->getBindParms('COUNT(DEVICE_ID) AS nombre', 'device JOIN operateur_reseau ON operateur_reseau.OPERATEUR_ID = device.OPERATEUR_ID JOIN vehicule ON vehicule.VEHICULE_ID = device.VEHICULE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID', ' 1', '`DEVICE_ID` ASC');
+
+			$device = $this->ModelPs->getRequeteOne($proce_requete, $device);
+
+			echo $device['nombre'];
 		}
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
