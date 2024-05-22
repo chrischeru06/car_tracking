@@ -91,14 +91,22 @@ input:checked + .slider:before {
 
     <div class="row page-titles mx-0">
       <div class="col-sm-10 p-md-0">
-      <h4><i class="fa fa-code"></i> <font>Devices</font></h4>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Devices</a></li>
-          <li class="breadcrumb-item ">Historique</li>
-        </ol>
-      </nav>
-    </div>
+        <div class="welcome-text">
+          <table>
+            <tr>
+              <td> 
+              </td>
+              <td>  
+                <h5 class="text-muted pt-2 ps-1 text-dark"> <i class="fa fa-rotate-left" style="font-size: 15px;"></i> Historique device</h5>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                  </ol>
+                </nav>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
     <div class="col-md-2">
 
       <!-- <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('sim_management/Sim_management/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a> -->
@@ -106,23 +114,83 @@ input:checked + .slider:before {
     </div>
   </div>
 
-  <section class="section dashboard">
 
-    <div class="row">
-      <!-- Left side columns -->
-      <div class="col-lg-12">
-        <div class="row">
+  <section class="section">
+     <div class="container text-center">
+      <div class="row">
+        <div class="text-left col-sm-12">
+          <div class="card" style="border-radius: 20px;">
 
-          <!-- Reports -->
-          <div class="col-12">
-            <div class="card" style="border-radius: 20px;">
-              <div class="card-body">
+            <!-- <br> -->
 
-                <?= $this->session->flashdata('message'); ?>
+            <div class="card-body">
+             
 
-                <div class="table-responsive"><br>
+              <div class="row">
 
-                  <table id="table_historique" class="table table-hover" style="padding-top: 20px;">
+                <input type="hidden" name="DEVICE_ID" id="DEVICE_ID" value="<?=$DEVICE_ID?>">
+
+                <div class="col-md-12">
+
+                  <!-- <table class="table table-borderless" style="width:108%">
+                    <tr>
+                      <td> -->
+                       <ul class="nav nav-tabs nav-tabs-bordered">
+
+                        <li class="nav-item">
+                          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#activation_forfait" onclick="liste_histo(1);"><i class="fa fa-check"></i> Activation forfait</button>
+                        </li>
+
+                        <li class="nav-item">
+                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#statut"onclick="liste_histo2(2);"><i class="fa fa-cog"></i> Statut</button>
+                        </li>
+
+                      </ul>
+                    <!-- </td>
+                  </tr>
+                </table> -->
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+          <!-- </div> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+</section>
+
+
+
+
+<section class="section">
+ <div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card" style="border-radius: 20px;">
+
+        <br>
+
+        <div class="card-body">
+
+         <!-- begin tab content -->
+         <div class="tab-content pt-2"> 
+
+
+         <div class="tab-pane fade show active" id="activation_forfait">
+
+              <div class="row">
+
+                <div class="table-responsive">
+
+                  <table class="table_historique" class="table table-hover" style="padding-top: 20px;">
                     <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="">#</th>
@@ -130,6 +198,33 @@ input:checked + .slider:before {
                         <th class="">DATE&nbsp;ACTIVATION&nbsp;FORFAIT</th>
                         <th class="">DATE&nbsp;EXPIRATION&nbsp;FORFAIT</th>
                         <th class="">VALIDITE</th>
+                        <!-- <th class="">STATUT</th> -->
+                        <th class="">FAIT&nbsp;PAR</th>
+                        <th class="">DATE</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    </tbody>
+                  </table>
+                  
+                </div>
+                
+              </div>
+
+            </div>
+
+
+          <div class="tab-pane fade " id="statut">
+
+           <div class="row">
+
+            <div class="table-responsive">
+
+              <table class="table_historique2" class="table table-hover" style="padding-top: 20px;">
+                    <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                      <tr>
+                        <th class="">#</th>
+                        <th class="">CODE</th>
                         <th class="">STATUT</th>
                         <th class="">FAIT&nbsp;PAR</th>
                         <th class="">DATE</th>
@@ -138,19 +233,28 @@ input:checked + .slider:before {
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     </tbody>
                   </table>
-                </div>
-
-              </div>
 
             </div>
+
           </div>
 
-          <input type="hidden" name="DEVICE_ID" id="DEVICE_ID" value="<?=$DEVICE_ID?>">
+
 
         </div>
+
       </div>
+      <!-- end tab content -->
+
     </div>
-  </section>
+
+    <!-- </div> -->
+
+  </div>
+</div>
+</div>
+</div>
+<!-- </div> -->
+</section>
 
 
 </main><!-- End #main -->
@@ -165,8 +269,8 @@ input:checked + .slider:before {
   // Fonction pour le chargement de donnees par defaut
   $(document).ready( function ()
   {
-    liste_histo();
-    //get_nbr_vehicule();
+    liste_histo(1);
+    liste_histo2(2);
 
   });
 </script>
@@ -174,21 +278,87 @@ input:checked + .slider:before {
 
 <script >
   //Fonction pour afficher l'historique d'assurance
-    function liste_histo()
+    function liste_histo(val)
     {
+      var ID = val;
+      //alert(ID)
       var DEVICE_ID = $('#DEVICE_ID').val();
 
       var row_count ="1000000";
-      $("#table_historique").DataTable({
+      $(".table_historique").DataTable({
         "destroy" : true,
         "processing":true,
         "serverSide":true,
         "destroy":true,
         "oreder":[[ 1, 'asc' ]],
         "ajax":{
-          url: "<?php echo base_url('/sim_management/Sim_management/liste_historique');?>", 
+          url: "<?php echo base_url('/sim_management/Sim_management/liste_historique1');?>", 
           type:"POST",
-          data : {DEVICE_ID:DEVICE_ID},
+          data : {
+            DEVICE_ID:DEVICE_ID,
+            ID:ID
+          },
+          beforeSend : function() {
+          }
+        },
+        lengthMenu: [[10,50, 100, -1], [10,50, 100, "All"]],
+        pageLength: 10,
+        "columnDefs":[{
+          "targets":[],
+          "orderable":false
+        }],
+        dom: 'Bfrtlip',
+        buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'  ],
+        language: {
+          "sProcessing":     "Traitement en cours...",
+          "sSearch":         "Recherche&nbsp;:",
+          "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+          "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          "sInfoPostFix":    "",
+          "sLoadingRecords": "Chargement en cours...",
+          "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+          "oPaginate": {
+            "sFirst":      "Premier",
+            "sPrevious":   "Pr&eacute;c&eacute;dent",
+            "sNext":       "Suivant",
+            "sLast":       "Dernier"
+          },
+          "oAria": {
+            "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+            "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          }
+        }
+      });
+
+    }
+  </script>
+
+
+  <script >
+  //Fonction pour afficher l'historique d'assurance
+    function liste_histo2(val)
+    {
+      var ID = val;
+      //alert(ID)
+      var DEVICE_ID = $('#DEVICE_ID').val();
+
+      var row_count ="1000000";
+      $(".table_historique2").DataTable({
+        "destroy" : true,
+        "processing":true,
+        "serverSide":true,
+        "destroy":true,
+        "oreder":[[ 1, 'asc' ]],
+        "ajax":{
+          url: "<?php echo base_url('/sim_management/Sim_management/liste_historique2');?>", 
+          type:"POST",
+          data : {
+            DEVICE_ID:DEVICE_ID,
+            ID:ID
+          },
           beforeSend : function() {
           }
         },

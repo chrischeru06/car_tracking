@@ -1,9 +1,10 @@
 <?php
 /*
+Desc      : Controlleur pour la gestion du sim management
 Auteur    : Mushagalusa Byamungu Pacifique
 Email     : byamungu.pacifique@mediabox.bi
 Telephone : +25772496057
-Date      : 14/05/2024
+Date      : 20/05/2024
 */
 class Sim_management extends CI_Controller
 {
@@ -172,7 +173,7 @@ class Sim_management extends CI_Controller
 			}
 
 			$option .="<li class='btn-md'>
-			<a class='btn-md' href='" . base_url('sim_management/Sim_management/get_historique/'.md5($row->DEVICE_ID)) . "'><span class='fa fa fa-rotate-left h2'></span>&nbsp;&nbsp;Historique</a>
+			<a class='btn-md' href='" . base_url('sim_management/Sim_management/get_historique/'.md5($row->DEVICE_ID)) . "'><span class='fa fa-rotate-left h2'></span>&nbsp;&nbsp;Historique</a>
 			</li>";
 
 			$option.="
@@ -548,11 +549,21 @@ class Sim_management extends CI_Controller
 
 		//Fonction pour la liste d'historique device
 
-		function liste_historique()
+		function liste_historique1()
 		{
 			$DEVICE_ID = $this->input->post('DEVICE_ID');
+			$ID = $this->input->post('ID');
 
-			$critaire = '' ;
+			$critaire = ' ' ;
+			if($ID == 1) //Historique activation forfait
+			{
+				$critaire = ' AND historique_device.IS_ACTIVE IS NULL ' ;
+			}
+			else if($ID == 2) //Historique statut
+			{
+				$critaire = ' AND historique_device.DATE_ACTIVE_MEGA IS NULL AND historique_device.DATE_EXPIRE_MEGA IS NULL' ;
+			}
+			
 
 			$query_principal='SELECT device.CODE,historique_device.DATE_ACTIVE_MEGA,historique_device.DATE_EXPIRE_MEGA,historique_device.IS_ACTIVE,IDENTIFICATION,historique_device.DATE_SAVE FROM historique_device JOIN device ON device.DEVICE_ID = historique_device.DEVICE_ID JOIN users ON users.USER_ID = historique_device.USER_ID WHERE 1';
 
@@ -603,39 +614,122 @@ class Sim_management extends CI_Controller
 
 				$sub_array[]=$i;
 				$sub_array[]=$row->CODE;
-				
-				if(!empty($row->DATE_ACTIVE_MEGA)){
-					$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_ACTIVE_MEGA)).'</center>';
-				}
-				else{
-					$sub_array[]= '<center>N/A</center>';
-				}
 
-				if(!empty($row->DATE_EXPIRE_MEGA)){
-					$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA)).'</center>';
-				}
-				else{
-					$sub_array[]= '<center>N/A</center>';
-				}
-
-
-				if(!empty($row->DATE_EXPIRE_MEGA)){
-					if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
-					{
-						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+					if(!empty($row->DATE_ACTIVE_MEGA)){
+						$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_ACTIVE_MEGA)).'</center>';
 					}
-					else 
-					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+					else{
+						$sub_array[]= '<center>N/A</center>';
 					}
-				}
-				else{
-					$sub_array[]= '<center>N/A</center>';
-				}
 
-				
-				if($row->IS_ACTIVE == 1){
-				$sub_array[] = '<center><i class="fa fa-check text-success  small" title="device activé"></i></center>';
+					if(!empty($row->DATE_EXPIRE_MEGA)){
+						$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA)).'</center>';
+					}
+					else{
+						$sub_array[]= '<center>N/A</center>';
+					}
+
+					if(!empty($row->DATE_EXPIRE_MEGA)){
+						if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
+						{
+							$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+						}
+						else 
+						{
+							$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+						}
+					}
+					else{
+						$sub_array[]= '<center>N/A</center>';
+					}
+
+				$sub_array[]=$row->IDENTIFICATION;
+				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
+
+				$data[]=$sub_array;
+			}
+			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+			$output = array(
+				"draw" => intval($_POST['draw']),
+				"recordsTotal" => count($recordsTotal),
+				"recordsFiltered" => count($recordsFiltered),
+				"data" => $data,
+			);
+			echo json_encode($output);
+		}
+
+
+		function liste_historique2()
+		{
+			$DEVICE_ID = $this->input->post('DEVICE_ID');
+			$ID = $this->input->post('ID');
+
+			$critaire = ' ' ;
+			if($ID == 1) //Historique activation forfait
+			{
+				$critaire = ' AND historique_device.IS_ACTIVE IS NULL ' ;
+			}
+			else if($ID == 2) //Historique statut
+			{
+				$critaire = ' AND historique_device.DATE_ACTIVE_MEGA IS NULL AND historique_device.DATE_EXPIRE_MEGA IS NULL' ;
+			}
+			
+
+			$query_principal='SELECT device.CODE,historique_device.DATE_ACTIVE_MEGA,historique_device.DATE_EXPIRE_MEGA,historique_device.IS_ACTIVE,IDENTIFICATION,historique_device.DATE_SAVE FROM historique_device JOIN device ON device.DEVICE_ID = historique_device.DEVICE_ID JOIN users ON users.USER_ID = historique_device.USER_ID WHERE 1';
+
+			$critaire.= ' AND md5(historique_device.DEVICE_ID) = "'.$DEVICE_ID.'"';
+
+			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+			$var_search = str_replace("'", "\'", $var_search);
+			$group = "";
+
+			$limit = 'LIMIT 0,1000';
+			if ($_POST['length'] != -1) {
+				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+			}
+			$order_by='';
+
+			$order_column=array('DATE_ACTIVE_MEGA','DATE_EXPIRE_MEGA','IS_ACTIVE','IDENTIFICATION','DATE_SAVE');
+
+			if ($_POST['order']['0']['column'] != 0) {
+				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' HISTORIQUE_D ASC';
+			}
+
+			$search = !empty($_POST['search']['value']) ? (' AND (`historique_device.DATE_ACTIVE_MEGA` LIKE "%' . $var_search . '%" OR historique_device.DATE_EXPIRE_MEGA LIKE "%' . $var_search . '%"
+				OR IDENTIFICATION LIKE "%' . $var_search . '%" OR historique_device.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
+
+
+			//condition pour le query principale
+			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+
+			// condition pour le query filter
+			$conditionsfilter = $critaire . ' ' . $group;
+
+
+			$requetedebase=$query_principal.$conditions;
+			$requetedebasefilter=$query_principal.$conditionsfilter;
+
+
+
+			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+			// echo $query_secondaire;
+			$fetch_data = $this->ModelPs->datatable($query_secondaire);
+			$data = array();
+			$i=0;
+
+			foreach ($fetch_data as $row) {
+				$i=$i+1;
+
+				$sub_array=array();
+
+				$sub_array[]=$i;
+				$sub_array[]=$row->CODE;
+
+				if($ID == 2) //Historique statut
+				{
+					if($row->IS_ACTIVE == 1){
+						$sub_array[] = '<center><i class="fa fa-check text-success  small" title="device activé"></i></center>';
 
 					// $sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
@@ -649,10 +743,10 @@ class Sim_management extends CI_Controller
 					// </form>
 
 					// ';
-				}
-				else if($row->IS_ACTIVE == 2)
-				{
-				$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="device désactivé"></i></center>';
+					}
+					else if($row->IS_ACTIVE == 2)
+					{
+						$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="device désactivé"></i></center>';
 
 					// $sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
@@ -665,10 +759,13 @@ class Sim_management extends CI_Controller
 					// </form>
 
 					// ';
+					}
+					else{
+						$sub_array[]= '<center>N/A</center>';
+					}
 				}
-				else{
-					$sub_array[]= '<center>N/A</center>';
-				}
+				
+				
 				$sub_array[]=$row->IDENTIFICATION;
 				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
 
