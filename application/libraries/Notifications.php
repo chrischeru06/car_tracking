@@ -39,9 +39,9 @@ function ago($date1,$date2)
 
     $interval = date_create($date2)->diff( date_create($date1) );
     $suffix = "";
-    if ( $v = $interval->y >= 1 ) return $this->pluralize( $interval->y, 'An' ) . $suffix;
-    if ( $v = $interval->m >= 1 ) return $this->pluralize( $interval->m, 'Mois' ) . $suffix;
-    if ( $v = $interval->d >= 1 ) return $this->pluralize( $interval->d, 'Jr' ) . $suffix;
+    if ( $v = $interval->y >= 1 ) return $this->pluralize( $interval->y, lang('an')) . $suffix;
+    if ( $v = $interval->m >= 1 ) return $this->pluralize( $interval->m, lang('mois')) . $suffix;
+    if ( $v = $interval->d >= 1 ) return $this->pluralize( $interval->d, lang('jr')) . $suffix;
     if ( $v = $interval->h >= 1 ) return $this->pluralize( $interval->h, 'hr' ) . $suffix;
     if ( $v = $interval->i >= 1 ) return $this->pluralize( $interval->i, 'min' ) . $suffix;
     return $this->pluralize( $interval->s, 'sec' ) . $suffix;

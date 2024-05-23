@@ -30,8 +30,10 @@ class Proprietaire extends CI_Controller
 	//Fonction pour l'affichage de la page d'enregistrement de proprietaires
 	function index(){
 		$PROPRIETAIRE_ID=$this->uri->segment(4);
-		$data['btn']="Enregistrer";
-		$data['title']="NOUVEAU PROPRIETAIRE";
+		$data['btn']=" ".lang('btn_enregistrer')."";
+		$data['title']=" ".lang('titre_nveau_proprio')."";
+
+
 		$proprietaire = array('PROPRIETAIRE_ID'=>NULL,'TYPE_PROPRIETAIRE_ID'=>NULL,'TYPE_SOCIETE_ID'=>NULL,'NOM_PROPRIETAIRE'=>NULL,'PRENOM_PROPRIETAIRE'=>NULL,'PERSONNE_REFERENCE'=>NULL,'EMAIL'=>NULL,'TELEPHONE'=>NULL,'CNI_OU_NIF'=>NULL,'RC'=>NULL,'PROVINCE_ID'=>NULL,'COMMUNE_ID'=>NULL,'ZONE_ID'=>NULL,'COLLINE_ID'=>NULL,'ADRESSE'=>NULL,'PHOTO_PASSPORT'=>NULL,'LOGO'=>NULL,'FILE_CNI_PASSPORT'=>NULL,'FILE_RC'=>NULL,'FILE_NIF'=>NULL,'CATEGORIE_ID'=>NULL,'COUNTRY_ID'=>NULL);
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
@@ -64,8 +66,8 @@ class Proprietaire extends CI_Controller
 
 		if(!empty($PROPRIETAIRE_ID))
 		{
-			$data['btn']="Modifier";
-			$data['title']="MODIFICATION D'UN proprietaire";
+			$data['btn']="".lang('btn_modifier')."";
+			$data['title']="".lang('titre_modif_proprio')."";
 
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
 			$my_select_proprio = $this->getBindParms('PROPRIETAIRE_ID,proprietaire.TYPE_PROPRIETAIRE_ID,NOM_PROPRIETAIRE,PRENOM_PROPRIETAIRE,PERSONNE_REFERENCE,EMAIL,TELEPHONE,CNI_OU_NIF,RC,PROVINCE_ID,COMMUNE_ID,ZONE_ID,COLLINE_ID,ADRESSE,PHOTO_PASSPORT,LOGO,FILE_NIF,FILE_RC,FILE_CNI_PASSPORT,CATEGORIE_ID,COUNTRY_ID', 'proprietaire', '1 AND md5(PROPRIETAIRE_ID)="'.$PROPRIETAIRE_ID.'"', '`PROPRIETAIRE_ID` ASC');
@@ -89,13 +91,13 @@ class Proprietaire extends CI_Controller
 			
 			if($proprietaire['TYPE_PROPRIETAIRE_ID']==1)
 			{
-				$label_document="NIF";
+				$label_document="".lang('input_nif')."";
 				$div_personne_moral='';
 				$div_personne_physique=' style="display:none;"';
 			}
 			else
 			{
-				$label_document="CNI / Numéro passport";
+				$label_document="".lang('input_cni_numeropasseport')."";
 				$div_personne_moral=' style="display:none;"';
 				$div_personne_physique='';
 			}
@@ -130,45 +132,45 @@ class Proprietaire extends CI_Controller
 
 				if(empty($_FILES['LOGO']['name']) && empty($LOGO_OLD) )
 				{
-					$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}
 				if(empty($_FILES['FILE_NIF']['name']) && empty($FILE_NIF_OLD) )
 				{
-					$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}if(empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD) )
 				{
-					$this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}
 
-				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('CNI_OU_NIF','','trim|is_unique[proprietaire.CNI_OU_NIF]',array('is_unique'=>'<font style="color:red;font-size:15px;">*Le propriétaire existe déjà</font>'));
+				$this->form_validation->set_rules('CNI_OU_NIF','','trim|is_unique[proprietaire.CNI_OU_NIF]',array('is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('msg_val_proprio_unique').'</font>'));
 
 
-				$this->form_validation->set_rules('EMAIL','','required|valid_email|is_unique[proprietaire.EMAIL]',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>','valid_email'=>'<font style="color:red;size:2px;">*L\'addresse email doit contenir @</font>','is_unique'=>'<font style="color:red;size:2px;">*L\'addresse existe déjà</font>'));
+				$this->form_validation->set_rules('EMAIL','','required|valid_email|is_unique[proprietaire.EMAIL]',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>','valid_email'=>'<font style="color:red;size:2px;">*'.lang('msg_val_email_valide_base').'</font>','is_unique'=>'<font style="color:red;size:2px;">*'.lang('msg_val_email_unique').'</font>'));
 
 				$this->form_validation->set_rules('CONFIRMATION_EMAIL', 'Email Confirmation', 'required|matches[EMAIL]');
 
-				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('COUNTRY_ID','COUNTRY_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('COUNTRY_ID','COUNTRY_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 				$COUNTRY_ID=$this->input->post('COUNTRY_ID');
 				if($COUNTRY_ID==28){
 
-					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-					$this->form_validation->set_rules('CATEGORIE_ID','CATEGORIE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
+					$this->form_validation->set_rules('CATEGORIE_ID','CATEGORIE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 
 				}
 
-				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 			}else 
 			{
@@ -177,7 +179,7 @@ class Proprietaire extends CI_Controller
 
 				if(empty($_FILES['FILE_CNI_PASSPORT']['name']) && empty($FILE_CNI_PASSPORT_OLD) )
 				{
-					$this->form_validation->set_rules('FILE_CNI_PASSPORT',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('FILE_CNI_PASSPORT',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}
 
 				$photo_passport_old = $this->input->post('photo_passport_old');
@@ -185,37 +187,37 @@ class Proprietaire extends CI_Controller
 
 				if(empty($_FILES['photo_passport']['name']) && empty($photo_passport_old) )
 				{
-					$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}
 
-				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('PRENOM_PROPRIETAIRE','PRENOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('PRENOM_PROPRIETAIRE','PRENOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('CNI_OU_NIF','','trim|is_unique[proprietaire.CNI_OU_NIF]',array('is_unique'=>'<font style="color:red;font-size:15px;">*Le propriétaire existe déjà</font>'));
+				$this->form_validation->set_rules('CNI_OU_NIF','','trim|is_unique[proprietaire.CNI_OU_NIF]',array('is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('msg_val_proprio_unique').'</font>'));
 
 					// $this->form_validation->set_rules("EMAIL","EMAIL", "trim|required|valid_email",array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
 
-				$this->form_validation->set_rules('EMAIL','','required|valid_email|is_unique[proprietaire.EMAIL]',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>','valid_email'=>'<font style="color:red;size:2px;">*L\'addresse email doit contenir @</font>','is_unique'=>'<font style="color:red;size:2px;">*L\'addresse existe déjà</font>'));
+				$this->form_validation->set_rules('EMAIL','','required|valid_email|is_unique[proprietaire.EMAIL]',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>','valid_email'=>'<font style="color:red;size:2px;">*'.lang('msg_val_email_valide_base').'</font>','is_unique'=>'<font style="color:red;size:2px;">*'.lang('msg_val_email_unique').'</font>'));
 
 
 				$this->form_validation->set_rules('CONFIRMATION_EMAIL', 'Email Confirmation', 'required|matches[EMAIL]');
 
-				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
-				$this->form_validation->set_rules('COUNTRY_ID','COUNTRY_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
+				$this->form_validation->set_rules('COUNTRY_ID','COUNTRY_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 				$COUNTRY_ID=$this->input->post('COUNTRY_ID');
 				if($COUNTRY_ID==28){
 
-					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 				}
-				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 			}
 
 			if($this->form_validation->run() == FALSE)
@@ -414,29 +416,29 @@ class Proprietaire extends CI_Controller
 
 				if(empty($_FILES['LOGO']['name']) && empty($LOGO_OLD))
 				{
-					$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}
 				if(empty($_FILES['FILE_NIF']['name']) && empty($FILE_NIF_OLD))
 				{
-					$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}if(empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD))
 				{
-					$this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}
-				$this->form_validation->set_rules('CATEGORIE_ID','CATEGORIE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('CATEGORIE_ID','CATEGORIE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 				$COUNTRY_ID=$this->input->post('COUNTRY_ID');
 				if($COUNTRY_ID==28){
 
-					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
 
@@ -444,19 +446,19 @@ class Proprietaire extends CI_Controller
 
 				}
 
-				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 			}else 
 			{
-				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('PRENOM_PROPRIETAIRE','PRENOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('PRENOM_PROPRIETAIRE','PRENOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 				$FILE_CNI_PASSPORT_OLD = $this->input->post('FILE_CNI_PASSPORT_OLD');
 
 
 				if(empty($_FILES['FILE_CNI_PASSPORT']['name']) && empty($FILE_CNI_PASSPORT_OLD) )
 				{
-					$this->form_validation->set_rules('FILE_CNI_PASSPORT',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('FILE_CNI_PASSPORT',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}
 
 				$photo_passport_old = $this->input->post('photo_passport_old');
@@ -464,27 +466,27 @@ class Proprietaire extends CI_Controller
 
 				if(empty($_FILES['photo_passport']['name']) && empty($photo_passport_old) )
 				{
-					$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+					$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 				}
 
 
-				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 				$COUNTRY_ID=$this->input->post('COUNTRY_ID');
 				if($COUNTRY_ID==28){
 
-					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+					$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 
 				}
 
-				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 			}
 
 			$id=$this->input->post('PROPRIETAIRE_ID');
@@ -619,13 +621,13 @@ class Proprietaire extends CI_Controller
 
 				if ($data_update)
 				{
-					$message['message']='<div class="alert alert-success text-center" id="message">La modification de cet utilisateur a été faite avec succès</div>';
+					$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_modif_success_proprio').'</div>';
 					$this->session->set_flashdata($message);
 					redirect(base_url('proprietaire/Proprietaire/liste'));
 
 				}else
 				{
-					$message['message']='<div class="alert alert-success text-center" id="message">La modification de cet utilisateur a échouée </div>';
+					$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_modif_error_proprio').' </div>';
 					$this->session->set_flashdata($message);
 
 				}
@@ -752,7 +754,7 @@ class Proprietaire extends CI_Controller
 				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
 				</div>
 				<div class="modal-footer">
-				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">'.lang('btn_fermer').'</button>
 				</div>
 				</div>
 				</div>
@@ -769,7 +771,7 @@ class Proprietaire extends CI_Controller
 				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
 				</div>
 				<div class="modal-footer">
-				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">'.lang('btn_fermer').'</button>
 				</div>
 				</div>
 				</div>
@@ -793,7 +795,7 @@ class Proprietaire extends CI_Controller
 
 				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 				<table>
-				<td><label class="text-primary">Activé</label></td>
+				<td><label class="text-primary">'.lang('label_active_acc').'</label></td>
 				<td><label class="switch"> 
 				<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->PROPRIETAIRE_ID . ')" checked>
 				<span class="slider round"></span>
@@ -808,7 +810,7 @@ class Proprietaire extends CI_Controller
 				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
 				<table>
-				<td><label class="text-danger">Désactivé</label></td>
+				<td><label class="text-danger">'.lang('label_desactive_acc').'</label></td>
 				<td><label class="switch"> 
 				<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->PROPRIETAIRE_ID . ')">
 				<span class="slider round"></span>
@@ -836,12 +838,12 @@ class Proprietaire extends CI_Controller
 
 			$action .="<li class='btn-md'>
 
-			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a>
+			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/index/'.md5($row->PROPRIETAIRE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;".lang('btn_modifier')."</a>
 			</li>"; 
 
 			$action .="<li class='btn-md'>
 
-			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détails</a>
+			<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;".lang('btn_detail')."</a>
 			</a>
 			</li>";
 
@@ -900,14 +902,14 @@ class Proprietaire extends CI_Controller
 
 		if($proprietaire['TYPE_PROPRIETAIRE_ID']==1){
 
-			$label_doc='Logo';
+			$label_doc="".lang('input_logo')."";
 			$cni_physique='';
 		}else{
 
-			$label_doc='CNI/Passport';
+			$label_doc="".lang('input_cni_numeropasseport')."";
 			$cni_physique='<table class="table table-borderless">
 			<tr>
-			<td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; CNI / Passport</td>
+			<td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; '.lang('input_cni_numeropasseport').'</td>
 			<td>'.$proprietaire['CNI_OU_NIF'].'</td>
 			</tr>
 			</table>';
@@ -975,17 +977,17 @@ class Proprietaire extends CI_Controller
 		$desc_status='';
 		if($get_status['IS_ACTIVE']==1)
 		{
-			$desc_status='La Désactivation';
+			$desc_status="".lang('status_desactiv')."";
 			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>2));
 		}
 		else
 		{
-			$desc_status='L\'Activation';
+			$desc_status="".lang('status_activ')."";
 
 			$this->Model->update('proprietaire', array('PROPRIETAIRE_ID'=>$id),array('IS_ACTIVE'=>1));
 		}
 
-		$data['message']='<div class="alert alert-success text-center" id="message">'."$desc_status".' '." effectuée avec succès".'</div>';
+		$data['message']='<div class="alert alert-success text-center" id="message">'."$desc_status".' '.lang('msg_succ').'</div>';
 		$this->session->set_flashdata($data);
 		redirect(base_url('proprietaire/Proprietaire/liste/'));
 	}
@@ -1002,9 +1004,9 @@ class Proprietaire extends CI_Controller
 		if ($proprietaire['TYPE_PROPRIETAIRE_ID']==1) 
 		{
 			
-			$label_cni='NIF';
+			$label_cni="".lang('input_nif')."";
 		}elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {
-			$label_cni='CNI / Passport';
+			$label_cni="".lang('input_cni_numeropasseport')."";
 			
 		}
 
@@ -1036,9 +1038,9 @@ class Proprietaire extends CI_Controller
 		if ($proprietaire['TYPE_PROPRIETAIRE_ID']==1) 
 		{
 			
-			$label_cni='NIF';
+			$label_cni="".lang('input_nif')."";
 		}elseif ($proprietaire['TYPE_PROPRIETAIRE_ID']==2) {
-			$label_cni='CNI / Numéro passport';
+			$label_cni="".lang('input_cni_numeropasseport')."";
 			
 		}
 
@@ -1131,7 +1133,7 @@ class Proprietaire extends CI_Controller
 			<img src = "'.base_url('upload/photo_vehicule/'.$row->PHOTO).'" height="100%"  width="100%" >
 			</div>
 			<div class="modal-footer">
-			<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+			<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">'.lang('btn_fermer').'</button>
 			</div>
 			</div>
 			</div>
@@ -1149,7 +1151,7 @@ class Proprietaire extends CI_Controller
 				';
 			}else{
 
-				$sub_array[] = '<font style="color:red;"> Pas&nbsp;de&nbsp;chauffeur&nbsp;affecté&nbsp;à&nbsp;ce&nbsp;véhicule ! </font>';
+				$sub_array[] = '<font style="color:red;">'.lang('msg_affectation_null').' </font>';
 			}
 			// if(!empty($chauffeur)){
 
@@ -1319,7 +1321,7 @@ class Proprietaire extends CI_Controller
 	 //Fonction pour la selection des communes
 	function get_communes($PROVINCE_ID)
 	{
-		$html="<option value='0'>Séléctionner</option>";
+		$html="<option value='0'>".lang('selectionner')."</option>";
 		
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
@@ -1335,7 +1337,7 @@ class Proprietaire extends CI_Controller
 		   //Fonction pour la selection des zones
 	function get_zones($COMMUNE_ID)
 	{
-		$html='<option value="">Séléctionner</option>';
+		$html='<option value="">'.lang('selectionner').'</option>';
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_zones = $this->getBindParms('ZONE_ID,ZONE_NAME', 'zones', '1 AND COMMUNE_ID='.$COMMUNE_ID.'', '`ZONE_NAME` ASC');
 		$zones = $this->ModelPs->getRequete($proce_requete, $my_select_zones);
@@ -1352,7 +1354,7 @@ class Proprietaire extends CI_Controller
 	//Fonction pour la selection des collines
 	function get_collines($ZONE_ID)
 	{
-		$html='<option value="">Séléctionner</option>';
+		$html='<option value="">'.lang('selectionner').'</option>';
 		
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME', 'collines', '1 AND ZONE_ID='.$ZONE_ID.'', '`COLLINE_NAME` ASC');

@@ -73,7 +73,7 @@ a:hover {
                     <div class="text-center">
                       <!-- <button type="button" id="connexion" onclick="login()" class="btn login-btn btn-block">Se connecter</button> -->
 
-                      <button type="button" id="connexion" onclick="login()" class="btn btn-outline-light rounded-pill">Se connecter</button>
+                      <button type="button" id="connexion" onclick="login()" class="btn btn-outline-light rounded-pill"><?=lang('msg_connexion')?></button>
                     </div>
                     <div class="form-group text-center">
                       <a class="login-link text-light small pt-2 ps-1" href="<?=base_url('Login/forgotten_pwd')?> " style="border-radius: 15px;padding: 5px;"> Mot de passe oublié ?</a>

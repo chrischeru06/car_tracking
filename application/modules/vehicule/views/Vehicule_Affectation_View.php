@@ -66,7 +66,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h5 style="color:  #899bbd;">Affectation du véhicule <font class="text-primary"><?=$vehicule['DESC_MARQUE'].' - '.$vehicule['DESC_MODELE'].'</font> du plaque <font class="text-primary">'.$vehicule['PLAQUE'] ?></font> au chauffeur</h5>
+      <h5 style="color:  #899bbd;"><?=lang('title_affectation_veh')?> <font class="text-primary"><?=$vehicule['DESC_MARQUE'].' - '.$vehicule['DESC_MODELE'].'</font> du plaque <font class="text-primary">'.$vehicule['PLAQUE'] ?></font> <?=lang('title_au_chauf')?></h5>
       
     </div><!-- End Page Title -->
     <br>
@@ -98,7 +98,7 @@
           <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
               <div class='modal-header' style='background:cadetblue;color:white;'>      
-                <h5 class="modal-title" style="color: rgba(255, 255, 255, 0.8);">Affectation du véhicule <font class="text-warning"><?=$vehicule['DESC_MARQUE'].' - '.$vehicule['DESC_MODELE'].'</font> du plaque <font class="text-warning">'.$vehicule['PLAQUE'] ?></font> au chauffeur </h5>
+                <h5 class="modal-title" style="color: rgba(255, 255, 255, 0.8);"><?=lang('title_affectation_veh')?> <font class="text-warning"><?=$vehicule['DESC_MARQUE'].' - '.$vehicule['DESC_MODELE'].'</font> du plaque <font class="text-warning">'.$vehicule['PLAQUE'] ?></font> <?=lang('title_au_chauf')?> </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -109,9 +109,9 @@
                       <input type="hidden" name="CODE" id="CODE" value="<?=$vehicule['CODE']?>">
 
                       <div class="col-md-6">
-                        <label for="description" class="text-dark">Chauffeur</label>
+                        <label for="description" class="text-dark"><?=lang('p_chauffeur')?></label>
                         <select class="form-control" id="CHAUFFEUR_ID" name="CHAUFFEUR_ID">
-                          <option value="">--Sélectionner--</option>
+                          <option value="">--<?=lang('selectionner')?>--</option>
                           <?php
                           foreach ($chauffeur as $key) 
                           {
@@ -123,8 +123,8 @@
                       </div>
 
                       <div class="col-md-6" id="coord">
-                        <label>Coordonnées</label>
-                        <input class="form-control" required readonly type="text" name="COORD" id="COORD" placeholder="Coordonnées gps" >
+                        <label><?=lang('input_coordonnes')?></label>
+                        <input class="form-control" required readonly type="text" name="COORD" id="COORD" placeholder="<?=lang('input_coordonnes')?>" >
                         <font color="red" id="error_nom"></font>
                         <?php echo form_error('COORD', '<div class="text-danger">', '</div>'); ?>
                         <span class="help-block" style="color: red"></span> 
@@ -133,19 +133,19 @@
                     <br>
                     <div class="row">
                       <div class="col-md-6">
-                        <label type="date" class="text-dark">Date début</label>
+                        <label type="date" class="text-dark"><?=lang('input_date_deb')?></label>
                         <input type="date" name="DATE_DEBUT_AFFECTATION" autocomplete="off" id="DATE_DEBUT_AFFECTATION" value="<?= set_value('DATE_DEBUT_AFFECTATION') ?>" onchange="get_date_fin(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
                         <span id="errorDATE_DEBUT_AFFECTATION" class="text-danger"></span>
                       </div>
                       <div class="col-md-6">
-                        <label type="date" class="text-dark">Date fin</label>
+                        <label type="date" class="text-dark"><?=lang('input_date_fin')?></label>
                         <input type="date" name="DATE_FIN_AFFECTATION" autocomplete="off" id="DATE_FIN_AFFECTATION" value="<?= set_value('DATE_FIN_AFFECTATION') ?>"  onchange="get_dates_deb(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
                         <span id="errorDATE_FIN_AFFECTATION" class="text-danger"></span>
                       </div>
                     </div>
                   </div> 
                   <div class="modal-footer">
-                    <input type="button"class="btn btn-outline-primary rounded-pill" type="button" id="btn_add" value="Affecter" onclick="save_affect();" />
+                    <input type="button"class="btn btn-outline-primary rounded-pill" type="button" id="btn_add" value="<?=lang('btn_affecter')?>" onclick="save_affect();" />
 
                   </div>
                 </form>
@@ -269,16 +269,16 @@
 
         if($('#CHAUFFEUR_ID').val()=='')
         {
-          $('#errorCHAUFFEUR_ID').html('Le champ est obligatoire');
+          $('#errorCHAUFFEUR_ID').html('<?=lang('msg_validation')?>');
           statut=2;
         }
         if($('#DATE_DEBUT_AFFECTATION').val()=='')
         {
-          $('#errorDATE_DEBUT_AFFECTATION').html('Le champ est obligatoire');
+          $('#errorDATE_DEBUT_AFFECTATION').html('<?=lang('msg_validation')?>');
           statut=2;
         } if($('#DATE_FIN_AFFECTATION').val()=='')
         {
-          $('#errorDATE_FIN_AFFECTATION').html('Le champ est obligatoire');
+          $('#errorDATE_FIN_AFFECTATION').html('<?=lang('msg_validation')?>');
           statut=2;
         }
 
@@ -303,7 +303,7 @@
                 {
                   icon: 'success',
                   title: 'Success',
-                  text: 'Affectation faite avec succès',
+                  text: '<?=lang('msg_succes_affectation')?>',
                   timer: 1500,
                 }).then(() =>
                 {
@@ -315,8 +315,8 @@
                 Swal.fire(
                 {
                   icon: 'error',
-                  title: 'Echec',
-                  text: 'Affectation échouée',
+                  title: '<?=lang('msg_echec')?>',
+                  text: '<?=lang('msg_echec_affectation')?>',
                   timer: 1500,
                 }).then(() =>
                 {

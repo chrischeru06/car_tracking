@@ -7,13 +7,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class LanguagesLoader {
     function initialize() {
-	$ci =& get_instance();
-	$ci->load->helper('language');
-	$siteLang = $ci->session->userdata('site_lang');
-	if ($siteLang) {
-	$ci->lang->load('messages',$siteLang);
-	} else { 
-	$ci->lang->load('messages','english');
-	}
-	}
+    $ci =& get_instance();
+    $ci->load->helper('language');
+    $siteLang = $ci->session->userdata('site_lang');
+    if ($siteLang) {
+    $ci->lang->load('messages',$siteLang);
+    } else { 
+    $ci->lang->load('messages','french');
+    }
+    }
 }

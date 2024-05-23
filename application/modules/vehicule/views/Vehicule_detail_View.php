@@ -144,7 +144,7 @@
                 <!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
               </td>
               <td>  
-                <h5 class="text-muted pt-2 ps-1 text-dark"> <i class="fa fa-dashboard"></i> Dashboard véhicule</h5>
+                <h5 class="text-muted pt-2 ps-1 text-dark"> <i class="fa fa-dashboard"></i> <?=lang('title_dashboard_veh')?></h5>
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                     <!-- <li class="breadcrumb-item"><a href="#">Centre de situation</a></li> -->
@@ -182,7 +182,7 @@
                   
                 </div> 
                 <div class="col-md-3">
-                  <font class="text-muted small" style="position:relative;top:15px;">Enregistré il ya <b><?=$nbr_jours?></b> jour(s)</font>
+                  <font class="text-muted small" style="position:relative;top:15px;">Enregistré <?=lang('franc_date_il_ya')?> <b><?=$nbr_jours?></b> <?=lang('dashboard_veh_jrs')?> <?=lang('angl_date_il_ya')?></font>
                 </div>
               </div>
 
@@ -196,15 +196,15 @@
                        <ul class="nav nav-tabs nav-tabs-bordered">
 
                         <li class="nav-item">
-                          <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#info_generales"><i class="fa fa-info-circle"></i> Informations générales</button>
+                          <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#info_generales"><i class="fa fa-info-circle"></i> <?=lang('btn_info_gnl')?></button>
                         </li>
 
                         <li class="nav-item">
-                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#assurance"><i class="fa fa-retweet"></i> Historique assurances</button>
+                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#assurance"><i class="fa fa-retweet"></i> <?=lang('dashboard_hist_assurance')?></button>
                         </li>
 
                         <li class="nav-item">
-                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#controle_technique"><i class="fa fa-tripadvisor"></i> Historique contrôle technique</button>
+                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#controle_technique"><i class="fa fa-tripadvisor"></i> <?=lang('dashboard_hist_ctrl_technique')?></button>
                         </li>
 
                         <?php
@@ -212,7 +212,7 @@
                         {
                           ?>
                           <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#active_desactive"><i class="fa fa-cog"></i> Activation et Désactivation</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#active_desactive"><i class="fa fa-cog"></i> <?=lang('title_modal_activation')?> <?=lang('mot_et')?> <?=lang('modal_desactivation')?></button>
                           </li>
                           <?php
                         }
@@ -269,7 +269,7 @@
                   {
                     ?>
                     <td>
-                      <i class="text-muted small pt-2 ps-1 fa fa-code"></i><font class="text-muted small pt-2 ps-1">Code</font><br>
+                      <i class="text-muted small pt-2 ps-1 fa fa-code"></i><font class="text-muted small pt-2 ps-1"><?=lang('mot_code')?></font><br>
                       <?php
                   if(!empty($infos_vehicule['CODE']))
                   {
@@ -278,7 +278,7 @@
                       <?php
                     }else{
                       ?>
-                      <font class="text-center text-muted small pt-2 ps-1 dash_v">&nbsp;&nbsp;N/A</font>
+                      <font class="text-center text-muted small pt-2 ps-1 dash_v">&nbsp;&nbsp;<?=lang('lste_n_a')?></font>
                       <?php
                     }?>
                     </td>
@@ -289,23 +289,23 @@
                   ?>
 
                   <td >
-                   <i class="text-muted small pt-2 ps-1 fa fa-bookmark-o"></i><font class="text-muted small pt-2 ps-1">Marque</font><br>
+                   <i class="text-muted small pt-2 ps-1 fa fa-bookmark-o"></i><font class="text-muted small pt-2 ps-1"><?=lang('label_marque')?></font><br>
                    <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['DESC_MARQUE']?></label>
                  </td>
 
                  <td >
-                  <i class="text-muted small pt-2 ps-1 fa fa-bolt"></i><font class="text-muted small pt-2 ps-1">Modèle</font><br>
+                  <i class="text-muted small pt-2 ps-1 fa fa-bolt"></i><font class="text-muted small pt-2 ps-1"><?=lang('label_modele')?></font><br>
                   <label class="text-muted small pt-2 dash_v"><?= $infos_vehicule['DESC_MODELE']?></label>
                 </td>
 
                 <td >
-                  <i class="text-muted small pt-2 ps-1 fa fa-circle"></i><font class="text-muted small pt-2 ps-1">Couleur</font><br>
+                  <i class="text-muted small pt-2 ps-1 fa fa-circle"></i><font class="text-muted small pt-2 ps-1"><?=lang('label_couleur')?></font><br>
                   <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['COULEUR']?></label>
                 </td>
 
                 <td >
-                  <i class="text-muted small pt-2 ps-1 fa fa-beer"> </i><font class="text-muted small pt-2 ps-1">Consommation</font><br>
-                  <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['KILOMETRAGE']?> Litres / km</label>
+                  <i class="text-muted small pt-2 ps-1 fa fa-beer"> </i><font class="text-muted small pt-2 ps-1"><?=lang('mot_consommation')?></font><br>
+                  <label class="text-muted small pt-2 ps-1 dash_v"><?= $infos_vehicule['KILOMETRAGE']?> <?=lang('l_kg')?></label>
                 </td>
 
               </tr>
@@ -328,9 +328,9 @@
                     }
                     ?>
                     
-                    <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Propriétaire</font><br>
+                    <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1"><?=lang('title_proprio_list')?></font><br>
                   </font>
-                  <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
+                  <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>" class="dash" title="<?=lang('title_visualisation')?>">
                     <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['proprio_desc']?></font></a>
                   </td>
 
@@ -340,11 +340,11 @@
                       ?>
                       <font>
                         <img src="<?= isset($infos_vehicule['photo_chauf'])?base_url('/upload/chauffeur/'.$infos_vehicule['photo_chauf']):base_url('/upload/iconecartracking-02.png')?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
-                        <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Chauffeur</font><br>
+                        <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1"><?=lang('p_chauffeur')?></font><br>
                       </font>
                       
                       
-                      <a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/<?=md5($infos_vehicule['CHAUFFEUR_ID'])?>" class="dash" title="Cliquer pour visualiser le détail">
+                      <a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/<?=md5($infos_vehicule['CHAUFFEUR_ID'])?>" class="dash" title="<?=lang('title_visualisation')?>">
                         <font class=" small pt-2 ps-1 dash_v"><?= $infos_vehicule['chauffeur_desc']?></font></a>
                         <?php
                       }
@@ -353,9 +353,9 @@
                         ?>
                         <font>
                           <img src="<?= base_url('/upload/iconecartracking-02.png')?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
-                          <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1">Chauffeur</font><br>
+                          <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1"><?=lang('p_chauffeur')?></font><br>
                         </font>
-                        <font class="text-center text-muted small pt-2 ps-1 dash_v">&nbsp;&nbsp;N/A</font>
+                        <font class="text-center text-muted small pt-2 ps-1 dash_v">&nbsp;&nbsp;<?=lang('lste_n_a')?></font>
                         <?php
                       }
                       ?>
@@ -368,8 +368,8 @@
                       if($infos_vehicule['STATUT_VEH_AJOUT'] == 1)
                       {
                         ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin" title="demande en attente"></font>
+                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1"><?=lang('i_stat')?></font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin" title="<?=lang('title_demande_attente')?>"></font>
                         
 
                         <?php
@@ -377,24 +377,24 @@
                       else if($infos_vehicule['STATUT_VEH_AJOUT'] == 2)
                       {
                         ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Vécule activé"></font>
+                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1"><?=lang('i_stat')?></font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-success small pt-2 ps-1 dash_v fa fa-check" title="<?=lang('title_veh_active')?>"></font>
 
                         <?php
                       }
                       else if($infos_vehicule['STATUT_VEH_AJOUT'] == 3)
                       {
                         ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-ban" title="demande refusé"></label>
+                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1"><?=lang('i_stat')?></font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-ban" title="<?=lang('title_demande_refus')?>"></label>
 
                         <?php
                       }
                       else if($infos_vehicule['STATUT_VEH_AJOUT'] == 4)
                       {
                         ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1">Statut</font><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Vécule désactivé"></label>
+                        <i class="text-muted small pt-2 ps-1 fa fa-cog"> </i><font class="text-muted small pt-2 ps-1"><?=lang('i_stat')?></font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="<?=lang('title_veh_desactive')?>"></label>
 
                         <?php
                       }
@@ -410,16 +410,16 @@
                         if($infos_vehicule['DATE_FIN_ASSURANCE'] >= date('Y-m-d'))
                         {
                           ?>
-                          <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Valide"></label>
+                          <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1"><?=lang('i_assurance')?></font><br>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-success small pt-2 ps-1 dash_v fa fa-check" title="<?=lang('title_valide')?>"></label>
 
                           <?php
                         }
                         else if($infos_vehicule['DATE_FIN_ASSURANCE'] < date('Y-m-d'))
                         {
                           ?>
-                          <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Expirée"></label>
+                          <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1"><?=lang('i_assurance')?></font><br>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="<?=lang('title_expire')?>"></label>
 
                           <?php
                         }
@@ -427,8 +427,8 @@
                       else
                       {
                         ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1">Assurance</font><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
+                        <i class="text-muted small pt-2 ps-1 fa fa-retweet"> </i><font class="text-muted small pt-2 ps-1"><?=lang('i_assurance')?></font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-center text-muted small pt-2 ps-1 dash_v"><?=lang('lste_n_a')?></font>
 
                         <?php
                       }
@@ -443,16 +443,16 @@
                       if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] >= date('Y-m-d'))
                       {
                         ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Valide"></label>
+                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1"><?=lang('td_ctrl_technique')?></font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-success small pt-2 ps-1 dash_v fa fa-check" title="<?=lang('title_valide')?>"></label>
 
                         <?php
                       }
                       else if($infos_vehicule['DATE_FIN_CONTROTECHNIK'] < date('Y-m-d'))
                       {
                         ?>
-                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Expirée"></label>
+                        <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1"><?=lang('td_ctrl_technique')?></font><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="<?=lang('title_expire')?>"></label>
 
                         <?php
                       }
@@ -460,8 +460,8 @@
                     else
                     {
                       ?>
-                      <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1">Contrôle technique</font><br>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-center text-muted small pt-2 ps-1 dash_v">N/A</font>
+                      <i class="text-muted small pt-2 ps-1 fa fa-tripadvisor"> </i><font class="text-muted small pt-2 ps-1"><?=lang('td_ctrl_technique')?></font><br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="text-center text-muted small pt-2 ps-1 dash_v"><?=lang('lste_n_a')?></font>
 
                       <?php
                     }
@@ -470,7 +470,7 @@
 
                 </tr>
               </table>
-              <center><a href="<?=base_url('centre_situation/Centre_situation/index/').$infos_vehicule['VEHICULE_ID']?>" id="tracking"> <i class="small pt-2 ps-1 fa fa-map-marker"> </i><font class=" small pt-2 ps-1">Emplacement du véhicule</font></a></center>
+              <center><a href="<?=base_url('centre_situation/Centre_situation/index/').$infos_vehicule['VEHICULE_ID']?>" id="tracking"> <i class="small pt-2 ps-1 fa fa-map-marker"> </i><font class=" small pt-2 ps-1"><?=lang('veh_emplacement')?></font></a></center>
               <input type="hidden" value="<?=$infos_vehicule['VEHICULE_ID']?>" id="VEHICULE_TRACK">
               <input type="hidden" value="<?=$infos_vehicule['latitude'].','.$infos_vehicule['longitude']?>" id="COORD_TRACK">
             </div>

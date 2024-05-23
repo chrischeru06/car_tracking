@@ -14,7 +14,17 @@
     /* Optionnel : pour une apparence personnalisée de la barre de défilement */
     scrollbar-width: thin; /* Pour les navigateurs prenant en charge le CSS personnalisé de la barre de défilement */
 /*    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1); /* Pour les navigateurs prenant en charge le CSS personnalisé de la barre de défilement */*/
-  }
+}
+/*.ml-2,
+.mx-2 {
+  margin-left: 0.5rem !important;
+}*/
+.img{
+  width:1rem;
+  height: auto;
+
+}
+
 </style>
 <header id="header" class="header fixed-top d-flex align-items-center"  style="background-color: cadetblue">
 
@@ -33,7 +43,29 @@
         <a class="nav-link nav-icon search-bar-toggle " href="#">
           <i class="bi bi-search"></i>
         </a>
-      </li><!-- End Search Icon-->
+      </li>
+      <!-- End Search Icon-->
+      <li class="nav-item dropdown header-profile">
+        <a  class="nav-link" href="#" role="button" data-toggle="dropdown">
+          <i style="font-size: 25px;color: #012970;" class="fa fa-language" aria-hidden="true"></i>
+          <small style="color: #012970;">Lang (<?= $this->session->userdata('site_lang') ?>)</small>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+
+          <a href="<?php echo base_url(); ?>Language/index/french" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='french') echo 'active' ?>">
+            <!-- <span style="width:1rem;height: auto;"> -->
+              <img class="img" src="<?= base_url() ?>upload/fr.jpg">&nbsp;&nbsp;&nbsp;FR
+            <!-- </span> -->
+          </a>
+          <a href="<?php echo base_url(); ?>Language/index/english" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='english') echo 'active' ?>">
+            <!-- <span class="ml-2"> -->
+              <img class="img" src="<?= base_url() ?>upload/en.png">&nbsp;&nbsp;&nbsp;EN
+            <!-- </span> -->
+          </a>
+
+
+        </div>
+      </li>
       <?php
 
 

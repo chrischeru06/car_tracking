@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','file','html','form','mbx_helper');
+$autoload['helper'] = array('url','file','html','form','mbx_helper','language');
 
 /*
 | -------------------------------------------------------------------
@@ -117,7 +117,7 @@ $autoload['config'] = array('app');
 | "codeigniter_lang.php" would be referenced as array('codeigniter');
 |
 */
-$autoload['language'] = array();
+$autoload['language'] = array('rapport','geolocalisation','requerant','equipe','requerant_new','messages_fab','front_menu_principal','messages_lang');
 
 /*
 | -------------------------------------------------------------------
