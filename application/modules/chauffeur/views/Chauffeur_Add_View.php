@@ -17,6 +17,7 @@
 
   <main id="main" class="main">
 
+    <div class="pagetitle">
      <div class="row page-titles mx-0">
       <div class="col-sm-10 p-md-0">
         <div class="welcome-text">
@@ -25,7 +26,7 @@
           <tr>
           
             <td>  
-              <h4 class="text-dark text-center" style="margin-bottom: 1px;"><?=$title?></h4>
+              <h1 class=" text-center" style="margin-bottom: 1px;"><font class="fa fa-plus" style="font-size:18px;"></font> <?=$title?></h1>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                
@@ -42,6 +43,7 @@
       <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Liste</a>
 
     </div>
+  </div>
   </div>
     <!-- End Page Title -->
 

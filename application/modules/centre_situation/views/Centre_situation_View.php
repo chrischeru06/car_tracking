@@ -124,17 +124,14 @@
 	<!-- End Sidebar-->
 
 	<main id="main" class="main">
-
-		<div class="row page-titles mx-0">
+     <div class="pagetitle">
+		<div class="row">
 			<div class="col-sm-10 p-md-0">
 				<div class="welcome-text">
 					<table>
 						<tr>
-							<td> 
-								<!-- <img src="<?= base_url()?>template/imagespopup/IconeMuyingajdfss-04.png" width="60px" height="60px" alt=""> -->
-							</td>
 							<td>  
-								<h4 class="text-dark">Centre de situation</h4>
+								<h1 class=""><font class="bi bi-grid" style="font-size:18px;"></font> Centre de situation</h1>
 								<nav aria-label="breadcrumb">
 									<ol class="breadcrumb">
 										<li class="breadcrumb-item"><a href="#">Centre de situation</a></li>
@@ -152,6 +149,7 @@
 				<!-- <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a> -->
 
 			</div>
+		</div>
 		</div>
 
 		<!-----------------filtre-------------------------->

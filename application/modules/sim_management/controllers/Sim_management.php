@@ -216,7 +216,7 @@ class Sim_management extends CI_Controller
 	// Appel du formulaire d'enregistrement
 	function ajouter()
 	{
-		$data['title'] = 'Enregistrement d\'un device';
+		
 		$data['btn'] = "Enregistrer";
 
 		$device = '';
@@ -227,11 +227,13 @@ class Sim_management extends CI_Controller
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-		if(empty($DEVICE_ID)){
+		if(empty($DEVICE_ID)){ //Enregistrement
 
 			$device = array('DEVICE_ID'=>NULL,'CODE'=>NULL,'VEHICULE_ID'=>NULL,'DATE_INSTALL'=>NULL,'OPERATEUR_ID'=>NULL,'NUMERO'=>NULL,'DATE_ACTIVE_MEGA'=>NULL,'DATE_EXPIRE_MEGA'=>NULL,'proprio_desc'=>NULL);
+
+			$data['title'] = 'Enregistrement d\'un device';
 		}
-		else{
+		else{  //Modification
 
 			$device = $this->getBindParms('device.DEVICE_ID,device.CODE,vehicule.VEHICULE_ID,device.DATE_INSTALL,operateur_reseau.OPERATEUR_ID,device.NUMERO,device.DATE_ACTIVE_MEGA,device.DATE_EXPIRE_MEGA,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','device JOIN vehicule ON vehicule.VEHICULE_ID = device.VEHICULE_ID JOIN operateur_reseau ON operateur_reseau.OPERATEUR_ID = device.OPERATEUR_ID JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID',' 1 and md5(device.DEVICE_ID)="'.$DEVICE_ID.'"','device.DEVICE_ID ASC');
 
@@ -240,6 +242,8 @@ class Sim_management extends CI_Controller
 			$device = str_replace('\"', '', $device);
 
 			$device = $this->ModelPs->getRequeteOne($proce_requete, $device);
+
+			$data['title'] = 'Modification d\'un device';
 		}
 
 

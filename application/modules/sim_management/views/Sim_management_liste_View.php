@@ -89,6 +89,8 @@ input:checked + .slider:before {
 
   <main id="main" class="main">
 
+    <div class="pagetitle">
+
     <div class="row page-titles mx-0">
       <div class="col-sm-10 p-md-0">
        <!-- <div class="welcome-text">
@@ -114,7 +116,7 @@ input:checked + .slider:before {
           </div>
         </center>
       </div>-->
-      <h4><i class="fa fa-code"></i> <font>Devices</font></h4>
+      <h1><i class="fa fa-hdd-o" style="font-size:18px;"></i> <font>Devices</font></h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Devices</a></li>
@@ -127,6 +129,8 @@ input:checked + .slider:before {
       <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('sim_management/Sim_management/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
 
     </div>
+  </div>
+
   </div>
 
   <section class="section dashboard">
@@ -435,6 +439,15 @@ input:checked + .slider:before {
 <script>
   function verif_check()
   {
+    Swal.fire({
+          icon: 'success',
+          title: 'Annulé',
+          text: 'Modifcation annulée !',
+          timer: 1000,
+        }).then(() => {
+          window.location.reload();
+        })
+
     // var check = document.getElementById('myChecked');
 
     // if(check == false)

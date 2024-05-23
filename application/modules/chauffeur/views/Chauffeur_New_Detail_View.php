@@ -89,7 +89,7 @@
        <!--  <li class="breadcrumb-item"><a href="index.html">Détail</a></li>  -->
        <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Détail du chauffeur <strong class="text-primary"><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong></a></li>
+          <li class="breadcrumb-item"><a><font class="fa fa-dashboard" style="font-size:18px;"></font>  Détail du chauffeur <strong class="text-primary"><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong></a></li>
           <input type="hidden" id="CHAUFFEUR_ID" name="CHAUFFEUR_ID" value="<?=$chauff['CHAUFFEUR_ID']?>">
         </ol>
       </nav>

@@ -101,7 +101,7 @@ input:checked + .slider:before {
     <div class="pagetitle">
       <div class="row">
         <div class="col-md-6">
-          <h1>Utilisateurs</h1>
+          <h1><font class="fa fa-user" style="font-size:18px;"></font>  Utilisateurs</h1>
           <nav>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="index.html">Utilisateurs</a></li>
