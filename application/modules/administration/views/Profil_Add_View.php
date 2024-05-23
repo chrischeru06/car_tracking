@@ -21,10 +21,10 @@
     <div class="pagetitle">
       <div class="row">
         <div class="col-md-6">
-          <h1>Profil</h1>
+          <h1><font class="fa fa-user" style="font-size:18px;"></font> Profil</h1>
           <nav>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Enregistrement</a></li>
+              <li class="breadcrumb-item"><a href="index.html"><font class="fa fa-save" style="font-size:15px;"></font>  Enregistrement</a></li>
               <!-- <li class="breadcrumb-item active">Liste</li> -->
             </ol>
           </nav>

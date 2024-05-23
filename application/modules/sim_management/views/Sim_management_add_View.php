@@ -18,6 +18,8 @@
 
   <main id="main" class="main">
 
+    <div class="pagetitle">
+
    <div class="row page-titles mx-0">
     <div class="col-sm-10">
       <div class="welcome-text">
@@ -28,7 +30,7 @@
             <td> 
             </td>
             <td>  
-              <h4 class="text-dark text-center" style="margin-bottom: 1px; margin-top: 3px;"><?=$title?></h4>
+              <h1 class=" text-center" style="margin-bottom: 1px; margin-top: 3px;"><i class="fa fa-save" style="font-size:18px;"></i> <?=$title?></h1>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#"></a></li>
@@ -45,6 +47,7 @@
    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('sim_management/Sim_management')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a>
 
  </div>
+</div>
 </div>
 
 

@@ -97,6 +97,8 @@ input:checked + .slider:before {
   <!-- End Sidebar-->
 
   <main id="main" class="main">
+</div>
+    <div class="pagetitle">
    <div class="row page-titles mx-0">
     <div class="col-sm-10 p-md-0">
       <div class="welcome-text">
@@ -105,7 +107,7 @@ input:checked + .slider:before {
           <tr>
 
             <td>  
-              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Liste des chauffeurs</h4>
+              <h1 class="text-center" style="margin-bottom: 1px;"><font class="fa fa-list" style="font-size:18px;"></font> Liste des chauffeurs</h1>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
 
@@ -122,6 +124,7 @@ input:checked + .slider:before {
     <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
 
   </div>
+</div>
 </div>
 
 

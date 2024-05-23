@@ -89,6 +89,8 @@ input:checked + .slider:before {
 
   <main id="main" class="main">
 
+    <div class="pagetitle">
+
     <div class="row page-titles mx-0">
       <div class="col-sm-10 p-md-0">
         <div class="welcome-text">
@@ -97,7 +99,7 @@ input:checked + .slider:before {
               <td> 
               </td>
               <td>  
-                <h5 class="text-muted pt-2 ps-1 text-dark"> <i class="fa fa-rotate-left" style="font-size: 15px;"></i> Historique device</h5>
+                <h1 class="pt-2 ps-1"> <i class="fa fa-rotate-left" style="font-size: 15px;"></i> Historique device</h1>
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                   </ol>
@@ -112,6 +114,7 @@ input:checked + .slider:before {
       <!-- <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('sim_management/Sim_management/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a> -->
 
     </div>
+  </div>
   </div>
 
 
