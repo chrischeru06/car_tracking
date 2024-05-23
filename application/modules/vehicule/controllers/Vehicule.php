@@ -117,7 +117,7 @@
 					if (!empty($row->CODE)) {
 						$sub_array[]=$row->CODE;
 					}else{
-						$sub_array[]='N/A';
+						$sub_array[]="".lang('lste_n_a')."";
 
 					}
 					
@@ -137,7 +137,7 @@
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 
-					<center title="Désactiver"><label class="switch"> 
+					<center title='.lang('checkbox_desactiver').'><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_desactive(' . $row->VEHICULE_ID . ')" checked >
 					<span class="slider round"></span>
 					</label></center>
@@ -147,22 +147,22 @@
 				}
 				elseif($row->STATUT_VEH_AJOUT == 2 && $this->session->userdata('PROFIL_ID') != 1){
 
-					$sub_array[]='<center><i class="fa fa-check text-success  small" title="Démande approuvée"></i></i><font style="font-size:14px;" class="text-success" title="Démande approuvée"> </font></center>';
+					$sub_array[]='<center><i class="fa fa-check text-success  small" title='.lang('title_demande_approuve').'></i></i><font style="font-size:14px;" class="text-success" title='.lang('title_demande_approuve').'> </font></center>';
 				}
 				elseif ($row->STATUT_VEH_AJOUT==1) 
 				{
-					$sub_array[] = '<center><i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title="Véhicule en attente"></i></center>';
+					$sub_array[] = '<center><i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title='.lang('title_veh_attente').'></i></center>';
 
 				}elseif ($row->STATUT_VEH_AJOUT==3) 
 				{
-					$sub_array[]='<center><i class="fa fa-ban text-danger  small" title="Véhicule refusé"></i></i><font style="font-size:14px;" class="text-danger" title="Véhicule refusé"> </font></center>';
+					$sub_array[]='<center><i class="fa fa-ban text-danger  small" title='.lang('title_veh_refuse').'></i></i><font style="font-size:14px;" class="text-danger" title='.lang('title_veh_refuse').'> </font></center>';
 				}elseif($row->STATUT_VEH_AJOUT == 4 && $this->session->userdata('PROFIL_ID') == 1){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 
 					<input type = "hidden" value="'.$row->STATUT_VEH_AJOUT.'" id="status">
 					
 					
-					<center title="Activer"><label class="switch"> 
+					<center title='.lang('btn_active').'><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="statut_active(' . $row->VEHICULE_ID . ')">
 					<span class="slider round"></span>
 					</label></center>
@@ -172,7 +172,7 @@
 					';
 				}
 				elseif($row->STATUT_VEH_AJOUT == 4 && $this->session->userdata('PROFIL_ID') != 1){
-					$sub_array[]='<center><i class="fa fa-close text-danger  small" title="Vécule désactivé"></i></i><font style="font-size:14px;" class="text-danger" title="Vécule désactivé"> </font></center>';
+					$sub_array[]='<center><i class="fa fa-close text-danger  small" title='.lang('title_veh_desactive').'></i></i><font style="font-size:14px;" class="text-danger" title='.lang('title_veh_desactive').'> </font></center>';
 				}
 
 				$option = '<div class="dropdown text-center">
@@ -187,11 +187,11 @@
 				{
 					if(date('Y-m-d',strtotime($row->DATE_FIN_ASSURANCE)) >= date('Y-m-d'))
 					{
-						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title='.lang('title_valide').'></i><font class="text-success small" title='.lang('title_valide').'> </font></center>';
 					}
 					else 
 					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title='.lang('title_expire').'></i><font class="text-danger small" title='.lang('title_expire').'> </font></center>';
 
 						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle(\''.$row->VEHICULE_ID .'\',1)"> <li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Assurance</td></tr></table></li></a>';
 						
@@ -199,49 +199,49 @@
 				}
 				else
 				{
-					$sub_array[] = '<center><font class="small" title="">N/A</font></center>';
+					$sub_array[] = '<center><font class="small" title="">'.lang('lste_n_a').'</font></center>';
 				}
 				
 				if(!empty($row->DATE_FIN_CONTROTECHNIK))
 				{
 					if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
 					{
-						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title='.lang('title_valide').'></i><font class="text-success small" title='.lang('title_valide').'> </font></center>';
 					}
 					else
 					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title='.lang('title_expire').'></i><font class="text-danger small" title='.lang('title_expire').'> </font></center>';
 
-						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>Contrôle technique</td></tr></table></li></a>';
+						$option.='<a class="btn-md" style="cursor:pointer;" onclick="assure_controle('.$row->VEHICULE_ID.',2)"><li class="btn-md" style=""><table><tr><td><i class="fa fa-rotate-right h5" ></i></td><td>'.lang('td_ctrl_technique').'</td></tr></table></li></a>';
 					}
 				}
 				else
 				{
-					$sub_array[] = '<center><font class="small" title="">N/A</font></center>';
+					$sub_array[] = '<center><font class="small" title="">'.lang('lste_n_a').'</font></center>';
 				}
 
 				
 				if ($row->STATUT_VEH_AJOUT == 1 || $row->STATUT_VEH_AJOUT ==2 )
 				{
-					$option .= "<a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-edit'></i>&nbsp;&nbsp;&nbsp;&nbsp;Modifier</li></a>";
+					$option .= "<a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-edit'></i>&nbsp;&nbsp;&nbsp;&nbsp;".lang('btn_modifier')."</li></a>";
 					
 				}
 
 				if($PROFIL_ID == 1)
 				{
 					if($row->STATUT_VEH_AJOUT == 1 || $row->STATUT_VEH_AJOUT == 3){
-						$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='bi bi-pen'></i>&nbsp;&nbsp;&nbsp;&nbsp;Traiter</li></a>";
+						$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='bi bi-pen'></i>&nbsp;&nbsp;&nbsp;&nbsp;".lang('btn_traiter')."</li></a>";
 
 					}
 					if($row->STATUT == 1 && $row->STATUT_VEH_AJOUT == 2)
 					{
 
-						$option.='<a class="btn-md" href="'.base_url('vehicule/Vehicule/affecter_vehicule/'.$row->VEHICULE_ID).'"><li class="btn-md" style=""><table><tr><td><i class="fa fa-plus h5" ></i></td><td>Affecter au chauffeur</td></tr></table></li></a>';
+						$option.='<a class="btn-md" href="'.base_url('vehicule/Vehicule/affecter_vehicule/'.$row->VEHICULE_ID).'"><li class="btn-md" style=""><table><tr><td><i class="fa fa-plus h5" ></i></td><td>'.lang('btn_affecter_chauf').'</td></tr></table></li></a>';
 					}
 					else if($row->STATUT == 2)
 					{
 
-						$option .= "<a class='btn-md' href='#' data-toggle='modal' data-target='#modal_retirer" . $row->VEHICULE_ID . "'><li class='btn-md'><table><tr><td><i class='fa fa-close h5' ></i></td><td>Annuler l'affectation</td></tr></table></li></a>";
+						$option .= "<a class='btn-md' href='#' data-toggle='modal' data-target='#modal_retirer" . $row->VEHICULE_ID . "'><li class='btn-md'><table><tr><td><i class='fa fa-close h5' ></i></td><td>".lang('btn_annuler_affectation')."</td></tr></table></li></a>";
 					}
 				}
 
@@ -258,12 +258,12 @@
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
-				<center><h5>Voulez-vous annuler l'affectation du véhicule <b>" . $row->DESC_MARQUE.' - '.$row->DESC_MODELE." ? </b></h5></center>
+				<center><h5>".lang('modal_annuler_affectation')." <b>" . $row->DESC_MARQUE.' - '.$row->DESC_MODELE." ? </b></h5></center>
 				<div class='modal-footer'>
 
-				<a class='btn btn-outline-primary rounded-pill' href='".base_url('vehicule/Vehicule/annuler_affectation/'.md5($row->CODE))."' ><font class='fa fa-check'></font> Valider</a>
+				<a class='btn btn-outline-primary rounded-pill' href='".base_url('vehicule/Vehicule/annuler_affectation/'.md5($row->CODE))."' ><font class='fa fa-check'></font> ".lang('modal_btn_valider')."</a>
 
-				<button type='button' class='btn btn-outline-warning rounded-pill' data-dismiss='modal' aria-label='Close'><font class='fa fa-close'></font> Quitter</button>
+				<button type='button' class='btn btn-outline-warning rounded-pill' data-dismiss='modal' aria-label='Close'><font class='fa fa-close'></font> ".lang('modal_btn_quitter')."</button>
 				</div>
 				</div>
 				</div>
@@ -280,7 +280,7 @@
 					<div class='modal-content'>
 
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h5 class='modal-title'>Information du propriétaire</h5>
+					<h5 class='modal-title'>".lang('title_info_proprio')."</h5>
 					<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -300,25 +300,25 @@
 					<table class='table table-borderless'>
 
 					<tr>
-					<td class='btn-sm'>Nom</td>
+					<td class='btn-sm'>".lang('input_nom')."</td>
 
 					<th class='btn-sm'>".$row->NOM_PROPRIETAIRE."</th>
 					</tr>
 
 					<tr>
-					<td class='btn-sm'>Adresse</td>
+					<td class='btn-sm'>".lang('input_adresse')."</td>
 
 					<th class='btn-sm'>".$row->ADRESSE."</th>
 					</tr>
 
 					<tr class='btn-sm'>
-					<td>Email</td>
+					<td>".lang('input_email')."</td>
 
 					<th class='btn-sm'>".$row->EMAIL."</th>
 					</tr>
 
 					<tr>
-					<td class='btn-sm'>Téléphone</td>
+					<td class='btn-sm'>".lang('input_tlphone')."</td>
 
 					<td class='btn-sm'>".$row->TELEPHONE."</td>
 					</tr>
@@ -341,7 +341,7 @@
 					<div class='modal-content'>
 
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h5 class='modal-title'>Information du propriétaire</h5>
+					<h5 class='modal-title'>".lang('title_info_proprio')."</h5>
 					<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -361,12 +361,12 @@
 					<table class='table table-borderless'>
 
 					<tr>
-					<td class='btn-sm'>Nom</td>
+					<td class='btn-sm'>".lang('input_nom')."</td>
 					<th class='btn-sm'>".$row->NOM_PROPRIETAIRE."</th>
 					</tr>
 
 					<tr>
-					<td class='btn-sm'>Adresse</td>
+					<td class='btn-sm'>".lang('input_adresse')."</td>
 
 					<th class='btn-sm'>".$row->ADRESSE."</th>
 					</tr>
@@ -378,7 +378,7 @@
 					</tr>
 
 					<tr>
-					<td class='btn-sm'>Téléphone</td>
+					<td class='btn-sm'>".lang('input_tlphone')."</td>
 
 					<td class='btn-sm'>".$row->TELEPHONE."</td>
 					</tr>
@@ -408,7 +408,7 @@
 		function get_all_statut()
 		{
 			$all_statut = $this->Model->getRequete("SELECT `TRAITEMENT_DEMANDE_ID`,`DESC_TRATDEMANDE` FROM `traitement_demande` WHERE 1");
-			$html='<option value="">--- Sélectionner ----</option>';
+			$html='<option value="">--- '.lang('selectionner').' ----</option>';
 			if(!empty($all_statut))
 			{
 				foreach($all_statut as $key)
@@ -632,7 +632,7 @@
        //Selection des noms des vehicules
 		function get_modele($ID_MARQUE)
 		{
-			$html="<option value=''>-- Séléctionner --</option>";
+			$html="<option value=''>-- ".lang('selectionner')." --</option>";
 
 			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 
@@ -938,13 +938,13 @@
 
 						if ($update && $create_assure && $create_controle)
 						{
-							$message['message']='<div class="alert alert-success text-center" id="message">Modification du véhicule faite avec succès <i class="fa fa-check"></i></div>';
+							$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif_veh').' <i class="fa fa-check"></i></div>';
 							$this->session->set_flashdata($message);
 							redirect(base_url('vehicule/Vehicule'));
 
 						}else
 						{
-							$message['message']='<div class="alert alert-danger text-center" id="message">Echec de modification</div>';
+							$message['message']='<div class="alert alert-danger text-center" id="message">'.lang('msg_echec_modif_veh').'</div>';
 							$this->session->set_flashdata($message);
 							redirect(base_url('vehicule/Vehicule'));
 
@@ -1021,7 +1021,7 @@
 
 			$my_select_vehicul = $this->getBindParms('`ID_ASSUREUR`', 'vehicule', '1 AND VEHICULE_ID='.$VEHICULE_ID_ASSURE, '`ID_ASSUREUR` ASC');
 			$assureur_vehi = $this->ModelPs->getRequeteOne($proce_requete, $my_select_vehicul);
-			$html_assureur='<option value="">Sélectionner</option>';
+			$html_assureur='<option value="">'.lang('selectionner').'</option>';
 			foreach ($assureur as $key)
 			{
 				
@@ -1182,7 +1182,7 @@
 				<div class='modal-content'>
 
 				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<h6 class='modal-title'>Document d'assurance</h6>
+				<h6 class='modal-title'>".lang('title_doc_assurance')."</h6>
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
@@ -1281,7 +1281,7 @@
 				<div class='modal-content'>
 
 				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<h6 class='modal-title'>Document du contrôle technique</h6>
+				<h6 class='modal-title'>".lang('title_doc_ctrl_technique')."</h6>
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
@@ -1368,14 +1368,14 @@
 				
 				if($row->STATUT == 2)
 				{
-					$sub_array[] = '<label title="Vécule activé"><i class="text-success small fa fa-check" title="Vécule activé"></i><font class="text-success small "></font></label>';
+					$sub_array[] = '<label title='.lang('title_veh_active').'><i class="text-success small fa fa-check" title='.lang('title_veh_active').'></i><font class="text-success small "></font></label>';
 				}
 				else if($row->STATUT == 4)
 				{
-					$sub_array[] = '<label title="Vécule désactivé"><i class="text-danger small fa fa-close"></i><font class="text-danger small "></font></label>';
+					$sub_array[] = '<label title='.lang('title_veh_desactive').'><i class="text-danger small fa fa-close"></i><font class="text-danger small "></font></label>';
 				}
 				else{
-					$sub_array[] = '<label><font class="text-dark small ">N/A</font></label>';
+					$sub_array[] = '<label><font class="text-dark small ">'.lang('lste_n_a').'</font></label>';
 				}
 
 				$sub_array[] = $row->IDENTIFICATION;
@@ -1567,7 +1567,7 @@
 			$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID'],'STATUT_AFFECT'=>1),array('STATUT_AFFECT'=>2));
 
 
-			$data['message'] = '<div class="alert alert-success text-center" id="message">' . " l'affectation annulée avec succès !" . '</div>';
+			$data['message'] = '<div class="alert alert-success text-center" id="message">' . lang('msg_annule_affectation') . '</div>';
 
 			$this->session->set_flashdata($data);
 
@@ -1630,6 +1630,7 @@
 		function check_anomalies(){
 			$USER_ID = $this->session->userdata('USER_ID');
 			$PROFIL_ID = $this->session->userdata('PROFIL_ID');
+
 			if (!empty($USER_ID) && !empty($PROFIL_ID)) {
 
 				$today = date('Y-m-d');
@@ -1657,8 +1658,8 @@
 					<i class="bi bi-exclamation-circle text-warning"></i>
 					<div>
 					<h4>'.$keyvehicule['IDENTIFICATION'].'</h4>
-					<p>Plaque : '.$keyvehicule['PLAQUE'].'</p>
-					<p>Il y a '.$heure_veh.'</p>
+					<p>'.lang('label_plaque').' : '.$keyvehicule['PLAQUE'].'</p>
+					<p>'.lang('franc_date_il_ya').' '.$heure_veh.' '.lang('angl_date_il_ya').'</p>
 					</div>
 					</li>
 					</a>
@@ -1695,11 +1696,11 @@
 							<li class="notification-item">
 							<i class="bi bi-exclamation-circle text-warning"></i>
 							<div>
-							<h4 class="text-warning">Exces de Vitesse</h4>
-							<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-							<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-							<p>Plaque : '.$personal['PLAQUE'].'</p>
-							<p>Il y a '.$heure_exces.'</p>
+							<h4 class="text-warning">'.lang('h_exces_vitesse').'</h4>
+							<p>'.lang('title_proprio_list').': '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+							<p>'.lang('p_chauffeur').' : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+							<p>'.lang('label_plaque').' : '.$personal['PLAQUE'].'</p>
+							<p>'.lang('franc_date_il_ya').' '.$heure_exces.' '.lang('angl_date_il_ya').'</p>
 							</div>
 							</li>
 							</a>
@@ -1736,11 +1737,11 @@
 							<li class="notification-item">
 							<i class="bi bi-exclamation-circle text-danger"></i>
 							<div>
-							<h4 class="text-danger">Accident</h4>
-							<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-							<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-							<p>Plaque : '.$personal['PLAQUE'].'</p>
-							<p>Il y a '.$heure_accident.'</p>
+							<h4 class="text-danger">'.lang('h_accident').'</h4>
+							<p>'.lang('title_proprio_list').' : '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+							<p>'.lang('p_chauffeur').' : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+							<p>'.lang('label_plaque').' : '.$personal['PLAQUE'].'</p>
+							<p>'.lang('franc_date_il_ya').' '.$heure_accident.' '.lang('angl_date_il_ya').'</p>
 							</div>
 							</li>
 							</a>
@@ -1825,10 +1826,10 @@
 									<li class="notification-item">
 									<i class="bi bi-exclamation-circle text-danger"></i>
 									<div>
-									<h4 class="text-danger">Geofencing</h4>
+									<h4 class="text-danger">'.lang('title_geofence').'</h4>
 
-									<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
-									<p>Il y a '.$keyresponse[4].' </p>
+									<p>'.lang('p_chauffeur').' : '.$keyresponse[1].' '.$keyresponse[2].'</p>
+									<p>'.lang('franc_date_il_ya').' '.$keyresponse[4].' '.lang('angl_date_il_ya').' </p>
 									</div>
 									</li>
 									</a>
@@ -1870,10 +1871,10 @@
 							<li class="notification-item">
 							<i class="bi bi-exclamation-circle text-danger"></i>
 							<div>
-							<h4 class="text-danger">Fin de l\'affectation</h4>
+							<h4 class="text-danger">'.lang('title_fin_affectation').'</h4>
 
-							<p>Chauffeur : '.$keycheck_all_affect['NOM'].' '.$keycheck_all_affect['PRENOM'].'</p>
-							<p>Il y a '.$interval.' </p>
+							<p>'.lang('p_chauffeur').' : '.$keycheck_all_affect['NOM'].' '.$keycheck_all_affect['PRENOM'].'</p>
+							<p>'.lang('franc_date_il_ya').' '.$interval.' '.lang('angl_date_il_ya').' </p>
 							</div>
 							</li>
 							</a>
@@ -1918,10 +1919,10 @@
 								<li class="notification-item">
 								<i class="bi bi-exclamation-circle text-warning"></i>
 								<div>
-								<h4 class="text-warning">Forfait&nbsp;proche&nbsp;à&nbsp;l\'expriration</h4>
-								<p>Code device : '.$key_device['CODE'].'</p>
-								<p>Carte sim : '.$key_device['NUMERO'].'</p>
-								<p>Il reste '.$jrsRestants.' jrs</p>
+								<h4 class="text-warning">'.lang('title_forfait_fin').'</h4>
+								<p>'.lang('p_code_device').' : '.$key_device['CODE'].'</p>
+								<p>'.lang('p_carte_sim').' : '.$key_device['NUMERO'].'</p>
+								<p>'.lang('reste').' '.$jrsRestants.' '.lang('jrs').'</p>
 								</div>
 								</li>
 								</a>
@@ -1940,9 +1941,9 @@
 								<i class="bi bi-exclamation-circle text-danger"></i>
 								<div>
 								<h4 class="text-danger">Forfait expriré</h4>
-								<p>Code device : '.$key_device['CODE'].'</p>
-								<p>Carte sim : '.$key_device['NUMERO'].'</p>
-								<p>Il y a '.$jrsRestants.'jrs</p>
+								<p>'.lang('p_code_device').' : '.$key_device['CODE'].'</p>
+								<p>'.lang('p_carte_sim').' : '.$key_device['NUMERO'].'</p>
+								<p>'.lang('franc_date_il_ya').' '.$jrsRestants.' '.lang('jrs_jrs').' '.lang('angl_date_il_ya').'</p>
 								</div>
 								</li>
 								</a>
@@ -1967,7 +1968,8 @@
 
 				}else{
 					if(!empty($USER_ID)){
-
+						$html_device = '';
+						$html_device_exp = '';
 					//Notification lorsqu'il y a exces de vitesse cote proprietaire
 						$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 				// $anomalies_req = $this->getBindParms('device_uid','tracking_data join vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID','1 and vitesse>=50 and STATUT_NOTIF=1 and users.USER_ID='.$USER_ID.' and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid','id ASC');
@@ -1995,11 +1997,11 @@
 								<li class="notification-item">
 								<i class="bi bi-exclamation-circle text-warning"></i>
 								<div>
-								<h4 class="text-warning">Exces de Vitesse</h4>
-								<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-								<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-								<p>Plaque : '.$personal['PLAQUE'].'</p>
-								<p>Il y a '.$heure_exces.'</p>
+								<h4 class="text-warning">'.lang('h_exces_vitesse').'</h4>
+								<p>'.lang('title_proprio_list').': '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+								<p>'.lang('p_chauffeur').' : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+								<p>'.lang('label_plaque').' : '.$personal['PLAQUE'].'</p>
+								<p>'.lang('franc_date_il_ya').' '.$heure_exces.' '.lang('angl_date_il_ya').'</p>
 								</div>
 								</li>
 								</a>
@@ -2037,11 +2039,11 @@
 								<li class="notification-item">
 								<i class="bi bi-exclamation-circle text-danger"></i>
 								<div>
-								<h4 class="text-danger">Accident</h4>
-								<p>propriétaire: '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-								<p>Chauffeur : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-								<p>Plaque : '.$personal['PLAQUE'].'</p>
-								<p>Il y a '.$heure_accident.'</p>
+								<h4 class="text-danger">'.lang('h_accident').'</h4>
+								<p>'.lang('title_proprio_list').' : '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+								<p>'.lang('p_chauffeur').' : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+								<p>'.lang('label_plaque').' : '.$personal['PLAQUE'].'</p>
+								<p>'.lang('franc_date_il_ya').' '.$heure_accident.' '.lang('angl_date_il_ya').'</p>
 								</div>
 								</li>
 								</a>
@@ -2125,10 +2127,10 @@
 									<li class="notification-item">
 									<i class="bi bi-exclamation-circle text-danger"></i>
 									<div>
-									<h4 class="text-danger">Geofencing</h4>
+									<h4 class="text-danger">'.lang('title_geofence').'</h4>
 
-									<p>Chauffeur : '.$keyresponse[1].' '.$keyresponse[2].'</p>
-									<p>Il y a '.$keyresponse[4].' </p>
+									<p>'.lang('p_chauffeur').' : '.$keyresponse[1].' '.$keyresponse[2].'</p>
+									<p>'.lang('franc_date_il_ya').' '.$keyresponse[4].' '.lang('angl_date_il_ya').' </p>
 									</div>
 									</li>
 									</a>
@@ -2170,10 +2172,10 @@
 									<li class="notification-item">
 									<i class="bi bi-exclamation-circle text-danger"></i>
 									<div>
-									<h4 class="text-danger">Fin de l\'affectation</h4>
+									<h4 class="text-danger">'.lang('title_fin_affectation').'</h4>
 
-									<p>Chauffeur : '.$keycheck_all_affect['NOM'].' '.$keycheck_all_affect['PRENOM'].'</p>
-									<p>Il y a '.$interval.' </p>
+									<p>'.lang('p_chauffeur').' : '.$keycheck_all_affect['NOM'].' '.$keycheck_all_affect['PRENOM'].'</p>
+									<p>'.lang('franc_date_il_ya').' '.$interval.' '.lang('angl_date_il_ya').' </p>
 									</div>
 									</li>
 									</a>

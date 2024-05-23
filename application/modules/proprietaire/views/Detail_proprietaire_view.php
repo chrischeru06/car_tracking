@@ -65,7 +65,7 @@
        <!--  <li class="breadcrumb-item"><a href="index.html">Détail</a></li>  -->
        <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><i class="fa fa-dashboard"> </i> <a href="index.html"> Détail</a></li>
+          <li class="breadcrumb-item"><i class="fa fa-dashboard"> </i> <a href="index.html"> <?= lang('btn_detail')?></a></li>
 
         </ol>
       </nav>
@@ -74,7 +74,7 @@
     <div class="col-md-6">
 
       <div class="justify-content-sm-end d-flex">
-        <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire/liste')?>"><i class="bi bi-plus"></i> Liste</a>
+        <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire/liste')?>"><i class="bi bi-plus"></i> <?=lang('title_list')?></a>
       </div>
     </div><!-- End Page Title -->
   </div>
@@ -96,15 +96,15 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link <?php if($VEHICULE_PRO == " "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#info_generales">Informations générales</button>
+                  <button class="nav-link <?php if($VEHICULE_PRO == " "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#info_generales"><?=lang('btn_info_gnl')?></button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#doc_uploader">Documents</button>
+                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#doc_uploader"><?=lang('btn_doc')?></button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link <?php if($VEHICULE_PRO !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures">Véhicules<span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:-10px;left:-2px;">4</span></button>
+                  <button class="nav-link <?php if($VEHICULE_PRO !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures"><?=lang('btn_vehicules')?><span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:-10px;left:-2px;">4</span></button>
                 </li>
 
               </ul>
@@ -218,7 +218,7 @@
                           {
                             ?>
                             <tr>
-                              <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;Nom</td>
+                              <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;<?=lang('input_nom')?></td>
                               <td class="text-muted"><b>
                                 <?=$proprietaire['NOM_PROPRIETAIRE']?></b>
                               </td>
@@ -226,13 +226,13 @@
                             </tr>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;E-mail</td>
+                              <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;<?=lang('input_email')?></td>
                               <td class="text-muted"><b><?=$proprietaire['EMAIL']?></b></td>
                               <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('EMAIL')"></font></td>
                             </tr>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;Téléphone</td>
+                              <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;<?=lang('input_tlphone')?></td>
                               <td class="text-muted"><b><?=$proprietaire['TELEPHONE']?></b></td>
                               <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('TELEPHONE')"></font></td>
                             </tr>
@@ -244,13 +244,13 @@
                             </tr>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-newspaper-o"></span>&nbsp;&nbsp;RC</td>
+                              <td class="text-muted"><span class="fa fa-newspaper-o"></span>&nbsp;&nbsp;<?=lang('input_rc')?></td>
                               <td class="text-muted"><b><?=$proprietaire['RC']?></b></td>
                               <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('RC')"></font></td>
                             </tr>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-newspaper-o"></span>&nbsp;&nbsp;Catégorie</td>
+                              <td class="text-muted"><span class="fa fa-newspaper-o"></span>&nbsp;&nbsp;<?=lang('input_categorie')?></td>
                               <td class="text-muted"><b><?=$proprietaire['DESC_CATEGORIE']?></b></td>
                               <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('CATEGORIE_ID')"></font></td>
                             </tr>
@@ -261,7 +261,7 @@
                             ?>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;Nom & prenom</td>
+                              <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;<?=lang('td_nom_prenom')?></td>
                               <td class="text-muted"><b>
                                 <?=$proprietaire['NOM_PROPRIETAIRE'].' '.$proprietaire['PRENOM_PROPRIETAIRE']?></b>
                               </td>
@@ -269,13 +269,13 @@
                             </tr>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;E-mail</td>
+                              <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;<?=lang('input_email')?></td>
                               <td class="text-muted"><b><?=$proprietaire['EMAIL']?></b></td>
                               <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('EMAIL')"></font></td>
                             </tr>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;Téléphone</td>
+                              <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;<?=lang('input_tlphone')?></td>
                               <td class="text-muted"><b><?=$proprietaire['TELEPHONE']?></b></td>
                               <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('TELEPHONE')"></font></td>
                             </tr>
@@ -287,13 +287,13 @@
                             </tr>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Addresse</td>
+                              <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;<?=lang('input_adresse')?></td>
                               <td class="text-muted"><b><?=$proprietaire['ADRESSE']?></b></td>
                               <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('ADRESSE')"></font></td>
                             </tr>
 
                             <tr>
-                              <td class="text-muted"><span class="fa fa-map-marker"></span> Localité</td>
+                              <td class="text-muted"><span class="fa fa-map-marker"></span> <?=lang('td_localite')?></td>
                               <td class="text-muted"><b><?=$proprietaire['PROVINCE_NAME'].' / '.$proprietaire['COMMUNE_NAME'].' / '.$proprietaire['ZONE_NAME'].' / '.$proprietaire['COLLINE_NAME']?></b></td>
                               <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('LOCALITE')"></font></td>
                             </tr>
@@ -317,7 +317,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <a style="float:right;font-size: 12px;color: gray;" class=" " href="<?=base_url('proprietaire/Proprietaire/index/'.$this->uri->segment(4))?>"><font class="bi bi-pencil"></font> Modifier plusieurs</a>
+                      <a style="float:right;font-size: 12px;color: gray;" class=" " href="<?=base_url('proprietaire/Proprietaire/index/'.$this->uri->segment(4))?>"><font class="bi bi-pencil"></font> <?=lang('btn_modif_plus')?></a>
                     </div>
                   </div>
                 </div>
@@ -344,7 +344,7 @@
 
                               <font class="card dash_card" onclick="get_document(1,$('#ext_permis').val());">
                                 <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
-                                <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Carte d'identité</font>
+                                <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('carte_identite')?></font>
                               </font>
 
                             </td>
@@ -352,9 +352,9 @@
                             <?php
                           }
                           else{
-                            echo '<td class="text-center"><font class="text-danger">Document carte d\'identité introuvable !</font></td>';
+                            echo "<td class='text-center'><font class='text-danger'> ".lang('carte_identite_introuvable')."</font></td>";
                           }
-                        }
+                        } 
                         else
                         {
                           if(!empty($proprietaire['FILE_NIF']))
@@ -368,7 +368,7 @@
 
                               <font class="card dash_card" onclick="get_document(1,$('#ext_permis').val());">
                                 <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
-                                <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">NIF</font>
+                                <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('input_nif')?></font>
                               </font>
 
                             </td>
@@ -376,7 +376,7 @@
                             <?php
                           }
                           else{
-                            echo '<td class="text-center"><font class="text-danger">Document NIF introuvable !</font></td>';
+                            echo '<td class="text-center"><font class="text-danger">'.lang('nif_introuvable').'</font></td>';
                           }
                           if(!empty($proprietaire['FILE_RC']))
                           {
@@ -397,7 +397,7 @@
                             <?php
                           }
                           else{
-                            echo '<td class="text-center"><font class="text-danger">Document RC introuvable !</font></td>';
+                            echo '<td class="text-center"><font class="text-danger">'.lang('rc_introuvable').'</font></td>';
                           }
                         }
 
@@ -427,13 +427,13 @@
                     <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="text-dark">#</th>
-                        <th class="text-dark">MARQUE</th>
-                        <th class="text-dark">MODELE</th>
-                        <th class="text-dark">COULEUR</th>
-                        <th class="text-dark">PLAQUE</th>
-                        <th class="text-dark">PHOTO</th>
-                        <th class="text-dark">DETAIL</th>
-                        <th class="text-dark">CHAUFFEUR</th>
+                        <th class="text-dark"><?=lang('th_marque')?></th>
+                        <th class="text-dark"><?=lang('th_modele')?></th>
+                        <th class="text-dark"><?=lang('th_couleur')?></th>
+                        <th class="text-dark"><?=lang('th_plaque')?></th>
+                        <th class="text-dark"><?=lang('th_photo')?></th>
+                        <th class="text-dark"><?=lang('th_detail')?></th>
+                        <th class="text-dark"><?=lang('th_chauffeur')?></th>
                         <!-- <th class="text-dark">LOCALISATION</th> -->
 
                         <!-- <th class="text-dark"></th> -->
@@ -462,7 +462,7 @@
       <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
           <div class='modal-header' style='background:cadetblue;color:white;'>      
-            <h5 class="modal-title">NIF  </h5>
+            <h5 class="modal-title"><?=lang('input_nif')?>  </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -480,7 +480,7 @@
       <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
           <div class='modal-header' style='background:cadetblue;color:white;'>      
-            <h5 class="modal-title">RC  </h5>
+            <h5 class="modal-title"><?=lang('input_rc')?>  </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -498,7 +498,7 @@
       <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
           <div class='modal-header' style='background:cadetblue;color:white;'>      
-            <h5 class="modal-title">Logo  </h5>
+            <h5 class="modal-title"><?=lang('input_logo')?>  </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -526,7 +526,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>            
-        <h5 class="modal-title">Détails</h5>
+        <h5 class="modal-title"><?=lang('btn_detail')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -537,28 +537,28 @@
             <div class='col-md-6'>
               <table class="table table-hover text-dark">
                 <tr>            
-                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; Nom & Prénom</td>
+                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; <?=lang('td_nom_prenom')?></td>
                   <td><a id="NOM"></a></td>
                 </tr>
 
                 <tr>
-                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Date de naissance</td>
+                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; <?=lang('date_naissance')?></td>
                   <td><a id="DATE_NAISSANCE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; Téléphone</td>
+                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; <?=lang('input_tlphone')?></td>
                   <td><a id="NUMERO_TELEPHONE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Email</td>
+                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; <?=lang('input_email')?></td>
                   <td><a id="ADRESSE_MAIL"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; CNI / Passport</td>
+                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; <?=lang('input_cni_passeport')?></td>
                   <td><a id="NUMERO_CARTE_IDENTITE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; <?=lang('input_adresse')?></td>
                   <td><a id="ADRESSE_PHYSIQUE"></a></td>
                 </tr>
 
@@ -655,13 +655,13 @@
               <div id="div_modif_NOM_PRENOM">
 
                 <div class="col-xl-12" id="div_modif_NOM">
-                  <label for="description"><small>Nom</small><span  style="color:red;">*</span></label>
+                  <label for="description"><small><?=lang('input_nom')?></small><span  style="color:red;">*</span></label>
                   <input type="text" name="NOM_modif" id="NOM_modif" class="form-control">
                   <span id="errorNOM_modif" class="text-danger"></span>
                 </div>
 
                 <div class="col-xl-12" id="div_modif_PRENOM">
-                  <label for="description"><small>Prenom</small><span  style="color:red;">*</span></label>
+                  <label for="description"><small><?=lang('input_prenom')?></small><span  style="color:red;">*</span></label>
                   <input type="text" name="PRENOM_modif" id="PRENOM_modif" class="form-control">
                   <span id="errorPRENOM_modif" class="text-danger"></span>
                 </div>
@@ -669,21 +669,21 @@
               </div>
 
               <div class="col-xl-12" id="div_modif_PHOTO">
-                <label for="description"><small>Photo passeport / logo</small><span  style="color:red;">*</span></label>
-                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_modif" autocomplete="off" id="PHOTO_modif"   class="form-control" title="Extensions autorisées : .png,.PNG,.jpg,.JPG,.JEPG,.jepg">
+                <label for="description"><small><?=lang('input_photo_passport')?> / <?=lang('input_logo')?></small><span  style="color:red;">*</span></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_modif" autocomplete="off" id="PHOTO_modif"   class="form-control" title="<?=lang('title_file')?>">
 
                 <span id="errorPHOTO_modif" class="text-danger"></span>
               </div>
 
               <div class="col-xl-12" id="div_modif_EMAIL">
-                <label for="description"><small>Email</small><span  style="color:red;">*</span></label>
+                <label for="description"><small><?=lang('input_email')?></small><span  style="color:red;">*</span></label>
                 <input type="text" name="EMAIL_modif" id="EMAIL_modif" class="form-control">
                 <span id="errorEMAIL_modif" class="text-danger"></span>
               </div>
 
 
               <div class="col-xl-12" id="div_modif_TELEPHONE">
-                <label for="description"><small>Téléphone</small><span  style="color:red;">*</span></label>
+                <label for="description"><small><?=lang('input_tlphone')?></small><span  style="color:red;">*</span></label>
                 <!-- <input type="text" name="TELEPHONE_modif" id="TELEPHONE_modif" class="form-control"> -->
 
                 <input class="form-control bg-light" type='tel' name="TELEPHONE_modif" id="TELEPHONE_modif"  pattern="^[0-9-+\s()]*$"/>
@@ -692,19 +692,19 @@
               </div>
 
               <div class="col-xl-12" id="div_modif_CNI_OU_NIF">
-                <label for="description"><small>NIF / CNI</small><span  style="color:red;">*</span></label>
+                <label for="description"><small><?=lang('input_nif_cni')?></small><span  style="color:red;">*</span></label>
                 <input type="text" name="CNI_OU_NIF_modif" id="CNI_OU_NIF_modif" class="form-control">
                 <span id="errorCNI_OU_NIF_modif" class="text-danger"></span>
               </div>
 
               <div class="col-xl-12" id="div_modif_RC">
-                <label for="description"><small>RC</small><span  style="color:red;">*</span></label>
+                <label for="description"><small><?=lang('input_rc')?></small><span  style="color:red;">*</span></label>
                 <input type="text" name="RC_modif" id="RC_modif" class="form-control">
                 <span id="errorRC_modif" class="text-danger"></span>
               </div>
 
               <div class="col-xl-12" id="div_modif_CATEGORIE_ID">
-                <label for="description"><small>Catégorie</small><span  style="color:red;">*</span></label>
+                <label for="description"><small><?=lang('input_categorie')?></small><span  style="color:red;">*</span></label>
                 <select name="CATEGORIE_ID_modif" id="CATEGORIE_ID_modif" class="form-control">
                 </select>
                 <span id="errorCATEGORIE_ID_modif" class="text-danger"></span>
@@ -712,7 +712,7 @@
 
 
               <div class="col-xl-12" id="div_modif_ADRESSE">
-                <label for="description"><small>Adresse</small><span  style="color:red;">*</span></label>
+                <label for="description"><small><?=lang('input_adresse')?></small><span  style="color:red;">*</span></label>
                 <input type="text" name="ADRESSE_modif" id="ADRESSE_modif" class="form-control">
                 <span id="errorADRESSE_modif" class="text-danger"></span>
               </div>
@@ -720,33 +720,33 @@
               <div id="div_modif_LOCALITE">
 
                 <div class="col-xl-12">
-                  <label for="description"><small>Province</small><span  style="color:red;">*</span></label>
+                  <label for="description"><small><?=lang('input_province')?></small><span  style="color:red;">*</span></label>
                   <select name="PROVINCE_ID_modif" id="PROVINCE_ID_modif" class="form-control" onchange="get_communes();">
-                    <option value="0">-- Sélectionner --</option>
+                    <option value="0">-- <?=lang('selectionner')?> --</option>
                   </select>
                   <span id="errorPROVINCE_ID_modif" class="text-danger"></span>
                 </div>
 
                 <div class="col-xl-12">
-                  <label for="description"><small>Commune</small><span  style="color:red;">*</span></label>
+                  <label for="description"><small><?=lang('input_commune')?></small><span  style="color:red;">*</span></label>
                   <select name="COMMUNE_ID_modif" id="COMMUNE_ID_modif" class="form-control" onchange="get_zones();">
-                    <option value="0">-- Sélectionner --</option>
+                    <option value="0">-- <?=lang('selectionner')?> --</option>
                   </select>
                   <span id="errorCOMMUNE_ID_modif" class="text-danger"></span>
                 </div>
 
                 <div class="col-xl-12">
-                  <label for="description"><small>Zone</small><span  style="color:red;">*</span></label>
+                  <label for="description"><small><?=lang('input_zone')?></small><span  style="color:red;">*</span></label>
                   <select name="ZONE_ID_modif" id="ZONE_ID_modif" class="form-control" onchange="get_collines();">
-                    <option value="0">-- Sélectionner --</option>
+                    <option value="0">-- <?=lang('selectionner')?> --</option>
                   </select>
                   <span id="errorZONE_ID_modif" class="text-danger"></span>
                 </div>
 
                 <div class="col-xl-12">
-                  <label for="description"><small>Colline</small><span  style="color:red;">*</span></label>
+                  <label for="description"><small><?=lang('input_colline')?></small><span  style="color:red;">*</span></label>
                   <select name="COLLINE_ID_modif" id="COLLINE_ID_modif" class="form-control">
-                    <option value="0">-- Sélectionner --</option>
+                    <option value="0">-- <?=lang('selectionner')?> --</option>
                   </select>
                   <span id="errorCOLLINE_ID_modif" class="text-danger"></span>
                 </div>
@@ -757,7 +757,7 @@
             </div>
           </div> 
           <div class="modal-footer">
-            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Modifier" onclick="save();" />
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_modifier')?>" onclick="save();" />
             <!-- <input type="button" class="btn btn-light btn btn-outline-warning rounded-pill" data-bs-dismiss="modal" id="cancel" value="Annuler"/> -->
 
           </div>
@@ -1147,7 +1147,7 @@
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
-              alert('Erreur');
+              alert('<?=lang('msg_erreur')?>');
             }
           });
 
@@ -1158,8 +1158,8 @@
         // Fonction pour recuperer les zones selon la commune
         function get_zones()
         {
-          $('#ZONE_ID_modif').html('<option value="">-- Sélectionner --</option>');
-          $('#COLLINE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+          $('#ZONE_ID_modif').html('<option value="">-- <?=lang('selectionner')?> --</option>');
+          $('#COLLINE_ID_modif').html('<option value="">-- <?=lang('selectionner')?> --</option>');
 
           $.ajax(
           {
@@ -1172,7 +1172,7 @@
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
-              alert('Erreur');
+              alert('<?=lang('msg_erreur')?>');
             }
           });
 
@@ -1184,7 +1184,7 @@
         // Fonction pour recuperer les collines selon la zone
         function get_collines()
         {
-          $('#COLLINE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+          $('#COLLINE_ID_modif').html('<option value="">-- <?=lang('selectionner')?> --</option>');
 
           $.ajax(
           {
@@ -1197,7 +1197,7 @@
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
-              alert('Erreur');
+              alert('<?=lang('msg_erreur')?>');
             }
           });
 
@@ -1226,7 +1226,7 @@
             }
             else
             {
-              $('#errorTELEPHONE_modif').text('Numéro de téléphone est invalide ');
+              $('#errorTELEPHONE_modif').text('<?=lang('tel_invalide')?>');
               if($(this).val().length > 12)
               {
                 $(this).val(this.value.substring(0,12));
@@ -1242,7 +1242,7 @@
             }
             else
             {
-              $('#errorTELEPHONE_modif').text('Invalide numéro de téléphone');
+              $('#errorTELEPHONE_modif').text('<?=lang('tel_invalide')?>');
             }        
           }
         });
@@ -1276,7 +1276,7 @@
           if(champ == 'NOM' && TYPE_PRO_modif == 1)
           {
             if(NOM_modif == ''){
-              $('#errorNOM_modif').text('Le champ est obligatoire !');
+              $('#errorNOM_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorNOM_modif').text('');}
@@ -1284,13 +1284,13 @@
           else if(champ == 'NOM' && TYPE_PRO_modif == 2)
           {
             if(NOM_modif == ''){
-              $('#errorNOM_modif').text('Le champ est obligatoire !');
+              $('#errorNOM_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorNOM_modif').text('');}
 
             if(PRENOM_modif == ''){
-              $('#errorPRENOM_modif').text('Le champ est obligatoire !');
+              $('#errorPRENOM_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorPRENOM_modif').text('');}
@@ -1299,12 +1299,12 @@
           { 
 
             if(EMAIL_modif == ''){
-              $('#errorEMAIL_modif').text('Le champ est obligatoire !');
+              $('#errorEMAIL_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else if(!emailReg.test($('#EMAIL_modif').val()))
             {
-              $('#errorEMAIL_modif').html('Email invalide!');
+              $('#errorEMAIL_modif').html('<?=lang('msg_validation_mail')?>');
               statut=2
             }
             else{$('#errorEMAIL_modif').html('');}
@@ -1312,42 +1312,42 @@
           }
           else if(champ == 'TELEPHONE'){
             if(TELEPHONE_modif == ''){
-              $('#errorTELEPHONE_modif').text('Le champ est obligatoire !');
+              $('#errorTELEPHONE_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorTELEPHONE_modif').text('');}
           }
           else if(champ == 'TELEPHONE'){
             if(TELEPHONE_modif == ''){
-              $('#errorTELEPHONE_modif').text('Le champ est obligatoire !');
+              $('#errorTELEPHONE_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorTELEPHONE_modif').text('');}
           }
           else if(champ == 'CNI_OU_NIF'){
             if(CNI_OU_NIF_modif == ''){
-              $('#errorCNI_OU_NIF_modif').text('Le champ est obligatoire !');
+              $('#errorCNI_OU_NIF_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorCNI_OU_NIF_modif').text('');}
           }
           else if(champ == 'RC'){
             if(RC_modif == ''){
-              $('#errorRC_modif').text('Le champ est obligatoire !');
+              $('#errorRC_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorRC_modif').text('');}
           }
           else if(champ == 'CATEGORIE_ID'){
             if(CATEGORIE_ID_modif == ''){
-              $('#errorCATEGORIE_ID_modif').text('Le champ est obligatoire !');
+              $('#errorCATEGORIE_ID_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorCATEGORIE_ID_modif').text('');}
           }
           else if(champ == 'ADRESSE'){
             if(ADRESSE_modif == ''){
-              $('#errorADRESSE_modif').text('Le champ est obligatoire !');
+              $('#errorADRESSE_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorADRESSE_modif').text('');}
@@ -1355,25 +1355,25 @@
           else if(champ == 'LOCALITE'){
 
             if(PROVINCE_ID_modif == 0){
-              $('#errorPROVINCE_ID_modif').text('Le champ est obligatoire !');
+              $('#errorPROVINCE_ID_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorPROVINCE_ID_modif').text('');}
 
             if(COMMUNE_ID_modif == 0){
-              $('#errorCOMMUNE_ID_modif').text('Le champ est obligatoire !');
+              $('#errorCOMMUNE_ID_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorCOMMUNE_ID_modif').text('');}
 
             if(ZONE_ID_modif == 0){
-              $('#errorZONE_ID_modif').text('Le champ est obligatoire !');
+              $('#errorZONE_ID_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorZONE_ID_modif').text('');}
 
             if(COLLINE_ID_modif == 0){
-              $('#errorCOLLINE_ID_modif').text('Le champ est obligatoire !');
+              $('#errorCOLLINE_ID_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorCOLLINE_ID_modif').text('');}
@@ -1381,7 +1381,7 @@
           }
           else if(champ == 'PHOTO'){
             if(PHOTO_modif == ''){
-              $('#errorPHOTO_modif').text('Le champ est obligatoire !');
+              $('#errorPHOTO_modif').text('<?=lang('msg_validation')?>');
               statut = 2;
             }
             else{$('#errorPHOTO_modif').text('');}
@@ -1409,7 +1409,7 @@
                 {
                   icon: 'success',
                   title: 'Success',
-                  text: 'Modification faite avec succès',
+                  text: '<?=lang('msg_success_modif')?>',
                   timer: 1500,
                 }).then(() =>
                 {
@@ -1422,7 +1422,7 @@
                 {
                   icon: 'error',
                   title: 'Error',
-                  text: 'Modification echouée !',
+                  text: '<?=lang('msg_error_modif')?>',
                   timer: 1500,
                 }).then(() =>
                 {

@@ -52,11 +52,10 @@
     </div>
     <div class="col-md-2">
 
-     <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a>
+     <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> <?=lang('title_list')?></a>
 
    </div>
  </div>
-
 
  <section class="section">
    <!-- <div class="container text-center"> -->
@@ -72,7 +71,7 @@
             <!-- <div class="row"> -->
               <form id="add_form" enctype="multipart/form-data" method="post" action="<?=base_url('vehicule/Vehicule/save')?>">
                 <fieldset class="border p-2">
-                  <legend  class="float-none w-auto p-2">Informations générales</legend>
+                  <legend  class="float-none w-auto p-2"><?=lang('btn_info_gnl')?></legend>
                   <div  class="row text-dark">
                     <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule_data['VEHICULE_ID']?>">
                     <!-- <div class="col-md-4">
@@ -89,10 +88,10 @@
 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label ><small>Marque</small><span  style="color:red;">*</span></label>
+                        <label ><small><?=lang('label_marque')?></small><span  style="color:red;">*</span></label>
 
                         <select class="form-control" name="ID_MARQUE" id="ID_MARQUE" onchange="get_modele();">
-                          <option value="" selected>-- Séléctionner --</option>
+                          <option value="" selected>-- <?=lang('selectionner')?> --</option>
                           <?php
                           foreach ($marque as $marque)
                           {
@@ -110,10 +109,10 @@
                     </div> -->
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label><small>Modèle</small><span  style="color:red;">*</span></label>
+                        <label><small><?=lang('label_modele')?></small><span  style="color:red;">*</span></label>
 
                         <select class="form-control" name="ID_MODELE" id="ID_MODELE">
-                          <option value="" selected>-- Séléctionner --</option>
+                          <option value="" selected>-- <?=lang('selectionner')?> --</option>
 
                           <?php
                           foreach ($modele as $modele)
@@ -132,8 +131,8 @@
 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label ><small>Plaque</small><span  style="color:red;">*</span></label>
-                        <input class="form-control" type='text' name="PLAQUE" id="PLAQUE" placeholder='Plaque' value="<?=$vehicule_data['PLAQUE']?>"/>
+                        <label ><small><?=lang('label_plaque')?></small><span  style="color:red;">*</span></label>
+                        <input class="form-control" type='text' name="PLAQUE" id="PLAQUE" placeholder='<?=lang('label_plaque')?>' value="<?=$vehicule_data['PLAQUE']?>"/>
                       </div>
                       <span id="errorPLAQUE" class="text-danger"></span>
                       <?php echo form_error('PLAQUE', '<div class="text-danger">', '</div>'); ?>
@@ -144,9 +143,9 @@
 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label ><small>Numéro chassis</small><span  style="color:red;">*</span></label>
+                        <label ><small><?=lang('label_numero_chassis')?></small><span  style="color:red;">*</span></label>
 
-                        <input class="form-control" type='text' name="NUMERO_CHASSIS" id="NUMERO_CHASSIS" placeholder='Numéro chassis' value="<?=$vehicule_data['NUMERO_CHASSIS']?>"/>
+                        <input class="form-control" type='text' name="NUMERO_CHASSIS" id="NUMERO_CHASSIS" placeholder='<?=lang('label_numero_chassis')?>' value="<?=$vehicule_data['NUMERO_CHASSIS']?>"/>
 
                       </div>
                       <span id="errorNUMERO_CHASSIS" class="text-danger"></span>
@@ -155,9 +154,9 @@
 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label ><small>Couleur</small><span  style="color:red;">*</span></label>
+                        <label ><small><?=lang('label_couleur')?></small><span  style="color:red;">*</span></label>
 
-                        <input class="form-control" type='text' name="COULEUR" id="COULEUR" placeholder='Couleur' value="<?=$vehicule_data['COULEUR']?>"/>
+                        <input class="form-control" type='text' name="COULEUR" id="COULEUR" placeholder='<?=lang('label_couleur')?>' value="<?=$vehicule_data['COULEUR']?>"/>
 
                       </div>
                       <span id="errorCOULEUR" class="text-danger"></span>
@@ -165,7 +164,7 @@
                     </div>
 
                     <div class="col-md-4">
-                      <label ><small>Année de fabrication</small><span  style="color:red;">*</span></label>
+                      <label ><small><?=lang('label_date_fabrication')?></small><span  style="color:red;">*</span></label>
                       <input type="date" name="ANNEE_FABRICATION" autocomplete="off" id="ANNEE_FABRICATION" value="<?=$vehicule_data['ANNEE_FABRICATION']?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
 
                       <font id="error_ANNEE_FABRICATION" color="red"></font>
@@ -176,9 +175,9 @@
                   <div class="row text-dark">
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label ><small>Consommation de litres / KM</small><span  style="color:red;">*</span></label>
+                        <label ><small><?=lang('label_consommation_l_kg')?></small><span  style="color:red;">*</span></label>
 
-                        <input class="form-control" type='text' name="KILOMETRAGE" id="KILOMETRAGE" placeholder='Consommation de litres / KM' value="<?=$vehicule_data['KILOMETRAGE']?>"/>
+                        <input class="form-control" type='text' name="KILOMETRAGE" id="KILOMETRAGE" placeholder='<?=lang('label_consommation_l_kg')?>' value="<?=$vehicule_data['KILOMETRAGE']?>"/>
 
                       </div>
                       <span id="errorKILOMETRAGE" class="text-danger"></span>
@@ -189,10 +188,10 @@
 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label><small>propriétaire</small><span  style="color:red;">*</span></label>
+                        <label><small><?=lang('title_proprio_list')?></small><span  style="color:red;">*</span></label>
 
                         <select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID">
-                          <option value="" selected>-- Séléctionner --</option>
+                          <option value="" selected>-- <?=lang('selectionner')?> --</option>
                           <?php
                           foreach ($proprio as $proprio)
                           {
@@ -208,10 +207,10 @@
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label><small>Usage du véhicule</small><span  style="color:red;">*</span></label>
+                        <label><small><?=lang('label_usage_vehicule')?></small><span  style="color:red;">*</span></label>
 
                         <select class="form-control" name="USAGE_ID" id="USAGE_ID">
-                          <option value="" selected>-- Séléctionner --</option>
+                          <option value="" selected>-- <?=lang('selectionner')?> --</option>
                           <?php
                           foreach ($usage as $key)
                           {
@@ -229,9 +228,9 @@
                   <br>
                   <div class="row text-dark">
                     <div class="col-md-4" id="assureur">
-                      <label ><small>Assureur</small><span  style="color:red;">*</span></label>
+                      <label ><small><?=lang('label_assureur')?></small><span  style="color:red;">*</span></label>
                       <select class="form-control" name="ID_ASSUREUR"  id="ID_ASSUREUR">
-                       <option value="" selected>-- Séléctionner --</option>
+                       <option value="" selected>-- <?=lang('selectionner')?> --</option>
                        <?php
                        foreach ($assureur as $assureur)
                        {
@@ -246,14 +245,14 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label ><small>Date début assurance</small><span  style="color:red;">*</span></label>
+                    <label ><small><?=lang('label_date_deb_assurance')?></small><span  style="color:red;">*</span></label>
                     <input type="date" name="DATE_DEBUT_ASSURANCE" autocomplete="off" id="DATE_DEBUT_ASSURANCE" value="<?=$vehicule_data['DATE_DEBUT_ASSURANCE']?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
 
                     <font id="error_DATE_DEBUT_ASSURANCE" color="red"></font>
                     <?php echo form_error('DATE_DEBUT_ASSURANCE', '<div class="text-danger">', '</div>'); ?><br>
                   </div>
                   <div class="col-md-4">
-                    <label ><small>Date fin assurance</small><span  style="color:red;">*</span></label>
+                    <label ><small><?=lang('label_date_fin_assurance')?></small><span  style="color:red;">*</span></label>
                     <input type="date" name="DATE_FIN_ASSURANCE" autocomplete="off" id="DATE_FIN_ASSURANCE" value="<?=$vehicule_data['DATE_FIN_ASSURANCE']?>"  class="form-control" onchange="verif_date();" min="<?= date('Y-m-d')?>">
 
                     <font id="error_DATE_FIN_ASSURANCE" color="red"></font>
@@ -261,7 +260,7 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label ><small>Date début contrôle technique</small><span  style="color:red;">*</span></label>
+                    <label ><small><?=lang('label_date_deb_ctrl_technique')?></small><span  style="color:red;">*</span></label>
                     <input type="date" name="DATE_DEBUT_CONTROTECHNIK" autocomplete="off" id="DATE_DEBUT_CONTROTECHNIK" value="<?=$vehicule_data['DATE_DEBUT_CONTROTECHNIK']?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
 
                     <font id="error_DATE_DEBUT_CONTROTECHNIK" color="red"></font>
@@ -269,7 +268,7 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label ><small>Date fin contrôle technique</small><span  style="color:red;">*</span></label>
+                    <label ><small><?=lang('label_date_fin_ctrl_technique')?></small><span  style="color:red;">*</span></label>
                     <input type="date" name="DATE_FIN_CONTROTECHNIK" autocomplete="off" id="DATE_FIN_CONTROTECHNIK" value="<?=$vehicule_data['DATE_FIN_CONTROTECHNIK']?>"  class="form-control" onchange="verif_date();" min="<?= date('Y-m-d')?>">
 
                     <font id="error_DATE_FIN_CONTROTECHNIK" color="red"></font>
@@ -282,29 +281,29 @@
               </fieldset>
               <br>
               <fieldset class="border p-2">
-                <legend  class="float-none w-auto p-2">Documents</legend>
+                <legend  class="float-none w-auto p-2"><?=lang('btn_doc')?></legend>
                 <div  class="row">
 
                   <div class="col-md-4">
-                    <label> <small>Photo véhicule</small><span  style="color:red;">*</span></label>
+                    <label> <small><?=lang('label_photo_veh')?></small><span  style="color:red;">*</span></label>
 
                     <input class="form-control" type="hidden" name="PHOTO" id="PHOTO"  value="<?=$vehicule_data['PHOTO'];?>">
 
-                    <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                    <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='<?=lang('title_file')?>'>
                     <font color='red'><?php echo form_error('PHOTO_OUT'); ?></font>
                     <span id="errorPHOTO_OUT" class="text-danger"></span>
                   </div>
 
                   <div class="col-md-4">
-                    <label> <small>Photo assurance</small><span  style="color:red;">*</span></label>
+                    <label> <small><?=lang('label_photo_assurance')?></small><span  style="color:red;">*</span></label>
                     <input class="form-control" type="hidden" name="FILE_ASSURANCE_OLD" id="FILE_ASSURANCE_OLD"  value="<?=$vehicule_data['FILE_ASSURANCE'];?>">
-                    <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                    <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='<?=lang('title_file')?>'>
                     <font color='red'><?php echo form_error('FILE_ASSURANCE'); ?></font>
                     <span id="errorFILE_ASSURANCE" class="text-danger"></span>
                   </div>
 
                   <div class="col-md-4">
-                    <label> <small>Photo contrôle technique</small><span  style="color:red;">*</span></label>
+                    <label> <small><?=lang('label_photo_ctrl_technique')?></small><span  style="color:red;">*</span></label>
                     <input class="form-control" type="hidden" name="FILE_CONTRO_TECHNIQUE_OLD" id="FILE_CONTRO_TECHNIQUE_OLD"  value="<?=$vehicule_data['FILE_CONTRO_TECHNIQUE'];?>">
                     <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                     <font color='red'><?php echo form_error('FILE_CONTRO_TECHNIQUE'); ?></font>
@@ -350,7 +349,7 @@
 
     if(VEHICULE_ID == "")
     {
-     $('#ID_MODELE').html('<option value="">-- Séléctionner --</option>');
+     $('#ID_MODELE').html('<option value="">-- <?=lang('selectionner')?> --</option>');
    }  
 
  });
@@ -370,13 +369,13 @@
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-          alert('Erreur');
+          alert('<?=lang('msg_erreur')?>');
         }
       });
     }
     else
     {
-      $('#ID_MODELE').html('<option value="">-- Séléctionner --</option>');
+      $('#ID_MODELE').html('<option value="">-- <?=lang('selectionner')?> --</option>');
     }
   }
 </script>
@@ -390,55 +389,55 @@
     if($('#ID_ASSUREUR').val()=='')
     {
       statut=2;
-      $('#error_ID_ASSUREUR').html('Le champ est obligatoire');
+      $('#error_ID_ASSUREUR').html('<?=lang('msg_validation')?>');
     }else{$('#error_ID_ASSUREUR').html('');}
 
     if($('#NUMERO_CHASSIS').val()=='')
     {
       statut=2;
-      $('#errorNUMERO_CHASSIS').html('Le champ est obligatoire');
+      $('#errorNUMERO_CHASSIS').html('<?=lang('msg_validation')?>');
     }else{$('#errorNUMERO_CHASSIS').html('');}
 
     if($('#ANNEE_FABRICATION').val()=='')
     {
       statut=2;
-      $('#error_ANNEE_FABRICATION').html('Le champ est obligatoire');
+      $('#error_ANNEE_FABRICATION').html('<?=lang('msg_validation')?>');
     }else{$('#error_ANNEE_FABRICATION').html('');}
 
     if($('#USAGE_ID').val()=='')
     {
       statut=2;
-      $('#errorUSAGE_ID').html('Le champ est obligatoire');
+      $('#errorUSAGE_ID').html('<?=lang('msg_validation')?>');
     }else{$('#errorUSAGE_ID').html('');}
 
     if($('#ID_MARQUE').val()=='')
     {
       statut=2;
-      $('#errorID_MARQUE').html('Le champ est obligatoire');
+      $('#errorID_MARQUE').html('<?=lang('msg_validation')?>');
     }else{$('#errorID_MARQUE').html('');}
 
     if($('#ID_MODELE').val() == '')
     {
       statut=2;
-      $('#errorID_MODELE').html('Le champ est obligatoire');
+      $('#errorID_MODELE').html('<?=lang('msg_validation')?>');
     }else{$('#errorID_MODELE').html('');}
 
     if($('#PLAQUE').val()=='')
     {
       statut=2;
-      $('#errorPLAQUE').html('Le champ est obligatoire');
+      $('#errorPLAQUE').html('<?=lang('msg_validation')?>');
     }else{$('#errorPLAQUE').html('');}
 
     if($('#COULEUR').val()=='')
     {
       statut=2;
-      $('#errorCOULEUR').html('Le champ est obligatoire');
+      $('#errorCOULEUR').html('<?=lang('msg_validation')?>');
     }else{$('#errorCOULEUR').html('');}
 
     if($('#KILOMETRAGE').val()=='')
     {
       statut=2;
-      $('#errorKILOMETRAGE').html('Le champ est obligatoire');
+      $('#errorKILOMETRAGE').html('<?=lang('msg_validation')?>');
     }else{$('#errorKILOMETRAGE').html('');}
 
     if($('#VEHICULE_ID').val() =='')
@@ -446,19 +445,19 @@
       if($('#PHOTO_OUT').val()=='')
       {
         statut=2;
-        $('#errorPHOTO_OUT').html('Le champ est obligatoire');
+        $('#errorPHOTO_OUT').html('<?=lang('msg_validation')?>');
       }else{$('#errorPHOTO_OUT').html('');}
 
       if($('#FILE_ASSURANCE').val()=='')
       {
         statut=2;
-        $('#errorFILE_ASSURANCE').html('Le champ est obligatoire');
+        $('#errorFILE_ASSURANCE').html('<?=lang('msg_validation')?>');
       }else{$('#errorFILE_ASSURANCE').html('');}
 
       if($('#FILE_CONTRO_TECHNIQUE').val()=='')
       {
         statut=2;
-        $('#errorFILE_CONTRO_TECHNIQUE').html('Le champ est obligatoire');
+        $('#errorFILE_CONTRO_TECHNIQUE').html('<?=lang('msg_validation')?>');
       }else{$('#errorFILE_CONTRO_TECHNIQUE').html('');}
     }
 
@@ -467,33 +466,33 @@
     if($('#PROPRIETAIRE_ID').val()=='')
     {
       statut=2;
-      $('#errorPROPRIETAIRE_ID').html('Le champ est obligatoire');
+      $('#errorPROPRIETAIRE_ID').html('<?=lang('msg_validation')?>');
     }else{$('#errorPROPRIETAIRE_ID').html('');}
 
 
     if($('#DATE_DEBUT_ASSURANCE').val()=='')
     {
       statut=2;
-      $('#error_DATE_DEBUT_ASSURANCE').html('Le champ est obligatoire');
+      $('#error_DATE_DEBUT_ASSURANCE').html('<?=lang('msg_validation')?>');
     }else{$('#error_DATE_DEBUT_ASSURANCE').html('');}
 
 
     if($('#DATE_FIN_ASSURANCE').val()=='')
     {
       statut=2;
-      $('#error_DATE_FIN_ASSURANCE').html('Le champ est obligatoire');
+      $('#error_DATE_FIN_ASSURANCE').html('<?=lang('msg_validation')?>');
     }else{$('#error_DATE_FIN_ASSURANCE').html('');}
 
     if($('#DATE_DEBUT_CONTROTECHNIK').val()=='')
     {
       statut=2;
-      $('#error_DATE_DEBUT_CONTROTECHNIK').html('Le champ est obligatoire');
+      $('#error_DATE_DEBUT_CONTROTECHNIK').html('<?=lang('msg_validation')?>');
     }else{$('#error_DATE_DEBUT_CONTROTECHNIK').html('');}
 
     if($('#DATE_FIN_CONTROTECHNIK').val()=='')
     {
       statut=2;
-      $('#error_DATE_FIN_CONTROTECHNIK').html('Le champ est obligatoire');
+      $('#error_DATE_FIN_CONTROTECHNIK').html('<?=lang('msg_validation')?>');
     }else{$('#error_DATE_FIN_CONTROTECHNIK').html('');}
 
     var VEHICULE_ID = $('#VEHICULE_ID').val();
