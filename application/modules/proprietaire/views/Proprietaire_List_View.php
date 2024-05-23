@@ -103,11 +103,11 @@ input:checked + .slider:before {
       <div class="row">
 
         <div class="col-md-6">
-          <i class="bi bi-user-plus"></i> <h1>Propriétaires</h1>
+          <i class="bi bi-user-plus"></i> <h1><?=lang('title_proprio_list_plur')?></h1>
           <nav>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Propriétaire</a></li>
-              <li class="breadcrumb-item ">Liste</li>
+              <li class="breadcrumb-item"><a href="index.html"><?=lang('title_proprio_list')?></a></li>
+              <li class="breadcrumb-item "><?=lang('title_list')?></li>
             </ol>
           </nav>
         </div>
@@ -115,7 +115,7 @@ input:checked + .slider:before {
         <div class="col-md-6">
 
           <div class="justify-content-sm-end d-flex">
-            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire/index')?>"><i class="bi bi-plus"></i> Nouveau</a>
+            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('proprietaire/Proprietaire/index')?>"><i class="bi bi-plus"></i><?=lang('title_nouveau_proprio')?></a>
           </div>
         </div><!-- End Page Title -->
       </div>
@@ -136,11 +136,11 @@ input:checked + .slider:before {
                     <div class="row text-dark">
 
                       <div class="col-md-3">
-                        <label class="text-dark" style="font-weight: 1000; color:#454545">Propriétaire</label>
+                        <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('title_proprio_list')?></label>
                         <select class="form-control" id="TYPE_PROPRIETAIRE_ID" name="TYPE_PROPRIETAIRE_ID" onchange="change_type_personne();get_nbr_proprio();">
-                          <option value="0">Sélectionner</option>
-                          <option value="1">Personne morale</option>
-                          <option value="2">Personne physique</option>
+                          <option value="0"><?=lang('selectionner')?></option>
+                          <option value="1"><?=lang('select_pers_morale')?></option>
+                          <option value="2"><?=lang('select_pers_physique')?></option>
                         </select>
                       </div>
                       <div class="col-md-1">
@@ -149,9 +149,9 @@ input:checked + .slider:before {
                       <div class="col-md-3">
                         <label class="text-dark" style="font-weight: 1000; color:#454545">Statut</label>
                         <select class="form-control" id="IS_ACTIVE" name="IS_ACTIVE" onchange="change_activation();get_nbr_proprio();">
-                          <option value="0">Sélectionner</option>
-                          <option value="2">Désactivé</option>
-                          <option value="1">Activé</option>
+                          <option value="0"><?=lang('selectionner')?></option>
+                          <option value="2"><?=lang('label_desactive_acc')?></option>
+                          <option value="1"><?=lang('label_active_acc')?></option>
                         </select>
                       </div>
 
@@ -160,7 +160,7 @@ input:checked + .slider:before {
                         <div class="input-group has-validation">
 
                           <select onchange="localisation();get_nbr_proprio();"  class="form-control" name="COUNTRY_ID" id="COUNTRY_ID">
-                           <option value="0">Sélectionner</option>
+                           <option value="0"><?=lang('selectionner')?></option>
 
                            <?php
                            foreach($pays as $key) { 
@@ -181,9 +181,9 @@ input:checked + .slider:before {
                      </div>
 
                      <div class="col-md-3" id="div_prov">
-                      <label class="text-dark" style="font-weight: 1000; color:#454545">Province</label>
+                      <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_province')?></label>
                       <select onchange="change_province();get_nbr_proprio();" class="form-control" id="PROVINCE_ID" name="PROVINCE_ID">
-                        <option value="0">Sélectionner</option>
+                        <option value="0"><?=lang('selectionner')?></option>
                         
                         <?php
                         foreach($provinces as $key) { 
@@ -196,9 +196,9 @@ input:checked + .slider:before {
                      </div>
 
                      <div class="col-md-3" id="div_com">
-                      <label class="text-dark" style="font-weight: 1000; color:#454545">Commune</label>
+                      <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_commune')?></label>
                       <select class="form-control" id="COMMUNE_ID" name="COMMUNE_ID" onchange="change_commune();get_nbr_proprio();">
-                        <option value="0">Sélectionner</option>
+                        <option value="0"><?=lang('selectionner')?></option>
                       </select>
                     </div>
 
@@ -214,13 +214,13 @@ input:checked + .slider:before {
                   <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                     <tr>
                       <th class="text-dark">#</th>
-                      <th class="text-dark">PROPRIETAIRE</th>
-                      <th class="text-dark">TYPE&nbsp;PROPRIETAIRE</th>
-                      <th class="text-dark">EMAIL</th>
-                      <th class="text-dark">TELEPHONE</th>
-                      <th>STATUT</th>
-                      <th>NBR&nbsp;VEHICULE</th>
-                      <th class="text-dark">OPTIONS</th>
+                      <th class="text-dark"><?=lang('th_proprio')?></th>
+                      <th class="text-dark"><?=lang('th_type_proprio')?></th>
+                      <th class="text-dark"><?=lang('th_email')?></th>
+                      <th class="text-dark"><?=lang('th_tlphone')?></th>
+                      <th><?=lang('th_statut')?></th>
+                      <th><?=lang('th_nbre_veh')?></th>
+                      <th class="text-dark"><?=lang('th_options')?></th>
                     </tr>
                   </thead>
 
@@ -257,7 +257,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>            
-        <h5 class="modal-title">Détails</h5>
+        <h5 class="modal-title"><?=lang('btn_detail')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -268,11 +268,11 @@ input:checked + .slider:before {
             <div class='col-md-6'>
               <table class="table table-borderless">
                 <tr>            
-                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
+                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; <?=lang('td_type')?></td>
                   <td><a id="DESC_TYPE_PROPRIETAIRE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Personne de référence</td>
+                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; <?=lang('td_pers_reference')?></td>
                   <td><a id="PERSONNE_REFERENCE"></a></td>
                 </tr>
                 
@@ -280,15 +280,15 @@ input:checked + .slider:before {
                 <a id="cni_physique"></a>
 
                 <tr>
-                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
+                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; <?=lang('input_tlphone')?></td>
                   <td><a id="TELEPHONE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
+                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; <?=lang('input_email')?></td>
                   <td><a id="EMAIL"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; <?=lang('input_adresse')?></td>
                   <td><a id="ADRESSE"></a></td>
                 </tr>
 
@@ -324,7 +324,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Détails</h5>
+        <h5 class="modal-title"><?=lang('btn_detail')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -334,24 +334,24 @@ input:checked + .slider:before {
 
               <table class="table table-borderless">
                 <tr>            
-                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
+                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; <?=lang('td_type')?></td>
                   <td><a id="DESC_TYPE_PROPRIETAIRE_MORAL"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Personne de référence</td>
+                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; <?=lang('td_pers_reference')?></td>
                   <td><a id="PERSONNE_REFERENCE_MORAL"></a></td>
                 </tr>
 
                 <tr>
-                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
+                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; <?=lang('input_tlphone')?></td>
                   <td><a id="TELEPHONE_MORAL"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
+                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; <?=lang('input_email')?></td>
                   <td><a id="EMAIL_MORAL"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; <?=lang('input_adresse')?></td>
                   <td><a id="ADRESSE_MORAL"></a></td>
                 </tr>
                 <div class="icon">
@@ -379,7 +379,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Document</h5>
+        <h5 class="modal-title"><?=lang('title_modal_document')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -410,7 +410,7 @@ $desc_button='';
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Activation  </h5>
+        <h5 class="modal-title"><?=lang('title_modal_activation')?>  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -425,9 +425,9 @@ $desc_button='';
                 <span id="errorMOTIF_DESACT_ACTIVATION" class="text-danger"></span>
               </div> -->
               <div class="col-md-12" id="div_type">
-                <label class="text-dark">Motif <font color="red">*</font></label>
+                <label class="text-dark"><?=lang('label_motif')?> <font color="red">*</font></label>
                 <select class="form-control" id="ID_MOTIF" name="ID_MOTIF" >
-                  <option value="">-- Sélectionner --</option>
+                  <option value="">-- <?=lang('selectionner')?> --</option>
                   <?php
                   foreach ($motif_ativ as $key) 
                   {
@@ -442,7 +442,7 @@ $desc_button='';
             </div>
           </div> 
           <div class="modal-footer">
-            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Activer" onclick="save_motif_active();" />
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_active')?>" onclick="save_motif_active();" />
             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
 
           </div>
@@ -462,7 +462,7 @@ $desc_button='';
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Désactivation  </h5>
+        <h5 class="modal-title"><?=lang('modal_desactivation')?> </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -477,9 +477,9 @@ $desc_button='';
                 <span id="errorMOTIF_DESACT_ACTIVATION_des" class="text-danger"></span>
               </div> -->
               <div class="col-md-12" id="div_type">
-                <label class="text-dark">Motif <font color="red">*</font></label>
+                <label class="text-dark"><?=lang('label_motif')?> <font color="red">*</font></label>
                 <select class="form-control" id="ID_MOTIF_des" name="ID_MOTIF_des" >
-                  <option value="">-- Sélectionner --</option>
+                  <option value="">-- <?=lang('selectionner')?> --</option>
                   <?php
                   foreach ($motif_des as $key) 
                   {
@@ -570,7 +570,7 @@ function change_province()
     },
     error: function (jqXHR, textStatus, errorThrown)
     {
-      alert('Erreur');
+      alert('<?=lang('msg_erreur')?>');
     }
   });
 
@@ -721,7 +721,7 @@ function save_motif_active()
 
   if($('#ID_MOTIF').val()=='')
   {
-    $('#errorID_MOTIF').html('Le champ est obligatoire');
+    $('#errorID_MOTIF').html('<?=lang('msg_validation')?>');
     statut=2;
   }
   if (statut==1) {
@@ -751,7 +751,7 @@ function save_motif_active()
           {
             icon: 'success',
             title: 'Success',
-            text: 'Activation faite avec succès',
+            text: '<?=lang('swal_active_proprio')?>',
             timer: 1500,
           }).then(() =>
           {
@@ -781,7 +781,7 @@ function save_motif_desactive()
 
   if($('#ID_MOTIF_des').val()=='')
   {
-    $('#errorID_MOTIF_des').html('Le champ est obligatoire');
+    $('#errorID_MOTIF_des').html('<?=lang('msg_validation')?>');
     statut=2;
   }
 
@@ -812,7 +812,7 @@ function save_motif_desactive()
         {
           icon: 'success',
           title: 'Success',
-          text: 'désactivation faite avec succès',
+          text: '<?=lang('swal_desactive_proprio')?>',
           timer: 1500,
         }).then(() =>
         {

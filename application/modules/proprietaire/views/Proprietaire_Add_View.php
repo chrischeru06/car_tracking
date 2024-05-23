@@ -18,7 +18,7 @@
   <main id="main" class="main">
     <center>
       <div class="pagetitle">
-        <h1>Enregistrement d'un Propriétaire</h1>
+        <h1><?=$title?></h1>
         <nav>
           <ol class="breadcrumb">
             <!-- <li class="breadcrumb-item"><a href="index.html">Enregistrement</a></li> -->
@@ -37,12 +37,12 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label style="font-weight: 1000; color:#454545" ><b>Type de proprietaire</b><span  style="color:red;">*</span></label>
+                    <label style="font-weight: 1000; color:#454545" ><b><?=lang('input_type_proprio')?></b><span  style="color:red;">*</span></label>
                     <input type="hidden" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" value="<?=$proprietaire['PROPRIETAIRE_ID']?>">
                     <select class="form-control" name="TYPE_PROPRIETAIRE_ID" id="TYPE_PROPRIETAIRE_ID" onchange="get_type_proprietaire();">
-                      <option value="">-- Séléctionner --</option>
-                      <option value="1" <?php if($proprietaire['TYPE_PROPRIETAIRE_ID']==1) echo "selected";?>>Personne morale</option>
-                      <option value="2" <?php if($proprietaire['TYPE_PROPRIETAIRE_ID']==2) echo "selected";?>>Personne physique</option>
+                      <option value="">-- <?=lang('selectionner')?> --</option>
+                      <option value="1" <?php if($proprietaire['TYPE_PROPRIETAIRE_ID']==1) echo "selected";?>><?=lang('select_pers_morale')?></option>
+                      <option value="2" <?php if($proprietaire['TYPE_PROPRIETAIRE_ID']==2) echo "selected";?>><?=lang('select_pers_physique')?></option>
                     </select>
                   </div>
                   <span id="errorTYPE_PROPRIETAIRE_ID" class="text-danger"></span>
@@ -53,8 +53,8 @@
 
                 <div class="col-md-4" >
                   <div class="form-group">
-                    <label style="font-weight: 1000; color:#454545"><b>Nom</b><span  style="color:red;">*</span></label>
-                    <input  class="form-control" name="NOM_PROPRIETAIRE"  id="NOM_PROPRIETAIRE" placeholder='Nom' value="<?=$proprietaire['NOM_PROPRIETAIRE']?>"/>
+                    <label style="font-weight: 1000; color:#454545"><b><?=lang('input_nom')?></b><span  style="color:red;">*</span></label>
+                    <input  class="form-control" name="NOM_PROPRIETAIRE"  id="NOM_PROPRIETAIRE" placeholder='<?=lang('input_nom')?>' value="<?=$proprietaire['NOM_PROPRIETAIRE']?>"/>
                   </div>
                   <span id="errorNOM_PROPRIETAIRE" class="text-danger"></span>
 
@@ -62,9 +62,9 @@
                 </div>
 
                 <div class="col-md-4" id="div_categor">
-                  <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Catégorie <font color="red">*</font></label>
+                  <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_categorie')?> <font color="red">*</font></label>
                   <select class="form-control" name="CATEGORIE_ID" id="CATEGORIE_ID">
-                    <option value="">---Sélectionner---</option>
+                    <option value="">---<?=lang('selectionner')?>---</option>
                     <?php 
 
                     foreach ($catego as $value)
@@ -90,8 +90,8 @@
 
                 <div class="col-md-4" id="div_PRENOM_PROPRIETAIRE"<?=$div_personne_physique?>>
                   <div class="form-group">
-                    <label style="font-weight: 1000; color:#454545"><b>Prénom</b><span  style="color:red;">*</span></label>
-                    <input class="form-control" name="PRENOM_PROPRIETAIRE" type="text" id="PRENOM_PROPRIETAIRE" placeholder='Prénom' value="<?=$proprietaire['PRENOM_PROPRIETAIRE']?>"/>
+                    <label style="font-weight: 1000; color:#454545"><b><?=lang('input_prenom')?></b><span  style="color:red;">*</span></label>
+                    <input class="form-control" name="PRENOM_PROPRIETAIRE" type="text" id="PRENOM_PROPRIETAIRE" placeholder='<?=lang('input_prenom')?>' value="<?=$proprietaire['PRENOM_PROPRIETAIRE']?>"/>
                   </div>
                   <span id="errorPRENOM_PROPRIETAIRE" class="text-danger"></span>
                   <?php echo form_error('PRENOM_PROPRIETAIRE', '<div class="text-danger">', '</div>'); ?>
@@ -115,7 +115,7 @@
 
                 <div class="col-md-4" id="div_rc"<?=$div_personne_moral?>>
                   <div class="form-group">
-                    <label style="font-weight: 1000; color:#454545"><b>RC</b><span  style="color:red;">*</span></label>
+                    <label style="font-weight: 1000; color:#454545"><b><?=lang('input_rc')?></b><span  style="color:red;">*</span></label>
                     <input class="form-control" name="RC" id="RC" type="text" value="<?=$proprietaire['RC']?>"/>
                   </div>
                   <span id="errorRC" class="text-danger"></span>
@@ -124,7 +124,7 @@
 
                 <div class="col-md-4" id="div_personne_reference"<?=$div_personne_moral?>>
                   <div class="form-group">
-                    <label style="font-weight: 1000; color:#454545"><b>Personne de référence</b><span  style="color:white;">*</span></label>
+                    <label style="font-weight: 1000; color:#454545"><b><?=lang('input_pers_reference')?></b><span  style="color:white;">*</span></label>
                     <input class="form-control" name="PERSONNE_REFERENCE" id="PERSONNE_REFERENCE" value="<?=$proprietaire['PERSONNE_REFERENCE']?>"/>
                   </div>
                   <span id="errorPERSONNE_REFERENCE" class="text-danger"></span>
@@ -132,7 +132,7 @@
                 </div>
 
                 <div class="col-md-4" id="div_fich_cni">
-                  <label for="FName" style="font-weight: 1000; color:#454545">CNI/Passport <font color="red">*</font></label>
+                  <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('input_cni_passeport')?> <font color="red">*</font></label>
                   <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_CNI_PASSPORT" autocomplete="off" id="FILE_CNI_PASSPORT" value="<?= $proprietaire['FILE_CNI_PASSPORT'] ?>"  class="form-control">
                   <input type="hidden"  name="FILE_CNI_PASSPORT_OLD" id="FILE_CNI_PASSPORT_OLD" value="<?=$proprietaire['FILE_CNI_PASSPORT']?>">
                   <font id="error_FILE_CNI_PASSPORT" color="red"></font>
@@ -141,8 +141,8 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label style="font-weight: 1000; color:#454545"><b>Email</b><span  style="color:red;">*</span></label>
-                    <input class="form-control" type='email' name="EMAIL" id="EMAIL" placeholder='e-mail' value="<?=$proprietaire['EMAIL']?>"/>
+                    <label style="font-weight: 1000; color:#454545"><b><?=lang('input_email')?></b><span  style="color:red;">*</span></label>
+                    <input class="form-control" type='email' name="EMAIL" id="EMAIL" placeholder='<?=lang('input_email')?>' value="<?=$proprietaire['EMAIL']?>"/>
                   </div>
                   <span id="errorEMAIL" class="text-danger"></span>
                   <?php echo form_error('EMAIL','<div class="text-danger">', '</div>'); ?>
@@ -154,18 +154,18 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label style="font-weight: 1000; color:#454545"><b>Confirmation du mail</b><span  style="color:red;">*</span></label>
-                    <input class="form-control" type='email' name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL"  value="<?=$proprietaire['EMAIL']?>"placeholder='confirmer e-mail'/>
+                    <label style="font-weight: 1000; color:#454545"><b><?=lang('input_conf_mail')?></b><span  style="color:red;">*</span></label>
+                    <input class="form-control" type='email' name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL"  value="<?=$proprietaire['EMAIL']?>"placeholder='<?=lang('input_conf_mail')?>'/>
                   </div>
                   <span id="errorCONFIRMATION_EMAIL" class="text-danger"></span>
                   <?php echo form_error('EMAIL','<div class="text-danger">', '</div>'); ?>
                 </div>
                 <div class="col-md-4">
-                  <label style="font-weight: 1000; color:#454545">Pays <span style="color:red;">*</span></label>
+                  <label style="font-weight: 1000; color:#454545"><?=lang('input_pays')?> <span style="color:red;">*</span></label>
                   <div class="input-group has-validation">
 
                     <select onchange="localisation();" class="form-control" name="COUNTRY_ID" id="COUNTRY_ID">
-                     <option value="">Sélectionner</option>
+                     <option value=""><?=lang('selectionner')?></option>
 
                      <?php
                      foreach($pays as $key) { 
@@ -189,9 +189,9 @@
                <br>
                <br>
                <div class="col-md-4">
-                <label style="font-weight: 1000; color:#454545">Code pays <span style="color:red;">*</span></label>
+                <label style="font-weight: 1000; color:#454545"><?=lang('input_code_pays')?> <span style="color:red;">*</span></label>
                 <select class="form-control selectize" data-live-search="true" id="ITU-T_Telephone_Code_1" name="ITU-T_Telephone_Code">
-                  <option value="" class="text-dark">Sélectionner</option>
+                  <option value="" class="text-dark"><?=lang('selectionner')?></option>
                   <?php
                   
                   foreach ($countries1 as $key) {
@@ -211,7 +211,7 @@
                <br>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Téléphone</b><span  style="color:red;">*</span></label>
+                  <label style="font-weight: 1000; color:#454545"><b><?=lang('input_tlphone')?></b><span  style="color:red;">*</span></label>
                   <input class="form-control bg-light" type='tel' name="TELEPHONE" id="TELEPHONE" value="<?=$proprietaire['TELEPHONE']?>" pattern="^[0-9-+\s()]*$"/>
                 </div>
 
@@ -221,9 +221,9 @@
 
               <div class="col-md-4" id="div_prov">
                 <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Province</b><span  style="color:red;">*</span></label>
+                  <label style="font-weight: 1000; color:#454545"><b><?=lang('input_province')?></b><span  style="color:red;">*</span></label>
                   <select class="form-control" name="PROVINCE_ID" id="PROVINCE_ID" onchange="change_province();">
-                    <option value="" selected>Séléctionner</option>
+                    <option value="" selected><?=lang('selectionner')?></option>
                     <?php
                     foreach ($provinces as $province)
                     {
@@ -239,9 +239,9 @@
               </div>
               <div class="col-md-4" id="div_com">
                 <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Commune</b><span  style="color:red;">*</span></label>
+                  <label style="font-weight: 1000; color:#454545"><b><?=lang('input_commune')?></b><span  style="color:red;">*</span></label>
                   <select class="form-control" name="COMMUNE_ID" id="COMMUNE_ID" onchange="change_commune()">
-                    <option value="">-- Séléctionner --</option>
+                    <option value="">-- <?=lang('selectionner')?> --</option>
                     <?php
                     if (!empty($communes))
                     {
@@ -261,9 +261,9 @@
 
               <div class="col-md-4" id="div_zon">
                 <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Zone</b><span  style="color:red;">*</span></label>
+                  <label style="font-weight: 1000; color:#454545"><b><?=lang('input_zone')?></b><span  style="color:red;">*</span></label>
                   <select class="form-control" name="ZONE_ID" id="ZONE_ID" onchange="change_zone();">
-                    <option value="">-- Séléctionner --</option>
+                    <option value="">-- <?=lang('selectionner')?> --</option>
                     <?php
                     if (!empty($zones))
                     {
@@ -283,9 +283,9 @@
 
               <div class="col-md-4" id="div_col">
                 <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Colline</b><span  style="color:red;">*</span></label>
+                  <label style="font-weight: 1000; color:#454545"><b><?=lang('input_colline')?></b><span  style="color:red;">*</span></label>
                   <select class="form-control" name="COLLINE_ID" id="COLLINE_ID">
-                    <option value="">-- Séléctionner --</option>
+                    <option value="">-- <?=lang('selectionner')?> --</option>
                     <?php
                     if (!empty($collines))
                     {
@@ -304,37 +304,37 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label style="font-weight: 1000; color:#454545"><b>Adresse</b><span  style="color:red;">*</span></label>
-                  <input class="form-control" name="ADRESSE" id="ADRESSE" placeholder='Adresse' value="<?=$proprietaire['ADRESSE']?>"/>
+                  <label style="font-weight: 1000; color:#454545"><b><?=lang('input_adresse')?></b><span  style="color:red;">*</span></label>
+                  <input class="form-control" name="ADRESSE" id="ADRESSE" placeholder='<?=lang('input_adresse')?>' value="<?=$proprietaire['ADRESSE']?>"/>
                 </div>
                 <span id="errorADRESSE" class="text-danger"></span>
                 <?php echo form_error('ADRESSE','<div class="text-danger">', '</div>'); ?>
               </div>
               <div class="col-md-4" id="div_photo">
-                <label for="FName" style="font-weight: 1000; color:#454545">Photo passeport (.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
-                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= $proprietaire['PHOTO_PASSPORT'] ?>"  class="form-control">
+                <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('input_photo_passport')?> (.png,.jpg,.jepg) <font color="red">*</font></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" title='<?=lang('title_file')?>' name="photo_passport" autocomplete="off" id="photo_passport" value="<?= $proprietaire['PHOTO_PASSPORT'] ?>"  class="form-control">
                 <input type="hidden"  name="photo_passport_old" id="photo_passport_old" value="<?=$proprietaire['PHOTO_PASSPORT']?>">
                 <font id="error_photo_passport" color="red"></font>
                 <?php echo form_error('photo_passport', '<div class="text-danger">', '</div>'); ?> 
               </div>
 
               <div class="col-md-4" id="div_logo">
-                <label for="FName" style="font-weight: 1000; color:#454545">Logo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
-                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG'  name="LOGO" autocomplete="off" id="LOGO" value="<?= $proprietaire['LOGO'] ?>"  class="form-control">
+                <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('input_logo')?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(.png,.jpg,.jepg) <font color="red">*</font></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='<?=lang('title_file')?>'  name="LOGO" autocomplete="off" id="LOGO" value="<?= $proprietaire['LOGO'] ?>"  class="form-control">
                 <input type="hidden"  name="LOGO_OLD" id="LOGO_OLD" value="<?=$proprietaire['LOGO']?>">
                 <font id="error_LOGO" color="red"></font>
                 <?php echo form_error('LOGO', '<div class="text-danger">', '</div>'); ?> 
               </div>
               <div class="col-md-4" id="div_doc_rc">
-                <label for="FName" style="font-weight: 1000; color:#454545">Document RC (.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
-                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf' name="FILE_RC" autocomplete="off" id="FILE_RC" value="<?= $proprietaire['FILE_RC'] ?>"  class="form-control">
+                <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('input_doc_rc')?> (.png,.jpg,.jepg) <font color="red">*</font></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf" class="form-control" title='<?=lang('title_file')?>' name="FILE_RC" autocomplete="off" id="FILE_RC" value="<?= $proprietaire['FILE_RC'] ?>"  class="form-control">
                 <input type="hidden"  name="FILE_RC_OLD" id="FILE_RC_OLD" value="<?=$proprietaire['FILE_RC']?>">
                 <font id="error_FICHIER_RC" color="red"></font>
                 <?php echo form_error('FILE_RC', '<div class="text-danger">', '</div>'); ?> 
               </div>
               <div class="col-md-4" id="div_doc_nif">
-                <label for="FName" style="font-weight: 1000; color:#454545">Document NIF (.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
-                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf' name="FILE_NIF" autocomplete="off" id="FILE_NIF" value="<?= $proprietaire['FILE_NIF'] ?>"  class="form-control">
+                <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('input_doc_nif')?> (.png,.jpg,.jepg) <font color="red">*</font></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.PDF,.pdf" class="form-control" title='<?=lang('title_file')?>' name="FILE_NIF" autocomplete="off" id="FILE_NIF" value="<?= $proprietaire['FILE_NIF'] ?>"  class="form-control">
                 <input type="hidden"  name="FILE_NIF_OLD" id="FILE_NIF_OLD" value="<?=$proprietaire['FILE_NIF']?>">
                 <font id="error_FILE_NIF" color="red"></font>
                 <?php echo form_error('FILE_NIF', '<div class="text-danger">', '</div>'); ?> 
@@ -381,7 +381,7 @@
     $('#div_photo').prop('style','display:none;');
 
     // $('#div_photo').hide();
-    $('#label_document').html('<b>NIF/ CNI</b> <span  style="color:red;">*</span>');
+    $('#label_document').html('<b><?=lang('input_nif_cni')?></b> <span  style="color:red;">*</span>');
     $('#div_prov').attr('hidden',true); 
     $('#div_com').attr('hidden',true);  
     $('#div_zon').attr('hidden',true);  
@@ -400,7 +400,7 @@
 
    if($('#TYPE_PROPRIETAIRE_ID').val()==1)
    {
-    $('#label_document').html('<b>NIF</b> <span  style="color:red;">*</span>');
+    $('#label_document').html('<b><?=lang('input_nif')?></b> <span  style="color:red;">*</span>');
         // $('#div_type_societe').prop('style','');
     $('#div_PRENOM_PROPRIETAIRE').prop('style','display:none;');
     $('#div_nompro').prop('style','display:none;');
@@ -420,7 +420,7 @@
   }
   else
   {
-    $('#label_document').html('<b>CNI / Numéro passport</b> <span  style="color:red;">*</span>');
+    $('#label_document').html('<b><?=lang('input_cni_numeropasseport')?></b> <span  style="color:red;">*</span>');
        // $('#div_type_societe').prop('style','display:none;');
     $('#div_PRENOM_PROPRIETAIRE').prop('style','');
     $('#div_nompro').prop('style','');
@@ -448,7 +448,7 @@
     // $('#div_rc').prop('style','display:none;');
     $('#div_personne_reference').prop('style','display:none;');
     $('#div_photo').hide();
-    $('#label_document').html('<b>NIF/ CNI</b> <span  style="color:red;">*</span>');
+    $('#label_document').html('<b><?=lang('input_nif_cni')?></b> <span  style="color:red;">*</span>');
     $('#div_logo').hide();
     $('#div_doc_rc').hide();
     $('#div_doc_nif').hide();
@@ -484,7 +484,7 @@
     }
     else
     {
-      $('#label_document').html('<b>CNI / Numéro passport</b> <span  style="color:red;">*</span>');
+      $('#label_document').html('<b><?=lang('input_cni_numeropasseport')?></b> <span  style="color:red;">*</span>');
        // $('#div_type_societe').prop('style','display:none;');
       $('#div_nompro').prop('style','');
       $('#div_PRENOM_PROPRIETAIRE').prop('style','');
@@ -512,14 +512,14 @@ function change_province()
 {
   if($('#PROVINCE_ID').val()=='')
   {
-    $('#COMMUNE_ID').html('<option value="">-- Séléctionner --</option>');
-    $('#ZONE_ID').html('<option value="">-- Séléctionner --</option>');
-    $('#COLLINE_ID').html('<option value="">-- Séléctionner --</option>');
+    $('#COMMUNE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
+    $('#ZONE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
+    $('#COLLINE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
   }
   else
   {
-    $('#ZONE_ID').html('<option value="">-- Séléctionner --</option>');
-    $('#COLLINE_ID').html('<option value="">-- Séléctionner --</option>');
+    $('#ZONE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
+    $('#COLLINE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
     $.ajax(
     {
       url:"<?=base_url('proprietaire/Proprietaire/get_communes/')?>"+$('#PROVINCE_ID').val(),
@@ -531,7 +531,7 @@ function change_province()
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
   }
@@ -541,12 +541,12 @@ function change_commune()
 {
   if($('#COMMUNE_ID').val()=='')
   {
-    $('#ZONE_ID').html('<option value="">-- Séléctionner --</option>');
-    $('#COLLINE_ID').html('<option value="">-- Séléctionner --</option>');
+    $('#ZONE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
+    $('#COLLINE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
   }
   else
   {
-    $('#COLLINE_ID').html('<option value="">-- Séléctionner --</option>');
+    $('#COLLINE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
     $.ajax(
     {
       url:"<?=base_url('proprietaire/Proprietaire/get_zones/')?>"+$('#COMMUNE_ID').val(),
@@ -558,7 +558,7 @@ function change_commune()
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
   }
@@ -568,7 +568,7 @@ function change_zone()
 {
   if($('#ZONE_ID').val()=='')
   {
-    $('#COLLINE_ID').html('<option value="">-- Séléctionner --</option>');
+    $('#COLLINE_ID').html('<option value="">-- <?=lang('selectionner')?> --</option>');
   }
   else
   {
@@ -583,7 +583,7 @@ function change_zone()
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
   }
@@ -605,7 +605,7 @@ function submit_form()
   var statut=1;
 
   if ($('#ITU-T_Telephone_Code_1').val()=='') {
-    $('#errorpays').text("Le champ est obligatoire");
+    $('#errorpays').text("<?=lang('msg_validation')?>");
     statut=2;
   }else{
 
@@ -618,13 +618,13 @@ function submit_form()
   if($('#COUNTRY_ID').val()=='')
   {
     statut=2;
-    $('#errorcountry').html('Le champ est obligatoire');
+    $('#errorcountry').html('<?=lang('msg_validation')?>');
   }else{$('#errorcountry').html('');}
   if($('#EMAIL').val() !='')
   {
     if(!emailReg.test($('#EMAIL').val()))
     {
-      $('#errorEMAIL').html('Email invalide!');
+      $('#errorEMAIL').html('<?=lang('msg_validation_mail')?>');
       statut=2
     }
     else{$('#errorEMAIL').html('');}
@@ -634,7 +634,7 @@ function submit_form()
     if($('#CONFIRMATION_EMAIL').val()=='')
     {
       statut=2;
-      $('#errorCONFIRMATION_EMAIL').html('Le champ est obligatoire');
+      $('#errorCONFIRMATION_EMAIL').html('<?=lang('msg_validation')?>');
     }
     else
     {
@@ -644,7 +644,7 @@ function submit_form()
       {
         statut=2;
 
-        $('#errorCONFIRMATION_EMAIL').html('Les emails ne correspondent pas');
+        $('#errorCONFIRMATION_EMAIL').html('<?=lang('msg_validation_mail_correspondance')?>');
       }
       else
       {
@@ -656,13 +656,13 @@ function submit_form()
   else
   {
     statut=2;
-    $('#errorEMAIL').html('Le champ est obligatoire');
+    $('#errorEMAIL').html('<?=lang('msg_validation')?>');
   }
 
   if($('#TELEPHONE').val()=='')
   {
     statut=2;
-    $('#errorTELEPHONE').html('Le champ est obligatoire');
+    $('#errorTELEPHONE').html('<?=lang('msg_validation')?>');
   }else{$('#errorTELEPHONE').html('');}
 
   if (COUNTRY_ID==28) {
@@ -670,25 +670,25 @@ function submit_form()
     if($('#PROVINCE_ID').val()=='')
     {
       statut=2;
-      $('#errorPROVINCE_ID').html('Le champ est obligatoire');
+      $('#errorPROVINCE_ID').html('<?=lang('msg_validation')?>');
     }else{$('#errorPROVINCE_ID').html('');}
 
     if($('#COMMUNE_ID').val()=='')
     {
       statut=2;
-      $('#errorCOMMUNE_ID').html('Le champ est obligatoire');
+      $('#errorCOMMUNE_ID').html('<?=lang('msg_validation')?>');
     }else{$('#errorCOMMUNE_ID').html('');}
 
     if($('#ZONE_ID').val()=='')
     {
       statut=2;
-      $('#errorZONE_ID').html('Le champ est obligatoire');
+      $('#errorZONE_ID').html('<?=lang('msg_validation')?>');
     }else{$('#errorZONE_ID').html('');}
 
     if($('#COLLINE_ID').val()=='')
     {
       statut=2;
-      $('#errorCOLLINE_ID').html('Le champ est obligatoire');
+      $('#errorCOLLINE_ID').html('<?=lang('msg_validation')?>');
     }else{$('#errorCOLLINE_ID').html('');}
 
   }
@@ -696,20 +696,20 @@ function submit_form()
   if($('#ADRESSE').val()=='')
   {
     statut=2;
-    $('#errorADRESSE').html('Le champ est obligatoire');
+    $('#errorADRESSE').html('<?=lang('msg_validation')?>');
   }else{$('#errorADRESSE').html('');}
 
 
   if($('#TYPE_PROPRIETAIRE_ID').val()=='')
   {
     statut=2;
-    $('#errorTYPE_PROPRIETAIRE_ID').html('Le champ est obligatoire');
+    $('#errorTYPE_PROPRIETAIRE_ID').html('<?=lang('msg_validation')?>');
   }else{$('#errorTYPE_PROPRIETAIRE_ID').html('');}
 
   if($('#NOM_PROPRIETAIRE').val()=='')
   {
     statut=2;
-    $('#errorNOM_PROPRIETAIRE').html('Le champ est obligatoire');
+    $('#errorNOM_PROPRIETAIRE').html('<?=lang('msg_validation')?>');
   }else{$('#errorNOM_PROPRIETAIRE').html('');}
 
   
@@ -720,14 +720,14 @@ function submit_form()
     if($('#RC').val()=='')
     {
       statut=2;
-      $('#errorRC').html('Le champ est obligatoire');
+      $('#errorRC').html('<?=lang('msg_validation')?>');
     }else{
       $('#errorRC').html('');
     }
     if($('#CATEGORIE_ID').val()=='')
     {
       statut=2;
-      $('#error_CATEGORIE_ID').html('Le champ est obligatoire');
+      $('#error_CATEGORIE_ID').html('<?=lang('msg_validation')?>');
     }else{$('#error_CATEGORIE_ID').html('');}
 
 
@@ -742,7 +742,7 @@ function submit_form()
     if(logo.files.length === 0 && $('#LOGO_OLD').val()=='')
     {
       statut=2;
-      $('#error_LOGO').text("Le champ est obligatoire");
+      $('#error_LOGO').text("<?=lang('msg_validation')?>");
     }else{
       $('#error_LOGO').text('');
 
@@ -751,7 +751,7 @@ function submit_form()
     if(rc.files.length === 0 && $('FILE_RC_OLD').val()=='')
     {
       statut=2;
-      $('#FILE_RC_OLD').text("Le champ est obligatoire");
+      $('#FILE_RC_OLD').text("<?=lang('msg_validation')?>");
     }else{
       $('#error_FICHIER_RC').text('');
 
@@ -759,7 +759,7 @@ function submit_form()
     if(nif.files.length === 0 && $('#FILE_NIF_OLD').val()=='')
     {
       statut=2;
-      $('#error_FILE_NIF').text("Le champ est obligatoire");
+      $('#error_FILE_NIF').text("<?=lang('msg_validation')?>");
     }else{
       $('#error_FILE_NIF').text('');
 
@@ -771,7 +771,7 @@ function submit_form()
     if($('#PRENOM_PROPRIETAIRE').val()=='')
     {
       statut=2;
-      $('#errorPRENOM_PROPRIETAIRE').html('Le champ est obligatoire');
+      $('#errorPRENOM_PROPRIETAIRE').html('<?=lang('msg_validation')?>');
     }else{
       $('#errorPRENOM_PROPRIETAIRE').html('');
     }
@@ -779,7 +779,7 @@ function submit_form()
     if(photopassport.files.length === 0 && $('#photo_passport_old').val()=='')
     {
       statut=2;
-      $('#error_photo_passport').text("Le champ est obligatoire");
+      $('#error_photo_passport').text("<?=lang('msg_validation')?>");
     }else{
       $('#error_photo_passport').html('');
 
@@ -788,7 +788,7 @@ function submit_form()
     if(file_cni_passport.files.length === 0 && $('#FILE_CNI_PASSPORT_OLD').val()=='')
     {
       statut=2;
-      $('#error_FILE_CNI_PASSPORT').text("Le champ est obligatoire");
+      $('#error_FILE_CNI_PASSPORT').text("<?=lang('msg_validation')?>");
     }else{
       $('#error_FILE_CNI_PASSPORT').html('');
 
