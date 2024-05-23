@@ -118,7 +118,7 @@
                   <div class="col-xl-4">
 
                     <!-- <div class="card"> -->
-                      <div class="card-body profile-card pt-0 d-flex flex-column align-items-center">
+                      <div class="card-body profile-card pt-2 d-flex flex-column align-items-center">
 
                         <?php
                         if(!empty($proprietaire['PHOTO_PASSPORT']) && $proprietaire['TYPE_PROPRIETAIRE_ID']==2)

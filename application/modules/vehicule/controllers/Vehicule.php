@@ -1886,6 +1886,73 @@
 						
 					}
 
+					//Notification pour l'activation forfait
+
+					$today = date('Y-m-d');
+					$nbr_device_proche_exp = 0;
+					$nbr_device_exp = 0;
+					$jrsRestants = ' ';
+					$jrsEcoules_exp = ' ';
+					$html_device = '';
+					$html_device_exp = '';
+
+					$device = $this->getBindParms('device.DEVICE_ID,device.CODE,device.DATE_EXPIRE_MEGA,NUMERO','device',' 1','device.DEVICE_ID ASC');
+					$device = $this->ModelPs->getRequete($psgetrequete, $device);
+
+					if(!empty($device))
+					{
+						foreach ($device as $key_device) {
+
+							$jrsRestants = $this->notifications->ago($key_device['DATE_EXPIRE_MEGA'],$today);
+
+							$jrsRestants = explode(" ", $jrsRestants)[0];
+
+							//print_r($jrsRestants);die();
+
+							if($jrsRestants <= 4 && $today <= $key_device['DATE_EXPIRE_MEGA']) // <= 4jrs avant l'expiration du forfait
+							{
+								$nbr_device_proche_exp += 1;
+
+								$html_device.='
+								<a href="' . base_url('sim_management/Sim_management/get_historique/'.md5($key_device['DEVICE_ID']).''). '" style="color:black;">
+								<li class="notification-item">
+								<i class="bi bi-exclamation-circle text-warning"></i>
+								<div>
+								<h4 class="text-warning">Forfait&nbsp;proche&nbsp;à&nbsp;l\'expriration</h4>
+								<p>Code device : '.$key_device['CODE'].'</p>
+								<p>Carte sim : '.$key_device['NUMERO'].'</p>
+								<p>Il reste '.$jrsRestants.' jrs</p>
+								</div>
+								</li>
+								</a>
+								<li>
+								<hr class="dropdown-divider">
+								</li>
+								'; 
+							}
+							else if($today > $key_device['DATE_EXPIRE_MEGA']) // forfait déjà expiré
+							{
+								$nbr_device_exp += 1;
+
+								$html_device_exp.='
+								<a href="' . base_url('sim_management/Sim_management/get_historique/'.md5($key_device['DEVICE_ID']).''). '" style="color:black;">
+								<li class="notification-item">
+								<i class="bi bi-exclamation-circle text-danger"></i>
+								<div>
+								<h4 class="text-danger">Forfait expriré</h4>
+								<p>Code device : '.$key_device['CODE'].'</p>
+								<p>Carte sim : '.$key_device['NUMERO'].'</p>
+								<p>Il y a '.$jrsRestants.'jrs</p>
+								</div>
+								</li>
+								</a>
+								<li>
+								<hr class="dropdown-divider">
+								</li>
+								';
+							}
+						}
+					}
 
 
 					// $check_all_affect = $this->Model->getRequete("SELECT t1.DATE_INSERTION,t1.DATE_DEBUT_AFFECTATION,t1.DATE_FIN_AFFECTATION,t1.CHAUFFEUR_ID
@@ -1896,7 +1963,7 @@
 					// 		GROUP BY CHAUFFEUR_ID
 					// 	) t2 ON t1.CHAUFFEUR_ID = t2.CHAUFFEUR_ID AND t1.DATE_INSERTION = t2.max_date WHERE DATE_FIN_AFFECTATION <='".$today."'");
 
-					$nbre_anomalies=$nbre_vehicule+$nbre_exces_vit+$nbre_accident+$a+$nbre_fin_affect;
+					$nbre_anomalies=$nbre_vehicule+$nbre_exces_vit+$nbre_accident+$a+$nbre_fin_affect+$nbr_device_proche_exp+$nbr_device_exp;
 
 				}else{
 					if(!empty($USER_ID)){
@@ -2131,9 +2198,9 @@
 					"nbre_anomalies" => $nbre_anomalies,
 					"html" => $html,
 					"html1" => $html1,
-					"html2" =>$html2
-
-
+					"html2" =>$html2,
+					"html_device" =>$html_device,
+					"html_device_exp" =>$html_device_exp
 				);
 
 				echo json_encode($output);
