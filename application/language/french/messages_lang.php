@@ -164,6 +164,62 @@ $lang['title_demande_refus'] = 'Demande refusé';
 $lang['title_demande_refus'] = 'Demande refusé';
 $lang['i_assurance'] = 'Assurance';
 $lang['veh_emplacement'] = 'Emplacement du véhicule';
+$lang['list_doc'] = 'DOCUMENT';
+$lang['list_dte_dbut'] = 'DATE&nbsp;DEBUT';
+$lang['list_dte_fin'] = 'DATE&nbsp;FIN';
+$lang['list_assureur'] = 'ASSUREUR';
+$lang['list_profil_enreg'] = 'ENREGISTRE&nbsp;PAR';
+$lang['list_dte_enregistrement'] = 'DATE&nbsp;D\'ENREGISTREMENT';
+$lang['list_fait_par'] ='FAIT&nbsp;PAR';
+$lang['list_motif'] ='MOTIF';
+$lang['list_date'] ='DATE';
+$lang['select_veh_ass_valide'] ='Véhicules avec assurances valides';
+$lang['select_veh_ass_invalide'] ='Véhicules avec assurances invalides';
+$lang['select_veh_ctrl_valide'] ='Véhicules avec contrôles techniques valides';
+$lang['select_veh_ctrl_invalide'] ='Véhicules avec contrôles techniques invalides';
+$lang['btn_nouveau'] ='Nouveau';
+$lang['filtre_val_doc'] ='Filtrage selon la validité des documents';
+$lang['list_code'] ='CODE';
+$lang['list_assurance_maj'] ='ASSURANCE';
+$lang['list_ctrl_tech_abrev'] ='C&nbsp;T';
+$lang['list_action'] ='ACTION';
+$lang['modal_title_traiter_dem'] ='Traiter la demande';
+$lang['modal_code_device_uid'] ='Code (device uid)';
+$lang['modal_commentaire'] ='Commentaire';
+$lang['btn_annuler'] ='Annuler';
+$lang['alert_code_existant'] ='Le Code du véhicule existe déjà !';
+$lang['msg_traitement_success'] ='Traitement fait avec succès';
+$lang['msg_traitement_echec'] ='Traitement échoué !';
+$lang['msg_renvlement_assurance'] ='Renouvelement de l\'assurance';
+$lang['msg_renvlement_ctrl_technique'] ='Renouvelement du contrôle technique';
+$lang['msg_enreg_ft_success'] ='Enregistrement fait avec succès !';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
