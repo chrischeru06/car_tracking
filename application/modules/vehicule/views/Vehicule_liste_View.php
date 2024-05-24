@@ -126,7 +126,7 @@ input:checked + .slider:before {
   </div>
   <div class="col-md-2">
 
-    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
 
   </div>
 </div>
@@ -140,13 +140,13 @@ input:checked + .slider:before {
       <div class="row">
 
         <div class="col-md-5">
-          <label class="text-dark" style="font-weight: 1000; color:#454545">Filtrage selon la validité des documents</label>
+          <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('filtre_val_doc')?></label>
           <select class="form-control" id="CHECK_VALIDE" name="CHECK_VALIDE" onchange="listing();get_nbr_vehicule();">
-            <option value="0"> Sélectionner</option>
-            <option value="1"> Véhicules avec assurances valides </option>
-            <option value="2"> Véhicules avec assurances invalides </option>
-            <option value="3"> Véhicules avec contrôles techniques valides </option>
-            <option value="4"> Véhicules avec contrôles techniques invalides </option>
+            <option value="0"> <?=lang('selectionner')?></option>
+            <option value="1"> <?=lang('select_veh_ass_valide')?> </option>
+            <option value="2"> <?=lang('select_veh_ass_invalide')?> </option>
+            <option value="3"> <?=lang('select_veh_ctrl_valide')?> </option>
+            <option value="4"> <?=lang('select_veh_ctrl_invalide')?> </option>
             
           </select>
 
@@ -187,22 +187,22 @@ input:checked + .slider:before {
                       <?php
                       if($this->session->userdata('PROFIL_ID') == 1)
                         {?>
-                          <th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                          <th class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=lang('list_code')?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                           <?php
                         }
                         ?>
-                        <th class="">PLAQUE</th>
-                        <th class="">MARQUE</th>
+                        <th class=""><?=lang('th_plaque')?></th>
+                        <th class=""><?=lang('th_marque')?></th>
                         <!--  <th class="">MODELE</th> -->
-                        <th class="">COULEUR</th>
+                        <th class=""><?=lang('th_couleur')?></th>
                         <!-- <th class="">CONSOMMATION</th> -->
-                        <th class="">DATE&nbsp;D'ENREGISTREMENT</th>
+                        <th class=""><?=lang('list_dte_enregistrement')?></th>
                         <!-- <th class="">TRAITEMENT&nbsp;DEMANDE</th> -->
-                        <th class="">STATUT&nbsp;&nbsp;</th>
-                        <th class="">ASSURANCE</th>
-                        <th class="">C&nbsp;T</th>
-                        <th class="">ACTION</th>
-                      </tr>
+                        <th class=""><?=lang('th_statut')?>&nbsp;&nbsp;</th>
+                        <th class=""><?=lang('list_assurance_maj')?></th>
+                        <th class=""><?=lang('list_ctrl_tech_abrev')?></th>
+                        <th class=""><?=lang('list_action')?></th>
+                      </tr>                   
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     </tbody>
@@ -227,7 +227,7 @@ input:checked + .slider:before {
       <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
 
-        --><h5 class="modal-title">Traiter la demande </h5>
+        --><h5 class="modal-title"><?=lang('modal_title_traiter_dem')?> </h5>
 
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -240,14 +240,14 @@ input:checked + .slider:before {
               <input type="hidden" name="STATUT_VEH_AJOUT" id="STATUT_VEH_AJOUT">
 
               <div class="col-md-4">
-                <label for="description"><small>Statut</small><span  style="color:red;">*</span></label>
+                <label for="description"><small><?=lang('i_stat')?></small><span  style="color:red;">*</span></label>
                 <select class="form-control" id="TRAITEMENT_DEMANDE_ID" name="TRAITEMENT_DEMANDE_ID" onchange="traiter_view_code()">
                 </select>
                 <span id="errorTRAITEMENT_DEMANDE_ID" class="text-danger"></span>
               </div>
               <div class="col-md-4" id="code_device_uid">
                 <div class="form-group">
-                  <label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
+                  <label ><small> <?=lang('modal_code_device_uid')?></small><span  style="color:red;">*</span></label>
 
                   <input class="form-control" type='text' name="CODE" id="CODE" placeholder='' onchange="check_val_code();" value=""/>
 
@@ -257,14 +257,14 @@ input:checked + .slider:before {
               </div>
 
               <div class = 'col-md-4'>
-                <label><small>Commentaire</small><span  style="color:red;">*</span></label>
+                <label><small><?=lang('modal_commentaire')?></small><span  style="color:red;">*</span></label>
                 <textarea class='form-control' name ='COMMENTAIRE' id="COMMENTAIRE"></textarea>
                 <span id="errorCOMMENTAIRE" class="text-danger"></span>
               </div>
             </div>
           </div> 
           <div class="modal-footer">
-            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Traiter" onclick="save_statut_vehicul();" />
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_traiter')?>" onclick="save_statut_vehicul();" />
             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
 
           </div>
@@ -283,7 +283,7 @@ input:checked + .slider:before {
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
 
-        --><h5 class="modal-title" id="titre">Assurance et contrôle technique</h5>
+        --><h5 class="modal-title" id="titre"><?=lang('i_assurance')?> <?=lang('mot_et')?> <?=lang('td_ctrl_technique')?></h5>
 
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -298,16 +298,16 @@ input:checked + .slider:before {
               <input type="hidden" name="USER_ID" id="USER_ID" value="<?=$this->session->userdata('USER_ID')?>">
 
               <div class="col-md-6" id="assureur">
-                <label>Assureur<font color="red">*</font></label> 
+                <label><?=lang('label_assureur')?><font color="red">*</font></label> 
                 <select class="form-control" name="ID_ASSUREUR"  id="ID_ASSUREUR">
-                 <option value="">Sélectionner</option>
+                 <option value=""><?=lang('selectionner')?></option>
 
                </select>
                <font id="error_ID_ASSUREUR" color="red"></font>
              </div>
 
              <div class="col-md-6" id="debut_assurance">
-              <label ><small>Date début assurance</small><span  style="color:red;">*</span></label>
+              <label ><small><?=lang('label_date_deb_assurance')?></small><span  style="color:red;">*</span></label>
               <input type="date" name="DATE_DEBUT_ASSURANCE" autocomplete="off" id="DATE_DEBUT_ASSURANCE" value=""  class="form-control" onchange="get_date_fin_assurance(this.value)" min="<?= date('Y-m-d')?>">
 
               <font id="error_DATE_DEBUT_ASSURANCE" color="red"></font>
@@ -315,7 +315,7 @@ input:checked + .slider:before {
             </div>
 
             <div class="col-md-6" id="debut_controle">
-              <label ><small>Date début contrôle technique</small><span  style="color:red;">*</span></label>
+              <label ><small><?=lang('label_date_deb_ctrl_technique')?></small><span  style="color:red;">*</span></label>
               <input type="date" name="DATE_DEBUT_CONTROTECHNIK" autocomplete="off" id="DATE_DEBUT_CONTROTECHNIK" value=""  class="form-control" onchange="get_date_fin_controle(this.value)" min="<?= date('Y-m-d')?>">
 
               <font id="error_DATE_DEBUT_CONTROTECHNIK" color="red"></font>
@@ -323,7 +323,7 @@ input:checked + .slider:before {
             </div>
 
             <div class="col-md-6" id="fin_assurance">
-              <label ><small>Date fin assurance</small><span  style="color:red;">*</span></label>
+              <label ><small><?=lang('label_date_fin_assurance')?></small><span  style="color:red;">*</span></label>
               <input type="date" name="DATE_FIN_ASSURANCE" autocomplete="off" id="DATE_FIN_ASSURANCE" value=""  class="form-control" >
 
               <font id="error_DATE_FIN_ASSURANCE" color="red"></font>
@@ -331,7 +331,7 @@ input:checked + .slider:before {
             </div>
 
             <div class="col-md-6" id="fin_controle">
-              <label ><small>Date fin contrôle technique</small><span  style="color:red;">*</span></label>
+              <label ><small><?=lang('label_date_fin_ctrl_technique')?></small><span  style="color:red;">*</span></label>
               <input type="date" name="DATE_FIN_CONTROTECHNIK" autocomplete="off" id="DATE_FIN_CONTROTECHNIK" value=""  class="form-control" >
 
               <font id="error_DATE_FIN_CONTROTECHNIK" color="red"></font>
@@ -339,17 +339,17 @@ input:checked + .slider:before {
 
 
             <div class="col-md-6" id="photo_assurance">
-              <label> <small>Photo assurance</small> </label>
+              <label> <small><?=lang('label_photo_assurance')?></small> </label>
 
-              <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+              <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='<?=lang('title_file')?>'>
 
               <span id="error_FILE_ASSURANCE" class="text-danger"></span>
             </div>
 
             <div class="col-md-6" id="photo_controle">
-              <label> <small>Photo contrôle technique</small> </label>
+              <label> <small><?=lang('label_photo_ctrl_technique')?></small> </label>
 
-              <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+              <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='<?=lang('title_file')?>'>
 
               <span id="error_FILE_CONTRO_TECHNIQUE" class="text-danger"></span>
             </div>
@@ -358,9 +358,9 @@ input:checked + .slider:before {
         </div> 
         <div class="modal-footer">
           <!-- <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Traiter" onclick="save_statut_vehicul();" /> -->
-          <button type="button" class="btn btn-outline-primary rounded-pill" id="btnSave" onclick="save_assure_controle()"> <i class="fa fa-save"> </i> Enregistrer</button>
+          <button type="button" class="btn btn-outline-primary rounded-pill" id="btnSave" onclick="save_assure_controle()"> <i class="fa fa-save"> </i> <?=lang('btn_enregistrer')?></button>
 
-          <button type="reset" class='btn btn-outline-warning rounded-pill' style="float:right;" data-dismiss="modal" id="btnCancel"><i class="fa fa-close"> </i> Annuler</button>
+          <button type="reset" class='btn btn-outline-warning rounded-pill' style="float:right;" data-dismiss="modal" id="btnCancel"><i class="fa fa-close"> </i> <?=lang('btn_annuler')?></button>
 
         </div>
       </form>
@@ -375,7 +375,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Activation  </h5>
+        <h5 class="modal-title"><?=lang('title_modal_activation')?>  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -385,9 +385,9 @@ input:checked + .slider:before {
               <input type="hidden" name="VEHICULE_ID_I" id="VEHICULE_ID_I">
 
               <div class="col-md-12" id="div_type">
-                <label class="text-dark">Motif <font color="red">*</font></label>
+                <label class="text-dark"><?=lang('label_motif')?> <font color="red">*</font></label>
                 <select class="form-control" id="ID_MOTIF" name="ID_MOTIF" >
-                  <option value="">-- Sélectionner --</option>
+                  <option value="">-- <?=lang('selectionner')?> --</option>
                   <?php
                   foreach ($motif_ativ as $key) 
                   {
@@ -402,7 +402,7 @@ input:checked + .slider:before {
             </div>
           </div> 
           <div class="modal-footer">
-            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Activer" onclick="save_motif_active();" />
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_active')?>" onclick="save_motif_active();" />
             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
 
           </div>
@@ -418,7 +418,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Désactivation  </h5>
+        <h5 class="modal-title"><?=lang('modal_desactivation')?>  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -428,9 +428,9 @@ input:checked + .slider:before {
               <input type="hidden" name="VEHICULE_ID_ID" id="VEHICULE_ID_ID">
 
               <div class="col-md-12" id="div_type">
-                <label class="text-dark">Motif <font color="red">*</font></label>
+                <label class="text-dark"><?=lang('label_motif')?> <font color="red">*</font></label>
                 <select class="form-control" id="ID_MOTIF_des" name="ID_MOTIF_des" >
-                  <option value="">-- Sélectionner --</option>
+                  <option value="">-- <?=lang('selectionner')?> --</option>
                   <?php
                   foreach ($motif_des as $key) 
                   {
@@ -445,7 +445,7 @@ input:checked + .slider:before {
             </div>
           </div> 
           <div class="modal-footer">
-            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Désactiver" onclick="save_motif_desactive();" />
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('checkbox_desactiver')?>" onclick="save_motif_desactive();" />
 
           </div>
         </form>
@@ -600,7 +600,7 @@ function save_motif_active() {
         {
           icon: 'success',
           title: 'Success',
-          text: 'Activation faite avec succès',
+          text: '<?=lang('swal_active_proprio')?>',
           timer: 1500,
         }).then(() =>
         {
@@ -628,7 +628,7 @@ function save_motif_desactive() {
 
   if($('#ID_MOTIF_des').val()=='')
   {
-    $('#errorID_MOTIF_des').html('Le champ est obligatoire');
+    $('#errorID_MOTIF_des').html('<?=lang('msg_validation')?>');
     statut=2;
   }
   if (statut==1) {
@@ -656,7 +656,7 @@ function save_motif_desactive() {
       {
         icon: 'success',
         title: 'Success',
-        text: 'désactivation faite avec succès',
+        text: '<?=lang('swal_desactive_proprio')?>',
         timer: 1500,
       }).then(() =>
       {
@@ -731,7 +731,7 @@ function check_val_code() {
         $('#errorCODE').text("");
       }
       else
-        {$('#errorCODE').text("Ce Code du véhicule existe déjà!");}
+        {$('#errorCODE').text("<?=lang('alert_code_existant')?>");}
     }
   });
 }
@@ -743,19 +743,19 @@ function save_statut_vehicul()
 
   if($('#TRAITEMENT_DEMANDE_ID').val()=='')
   {
-    $('#errorTRAITEMENT_DEMANDE_ID').html('Le champ est obligatoire !');
+    $('#errorTRAITEMENT_DEMANDE_ID').html('<?=lang('msg_validation')?>');
     statut=2;
   }
   if($('#COMMENTAIRE').val()=='')
   {
-    $('#errorCOMMENTAIRE').html('Le champ est obligatoire !');
+    $('#errorCOMMENTAIRE').html('<?=lang('msg_validation')?>');
     statut=2;
   } 
   if($('#TRAITEMENT_DEMANDE_ID').val()==1)
   {
     if ($('#CODE').val()=='') {
 
-     $('#errorCODE').html('Le champ est obligatoire !');
+     $('#errorCODE').html('<?=lang('msg_validation')?>');
      statut=2;
 
    }
@@ -787,7 +787,7 @@ if(statut<2)
         {
           icon: 'success',
           title: 'Success',
-          text: 'Traitement fait avec succès',
+          text: '<?=lang('msg_traitement_success')?>',
           timer: 1500,
         }).then(() =>
         {
@@ -799,8 +799,8 @@ if(statut<2)
         Swal.fire(
         {
           icon: 'error',
-          title: 'Erreur',
-          text: 'Traitement échoué !',
+          title: '<?=lang('msg_erreur')?>',
+          text: '<?=lang('msg_traitement_echec')?>',
           timer: 1500,
         }).then(() =>
         {
@@ -812,8 +812,8 @@ if(statut<2)
         Swal.fire(
         {
           icon: 'error',
-          title: 'Erreur',
-          text: 'Le code du véhicule existe déjà !',
+          title: '<?=lang('msg_erreur')?>',
+          text: '<?=lang('alert_code_existant')?>',
           timer: 1500,
         }).then(() =>
         {
@@ -838,7 +838,7 @@ if(statut<2)
 
     if($('#ACTION').val() == 1) //Assurance
     {
-      $('#titre').text('Renouvelement de l\'assurance');
+      $('#titre').text('<?=lang('Renouvelement de l\'assurance')?>');
 
       $('#assureur').show();
       $('#debut_assurance').show();
@@ -851,7 +851,7 @@ if(statut<2)
     }
     else if($('#ACTION').val() == 2) //Controle technique
     {
-      $('#titre').text('Renouvellement du contrôle technique');
+      $('#titre').text('<?=lang('msg_renvlement_ctrl_technique')?>');
 
       $('#assureur').hide();
       $('#debut_assurance').hide();
@@ -934,25 +934,25 @@ if(statut<2)
 
      if(ID_ASSUREUR == '')
      {
-      $('#error_ID_ASSUREUR').text('Le champ est obligatoire !');
+      $('#error_ID_ASSUREUR').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#error_ID_ASSUREUR').text('');}
 
     if(DATE_DEBUT_ASSURANCE == '')
     {
-      $('#error_DATE_DEBUT_ASSURANCE').text('Le champ est obligatoire !');
+      $('#error_DATE_DEBUT_ASSURANCE').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#error_DATE_DEBUT_ASSURANCE').text('');}
 
     if(DATE_FIN_ASSURANCE == '')
     {
-      $('#error_DATE_FIN_ASSURANCE').text('Le champ est obligatoire !');
+      $('#error_DATE_FIN_ASSURANCE').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#error_DATE_FIN_ASSURANCE').text('');}
 
     if(FILE_ASSURANCE == '')
     {
-      $('#error_FILE_ASSURANCE').text('Le champ est obligatoire !');
+      $('#error_FILE_ASSURANCE').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#error_FILE_ASSURANCE').text('');}
 
@@ -963,19 +963,19 @@ if(statut<2)
 
     if(DATE_DEBUT_CONTROTECHNIK == '')
     {
-      $('#error_DATE_DEBUT_CONTROTECHNIK').text('Le champ est obligatoire !');
+      $('#error_DATE_DEBUT_CONTROTECHNIK').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#error_DATE_DEBUT_CONTROTECHNIK').text('');}
 
     if(DATE_FIN_CONTROTECHNIK == '')
     {
-      $('#error_DATE_FIN_CONTROTECHNIK').text('Le champ est obligatoire !');
+      $('#error_DATE_FIN_CONTROTECHNIK').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#error_DATE_FIN_CONTROTECHNIK').text('');}
 
     if(FILE_CONTRO_TECHNIQUE == '')
     {
-      $('#error_FILE_CONTRO_TECHNIQUE').text('Le champ est obligatoire !');
+      $('#error_FILE_CONTRO_TECHNIQUE').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#error_FILE_CONTRO_TECHNIQUE').text('');}
 
@@ -999,7 +999,7 @@ if(statut<2)
         Swal.fire({
           icon: 'success',
           title: 'Success',
-          text: 'Enregistrement avec succès !',
+          text: '<?=lang('msg_enreg_ft_success')?>',
           timer: 2000,
         }).then(() => {
           window.location.reload();

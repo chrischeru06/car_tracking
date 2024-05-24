@@ -533,6 +533,7 @@
                 </div>
               </div> -->
 
+
               <div class="row">
 
                 <div class="table-responsive">
@@ -541,12 +542,12 @@
                     <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="text-dark">#</th>
-                        <th class="text-dark">DOCUMENT</th>
-                        <th class="text-dark">DATE&nbsp;DEBUT</th>
-                        <th class="text-dark">DATE&nbsp;FIN</th>
-                        <th class="text-dark">ASSUREUR</th>
-                        <th class="text-dark">ENREGISTRE&nbsp;PAR</th>
-                        <th class="text-dark">DATE&nbsp;D'ENREGISTREMENT</th>
+                        <th class="text-dark"><?=lang('list_doc')?></th>
+                        <th class="text-dark"><?=lang('list_dte_dbut')?></th>
+                        <th class="text-dark"><?=lang('list_dte_fin')?></th>
+                        <th class="text-dark"><?=lang('list_assureur')?></th>
+                        <th class="text-dark"><?=lang('list_profil_enreg')?></th>
+                        <th class="text-dark"><?=lang('list_dte_enregistrement')?></th>
                         <th></th>
                       </tr>
                     </thead>
@@ -570,11 +571,11 @@
                   <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                     <tr>
                       <th class="text-dark">#</th>
-                      <th class="text-dark">DOCUMENT</th>
-                      <th class="text-dark">DATE&nbsp;DEBUT</th>
-                      <th class="text-dark">DATE&nbsp;FIN</th>
-                      <th class="text-dark">ENREGISTRE&nbsp;PAR</th>
-                      <th class="text-dark">DATE&nbsp;D'ENREGISTREMENT</th>
+                      <th class="text-dark"><?=lang('list_doc')?></th>
+                      <th class="text-dark"><?=lang('list_dte_dbut')?></th>
+                      <th class="text-dark"><?=lang('list_dte_fin')?></th>
+                      <th class="text-dark"><?=lang('list_profil_enreg')?></th>
+                      <th class="text-dark"><?=lang('list_dte_enregistrement')?></th>
                       <th></th>
                     </tr>
                   </thead>
@@ -599,10 +600,10 @@
                 <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                   <tr>
                     <th class="text-dark">#</th>
-                    <th class="text-dark">STATUT</th>
-                    <th class="text-dark">FAIT&nbsp;PAR</th>
-                    <th class="text-dark">MOTIF</th>
-                    <th class="text-dark">&nbsp;DATE&nbsp;</th>
+                    <th class="text-dark"><?=lang('th_statut')?></th>
+                    <th class="text-dark"><?=lang('list_fait_par')?></th>
+                    <th class="text-dark"><?=lang('list_motif')?></th>
+                    <th class="text-dark">&nbsp;<?=lang('list_date')?>&nbsp;</th>
                     <!-- <th></th> -->
                   </tr>
                 </thead>
