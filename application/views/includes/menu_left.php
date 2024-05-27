@@ -29,23 +29,23 @@ if ($this->session->PROFIL_ID == 1) {
        <li class="nav-item menu">
         <a class="nav-link " href="<?=base_url()?>centre_situation/Centre_situation">
           <i class="bi bi-grid"></i>
-          <span>Centre de situation</span>
+          <span><?=lang('Centre_situation_lng')?></span>
         </a>
       </li> <!-- End Dashboard Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="<?=base_url()?>administration/Profil">
-          <i class="bi bi-menu-button-wide"></i><span>Administration</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-menu-button-wide"></i><span><?=lang('Administration_admin')?></span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li class="sou_menu">
             <a href="<?=base_url()?>administration/Profil">
-              <i class="bi bi-circle"></i><span>Profils</span>
+              <i class="bi bi-circle"></i><span><?=lang('Profils_lng')?></span>
             </a>
           </li>
           <li class="sou_menu">
             <a href="<?=base_url()?>administration/Users">
-              <i class="bi bi-circle"></i><span>Utilisateurs</span>
+              <i class="bi bi-circle"></i><span><?=lang('Utilisateurs_lng')?></span>
             </a>
           </li>
 
@@ -54,22 +54,22 @@ if ($this->session->PROFIL_ID == 1) {
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="<?=base_url()?>proprietaire/Proprietaire/liste">
-          <i class="bi bi-journal-text"></i><span>IHM</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span><?=lang('IHM_lng')?></span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li class="sou_menu">
             <a href="<?=base_url()?>proprietaire/Proprietaire/liste">
-              <i class="fa fa-user"></i><span>Propriétaires</span>
+              <i class="fa fa-user"></i><span><?=lang('title_proprio_list_plur')?></span>
             </a>
           </li>
           <li class="sou_menu">
             <a href="<?=base_url()?>vehicule/Vehicule">
-              <i class="fa fa-car"></i><span>Véhicules</span>
+              <i class="fa fa-car"></i><span><?=lang('btn_vehicules')?></span>
             </a>
           </li>
           <li class="sou_menu">
             <a href="<?=base_url()?>chauffeur/Chauffeur">
-              <i class="fa fa-user-md"></i><span>Chauffeurs</span>
+              <i class="fa fa-user-md"></i><span><?=lang('Chauffeurs_lng')?></span>
             </a>
           </li>
 
@@ -78,17 +78,17 @@ if ($this->session->PROFIL_ID == 1) {
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i class="bi bi-bar-chart"></i><span>Tableau de bord</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-bar-chart"></i><span><?=lang('Tableau_bord_lng')?></span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li class="sou_menu">
             <a href="<?=base_url()?>dashboard/Dashboard_General">
-              <i class="bi bi-person"></i><span> Général</span>
+              <i class="bi bi-person"></i><span> <?=lang('Gnrl_lng')?></span>
             </a>
           </li>
           <li class="sou_menu">
             <a href="<?=base_url()?>dashboard/Dashboard_Anomalies">
-              <i class="bi bi-person"></i><span>Anomalies</span>
+              <i class="bi bi-person"></i><span><?=lang('anomalies_lng')?></span>
             </a>
           </li>
 
@@ -105,7 +105,7 @@ if ($this->session->PROFIL_ID == 1) {
   <li class="nav-item">
     <a class="nav-link collapsed" href="<?=base_url()?>sim_management/Sim_management">
       <i class="fa fa-cogs"></i>
-      <span>Sim management</span>
+      <span><?=lang('Sim_management_lng')?></span>
     </a>
   </li>
 
@@ -132,7 +132,7 @@ else if ($this->session->PROFIL_ID == 2) {
         <li class="nav-item">
           <a class="nav-link " href="<?=base_url()?>centre_situation/Centre_situation">
             <i class="bi bi-grid"></i>
-            <span>Centre de situation</span>
+            <span><?=lang('Centre_situation_lng')?></span>
           </a>
         </li><!-- End Dashboard Nav -->
 
@@ -155,32 +155,32 @@ else if ($this->session->PROFIL_ID == 2) {
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url()?>vehicule/Vehicule">
           <i class="bi bi-journal-text"></i>
-          <span>Mes véhicules</span>
+          <span><?=lang('ms_veh')?></span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_chauffeur">
           <i class="bi bi-person"></i>
-          <span>Chauffeurs</span>
+          <span><?=lang('Chauffeurs_lng')?></span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i class="bi bi-bar-chart"></i><span>Tableau de bord</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-bar-chart"></i><span><?=lang('Tableau_bord_lng')?></span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li class="sou_menu">
             <a href="<?=base_url()?>dashboard/Dashboard_General">
-              <i class="bi bi-person"></i><span> Général</span>
+              <i class="bi bi-person"></i><span> <?=lang('Gnrl_lng')?></span>
             </a>
           </li>
         <!-- <li class="sou_menu">
           <a href="<?=base_url()?>dashboard/Dashboard_Anomalies">
-            <i class="bi bi-person"></i><span>Anomalies</span>
+            <i class="bi bi-person"></i><span><?=lang('anomalies_lng')?></span>
           </a>
-        </li> -->
-
+        </li>
+ -->
         
          <!-- <li>
           <a href="<?=base_url()?>dashboard/Dashboard_Vehicule">
