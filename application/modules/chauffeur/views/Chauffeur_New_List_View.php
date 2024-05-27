@@ -97,7 +97,7 @@ input:checked + .slider:before {
           <tr>
 
             <td>  
-              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Liste des chauffeurs</h4>
+              <h4 class="text-dark text-center" style="margin-bottom: 1px;"><?=lang('chauff_liste')?></h4>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                  
@@ -111,7 +111,7 @@ input:checked + .slider:before {
   </div>
   <div class="col-md-2">
 
-    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur_New/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur_New/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
 
   </div>
 </div>
@@ -124,7 +124,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Attribué la voiture au chauffeur :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
+        <h5 class="modal-title"><?=lang('modal_attribue_veh')?> :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -134,32 +134,32 @@ input:checked + .slider:before {
               <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
               <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
               <div class="col-md-6">
-                <label for="description" class="text-dark">Voiture</label>
+                <label for="description" class="text-dark"><?=lang('mot_vehicule')?></label>
                 <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
                 </select>
                 <span id="errorVEHICULE_ID" class="text-danger"></span>
               </div>
               <div class="col-md-6">
-                <label for="description" class="text-dark">Zone d'affectation</label>
+                <label for="description" class="text-dark"><?=lang('mot_zone_affectation')?></label>
                 <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID" name="CHAUFF_ZONE_AFFECTATION_ID">
                 </select>
                 <span id="errorCHAUFF_ZONE_AFFECTATION_ID" class="text-danger"></span>
               </div>
 
               <div class="col-md-6">
-                <label type="date" class="text-dark">Date début</label>
+                <label type="date" class="text-dark"><?=lang('input_date_deb')?></label>
                 <input type="date" name="DATE_DEBUT_AFFECTATION" autocomplete="off" id="DATE_DEBUT_AFFECTATION" value="<?= set_value('DATE_DEBUT_AFFECTATION') ?>" onchange="get_date_fin(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
                 <span id="errorDATE_DEBUT_AFFECTATION" class="text-danger"></span>
               </div>
               <div class="col-md-6">
-                <label type="date" class="text-dark">Date fin</label>
+                <label type="date" class="text-dark"><?=lang('input_date_fin')?></label>
                 <input type="date" name="DATE_FIN_AFFECTATION" autocomplete="off" id="DATE_FIN_AFFECTATION" value="<?= set_value('DATE_FIN_AFFECTATION') ?>"  onchange="get_dates_deb(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
                 <span id="errorDATE_FIN_AFFECTATION" class="text-danger"></span>
               </div>
             </div>
           </div> 
           <div class="modal-footer">
-            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Attribuer" onclick="save_vehicule();" />
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_attribuer')?>" onclick="save_vehicule();" />
             <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
 
           </div>
@@ -176,7 +176,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Modifier l'affectation du chauffeur </h5>
+        <h5 class="modal-title"><?=lang('modal_modif_affectation')?> </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -187,7 +187,7 @@ input:checked + .slider:before {
            <input type="hidden" name="CHAUFFEUR_ID_MOD" id="CHAUFFEUR_ID_MOD">
 
            <div class="col-md-6">
-            <label for="description" class="text-dark">Zone d'affectation</label>
+            <label for="description" class="text-dark"><?=lang('mot_zone_affectation')?></label>
             <select class="form-control" id="CHAUFF_ZONE_AFFECTATION_ID_MOD" name="CHAUFF_ZONE_AFFECTATION_ID_MOD">
             </select>
 
@@ -195,12 +195,12 @@ input:checked + .slider:before {
           </div>
 
           <div class="col-md-6">
-            <label type="date" class="text-dark">Date début</label>
+            <label type="date" class="text-dark"><?=lang('input_date_deb')?></label>
             <input type="date" name="DATE_DEBUT_AFFECTATION_MOD" autocomplete="off" id="DATE_DEBUT_AFFECTATION_MOD"  value="<?= set_value('DATE_DEBUT_AFFECTATION_MOD') ?>"  onchange="get_date_fin_modif(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
             <span id="errorDATE_DEBUT_AFFECTATION_MOD" class="text-danger"></span>
           </div> 
           <div class="col-md-6">
-            <label type="date" class="text-dark">Date fin</label>
+            <label type="date" class="text-dark"><?=lang('input_date_fin')?></label>
             <input type="date" name="DATE_FIN_AFFECTATION_MOD" autocomplete="off" id="DATE_FIN_AFFECTATION_MOD" value="<?= set_value('DATE_FIN_AFFECTATION_MOD') ?>" onchange="get_dates_deb_modif(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
             <span id="errorDATE_FIN_AFFECTATION_MOD" class="text-danger"></span>
           </div>
@@ -224,10 +224,10 @@ input:checked + .slider:before {
      
       
       <div class="modal-body mb-1">
-       <center><h5><strong style='color:black'>Veuillez d'abord lui retirer la voiture </strong> <br><b style='background-color:prink;color:green;'> </b></h5></center>
+       <center><h5><strong style='color:black'><?=lang('modal_retirer_cond')?> </strong> <br><b style='background-color:prink;color:green;'> </b></h5></center>
      </div>
      <div class="modal-footer">
-      <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
+      <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="<?=lang('btn_fermer')?>"/>
 
       
     </div>
@@ -259,11 +259,11 @@ input:checked + .slider:before {
                   <tr>
 
                     <th class="text-dark">#</th>
-                    <th class="text-dark">CHAUFFEUR</th>
-                    <th class="text-dark">TELEPHONE</th>
-                    <th class="text-dark">EMAIL</th>
-                    <th class="text-dark">STATUT</th>
-                    <th class="text-dark">OPTIONS</th>
+                    <th class="text-dark"><?=lang('th_chauffeur')?></th>
+                    <th class="text-dark"><?=lang('th_tlphone')?></th>
+                    <th class="text-dark"><?=lang('th_email')?></th>
+                    <th class="text-dark"><?=lang('th_statut')?></th>
+                    <th class="text-dark"><?=lang('th_options')?></th>
                   </tr>
                 </thead>
                 <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -389,7 +389,7 @@ input:checked + .slider:before {
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
   }
@@ -404,26 +404,26 @@ input:checked + .slider:before {
 
     if($('#code_vehicule').val()=='')
     {
-      $('#errorVEHICULE_ID').html('Actualise ta page');
+      $('#errorVEHICULE_ID').html('<?=lang('msg_actualise_pge')?>');
       statut=2;
     }
 
     if($('#VEHICULE_ID').val()=='')
     {
-      $('#errorVEHICULE_ID').html('Le champ est obligatoire');
+      $('#errorVEHICULE_ID').html('<?=lang('msg_validation')?>');
       statut=2;
     }
     if($('#CHAUFF_ZONE_AFFECTATION_ID').val()=='')
     {
-      $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('Le champ est obligatoire');
+      $('#errorCHAUFF_ZONE_AFFECTATION_ID').html('<?=lang('msg_validation')?>');
       statut=2;
     } if($('#DATE_DEBUT_AFFECTATION').val()=='')
     {
-      $('#errorDATE_DEBUT_AFFECTATION').html('Le champ est obligatoire');
+      $('#errorDATE_DEBUT_AFFECTATION').html('<?=lang('msg_validation')?>');
       statut=2;
     } if($('#DATE_FIN_AFFECTATION').val()=='')
     {
-      $('#errorDATE_FIN_AFFECTATION').html('Le champ est obligatoire');
+      $('#errorDATE_FIN_AFFECTATION').html('<?=lang('msg_validation')?>');
       statut=2;
     }
 
@@ -448,7 +448,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Affectation faite avec succès',
+              text: '<?=lang('msg_succes_affectation')?>',
               timer: 1500,
             }).then(() =>
             {
@@ -461,7 +461,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Le chauffeur possède déjà une voiture ',
+              text: '<?=lang('msg_chauffeur_possede_veh')?> ',
               timer: 1500,
             }).then(() =>
             {
@@ -474,7 +474,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Affectation échouée',
+              text: '<?=lang('msg_echec_affectation')?>',
               timer: 1500,
             }).then(() =>
             {
@@ -515,7 +515,7 @@ input:checked + .slider:before {
     },
     error: function (jqXHR, textStatus, errorThrown)
     {
-      alert('Erreur');
+      alert('<?=lang('msg_erreur')?>');
     }
   });
   }
@@ -531,15 +531,15 @@ input:checked + .slider:before {
 
     if($('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val()=='')
     {
-      $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('Le champ est obligatoire');
+      $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('<?=lang('msg_validation')?>');
       statut=2;
     } if($('#DATE_DEBUT_AFFECTATION_MOD').val()=='')
     {
-      $('#errorDATE_DEBUT_AFFECTATION_MOD').html('Le champ est obligatoire');
+      $('#errorDATE_DEBUT_AFFECTATION_MOD').html('<?=lang('msg_validation')?>');
       statut=2;
     } if($('#DATE_FIN_AFFECTATION_MOD').val()=='')
     {
-      $('#errorDATE_FIN_AFFECTATION_MOD').html('Le champ est obligatoire');
+      $('#errorDATE_FIN_AFFECTATION_MOD').html('<?=lang('msg_validation')?>');
       statut=2;
     }
 
@@ -564,7 +564,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Modification affectation faite avec succès',
+              text: '<?=lang('modif_affectation_success')?>',
               timer: 1500,
             }).then(() =>
             {
@@ -577,7 +577,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Le chauffeur a une autre voiture ',
+              text: '<?=lang('msg_chauffeur_affecte')?>',
               timer: 1500,
             }).then(() =>
             {
@@ -590,7 +590,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Modificationde l\'affectation échouée',
+              text: '<?=lang('msg_modif_affect_echoue')?>',
               timer: 1500,
             }).then(() =>
             {
@@ -650,8 +650,8 @@ input:checked + .slider:before {
             Swal.fire(
             {
               icon: 'error',
-              title: 'Erreur',
-              text: 'Veuillez d\'abord lui retirer la voiture',
+              title: '<?=lang('msg_erreur')?>',
+              text: '<?=lang('modal_retirer_cond')?>',
               timer: 3000,
             }).then(() =>
             {

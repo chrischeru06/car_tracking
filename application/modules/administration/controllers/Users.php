@@ -95,7 +95,7 @@ class Users extends CI_Controller
 				<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
 				</div>
 				<div class="modal-footer">
-				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+				<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">'.lang('btn_fermer').'</button>
 				</div>
 				</div>
 				</div>
@@ -113,7 +113,7 @@ class Users extends CI_Controller
 				<input type = "hidden" value="'.$row->STATUT.'" id="status">
 
 				<table>
-				<td><label class="text-primary">Activé</label></td>
+				<td><label class="text-primary">'.lang('label_active_acc').'</label></td>
 				<td><label class="switch"> 
 				<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->USER_ID . ')" checked>
 				<span class="slider round"></span>
@@ -131,7 +131,7 @@ class Users extends CI_Controller
 				<input type = "hidden" value="'.$row->STATUT.'" id="status">
 
 				<table>
-				<td><label class="text-danger">Désactivé</label></td>
+				<td><label class="text-danger">'.lang('label_desactive_acc').'</label></td>
 				<td><label class="switch"> 
 				<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->USER_ID . ')">
 				<span class="slider round"></span>
@@ -148,17 +148,17 @@ class Users extends CI_Controller
 			<ul class="dropdown-menu dropdown-menu-left">
 			';
 			if ($row->IDENTIFICATION!='ADMIN') {
-				$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOne/'.md5($row->USER_ID)). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a></li>";
+				$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOne/'.md5($row->USER_ID)). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;".lang('btn_modifier')."</a></li>";
 				$option .= "<li><a class='btn-md' href='#' data-toggle='modal'
-				data-target='#mydelete" . $row->USER_ID . "'><span class='bi bi-trash h5'></span>&nbsp;&nbsp;Supprimer</a></li>";
+				data-target='#mydelete" . $row->USER_ID . "'><span class='bi bi-trash h5'></span>&nbsp;&nbsp;".lang('btn_supprimer')."</a></li>";
 				$option .="<li>
 
-				<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détail</a>
+				<a class='btn-md' href='" . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;".lang('btn_detail')."</a>
 				</a>
 				</li>";
 			}else{
 
-				$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOneAdmin/'.$row->USER_ID). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a></li>";
+				$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOneAdmin/'.$row->USER_ID). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;".lang('btn_modifier')."</a></li>";
 
 
 			}
@@ -174,12 +174,12 @@ class Users extends CI_Controller
 			<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
 			</div>
 			<div class='modal-body'>
-			<center><h5>Voulez-vous supprimer l'utilisateur <b style='color:cadetblue;'>' " .$row->IDENTIFICATION." '</b> ?</h5></center>
+			<center><h5>".lang('msg_suppression_util')." <b style='color:cadetblue;'>' " .$row->IDENTIFICATION." '</b> ?</h5></center>
 			</div>
 
 			<div class='modal-footer'>
-			<a class='btn btn-danger btn-md' href='" . base_url('administration/Users/delete/'.$row->USER_ID) . "'>Supprimer</a>
-			<button class='btn btn-secondary btn-md' data-dismiss='modal'>Quitter</button>
+			<a class='btn btn-danger btn-md' href='" . base_url('administration/Users/delete/'.$row->USER_ID) . "'>".lang('btn_supprimer')."</a>
+			<button class='btn btn-secondary btn-md' data-dismiss='modal'>".lang('modal_btn_quitter')."</button>
 			</div>
 
 			</div>
@@ -231,7 +231,7 @@ class Users extends CI_Controller
 		$div_photo=' style="display:none;"';
 		if(!empty($id))
 		{
-			$data['btn']="Modifier";
+			$data['btn']="".lang('btn_modifier')."";
 			// $data['title']="MODIFICATION D'UN proprietaire";
 
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
@@ -288,13 +288,13 @@ class Users extends CI_Controller
 			
 			if($proprietaire['TYPE_PROPRIETAIRE_ID']==1)
 			{
-				$label_document="NIF";
+				$label_document="".lang('input_nif')."";
 				$div_personne_moral='';
 				$div_personne_physique=' style="display:none;"';
 			}
 			else
 			{
-				$label_document="CNI / Numéro passport";
+				$label_document="".lang('input_cni_passeport')."";
 				$div_personne_moral=' style="display:none;"';
 				$div_personne_physique='';
 			}
@@ -343,12 +343,12 @@ class Users extends CI_Controller
 		$Passworde= $this->input->post('Passworde');
 
 
-		$this->form_validation->set_rules('IDENTIFICATION', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('IDENTIFICATION', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('E-MAIL', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('E-MAIL', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('PROFIL', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('numero_telephone', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('PROFIL', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('numero_telephone', '', 'trim|required', array('required' => '<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
 
 		if($this->form_validation->run()==FALSE){
@@ -365,7 +365,7 @@ class Users extends CI_Controller
 			
 			$this->Model->update('users',array('USER_ID'=>$id_aff),$array);
 
-			$data['message'] = '<div class="alert alert-primary text-center" id="message">' . "Modification faite avec succès" . '</div>';
+			$data['message'] = '<div class="alert alert-primary text-center" id="message">' . lang('msg_success_modif') . '</div>';
 			$this->session->set_flashdata($data);
 			redirect(base_url('administration/Users'));
 
@@ -387,49 +387,49 @@ class Users extends CI_Controller
 
 			if(empty($_FILES['LOGO']['name']) && empty($LOGO_OLD))
 			{
-				$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				$this->form_validation->set_rules('LOGO',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 			}
 			if(empty($_FILES['FILE_NIF']['name']) && empty($FILE_NIF_OLD))
 			{
-				$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				$this->form_validation->set_rules('FILE_NIF',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 			}if(empty($_FILES['FILE_RC']['name']) && empty($FILE_RC_OLD))
 			{
-				$this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				$this->form_validation->set_rules('FILE_RC',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 			}
-			$this->form_validation->set_rules('CATEGORIE_ID','CATEGORIE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+			$this->form_validation->set_rules('CATEGORIE_ID','CATEGORIE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-			$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+			$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-			$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+			$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 			$COUNTRY_ID=$this->input->post('COUNTRY_ID');
 			if($COUNTRY_ID==28){
 
-				$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 
 
 			}
 
-			$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+			$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 		}else 
 		{
-			$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+			$this->form_validation->set_rules('NOM_PROPRIETAIRE','NOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-			$this->form_validation->set_rules('PRENOM_PROPRIETAIRE','PRENOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+			$this->form_validation->set_rules('PRENOM_PROPRIETAIRE','PRENOM_PROPRIETAIRE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 			$FILE_CNI_PASSPORT_OLD = $this->input->post('FILE_CNI_PASSPORT_OLD');
 
 
 			if(empty($_FILES['FILE_CNI_PASSPORT']['name']) && empty($FILE_CNI_PASSPORT_OLD) )
 			{
-				$this->form_validation->set_rules('FILE_CNI_PASSPORT',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				$this->form_validation->set_rules('FILE_CNI_PASSPORT',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 			}
 
 			$photo_passport_old = $this->input->post('photo_passport_old');
@@ -437,27 +437,27 @@ class Users extends CI_Controller
 
 			if(empty($_FILES['photo_passport']['name']) && empty($photo_passport_old) )
 			{
-				$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+				$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 			}
 
 
-			$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+			$this->form_validation->set_rules('TELEPHONE','TELEPHONE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 			$COUNTRY_ID=$this->input->post('COUNTRY_ID');
 			if($COUNTRY_ID==28){
 
-				$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('PROVINCE_ID','PROVINCE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('COMMUNE_ID','COMMUNE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('ZONE_ID','ZONE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
-				$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+				$this->form_validation->set_rules('COLLINE_ID','COLLINE_ID','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 
 
 			}
 
-			$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">Le champ est obligatoire</font>'));
+			$this->form_validation->set_rules('ADRESSE','ADRESSE','required',array('required'=>'<font style="color:red;">'.lang('msg_validation').'</font>'));
 		}
 
 		$id=$this->input->post('PROPRIETAIRE_ID');
@@ -648,13 +648,13 @@ class Users extends CI_Controller
 
 			if ($data_update)
 			{
-				$message['message']='<div class="alert alert-success text-center" id="message">La modification de cet utilisateur a été faite avec succès</div>';
+				$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif').'</div>';
 				$this->session->set_flashdata($message);
 				redirect(base_url('administration/Users'));
 
 			}else
 			{
-				$message['message']='<div class="alert alert-success text-center" id="message">La modification de cet utilisateur a échouée </div>';
+				$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_error_modif').' </div>';
 				$this->session->set_flashdata($message);
 
 			}
@@ -670,7 +670,7 @@ class Users extends CI_Controller
 
 		if ($verif_pwd['PASSWORD']!=md5($PASSWORD)) {
 
-			$html='Le mot de passe est incorrect!';
+			$html=''.lang('incorrect_pssword').' !';
 
 			
 		}else{
@@ -688,12 +688,12 @@ class Users extends CI_Controller
 		if($status==1){
 			$this->Model->update('users', array('USER_ID'=>$USER_ID),array('STATUT'=>2));
 
-			$data['message'] = '<div class="alert alert-danger text-center" id="message">' . "Désactivation faite avec succès" . '</div>';
+			$data['message'] = '<div class="alert alert-danger text-center" id="message">' . lang('swal_desactive_proprio') . '</div>';
 			$this->session->set_flashdata($data);
 
 		}else if($status==2){
 			$this->Model->update('users', array('USER_ID'=>$USER_ID),array('STATUT'=>1));
-			$data['message'] = '<div class="alert alert-primary text-center" id="message">' . "Activation faite avec succès" . '</div>';
+			$data['message'] = '<div class="alert alert-primary text-center" id="message">' . lang('swal_active_proprio') . '</div>';
 			$this->session->set_flashdata($data);
 		}
 
@@ -709,7 +709,7 @@ class Users extends CI_Controller
 		$criteres['USER_ID']=$this->uri->segment(4);
 		$data['rows']= $this->Model->getOne($table,$criteres);
 		$this->Model->delete($table,$criteres);
-		$data['message']='<div class="alert alert-success text-center" id="message">Utilisateur supprimé avec succès</div>';
+		$data['message']='<div class="alert alert-success text-center" id="message">'.lang('suppression_success').'</div>';
 		$this->session->set_flashdata($data);
 		redirect(base_url('administration/Users/index'));
 	}

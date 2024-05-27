@@ -89,7 +89,7 @@
        <!--  <li class="breadcrumb-item"><a href="index.html">Détail</a></li>  -->
        <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a><font class="fa fa-dashboard" style="font-size:18px;"></font>  Détail du chauffeur <strong class="text-primary"><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong></a></li>
+          <li class="breadcrumb-item"><a><font class="fa fa-dashboard" style="font-size:18px;"></font>  <?=lang('titre_detail_chauffeur')?> <strong class="text-primary"><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong></a></li>
           <input type="hidden" id="CHAUFFEUR_ID" name="CHAUFFEUR_ID" value="<?=$chauff['CHAUFFEUR_ID']?>">
         </ol>
       </nav>
@@ -121,26 +121,26 @@
                if($chauff['STATUT_VEHICULE']==2) 
                  {?>
                    <li class="nav-item">
-                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#info_generales">Informations générales</button>
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#info_generales"><?=lang('btn_info_gnl')?></button>
                   </li>
 
                   <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures">Information véhicules</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures"><?=lang('info_veh_titre')?></button>
                   </li>
 
                   <li class="nav-item">
-                    <button class="nav-link " data-bs-toggle="tab" data-bs-target="#doc_uploader">Documents</button>
+                    <button class="nav-link " data-bs-toggle="tab" data-bs-target="#doc_uploader"><?=lang('btn_doc')?></button>
                   </li>
                   <?php
                 }elseif($chauff['STATUT_VEHICULE']==1)
                 {
                   ?>
                   <li class="nav-item">
-                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#info_generales">Informations générales</button>
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#info_generales"><?=lang('btn_info_gnl')?></button>
                   </li>
 
                   <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#doc_uploader">Documents</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#doc_uploader"><?=lang('btn_doc')?></button>
                   </li>
 
 
@@ -149,7 +149,7 @@
                 ?>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#historique">Historique</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#historique"><?=lang('histo_titre')?></button>
                 </li>
 
               </ul>
@@ -193,32 +193,32 @@
 
                       <table class="table table-borderless">
                         <tr>
-                          <td class="text-muted"><span class="fa fa-book"></span>&nbsp;&nbsp;CNI</td>
+                          <td class="text-muted"><span class="fa fa-book"></span>&nbsp;&nbsp;<?=lang('mot_cni')?></td>
                           <td class="text-muted"><b><?=$chauff['NUMERO_CARTE_IDENTITE']?></b></td>
                         </tr>
 
                         <tr>
-                          <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;E-mail</td>
+                          <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;<?=lang('input_email')?></td>
                           <td class="text-muted"><b><?=$chauff['ADRESSE_MAIL']?></b></td>
                         </tr>
 
                         <tr>
-                          <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;Téléphone</td>
+                          <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;<?=lang('input_tlphone')?></td>
                           <td class="text-muted"><b><?=$chauff['NUMERO_TELEPHONE']?></b></td>
                         </tr>
 
                         <tr>
-                          <td class="text-muted"><span class="fa fa-calendar"></span>&nbsp;&nbsp;Date naissance</td>
+                          <td class="text-muted"><span class="fa fa-calendar"></span>&nbsp;&nbsp;<?=lang('date_naissance')?></td>
                           <td class="text-muted"><b><?=$chauff['DATE_NAISSANCE']?></b></td>
                         </tr>
 
                         <tr>
-                          <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Adresse</td>
+                          <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;<?=lang('input_adresse')?></td>
                           <td class="text-muted"><b><?=$chauff['ADRESSE_PHYSIQUE']?></b></td>
                         </tr>
 
                         <tr>
-                          <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Localité</td>
+                          <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;<?=lang('td_localite')?></td>
                           <td class="text-muted"><b><?=$chauff['PROVINCE_NAME'].' / '.$chauff['COMMUNE_NAME'].' / '.$chauff['ZONE_NAME'].' / '.$chauff['COLLINE_NAME']?></b></td>
                         </tr>
 
@@ -259,23 +259,23 @@
                       <div class="col-xl-6" >
                         <table class='table table-borderless  text-dark'>
                           <tr>
-                            <td><span class="fa fa-bookmark-o"></span>&nbsp;Marque</td>
+                            <td><span class="fa fa-bookmark-o"></span>&nbsp;<?=lang('label_marque')?></td>
                             <th><?=$info_vehicul['DESC_MARQUE']?></th>
                           </tr>
                           <tr>
-                            <td><span class="fa fa-bolt"></span>&nbsp;Modèle</td>
+                            <td><span class="fa fa-bolt"></span>&nbsp;<?=lang('label_modele')?></td>
                             <th><?=$info_vehicul['DESC_MODELE']?></th>
                           </tr> 
                           <tr>
-                            <td><span class="fa fa-circle"></span>&nbsp;Couleur</td>
+                            <td><span class="fa fa-circle"></span>&nbsp;<?=lang('label_couleur')?></td>
                             <th><?=$info_vehicul['COULEUR']?></th>
                           </tr>
                           <tr>
-                            <td><span class="fa fa-calendar"></span>&nbsp;Plaque</td>
+                            <td><span class="fa fa-calendar"></span>&nbsp;<?=lang('label_plaque')?></td>
                             <th><?=$info_vehicul['PLAQUE']?></th>
                           </tr>
                           <tr>
-                            <td><img src='<?=base_url("upload/proprietaire/photopassport/".$info_vehicul['PHOTO_PASSPORT'])?>' style="width: 15px;height: 15px;border-radius: 50%;cursor: pointer;" onclick='show_image_proprio();' title="Propriétaire">&nbsp;Propriétaire</td>
+                            <td><img src='<?=base_url("upload/proprietaire/photopassport/".$info_vehicul['PHOTO_PASSPORT'])?>' style="width: 15px;height: 15px;border-radius: 50%;cursor: pointer;" onclick='show_image_proprio();' title="Propriétaire">&nbsp;<?=lang('title_proprio_list')?></td>
                             <th><?=$info_vehicul['name']?></th>
                           </tr>
                         </table>
@@ -303,7 +303,7 @@
 
                           <font class="card dash_card" onclick="get_document(1,$('#ext_permis').val());">
                             <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
-                            <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Permis de conduire</font>
+                            <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('mot_permis_conduire')?></font>
                           </font>
 
                         </td>
@@ -323,7 +323,7 @@
 
                           <font class="card dash_card" onclick="get_document(2,$('#ext_carte_id').val());">
                             <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
-                            <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;">Carte d'identité</font>
+                            <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('mot_ident_carte')?></font>
                           </font>
                         </td>
 
@@ -360,12 +360,12 @@
                               <tr>
 
                                 <th class="text-dark">#</th>
-                                <th class="text-dark">PLAQUE</th>
-                                <th class="text-dark">MARQUE/MODELE</th>
-                                <th class="text-dark">PROPRIETAIRE</th>
-                                <th class="text-dark">DEBUT&nbsp;DE&nbsp;L'AFFECTATION</th>
-                                <th class="text-dark">FIN&nbsp;DE&nbsp;L'AFFECTATION</th>
-                                <th class="text-dark">RESUME&nbsp;DES&nbsp;PARCOURS</th>
+                                <th class="text-dark"><?=lang('th_plaque')?></th>
+                                <th class="text-dark"><?=lang('th_marque')?>/<?=lang('th_modele')?></th>
+                                <th class="text-dark"><?=lang('th_proprio')?></th>
+                                <th class="text-dark"><?=lang('dbut_affectation')?></th>
+                                <th class="text-dark"><?=lang('fin_affectation')?></th>
+                                <th class="text-dark"><?=lang('resum_parcours')?></th>
 
                               </tr>
                             </thead>
@@ -462,7 +462,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>            
-        <h5 class="modal-title">Détails</h5>
+        <h5 class="modal-title"><?=lang('btn_detail')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -473,28 +473,28 @@
             <div class='col-md-6'>
               <table class="table table-hover text-dark">
                 <tr>            
-                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; Nom & Prénom</td>
+                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; <?=lang('td_nom_prenom')?></td>
                   <td><a id="NOM"></a></td>
                 </tr>
 
                 <tr>
-                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Date de naissance</td>
+                  <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; <?=lang('date_naissance')?></td>
                   <td><a id="DATE_NAISSANCE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; Téléphone</td>
+                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; <?=lang('input_tlphone')?></td>
                   <td><a id="NUMERO_TELEPHONE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Email</td>
+                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; <?=lang('input_email')?></td>
                   <td><a id="ADRESSE_MAIL"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; CNI / Passport</td>
+                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; <?=lang('input_cni_passeport')?></td>
                   <td><a id="NUMERO_CARTE_IDENTITE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; <?=lang('input_adresse')?></td>
                   <td><a id="ADRESSE_PHYSIQUE"></a></td>
                 </tr>
 
@@ -560,7 +560,7 @@
         <div class="row">
 
           <div class="col-md-12" id="image-container_proprio">
-            <center><img  id="imageproprio" style="border-radius: 5px;height: 700px;cursor: pointer;" alt="Description de l'image" src='<?=base_url("upload/proprietaire/photopassport/".$info_vehicul['PHOTO_PASSPORT'])?>'></center>
+            <center><img  id="imageproprio" style="border-radius: 5px;height: 700px;cursor: pointer;" alt="<?=lang('descr_img')?>" src='<?=base_url("upload/proprietaire/photopassport/".$info_vehicul['PHOTO_PASSPORT'])?>'></center>
           </div>
 
         </div>

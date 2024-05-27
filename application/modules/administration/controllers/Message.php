@@ -199,7 +199,7 @@ class Message extends CI_Controller
 			
 			$sub_array[]=$donnees1['IDENTIFICATION'];
 			$sub_array[]=$donnees1['TELEPHONE'];
-			$sub_array[]="<center><a class='btn btn-outline-primary rounded-pill' title='Nouveau message' href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "' style='font-size:10px;'><label>".$nbre_msg."</label></a></center>";
+			$sub_array[]="<center><a class='btn btn-outline-primary rounded-pill' title=".lang('nveau_msg')." href='" . base_url('administration/Message/index/'.$row->USER_ID_ENVOIE). "' style='font-size:10px;'><label>".$nbre_msg."</label></a></center>";
 			
 			// $option = '<div class="dropdown "style="color:white;float:right;">
 			// <a class="btn-sm dropdown-toggle" style="color:white; hover:black;" data-toggle="dropdown">

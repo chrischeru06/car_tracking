@@ -19,10 +19,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1><font class="fa fa-user" style="font-size:18px;"></font> Utilisateur</h1>
+      <h1><font class="fa fa-user" style="font-size:18px;"></font> <?=lang('Utilisateurs_lng')?></h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#"><font class="fa fa-edit" style="font-size:15px;"></font> Modification</a></li>
+          <li class="breadcrumb-item"><a href="#"><font class="fa fa-edit" style="font-size:15px;"></font> <?=lang('modification_modif')?></a></li>
           <!-- <li class="breadcrumb-item active">Liste</li> -->
         </ol>
       </nav>
@@ -38,26 +38,26 @@
               <div class="row"> 
                 <input type="hidden" name="id" id="id" value="<?=$geted['USER_ID']?>">
                 <div class="col-md-6 " >
-                  <label style="font-weight: 900; color:#454545"><b>IDENTIFICATION</b><span  style="color:red;">*</span></label><br>
-                  <input class="form-control" type="text" name="IDENTIFICATION" id="IDENTIFICATION" placeholder="Nom"  value="<?php echo $geted['IDENTIFICATION']?>">
+                  <label style="font-weight: 900; color:#454545"><b><?=lang('identif_input')?></b><span  style="color:red;">*</span></label><br>
+                  <input class="form-control" type="text" name="IDENTIFICATION" id="IDENTIFICATION" placeholder="<?=lang('identif_input_min')?>"  value="<?php echo $geted['IDENTIFICATION']?>">
                   <?php echo form_error('IDENTIFICATION', '<div class="text-danger">', '</div>'); ?> 
                 </div> 
                 <div class="col-md-6 " >
-                  <label style="font-weight: 900; color:#454545"><b>E-MAIL</b><span  style="color:red;">*</span></label><br>
-                  <input class="form-control" type="email" name="E-MAIL" id="E-MAIL" placeholder="e-mail" value="<?php echo $geted['USER_NAME']?>">
+                  <label style="font-weight: 900; color:#454545"><b><?=lang('th_email')?></b><span  style="color:red;">*</span></label><br>
+                  <input class="form-control" type="email" name="E-MAIL" id="E-MAIL" placeholder="<?=lang('input_email')?>" value="<?php echo $geted['USER_NAME']?>">
                   <?php echo form_error('E-MAIL', '<div class="text-danger">', '</div>'); ?> 
                 </div>
 
                 <div class="col-md-6">
-                  <label for="FName" style="font-weight: 1000; color:#454545">TELEPHONE<font color="red">*</font></label>
+                  <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('th_tlphone')?><font color="red">*</font></label>
                   <input type="text" name="numero_telephone" autocomplete="off" id="numero_telephone"placeholder="+257 99999999" value="<?php echo $geted['TELEPHONE']?>"  class="form-control">
                   <?php echo form_error('numero_telephone', '<div id="error_numero_telephone" class="text-danger">', '</div>'); ?> 
                 </div>
                 <div class="col-md-6 " >
-                  <label style="font-weight: 900; color:#454545"><b>PROFIL</b><span  style="color:red;">*</span></label><br>
+                  <label style="font-weight: 900; color:#454545"><b><?=lang('profil_maj')?></b><span  style="color:red;">*</span></label><br>
 
                   <select class="form-control"  name="PROFIL" id="PROFIL">
-                    <option selected value="">--selectionner--</option> 
+                    <option selected value="">--<?=lang('selectionner')?>--</option> 
 
                     <?php
 
@@ -80,15 +80,15 @@
                   <?php echo form_error('PROFIL', '<div class="text-danger">', '</div>'); ?>
                 </div>
                 <div class="col-md-6">
-                  <label style="font-weight: 900; color:#454545"><b> MOT DE PASSE</b><span  style="color:red;">*</span></label><br>
+                  <label style="font-weight: 900; color:#454545"><b> <?=lang('mot_mot_passe_maj')?></b><span  style="color:red;">*</span></label><br>
                   
-                  <input type="password" class="form-control" placeholder="Mot de passe"  id="Passworde" name="Passworde" value="">
+                  <input type="password" class="form-control" placeholder="<?=lang('mot_mot_de_passe')?>"  id="Passworde" name="Passworde" value="">
                   <label class="fa fa-eye text-muted" id="eye_ico" onclick="show_password()"style="position: relative;top: -35%;left: 95%;"></label>
-                  <div class="invalid-feedback">Veuillez entrer le mot de passe!</div>
+                  <div class="invalid-feedback"><?=lang('msg_password')?>!</div>
                 </div>
 
                 <div class="col-lg-12" style="margin-top:31px;">
-                  <button type="submit" style="float: right;" class="btn btn-primary"><span class="fa fa-edit"></span> Modifier</button>
+                  <button type="submit" style="float: right;" class="btn btn-primary"><span class="fa fa-edit"></span> <?=lang('btn_modifier')?></button>
                 </div>
               </div>
             </form>
@@ -136,7 +136,7 @@
       }
       else
       {
-        $('#error_numero_telephone').text('Numéro invalide ');
+        $('#error_numero_telephone').text('<?=lang('tel_invalide')?>');
         if($(this).val().length > 12)
         {
           $(this).val(this.value.substring(0,12));
@@ -153,7 +153,7 @@
       }
       else
       {
-        $('#error_numero_telephone').text('Invalide numéro de téléphone');
+        $('#error_numero_telephone').text('<?=lang('tel_invalide')?>');
       }        
     } 
   });

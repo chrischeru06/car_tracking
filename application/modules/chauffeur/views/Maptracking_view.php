@@ -320,7 +320,7 @@ z-index: 100;
 
       <div id="map_maps" style="width: 100%;height: 720px;">
         <div id='button-container'>
-          <button id='toggle-button' class="btn btn-outline-primary">Visibilité du polygone</button>
+          <button id='toggle-button' class="btn btn-outline-primary"><?=lang('visibilite_polygone')?></button>
            <!-- <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border:none;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button> -->
         </div>
 
@@ -330,13 +330,13 @@ z-index: 100;
               <button onclick="close_popup()" style="float: right;" class="btn btn-outline-primary" type="button">X</button>
               <!-- <button onclick="close_popup()" style="float: right; background-color: cadetblue; color: white;" class="btn btn-default me-md-2" type="button">X</button> -->
 
-              <h5 class="card-title">Résumés des courses </h5>
+              <h5 class="card-title"><?=lang('resume_courses')?> </h5>
               <?=$card_card1?>
               <?=$card_card?>
 
               <br>
               <div class="card">
-                <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
+                <h5 class="card-title" style="font-size: .8rem;"><?=lang('dist_parcourue')?><span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
 
               </div>
 
@@ -667,7 +667,7 @@ z-index: 100;
 
           })
         .catch(error => {
-          console.log('Une erreur s\'est produite :', error);
+          console.log('<?=lang('erreur_produite')?> :', error);
         });
 
 
@@ -694,7 +694,7 @@ z-index: 100;
 
           })
           .catch(error => {
-            console.log('Une erreur s\'est produite :', error);
+            console.log('<?=lang('erreur_produite')?> :', error);
           });
 
 

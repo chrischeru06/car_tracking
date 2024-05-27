@@ -107,7 +107,7 @@ input:checked + .slider:before {
           <tr>
 
             <td>  
-              <h1 class="text-center" style="margin-bottom: 1px;"><font class="fa fa-list" style="font-size:18px;"></font> Liste des chauffeurs</h1>
+              <h1 class="text-center" style="margin-bottom: 1px;"><font class="fa fa-list" style="font-size:18px;"></font> <?=lang('chauff_liste')?></h1>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
 
@@ -121,7 +121,7 @@ input:checked + .slider:before {
   </div>
   <div class="col-md-2">
 
-    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
 
   </div>
 </div>
@@ -136,7 +136,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Modifier l'affectation du chauffeur </h5>
+        <h5 class="modal-title"><?=lang('modal_modif_affectation')?> </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -155,19 +155,19 @@ input:checked + .slider:before {
                 </div> -->
 
                 <div class="col-md-6">
-                  <label type="date" class="text-dark">Date début</label>
+                  <label type="date" class="text-dark"><?=lang('input_date_deb')?></label>
                   <input type="date" name="DATE_DEBUT_AFFECTATION_MOD" autocomplete="off" id="DATE_DEBUT_AFFECTATION_MOD"  value="<?= set_value('DATE_DEBUT_AFFECTATION_MOD') ?>"  onchange="get_date_fin_modif(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
                   <span id="errorDATE_DEBUT_AFFECTATION_MOD" class="text-danger"></span>
                 </div> 
                 <div class="col-md-6">
-                  <label type="date" class="text-dark">Date fin</label>
+                  <label type="date" class="text-dark"><?=lang('input_date_fin')?></label>
                   <input type="date" name="DATE_FIN_AFFECTATION_MOD" autocomplete="off" id="DATE_FIN_AFFECTATION_MOD" value="<?= set_value('DATE_FIN_AFFECTATION_MOD') ?>" onchange="get_dates_deb_modif(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
                   <span id="errorDATE_FIN_AFFECTATION_MOD" class="text-danger"></span>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <input type="button" class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Modifier" onclick="save_modif_chauffeur();" />
+              <input type="button" class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_modifier')?>" onclick="save_modif_chauffeur();" />
             </div>
           </form>
         </div>
@@ -183,10 +183,10 @@ input:checked + .slider:before {
 
 
         <div class="modal-body mb-1">
-         <center><h5><strong style='color:black'>Veuillez d'abord lui retirer la voiture </strong> <br><b style='background-color:prink;color:green;'> </b></h5></center>
+         <center><h5><strong style='color:black'><?=lang('modal_retirer_cond')?> </strong> <br><b style='background-color:prink;color:green;'> </b></h5></center>
        </div>
        <div class="modal-footer">
-        <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/>
+        <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="<?=lang('btn_fermer')?>"/>
 
         
       </div>
@@ -201,7 +201,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Activation  </h5>
+        <h5 class="modal-title"><?=lang('title_modal_activation')?>  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -211,9 +211,9 @@ input:checked + .slider:before {
               <input type="hidden" name="CHAUFFEUR_ID_I" id="CHAUFFEUR_ID_I">
 
               <div class="col-md-12" id="div_type">
-                <label class="text-dark">Motif <font color="red">*</font></label>
+                <label class="text-dark"><?=lang('label_motif')?> <font color="red">*</font></label>
                 <select class="form-control" id="ID_MOTIF" name="ID_MOTIF" >
-                  <option value="">-- Sélectionner --</option>
+                  <option value="">-- <?=lang('selectionner')?> --</option>
                   <?php
                   foreach ($motif_ativ as $key) 
                   {
@@ -244,7 +244,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Désactivation  </h5>
+        <h5 class="modal-title"><?=lang('modal_desactivation')?>  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -254,9 +254,9 @@ input:checked + .slider:before {
               <input type="hidden" name="CHAUFFEUR_ID_ID" id="CHAUFFEUR_ID_ID">
 
               <div class="col-md-12" id="div_type">
-                <label class="text-dark">Motif <font color="red">*</font></label>
+                <label class="text-dark"><?=lang('label_motif')?> <font color="red">*</font></label>
                 <select class="form-control" id="ID_MOTIF_des" name="ID_MOTIF_des" >
-                  <option value="">-- Sélectionner --</option>
+                  <option value="">-- <?=lang('selectionner')?> --</option>
                   <?php
                   foreach ($motif_des as $key) 
                   {
@@ -271,7 +271,7 @@ input:checked + .slider:before {
             </div>
           </div> 
           <div class="modal-footer">
-            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Désactiver" onclick="save_motif_desactive();" />
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('checkbox_desactiver')?>" onclick="save_motif_desactive();" />
 
           </div>
         </form>
@@ -305,11 +305,11 @@ input:checked + .slider:before {
                   <tr>
 
                     <th class="text-dark">#</th>
-                    <th class="text-dark">CHAUFFEUR</th>
-                    <th class="text-dark">TELEPHONE</th>
-                    <th class="text-dark">EMAIL</th>
-                    <th class="text-dark">STATUT</th>
-                    <th class="text-dark">OPTIONS</th>
+                    <th class="text-dark"><?=lang('th_chauffeur')?></th>
+                    <th class="text-dark"><?=lang('th_tlphone')?></th>
+                    <th class="text-dark"><?=lang('th_email')?></th>
+                    <th class="text-dark"><?=lang('th_statut')?></th>
+                    <th class="text-dark"><?=lang('th_options')?></th>
                   </tr>
                 </thead>
                 
@@ -437,7 +437,7 @@ input:checked + .slider:before {
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
   }
@@ -466,7 +466,7 @@ input:checked + .slider:before {
     },
     error: function (jqXHR, textStatus, errorThrown)
     {
-      alert('Erreur');
+      alert('<?=lang('msg_erreur')?>');
     }
   });
   }
@@ -482,15 +482,15 @@ input:checked + .slider:before {
 
     if($('#CHAUFF_ZONE_AFFECTATION_ID_MOD').val()=='')
     {
-      $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('Le champ est obligatoire');
+      $('#errorCHAUFF_ZONE_AFFECTATION_ID_MOD').html('<?=lang('msg_validation')?>');
       statut=2;
     } if($('#DATE_DEBUT_AFFECTATION_MOD').val()=='')
     {
-      $('#errorDATE_DEBUT_AFFECTATION_MOD').html('Le champ est obligatoire');
+      $('#errorDATE_DEBUT_AFFECTATION_MOD').html('<?=lang('msg_validation')?>');
       statut=2;
     } if($('#DATE_FIN_AFFECTATION_MOD').val()=='')
     {
-      $('#errorDATE_FIN_AFFECTATION_MOD').html('Le champ est obligatoire');
+      $('#errorDATE_FIN_AFFECTATION_MOD').html('<?=lang('msg_validation')?>');
       statut=2;
     }
 
@@ -515,7 +515,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Modification affectation faite avec succès',
+              text: '<?=lang('modif_affectation_success')?>',
               timer: 1500,
             }).then(() =>
             {
@@ -528,7 +528,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Le chauffeur a une autre voiture ',
+              text: '<?=lang('msg_chauffeur_affecte')?> ',
               timer: 1500,
             }).then(() =>
             {
@@ -541,7 +541,7 @@ input:checked + .slider:before {
             {
               icon: 'success',
               title: 'Success',
-              text: 'Modificationde l\'affectation échouée',
+              text: '<?=lang('msg_modif_affect_echoue')?>',
               timer: 1500,
             }).then(() =>
             {
@@ -604,8 +604,8 @@ input:checked + .slider:before {
             Swal.fire(
             {
               icon: 'error',
-              title: 'Erreur',
-              text: 'Veuillez d\'abord lui retirer la voiture',
+              title: '<?=lang('msg_erreur')?>',
+              text: '<?=lang('modal_retirer_cond')?>',
               timer: 3000,
             }).then(() =>
             {
@@ -656,7 +656,7 @@ function save_motif_active() {
 
   if($('#ID_MOTIF').val()=='')
   {
-    $('#errorID_MOTIF').html('Le champ est obligatoire');
+    $('#errorID_MOTIF').html('<?=lang('msg_validation')?>');
     statut=2;
   }
   if (statut==1) {
@@ -685,7 +685,7 @@ function save_motif_active() {
         {
           icon: 'success',
           title: 'Success',
-          text: 'Activation faite avec succès',
+          text: '<?=lang('swal_active_proprio')?>',
           timer: 1500,
         }).then(() =>
         {
@@ -705,7 +705,7 @@ function save_motif_desactive() {
 
   if($('#ID_MOTIF_des').val()=='')
   {
-    $('#errorID_MOTIF_des').html('Le champ est obligatoire');
+    $('#errorID_MOTIF_des').html('<?=lang('msg_validation')?>');
     statut=2;
   }
   if (statut==1) {
@@ -733,7 +733,7 @@ function save_motif_desactive() {
       {
         icon: 'success',
         title: 'Success',
-        text: 'désactivation faite avec succès',
+        text: '<?=lang('swal_desactive_proprio')?>',
         timer: 1500,
       }).then(() =>
       {

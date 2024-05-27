@@ -19,10 +19,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1><font class="fa fa-user" style="font-size:18px;"></font>  Profil</h1>
+      <h1><font class="fa fa-user" style="font-size:18px;"></font>  <?=lang('Profils_lng')?></h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a><font class="fa fa-edit" style="font-size:15px;"></font> Modification</a></li>
+          <li class="breadcrumb-item"><a><font class="fa fa-edit" style="font-size:15px;"></font> <?=lang('modification_modif')?></a></li>
           <!-- <li class="breadcrumb-item active">Liste</li> -->
         </ol>
       </nav>
@@ -38,7 +38,7 @@
               <div class="row text-dark">
                 <div class="col-md-6">
                   <input type="hidden" name="ID" id="ID" value="<?= $profiles['PROFIL_ID'];?>">
-                  <label for="description">DESCRIPTION DU PROFIL</label>
+                  <label for="description"><?=lang('descr_profil')?></label>
                   <input type="text" class="form-control" name="DESCRIPTION_PROFIL" id="DESCRIPTION_PROFIL" value="<?=$profiles['DESCRIPTION_PROFIL']?>">
                   <div id="descr_error">
                     <font color="red"><?php echo form_error('DESCRIPTION_PROFIL'); ?></font> 
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="col-md-6">
-                  <label for="code_profil">CODE DU PROFIL</label>
+                  <label for="code_profil"><?=lang('code_profil')?></label>
                   <input type="text" class="form-control" name="CODE_PROFIL" id="CODE_PROFIL" value="<?=$profiles['CODE_PROFIL']?>">
                   <div id="code_error">
                     <font color="red"><?php echo form_error('CODE_PROFIL'); ?></font>
@@ -59,7 +59,7 @@
 
 
               <div class="col-md-12" style="margin-top:50px;">
-                <button type="submit" style="float: right;" class="btn btn-secondary"><span class="fas "></span> Modifier</button>
+                <button type="submit" style="float: right;" class="btn btn-secondary"><span class="fas "></span> <?=lang('btn_modifier')?></button>
               </div>
             </form>
           </div>

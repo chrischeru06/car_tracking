@@ -56,12 +56,12 @@
 		<div class="pagetitle">
 			<?php if ($PROFIL_ID!=1) {?>
 
-				<h1 style="color:  #899bbd;">Discussion avec <a class="capitalize-first"> ADMIN</a> </h1>
+				<h1 style="color:  #899bbd;"><?=lang('disc_avec')?> <a class="capitalize-first"> ADMIN</a> </h1>
 
 			<?php }
 			else{
 				?>
-				<h1 style="color:  #899bbd;">Discussion avec <a id="IDENTIFICATION" class="capitalize-first"></a> </h1>
+				<h1 style="color:  #899bbd;"><?=lang('disc_avec')?> <a id="IDENTIFICATION" class="capitalize-first"></a> </h1>
 				<?php
 			}
 			?>
@@ -83,7 +83,7 @@
 
 								<ul>
 									<?php if ($PROFIL_ID!=1) {?>
-										<li class="received">Dites nous en quoi nous pouvons vous aider.</li>
+										<li class="received"><?=lang('msg_depart')?></li>
 
 										<?php
 									}?>
@@ -106,11 +106,11 @@
 							</div>
 							<form enctype="multipart/form-data" id="message_form" method="post">
 								<input type="hidden" id="id_recepteur" name="id_recepteur" value="<?=$id_rec?>">
-								<textarea id="messageInput" name="message" class="form-control" placeholder="Entrez votre message ici..."></textarea>
+								<textarea id="messageInput" name="message" class="form-control" placeholder="<?=lang('plc_hlder')?>"></textarea>
 								<font id="error_msg" color="red"></font>
 
 								<div class="col-lg-12" style="margin-top:31px;">
-									<button type="button" style="float: right;background-color: cadetblue;border:none;" onclick="sendMessage()" class="btn btn-primary"><span class="fa fa-send-o"></span>  Envoyer</button>
+									<button type="button" style="float: right;background-color: cadetblue;border:none;" onclick="sendMessage()" class="btn btn-primary"><span class="fa fa-send-o"></span>  <?=lang('btn_envoyer')?></button>
 								</div>
 							</form>
 						</div>
@@ -145,7 +145,7 @@
 		if($('#messageInput').val()=='')
 		{
 			statut=2;
-			$('#error_msg').html('Veuillez remplir ce champ!');
+			$('#error_msg').html('<?=lang('remplir_champ')?>');
 		}
 		if (statut==1) {
 
@@ -182,7 +182,7 @@
 				},
 				error: function (jqXHR, textStatus, errorThrown)
 				{
-					alert('Erreur');
+					alert('<?=lang('msg_erreur')?>');
 				}
 			});
 

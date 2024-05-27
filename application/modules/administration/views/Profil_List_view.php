@@ -30,18 +30,17 @@
     <div class="pagetitle">
       <div class="row">
         <div class="col-md-6">
-          <h1><font class="fa fa-user" style="font-size:18px;"></font> Profils</h1>
+          <h1><font class="fa fa-user" style="font-size:18px;"></font> <?=lang('Profils_lng')?></h1>
           <nav>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Profil</a></li>
-              <li class="breadcrumb-item active">Liste</li>
+              <li class="breadcrumb-item active"><?=lang('title_list')?></li>
             </ol>
           </nav>
         </div>
         <div class="col-md-6">
 
           <div class="justify-content-sm-end d-flex">
-            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('administration/Profil/add')?>"><i class="bi bi-plus h5"></i> Nouveau</a>
+            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('administration/Profil/add')?>"><i class="bi bi-plus h5"></i> <?=lang('btn_nouveau')?></a>
           </div>
         </div><!-- End Page Title -->
       </div>
@@ -67,11 +66,9 @@
                       <tr>
                         <th class="text-dark">#</th>
 
-                        <th class="text-dark">PROFIL</th>
-                        <th class="text-dark">ROLE</th>
-
-
-                        <th class="text-dark">OPTIONS</th>
+                        <th class="text-dark"><?=lang('profil_maj')?></th>
+                        <th class="text-dark"><?=lang('role_role')?></th>
+                        <th class="text-dark"><?=lang('th_options')?></th>
                       </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">

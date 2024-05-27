@@ -1,5 +1,5 @@
 <?php
-
+//PART 1//
 $lang['msg_connexion'] = 'Se connecter';
 
 //Module proprietaire
@@ -24,7 +24,8 @@ $lang['input_zone'] = 'Zone';
 $lang['input_colline'] = 'Colline';
 $lang['input_adresse'] = 'Adresse';
 $lang['input_photo_passport'] = 'Photo passeport';
-$lang['title_file'] = 'Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG';
+$lang['title_file'] = 'Veuillez mettre une photo avec extension:  .png,.jpg,.jepg';
+$lang['title_file_pdf'] = 'Veuillez mettre une photo avec extension:  .png,.jpg,.jepg,.pdf';
 $lang['input_logo'] = 'Logo';
 $lang['input_doc_rc'] = 'Document RC';
 $lang['input_doc_nif'] = 'Document NIF';
@@ -65,7 +66,7 @@ $lang['th_statut'] = 'STATUT';
 $lang['th_nbre_veh'] = 'NBRE&nbsp;VEHICULE';
 $lang['th_options'] = 'OPTIONS';
 $lang['td_type'] = 'Type';
-$lang['td_pers_reference'] = 'Personne de référence';
+$lang['td_pers_reference'] = 'Personne&nbsp;de&nbsp;référence';
 $lang['title_modal_document'] = 'Document';
 $lang['title_modal_activation'] = 'Activation';
 $lang['label_motif'] = 'Motif';
@@ -211,6 +212,111 @@ $lang['Sim_management_lng']='Sim management';
 $lang['ms_veh']='Mes véhicules';
 
 
+//FIN PART 1
+
+//PART 2
+//Module Administration
+$lang['disc_avec']='Discussion avec';
+$lang['msg_depart']='Dites nous en quoi nous pouvons vous aider.';
+$lang['plc_hlder']='Entrez votre message ici...';
+$lang['btn_envoyer']='Envoyer';
+$lang['remplir_champ']='Veuillez remplir ce champ !';
+$lang['nveau_msg']='Nouveau message';
+$lang['titre_msg']='Messages';
+$lang['util_list']='UTILISATEUR';
+$lang['nveau_msg_esp']='NOUVEAU&nbsp;MESSAGE';
+$lang['mot_enregistrement']='Enregistrement';
+$lang['descr_profil']='DESCRIPTION DU PROFIL';
+$lang['code_profil']='CODE DU PROFIL';
+$lang['role_role']='ROLE';
+$lang['profil_maj']='PROFIL';
+$lang['modification_modif']='Modification';
+$lang['btn_supprimer']='Supprimer';
+$lang['msg_suppr']='Voulez-vous supprimer le profil';
+$lang['modif_msg_prfil']='La modification de';
+$lang['modif_msg_prfil_echoue']='a échouée';
+$lang['msg_suppression_succes']='Suppression effectuée avec succès';
+$lang['msg_suppression_error']='Suppression échouée';
+$lang['msg_unique_prfil']='Le profil doit être unique';
+$lang['msg_unique_code']='Le code doit être unique';
+$lang['ajout_success']='L\'ajout a été effectué avec succès';
+$lang['mot_nom_prnom']='NOM ET PRENOM';
+$lang['error_desactivation']='Impossible de désactiver l\'Administrateur !';
+$lang['modif_utilisateur']='Modification d\'un utilisateur';
+$lang['btn_modif_mot_de_passe']='Modifier le mot de passe';
+$lang['mot_mot_de_passe']='Mot de passe';
+$lang['mot_mot_passe_maj']='MOT DE PASSE';
+
+$lang['ancien_mot_passe']='Ancien Mot de passe';
+$lang['msg_password']='Veuillez entrer le mot de passe';
+$lang['nveau_mot_passe']='Nouveau Mot de passe';
+$lang['confirmation_mot_passe']='Confirmation du nouveau Mot de passe';
+$lang['mot_passe_ps_correspondant']='Les mots de passe ne correspondent pas';
+$lang['identif_input']='IDENTIFICATION';
+$lang['identif_input_min']='Identification';
+$lang['msg_suppression_util']='Voulez-vous supprimer l\'utilisateur';
+$lang['incorrect_pssword']='Le mot de passe est incorrect';
+$lang['suppression_success']='Utilisateur supprimé avec succès';
+
+//Module:Chauffeur 
+$lang['mot_genre']='Genre';
+$lang['mot_rue']='rue';
+$lang['n_identite']='Numéro carte d\'identité';
+$lang['n_prsonne_contact']='Numéro de la personne de contact';
+$lang['n_permis_conduire']='Numéro permis de conduire';
+$lang['dte_expiration_permis']='Date expiration permis de conduire';
+$lang['validation_age']='Seulement l\'âge supérieur ou égal à 18 est autorisé';
+$lang['chauff_liste']='Liste des chauffeurs';
+$lang['modal_modif_affectation']='Modifier l\'affectation du chauffeur';
+$lang['modal_retirer_cond']='Veuillez d\'abord lui retirer le véhicule';
+$lang['modif_affectation_success']='Modification de l\'affectation faite avec succès';
+$lang['msg_chauffeur_affecte']='Le chauffeur a un autre véhicule';
+$lang['msg_modif_affect_echoue']='Modification de l\'affectation échouée';
+$lang['phto_permis_conduire']='Photo permis de&nbsp;conduire';
+$lang['titre_detail_chauffeur']='Détail du chauffeur';
+$lang['info_veh_titre']='Informations véhicules';
+$lang['histo_titre']='Historique';
+$lang['mot_cni']='CNI';
+$lang['mot_permis_conduire']='Permis de conduire';
+$lang['mot_ident_carte']='Carte d\'identité';
+$lang['dbut_affectation']='DEBUT&nbsp;DE&nbsp;L\'AFFECTATION';
+$lang['fin_affectation']='FIN&nbsp;DE&nbsp;L\'AFFECTATION';
+$lang['resum_parcours']='RESUME&nbsp;DES&nbsp;PARCOURS';
+$lang['descr_img']='Description de l\'image';
+$lang['modal_attribue_veh']='Attribué le véhicule au chauffeur';
+$lang['mot_vehicule']='Véhicule';
+$lang['mot_zone_affectation']='Zone d\'affectation';
+$lang['btn_attribuer']='Attribuer';
+$lang['msg_actualise_pge']='Actualise ta page';
+$lang['msg_chauffeur_possede_veh']='Le chauffeur possède déjà un véhicule';
+$lang['visibilite_polygone']='Visibilité du polygone';
+$lang['resume_courses']='Résumés des courses';
+$lang['dist_parcourue']='Distance parcourue';
+$lang['erreur_produite']='Une erreur s\'est produite';
+$lang['resum_du_parcours']='Résumé du parcours';
+$lang['estimation_parcours']='Estimation&nbsp;parcours';
+$lang['hrs_dbut']='Heure début';
+$lang['hrs_fin']='Heure fin';
+$lang['chauf_non_affect']='Pas de chauffeur affecté à ce véhicule!';
+$lang['carburant_mot']='Carburant';
+$lang['consomme_mot']='consommé';
+$lang['litre_mot']='litres';
+$lang['vitesse_max']='Vitesse';
+$lang['trajet_parcouru']='Trajet parcouru';
+$lang['chauffeur_affecter']='Affecter le chauffeur';
+$lang['btn_retirer_veh']='Retirer&nbsp;véhicule';
+$lang['btn_modif_affect']='Modifier affectation';
+$lang['msg_retirer_veh']='Voulez-vous retirer le véhicule à';
+$lang['btn_retirer']='Retirer';
+$lang['dtl_chauffeur']='Détails du chauffeur';
+$lang['dte_naiss']='Date naissance';
+$lang['info_vehicule_veh']='Information&nbsp;véhicule';
+$lang['dtl_veh']='Détails du véhicule';
+$lang['msg_retrait_veh_success']='Vous avez bien retiré la voiture';
+$lang['unique_veh']='Le téléphone doit être unique';
+$lang['unique_numero']='Le numéro doit être unique';
+$lang['unique_mail']='Le mail doit être unique';
+$lang['unique_permis']='Le permis doit être unique';
 
 
 
@@ -227,6 +333,61 @@ $lang['ms_veh']='Mes véhicules';
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//FIN PART 2
 
 
 
