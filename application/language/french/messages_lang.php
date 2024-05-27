@@ -197,33 +197,18 @@ $lang['msg_enreg_ft_success'] ='Enregistrement fait avec succès !';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Menu left
+$lang['Centre_situation_lng']='Centre de situation';
+$lang['Administration_admin']='Administration';
+$lang['Profils_lng']='Profils';
+$lang['Utilisateurs_lng']='Utilisateurs';
+$lang['IHM_lng']='IHM';
+$lang['Chauffeurs_lng']='Chauffeurs';
+$lang['Tableau_bord_lng']='Tableau de bord';
+$lang['Gnrl_lng']='Général';
+$lang['anomalies_lng']='Anomalies';
+$lang['Sim_management_lng']='Sim management';
+$lang['ms_veh']='Mes véhicules';
 
 
 
