@@ -101,10 +101,10 @@ input:checked + .slider:before {
     <div class="pagetitle">
       <div class="row">
         <div class="col-md-6">
-          <h1><font class="fa fa-user" style="font-size:18px;"></font>  Utilisateurs</h1>
+          <h1><font class="fa fa-user" style="font-size:18px;"></font>  <?=lang('Utilisateurs_lng')?></h1>
           <nav>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Utilisateurs</a></li>
+              <li class="breadcrumb-item"><a href="index.html"><?=lang('Utilisateurs_lng')?></a></li>
               <li class="breadcrumb-item active">Liste</li>
             </ol>
           </nav>
@@ -135,12 +135,12 @@ input:checked + .slider:before {
                     <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="text-dark">#</th>
-                        <th class="text-dark">NOM ET PRENOM</th>
-                        <th class="text-dark">EMAIL</th>
-                        <th class="text-dark">TELEPHONE</th>
-                        <th class="text-dark">PROFIL</th>
-                        <th class="text-dark">STATUT</th>
-                        <th class="text-dark" style="float: right;">ACTIONS</th>
+                        <th class="text-dark"><?=lang('mot_nom_prnom')?></th>
+                        <th class="text-dark"><?=lang('th_email')?></th>
+                        <th class="text-dark"><?=lang('th_tlphone')?></th>
+                        <th class="text-dark"><?=lang('profil_maj')?></th>
+                        <th class="text-dark"><?=lang('th_statut')?></th>
+                        <th class="text-dark" style="float: right;"><?=lang('th_options')?></th>
                       </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -176,7 +176,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>
-        <h5 class="modal-title">Détail</h5>
+        <h5 class="modal-title"><?=lang('btn_detail')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -187,27 +187,27 @@ input:checked + .slider:before {
             <div class='col-md-6'>
               <table class="table table-striped">
                 <tr>            
-                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
+                  <td><span class="fa fa-user"></span> &nbsp;&nbsp; <?=lang('td_type')?></td>
                   <td><a id="DESC_TYPE_PROPRIETAIRE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-user-plus"></span>  Personne&nbsp;de&nbsp;référence</td>
+                  <td><span class="fa fa-user-plus"></span>  <?=lang('td_pers_reference')?></td>
                   <td><a id="PERSONNE_REFERENCE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; CNI</td>
+                  <td><span class="fa fa-newspaper-o"></span> &nbsp;&nbsp; <?=lang('input_cni_passeport')?></td>
                   <td><a id="IDENTITE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
+                  <td><span class="fa fa-phone"></span> &nbsp;&nbsp; <?=lang('input_tlphone')?></td>
                   <td><a id="TELEPHONE"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
+                  <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; <?=lang('input_email')?></td>
                   <td><a id="EMAIL"></a></td>
                 </tr>
                 <tr>
-                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                  <td><span class="fa fa-bank"></span> &nbsp;&nbsp; <?=lang('input_adresse')?></td>
                   <td><a id="ADRESSE"></a></td>
                 </tr>
 
@@ -237,7 +237,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>
-        <h5 class="modal-title">Détail</h5>
+        <h5 class="modal-title"><?=lang('btn_detail')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -245,24 +245,24 @@ input:checked + .slider:before {
           <div class="row">
             <table class="table table-striped">
               <tr>            
-                <td><span class="fa fa-user"></span> &nbsp;&nbsp; Type</td>
+                <td><span class="fa fa-user"></span> &nbsp;&nbsp; <?=lang('td_type')?></td>
                 <td><a id="DESC_TYPE_PROPRIETAIRE_MORAL"></a></td>
               </tr>
               <tr>
-                <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; Personne de référence</td>
+                <td><span class="fa fa-user-plus"></span> &nbsp;&nbsp; <?=lang('td_pers_reference')?></td>
                 <td><a id="PERSONNE_REFERENCE_MORAL"></a></td>
               </tr>
 
               <tr>
-                <td><span class="fa fa-phone"></span> &nbsp;&nbsp; Téléphone</td>
+                <td><span class="fa fa-phone"></span> &nbsp;&nbsp; <?=lang('input_tlphone')?></td>
                 <td><a id="TELEPHONE_MORAL"></a></td>
               </tr>
               <tr>
-                <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; Email</td>
+                <td><span class="fa fa-envelope-o"></span> &nbsp;&nbsp; <?=lang('input_email')?></td>
                 <td><a id="EMAIL_MORAL"></a></td>
               </tr>
               <tr>
-                <td><span class="fa fa-bank"></span> &nbsp;&nbsp; Adresse</td>
+                <td><span class="fa fa-bank"></span> &nbsp;&nbsp; <?=lang('input_adresse')?></td>
                 <td><a id="ADRESSE_MORAL"></a></td>
               </tr>
             </table>          
@@ -401,8 +401,8 @@ function myFunction_desactive(USER_ID) {
           Swal.fire(
           {
             icon: 'error',
-            title: 'Erreur',
-            text: 'Impossible de désactiver l\'Administrateur !',
+            title: '<?=lang('msg_erreur')?>',
+            text: '<?=lang('error_desactivation')?>',
             timer: 3000,
           }).then(() =>
           {

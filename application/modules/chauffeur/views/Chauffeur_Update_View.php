@@ -37,14 +37,14 @@
 
                   <div class="row">
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Nom <font color="red">*</font></label>
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_nom')?> <font color="red">*</font></label>
                       <input type="text" name="NOM" autocomplete="off" id="NOM" value="<?= $membre['NOM'] ?>"  class="form-control">
                       <font id="error_NOM" color="red"></font>
                       <?php echo form_error('NOM', '<div class="text-danger">', '</div>'); ?>
                     </div>
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Prénom <font color="red">*</font></label>
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_prenom')?> <font color="red">*</font></label>
                       <input type="text" name="PRENOM" autocomplete="off" id="PRENOM" value="<?= $membre['PRENOM'] ?>"  class="form-control">
                       <font id="error_PRENOM" color="red"></font>
                       <?php echo form_error('PRENOM', '<div class="text-danger">', '</div>'); ?>
@@ -78,48 +78,48 @@
                   </div>  -->
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Adresse/rue <font color="red">*</font></label>
-                      <input type="text" name="ADRESSE_PHYSIQUE" autocomplete="off" id="ADRESSE_PHYSIQUE" value="<?=$membre['ADRESSE_PHYSIQUE'] ?>"  class="form-control">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_adresse')?>/<?=lang('mot_rue')?> <font color="red">*</font></label>
+                      <input type="text" name="ADRESSE_PHYSIQUE" autocomplete="off" id="ADRESSE_PHYSIQUE" value="<?=$membre['ADRESSE_PHYSIQUE'] ?>"  class="form-control" placeholder="<?=lang('input_adresse')?>/<?=lang('mot_rue')?>">
                       <font id="error_ADRESSE_PHYSIQUE" color="red"></font>
                       <?php echo form_error('ADRESSE_PHYSIQUE', '<div class="text-danger">', '</div>'); ?> 
                     </div><br><br><br>
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numero de téléphone <font color="red">*</font></label>
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_tlphone')?> <font color="red">*</font></label>
                       <input type="phone" name="NUMERO_TELEPHONE" autocomplete="off" id="NUMERO_TELEPHONE" value="<?=$membre['NUMERO_TELEPHONE']?>"  class="form-control">
                       <font id="error_NUMERO_TELEPHONE" color="red"></font>
                       <?php echo form_error('NUMERO_TELEPHONE', '<div class="text-danger">', '</div>'); ?>
                     </div>
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Adresse email</label>
-                      <input type="text" name="ADRESSE_MAIL" autocomplete="off" id="ADRESSE_MAIL" value="<?=$membre['ADRESSE_MAIL']?>"  class="form-control">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_email')?></label>
+                      <input type="text" name="ADRESSE_MAIL" autocomplete="off" id="ADRESSE_MAIL" value="<?=$membre['ADRESSE_MAIL']?>" placeholder="<?=lang('input_email')?>" class="form-control">
                       <font id="error_ADRESSE_MAIL" color="red"></font>
                     </div>
 
                     <div class="col-md-4">
-                      <label class="text-dark" style="font-weight: 1000; color:#454545">Confirmation du mail</label>
-                      <input type="text" name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL" value="<?=$membre['ADRESSE_MAIL']?>"  class="form-control">
+                      <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_conf_mail')?></label>
+                      <input type="text" name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL" value="<?=$membre['ADRESSE_MAIL']?>" placeholder="<?=lang('input_conf_mail')?>" class="form-control">
                       <font id="error_CONFIRMATION_EMAIL" color="red"></font>
                     </div><br><br><br>
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark"style="font-weight: 1000; color:#454545">Numéro carte d'identité <font color="red">*</font></label>
-                      <input type="text" name="NUMERO_CARTE_IDENTITE" autocomplete="off" id="NUMERO_CARTE_IDENTITE" value="<?=$membre['NUMERO_CARTE_IDENTITE']?>"  class="form-control">
+                      <label for="FName" class="text-dark"style="font-weight: 1000; color:#454545"><?=lang('n_identite')?> <font color="red">*</font></label>
+                      <input type="text" name="NUMERO_CARTE_IDENTITE" autocomplete="off" id="NUMERO_CARTE_IDENTITE" placeholder="<?=lang('n_identite')?>" value="<?=$membre['NUMERO_CARTE_IDENTITE']?>"  class="form-control">
                       <font id="error_NUMERO_CARTE_IDENTITE" color="red"></font>
                       <?php echo form_error('NUMERO_CARTE_IDENTITE', '<div class="text-danger">', '</div>'); ?> 
                     </div>
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro de la personne de contact</label>
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_prsonne_contact')?></label>
                       <input type="phone" name="PERSONNE_CONTACT_TELEPHONE" autocomplete="off" id="PERSONNE_CONTACT_TELEPHONE" value="<?=$membre['PERSONNE_CONTACT_TELEPHONE']?>"  class="form-control">
                       <font id="error_PERSONNE_CONTACT_TELEPHONE" color="red"></font>
                     </div>
 
                     <div class="col-md-4">
-                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Province <font color="red">*</font></label>
+                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_province')?> <font color="red">*</font></label>
                       <select class="form-control" name="PROVINCE_ID" id="PROVINCE_ID" onchange="get_communes();">
-                        <option selected value="">---Sélectionner---</option>
+                        <option selected value="">---<?=lang('selectionner')?>---</option>
                         <?php 
                         $pro=$this->Model->getOne('provinces',array('PROVINCE_ID' =>$membre['PROVINCE_ID']  ));
                         foreach ($provinces as $value)
@@ -144,9 +144,9 @@
                     </div><br><br><br>
 
                     <div class="col-md-4">
-                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Commune <font color="red">*</font></label>
+                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_commune')?> <font color="red">*</font></label>
                       <select class="form-control" name="COMMUNE_ID" id="COMMUNE_ID" onchange="get_zones();">
-                        <option value="">---Sélectionner---</option>
+                        <option value="">---<?=lang('selectionner')?>---</option>
                         <?php
                         foreach ($communes as $value)
                         {
@@ -170,9 +170,9 @@
                     </div>
 
                     <div class="col-md-4">
-                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Zone <font color="red">*</font></label>
+                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_zone')?> <font color="red">*</font></label>
                       <select class="form-control" name="ZONE_ID" id="ZONE_ID" onchange="get_collines();">
-                        <option value="">---Sélectionner---</option>
+                        <option value="">---<?=lang('selectionner')?>---</option>
                         <?php 
 
                         foreach ($zones as $value)
@@ -196,9 +196,9 @@
                     </div>
 
                     <div class="col-md-4">
-                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Colline <font color="red">*</font></label>
+                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_colline')?> <font color="red">*</font></label>
                       <select class="form-control" name="COLLINE_ID" id="COLLINE_ID">
-                        <option value="">---Sélectionner---</option>
+                        <option value="">---<?=lang('selectionner')?>---</option>
                         <?php 
 
                         foreach ($collines as $value)
@@ -223,7 +223,7 @@
                     </div><br><br><br>
 
                     <div class="col-md-4">
-                      <label for="description" class="text-dark" style="font-weight: 1000; color:#454545">Carte d'identité <font color="red">*</font></label>
+                      <label for="description" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('carte_identite')?> <font color="red">*</font></label>
                       <input type="hidden"  name="FILE_CARTE_IDENTITE_OLD" id="FILE_CARTE_IDENTITE_OLD" value="<?=$membre['FILE_CARTE_IDENTITE']?>">
                       <input type="file" class="form-control" id="FILE_CARTE_IDENTITE" name="FILE_CARTE_IDENTITE" value="<?=$membre['FILE_CARTE_IDENTITE']?>" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
                       <font id="fichier_identite_complete_error" color="red"></font>
@@ -236,25 +236,25 @@
                       <font id="error_fichier_casier_judiciaire" color="red"></font>
                     </div> -->
                      <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro permis <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_permis_conduire')?> <font color="red">*</font></label>
                     <input type="text" name="NUMERO_PERMIS" autocomplete="off" 
                     id="NUMERO_PERMIS" value="<?=$membre['NUMERO_PERMIS']?>"   class="form-control">
                     <font id="error_NUMERO_PERMIS" color="red"></font>
                     <?php echo form_error('NUMERO_PERMIS', '<div class="text-danger">', '</div>'); ?>
                   </div>
                    <div class="col-md-4">
-                      <label for="description" class="text-dark" style="font-weight: 1000; color:#454545">Photo permis <font color="red">*</font></label>
+                      <label for="description" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('phto_permis_conduire')?> <font color="red">*</font></label>
                       <input type="hidden"  name="file_permis_OLD" id="file_permis_OLD" value="<?=$membre['file_permis']?>">
 
-                      <input type="file" class="form-control" id="file_permis" name="file_permis" value="<?=$membre['file_permis']?>" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                      <input type="file" class="form-control" id="file_permis" name="file_permis" value="<?=$membre['file_permis']?>" title='<?=lang('title_file')?>'>
                       <font id="file_permis_error" color="red"></font>
                     </div><br><br><br>
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo passport <font color="red">*</font></label>
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_photo_passport')?> <font color="red">*</font></label>
                       <input type="hidden"  name="PHOTO_PASSPORT_OLD" id="PHOTO_PASSPORT_OLD" value="<?=$membre['PHOTO_PASSPORT']?>">
                      <!--  <input type="hidden"  name="CODE_AGENT" id="CODE_AGENT" value="<?=$membre['CODE_AGENT']?>"> -->
-                      <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_PASSPORT" autocomplete="off" id="PHOTO_PASSPORT" value="<?=$membre['PHOTO_PASSPORT']?>"  class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                      <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_PASSPORT" autocomplete="off" id="PHOTO_PASSPORT" value="<?=$membre['PHOTO_PASSPORT']?>"  class="form-control" title='<?=lang('title_file')?>'>
                       <font id="error_photo_passport" color="red"></font>
                       <?php echo form_error('PHOTO_PASSPORT', '<div class="text-danger">', '</div>'); ?> 
                     </div>
@@ -262,7 +262,7 @@
                 </form>
 
                 <div class="col-md-12" style="margin-top:50px;">
-                  <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span>Modifier</button>
+                  <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span><?=lang('btn_modifier')?></button>
                 </div>
              
               
@@ -310,70 +310,70 @@
         if($('#NOM').val()=='')
         {
           statut=2;
-          $('#error_NOM').html('Le champ est obligatoire');
+          $('#error_NOM').html('<?=lang('msg_validation')?>');
         }
 
         if($('#PRENOM').val()=='')
         {
           statut=2;
-          $('#error_PRENOM').html('Le champ est obligatoire');
+          $('#error_PRENOM').html('<?=lang('msg_validation')?>');
         }
 
         if($('#ADRESSE_PHYSIQUE').val()=='')
         {
           statut=2;
-          $('#error_ADRESSE_PHYSIQUE').html('Le champ est obligatoire');
+          $('#error_ADRESSE_PHYSIQUE').html('<?=lang('msg_validation')?>');
         }
 
         if($('#NUMERO_TELEPHONE').val()=='')
         {
           statut=2;
-          $('#error_NUMERO_TELEPHONE').html('Le champ est obligatoire');
+          $('#error_NUMERO_TELEPHONE').html('<?=lang('msg_validation')?>');
         }
 
         if($('#ADRESSE_MAIL').val()!='')
         {
           if(!emailReg.test($('#ADRESSE_MAIL').val()))
           {
-            $('#error_ADRESSE_MAIL').html('Email invalide!');
+            $('#error_ADRESSE_MAIL').html('<?=lang('msg_validation_mail')?>');
             statut=2
           }
 
           if($('#CONFIRMATION_EMAIL').val()!=$('#ADRESSE_MAIL').val())
           {
             statut=2;
-            $('#error_CONFIRMATION_EMAIL').html('Les emails ne corrospondent pas');
+            $('#error_CONFIRMATION_EMAIL').html('<?=lang('msg_validation_mail_correspondance')?> !');
           }
         }
 
         if($('#NUMERO_CARTE_IDENTITE').val()=='')
         {
           statut=2;
-          $('#error_NUMERO_CARTE_IDENTITE').html('Le champ est obligatoire');
+          $('#error_NUMERO_CARTE_IDENTITE').html('<?=lang('msg_validation')?>');
         }
 
         if($('#PROVINCE_ID').val()=='')
         {
           statut=2;
-          $('#error_prov').html('Le champ est obligatoire');
+          $('#error_prov').html('<?=lang('msg_validation')?>');
         }
 
         if($('#COMMUNE_ID').val()=='')
         {
           statut=2;
-          $('#error_com').html('Le champ est obligatoire');
+          $('#error_com').html('<?=lang('msg_validation')?>');
         }
 
         if($('#ZONE_ID').val()=='')
         {
           statut=2;
-          $('#error_zon').html('Le champ est obligatoire');
+          $('#error_zon').html('<?=lang('msg_validation')?>');
         }
 
         if($('#COLLINE_ID').val()=='')
         {
           statut=2;
-          $('#error_col').html('Le champ est obligatoire');
+          $('#error_col').html('<?=lang('msg_validation')?>');
         }
 
         if(statut==1)
@@ -388,14 +388,14 @@
 
         if(PROVINCE_ID==0)
         {
-          $('#COMMUNE_ID').html('<option value="">---Sélectionner---</option>');
-          $('#ZONE_ID').html('<option value="">---Sélectionner---</option>');
-          $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+          $('#COMMUNE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+          $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
         }
         else
         {
-          $('#ZONE_ID').html('<option value="">---Sélectionner---</option>');
-          $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+          $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
           $.ajax(
           {
             url:"<?=base_url()?>chauffeur/Chauffeur/get_communes/"+PROVINCE_ID,
@@ -415,12 +415,12 @@
         var COMMUNE_ID =$('#COMMUNE_ID').val();
         if(COMMUNE_ID=='')
         {
-          $('#ZONE_ID').html('<option value="">---Sélectionner---</option>');
-          $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+          $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
         }
         else
         {
-          $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
           $.ajax(
           {
             url:"<?=base_url()?>chauffeur/Chauffeur/get_zones/"+COMMUNE_ID,
@@ -440,7 +440,7 @@
         var ZONE_ID=$('#ZONE_ID').val();
         if(ZONE_ID=='')
         {
-          $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
         }
         else
         {
@@ -527,7 +527,7 @@
           }
           else
           {
-            $('#errorNUMERO_TELEPHONE').text('Numéro de téléphone est invalide ');
+            $('#errorNUMERO_TELEPHONE').text('<?=lang('tel_invalide')?> !');
             if($(this).val().length > 12)
             {
               $(this).val(this.value.substring(0,12));
@@ -543,7 +543,7 @@
           }
           else
           {
-            $('#errorNUMERO_TELEPHONE').text('Invalide numéro de téléphone');
+            $('#errorNUMERO_TELEPHONE').text('<?=lang('tel_invalide')?>!');
           }        
         } 
       });
@@ -569,7 +569,7 @@
         }
         else
         {
-          $('#error_PERSONNE_CONTACT_TELEPHONE').text('Numéro de téléphone est invalide ');
+          $('#error_PERSONNE_CONTACT_TELEPHONE').text('<?=lang('tel_invalide')?>!');
           if($(this).val().length > 12)
           {
             $(this).val(this.value.substring(0,12));
@@ -586,7 +586,7 @@
         }
         else
         {
-          $('#error_PERSONNE_CONTACT_TELEPHONE').text('Invalide numéro de téléphone');
+          $('#error_PERSONNE_CONTACT_TELEPHONE').text('<?=lang('tel_invalide')?>!');
         }        
       }
     });
@@ -609,7 +609,7 @@
 
               if(data < 18 )
           {
-            $('#error_date_naissance').text("Seulement l'âge supérieur ou égal à 18 est autorisé !");
+            $('#error_date_naissance').text("<?=lang('validation_age')?> !");
           }
           else
             {$('#error_date_naissance').text("");

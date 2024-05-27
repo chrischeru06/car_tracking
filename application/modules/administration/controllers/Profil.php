@@ -77,7 +77,7 @@ class Profil extends CI_Controller
 				$sub_array[]=$row->ROLE;	
 
 			}else{
-				$sub_array[]='N/A';	
+				$sub_array[]=''.lang('lste_n_a').'';	
 
 			}
 
@@ -89,9 +89,9 @@ class Profil extends CI_Controller
 			<span class="caret"></span></a>
 			<ul class="dropdown-menu dropdown-menu-left">
 			';
-			$option .= "<li><a class='btn-md' href='" . base_url('administration/Profil/getOne/'. $row->PROFIL_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a></li>";
+			$option .= "<li><a class='btn-md' href='" . base_url('administration/Profil/getOne/'. $row->PROFIL_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;".lang('Modifier')."</a></li>";
 			$option .= "<li><a class='btn-md' href='#' data-toggle='modal'
-			data-target='#mydelete" . $row->PROFIL_ID . "'><span class='bi bi-trash h5'></span>&nbsp;&nbsp;Supprimer</a></li>";
+			data-target='#mydelete" . $row->PROFIL_ID . "'><span class='bi bi-trash h5'></span>&nbsp;&nbsp;".lang('btn_supprimer')."</a></li>";
 			$option .= " </ul>
 			</div>
 			<div class='modal fade' id='mydelete" .$row->PROFIL_ID. "' tabindex='-1'>
@@ -103,12 +103,12 @@ class Profil extends CI_Controller
 			</div>
 
 			<div class='modal-body'>
-			<center><h5>Voulez-vous supprimer le profil <b style='color:cadetblue;'> '".$row->DESCRIPTION_PROFIL."'</b> ?</h5></center>
+			<center><h5>".lang('msg_suppr')." <b style='color:cadetblue;'> '".$row->DESCRIPTION_PROFIL."'</b> ?</h5></center>
 			</div>
 
 			<div class='modal-footer'>
-			<a class='btn btn-danger btn-md' href='" . base_url('administration/Profil/delete/' .$row->PROFIL_ID). "'>Supprimer</a>
-			<button class='btn btn-secondary btn-md' data-dismiss='modal'>Quitter</button>
+			<a class='btn btn-danger btn-md' href='" . base_url('administration/Profil/delete/' .$row->PROFIL_ID). "'>".lang('btn_supprimer')."</a>
+			<button class='btn btn-secondary btn-md' data-dismiss='modal'>".lang('modal_btn_quitter')."</button>
 			</div>
 
 			</div>
@@ -147,8 +147,8 @@ class Profil extends CI_Controller
 	function update()
 	{
 
-		$this->form_validation->set_rules('DESCRIPTION_PROFIL','','trim|required',array('required'=>'<font style="color:red;font-size:15px;">*Ce champs est obligatoire</font>'));
-		$this->form_validation->set_rules('CODE_PROFIL','','trim|required',array('required'=>'<font style="color:red;font-size:15px;">*Ce champs est obligatoire</font>'));
+		$this->form_validation->set_rules('DESCRIPTION_PROFIL','','trim|required',array('required'=>'<font style="color:red;font-size:15px;">*'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('CODE_PROFIL','','trim|required',array('required'=>'<font style="color:red;font-size:15px;">*'.lang('msg_validation').'</font>'));
 
 		if($this->form_validation->run()==TRUE)
 		{
@@ -167,13 +167,13 @@ class Profil extends CI_Controller
 
 			if ($update) 
 			{
-				$message['message']='<div class="alert alert-primary text-center" id="message">La modification a été effectuée avec succès</div>';
+				$message['message']='<div class="alert alert-primary text-center" id="message">'.lang('msg_success_modif').'</div>';
 				$this->session->set_flashdata($message);
 				redirect(base_url('administration/Profil/index'));
 			}
 			else
 			{
-				$message['message']='<div class="alert alert-warning text-center" id="message">La modification a échouée</div>';
+				$message['message']='<div class="alert alert-warning text-center" id="message">'.lang('msg_error_modif').'</div>';
 				$this->session->set_flashdata($message);
 				redirect(base_url('administration/Profil/index'));
 
@@ -183,7 +183,7 @@ class Profil extends CI_Controller
 		}
 		else
 		{
-			$message['message']='<div class="alert alert-success text-center" id="message">La modification de '.$this->input->post('DESCRIPTION_PROFIL').' a échouée</div>';
+			$message['message']='<div class="alert alert-success text-center" id="message">'.lang('modif_msg_prfil').' '.$this->input->post('DESCRIPTION_PROFIL').' '.lang('modif_msg_prfil_echoue').'</div>';
 			$this->session->set_flashdata($message);
 			$data['error']='';
 			$data['profiles']=$this->Model->getOne('profil',array('PROFIL_ID'=>$this->input->post('ID')));
@@ -199,14 +199,14 @@ class Profil extends CI_Controller
 		$delete=$this->Model->delete('profil',array('PROFIL_ID'=>$PROFIL_ID));
 		if ($delete)
 		{
-			$message['message']='<div class="alert alert-primary text-center" id="message">La suppression d\'un profil a été éffectuée avec succès</div>';
+			$message['message']='<div class="alert alert-primary text-center" id="message">'.lang('msg_suppression_succes').'</div>';
 			$this->session->set_flashdata($message);
 			redirect(base_url('administration/Profil/index'));
 
 		}
 		else
 		{
-			$message['message']='<div class="alert alert-warning text-center" id="message">La suppression d\'un profil a échouée </div>';
+			$message['message']='<div class="alert alert-warning text-center" id="message">'.lang('msg_suppression_error').'</div>';
 			$this->session->set_flashdata($message);    
 		}
 		redirect(base_url('administration/Profil/index'));
@@ -219,13 +219,13 @@ class Profil extends CI_Controller
 		$this->load->view('Profil_Add_View',$data);
 	}
 
-  //Enregistrement d'un profil
+  	//Enregistrement d'un profil
 	function save()
 	{
-		$this->form_validation->set_rules('DESCRIPTION_PROFIL','','trim|required|is_unique[profil.DESCRIPTION_PROFIL]',array('required'=>'<font style="color:red;font-size:15px;">*Ce champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le profil doit être unique</font>'));
-		$this->form_validation->set_rules('CODE_PROFIL','','trim|required|is_unique[profil.CODE_PROFIL]',array('required'=>'<font style="color:red;font-size:15px;">*Ce champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le code doit être unique</font>'));
+		$this->form_validation->set_rules('DESCRIPTION_PROFIL','','trim|required|is_unique[profil.DESCRIPTION_PROFIL]',array('required'=>'<font style="color:red;font-size:15px;">*'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('msg_unique_prfil').'</font>'));
+		$this->form_validation->set_rules('CODE_PROFIL','','trim|required|is_unique[profil.CODE_PROFIL]',array('required'=>'<font style="color:red;font-size:15px;">*'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('msg_unique_code').'</font>'));
 
-		$this->form_validation->set_rules('ROLE','','required',array('required'=>'<font style="color:red;font-size:15px;">*Ce champs est obligatoire</font>'));
+		$this->form_validation->set_rules('ROLE','','required',array('required'=>'<font style="color:red;font-size:15px;">*'.lang('msg_validation').'</font>'));
 
 		if($this->form_validation->run()==TRUE)
 		{
@@ -240,7 +240,7 @@ class Profil extends CI_Controller
 			);
 			$table='profil';
 			$this->Model->create($table,$data_prof);
-			$data['message']='<div class="alert alert-success text-center" id="message">'."L'ajout a été effectué avec succès".'</div>';
+			$data['message']='<div class="alert alert-success text-center" id="message">'.lang('ajout_success').'</div>';
 			$this->session->set_flashdata($data);
 			redirect(base_url('administration/Profil/index'));
 

@@ -126,22 +126,22 @@
 				';
 
 				$option .= "<li class='btn-md'>
-				<a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><i class='bi bi-pencil h5'></i>&nbsp;&nbsp;Modifier</a>
+				<a class='btn-md' href='" . base_url('chauffeur/Chauffeur/getOne/'. $row->CHAUFFEUR_ID) . "'><i class='bi bi-pencil h5'></i>&nbsp;&nbsp;".lang('btn_modifier')."</a>
 				</li>";
 
-				$option.= "<li class='btn-md'><a class='btn-md' href='".base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID))."' ><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;Détails</a></li>";
+				$option.= "<li class='btn-md'><a class='btn-md' href='".base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID))."' ><i class='bi bi-info-square h5' ></i>&nbsp;&nbsp;".lang('btn_detail')."</a></li>";
 
 
 				if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 				{
-					$option.='<li class="btn-md"><a class="btn-md" href="'.base_url('chauffeur/Chauffeur/affecter_chauff/'.$row->CHAUFFEUR_ID).'"><i class="bi bi-plus h5" ></i>&nbsp;&nbsp;Affecter le chauffeur</a></li>';
+					$option.='<li class="btn-md"><a class="btn-md" href="'.base_url('chauffeur/Chauffeur/affecter_chauff/'.$row->CHAUFFEUR_ID).'"><i class="bi bi-plus h5" ></i>&nbsp;&nbsp;'.lang('chauffeur_affecter').'</a></li>';
 					
 				}
 				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
 				{
-					$option .= "<li class='btn-md'><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;&nbsp;&nbsp;Retirer&nbsp;voiture</a></li>";
+					$option .= "<li class='btn-md'><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;&nbsp;&nbsp;".lang('btn_retirer_veh')."</a></li>";
 
-					$option.='<li class="btn-md"><a class="btn-md" href="#" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
+					$option.='<li class="btn-md"><a class="btn-md" href="#" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;'.lang('btn_modif_affect').'</a></li>';
 
 				}
 				if($row->IS_ACTIVE==1){
@@ -190,9 +190,9 @@
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
-				<center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
+				<center><h5>".lang('msg_retirer_veh')." <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
 				<div class='modal-footer'>
-				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
+				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >".lang('btn_retirer')."</a>
 				</div>
 				</div>
 				</div>
@@ -210,7 +210,7 @@
 
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Détails du chauffeur&nbsp;&nbsp;" .$row->NOM." "." ".$row->PRENOM."</h6>
+					<h6 class='modal-title'>".lang('dtl_chauffeur')."&nbsp;&nbsp;" .$row->NOM." "." ".$row->PRENOM."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -222,35 +222,35 @@
 					<div class='table-responsive'>
 					<table class='table table-borderless'>
 					<tr>
-					<td><label class='fa fa-book'></label> Carte d'identité</td>
+					<td><label class='fa fa-book'></label> ".lang('carte_identite')."</td>
 					<th>".$row->NUMERO_CARTE_IDENTITE."</th>
 					</tr>
 
 					<tr>
-					<td><label class='fa fa-envelope-o '></label>  Email</td>
+					<td><label class='fa fa-envelope-o '></label>  ".lang('input_email')."</td>
 					<th>".$row->ADRESSE_MAIL."</th>
 					</tr>
 					<tr>
-					<td><label class='fa fa-phone'></label> Téléphone</td>
+					<td><label class='fa fa-phone'></label> ".lang('input_tlphone')."</td>
 					<th>".$row->NUMERO_TELEPHONE."</th>
 					</tr>
 
 					<tr>
-					<td><label class='fa fa-calendar '></label> Date naissance</td>
+					<td><label class='fa fa-calendar '></label> ".lang('dte_naiss')."</td>
 					<th>".$row->DATE_NAISSANCE."</th>
 					</tr>
 
 					<tr>
-					<td><label class='fa fa-map-marker'></label> Adresse physique</td>
+					<td><label class='fa fa-map-marker'></label> ".lang('input_adresse')."</td>
 					<th>".$row->ADRESSE_PHYSIQUE."</th>
 					</tr>
 					<tr>
-					<td><label class='fa fa-map-marker'></label> Localité</td>
+					<td><label class='fa fa-map-marker'></label> ".lang('td_localite')."</td>
 					<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
 					</tr>
 
 					<tr>
-					<td><label class='fa fa-info'></label> Information&nbsp;véhicule</td>
+					<td><label class='fa fa-info'></label> ".lang('info_vehicule_veh')."</td>
 					<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
 					</tr>
 					</table>
@@ -258,18 +258,18 @@
 
 
 					<div class='row'>
-					<label><strong>Documents</strong></label>
+					<label><strong>".lang('btn_doc')."</strong></label>
 					<div class='col-md-5'>
 					<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
 					</a><br>
-					<label>CNI</label>
+					<label>".lang('mot_cni')."</label>
 					</div>
 
 					<div class='col-md-7'>
 					<a href='#'data-toggle='modal' data-target='#info_documa2".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='50%' width='50%' >
 					</a><br>
 
-					<label>Permis de conduire</label>
+					<label>".lang('mot_permis_conduire')."</label>
 					</div>
 					</div>    
 
@@ -286,7 +286,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Carte d'identité</h6>
+					<h6 class='modal-title'>".lang('mot_ident_carte')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -307,7 +307,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Permis de conduire</h6>
+					<h6 class='modal-title'>".lang('mot_permis_conduire')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -331,7 +331,7 @@
 
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Détails du chauffeur:" .$row->NOM." "." ".$row->PRENOM."</h6>
+					<h6 class='modal-title'>".lang('dtl_chauffeur').":" .$row->NOM." "." ".$row->PRENOM."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -343,39 +343,39 @@
 					<div class='table-responsive'>
 					<table class='table table-borderless'>
 					<tr>
-					<td ><label class='fa fa-book'></label> Carte d'identité</td>
+					<td ><label class='fa fa-book'></label> ".lang('carte_identite')."</td>
 					<th> ".$row->NUMERO_CARTE_IDENTITE."</th>
 					</tr>
 
 					<tr>
-					<td><label class='fa fa-envelope-o '></label> Email</td>
+					<td><label class='fa fa-envelope-o '></label> ".lang('input_email')."</td>
 					<th>".$row->ADRESSE_MAIL."</th>
 					</tr>
 
 					<tr>
-					<td><label class='fa fa-phone'></label> Téléphone</td>
+					<td><label class='fa fa-phone'></label> ".lang('input_tlphone')."</td>
 					<th>".$row->NUMERO_TELEPHONE."</th>
 					</tr>
 
 					<tr>
-					<td><label class='fa fa-calendar '></label> Date naissance</td>
+					<td><label class='fa fa-calendar '></label> ".lang('dte_naiss')."</td>
 					<th>".$row->DATE_NAISSANCE."</th>
 					</tr>
 					</table>
 
 					<div class='row'>
-					<label><strong>Documents</strong></label>
+					<label><strong>".lang('btn_doc')."</strong></label>
 					<div class='col-md-5'>
 					<a href='#'data-toggle='modal' data-target='#info_documa".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_CARTE_IDENTITE)."' height='50%' width='50%' >
 					</a><br>
-					<label>CNI</label>
+					<label>".lang('mot_cni')."</label>
 					</div>
 
 					<div class='col-md-7'>
 					<a href='#'data-toggle='modal' data-target='#info_documa2".$row->CHAUFFEUR_ID."'><img src = '".base_url('upload/chauffeur/'.$row->FILE_PERMIS)."' height='50%' width='50%' >
 					</a><br>
 
-					<label>Permis de conduire</label>
+					<label>".lang('mot_permis_conduire')."</label>
 					</div>
 					</div>  
 
@@ -391,7 +391,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'> Carte d'identité</h6>
+					<h6 class='modal-title'> ".lang('mot_ident_carte')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -411,7 +411,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Permis de conduire</h6>
+					<h6 class='modal-title'>".lang('mot_permis_conduire')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -442,7 +442,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Détails du véhicule</h6>
+					<h6 class='modal-title'>".lang('dtl_veh')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -454,22 +454,22 @@
 					<table class='table table-borderless table-hover text-dark'>
 
 					<tr>
-					<td>Marque
+					<td>".lang('label_marque')."</td>
 					<th>".$info_vehicul['DESC_MARQUE']."</th>
 					</tr>
 
 					<tr>
-					<td>Modèle</td>
+					<td>".lang('label_modele')."</td>
 					<th>".$info_vehicul['DESC_MODELE']."</th>
 					</tr>
 
 					<tr>
-					<td>Couleur</td>
+					<td>".lang('label_couleur')."</td>
 					<th>".$info_vehicul['COULEUR']."</th>
 					</tr>
 
 					<tr>
-					<td>Plaque</td>
+					<td>".lang('label_plaque')."</td>
 					<th>".$info_vehicul['PLAQUE']."</th>
 					</tr>
 					</table>
@@ -567,7 +567,7 @@
 		function get_communes($ID_PROVINCE=0)
 		{
 			$communes = $this->Model->getRequete('SELECT `COMMUNE_ID`, `COMMUNE_NAME` FROM `communes` WHERE PROVINCE_ID='.$ID_PROVINCE.' ORDER BY COMMUNE_NAME ASC');
-			$html='<option value="">---sélectionner---</option>';
+			$html='<option value="">---'.lang('selectionner').'---</option>';
 			foreach ($communes as $key)
 			{
 				$html.='<option value="'.$key['COMMUNE_ID'].'">'.$key['COMMUNE_NAME'].'</option>';
@@ -579,7 +579,7 @@
 		function get_zones($ID_COMMUNE=0)
 		{
 			$zones = $this->Model->getRequete('SELECT `ZONE_ID`, `ZONE_NAME` FROM `zones` WHERE COMMUNE_ID='.$ID_COMMUNE.' ORDER BY ZONE_NAME ASC');
-			$html='<option value="">---sélectionner---</option>';
+			$html='<option value="">---'.lang('selectionner').'---</option>';
 			foreach ($zones as $key)
 			{
 				$html.='<option value="'.$key['ZONE_ID'].'">'.$key['ZONE_NAME'].'</option>';
@@ -591,7 +591,7 @@
 		function get_collines($ID_ZONE=0)
 		{
 			$collines = $this->Model->getRequete('SELECT `COLLINE_ID`, `COLLINE_NAME` FROM `collines` WHERE ZONE_ID='.$ID_ZONE.' ORDER BY COLLINE_NAME ASC');
-			$html='<option value="">---sélectionner---</option>';
+			$html='<option value="">---'.lang('selectionner').'---</option>';
 			foreach ($collines as $key)
 			{
 				$html.='<option value="'.$key['COLLINE_ID'].'">'.$key['COLLINE_NAME'].'</option>';
@@ -634,7 +634,7 @@
 	function get_all_voiture()
 	{
 		$all_voiture = $this->Model->getRequete("SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule.ID_MODELE=vehicule_modele.ID_MODELE WHERE 1 AND vehicule.STATUT=1");
-		$html='<option value="">--- Sélectionner ----</option>';
+		$html='<option value="">--- '.lang('selectionner').' ----</option>';
 		if(!empty($all_voiture))
 		{
 			foreach($all_voiture as $key)
@@ -826,7 +826,7 @@
 		$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID'],'STATUT_AFFECT'=>1),array('STATUT_AFFECT'=>2));
 
 		
-		$data['message'] = '<div class="alert alert-success text-center" id="message">' . " Vous avez bien retiré la voiture" . '</div>';
+		$data['message'] = '<div class="alert alert-success text-center" id="message">' . lang('msg_retrait_veh_success') . '</div>';
 		$this->session->set_flashdata($data);
 		redirect(base_url('chauffeur/Chauffeur'));
 
@@ -865,43 +865,43 @@
 	function add()
 	{
 		$table ='chauffeur';
-		$this->form_validation->set_rules('nom','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('prenom','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('adresse_physique','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('numero_telephone','','trim|required|is_unique[chauffeur.numero_telephone]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le téléphone doit être unique</font>'));
+		$this->form_validation->set_rules('nom','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('prenom','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('adresse_physique','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('numero_telephone','','trim|required|is_unique[chauffeur.numero_telephone]',array('required'=>'<font style="color:red;font-size:15px;">'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('unique_veh').'</font>'));
     	// Gestion numero carte d'identite doit etre unique
-		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required|is_unique[chauffeur.NUMERO_CARTE_IDENTITE]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le numéro doit être unique</font>'));
+		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required|is_unique[chauffeur.NUMERO_CARTE_IDENTITE]',array('required'=>'<font style="color:red;font-size:15px;">'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('unique_numero').'</font>'));
 			// Gestion nmail qui doit etre unique
-		$this->form_validation->set_rules('adresse_email','','trim|required|is_unique[chauffeur.ADRESSE_MAIL]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le mail doit être unique</font>'));
-		$this->form_validation->set_rules('CONFIRMATION_EMAIL','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('personne_contact_telephone','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('adresse_email','','trim|required|is_unique[chauffeur.ADRESSE_MAIL]',array('required'=>'<font style="color:red;font-size:15px;">'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('unique_mail').'</font>'));
+		$this->form_validation->set_rules('CONFIRMATION_EMAIL','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('personne_contact_telephone','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('NUMERO_PERMIS','','trim|required|is_unique[chauffeur.NUMERO_PERMIS]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le permis doit être unique</font>'));
-		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('NUMERO_PERMIS','','trim|required|is_unique[chauffeur.NUMERO_PERMIS]',array('required'=>'<font style="color:red;font-size:15px;">'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('unique_permis').'</font>'));
+		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
 
-		$this->form_validation->set_rules('date_naissance','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('date_expiration','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('GENRE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('date_naissance','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('date_expiration','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('GENRE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
 		if(!isset($_FILES['fichier_carte_identite']) || empty($_FILES['fichier_carte_identite']['name']))
 		{
-			$this->form_validation->set_rules('fichier_carte_identite',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+			$this->form_validation->set_rules('fichier_carte_identite',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		}
 
 		if(!isset($_FILES['photo_passport']) || empty($_FILES['photo_passport']['name']))
 		{
-			$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+			$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		}
 		if(!isset($_FILES['file_permis']) || empty($_FILES['file_permis']['name']))
 		{
-			$this->form_validation->set_rules('file_permis',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+			$this->form_validation->set_rules('file_permis',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		}
 
 		if($this->form_validation->run() == FALSE)
@@ -940,7 +940,7 @@
 			{
 
 
-				$data['message']='<div class="alert alert-success text-center" id="message">Ajout effectuer avec succès</div>';
+				$data['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_enreg_ft_success').'</div>';
 				$this->session->set_flashdata($data);
 				redirect(base_url('chauffeur/Chauffeur/index'));
 			}
@@ -976,15 +976,15 @@
 		$id = $this->input->post('CHAUFFEUR_ID');
 		//print_r($id);exit();
 
-		$this->form_validation->set_rules('NOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('PRENOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('ADRESSE_PHYSIQUE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('NUMERO_TELEPHONE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('NOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('PRENOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('ADRESSE_PHYSIQUE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('NUMERO_TELEPHONE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
 		$FILE_CARTE_IDENTITE = $this->input->post('FILE_CARTE_IDENTITE_OLD');
 		if(empty($_FILES['FILE_CARTE_IDENTITE']['name']))
@@ -1039,7 +1039,7 @@
 				'PHOTO_PASSPORT' => $file3
 			);
 			$this->Model->update('chauffeur', array('CHAUFFEUR_ID' => $id), $Array);
-			$datas['message'] = '<div class="alert alert-success text-center" id="message">La modification s\'est faite avec succès</div>';
+			$datas['message'] = '<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif').'</div>';
 			$this->session->set_flashdata($datas);
 			redirect(base_url('chauffeur/Chauffeur/index'));
 		}

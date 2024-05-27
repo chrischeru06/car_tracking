@@ -225,10 +225,10 @@ font-family: 'Open Sans', sans-serif;
     <div class="row">
       <div class="col-md-6">
 
-        <h1>Résumé du parcours</h1>
+        <h1><?=lang('resum_du_parcours')?></h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Chauffeur</a></li>
+            <li class="breadcrumb-item"><a href="#"><?=lang('p_chauffeur')?></a></li>
             <!-- <li class="breadcrumb-item active">Liste</li> -->
           </ol>
         </nav>
@@ -239,7 +239,7 @@ font-family: 'Open Sans', sans-serif;
       </div>
       <div class="col-md-3">
         <div class="justify-content-sm-end d-flex">
-          <h1>Estimation&nbsp;parcours</h1>
+          <h1><?=lang('estimation_parcours')?></h1>
           
         </div>
       </div>
@@ -247,17 +247,17 @@ font-family: 'Open Sans', sans-serif;
   </div><!-- End Page Title -->
   <div class="row">
     <div class="form-group col-md-3">
-      <label class="form-label">Date début</label>
+      <label class="form-label"><?=lang('input_date_deb')?></label>
       <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" name="DATE_DAT" id="DATE_DAT" value="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" onchange="change_carte();viderh();">
     </div>
     <div class="form-group col-md-3">
-      <label class="form-label">Date fin</label>
+      <label class="form-label"><?=lang('input_date_fin')?></label>
       <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" onchange="change_carte();">
     </div>
     <div class="form-group col-md-3">
-      <label class="form-label">Heure début</label>
+      <label class="form-label"><?=lang('hrs_dbut')?></label>
       <select class="form-control" name="HEURE1" id="HEURE1">
-        <option value="">Séléctionner</option>
+        <option value=""><?=lang('selectionner')?></option>
         <?php
         foreach ($heure_trajet as $key_heure_trajet)
         {
@@ -272,9 +272,9 @@ font-family: 'Open Sans', sans-serif;
 
 
     <div class="form-group col-md-3">
-      <label class="form-label">Heure fin</label>
+      <label class="form-label"><?=lang('hrs_fin')?></label>
       <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
-        <option value="">Séléctionner</option>
+        <option value=""><?=lang('selectionner')?></option>
         <?php
         foreach ($heure_trajet as $key_heure_trajet)
         {
@@ -297,7 +297,7 @@ font-family: 'Open Sans', sans-serif;
 
         <div class="card">
           <div class="card-body">
-            <center><h5 class="card-title">Informations générales</h5></center>
+            <center><h5 class="card-title"><?=lang('btn_info_gnl')?></h5></center>
             <div class="row">
               <!-- <div class="col-lg-3">
               </div> -->
@@ -338,7 +338,7 @@ font-family: 'Open Sans', sans-serif;
 
                       <?php
                     }else{?>
-                      <p class="profil-name" style="color: red;" title="Pas de chauffeur affecté à ce véhicule!"> Pas de chauffeur affecté à cette voiture!
+                      <p class="profil-name" style="color: red;" title="<?=lang('chauf_non_affect')?>"> <?=lang('chauf_non_affect')?>
                       </p>
 
                       <?php
@@ -397,7 +397,7 @@ font-family: 'Open Sans', sans-serif;
           <div class="col-md-3">
             <div class="card" style="">
               <div class="card-body">
-                <h5 class="card-title" style="font-size:.8rem;">Distance parcourue <span style="font-size:.6rem;">| Km</span></h5>
+                <h5 class="card-title" style="font-size:.8rem;"><?=lang('dist_parcourue')?> <span style="font-size:.6rem;">| Km</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle" >
@@ -416,14 +416,14 @@ font-family: 'Open Sans', sans-serif;
 
             <div class="card" style="border-radius: 10%">
               <div class="card-body">
-                <h5 class="card-title" style="font-size:.8rem;">Carburant <span style="font-size:.6rem;">| consommé</span></h5>
+                <h5 class="card-title" style="font-size:.8rem;"><?=lang('carburant_mot')?> <span style="font-size:.6rem;">| <?=lang('consomme_mot')?></span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle">
                     <img style="background-color: #829b35;" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
                   </div>
                   <div class="ps-3">
-                    <h6><span class="text-success small pt-1 fw-bold"> <a id="carburant"></a> litres</span></h6>
+                    <h6><span class="text-success small pt-1 fw-bold"> <a id="carburant"></a> <?=lang('litre_mot')?></span></h6>
 
 
                   </div>
@@ -437,7 +437,7 @@ font-family: 'Open Sans', sans-serif;
 
             <div class="card" style="border-radius: 10%">
               <div class="card-body">
-                <h5 class="card-title" style="font-size:.8rem;">Vitesse <span style="font-size:.6rem;">| Max</span></h5>
+                <h5 class="card-title" style="font-size:.8rem;"><?=lang('vitesse_max')?> <span style="font-size:.6rem;">| Max</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle">
@@ -492,7 +492,7 @@ font-family: 'Open Sans', sans-serif;
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <center><h6 class="card-title">Trajet parcouru</h6></center>
+          <center><h6 class="card-title"><?=lang('trajet_parcouru')?></h6></center>
           <div id="map_filtre" ></div>
 
         </div>
@@ -545,7 +545,7 @@ font-family: 'Open Sans', sans-serif;
     },
     error: function (jqXHR, textStatus, errorThrown)
     {
-      alert('Erreur');
+      alert('<?=lang('msg_erreur')?>');
     }
   });
  }

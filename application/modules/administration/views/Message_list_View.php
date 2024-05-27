@@ -23,8 +23,8 @@
           <h1>Messages</h1>
           <nav>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Messages</a></li>
-              <li class="breadcrumb-item active">Liste</li>
+              <li class="breadcrumb-item"><a href="index.html"><?=lang('titre_msg')?></a></li>
+              <li class="breadcrumb-item active"><?=lang('title_list')?></li>
             </ol>
           </nav>
         </div>
@@ -32,7 +32,7 @@
         <div class="col-md-6">
 
           <div class="justify-content-sm-end d-flex">
-            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('administration/Message/index/'.$USER_ID.'')?>"><i class="bi bi-plus h5"></i> Nouveau message</a>
+            <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('administration/Message/index/'.$USER_ID.'')?>"><i class="bi bi-plus h5"></i> <?=lang('nveau_msg')?></a>
           </div>
         </div>
         <?php 
@@ -59,9 +59,9 @@
                     <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="text-dark">#</th>
-                        <th class="text-dark">UTILISATEUR</th>
-                        <th class="text-dark">TELEPHONE</th>
-                        <th class="text-dark"><center>NOUVEAU&nbsp;MESSAGE</center></th>
+                        <th class="text-dark"><?=lang('util_list')?></th>
+                        <th class="text-dark"><?=lang('th_tlphone')?></th>
+                        <th class="text-dark"><center><?=lang('nveau_msg_esp')?></center></th>
                         <!-- <th class="text-dark">ACTIONS</th> -->
                         
                       </tr>

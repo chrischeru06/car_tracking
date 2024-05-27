@@ -40,7 +40,7 @@
     </div>
     <div class="col-md-2">
 
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Liste</a>
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('chauffeur/Chauffeur')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('title_list')?></a>
 
     </div>
   </div>
@@ -65,21 +65,21 @@
 
                   <div class="row">
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Nom <font color="red">*</font></label>
-                      <input type="text" name="nom" autocomplete="off" id="nom" value="<?= set_value('nom') ?>"  class="form-control">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_nom')?> <font color="red">*</font></label>
+                      <input type="text" name="nom" autocomplete="off" id="nom" value="<?= set_value('nom') ?>"  class="form-control" placeholder="<?=lang('input_nom')?>">
                       <font id="error_nom" color="red"></font>
                       <?php echo form_error('nom', '<div class="text-danger">', '</div>'); ?>
                     </div>
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Prénom <font color="red">*</font></label>
-                      <input type="text" name="prenom" autocomplete="off" id="prenom" value="<?= set_value('prenom') ?>"  class="form-control">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_prenom')?> <font color="red">*</font></label>
+                      <input type="text" name="prenom" autocomplete="off" id="prenom" value="<?= set_value('prenom') ?>"  class="form-control" placeholder="<?=lang('input_prenom')?>">
                       <font id="error_prenom" color="red"></font>
                       <?php echo form_error('prenom', '<div class="text-danger">', '</div>'); ?>
                     </div>
 
                     <div class="col-md-4">
-                      <label for="date_naissance" class="text-dark" style="font-weight: 1000; color:#454545">Date de naissance <font color="red">*</font></label>
+                      <label for="date_naissance" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('date_naissance')?> <font color="red">*</font></label>
                       <input type="date" name="date_naissance" autocomplete="off" id="date_naissance" value="<?= set_value('date_naissance') ?>"  class="form-control" onchange="verif_date();" max="<?= date('Y-m-d')?>">
 
                       <font id="error_date_naissance" color="red"></font>
@@ -87,9 +87,9 @@
                     </div><br><br><br>
 
                     <div class="col-md-4">
-                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Genre <font color="red">*</font></label>
+                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('mot_genre')?> <font color="red">*</font></label>
                       <select class="form-control" name="GENRE_ID" id="GENRE_ID">
-                       <option value="">---Sélectionner---</option>
+                       <option value="">---<?=lang('selectionner')?>---</option>
                        <?php 
                        foreach ($type_genre as $value) 
                        {
@@ -111,35 +111,35 @@
                  
 
                   <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Adresse/rue <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_adresse')?> / <?=lang('mot_rue')?> <font color="red">*</font></label>
                     <input type="text" name="adresse_physique" autocomplete="off" id="adresse_physique" value="<?= set_value('adresse_physique') ?>"  class="form-control">
                     <font id="error_adresse_physique" color="red"></font>
                     <?php echo form_error('adresse_physique', '<div class="text-danger">', '</div>'); ?>
                   </div>
 
                   <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro de téléphone <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_tlphone')?> <font color="red">*</font></label>
                     <input type="text" name="numero_telephone" autocomplete="off" id="numero_telephone" value="<?= set_value('numero_telephone') ?>"  class="form-control">
                     <font id="error_numero_telephone" color="red"></font>
                     <?php echo form_error('numero_telephone', '<div class="text-danger">', '</div>'); ?> 
                   </div><br><br><br>
 
                   <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Adresse email<font color="red">*</font></label>
-                    <input type="text" name="adresse_email" id="adresse_email" value="<?= set_value('adresse_email') ?>"  class="form-control">
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_email')?><font color="red">*</font></label>
+                    <input type="text" name="adresse_email" id="adresse_email" value="<?= set_value('adresse_email') ?>"  class="form-control" placeholder="<?=lang('input_email')?>">
                     <font id="error_adresse_email" color="red"></font>
                     <?php echo form_error('adresse_email', '<div class="text-danger">', '</div>'); ?>
                   </div>
 
                   <div class="col-md-4">
-                    <label class="text-dark" style="font-weight: 1000; color:#454545">Confirmation du mail<font color="red">*</font></label>
+                    <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_conf_mail')?><font color="red">*</font></label>
                     <input type="text" name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL" value="<?=set_value('CONFIRMATION_EMAIL') ?>"  class="form-control" onpaste="return false;">
                     <font id="error_CONFIRMATION_EMAIL" color="red"></font>
                     <?php echo form_error('CONFIRMATION_EMAIL', '<div class="text-danger">', '</div>'); ?>
                   </div>
 
                   <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro carte d'identité <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_identite')?> <font color="red">*</font></label>
                     <input type="text" name="NUMERO_CARTE_IDENTITE" autocomplete="off" 
                     id="NUMERO_CARTE_IDENTITE" value="<?= set_value('NUMERO_CARTE_IDENTITE') ?>"  class="form-control">
                     <font id="error_NUMERO_CARTE_IDENTITE" color="red"></font>
@@ -147,7 +147,7 @@
                   </div><br><br><br>
 
                   <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro de la personne de contact</label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_prsonne_contact')?></label>
                     <input type="text" name="personne_contact_telephone" autocomplete="off" 
                     id="personne_contact_telephone" value="<?= set_value('personne_contact_telephone') ?>"  class="form-control">
                     <font id="error_personne_contact_telephone" color="red"></font>
@@ -155,9 +155,9 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Province <font color="red">*</font></label>
+                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_province')?> <font color="red">*</font></label>
                     <select class="form-control" name="PROVINCE_ID" id="PROVINCE_ID" onchange="get_communes();">
-                      <option selected value="">---Sélectionner---</option>
+                      <option selected value="">---<?=lang('selectionner')?>---</option>
 
                       <?php
                       foreach ($provinces as $value)
@@ -173,9 +173,9 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Commune <font color="red">*</font></label>
+                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_commune')?> <font color="red">*</font></label>
                     <select class="form-control" name="COMMUNE_ID" id="COMMUNE_ID" onchange="get_zones();" > 
-                      <option selected value="">--Sélectionner--</option>
+                      <option selected value="">--<?=lang('selectionner')?>--</option>
                       <?php
                       foreach($communes as $key)
                       { 
@@ -195,9 +195,9 @@
                   </div><br><br><br>
 
                   <div class="col-md-4">
-                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Zone <font color="red">*</font></label>
+                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_zone')?> <font color="red">*</font></label>
                     <select class="form-control" name="ZONE_ID" id="ZONE_ID" onchange="get_collines();">
-                      <option value="<?= set_value('ZONE_ID') ?>">---Sélectionner---</option>
+                      <option value="<?= set_value('ZONE_ID') ?>">---<?=lang('selectionner')?>---</option>
                       <?php
                       foreach($zones as $key)
                       { 
@@ -217,9 +217,9 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545">Colline <font color="red">*</font></label>
+                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_colline')?> <font color="red">*</font></label>
                     <select class="form-control" name="COLLINE_ID" id="COLLINE_ID">
-                      <option value="<?= set_value('COLLINE_ID') ?>">---Sélectionner---</option>
+                      <option value="<?= set_value('COLLINE_ID') ?>">---<?=lang('selectionner')?>---</option>
                       <?php
                       foreach($collines as $key)
                       { 
@@ -238,7 +238,7 @@
                     <?php echo form_error('COLLINE_ID', '<div class="text-danger">', '</div>'); ?>
                   </div>
                        <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Numéro permis de conduire <font color="red">*</font></label>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_permis_conduire')?> <font color="red">*</font></label>
                     <input type="text" name="NUMERO_PERMIS" autocomplete="off" 
                     id="NUMERO_PERMIS" value="<?= set_value('NUMERO_PERMIS') ?>"  class="form-control">
                     <font id="error_NUMERO_PERMIS" color="red"></font>
@@ -246,8 +246,8 @@
                   </div>
 
                   <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Carte&nbsp; d'identité&nbsp; (.png,.PNG,.jpg,.JPG,.JEPG,.jepg)<font color="red">*</font></label>
-                    <input type="file" name="fichier_carte_identite" autocomplete="off" id="fichier_carte_identite" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" value="<?= set_value('fichier_carte_identite') ?>"  class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('carte_identite')?> (.png,.jpg,.jepg)<font color="red">*</font></label>
+                    <input type="file" name="fichier_carte_identite" autocomplete="off" id="fichier_carte_identite" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" value="<?= set_value('fichier_carte_identite') ?>"  class="form-control" title='<?=lang('title_file')?>'>
                     <font id="error_fichier_carte_identite" color="red"></font>
                     <?php echo form_error('fichier_carte_identite', '<div class="text-danger">', '</div>'); ?> 
                   </div><br><br><br>
@@ -263,19 +263,19 @@
                     <div class="col-md-4">
                     <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo permis de&nbsp;conduire (.png,.PNG,.jpg,.JPG,.JEPG,.jepg)  <font color="red">*</font></label>
 
-                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="file_permis" autocomplete="off" id="file_permis" value="<?= set_value('file_permis') ?>"  class="form-control"title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="file_permis" autocomplete="off" id="file_permis" value="<?= set_value('file_permis') ?>"  class="form-control" title='<?=lang('title_file')?>'>
                     <font id="error_file_permis" color="red"></font>
                     <?php echo form_error('file_permis', '<div class="text-danger">', '</div>'); ?> 
                   </div>
 
                   <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Photo&nbsp;passport (.png,.PNG,.jpg,.JPG,.JEPG,.jepg) <font color="red">*</font></label>
-                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= set_value('photo_passport') ?>"  class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_photo_passport')?> (.png,.jpg,.jepg) <font color="red">*</font></label>
+                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_passport" autocomplete="off" id="photo_passport" value="<?= set_value('photo_passport') ?>"  class="form-control" title='<?=lang('title_file')?>'>
                     <font id="error_photo_passport" color="red"></font>
                     <?php echo form_error('photo_passport', '<div class="text-danger">', '</div>'); ?> 
                   </div><br><br><br><br>
                    <div class="col-md-4">
-                      <label for="date_expiration" class="text-dark" style="font-weight: 1000; color:#454545">Date expiration permis du conduire  <font color="red">*</font></label>
+                      <label for="date_expiration" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('dte_expiration_permis')?>  <font color="red">*</font></label>
                       <input type="date" name="date_expiration" autocomplete="off" id="date_expiration" value="<?= set_value('date_expiration') ?>"  class="form-control" >
 
                       <font id="error_date_expiration" color="red"></font>
@@ -286,7 +286,7 @@
                 </div>
               </form>
               <div class="col-md-12" style="margin-top:10px;">
-                <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span> Enregistrer</button>
+                <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span> <?=lang('btn_enregistrer')?></button>
               </div>
                   <!-- </div> -->
 
@@ -335,13 +335,13 @@
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
-            alert('Erreur');
+            alert('<?=lang('msg_erreur')?>');
           }
         });
       }
       else
       {
-        $('#ID_NOM').html('<option value="">-- Séléctionner --</option>');
+        $('#ID_NOM').html('<option value="">-- <?=lang('selectionner')?> --</option>');
       }
     }
   </script>
@@ -380,18 +380,18 @@
       if($('#nom').val()=='')
       {
         statut=2;
-        $('#error_nom').html('Le champ est obligatoire');
+        $('#error_nom').html('<?=lang('msg_validation')?>');
       }
 
       if($('#prenom').val()=='')
       {
         statut=2;
-        $('#error_prenom').html('Le champ est obligatoire');
+        $('#error_prenom').html('<?=lang('msg_validation')?>');
       }
        if($('#personne_contact_telephone').val()=='')
       {
         statut=2;
-        $('#error_personne_contact_telephone').html('Le champ est obligatoire!!!!');
+        $('#error_personne_contact_telephone').html('<?=lang('msg_validation')?>');
       }
       
 
@@ -399,109 +399,109 @@
       if($('#CONFIRMATION_EMAIL').val()=='')
       {
         statut=2;
-        $('#error_CONFIRMATION_EMAIL').html('Le champ est obligatoire');
+        $('#error_CONFIRMATION_EMAIL').html('<?=lang('msg_validation')?>');
       }
       
 
       if($('#numero_telephone').val()=='')
       {
         statut=2;
-        $('#error_numero_telephone').html('Le champ est obligatoire');
+        $('#error_numero_telephone').html('<?=lang('msg_validation')?>');
       }
 
         if($('#adresse_email').val()=='')
         {
           statut=2;
-          $('#error_adresse_email').html('Le champ est obligatoire');
+          $('#error_adresse_email').html('<?=lang('msg_validation')?>');
         }
       if($('#adresse_email').val()!='')
       {
         if(!emailReg.test($('#adresse_email').val()))
         {
-          $('#error_adresse_email').html('Email invalide!');
+          $('#error_adresse_email').html('<?=lang('msg_validation_mail')?>!');
           statut=2
         }
 
         if($('#CONFIRMATION_EMAIL').val()!=$('#adresse_email').val())
         {
           statut=2;
-          $('#error_CONFIRMATION_EMAIL').html('Les emails ne correspondent pas');
+          $('#error_CONFIRMATION_EMAIL').html('<?=lang('msg_validation_mail_correspondance')?>!');
         }
       }
 
       if($('#NUMERO_CARTE_IDENTITE').val()=='')
       {
         statut=2;
-        $('#error_NUMERO_CARTE_IDENTITE').html('Le champ est obligatoire');
+        $('#error_NUMERO_CARTE_IDENTITE').html('<?=lang('msg_validation')?>');
       }
       if($('#NUMERO_PERMIS').val()=='')
       {
         statut=2;
-        $('#error_NUMERO_PERMIS').html('Le champ est obligatoire');
+        $('#error_NUMERO_PERMIS').html('<?=lang('msg_validation')?>');
       }
 
       if($('#PROVINCE_ID').val()=='')
       {
         statut=2;
-        $('#error_prov').html('Le champ est obligatoire');
+        $('#error_prov').html('<?=lang('msg_validation')?>');
       }
 
       if($('#COMMUNE_ID').val()=='')
       {
         statut=2;
-        $('#error_com').html('Le champ est obligatoire');
+        $('#error_com').html('<?=lang('msg_validation')?>');
       }
 
       if($('#ZONE_ID').val()=='')
       {
         statut=2;
-        $('#error_zon').html('Le champ est obligatoire');
+        $('#error_zon').html('<?=lang('msg_validation')?>');
       }
 
       if($('#COLLINE_ID').val()=='')
       {
         statut=2;
-        $('#error_col').html('Le champ est obligatoire');
+        $('#error_col').html('<?=lang('msg_validation')?>');
       }
 
       if(fichier_carte_identite.files.length === 0)
       {
         statut=2;
-        $('#error_fichier_carte_identite').text("Le champ est obligatoire");
+        $('#error_fichier_carte_identite').text("<?=lang('msg_validation')?>");
       }
 
       if(file_permis.files.length === 0)
       {
         statut=2;
-        $('#error_file_permis').text("Le champ est obligatoire");
+        $('#error_file_permis').text("<?=lang('msg_validation')?>");
       }
 
       if(photopassport.files.length === 0)
       {
         statut=2;
-        $('#error_photo_passport').text("Le champ est obligatoire");
+        $('#error_photo_passport').text("<?=lang('msg_validation')?>");
       }
 
       if($('#date_naissance').val()==''){
         statut=2;
-        $('#error_date_naissance').text("Le champ est obligatoire");
+        $('#error_date_naissance').text("<?=lang('msg_validation')?>");
       }
 
       
       if($('#date_expiration').val()==''){
         statut=2;
-        $('#error_date_expiration').text("Le champ est obligatoire");
+        $('#error_date_expiration').text("<?=lang('msg_validation')?>");
       }
       
 
       if($('#GENRE_ID').val()==''){
         statut=2;
-        $('#error_genre').text("Le champ est obligatoire");
+        $('#error_genre').text("<?=lang('msg_validation')?>");
       }
 
       if($('#ETHNIE_ID').val()==''){
         statut=2;
-        $('#error_ethnie').text("Le champ est obligatoire");
+        $('#error_ethnie').text("<?=lang('msg_validation')?>");
       }
       if(statut==1)
       {
@@ -514,14 +514,14 @@
       var PROVINCE_ID=$('#PROVINCE_ID').val();
       if(PROVINCE_ID=='')
       {
-        $('#COMMUNE_ID').html('<option value="">---Sélectionner---</option>');
-        $('#ZONE_ID').html('<option value="">---Sélectionner---</option>');
-        $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+        $('#COMMUNE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+        $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+        $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
       }
       else
       {
-        $('#ZONE_ID').html('<option value="">---Sélectionner---</option>');
-        $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+        $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+        $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
         $.ajax(
         {
           url:"<?=base_url()?>chauffeur/Chauffeur/get_communes/"+PROVINCE_ID,
@@ -541,12 +541,12 @@
       var COMMUNE_ID=$('#COMMUNE_ID').val();
       if(COMMUNE_ID=='')
       {
-        $('#ZONE_ID').html('<option value="">---Sélectionner---</option>');
-        $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+        $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+        $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
       }
       else
       {
-        $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+        $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
         $.ajax(
         {
           url:"<?=base_url()?>chauffeur/Chauffeur/get_zones/"+COMMUNE_ID,
@@ -566,7 +566,7 @@
       var ZONE_ID=$('#ZONE_ID').val();
       if(ZONE_ID=='')
       {
-        $('#COLLINE_ID').html('<option value="">---Sélectionner---</option>');
+        $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
       }
       else
       {
@@ -682,7 +682,7 @@
         }
         else
         {
-          $('#error_numero_telephone').text('Numéro de téléphone est invalide ');
+          $('#error_numero_telephone').text('<?=lang('tel_invalide')?>');
           if($(this).val().length > 12)
           {
             $(this).val(this.value.substring(0,12));
@@ -698,7 +698,7 @@
         }
         else
         {
-          $('#error_numero_telephone').text('Invalide numéro de téléphone');
+          $('#error_numero_telephone').text('<?=lang('tel_invalide')?>');
         }        
       }
     });
@@ -723,7 +723,7 @@
         }
         else
         {
-          $('#error_personne_contact_telephone').text('Numéro de téléphone est invalide ');
+          $('#error_personne_contact_telephone').text('<?=lang('tel_invalide')?>');
           if($(this).val().length > 12)
           {
             $(this).val(this.value.substring(0,12));
@@ -740,7 +740,7 @@
         }
         else
         {
-          $('#error_personne_contact_telephone').text('Invalide numéro de téléphone');
+          $('#error_personne_contact_telephone').text('<?=lang('tel_invalide')?>');
         }        
       }
     });
@@ -763,7 +763,7 @@
 
               if(data < 18 )
           {
-            $('#error_date_naissance').text("Seulement l'âge supérieur ou égal à 18 est autorisé !");
+            $('#error_date_naissance').text("<?=lang('validation_age')?> !");
           }
           else
             {$('#error_date_naissance').text("");
