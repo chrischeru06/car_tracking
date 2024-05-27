@@ -133,7 +133,7 @@
 
                 <div class="col-md-4" id="div_fich_cni">
                   <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('input_cni_passeport')?> <font color="red">*</font></label>
-                  <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="FILE_CNI_PASSPORT" autocomplete="off" id="FILE_CNI_PASSPORT" value="<?= $proprietaire['FILE_CNI_PASSPORT'] ?>"  class="form-control">
+                  <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" title='<?=lang('title_file')?>' name="FILE_CNI_PASSPORT" autocomplete="off" id="FILE_CNI_PASSPORT" value="<?= $proprietaire['FILE_CNI_PASSPORT'] ?>"  class="form-control">
                   <input type="hidden"  name="FILE_CNI_PASSPORT_OLD" id="FILE_CNI_PASSPORT_OLD" value="<?=$proprietaire['FILE_CNI_PASSPORT']?>">
                   <font id="error_FILE_CNI_PASSPORT" color="red"></font>
                   <?php echo form_error('FILE_CNI_PASSPORT', '<div class="text-danger">', '</div>'); ?> 
@@ -311,7 +311,7 @@
                 <?php echo form_error('ADRESSE','<div class="text-danger">', '</div>'); ?>
               </div>
               <div class="col-md-4" id="div_photo">
-                <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('input_photo_passport')?> (.png,.jpg,.jepg) <font color="red">*</font></label>
+                <label for="FName" style="font-weight: 1000; color:#454545"><?=lang('input_photo_passport')?> <font color="red">*</font></label>
                 <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" title='<?=lang('title_file')?>' name="photo_passport" autocomplete="off" id="photo_passport" value="<?= $proprietaire['PHOTO_PASSPORT'] ?>"  class="form-control">
                 <input type="hidden"  name="photo_passport_old" id="photo_passport_old" value="<?=$proprietaire['PHOTO_PASSPORT']?>">
                 <font id="error_photo_passport" color="red"></font>

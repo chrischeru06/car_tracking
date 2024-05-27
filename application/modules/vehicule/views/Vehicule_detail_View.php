@@ -182,7 +182,7 @@
                   
                 </div> 
                 <div class="col-md-3">
-                  <font class="text-muted small" style="position:relative;top:15px;">Enregistré <?=lang('franc_date_il_ya')?> <b><?=$nbr_jours?></b> <?=lang('dashboard_veh_jrs')?> <?=lang('angl_date_il_ya')?></font>
+                  <font class="text-muted small" style="position:relative;top:15px;">Enregistré <?=lang('franc_date_il_ya')?> <b><?=$nbr_jours?></b> </font>
                 </div>
               </div>
 

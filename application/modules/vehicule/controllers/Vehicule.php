@@ -967,10 +967,14 @@
 			$data['infos_vehicule'] = $infos_vehicule;
 
 			//determination de nombre de jours qu'un vehicule a était enregistré
-			$date = date('Y-m-d',strtotime($infos_vehicule['DATE_SAVE']));
+			//$date = date('Y-m-d',strtotime($infos_vehicule['DATE_SAVE']));
+
 			$aujourdhui = date("Y-m-d");
-		      // print_r($date);die();
-			$nbr_jours = $this->NbJours($date, $aujourdhui);
+
+			// $nbr_jours = $this->NbJours($date, $aujourdhui);
+
+			$nbr_jours = $this->notifications->ago($infos_vehicule['DATE_SAVE'],$aujourdhui);
+
 			$data['nbr_jours'] = $nbr_jours;
 
 			$this->load->view('Vehicule_detail_View',$data);
