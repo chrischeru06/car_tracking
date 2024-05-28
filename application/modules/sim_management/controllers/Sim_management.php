@@ -26,7 +26,7 @@ class Sim_management extends CI_Controller
 	//la fonction index visualise la liste des devices enregistrés
 	function index()
 	{
-		$data['title'] = 'Liste';
+		$data['title'] = "".lang('title_list')."";
 		$this->load->view('Sim_management_liste_View',$data);
 	}
 
@@ -104,7 +104,7 @@ class Sim_management extends CI_Controller
 
 				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
-				<center title="Désactiver"><label class="switch"> 
+				<center title="'.lang('checkbox_desactiver').'"><label class="switch"> 
 
 
 				<input type="checkbox" id="myChecked" data-toggle="modal" data-target="#mystatut' . $row->DEVICE_ID. '" checked >
@@ -123,7 +123,7 @@ class Sim_management extends CI_Controller
 				<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
 
-				<center title="Activer"><label class="switch"> 
+				<center title="'.lang('btn_active').'"><label class="switch"> 
 				<input type="checkbox" id="myCheck" data-toggle="modal" data-target="#mystatut' . $row->DEVICE_ID. '" >
 				<span class="slider round"></span>
 				</label></center>
@@ -135,14 +135,14 @@ class Sim_management extends CI_Controller
 
 			if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
 			{
-				$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+				$sub_array[] = '<center><i class="fa fa-check text-success small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
 			}
 			else 
 			{
-				$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+				$sub_array[] = '<center><i class="fa fa-close text-danger small" title="'.lang('title_expire').'"></i><font class="text-danger small" title="'.lang('title_expire').'"> </font></center>';
 
 				$option .="<li class='btn-md'>
-				<a class='btn-md' onclick='renouvelerForfait(".$row->DEVICE_ID.")' style='cursor:pointer;'><span class='fa fa fa-rotate-right h2'></span>&nbsp;&nbsp;Renouveler méga</a>
+				<a class='btn-md' onclick='renouvelerForfait(".$row->DEVICE_ID.")' style='cursor:pointer;'><span class='fa fa fa-rotate-right h2'></span>&nbsp;&nbsp;".lang('renouveler_mga')."</a>
 				</li>";
 
 			}
@@ -150,30 +150,30 @@ class Sim_management extends CI_Controller
 			$sub_array[] = date('d-m-Y',strtotime($row->DATE_SAVE));
 
 			$option .="<li class='btn-md'>
-			<a class='btn-md' href='" . base_url('sim_management/Sim_management/ajouter/'.md5($row->DEVICE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;Modifier</a>
+			<a class='btn-md' href='" . base_url('sim_management/Sim_management/ajouter/'.md5($row->DEVICE_ID)) . "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;".lang('btn_modifier')."</a>
 			</li>";
 
 			$desc_button='';
 
 			if ($row->IS_ACTIVE == 1)
 			{
-				$desc_button='Désactiver';
+				$desc_button=''.lang('desactive_demande').'';
 
 				$option .="<li class='btn-md'>
-				<a class='btn-md' href=#'' data-toggle='modal' data-target='#mystatut" . $row->DEVICE_ID. "'><span class='fa fa-close text-danger h2'></span>&nbsp;&nbsp;Désactiver</a>
+				<a class='btn-md' href=#'' data-toggle='modal' data-target='#mystatut" . $row->DEVICE_ID. "'><span class='fa fa-close text-danger h2'></span>&nbsp;&nbsp;".lang('checkbox_desactiver')."</a>
 				</li>";
 			}
 			else if ($row->IS_ACTIVE == 2)
 			{
-				$desc_button='Activer';
+				$desc_button=''.lang('active_demande').'';
 
 				$option .="<li class='btn-md'>
-				<a class='btn-md' href=#'' data-toggle='modal' data-target='#mystatut" . $row->DEVICE_ID. "'><span class='fa fa-check text-success h2'></span>&nbsp;&nbsp;Activer</a>
+				<a class='btn-md' href='#' data-toggle='modal' data-target='#mystatut" . $row->DEVICE_ID. "'><span class='fa fa-check text-success h2'></span>&nbsp;&nbsp;".lang('btn_active')."</a>
 				</li>";
 			}
 
 			$option .="<li class='btn-md'>
-			<a class='btn-md' href='" . base_url('sim_management/Sim_management/get_historique/'.md5($row->DEVICE_ID)) . "'><span class='fa fa-rotate-left h2'></span>&nbsp;&nbsp;Historique</a>
+			<a class='btn-md' href='" . base_url('sim_management/Sim_management/get_historique/'.md5($row->DEVICE_ID)) . "'><span class='fa fa-rotate-left h2'></span>&nbsp;&nbsp;".lang('histo_titre')."</a>
 			</li>";
 
 			$option.="
@@ -183,17 +183,17 @@ class Sim_management extends CI_Controller
 			<div class='modal-content'>
 
 			<div class='modal-header' style='background:cadetblue;color:white;'>
-			<h6 class='modal-title'>Confirmation</h6>
+			<h6 class='modal-title'>".lang('confirmation_mot')."</h6>
 			<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
 			</div>
 
 			<div class='modal-body'>
-			<h5>Voulez-vous vraiment <strong>$desc_button</strong> le device ? </h5>
+			<h5>".lang('question_que')." <strong>$desc_button</strong> ".lang('le_device_mot')." ? </h5>
 
 			</div>
 			<div class='modal-footer'>
-			<a class='btn btn-outline-success rounded-pill btn-md' href='" . base_url('sim_management/Sim_management/change_status/'. md5($row->DEVICE_ID)) . "'>Oui</a>
-			<button class='btn btn-outline-danger rounded-pill btn-md' class='close' data-dismiss='modal' onclick='verif_check()'>Non</button>
+			<a class='btn btn-outline-success rounded-pill btn-md' href='" . base_url('sim_management/Sim_management/change_status/'. md5($row->DEVICE_ID)) . "'>".lang('mot_oui')."</a>
+			<button class='btn btn-outline-danger rounded-pill btn-md' class='close' data-dismiss='modal' onclick='verif_check()'>".lang('mot_non')."</button>
 			</div>
 			</div>
 			</div>
@@ -217,7 +217,7 @@ class Sim_management extends CI_Controller
 	function ajouter()
 	{
 		
-		$data['btn'] = "Enregistrer";
+		$data['btn'] = "".lang('btn_enregistrer')."";
 
 		$device = '';
 		$vehicule = '';
@@ -231,7 +231,7 @@ class Sim_management extends CI_Controller
 
 			$device = array('DEVICE_ID'=>NULL,'CODE'=>NULL,'VEHICULE_ID'=>NULL,'DATE_INSTALL'=>NULL,'OPERATEUR_ID'=>NULL,'NUMERO'=>NULL,'DATE_ACTIVE_MEGA'=>NULL,'DATE_EXPIRE_MEGA'=>NULL,'proprio_desc'=>NULL);
 
-			$data['title'] = 'Enregistrement d\'un device';
+			$data['title'] = ''.lang('titre_enreg_device').'';
 		}
 		else{  //Modification
 
@@ -243,7 +243,7 @@ class Sim_management extends CI_Controller
 
 			$device = $this->ModelPs->getRequeteOne($proce_requete, $device);
 
-			$data['title'] = 'Modification d\'un device';
+			$data['title'] = ''.lang('titre_modif_device').'';
 		}
 
 
@@ -387,13 +387,13 @@ class Sim_management extends CI_Controller
 				
 				if ($create)
 				{
-					$message['message']='<div class="alert alert-success text-center" id="message">Enregistrement device avec succès</div>';
+					$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_enreg_ft_success').'</div>';
 					$this->session->set_flashdata($message);
 					redirect(base_url('sim_management/Sim_management'));
 
 				}else
 				{
-					$message['message']='<div class="alert alert-danger text-center" id="message">Echec d\'enregistrement </div>';
+					$message['message']='<div class="alert alert-danger text-center" id="message">'.lang('echec_enregistrement').' </div>';
 					$this->session->set_flashdata($message);
 					redirect(base_url('sim_management/Sim_management'));
 
@@ -428,13 +428,13 @@ class Sim_management extends CI_Controller
 				
 				if ($update && $create)
 				{
-					$message['message']='<div class="alert alert-success text-center" id="message">Modification device avec succès</div>';
+					$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif').'</div>';
 					$this->session->set_flashdata($message);
 					redirect(base_url('sim_management/Sim_management'));
 
 				}else
 				{
-					$message['message']='<div class="alert alert-danger text-center" id="message">Echec de modification </div>';
+					$message['message']='<div class="alert alert-danger text-center" id="message">'.lang('msg_error_modif').' </div>';
 					$this->session->set_flashdata($message);
 					redirect(base_url('sim_management/Sim_management'));
 
@@ -507,7 +507,7 @@ class Sim_management extends CI_Controller
 			$desc_status='';
 			if($get_status['IS_ACTIVE']==1)
 			{
-				$desc_status='La désactivation';
+				$desc_status=''.lang('status_desactiv').'';
 				$this->Model->update('device', array('md5(DEVICE_ID)'=>$id),array('IS_ACTIVE'=>2));
 
 				// Enregistrement dans la table d'historique
@@ -522,7 +522,7 @@ class Sim_management extends CI_Controller
 			}
 			else
 			{
-				$desc_status="L'activation";
+				$desc_status="".lang('status_activ')."";
 
 				$this->Model->update('device', array('md5(DEVICE_ID)'=>$id),array('IS_ACTIVE'=>1));
 
@@ -538,7 +538,7 @@ class Sim_management extends CI_Controller
 
 			}
 
-			$data['message']='<div class="alert alert-success text-center" id="message">'."$desc_status".' '." du device faite avec succès ".'</div>';
+			$data['message']='<div class="alert alert-success text-center" id="message">'."$desc_status".' '.lang('succes_msg_activ_des').'</div>';
 			$this->session->set_flashdata($data);
 			redirect(base_url('sim_management/Sim_management/'));
 		}
@@ -636,11 +636,11 @@ class Sim_management extends CI_Controller
 					if(!empty($row->DATE_EXPIRE_MEGA)){
 						if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
 						{
-							$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+							$sub_array[] = '<center><i class="fa fa-check text-success small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
 						}
 						else 
 						{
-							$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+							$sub_array[] = '<center><i class="fa fa-close text-danger small" title="'.lang('title_expire').'"></i><font class="text-danger small" title="'.lang('title_expire').'"> </font></center>';
 						}
 					}
 					else{
@@ -733,7 +733,7 @@ class Sim_management extends CI_Controller
 				if($ID == 2) //Historique statut
 				{
 					if($row->IS_ACTIVE == 1){
-						$sub_array[] = '<center><i class="fa fa-check text-success  small" title="device activé"></i></center>';
+						$sub_array[] = '<center><i class="fa fa-check text-success  small" title="'.lang('title_device_activ').'"></i></center>';
 
 					// $sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
@@ -750,7 +750,7 @@ class Sim_management extends CI_Controller
 					}
 					else if($row->IS_ACTIVE == 2)
 					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="device désactivé"></i></center>';
+						$sub_array[] = '<center><i class="fa fa-close text-danger  small" title="'.lang('title_device_des').'"></i></center>';
 
 					// $sub_array[]=' <form enctype="multipart/form-data" name="myform_checked" id="myform_check" method="POST" class="form-horizontal">
 

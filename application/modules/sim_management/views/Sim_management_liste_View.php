@@ -116,17 +116,17 @@ input:checked + .slider:before {
           </div>
         </center>
       </div>-->
-      <h1><i class="fa fa-hdd-o" style="font-size:18px;"></i> <font>Devices</font></h1>
+      <h1><i class="fa fa-hdd-o" style="font-size:18px;"></i> <font><?=lang('device_mot')?></font></h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Devices</a></li>
-          <li class="breadcrumb-item ">Liste</li>
+          <li class="breadcrumb-item"><a href="index.html"><?=lang('device_mot')?></a></li>
+          <li class="breadcrumb-item "><?=lang('title_list')?></li>
         </ol>
       </nav>
     </div>
     <div class="col-md-2">
 
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('sim_management/Sim_management/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('sim_management/Sim_management/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
 
     </div>
   </div>
@@ -145,7 +145,7 @@ input:checked + .slider:before {
             <div class="card" style="border-radius: 20px;">
               <div class="card-body">
                 <br>
-                <label class="text-muted">Devices (<font id="nbr_device">0</font>) </label>
+                <label class="text-muted"><?=lang('device_mot')?> (<font id="nbr_device">0</font>) </label>
 
                 <?= $this->session->flashdata('message'); ?>
 
@@ -156,18 +156,18 @@ input:checked + .slider:before {
                       <tr>
                         <th class="">#</th>
 
-                        <th class="">CODE</th>
-                        <th class="">VIHICULE</th>
-                        <th class="">PROPRIETAIRE</th>
-                        <th class="">DATE&nbsp;INSTALLATION</th>
-                        <th class="">NOM&nbsp;RESEAU</th>
-                        <th class="">NUMERO</th>
-                        <th class="">DATE&nbsp;ACTIVATION&nbsp;FORFAIT</th>
-                        <th class="">DATE&nbsp;EXPIRATION&nbsp;FORFAIT</th>
-                        <th class="">STATUT</th>
-                        <th class="">VALIDITE</th>
-                        <th class="">DATE&nbsp;ENREGISTREMENT</th>
-                        <th class="">ACTION</th>
+                        <th class=""><?=lang('list_code')?></th>
+                        <th class=""><?=lang('veh_maj_mot')?></th>
+                        <th class=""><?=lang('th_proprio')?></th>
+                        <th class=""><?=lang('dte_install_list')?></th>
+                        <th class=""><?=lang('nom_reseau')?></th>
+                        <th class=""><?=lang('mot_numero')?></th>
+                        <th class=""><?=lang('dte_activ_th')?></th>
+                        <th class=""><?=lang('dte_expiration_th')?></th>
+                        <th class=""><?=lang('th_statut')?></th>
+                        <th class=""><?=lang('validation_val')?></th>
+                        <th class=""><?=lang('list_dte_enregistrement')?></th>
+                        <th class=""><?=lang('list_action')?></th>
                       </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -195,7 +195,7 @@ input:checked + .slider:before {
       <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>
 
-          <h5 class="modal-title" id="titre">Renouvèlement du forfait</h5>
+          <h5 class="modal-title" id="titre"><?=lang('modal_renouvlement')?></h5>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -207,7 +207,7 @@ input:checked + .slider:before {
 
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label ><small> Date activation forfait</small><span  style="color:red;">*</span></label>
+                    <label ><small> <?=lang('dte_activ_forfait')?></small><span  style="color:red;">*</span></label>
 
                     <input class="form-control" type='date' name="DATE_ACTIVE_MEGA" id="DATE_ACTIVE_MEGA" placeholder='' max="<?= date('Y-m-d')?>" onchange="get_date_expire();"/>
 
@@ -218,7 +218,7 @@ input:checked + .slider:before {
 
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label ><small> Date expiration forfait</small><span  style="color:red;">*</span></label>
+                    <label ><small> <?=lang('dte_expiration_forfait')?></small><span  style="color:red;">*</span></label>
 
                     <input class="form-control" type='date' name="DATE_EXPIRE_MEGA" id="DATE_EXPIRE_MEGA" placeholder='' readonly/>
 
@@ -231,9 +231,9 @@ input:checked + .slider:before {
             </div> 
             <div class="modal-footer">
 
-              <button type="button" class="btn btn-outline-primary rounded-pill" id="btnSave" onclick="save_forfait()"> <i class="fa fa-save"> </i> Enregistrer</button>
+              <button type="button" class="btn btn-outline-primary rounded-pill" id="btnSave" onclick="save_forfait()"> <i class="fa fa-save"> </i> <?=lang('btn_enregistrer')?></button>
 
-              <button type="reset" class='btn btn-outline-warning rounded-pill' style="float:right;" data-dismiss="modal" id="btnCancel"><i class="fa fa-close"> </i> Annuler</button>
+              <button type="reset" class='btn btn-outline-warning rounded-pill' style="float:right;" data-dismiss="modal" id="btnCancel"><i class="fa fa-close"> </i> <?=lang('btn_annuler')?></button>
 
             </div>
           </form>
@@ -365,7 +365,7 @@ input:checked + .slider:before {
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
     
@@ -380,13 +380,13 @@ input:checked + .slider:before {
 
     if($('#DATE_ACTIVE_MEGA').val() == '')
     {
-      $('#errorDATE_ACTIVE_MEGA').text('Le champ est obligatoire');
+      $('#errorDATE_ACTIVE_MEGA').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#errorDATE_ACTIVE_MEGA').text('');}
 
-    if($('#DATE_EXPIRE_MEGA').val() == '')
+    if($('#DATE_EXPIRE_MEGA').val() == '<?=lang('msg_validation')?>')
     {
-      $('#errorDATE_EXPIRE_MEGA').text('Le champ est obligatoire');
+      $('#errorDATE_EXPIRE_MEGA').text('');
       statut = 2;
     }
     else{$('#errorDATE_EXPIRE_MEGA').text('');}
@@ -408,7 +408,7 @@ input:checked + .slider:before {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Renouvèlement forfait avec succès !',
+            text: '<?=lang('renouvlement_forfait_success')?>',
             timer: 2000,
           }).then(() => {
             window.location.reload();
@@ -442,7 +442,7 @@ input:checked + .slider:before {
     Swal.fire({
           icon: 'success',
           title: 'Annulé',
-          text: 'Modifcation annulée !',
+          text: '<?=lang('msg_modif_annule')?>',
           timer: 1000,
         }).then(() => {
           window.location.reload();

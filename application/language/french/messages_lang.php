@@ -162,7 +162,6 @@ $lang['title_visualisation'] = 'Cliquer pour visualiser le détail';
 $lang['i_stat'] = 'Statut';
 $lang['title_demande_attente'] = 'Demande en attente';
 $lang['title_demande_refus'] = 'Demande refusé';
-$lang['title_demande_refus'] = 'Demande refusé';
 $lang['i_assurance'] = 'Assurance';
 $lang['veh_emplacement'] = 'Emplacement du véhicule';
 $lang['list_doc'] = 'DOCUMENT';
@@ -318,79 +317,98 @@ $lang['unique_numero']='Le numéro doit être unique';
 $lang['unique_mail']='Le mail doit être unique';
 $lang['unique_permis']='Le permis doit être unique';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //FIN PART 2
 
 
+//PART 3
+//Centre de situation
+$lang['mot_carte']='Carte';
+$lang['title_visualiser_list']='Cliquer ici pour visualiser la liste';
+$lang['proprio_enreg']='Propriétaires enregistrés';
+$lang['title_voir_liste']='Voir la liste';
+$lang['demande_attente_mot']='Demandes en attente';
+$lang['demande_refuse_mot']='Demandes refusées';
+$lang['veh_active_mot']='Véhicules activés';
+$lang['veh_desactive_mot']='Véhicules désactivés';
+$lang['chauff_enreg_mot']='Chauffeurs enregistrés';
+$lang['veh_mvt_mot']='Véhicules en mouvement';
+$lang['veh_accident_mot']='Véhicules en accident';
+$lang['veh_eteint_mot']='Véhicules éteints';
+$lang['veh_allum_mot']='Véhicules allumés';
+$lang['veh_stationne_mot']='Véhicules stationnés';
+$lang['voir_moins_mot']='Voir moins';
+$lang['modal_list_proprio']='Liste des propriétaires';
+$lang['cons_mot']='CONSOMMATION';
+$lang['dtl_dtl_chauffeur']='Détail chauffeur';
+$lang['dtl_dtl_proprio']='Détail propriétaire';
+$lang['info_trajet']='Informations trajet';
+$lang['dtail_veh_mot']='Détail du véhicule';
+$lang['voir_doc_mot']='Voir documents';
+$lang['permis_mot']='PERMIS';
+$lang['date_installation']='Date d\'installation';
+$lang['nbr_sim']='Numéro carte sim';
+$lang['dte_activ_forfait']='Date activation forfait';
+$lang['dte_expiration_forfait']='Date expiration forfait';
+$lang['msg_erreur_code_exist']='Le code existe déjà';
+//Module:Sim management
+$lang['historique_device_title']='Historique device';
+$lang['activ_forfait_check']='Activation forfait';
+$lang['dte_expiration_th']='DATE&nbsp;EXPIRATION&nbsp;FORFAIT';
+$lang['validation_val']='VALIDITE';
+$lang['device_mot']='Devices';
+$lang['veh_maj_mot']='VEHICULE';
+$lang['dte_install_list']='DATE&nbsp;INSTALLATION';
+$lang['nom_reseau']='NOM&nbsp;RESEAU';
+$lang['mot_numero']='NUMERO';
+$lang['dte_activ_th']='DATE&nbsp;ACTIVATION&nbsp;FORFAIT';
+$lang['modal_renouvlement']='Renouvèlement du forfait';
+$lang['renouvlement_forfait_success']='Renouvèlement du forfait fait avec succès !';
+$lang['msg_modif_annule']='Modification annulée  !';
+$lang['renouveler_mga']='Renouveler méga';
+$lang['confirmation_mot']='Confirmation';
+$lang['question_que']='Voulez-vous vraiment';
+$lang['le_device_mot']='le device';
+$lang['mot_oui']='Oui';
+$lang['mot_non']='Non';
+$lang['titre_enreg_device']='Enregistrement d\'un device';
+$lang['titre_modif_device']='Modification d\'un device';
+$lang['echec_enregistrement']='Echec d\'enregistrement';
+$lang['succes_msg_activ_des']='a été faite avec succès';
+$lang['title_device_activ']='device activé';
+$lang['title_device_des']='device désactivé';
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//FIN PART 3
 
 //deja traduit
 $lang['franc_date_il_ya'] = 'Il y a';
@@ -401,6 +419,10 @@ $lang['jrs_jrs'] = 'jrs';
 $lang['an'] = 'An';
 $lang['mois'] = 'Mois';
 $lang['jr'] = 'Jr';
+$lang['desactive_demande'] = 'Désactiver';
+$lang['active_demande'] = 'Activer';
+
+
 
 
 

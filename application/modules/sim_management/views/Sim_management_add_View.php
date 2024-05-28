@@ -44,7 +44,7 @@
   </div>
   <div class="col-md-2">
 
-   <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('sim_management/Sim_management')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a>
+   <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('sim_management/Sim_management')?>" class="nav-link position-relative"><i class="bi bi-list"></i> <?=lang('title_list')?></a>
 
  </div>
 </div>
@@ -69,7 +69,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
+                    <label ><small> <?=lang('modal_code_device_uid')?></small><span  style="color:red;">*</span></label>
 
                     <input type="hidden" name="DEVICE_ID" id="DEVICE_ID" value="<?=$device_data['DEVICE_ID']?>">
 
@@ -85,10 +85,10 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label ><small>Véhicule</small><span  style="color:red;">*</span></label>
+                    <label ><small><?=lang('mot_vehicule')?></small><span  style="color:red;">*</span></label>
 
                     <select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="get_proprietaire();">
-                      <option value="0" selected>-- Séléctionner --</option>
+                      <option value="0" selected>-- <?=lang('selectionner')?> --</option>
                       <?php
                       foreach ($vehicule as $vehicule)
                       {
@@ -105,7 +105,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label ><small> Propriétaire</small><span  style="color:red;"></span></label>
+                    <label ><small> <?=lang('title_proprio_list')?></small><span  style="color:red;"></span></label>
                     <input class="form-control" type='text' name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" value="<?=$device_data['proprio_desc']?>" placeholder='' readonly/>
 
                   </div>
@@ -115,7 +115,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label ><small> Date d'installation</small><span  style="color:red;">*</span></label>
+                    <label ><small> <?=lang('date_installation')?></small><span  style="color:red;">*</span></label>
 
                     <input class="form-control" type='date' name="DATE_INSTALL" id="DATE_INSTALL" placeholder='' value="<?=$device_data['DATE_INSTALL']?>" max="<?= date('Y-m-d')?>"/>
 
@@ -126,10 +126,10 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label ><small>Carte sim</small><span  style="color:red;">*</span></label>
+                    <label ><small><?=lang('p_carte_sim')?></small><span  style="color:red;">*</span></label>
 
                     <select class="form-control" name="OPERATEUR_ID" id="OPERATEUR_ID">
-                      <option value="0" selected>-- Séléctionner --</option>
+                      <option value="0" selected>-- <?=lang('selectionner')?> --</option>
                       <?php
                       foreach ($operateur as $operateur)
                       {
@@ -146,7 +146,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label ><small> Numéro carte sim</small><span  style="color:red;">*</span></label>
+                    <label ><small> <?=lang('nbr_sim')?></small><span  style="color:red;">*</span></label>
 
                     <input type="hidden" id="existe_numero">
                     <input class="form-control" type='text' name="NUMERO" id="NUMERO" placeholder='' value="<?=isset($device_data['NUMERO'])?$device_data['NUMERO']:'+257'?>"/>
@@ -158,7 +158,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label ><small> Date activation forfait</small><span  style="color:red;">*</span></label>
+                    <label ><small> <?=lang('dte_activ_forfait')?></small><span  style="color:red;">*</span></label>
 
                     <input class="form-control" type='date' name="DATE_ACTIVE_MEGA" id="DATE_ACTIVE_MEGA" placeholder='' value="<?=$device_data['DATE_ACTIVE_MEGA']?>" max="<?= date('Y-m-d')?>" onchange="get_date_expire();"/>
 
@@ -169,7 +169,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label ><small> Date expiration forfait</small><span  style="color:red;">*</span></label>
+                    <label ><small> <?=lang('dte_expiration_forfait')?></small><span  style="color:red;">*</span></label>
 
                     <input class="form-control" type='date' name="DATE_EXPIRE_MEGA" id="DATE_EXPIRE_MEGA" placeholder='' value="<?=$device_data['DATE_EXPIRE_MEGA']?>" readonly/>
 
@@ -232,7 +232,7 @@
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
   }
@@ -260,7 +260,7 @@
       }
       else
       {
-        $('#errorNUMERO').text('Numéro de téléphone est invalide ');
+        $('#errorNUMERO').text('<?=lang('tel_invalide')?>');
         if($(this).val().length > 12)
         {
           $(this).val(this.value.substring(0,12));
@@ -276,7 +276,7 @@
       }
       else
       {
-        $('#errorNUMERO').text('Invalide numéro de téléphone');
+        $('#errorNUMERO').text('<?=lang('tel_invalide')?>');
       }        
     }
   });
@@ -304,7 +304,7 @@
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
     
@@ -324,7 +324,7 @@
     if(CODE == '')
     {
       statut = 2;
-      $('#errorCODE').html('Le champ est obligatoire');
+      $('#errorCODE').html('<?=lang('msg_validation')?>');
     }
     else
     {
@@ -346,14 +346,14 @@
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-          alert('Erreur');
+          alert('<?=lang('msg_erreur')?>');
         }
       });
 
       if($('#existe_code').val() == 1)
       {
         statut = 2;
-        $('#errorCODE').html('Le code existe déjà');
+        $('#errorCODE').html('<?=lang('msg_erreur_code_exist')?>');
       }else{$('#errorCODE').html('');}
 
     }
@@ -361,29 +361,29 @@
     if($('#VEHICULE_ID').val() == 0)
     {
       statut = 2;
-      $('#errorVEHICULE_ID').html('Le champ est obligatoire');
+      $('#errorVEHICULE_ID').html('<?=lang('msg_validation')?>');
     }else{$('#errorVEHICULE_ID').html('');}
 
     if($('#DATE_INSTALL').val() == '')
     {
       statut = 2;
-      $('#errorDATE_INSTALL').html('Le champ est obligatoire');
+      $('#errorDATE_INSTALL').html('<?=lang('msg_validation')?>');
     }else{$('#errorDATE_INSTALL').html('');}
 
     if($('#OPERATEUR_ID').val() == '0')
     {
       statut = 2;
-      $('#errorOPERATEUR_ID').html('Le champ est obligatoire');
+      $('#errorOPERATEUR_ID').html('<?=lang('msg_validation')?>');
     }else{$('#errorOPERATEUR_ID').html('');}
 
     if($('#NUMERO').val() == '')
     {
       statut = 2;
-      $('#errorNUMERO').html('Le champ est obligatoire');
+      $('#errorNUMERO').html('<?=lang('msg_validation')?>');
     }
     else if($('#NUMERO').val().length != 12)
     {
-      $('#errorNUMERO').text('Numéro de téléphone est invalide ');
+      $('#errorNUMERO').text('<?=lang('tel_invalide')?>');
       statut = 2;
     }
     else if($('#existe_numero').val() == '')
@@ -393,21 +393,21 @@
     else if($('#existe_numero').val() == 1)
     {
       statut = 2;
-      $('#errorNUMERO').html('Le numéro existe déjà');
+      $('#errorNUMERO').html('<?=lang('tel_invalide')?>');
     }
     else{$('#errorNUMERO').html('');}
 
     if($('#DATE_ACTIVE_MEGA').val() == '')
     {
       statut = 2;
-      $('#errorDATE_ACTIVE_MEGA').html('Le champ est obligatoire');
+      $('#errorDATE_ACTIVE_MEGA').html('<?=lang('msg_validation')?>');
     }
     else{$('#errorDATE_ACTIVE_MEGA').html('');}
 
     if($('#DATE_EXPIRE_MEGA').val() == '')
     {
       statut = 2;
-      $('#errorDATE_EXPIRE_MEGA').html('Le champ est obligatoire');
+      $('#errorDATE_EXPIRE_MEGA').html('<?=lang('msg_validation')?>');
     }else{$('#errorDATE_EXPIRE_MEGA').html('');}
 
     if(statut == 1)
