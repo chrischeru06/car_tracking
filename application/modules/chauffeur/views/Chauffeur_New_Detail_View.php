@@ -8,7 +8,7 @@
     {
       max-width: 290px;
     }
-   
+
     #image-container{
       position: relative;
       left:10px;
@@ -29,7 +29,7 @@
       position: relative;
       cursor: grab;
       transition: transform 0.2s;
-      border-radius: 50%;
+      border-radius: 20px;
 
       width: 103%;
       height: 100%;
@@ -162,25 +162,25 @@
                   <div class="col-xl-4">
 
                     <!-- <div class="card"> -->
-                      <div class="card-body profile-card pt-2 d-flex flex-column align-items-center">
+                      <div class="card-body profile-card pt-3 d-flex flex-column align-items-center">
 
                         <?php
                         if(!empty($chauff['PHOTO_PASSPORT']))
                         {
                           ?>
-                          <img style='border-radius: 50%;height:200px;width: 200px;cursor: pointer;' class="" onclick="show_imagechauff();" src='<?=base_url("upload/chauffeur/".$chauff['PHOTO_PASSPORT'])?>'>
+                          <img style='border-radius: 20px;height:240px;width: 240px;cursor: pointer;' class="" onclick="show_imagechauff();" src='<?=base_url("upload/chauffeur/".$chauff['PHOTO_PASSPORT'])?>'>
                           <input type="hidden" id="image_pop" value="<?= base_url()?>/upload/chauffeur/<?= $chauff['PHOTO_PASSPORT']?>">
                           <?php
                         }
                         else if(empty($chauff['PHOTO_PASSPORT']))
                         {
                           ?>
-                          <img style="border-radius: 50%;height: 200px;width: 200px; cursor:pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
+                          <img style="border-radius: 20px;height: 240px;width: 240px; cursor:pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
                           <input type="hidden" id="image_pop" value="<?= base_url()?>/upload/img_agent/phavatar.png">
                           <?php
                         }
                         ?>
-                        <strong class="text-muted"><?=$chauff['NOM'].' '. $chauff['PRENOM']?></strong>
+                        <font class="bi bi-pencil" onclick="get_modif('PHOTO')"></font>
 
                       </div>
                       <!-- </div> -->
@@ -191,44 +191,106 @@
 
                     <div class="col-xl-8 table-responsive" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
 
+                      <tr>
+                        <td>
+                          <input type="hidden" name="NOM" id="NOM" value="<?=$chauff['NOM']?>">
+
+                          <input type="hidden" name="PRENOM" id="PRENOM" value="<?=$chauff['PRENOM']?>">
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <input type="hidden" name="CNI" id="CNI" value="<?=$chauff['NUMERO_CARTE_IDENTITE']?>">
+
+                          <input type="hidden" name="EMAIL" id="EMAIL" value="<?=$chauff['ADRESSE_MAIL']?>">
+
+                          <input type="hidden" name="TELEPHONE" id="TELEPHONE" value="<?=$chauff['NUMERO_TELEPHONE']?>">
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <input type="hidden" name="DATE_NAISSANCE" id="DATE_NAISSANCE" value="<?=$chauff['DATE_NAISSANCE']?>">
+
+                          <input type="hidden" name="ADRESSE" id="ADRESSE" value="<?=$chauff['ADRESSE_PHYSIQUE']?>">
+
+                          <input type="hidden" name="PROVINCE_ID" id="PROVINCE_ID" value="<?=$chauff['PROVINCE_ID']?>">
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <input type="hidden" name="COMMUNE_ID" id="COMMUNE_ID" value="<?=$chauff['COMMUNE_ID']?>">
+
+                          <input type="hidden" name="ZONE_ID" id="ZONE_ID" value="<?=$chauff['ZONE_ID']?>">
+
+                          <input type="hidden" name="COLLINE_ID" id="COLLINE_ID" value="<?=$chauff['COLLINE_ID']?>">
+
+                        </td>
+                      </tr>
+
                       <table class="table table-borderless">
+
+                        <tr>
+                          <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;<?=lang('td_nom_prenom')?></td>
+                          <td class="text-muted"><b>
+                            <?=$chauff['NOM'].' '.$chauff['PRENOM']?></b>
+                          </td>
+                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('NOM')"></font></td>
+                        </tr>
+
                         <tr>
                           <td class="text-muted"><span class="fa fa-book"></span>&nbsp;&nbsp;CNI</td>
                           <td class="text-muted"><b><?=$chauff['NUMERO_CARTE_IDENTITE']?></b></td>
+                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('CNI')"></font></td>
                         </tr>
 
                         <tr>
                           <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;E-mail</td>
                           <td class="text-muted"><b><?=$chauff['ADRESSE_MAIL']?></b></td>
+                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('EMAIL')"></font></td>
                         </tr>
 
                         <tr>
                           <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;Téléphone</td>
                           <td class="text-muted"><b><?=$chauff['NUMERO_TELEPHONE']?></b></td>
+                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('TELEPHONE')"></font></td>
                         </tr>
 
                         <tr>
                           <td class="text-muted"><span class="fa fa-calendar"></span>&nbsp;&nbsp;Date naissance</td>
                           <td class="text-muted"><b><?=$chauff['DATE_NAISSANCE']?></b></td>
+                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('DATE_NAISSANCE')"></font></td>
                         </tr>
 
                         <tr>
                           <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Adresse</td>
                           <td class="text-muted"><b><?=$chauff['ADRESSE_PHYSIQUE']?></b></td>
+                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('ADRESSE')"></font></td>
                         </tr>
 
                         <tr>
                           <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Localité</td>
                           <td class="text-muted"><b><?=$chauff['PROVINCE_NAME'].' / '.$chauff['COMMUNE_NAME'].' / '.$chauff['ZONE_NAME'].' / '.$chauff['COLLINE_NAME']?></b></td>
+                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('LOCALITE')"></font></td>
                         </tr>
 
-                        
+
                       </table>
 
                     </div>
 
                   </div>
-                  
+
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <a style="float:right;font-size: 12px;color: gray;" class=" " href="<?=base_url('chauffeur/Chauffeur/getOne/'.$chauff['CHAUFFEUR_ID'])?>"><font class="bi bi-pencil"></font> <?=lang('btn_modif_plus')?></a>
+                    </div>
+                  </div>
+
+
                 </div>
                 <div class="tab-pane fade pt-3" id="voitures">
                   <div class="row">
@@ -657,6 +719,134 @@
     </div>
   </div>
 </div>
+
+
+
+<!--******** Debut Modal pour la modification d'element du chauffeur *********-->
+
+<div class="modal fade" id="Modal_modif" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered  ">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'> 
+        <!-- <h5 class="modal-title">Traiter la demande </h5> -->
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="modif_form" enctype="multipart/form-data" action="#" method="post">
+          <div class="modal-body mb-1">
+            <div class="row">
+              <input type="hidden" name="CHAUFFEUR_ID_modif" id="CHAUFFEUR_ID_modif">
+              <input type="hidden" name="champ" id="champ">
+
+              <div id="div_modif_NOM_PRENOM">
+
+                <div class="col-xl-12" id="div_modif_NOM">
+                  <label for="description"><small><?=lang('input_nom')?></small><span  style="color:red;">*</span></label>
+                  <input type="text" name="NOM_modif" id="NOM_modif" class="form-control">
+                  <span id="errorNOM_modif" class="text-danger"></span>
+                </div>
+
+                <div class="col-xl-12" id="div_modif_PRENOM">
+                  <label for="description"><small><?=lang('input_prenom')?></small><span  style="color:red;">*</span></label>
+                  <input type="text" name="PRENOM_modif" id="PRENOM_modif" class="form-control">
+                  <span id="errorPRENOM_modif" class="text-danger"></span>
+                </div>
+
+              </div>
+
+              <div class="col-xl-12" id="div_modif_PHOTO">
+                <label for="description"><small><?=lang('input_photo_passport')?></small><span  style="color:red;">*</span></label>
+                <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_modif" autocomplete="off" id="PHOTO_modif"   class="form-control" title="<?=lang('title_file')?>">
+
+                <span id="errorPHOTO_modif" class="text-danger"></span>
+              </div>
+
+              <div class="col-xl-12" id="div_modif_EMAIL">
+                <label for="description"><small><?=lang('input_email')?></small><span  style="color:red;">*</span></label>
+                <input type="text" name="EMAIL_modif" id="EMAIL_modif" class="form-control">
+                <span id="errorEMAIL_modif" class="text-danger"></span>
+              </div>
+
+
+              <div class="col-xl-12" id="div_modif_TELEPHONE">
+                <label for="description"><small><?=lang('input_tlphone')?></small><span  style="color:red;">*</span></label>
+
+                <input class="form-control bg-light" type='tel' name="TELEPHONE_modif" id="TELEPHONE_modif"  pattern="^[0-9-+\s()]*$"/>
+
+                <span id="errorTELEPHONE_modif" class="text-danger"></span>
+              </div>
+
+              <div class="col-xl-12" id="div_modif_DATE_NAISSANCE">
+                <label for="description"><small><?=lang('date_naissance')?></small><span  style="color:red;">*</span></label>
+
+                <input class="form-control bg-light" type='date' name="DATE_NAISSANCE_modif" id="DATE_NAISSANCE_modif"/>
+
+                <span id="errorDATE_NAISSANCE_modif" class="text-danger"></span>
+              </div>
+
+              <div class="col-xl-12" id="div_modif_CNI">
+                <label for="description"><small><?=lang('input_nif_cni')?></small><span  style="color:red;">*</span></label>
+                <input type="text" name="CNI_modif" id="CNI_modif" class="form-control">
+                <span id="errorCNI_OU_NIF_modif" class="text-danger"></span>
+              </div>
+
+
+              <div class="col-xl-12" id="div_modif_ADRESSE">
+                <label for="description"><small><?=lang('input_adresse')?></small><span  style="color:red;">*</span></label>
+                <input type="text" name="ADRESSE_modif" id="ADRESSE_modif" class="form-control">
+                <span id="errorADRESSE_modif" class="text-danger"></span>
+              </div>
+
+              <div id="div_modif_LOCALITE">
+
+                <div class="col-xl-12">
+                  <label for="description"><small><?=lang('input_province')?></small><span  style="color:red;">*</span></label>
+                  <select name="PROVINCE_ID_modif" id="PROVINCE_ID_modif" class="form-control" onchange="get_communes();">
+                    <option value="0">-- <?=lang('selectionner')?> --</option>
+                  </select>
+                  <span id="errorPROVINCE_ID_modif" class="text-danger"></span>
+                </div>
+
+                <div class="col-xl-12">
+                  <label for="description"><small><?=lang('input_commune')?></small><span  style="color:red;">*</span></label>
+                  <select name="COMMUNE_ID_modif" id="COMMUNE_ID_modif" class="form-control" onchange="get_zones();">
+                    <option value="0">-- <?=lang('selectionner')?> --</option>
+                  </select>
+                  <span id="errorCOMMUNE_ID_modif" class="text-danger"></span>
+                </div>
+
+                <div class="col-xl-12">
+                  <label for="description"><small><?=lang('input_zone')?></small><span  style="color:red;">*</span></label>
+                  <select name="ZONE_ID_modif" id="ZONE_ID_modif" class="form-control" onchange="get_collines();">
+                    <option value="0">-- <?=lang('selectionner')?> --</option>
+                  </select>
+                  <span id="errorZONE_ID_modif" class="text-danger"></span>
+                </div>
+
+                <div class="col-xl-12">
+                  <label for="description"><small><?=lang('input_colline')?></small><span  style="color:red;">*</span></label>
+                  <select name="COLLINE_ID_modif" id="COLLINE_ID_modif" class="form-control">
+                    <option value="0">-- <?=lang('selectionner')?> --</option>
+                  </select>
+                  <span id="errorCOLLINE_ID_modif" class="text-danger"></span>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div> 
+          <div class="modal-footer">
+            <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_modifier')?>" onclick="save();" />
+            <!-- <input type="button" class="btn btn-light btn btn-outline-warning rounded-pill" data-bs-dismiss="modal" id="cancel" value="Annuler"/> -->
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div><!-- End Modal modif-->
 
 <script >
   $(document).ready(function ()
@@ -1225,5 +1415,392 @@
         });
 
       </script>
+
+      <script>
+        //Fonction pour appel à la modification
+        function get_modif(champ)
+        {
+          var CHAUFFEUR_ID = $('#CHAUFFEUR_ID').val();
+          $('#CHAUFFEUR_ID_modif').val(CHAUFFEUR_ID);
+          $('#champ').val(champ);
+
+          var NOM = $('#NOM').val();
+          var PRENOM = $('#PRENOM').val();
+          var EMAIL = $('#EMAIL').val();
+          var TELEPHONE = $('#TELEPHONE').val();
+          var DATE_NAISSANCE = $('#DATE_NAISSANCE').val();
+          var CNI = $('#CNI').val();
+          var ADRESSE = $('#ADRESSE').val();
+
+          var PROVINCE_ID = $('#PROVINCE_ID').val();
+          var COMMUNE_ID = $('#COMMUNE_ID').val();
+          var ZONE_ID = $('#ZONE_ID').val();
+          var COLLINE_ID = $('#COLLINE_ID').val();
+
+          $('#NOM_modif').val(NOM);
+          $('#PRENOM_modif').val(PRENOM);
+          $('#EMAIL_modif').val(EMAIL);
+          $('#TELEPHONE_modif').val(TELEPHONE);
+          $('#DATE_NAISSANCE_modif').val(DATE_NAISSANCE);
+          $('#CNI_modif').val(CNI);
+          $('#ADRESSE_modif').val(ADRESSE);
+
+          $('#div_modif_EMAIL').hide();
+          $('#div_modif_TELEPHONE').hide();
+          $('#div_modif_DATE_NAISSANCE').hide();
+          $('#div_modif_CNI').hide();
+          $('#div_modif_ADRESSE').hide();
+          $('#div_modif_LOCALITE').hide();
+          $('#div_modif_NOM_PRENOM').hide();
+          $('#div_modif_PHOTO').hide();
+
+
+          $.ajax(
+          {
+            url:"<?=base_url('chauffeur/Chauffeur_New/get_localite/')?>",
+            type: "POST",
+            data: {
+              PROVINCE_ID:PROVINCE_ID,
+              COMMUNE_ID:COMMUNE_ID,
+              ZONE_ID:ZONE_ID,
+              COLLINE_ID:COLLINE_ID,
+            },
+            dataType:"JSON",
+            success: function(data)
+            {
+              $('#PROVINCE_ID_modif').html(data.html_prov);
+              $('#COMMUNE_ID_modif').html(data.html_com);
+              $('#ZONE_ID_modif').html(data.html_zon);
+              $('#COLLINE_ID_modif').html(data.html_coll);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('Erreur');
+            }
+          });
+
+
+          if(champ == 'NOM' || champ == 'PRENOM'){
+            $('#div_modif_NOM_PRENOM').show();
+          }
+          else if(champ == 'PHOTO'){
+            $('#div_modif_PHOTO').show();
+          }
+          else if(champ == 'EMAIL'){
+            $('#div_modif_EMAIL').show();
+          }
+          else if(champ == 'TELEPHONE'){
+            $('#div_modif_TELEPHONE').show();
+          }
+          else if(champ == 'DATE_NAISSANCE'){
+            $('#div_modif_DATE_NAISSANCE').show();
+          }
+          else if(champ == 'CNI'){
+            $('#div_modif_CNI').show();
+          }
+          else if(champ == 'ADRESSE'){
+            $('#div_modif_ADRESSE').show();
+          }
+          else if(champ == 'LOCALITE'){
+            $('#div_modif_LOCALITE').show();
+          }
+          
+
+          $('#Modal_modif').modal('show');
+        }
+      </script>
+
+      <script>
+        //Fonction pour recuperer les communes selon la province
+        function get_communes()
+        {
+          $('#COMMUNE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+          $('#ZONE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+          $('#COLLINE_ID_modif').html('<option value="">-- Sélectionner --</option>');
+
+          $.ajax(
+          {
+            url:"<?=base_url('chauffeur/Chauffeur_New/get_communes/')?>"+$('#PROVINCE_ID_modif').val(),
+            type: "GET",
+            dataType:"JSON",
+            success: function(data)
+            {
+              $('#COMMUNE_ID_modif').html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('<?=lang('msg_erreur')?>');
+            }
+          });
+
+        }
+      </script>
+
+      <script>
+        // Fonction pour recuperer les zones selon la commune
+        function get_zones()
+        {
+          $('#ZONE_ID_modif').html('<option value="">-- <?=lang('selectionner')?> --</option>');
+          $('#COLLINE_ID_modif').html('<option value="">-- <?=lang('selectionner')?> --</option>');
+
+          $.ajax(
+          {
+            url:"<?=base_url('chauffeur/Chauffeur_New/get_zones/')?>"+$('#COMMUNE_ID_modif').val(),
+            type:"GET",
+            dataType:"JSON",
+            success: function(data)
+            {
+              $('#ZONE_ID_modif').html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('<?=lang('msg_erreur')?>');
+            }
+          });
+
+        }
+      </script>
+
+
+      <script>
+        // Fonction pour recuperer les collines selon la zone
+        function get_collines()
+        {
+          $('#COLLINE_ID_modif').html('<option value="">-- <?=lang('selectionner')?> --</option>');
+
+          $.ajax(
+          {
+            url:"<?=base_url('chauffeur/Chauffeur_New/get_collines/')?>"+$('#ZONE_ID_modif').val(),
+            type:"GET",
+            dataType:"JSON",
+            success: function(data)
+            {
+              $('#COLLINE_ID_modif').html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('<?=lang('msg_erreur')?>');
+            }
+          });
+
+        }
+      </script>
+
+      <script>
+        //Require phone
+
+        $('#TELEPHONE_modif').on('input change',function()
+        {
+          $(this).val($(this).val().replace(/[^0-9]*$/gi, ''));
+          $(this).val($(this).val().replace(' ', ''));
+          var subStr = this.value.substring(0,1);
+
+          if(subStr != '+')
+          {
+            $('[name = "TELEPHONE_modif"]').val('+257');
+          }
+
+          if(this.value.substring(0,4)=="+257")
+          {
+            if($(this).val().length == 12)
+            {
+              $('#errorTELEPHONE_modif').text('');
+            }
+            else
+            {
+              $('#errorTELEPHONE_modif').text('<?=lang('tel_invalide')?>');
+              if($(this).val().length > 12)
+              {
+                $(this).val(this.value.substring(0,12));
+                $('#errorTELEPHONE_modif').text('');
+              }
+            }
+          }
+          else
+          {
+            if ($(this).val().length > 12)
+            {
+              $('#errorTELEPHONE_modif').text('');
+            }
+            else
+            {
+              $('#errorTELEPHONE_modif').text('<?=lang('tel_invalide')?>');
+            }        
+          }
+        });
+      </script>
+
+
+      <script>
+        //fonction pour l'enregistrement de la modification
+        function save()
+        {
+          var champ = $('#champ').val();
+          var NOM_modif = $('#NOM_modif').val();
+          var PRENOM_modif = $('#PRENOM_modif').val();
+          var EMAIL_modif = $('#EMAIL_modif').val();
+          var TELEPHONE_modif = $('#TELEPHONE_modif').val();
+          var DATE_NAISSANCE_modif = $('#DATE_NAISSANCE_modif').val();
+          var CNI_modif = $('#CNI_modif').val();
+          var ADRESSE_modif = $('#ADRESSE_modif').val();
+          var PROVINCE_ID_modif = $('#PROVINCE_ID_modif').val();
+          var COMMUNE_ID_modif = $('#COMMUNE_ID_modif').val();
+          var ZONE_ID_modif = $('#ZONE_ID_modif').val();
+          var COLLINE_ID_modif = $('#COLLINE_ID_modif').val();
+          var PHOTO_modif = $('#PHOTO_modif').val();
+
+          var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+          var statut = 1;
+
+          if(champ == 'NOM')
+          {
+            if(NOM_modif == ''){
+              $('#errorNOM_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorNOM_modif').text('');}
+
+            if(PRENOM_modif == ''){
+              $('#errorPRENOM_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorPRENOM_modif').text('');}
+          }
+          else if(champ == 'EMAIL')
+          { 
+
+            if(EMAIL_modif == ''){
+              $('#errorEMAIL_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else if(!emailReg.test($('#EMAIL_modif').val()))
+            {
+              $('#errorEMAIL_modif').html('<?=lang('msg_validation_mail')?>');
+              statut=2
+            }
+            else{$('#errorEMAIL_modif').html('');}
+            
+          }
+          else if(champ == 'TELEPHONE'){
+            if(TELEPHONE_modif == ''){
+              $('#errorTELEPHONE_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorTELEPHONE_modif').text('');}
+          }
+          else if(champ == 'TELEPHONE'){
+            if(TELEPHONE_modif == ''){
+              $('#errorTELEPHONE_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorTELEPHONE_modif').text('');}
+          }
+          else if(champ == 'DATE_NAISSANCE'){
+            if(DATE_NAISSANCE_modif == ''){
+              $('#errorDATE_NAISSANCE_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorDATE_NAISSANCE_modif').text('');}
+          }
+          else if(champ == 'CNI'){
+            if(CNI == ''){
+              $('#errorCNI_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorCNI_modif').text('');}
+          }
+          else if(champ == 'ADRESSE'){
+            if(ADRESSE_modif == ''){
+              $('#errorADRESSE_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorADRESSE_modif').text('');}
+          }
+          else if(champ == 'LOCALITE'){
+
+            if(PROVINCE_ID_modif == 0){
+              $('#errorPROVINCE_ID_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorPROVINCE_ID_modif').text('');}
+
+            if(COMMUNE_ID_modif == 0){
+              $('#errorCOMMUNE_ID_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorCOMMUNE_ID_modif').text('');}
+
+            if(ZONE_ID_modif == 0){
+              $('#errorZONE_ID_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorZONE_ID_modif').text('');}
+
+            if(COLLINE_ID_modif == 0){
+              $('#errorCOLLINE_ID_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorCOLLINE_ID_modif').text('');}
+
+          }
+          else if(champ == 'PHOTO'){
+            if(PHOTO_modif == ''){
+              $('#errorPHOTO_modif').text('<?=lang('msg_validation')?>');
+              statut = 2;
+            }
+            else{$('#errorPHOTO_modif').text('');}
+          }
+
+          if (statut==1){  // si pas d'erreur
+
+            var form_data = new FormData($("#modif_form")[0]);
+
+            $.ajax(
+            {
+              url:"<?=base_url()?>chauffeur/Chauffeur/modif_chauf_detail/",
+              type: 'POST',
+              dataType:'JSON',
+              data: form_data ,
+              contentType: false,
+              cache: false,
+              processData: false,
+              success: function(data)
+              {
+
+               if(data.status == 1)
+               {
+                Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Success',
+                  text: '<?=lang('msg_success_modif')?>',
+                  timer: 1500,
+                }).then(() =>
+                {
+                 window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+               });
+              }
+              else if(data.status == 0)
+              {
+                Swal.fire(
+                {
+                  icon: 'error',
+                  title: 'Error',
+                  text: '<?=lang('msg_error_modif')?>',
+                  timer: 1500,
+                }).then(() =>
+                {
+                 window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+               });
+              }
+            }
+          });
+          }
+
+
+        }
+      </script>
+
 
       </html>
