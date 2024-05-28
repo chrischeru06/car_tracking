@@ -11,7 +11,6 @@
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
   <script src="https://code.highcharts.com/modules/lollipop.js"></script>
 
-
 </head>
 
 <body>
@@ -23,8 +22,8 @@
   <!-- ======= Sidebar ======= -->
   <?php include VIEWPATH . 'includes/menu_left.php'; ?>
   <!-- End Sidebar-->
-  <?php header("refresh:180; url=$reflesh/dashboard/Dashboard_General");?>
-
+ <!--  <?php header("refresh:180; url=$reflesh/dashboard/Dashboard_General");?>
+ -->
 
   <main id="main" class="main">
 

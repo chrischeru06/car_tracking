@@ -33,10 +33,28 @@ return $color;
 }
 function index()
 {
-$reflesh=base_url();
-$data['reflesh']=$reflesh;
+
+
+// $critaire_reload_vehi=$this->Model->getRequeteOne('SELECT `VEHICULE_ID`,`DATA_NEW` FROM `vehicule` WHERE 1 and `DATA_NEW`=1');
+
+// $critaire_reload_chauff=$this->Model->getRequeteOne('SELECT `CHAUFFEUR_ID`,`DATA_NEW` FROM `chauffeur` WHERE 1 and `DATA_NEW`=1');
+// $reload_chauff_affect=$this->Model->getRequeteOne('SELECT `CHAUFFEUR_VEHICULE_ID`,`DATA_NEW` FROM `chauffeur_vehicule` WHERE 1 AND `DATA_NEW`=1');
+
+
+// if (!empty($critaire_reload_vehi|| $critaire_reload_chauff || $reload_chauff_affect)) 
+// {
+//   $reflesh=base_url();
+//   $data['reflesh']=$reflesh; 
+
+//   $update=$this->Model->update('vehicule',array('DATA_NEW'=>1),array('DATA_NEW'=>0)); 
+//    $update2=$this->Model->update('chauffeur',array('DATA_NEW'=>1),array('DATA_NEW'=>0));
+//    $update=$this->Model->update('chauffeur_vehicule',array('DATA_NEW'=>1),array('DATA_NEW'=>0));  
+// }
+
+
+
 //print_r($data['reflesh']);die();
-$this->load->view('Dashboard_General_View',$data);
+$this->load->view('Dashboard_General_View');
 }
 
 
