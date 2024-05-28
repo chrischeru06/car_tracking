@@ -975,6 +975,13 @@
 
 			$nbr_jours = $this->notifications->ago($infos_vehicule['DATE_SAVE'],$aujourdhui);
 
+			$explode = explode(" ",$nbr_jours);
+
+			if($explode[1] == 'Moiss')
+			{
+				$nbr_jours = substr($nbr_jours, 0, -1);
+			}
+
 			$data['nbr_jours'] = $nbr_jours;
 
 			$this->load->view('Vehicule_detail_View',$data);

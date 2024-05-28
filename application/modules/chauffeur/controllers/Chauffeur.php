@@ -1067,6 +1067,68 @@
 	}
 
 
+	// Fonction pour la modification du chauffeur par detail des champs
+	function modif_chauf_detail()
+	{
+		$CHAUFFEUR_ID_modif = $this->input->post('CHAUFFEUR_ID_modif');
+		$champ = $this->input->post('champ');
+		$status = 0;
+
+		$NOM_modif = $this->input->post('NOM_modif');
+		$PRENOM_modif = $this->input->post('PRENOM_modif');
+		$EMAIL_modif = $this->input->post('EMAIL_modif');
+		$TELEPHONE_modif = $this->input->post('TELEPHONE_modif');
+		$DATE_NAISSANCE_modif = $this->input->post('DATE_NAISSANCE_modif');
+		$CNI_modif = $this->input->post('CNI_modif');
+		$ADRESSE_modif = $this->input->post('ADRESSE_modif');
+		$PROVINCE_ID_modif = $this->input->post('PROVINCE_ID_modif');
+		$COMMUNE_ID_modif = $this->input->post('COMMUNE_ID_modif');
+		$ZONE_ID_modif = $this->input->post('ZONE_ID_modif');
+		$COLLINE_ID_modif = $this->input->post('COLLINE_ID_modif');
+
+		if($champ == 'NOM')
+		{
+			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('NOM'=>$NOM_modif,'PRENOM'=>$PRENOM_modif));
+		}
+		else if($champ == 'EMAIL')
+		{
+			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('ADRESSE_MAIL'=>$EMAIL_modif));
+		}
+		else if($champ == 'TELEPHONE')
+		{
+			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('NUMERO_TELEPHONE'=>$TELEPHONE_modif));
+		}
+		else if($champ == 'DATE_NAISSANCE')
+		{
+			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('DATE_NAISSANCE'=>$DATE_NAISSANCE_modif));
+		}
+		else if($champ == 'CNI')
+		{
+			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('NUMERO_CARTE_IDENTITE'=>$CNI_modif));
+		}
+		else if($champ == 'ADRESSE')
+		{
+			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('ADRESSE_PHYSIQUE'=>$ADRESSE_modif));
+		}
+		else if($champ == 'LOCALITE')
+		{
+			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('PROVINCE_ID'=>$PROVINCE_ID_modif,'COMMUNE_ID'=>$COMMUNE_ID_modif,'ZONE_ID'=>$ZONE_ID_modif,'COLLINE_ID'=>$COLLINE_ID_modif));
+		}
+		else if($champ == 'PHOTO')
+		{
+			$file_photo = $this->upload_document($_FILES['PHOTO_modif']['tmp_name'],$_FILES['PHOTO_modif']['name']);
+
+			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('PHOTO_PASSPORT'=>$file_photo));
+		}
+		
+        if($result){
+        	$status = 1;
+        }
+		echo json_encode(array('status'=>$status));
+
+	}
+
+
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 	public function getBindParms($columnselect, $table, $where, $orderby)
 	{

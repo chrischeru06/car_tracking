@@ -208,7 +208,7 @@
 		//function pour l'affichage de la page de detail
 		function Detail($CHAUFFEUR_ID){
 		// $CHAUFFEUR_ID=$this->uri->segment(4);
-			$chauff=$this->Model->getRequeteOne("SELECT CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,chauffeur.FILE_PERMIS FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1 AND md5(chauffeur.CHAUFFEUR_ID)='".$CHAUFFEUR_ID."'");
+			$chauff=$this->Model->getRequeteOne("SELECT CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,provinces.PROVINCE_ID,communes.COMMUNE_NAME,communes.COMMUNE_ID,collines.COLLINE_NAME,collines.COLLINE_ID,zones.ZONE_NAME,zones.ZONE_ID,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,chauffeur.FILE_PERMIS FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1 AND md5(chauffeur.CHAUFFEUR_ID)='".$CHAUFFEUR_ID."'");
 
 			$info_vehicul=$this->ModelPs->getRequeteOne('SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,concat(proprietaire.NOM_PROPRIETAIRE," ",proprietaire.PRENOM_PROPRIETAIRE) as name,proprietaire.PHOTO_PASSPORT FROM chauffeur_vehicule  join vehicule on vehicule.CODE=chauffeur_vehicule.CODE JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE=vehicule.ID_MODELE join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID  WHERE chauffeur_vehicule.STATUT_AFFECT=1 AND chauffeur_vehicule.CHAUFFEUR_ID='.$chauff['CHAUFFEUR_ID'].'');
 
@@ -1424,7 +1424,7 @@
 
 
 
-					//calcul du carburant consommé
+                //calcul du carburant consommé
 					if(!empty($get_chauffeur['KILOMETRAGE'])){
 
 						$carburant_before=$get_chauffeur['KILOMETRAGE'] * $nvldistance_arrondie;
@@ -1620,21 +1620,100 @@
 
 											);
 
-											echo json_encode($output);
+		echo json_encode($output);
 
-										}
+
+	}
+
+
+	// Fonction pour recuperer la localité
+
+	function get_localite(){
+
+		$PROVINCE_ID = $this->input->post('PROVINCE_ID');
+		$COMMUNE_ID = $this->input->post('COMMUNE_ID');
+		$ZONE_ID = $this->input->post('ZONE_ID');
+		$COLLINE_ID = $this->input->post('COLLINE_ID');
+
+		$html_prov ="<option value='0'>Sélectionner</option>";
+		$html_com ="<option value='0'>Sélectionner</option>";
+		$html_zon ="<option value='0'>Sélectionner</option>";
+		$html_coll ="<option value='0'>Sélectionner</option>";
+		
+		$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+		$provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1 ', '`PROVINCE_NAME` ASC');
+		$provinces = $this->ModelPs->getRequete($proce_requete, $provinces);
+		foreach ($provinces as $province)
+		{
+			if($province['PROVINCE_ID'] == $PROVINCE_ID)
+			{
+				$html_prov.="<option value='".$province['PROVINCE_ID']."' selected>".$province['PROVINCE_NAME']."</option>";
+			}
+			else{
+				$html_prov.="<option value='".$province['PROVINCE_ID']."'>".$province['PROVINCE_NAME']."</option>";
+			}
+		}
+
+
+		$communes = $this->getBindParms('COMMUNE_ID,COMMUNE_NAME', 'communes', '1 AND PROVINCE_ID = '.$PROVINCE_ID.'', '`COMMUNE_NAME` ASC');
+
+		$communes = $this->ModelPs->getRequete($proce_requete, $communes);
+		foreach ($communes as $commune)
+		{
+			if($commune['COMMUNE_ID'] == $COMMUNE_ID)
+			{
+				$html_com.="<option value='".$commune['COMMUNE_ID']."' selected>".$commune['COMMUNE_NAME']."</option>";
+			}
+			else{
+				$html_com.="<option value='".$commune['COMMUNE_ID']."'>".$commune['COMMUNE_NAME']."</option>";
+			}
+		}
+
+		$zones = $this->getBindParms('ZONE_ID,ZONE_NAME', 'zones', '1 AND COMMUNE_ID = '.$COMMUNE_ID.'', '`ZONE_NAME` ASC');
+
+		$zones = $this->ModelPs->getRequete($proce_requete, $zones);
+		foreach ($zones as $zone)
+		{
+			if($zone['ZONE_ID'] == $ZONE_ID)
+			{
+				$html_zon.="<option value='".$zone['ZONE_ID']."' selected>".$zone['ZONE_NAME']."</option>";
+			}
+			else{
+				$html_zon.="<option value='".$zone['ZONE_ID']."'>".$zone['ZONE_NAME']."</option>";
+			}
+		}
+
+		$collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME', 'collines', '1 AND ZONE_ID = '.$ZONE_ID.'', '`COLLINE_NAME` ASC');
+
+		$collines = $this->ModelPs->getRequete($proce_requete, $collines);
+		foreach ($collines as $colline)
+		{
+			if($colline['COLLINE_ID'] == $COLLINE_ID)
+			{
+				$html_coll.="<option value='".$colline['COLLINE_ID']."' selected>".$colline['COLLINE_NAME']."</option>";
+			}
+			else{
+				$html_coll.="<option value='".$colline['COLLINE_ID']."'>".$colline['COLLINE_NAME']."</option>";
+			}
+		}
+
+		$output = array('html_prov'=>$html_prov,'html_com'=>$html_com,'html_zon'=>$html_zon,'html_coll'=>$html_coll);
+
+		echo json_encode($output);
+	}
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
-										public function getBindParms($columnselect, $table, $where, $orderby)
-										{
-											$bindparams = array(
-												'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
-												'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
-												'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
-												'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
-											);
-											return $bindparams;
-										}
+	public function getBindParms($columnselect, $table, $where, $orderby)
+	{
+		$bindparams = array(
+			'columnselect' => mysqli_real_escape_string($this->db->conn_id,$columnselect),
+			'table' => mysqli_real_escape_string($this->db->conn_id,$table) ,
+			'where' => mysqli_real_escape_string($this->db->conn_id,$where) ,
+			'orderby' => mysqli_real_escape_string($this->db->conn_id,$orderby) ,
+		);
+		return $bindparams;
+	}
 
-									}
-								?>
+}
+?>

@@ -20,7 +20,7 @@
       position: relative;
       cursor: grab;
       transition: transform 0.2s;
-      border-radius: 50%;
+      border-radius: 20px;
 
       width: 103%;
       height: 100%;
