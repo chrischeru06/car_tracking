@@ -99,7 +99,7 @@ input:checked + .slider:before {
               <td> 
               </td>
               <td>  
-                <h1 class="pt-2 ps-1"> <i class="fa fa-rotate-left" style="font-size: 15px;"></i> Historique device</h1>
+                <h1 class="pt-2 ps-1"> <i class="fa fa-rotate-left" style="font-size: 15px;"></i> <?=lang('historique_device_title')?></h1>
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                   </ol>
@@ -141,11 +141,11 @@ input:checked + .slider:before {
                        <ul class="nav nav-tabs nav-tabs-bordered">
 
                         <li class="nav-item">
-                          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#activation_forfait" onclick="liste_histo(1);"><i class="fa fa-check"></i> Activation forfait</button>
+                          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#activation_forfait" onclick="liste_histo(1);"><i class="fa fa-check"></i> <?=lang('activ_forfait_check')?></button>
                         </li>
 
                         <li class="nav-item">
-                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#statut"onclick="liste_histo2(2);"><i class="fa fa-cog"></i> Statut</button>
+                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#statut"onclick="liste_histo2(2);"><i class="fa fa-cog"></i> <?=lang('i_stat')?></button>
                         </li>
 
                       </ul>
@@ -197,13 +197,13 @@ input:checked + .slider:before {
                     <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="">#</th>
-                        <th class="">CODE</th>
-                        <th class="">DATE&nbsp;ACTIVATION&nbsp;FORFAIT</th>
-                        <th class="">DATE&nbsp;EXPIRATION&nbsp;FORFAIT</th>
-                        <th class="">VALIDITE</th>
+                        <th class=""><?=lang('list_code')?></th>
+                        <th class=""><?=lang('dte_activ_th')?></th>
+                        <th class=""><?=lang('dte_expiration_th')?></th>
+                        <th class=""><?=lang('validation_val')?></th>
                         <!-- <th class="">STATUT</th> -->
-                        <th class="">FAIT&nbsp;PAR</th>
-                        <th class="">DATE</th>
+                        <th class=""><?=lang('list_fait_par')?></th>
+                        <th class=""><?=lang('list_date')?></th>
                       </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -227,10 +227,10 @@ input:checked + .slider:before {
                     <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                         <th class="">#</th>
-                        <th class="">CODE</th>
-                        <th class="">STATUT</th>
-                        <th class="">FAIT&nbsp;PAR</th>
-                        <th class="">DATE</th>
+                        <th class=""><?=lang('list_code')?></th>
+                        <th class=""><?=lang('th_statut')?></th>
+                        <th class=""><?=lang('list_fait_par')?></th>
+                        <th class=""><?=lang('list_date')?></th>
                       </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">

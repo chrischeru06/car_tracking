@@ -45,27 +45,7 @@
         </a>
       </li>
       <!-- End Search Icon-->
-      <li class="nav-item dropdown header-profile">
-        <a  class="nav-link" href="#" role="button" data-toggle="dropdown">
-          <i style="font-size: 25px;color: #012970;" class="fa fa-language" aria-hidden="true"></i>
-          <small style="color: #012970;">Lang (<?= $this->session->userdata('site_lang') ?>)</small>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right">
-
-          <a href="<?php echo base_url(); ?>Language/index/french" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='french') echo 'active' ?>">
-            <!-- <span style="width:1rem;height: auto;"> -->
-              <img class="img" src="<?= base_url() ?>upload/fr.jpg">&nbsp;&nbsp;&nbsp;FR
-            <!-- </span> -->
-          </a>
-          <a href="<?php echo base_url(); ?>Language/index/english" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='english') echo 'active' ?>">
-            <!-- <span class="ml-2"> -->
-              <img class="img" src="<?= base_url() ?>upload/en.png">&nbsp;&nbsp;&nbsp;EN
-            <!-- </span> -->
-          </a>
-
-
-        </div>
-      </li>
+      
       <?php
 
 
@@ -338,44 +318,64 @@
 
       </ul><!-- End Profile Dropdown Items -->
     </li><!-- End Profile Nav -->
+    <li class="nav-item dropdown header-profile">
+      <a  class="nav-link" href="#" role="button" data-toggle="dropdown">
+        <i style="font-size: 25px;color: #012970;" class="fa fa-language" aria-hidden="true"></i>
+        <small style="color: #012970;">Lang (<?= $this->session->userdata('site_lang') ?>)</small>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
 
-  </ul>
-</nav><!-- End Icons Navigation -->
+        <a href="<?php echo base_url(); ?>Language/index/french" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='french') echo 'active' ?>">
+          <!-- <span style="width:1rem;height: auto;"> -->
+            <img class="img" src="<?= base_url() ?>upload/fr.jpg">&nbsp;&nbsp;&nbsp;FR
+            <!-- </span> -->
+          </a>
+          <a href="<?php echo base_url(); ?>Language/index/english" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='english') echo 'active' ?>">
+            <!-- <span class="ml-2"> -->
+              <img class="img" src="<?= base_url() ?>upload/en.png">&nbsp;&nbsp;&nbsp;EN
+              <!-- </span> -->
+            </a>
 
-</header>
+
+          </div>
+        </li>
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header>
 
 
-<script>
-  function goBackend(){
-    $.ajax({
-      url:"<?=base_url('vehicule/Vehicule/check_anomalies/')?>",
-      type: "GET",
-      dataType:"JSON",
-      success: function(data)
-      {
+  <script>
+    function goBackend(){
+      $.ajax({
+        url:"<?=base_url('vehicule/Vehicule/check_anomalies/')?>",
+        type: "GET",
+        dataType:"JSON",
+        success: function(data)
+        {
         // $('#notif').html(data);
         // alert(data)
-        $('#compteur').html(data.nbre_anomalies);
-        $('#compteur2').html(data.nbre_anomalies);
-        $('#html2').html(data.html);
-        $('#html1').html(data.html1);
-        $('#html3').html(data.html1);
-        $('#html4').html(data.html2);
-        $('#html5').html(data.html_device);
-        $('#html6').html(data.html_device_exp);
+          $('#compteur').html(data.nbre_anomalies);
+          $('#compteur2').html(data.nbre_anomalies);
+          $('#html2').html(data.html);
+          $('#html1').html(data.html1);
+          $('#html3').html(data.html1);
+          $('#html4').html(data.html2);
+          $('#html5').html(data.html_device);
+          $('#html6').html(data.html_device_exp);
 
 
 
 
-      },
-      error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Erreur');
-      }
-    });
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+          alert('Erreur');
+        }
+      });
     // setTimeout(goBackend,5000)
 
-  };
+    };
 
-  setTimeout(goBackend,5000)
-</script>
+    setTimeout(goBackend,5000)
+  </script>

@@ -131,11 +131,11 @@
 					<table>
 						<tr>
 							<td>  
-								<h1 class=""><font class="bi bi-grid" style="font-size:18px;"></font> Centre de situation</h1>
+								<h1 class=""><font class="bi bi-grid" style="font-size:18px;"></font> <?=lang('Centre_situation_lng')?></h1>
 								<nav aria-label="breadcrumb">
 									<ol class="breadcrumb">
-										<li class="breadcrumb-item"><a href="#">Centre de situation</a></li>
-										<li class="breadcrumb-item"><a href="#">Carte</a></li>
+										<li class="breadcrumb-item"><a href="#"><?=lang('Centre_situation_lng')?></a></li>
+										<li class="breadcrumb-item"><a href="#"><?=lang('mot_carte')?></a></li>
 										<!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
 									</ol>
 								</nav>
@@ -165,10 +165,10 @@
 
 					<div class="col-md-4">
 						<div class="form-group">
-							<label>Propriétaire</label>
+							<label><?=lang('title_proprio_list')?></label>
 
 							<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();" style="border-radius:15px;">
-								<option value="" selected>-- Sélectionner --</option>
+								<option value="" selected>-- <?=lang('selectionner')?> --</option>
 								<?php
 								foreach ($proprio as $key_pro)
 								{
@@ -186,10 +186,10 @@
 
 					<div class="col-md-4">
 						<div class="form-group">
-							<label>Véhicule</label>
+							<label><?=lang('mot_vehicule')?></label>
 
 							<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();" style="border-radius:15px;">
-								<option value="" selected>-- Sélectionner --</option>
+								<option value="" selected>-- <?=lang('selectionner')?> --</option>
 							</select>
 						</div>
 					</div>
@@ -212,9 +212,9 @@
 				?>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label>Véhicule</label>
+						<label><?=lang('mot_vehicule')?></label>
 						<select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID" onchange="getmap();">
-							<option value="" selected>-- Sélectionner --</option>
+							<option value="" selected>-- <?=lang('selectionner')?> --</option>
 							<?php
 							foreach ($vehicule as $key_vehicule)
 							{
@@ -240,7 +240,7 @@
 			{
 				?>
 				<div class="col-lg-3">
-					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetProprietaire($('#PROPRIETAIRE_ID').val());" title="Cliquer ici pour visualiser la liste">
+					<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetProprietaire($('#PROPRIETAIRE_ID').val());" title="<?=lang('title_visualiser_list')?>">
 
 						<div class="card-body">
 
@@ -255,7 +255,7 @@
 									<strong class="card-title" id="nbr_proprietaire" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 10px;margin-left:-10%;">Propriétaires enregistrés<i  title="Voir la liste" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;margin-left:-10%;"><?=lang('proprio_enreg')?><i  title="Voir la liste" ></i></b>
 								</div>
 
 							</div>
@@ -271,7 +271,7 @@
 			?>
 
 			<div class="col-lg-3">
-				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule($('#VEHICULE_ID').val());get_nbr_vehicule($('#VEHICULE_ID').val());" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule($('#VEHICULE_ID').val());get_nbr_vehicule($('#VEHICULE_ID').val());" title="<?=lang('title_visualiser_list')?>">
 
 					<input type="hidden" value="V_ENREGITRE" id="V_ENREGITRE" name="V_ENREGITRE">
 
@@ -288,7 +288,7 @@
 								<strong class="card-title" id="nbr_vehicule" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules enregistrés<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules enregistrés<i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 
 						</div>
@@ -300,7 +300,7 @@
 			</div>
 
 			<div class="col-lg-3">
-				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ATTENTE');get_nbr_vehicule('V_ATTENTE');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ATTENTE');get_nbr_vehicule('V_ATTENTE');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -313,7 +313,7 @@
 								<strong class="card-title" id="nbrDemandeEntente" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Demandes en attente<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('demande_attente_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 
@@ -324,7 +324,7 @@
 
 
 			<div class="col-lg-3 ">
-				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_REFUSE');get_nbr_vehicule('V_REFUSE');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_REFUSE');get_nbr_vehicule('V_REFUSE');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -338,7 +338,7 @@
 								<strong class="card-title" id="nbrDemandeRefusee" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Demandes refusées<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('demande_refuse_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 					</div>
@@ -348,7 +348,7 @@
 
 
 			<div class="col-lg-3">
-				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule('V_ACTIF');get_nbr_vehicule('V_ACTIF');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule('V_ACTIF');get_nbr_vehicule('V_ACTIF');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -361,7 +361,7 @@
 								<strong class="card-title vehiculeActif" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules activés<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('veh_active_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 
@@ -372,7 +372,7 @@
 
 
 			<div class="col-lg-3">
-				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule('V_INACTIF');get_nbr_vehicule('V_INACTIF');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule('V_INACTIF');get_nbr_vehicule('V_INACTIF');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -386,7 +386,7 @@
 								<strong class="card-title vehiculeInactif" style="position:relative;top: 10px;margin-left:-70%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules désactivés<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('veh_desactive_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 
@@ -397,7 +397,7 @@
 
 
 			<div class="col-lg-3">
-				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="<?php if($this->session->userdata('PROFIL_ID') == 1){echo "GetChauffeur($('#PROPRIETAIRE_ID').val());";}else{echo "GetChauffeurPro($('#PROPRIETAIRE_ID').val());";}?>" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="<?php if($this->session->userdata('PROFIL_ID') == 1){echo "GetChauffeur($('#PROPRIETAIRE_ID').val());";}else{echo "GetChauffeurPro($('#PROPRIETAIRE_ID').val());";}?>" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -412,7 +412,7 @@
 								<strong class="card-title" id="nbrChauffeur" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Chauffeurs enregistrés<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('chauff_enreg_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 
 						</div>
@@ -423,7 +423,7 @@
 			</div>
 
 			<div class="col-lg-3">
-				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_MOUVEMENT');get_nbr_vehicule('V_MOUVEMENT');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_MOUVEMENT');get_nbr_vehicule('V_MOUVEMENT');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -437,7 +437,7 @@
 								<strong class="card-title" id="vehiculeMouvement" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en mouvement<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('veh_mvt_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 
@@ -447,7 +447,7 @@
 			</div>
 
 			<div class="col-lg-3 autres_infos">
-				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule('V_CREVAISON');get_nbr_vehicule('V_CREVAISON');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule('V_CREVAISON');get_nbr_vehicule('V_CREVAISON');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -461,7 +461,7 @@
 								<strong class="card-title" id="vehiculeAvecAccident" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules en accident<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('veh_accident_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 
@@ -472,7 +472,7 @@
 
 
 			<div class="col-lg-3 autres_infos">
-				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule('V_ETEINT');get_nbr_vehicule('V_ETEINT');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 95%" onclick="GetVehicule('V_ETEINT');get_nbr_vehicule('V_ETEINT');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -486,7 +486,7 @@
 								<strong class="card-title" id="vehiculeEteint" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules éteints<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('veh_eteint_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 					</div>
@@ -502,7 +502,7 @@
 			</div>
 
 			<div class="col-lg-3 autres_infos">
-				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ALLUME');get_nbr_vehicule('V_ALLUME');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_ALLUME');get_nbr_vehicule('V_ALLUME');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -516,7 +516,7 @@
 								<strong class="card-title" id="vehiculeAllume" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules allumés<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('veh_allum_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 					</div>
@@ -525,7 +525,7 @@
 			</div>
 
 			<div class="col-lg-3 autres_infos">
-				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_STATIONNE');get_nbr_vehicule('V_STATIONNE');" title="Cliquer ici pour visualiser la liste">
+				<div class="card dash_card" style="border-radius:20px; width: 100%" onclick="GetVehicule('V_STATIONNE');get_nbr_vehicule('V_STATIONNE');" title="<?=lang('title_visualiser_list')?>">
 
 					<div class="card-body">
 
@@ -539,7 +539,7 @@
 								<strong class="card-title" id="vehiculeStationnement" style="position:relative;top: 10px;margin-left:-50%;">145</strong>
 							</div>
 							<div class="col-lg-6">
-								<b class="small pt-2 ps-1" style="position:relative;top: 10px;">Véhicules stationnés<i  title="Voir la liste" ></i></b>
+								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('veh_stationne_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 							</div>
 						</div>
 					</div>
@@ -573,7 +573,7 @@
 
 			<div class="col-lg-1" id="voirMoins">
 
-				<label class="btn btn-outline-secondary rounded-pill" title="Voir moins" onclick="voirMoins();" style="font-size: 10px;margin-top: -30px;"><i class="fa fa-minus"></i></label>
+				<label class="btn btn-outline-secondary rounded-pill" title="<?=lang('voir_moins_mot')?>" onclick="voirMoins();" style="font-size: 10px;margin-top: -30px;"><i class="fa fa-minus"></i></label>
 
 			</div>
 			
@@ -624,7 +624,7 @@
 						<div class="modal-dialog modal-xl">
 							<div class="modal-content">
 								<div class="modal-header" style='background:cadetblue;color:white;'>
-									<h6 class="modal-title">Liste des propriétaires</h6>
+									<h6 class="modal-title"><?=lang('modal_list_proprio')?></h6>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
@@ -635,11 +635,11 @@
 												<tr>
 													<th class="text-dark">#</th>
 
-													<th class="text-dark">IDENTIFICATION</th>
-													<th class="text-dark">EMAIL</th>
-													<th class="text-dark">TELEPHONE</th>
-													<th>STATUT</th>
-													<th>NBR&nbsp;VEHICULE</th>
+													<th class="text-dark"><?=lang('identif_input')?></th>
+													<th class="text-dark"><?=lang('th_email')?></th>
+													<th class="text-dark"><?=lang('th_tlphone')?></th>
+													<th><?=lang('th_statut')?></th>
+													<th><?=lang('th_nbre_veh')?></th>
 
 												</tr>
 											</thead>
@@ -673,11 +673,11 @@
       					<div class="col-md-5">
       						<label class="text-dark" style="font-weight: 1000; color:#454545">Filtrage selon la validité des documments</label>
       						<select class="form-control" id="CHECK_VALIDE" name="CHECK_VALIDE" onchange="GetVehicule($('#type_vehicule').val());get_nbr_vehicule($('#type_vehicule').val());">
-      							<option value="0"> Sélectionner</option>
-      							<option value="1"> Véhicules avec assurances valides </option>
-      							<option value="2"> Véhicules avec assurances invalides </option>
-      							<option value="3"> Véhicules avec contrôles techniques valides </option>
-      							<option value="4"> Véhicules avec contrôles techniques invalides </option>
+      							<option value="0"> <?=lang('selectionner')?></option>
+      							<option value="1"> <?=lang('select_veh_ass_valide')?> </option>
+      							<option value="2"> <?=lang('select_veh_ass_invalide')?> </option>
+      							<option value="3"> <?=lang('select_veh_ctrl_valide')?> </option>
+      							<option value="4"> <?=lang('select_veh_ctrl_invalide')?> </option>
 
       						</select>
 
@@ -704,21 +704,21 @@
       								<?php
       								if($this->session->userdata('PROFIL_ID') == 1)
       									{?>
-      										<th class="">CODE</th>
+      										<th class=""><?=lang('list_code')?></th>
       										<?php
       									}
       									?>
       									
-      									<th class="">MARQUE</th>
-      									<th class="">MODELE</th>
-      									<th class="">PLAQUE</th>
-      									<th class="">COULEUR</th>
-      									<th class="">CONSOMMATION</th>
-      									<th class="">DATE&nbsp;ENREGISTREMENT</th>
-      									<th class="">STATUT</th>
-      									<th class="">ASSURANCE</th>
-      									<th class="">C&nbsp;T</th>
-      									<th class="">ACTION</th>
+      									<th class=""><?=lang('th_marque')?></th>
+      									<th class=""><?=lang('th_modele')?></th>
+      									<th class=""><?=lang('th_plaque')?></th>
+      									<th class=""><?=lang('th_couleur')?></th>
+      									<th class=""><?=lang('cons_mot')?></th>
+      									<th class=""><?=lang('list_dte_enregistrement')?></th>
+      									<th class=""><?=lang('th_statut')?></th>
+      									<th class=""><?=lang('list_assurance_maj')?></th>
+      									<th class=""><?=lang('list_ctrl_tech_abrev')?></th>
+      									<th class=""><?=lang('list_action')?></th>
       									
       								</tr>
       							</thead>
@@ -801,7 +801,7 @@
 							<div class="row">
 
 								<div class="col-md-12" id="image-container">
-									<img src="" id="phot_v" alt="Description de l'image">
+									<img src="" id="phot_v" alt="<?=lang('descr_img')?>">
 								</div>
 
 							</div>
@@ -820,7 +820,7 @@
 				<div class="modal-dialog modal-xl">
 					<div class="modal-content">
 						<div class="modal-header" style='background:cadetblue;color:white;'>
-							<h6 class="modal-title">Liste des chauffeurs</h6>
+							<h6 class="modal-title"><?=lang('chauff_liste')?></h6>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
@@ -831,14 +831,10 @@
 										<tr>
 
 											<th class="text-dark">#</th>
-											<th class="text-dark">CHAUFFEUR</th>
-
-
-											<th class="text-dark">TELEPHONE</th>
-											<th class="text-dark">EMAIL</th>
-
-											<th class="text-dark">STATUT</th>
-
+											<th class="text-dark"><?=lang('th_chauffeur')?></th>
+											<th class="text-dark"><?=lang('th_tlphone')?></th>
+											<th class="text-dark"><?=lang('th_email')?></th>
+											<th class="text-dark"><?=lang('th_statut')?></th>
 											<th class="text-dark"></th>
 										</tr>
 									</thead>
@@ -861,7 +857,7 @@
 				<div class="modal-dialog modal-xl">
 					<div class="modal-content">
 						<div class="modal-header" style='background:cadetblue;color:white;'>
-							<h6 class="modal-title">Liste des chauffeurs</h6>
+							<h6 class="modal-title"><?=lang('chauff_liste')?></h6>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
@@ -872,13 +868,10 @@
 										<tr>
 
 											<th class="text-dark">#</th>
-											<th class="text-dark">CHAUFFEUR</th>
-
-											<th class="text-dark">TELEPHONE</th>
-											<th class="text-dark">EMAIL</th>
-
-
-											<th class="text-dark">OPTIONS</th>
+											<th class="text-dark"><?=lang('th_chauffeur')?></th>
+											<th class="text-dark"><?=lang('th_tlphone')?></th>
+											<th class="text-dark"><?=lang('th_email')?></th>
+											<th class="text-dark"><?=lang('th_options')?></th>
 										</tr>
 									</thead>
 									<tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -900,7 +893,7 @@
 					<div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      <!-- <h5 class="modal-title">Traiter la demande de :<a id="NOM"></a>&nbsp;&nbsp;<a id="PRENOM"></a></h5>
 
-        --><h5 class="modal-title">Traiter la demande </h5>
+        --><h5 class="modal-title"><?=lang('modal_title_traiter_dem')?> </h5>
 
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -913,14 +906,14 @@
     				<input type="hidden" name="STATUT_VEH_AJOUT" id="STATUT_VEH_AJOUT">
 
     				<div class="col-md-4">
-    					<label for="description"><small>Statut</small><span  style="color:red;">*</span></label>
+    					<label for="description"><small><?=lang('i_stat')?></small><span  style="color:red;">*</span></label>
     					<select class="form-control" id="TRAITEMENT_DEMANDE_ID" name="TRAITEMENT_DEMANDE_ID" onchange="traiter_view_code()">
     					</select>
     					<span id="errorTRAITEMENT_DEMANDE_ID" class="text-danger"></span>
     				</div>
     				<div class="col-md-4" id="code_device_uid">
     					<div class="form-group">
-    						<label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
+    						<label ><small> <?=lang('modal_code_device_uid')?></small><span  style="color:red;">*</span></label>
 
     						<input class="form-control" type='text' name="CODE" id="CODE" placeholder='' onchange="check_val_code();" value=""/>
 
@@ -930,14 +923,14 @@
     				</div>
 
     				<div class = 'col-md-4'>
-    					<label><small>Commentaire</small><span  style="color:red;">*</span></label>
+    					<label><small><?=lang('modal_commentaire')?></small><span  style="color:red;">*</span></label>
     					<textarea class='form-control' name ='COMMENTAIRE' id="COMMENTAIRE"></textarea>
     					<span id="errorCOMMENTAIRE" class="text-danger"></span>
     				</div>
     			</div>
     		</div> 
     		<div class="modal-footer">
-    			<input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Traiter" onclick="save_statut_vehicul();" />
+    			<input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_traiter')?>" onclick="save_statut_vehicul();" />
     			<!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
 
     		</div>
@@ -1052,7 +1045,7 @@
           		var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
 
           		if (PROPRIETAIRE_ID == '') {
-          			$('#VEHICULE_ID').html('<option value="">Sélectionner</option>');
+          			$('#VEHICULE_ID').html('<option value=""><?=lang('selectionner')?></option>');
           		} else {
           			$.ajax({
           				url: "<?= base_url() ?>centre_situation/Centre_situation/get_vehicule/" + PROPRIETAIRE_ID,
@@ -1440,7 +1433,7 @@
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{
-						alert('Erreur');
+						alert('<?=lang('msg_erreur')?>');
 					}
 				});
 			}
@@ -1480,7 +1473,7 @@
 							$('#errorCODE').text("");
 						}
 						else
-							{$('#errorCODE').text("Ce Code du véhicule existe déjà!");}
+							{$('#errorCODE').text("<?=lang('alert_code_existant')?>");}
 					}
 				});
 			}
@@ -1496,19 +1489,19 @@
 
 				if($('#TRAITEMENT_DEMANDE_ID').val()=='')
 				{
-					$('#errorTRAITEMENT_DEMANDE_ID').html('Le champ est obligatoire !');
+					$('#errorTRAITEMENT_DEMANDE_ID').html('<?=lang('msg_validation')?> !');
 					statut=2;
 				}
 				if($('#COMMENTAIRE').val()=='')
 				{
-					$('#errorCOMMENTAIRE').html('Le champ est obligatoire !');
+					$('#errorCOMMENTAIRE').html('<?=lang('msg_validation')?> !');
 					statut=2;
 				} 
 				if($('#TRAITEMENT_DEMANDE_ID').val()==1)
 				{
 					if ($('#CODE').val()=='') {
 
-						$('#errorCODE').html('Le champ est obligatoire !');
+						$('#errorCODE').html('<?=lang('msg_validation')?> !');
 						statut=2;
 
 					}
@@ -1540,7 +1533,7 @@
 								{
 									icon: 'success',
 									title: 'Success',
-									text: 'Traitement fait avec succès',
+									text: '<?=lang('msg_traitement_success')?>',
 									timer: 1500,
 								}).then(() =>
 								{
@@ -1552,8 +1545,8 @@
 								Swal.fire(
 								{
 									icon: 'error',
-									title: 'Erreur',
-									text: 'Traitement échoué !',
+									title: '<?=lang('msg_erreur')?>',
+									text: '<?=lang('msg_traitement_echec')?>',
 									timer: 1500,
 								}).then(() =>
 								{
@@ -1565,8 +1558,8 @@
 								Swal.fire(
 								{
 									icon: 'error',
-									title: 'Erreur',
-									text: 'Le code du véhicule existe déjà !',
+									title: '<?=lang('msg_erreur')?>',
+									text: '<?=lang('alert_code_existant')?>',
 									timer: 1500,
 								}).then(() =>
 								{
