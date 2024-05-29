@@ -90,7 +90,7 @@
 		//Fonction pour la selection des provinces
 		function get_vehicule($PROPRIETAIRE_ID)
 		{
-			$html="<option value=''> Sélectionner </option>";
+			$html="<option value=''> ".lang('selectionner')." </option>";
 			$vehicules=$this->Model->getRequete("SELECT VEHICULE_ID,PLAQUE FROM vehicule WHERE PROPRIETAIRE_ID =".$PROPRIETAIRE_ID." ORDER BY PLAQUE ASC");
 
 			foreach ($vehicules as $value)
@@ -474,7 +474,7 @@
 						<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->LOGO).'" height="100%"  width="100%" >
 						</div>
 						<div class="modal-footer">
-						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">'.lang('btn_fermer').'</button>
 						</div>
 						</div>
 						</div>
@@ -491,7 +491,7 @@
 						<img src = "'.base_url('upload/proprietaire/photopassport/'.$row->PHOTO_PASSPORT).'" height="100%"  width="100%" >
 						</div>
 						<div class="modal-footer">
-						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">Fermer</button>
+						<button class="btn btn-primary btn-md" class="close" data-dismiss="modal">'.lang('btn_fermer').'</button>
 						</div>
 						</div>
 						</div>
@@ -511,12 +511,12 @@
 
 					if($row->IS_ACTIVE==1){
 						$sub_array[]='
-						<label class="text-primary">Activé</label>
+						<label class="text-primary">'.lang('label_active_acc').'</label>
 
 						';
 					}else{
 						$sub_array[]='
-						<label class="text-danger">Désactivé</label>
+						<label class="text-danger">'.lang('label_desactive_acc').'</label>
 
 
 						';
@@ -701,7 +701,7 @@
 				$sub_array[]=$row->DESC_MODELE;
 				$sub_array[]=$row->PLAQUE;
 				$sub_array[]=$row->COULEUR;
-				$sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' litres / KM' : 'N/A');
+				$sub_array[]=(isset($row->KILOMETRAGE)?$row->KILOMETRAGE.' '.lang('l_kg').'' : 'N/A');
 
 				// $sub_array[]= "<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->VEHICULE_ID. "'><img src = '".base_url('upload/photo_vehicule/'.$row->PHOTO)."' height='120px' width='120px' ></a>";
 
@@ -712,15 +712,15 @@
 				$sub_array[]=date('d-m-Y',strtotime($row->DATE_SAVE))."&nbsp;<a href='".base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID."'>&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
 
 				if($row->vehicule_is_active == 1){
-					$sub_array[]='<center><label class="text-warning"><i class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin" title="demande en attente"></i></label></center>';
+					$sub_array[]='<center><label class="text-warning"><i class="text-warning small pt-2 ps-1 dash_v fa fa-spinner fa-spin" title="'.lang('title_demande_attente').'"></i></label></center>';
 				}else if($row->vehicule_is_active == 2){
-					$sub_array[]='<center><label class="text-success"><i class="text-success small pt-2 ps-1 dash_v fa fa-check" title="Vécule activé"></i></label></center>';
+					$sub_array[]='<center><label class="text-success"><i class="text-success small pt-2 ps-1 dash_v fa fa-check" title="'.lang('title_veh_active').'"></i></label></center>';
 				}
 				else if($row->vehicule_is_active == 3){
-					$sub_array[]='<center><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-ban" title="demande refusé"></i></label></center>';
+					$sub_array[]='<center><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-ban" title="'.lang('title_demande_refus').'"></i></label></center>';
 				}
 				else if($row->vehicule_is_active == 4){
-					$sub_array[]='<center><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="Vécule désactivé"></i></label></center>';
+					$sub_array[]='<center><label class="text-danger"><i class="text-danger small pt-2 ps-1 dash_v fa fa-close" title="'.lang('title_veh_desactive').'"></i></label></center>';
 				}
 
 				$option = '<div class="dropdown text-center">
@@ -734,7 +734,7 @@
 				{
 					if($row->STATUT_VEH_AJOUT == 1 || $row->STATUT_VEH_AJOUT == 3)
 					{
-						$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='bi bi-pen'></i>&nbsp;&nbsp;&nbsp;&nbsp;Traiter</li></a>";
+						$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->VEHICULE_ID . ",".$row->STATUT_VEH_AJOUT.")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='bi bi-pen'></i>&nbsp;&nbsp;&nbsp;&nbsp;".lang('btn_traiter')."</li></a>";
 					}
 				}
 
@@ -743,11 +743,11 @@
 				{
 					if($row->DATE_FIN_ASSURANCE >= date('Y-m-d'))
 					{
-						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
 					}
 					else
 					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="'.lang('title_expire').'"></i><font class="text-danger small" title="'.lang('title_expire').'"> </font></center>';
 					}
 				}
 				else
@@ -759,11 +759,11 @@
 				{
 					if($row->DATE_FIN_CONTROTECHNIK >= date('Y-m-d'))
 					{
-						$sub_array[] = '<center><i class="fa fa-check text-success small" title="Valide"></i><font class="text-success small" title="Valide"> </font></center>';
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
 					}
 					else
 					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="Expirée"></i><font class="text-danger small" title="Expirée"> </font></center>';
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="'.lang('title_expire').'"></i><font class="text-danger small" title="'.lang('title_expire').'"> </font></center>';
 					}
 				}
 				else
@@ -778,7 +778,7 @@
 				<div class='modal-content'>
 
 				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<h6 class='modal-title'>Détail du véhicule</h6>
+				<h6 class='modal-title'>".lang('dtail_veh_mot')."</h6>
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
@@ -798,37 +798,37 @@
 				<table class='table table-borderless'>
 
 				<tr>
-				<td class='btn-sm'>Code</td>
+				<td class='btn-sm'>".lang('mot_code')."</td>
 				<th class='btn-sm'>".$row->CODE."</th>
 				</tr>
 
 				<tr>
-				<td class='btn-sm'>Marque</td>
+				<td class='btn-sm'>".lang('label_marque')."</td>
 				<th class='btn-sm'>".$row->DESC_MARQUE."</th>
 				</tr>
 
 				<tr class='btn-sm'>
-				<td>Modèle</td>
+				<td>".lang('label_modele')."</td>
 				<th class='btn-sm'>".$row->DESC_MODELE."</th>
 				</tr>
 
 				<tr>
-				<td class='btn-sm'>Plaque</td>
+				<td class='btn-sm'>".lang('label_plaque')."</td>
 				<th class='btn-sm'>".$row->PLAQUE."</th>
 				</tr>
 
 				<tr>
-				<td class='btn-sm'>Couleur</td>
+				<td class='btn-sm'>".lang('label_couleur')."</td>
 				<th class='btn-sm'>".$row->COULEUR."</th>
 				</tr>
 
 				<tr>
-				<td class='btn-sm'>Consommation / km</td>
+				<td class='btn-sm'>".lang('mot_consommation')." / km</td>
 				<th class='btn-sm'>".$row->KILOMETRAGE."</th>
 				</tr>
 
 				<tr>
-				<td class='btn-sm'>Propriétaire</td>
+				<td class='btn-sm'>".lang('title_proprio_list')."</td>
 				<td class='btn-sm' style='display: -webkit-box;
 				-webkit-line-clamp: 2;
 				-webkit-box-orient: vertical;
@@ -854,7 +854,7 @@
 				<div class='modal-content'>
 
 				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<h6 class='modal-title'>Information du propriétaire</h6>
+				<h6 class='modal-title'>".lang('title_info_proprio')."</h6>
 				<button type='button' class='btn-close' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
@@ -874,7 +874,7 @@
 				<table class='table table-borderless'>
 
 				<tr>
-				<td class='btn-sm'>Nom</td>
+				<td class='btn-sm'>".lang('input_nom')."</td>
 				</tr>
 
 				<tr>
@@ -882,21 +882,21 @@
 				</tr>
 
 				<tr>
-				<td class='btn-sm'>Adresse</td>
+				<td class='btn-sm'>".lang('input_adresse')."</td>
 				</tr>
 				<tr>
 				<th class='btn-sm'>".$row->adress_pro."</th>
 				</tr>
 
 				<tr class='btn-sm'>
-				<td>Email</td>
+				<td>".lang('input_email')."</td>
 				</tr>
 				<tr>
 				<th class='btn-sm'>".$row->mail_pro."</th>
 				</tr>
 
 				<tr>
-				<td class='btn-sm'>Téléphone</td>
+				<td class='btn-sm'>".lang('input_tlphone')."</td>
 				</tr>
 				<tr>
 				<th class='btn-sm'>".$row->telephone_pro."</th>
@@ -1151,7 +1151,9 @@
 			{
 				$sub_array=array();
 				$sub_array[]=$u++;
-				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
+				$sub_array[] = ' <tbody><tr><td><a title=" " href='.base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID)).'><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
+
+
 
 				</div>
 				<div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID. '">
@@ -1161,13 +1163,14 @@
 				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-				<img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" >
+				<center><img src = "'.base_url('upload/chauffeur/'.$row->PHOTO_PASSPORT).'"" height="50%"  width="50%" ></center>
 				</div>
 				</div>
 				</div>
 				</div>
 
 				';
+
 
 
 				//fin modal
@@ -1202,12 +1205,12 @@
 				// }
 				if($row->IS_ACTIVE==1){
 					$sub_array[]=' 
-					<td><label class="text-primary">Activé</label></td>
+					<td><label class="text-primary">'.lang('label_active_acc').'</label></td>
 
 					';
 				}else{
 					$sub_array[]='
-					<td><label class="text-danger">Désactivé</label></td>
+					<td><label class="text-danger">'.lang('label_desactive_acc').'</label></td>
 					';
 				}
 
@@ -1223,9 +1226,9 @@
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
-				<center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
+				<center><h5>".lang('msg_retirer_veh')." <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
 				<div class='modal-footer'>
-				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
+				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >".lang('btn_retirer')."</a>
 				</div>
 				</div>
 				</div>
@@ -1243,7 +1246,7 @@
 
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Détails du chauffeur&nbsp;&nbsp;" .$row->NOM." "." ".$row->PRENOM."</h6>
+					<h6 class='modal-title'>".lang('dtl_chauffeur')."&nbsp;&nbsp;" .$row->NOM." "." ".$row->PRENOM."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -1255,49 +1258,49 @@
 					<div class='table-responsive'>
 					<table class='table table-borderless'>
 					<tr>
-					<td>Carte d'identité</td>
+					<td>".lang('carte_identite')."</td>
 					<th>".$row->NUMERO_CARTE_IDENTITE."</th>
 					</tr>
 
 					<tr>
-					<td>Email</td>
+					<td>".lang('input_email')."</td>
 					<th>".$row->ADRESSE_MAIL."</th>
 					</tr>
 
 					<tr>
-					<td>Téléphone</td>
+					<td>".lang('input_tlphone')."</td>
 					<th>".$row->NUMERO_TELEPHONE."</th>
 					</tr>
 
 					<tr>
-					<td>Date naissance</td>
+					<td>".lang('dte_naiss')."</td>
 					<th>".$row->DATE_NAISSANCE."</th>
 					</tr>
 
 					<tr>
-					<td>Aresse physique</td>
+					<td>".lang('input_adresse')."</td>
 					<th>".$row->ADRESSE_PHYSIQUE."</th>
 					</tr>
 					<tr>
-					<td>Localité</td>
+					<td>".lang('td_localite')."</td>
 					<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
 					</tr>
 
 					<tr>
-					<td>Information&nbsp;du&nbsp;vehicule</td>
+					<td>".lang('info_vehicule_veh')."</td>
 					<th><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></th>
 					</tr>
 
 					<tr>
-					<td><strong>Voir documents</strong></td>
+					<td><strong>".lang('voir_doc_mot')."</strong></td>
 					</tr>
 					<tr>
-					<td>CNI</td>
+					<td>".lang('mot_cni')."</td>
 					<td><a href='#' data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 					</td>
 					</tr>
 					<tr>
-					<td>PERMIS</td>
+					<td>".lang('permis_mot')."</td>
 					<td><a href='#'data-toggle='modal' data-target='#info_documa2" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 					</td>
 					</tr>
@@ -1317,7 +1320,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Carte d'identité</h6>
+					<h6 class='modal-title'>".lang('carte_identite')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -1338,7 +1341,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Permis de conduire</h6>
+					<h6 class='modal-title'>".lang('mot_permis_conduire')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -1362,7 +1365,7 @@
 
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Détails du chauffeur:" .$row->NOM." "." ".$row->PRENOM."</h6>
+					<h6 class='modal-title'>".lang('dtl_chauffeur').":" .$row->NOM." "." ".$row->PRENOM."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -1374,44 +1377,44 @@
 					<div class='table-responsive'>
 					<table class='table table-borderless'>
 					<tr>
-					<td>Carte d'identité</td>
+					<td>".lang('carte_identite')."</td>
 					<th>".$row->NUMERO_CARTE_IDENTITE."</th>
 					</tr>
 
 					<tr>
-					<td>Email</td>
+					<td>".lang('input_email')."</td>
 					<th>".$row->ADRESSE_MAIL."</th>
 					</tr>
 
 					<tr>
-					<td>Téléphone</td>
+					<td>".lang('input_tlphone')."</td>
 					<th>".$row->NUMERO_TELEPHONE."</th>
 					</tr>
 
 					<tr>
-					<td>Date naissance</td>
+					<td>".lang('dte_naiss')."</td>
 					<th>".$row->DATE_NAISSANCE."</th>
 					</tr>
 
 					<tr>
-					<td>Aresse physique</td>
+					<td>".lang('input_adresse')."</td>
 					<th>".$row->ADRESSE_PHYSIQUE."</th>
 					</tr>
 					<tr>
-					<td>Localité</td>
+					<td>".lang('td_localite')."</td>
 					<th>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME." </th>
 					</tr>
 
 					<tr>
-					<td><strong>Voir documents</strong></td>
+					<td><strong>".lang('voir_doc_mot')."</strong></td>
 					</tr>
 					<tr>
-					<td>CNI</td>
+					<td>".lang('mot_cni')."</td>
 					<td><a href='#'data-toggle='modal' data-target='#info_documa" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 					</td>
 					</tr>
 					<tr>
-					<td>PERMIS</td>
+					<td>".lang('permis_mot')."</td>
 					<td><a href='#'data-toggle='modal' data-target='#info_documa2" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a>
 					</td>
 					</tr>
@@ -1431,7 +1434,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Carte d'identité</h6>
+					<h6 class='modal-title'>".lang('carte_identite')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -1451,7 +1454,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Permis de conduire</h6>
+					<h6 class='modal-title'>".lang('mot_permis_conduire')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -1482,7 +1485,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Détails du véhicule</h6>
+					<h6 class='modal-title'>".lang('dtl_veh')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -1494,22 +1497,22 @@
 					<table class='table table-borderless table-hover text-dark'>
 
 					<tr>
-					<td>Marque
+					<td>".lang('label_marque')."</td>
 					<th>".$info_vehicul['DESC_MARQUE']."</th>
 					</tr>
 
 					<tr>
-					<td>Modèle</td>
+					<td>".lang('label_modele')."</td>
 					<th>".$info_vehicul['DESC_MODELE']."</th>
 					</tr>
 
 					<tr>
-					<td>Couleur</td>
+					<td>".lang('label_couleur')."</td>
 					<th>".$info_vehicul['COULEUR']."</th>
 					</tr>
 
 					<tr>
-					<td>Plaque</td>
+					<td>".lang('label_plaque')."</td>
 					<th>".$info_vehicul['PLAQUE']."</th>
 					</tr>
 					</table>
@@ -1591,7 +1594,7 @@
 			{
 				$sub_array=array();
 				$sub_array[]=$u++;
-				$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->CHAUFFEUR_ID. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
+				$sub_array[] = ' <tbody><tr><td><a title=" " href='.base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID)).'><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/chauffeur/').$row->PHOTO_PASSPORT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->NOM . ' ' . $row->PRENOM . '</td></tr></tbody></a>
 
 				</div>
 				<div class="modal fade" id="mypicture' .$row->CHAUFFEUR_ID. '">
@@ -1628,7 +1631,7 @@
 				';
 
 
-				$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>";
+				$option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;".lang('btn_detail')."</a></li>";
 
 
 			//fin activer desactiver
@@ -1642,9 +1645,9 @@
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
-				<center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
+				<center><h5>".lang('msg_retirer_veh')." <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
 				<div class='modal-footer'>
-				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
+				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur/retirer_voit/'.$row->CHAUFFEUR_ID)."' >".lang('btn_retirer')."</a>
 				</div>
 				</div>
 				</div>
@@ -1672,36 +1675,36 @@
 				<div class='table-responsive'>
 				<table class= 'table table-borderless'>
 				<tr>
-				<td>Carte d'identité</td>
+				<td>".lang('carte_identite')."</td>
 				<td><strong>".$row->NUMERO_CARTE_IDENTITE."</strong></td>
 				</tr>
 
 				<tr>
-				<td>Email</td>
+				<td>".lang('input_email')."</td>
 				<td><strong>".$row->ADRESSE_MAIL."</strong></td>
 				</tr>
 
 				<tr>
-				<td>Téléphone</td>
+				<td>".lang('input_tlphone')."</td>
 				<td><strong>".$row->NUMERO_TELEPHONE."</strong></td>
 				</tr>
 
 				<tr>
-				<td>Date naissance</td>
+				<td>".lang('dte_naiss')."</td>
 				<td><strong>".$row->DATE_NAISSANCE."</strong></td>
 				</tr>
 
 				<tr>
-				<td>Adresse physique</td>
+				<td>".lang('input_adresse')."</td>
 				<td><strong>".$row->ADRESSE_PHYSIQUE."</strong></td>
 				</tr>
 				<tr>
-				<td>Localité</td>
+				<td>".lang('td_localite')."</td>
 				<td><strong>".$row->PROVINCE_NAME."/".$row->COMMUNE_NAME."/".$row->ZONE_NAME."/".$row->COLLINE_NAME."</strong></td>
 				</tr>
 
 				<tr>
-				<td>Information&nbsp;du&nbsp;vehicule</td>
+				<td>".lang('info_vehicule_veh')."</td>
 				<td><a href='#' data-dismiss='modal' data-toggle='modal' data-target='#info_voitu" .$row->CHAUFFEUR_ID. "'><b class='text-primary bi bi-eye' style = 'margin-left:100px;'></b></a></td>
 				</tr>
 				</table>
@@ -1735,7 +1738,7 @@
 					<div class='modal-dialog'>
 					<div class='modal-content'>
 					<div class='modal-header' style='background:cadetblue;color:white;'>
-					<h6 class='modal-title'>Détails du véhicule</h6>
+					<h6 class='modal-title'>".lang('dtl_veh')."</h6>
 					<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 					</div>
 					<div class='modal-body'>
@@ -1749,22 +1752,22 @@
 					<table class='table table-borderless'>
 
 					<tr>
-					<td>Marque
+					<td>".lang('label_marque')."</td>
 					<td><strong>".$info_vehicul['DESC_MARQUE']."</strong></td>
 					</tr>
 
 					<tr>
-					<td>Modèle</td>
+					<td>".lang('label_modele')."</td>
 					<td><strong>".$info_vehicul['DESC_MODELE']."</strong></td>
 					</tr>
 
 					<tr>
-					<td>Couleur</td>
+					<td>".lang('label_couleur')."</td>
 					<td><strong>".$info_vehicul['COULEUR']."</strong></td>
 					</tr>
 
 					<tr>
-					<td>Plaque</td>
+					<td>".lang('label_plaque')."</td>
 					<td><strong>".$info_vehicul['PLAQUE']."</strong></th>
 					</tr>
 					</table>
