@@ -182,7 +182,7 @@
                   
                 </div> 
                 <div class="col-md-3">
-                  <font class="text-muted small" style="position:relative;top:15px;">Enregistré <?=lang('franc_date_il_ya')?> <b><?=$nbr_jours?></b> </font>
+                  <font class="text-muted small" style="position:relative;top:25%;">Enregistré <?=lang('franc_date_il_ya')?> <b><?=$nbr_jours?></b> </font>
                 </div>
               </div>
 
@@ -259,9 +259,10 @@
 
           <div class="tab-pane fade show active" id="info_generales">
 
-            <div class="row">
+            <div class="row table-responsive">
 
               <table class="table table-borderless">
+                <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                 <tr>
 
                   <?php
@@ -469,6 +470,7 @@
                   </td>
 
                 </tr>
+              </tbody>
               </table>
               <center><a href="<?=base_url('centre_situation/Centre_situation/index/').$infos_vehicule['VEHICULE_ID']?>" id="tracking"> <i class="small pt-2 ps-1 fa fa-map-marker"> </i><font class=" small pt-2 ps-1"><?=lang('veh_emplacement')?></font></a></center>
               <input type="hidden" value="<?=$infos_vehicule['VEHICULE_ID']?>" id="VEHICULE_TRACK">
