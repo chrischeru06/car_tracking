@@ -45,6 +45,14 @@
         </a>
       </li>
       <!-- End Search Icon-->
+
+
+      <a href="<?php echo base_url(); ?>Language/index/french" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='french') echo 'active' ?>">
+            <img class="img" src="<?= base_url() ?>upload/fr.jpg">
+          </a>
+          <a href="<?php echo base_url(); ?>Language/index/english" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='english') echo 'active' ?>">
+              <img class="img" src="<?= base_url() ?>upload/en.png">
+            </a>
       
       <?php
 
@@ -318,7 +326,10 @@
 
       </ul><!-- End Profile Dropdown Items -->
     </li><!-- End Profile Nav -->
-    <li class="nav-item dropdown header-profile">
+
+
+
+    <!-- <li class="nav-item dropdown header-profile">
       <a  class="nav-link" href="#" role="button" data-toggle="dropdown">
         <i style="font-size: 25px;color: #012970;" class="fa fa-language" aria-hidden="true"></i>
         <small style="color: #012970;">Lang (<?= $this->session->userdata('site_lang') ?>)</small>
@@ -326,19 +337,17 @@
       <div class="dropdown-menu dropdown-menu-right">
 
         <a href="<?php echo base_url(); ?>Language/index/french" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='french') echo 'active' ?>">
-          <!-- <span style="width:1rem;height: auto;"> -->
             <img class="img" src="<?= base_url() ?>upload/fr.jpg">&nbsp;&nbsp;&nbsp;FR
-            <!-- </span> -->
           </a>
           <a href="<?php echo base_url(); ?>Language/index/english" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='english') echo 'active' ?>">
-            <!-- <span class="ml-2"> -->
               <img class="img" src="<?= base_url() ?>upload/en.png">&nbsp;&nbsp;&nbsp;EN
-              <!-- </span> -->
             </a>
 
 
           </div>
-        </li>
+        </li> -->
+
+
       </ul>
     </nav><!-- End Icons Navigation -->
 
