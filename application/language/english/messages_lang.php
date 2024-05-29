@@ -213,6 +213,10 @@ $lang['ms_veh']='My vehicles';
 
 //FIN PART1
 
+
+
+
+
 //module:vehicule DEJA TRADUIT
 $lang['franc_date_il_ya'] = '';
 $lang['angl_date_il_ya'] = 'ago';
@@ -224,6 +228,178 @@ $lang['mois'] = 'Month';
 $lang['jr'] = 'Day';
 $lang['desactive_demande'] = 'To desable';
 $lang['active_demande'] = 'To activate';
+
+
+
+
+//FIN PART 1
+
+//PART 2
+//Module Administration
+$lang['disc_avec']='Discussion with';
+$lang['msg_depart']='Tell us how we can help you.';
+$lang['plc_hlder']='Enter your message here..';
+$lang['btn_envoyer']='Send';
+$lang['remplir_champ']='Please fill in this field !';
+$lang['nveau_msg']='New message';
+$lang['titre_msg']='Messages';
+$lang['util_list']='USER';
+$lang['nveau_msg_esp']='NEW MESSAGE';
+$lang['mot_enregistrement']='Recording';
+$lang['descr_profil']='PROFILE DESCRIPTION';
+$lang['code_profil']='PROFILE CODE';
+$lang['role_role']='ROLE';
+$lang['profil_maj']='PROFILE';
+$lang['modification_modif']='Modification';
+$lang['btn_supprimer']='Delete';
+$lang['msg_suppr']='Do you want to delete the profile';
+$lang['modif_msg_prfil']='The modification of';
+$lang['modif_msg_prfil_echoue']='failed';
+$lang['msg_suppression_succes']='Deletion successfully completed';
+$lang['msg_suppression_error']='Deletion failed';
+$lang['msg_unique_prfil']='The profile must be unique';
+$lang['msg_unique_code']='The code must be unique';
+$lang['ajout_success']='Addition successfully completed';
+$lang['mot_nom_prnom']='NAME AND FIRST NAME';
+$lang['error_desactivation']='Unable to disable Administrator !';
+$lang['modif_utilisateur']='Editing a User';
+$lang['btn_modif_mot_de_passe']='Change password';
+$lang['mot_mot_de_passe']='Password';
+$lang['mot_mot_passe_maj']='PASSWORD';
+
+$lang['ancien_mot_passe']='Old password';
+$lang['msg_password']='Please enter the password';
+$lang['nveau_mot_passe']='New Password';
+$lang['confirmation_mot_passe']='Confirmation of the new Password';
+$lang['mot_passe_ps_correspondant']='Passwords don\'t match';
+$lang['identif_input']='IDENTIFICATION';
+$lang['identif_input_min']='Identification';
+$lang['msg_suppression_util']='Do you want to delete the user';
+$lang['incorrect_pssword']='The password is incorrect';
+$lang['suppression_success']='User successfully deleted';
+
+//Module:Chauffeur 
+$lang['mot_genre']='Gender';
+$lang['mot_rue']='street';
+$lang['n_identite']='Identity card number';
+$lang['n_prsonne_contact']='Contact number';
+$lang['n_permis_conduire']='Driver\'s license number';
+$lang['dte_expiration_permis']='Driver\'s license expiry date';
+$lang['validation_age']='Only age 18 or over is allowed';
+$lang['chauff_liste']='List of drivers';
+$lang['modal_modif_affectation']='Change driver assignment';
+$lang['modal_retirer_cond']='Please remove the vehicle first';
+$lang['modif_affectation_success']='Modification of assignment successfully completed';
+$lang['msg_chauffeur_affecte']='The driver has another vehicle';
+$lang['msg_modif_affect_echoue']='Modification of assignment failed';
+$lang['phto_permis_conduire']='Photo driver\'s license';
+$lang['titre_detail_chauffeur']='Driver details';
+$lang['info_veh_titre']='Vehicle information';
+$lang['histo_titre']='History';
+$lang['mot_cni']='ID';
+$lang['mot_permis_conduire']='Driver\'s license';
+$lang['mot_ident_carte']='Identity card';
+$lang['dbut_affectation']='START OF ASSIGNMENT';
+$lang['fin_affectation']='END OF ASSIGNMENT';
+$lang['resum_parcours']='ROUTE SUMMARY';
+$lang['descr_img']='Image description';
+$lang['modal_attribue_veh']='Assign the vehicle to the driver';
+$lang['mot_vehicule']='Vehicle';
+$lang['mot_zone_affectation']='Allocation zone';
+$lang['btn_attribuer']='Assign';
+$lang['msg_actualise_pge']='Refresh your page';
+$lang['msg_chauffeur_possede_veh']='The driver already owns a vehicle';
+$lang['visibilite_polygone']='Polygon visibility';
+$lang['resume_courses']='Race summaries';
+$lang['dist_parcourue']='Distance covered';
+$lang['erreur_produite']='An error has occurred';
+$lang['resum_du_parcours']='Course summary';
+$lang['estimation_parcours']='Estimated route';
+$lang['hrs_dbut']='Start time';
+$lang['hrs_fin']='End time';
+$lang['chauf_non_affect']='No driver assigned to this vehicle!';
+$lang['carburant_mot']='Fuel';
+$lang['consomme_mot']='consumed';
+$lang['litre_mot']='liters';
+$lang['vitesse_max']='Speed';
+$lang['trajet_parcouru']='Route taken';
+$lang['chauffeur_affecter']='Assign driver';
+$lang['btn_retirer_veh']='Remove vehicle';
+$lang['btn_modif_affect']='Change assignment';
+$lang['msg_retirer_veh']='Do you want to remove the vehicle at';
+$lang['btn_retirer']='Remove';
+$lang['dtl_chauffeur']='Driver details';
+$lang['dte_naiss']='Date of birth';
+$lang['info_vehicule_veh']='Vehicle information';
+$lang['dtl_veh']='Vehicle details';
+$lang['msg_retrait_veh_success']='You have removed the car';
+$lang['unique_veh']='The phone must be unique';
+$lang['unique_numero']='The number must be unique';
+$lang['unique_mail']='The mail must be unique';
+$lang['unique_permis']='The licence must be unique';
+
+//FIN PART 2
+
+
+//PART 3
+//Centre de situation
+$lang['mot_carte']='Card';
+$lang['title_visualiser_list']='Click here to view the list';
+$lang['proprio_enreg']='Registered owners';
+$lang['title_voir_liste']='See the list';
+$lang['demande_attente_mot']='Pending requests';
+$lang['demande_refuse_mot']='Refused requests';
+$lang['veh_active_mot']='Activated vehicles';
+$lang['veh_desactive_mot']='Deactivated vehicles';
+$lang['chauff_enreg_mot']='Registered drivers';
+$lang['veh_mvt_mot']='Vehicles in motion';
+$lang['veh_accident_mot']='Vehicles in Accident';
+$lang['veh_eteint_mot']='Vehicles off';
+$lang['veh_allum_mot']='Vehicles on';
+$lang['veh_stationne_mot']='Parked vehicles';
+$lang['voir_moins_mot']='See less';
+$lang['modal_list_proprio']='List of owners';
+$lang['cons_mot']='CONSUMPTION';
+$lang['dtl_dtl_chauffeur']='Driver detail';
+$lang['dtl_dtl_proprio']='Owner\'s details';
+$lang['info_trajet']='Route information';
+$lang['dtail_veh_mot']='Vehicle details';
+$lang['voir_doc_mot']='See documents';
+$lang['permis_mot']='PERMIT';
+$lang['date_installation']='Installation date';
+$lang['nbr_sim']='Sim card number';
+$lang['dte_activ_forfait']='Package activation date';
+$lang['dte_expiration_forfait']='Package expiry date';
+$lang['msg_erreur_code_exist']='The code already exists';
+//Module:Sim management
+$lang['historique_device_title']='Device History';
+$lang['activ_forfait_check']='Package activation';
+$lang['dte_expiration_th']='EXPIRATION DATE PACKAGE';
+$lang['validation_val']='VALIDITY';
+$lang['device_mot']='Devices';
+$lang['veh_maj_mot']='VEHICLE';
+$lang['dte_install_list']='INSTALLATION DATE ';
+$lang['nom_reseau']='NETWORK NAME';
+$lang['mot_numero']='NUMBER';
+$lang['dte_activ_th']='PACKAGE ACTIVATION DATE';
+$lang['modal_renouvlement']='Package renewal';
+$lang['renouvlement_forfait_success']='Successful package renewal !';
+$lang['msg_modif_annule']='Modification cancelled  !';
+$lang['renouveler_mga']='Renew mega';
+$lang['confirmation_mot']='Confirmation';
+$lang['question_que']='Do you really want';
+$lang['le_device_mot']='the device';
+$lang['mot_oui']='Yes';
+$lang['mot_non']='No';
+$lang['titre_enreg_device']='Device registration';
+$lang['titre_modif_device']='Device modification';
+$lang['echec_enregistrement']='Registration failure';
+$lang['succes_msg_activ_des']='has been successfully done';
+$lang['title_device_activ']='device activated';
+$lang['title_device_des']='device deactivated';
+
+
+//FIN PART 3
 
 
 ?>
