@@ -33,29 +33,48 @@ return $color;
 }
 function index()
 {
-
-
-// $critaire_reload_vehi=$this->Model->getRequeteOne('SELECT `VEHICULE_ID`,`DATA_NEW` FROM `vehicule` WHERE 1 and `DATA_NEW`=1');
-
-// $critaire_reload_chauff=$this->Model->getRequeteOne('SELECT `CHAUFFEUR_ID`,`DATA_NEW` FROM `chauffeur` WHERE 1 and `DATA_NEW`=1');
-// $reload_chauff_affect=$this->Model->getRequeteOne('SELECT `CHAUFFEUR_VEHICULE_ID`,`DATA_NEW` FROM `chauffeur_vehicule` WHERE 1 AND `DATA_NEW`=1');
-
-
-// if (!empty($critaire_reload_vehi|| $critaire_reload_chauff || $reload_chauff_affect)) 
-// {
-//   $reflesh=base_url();
-//   $data['reflesh']=$reflesh; 
-
-//   $update=$this->Model->update('vehicule',array('DATA_NEW'=>1),array('DATA_NEW'=>0)); 
-//    $update2=$this->Model->update('chauffeur',array('DATA_NEW'=>1),array('DATA_NEW'=>0));
-//    $update=$this->Model->update('chauffeur_vehicule',array('DATA_NEW'=>1),array('DATA_NEW'=>0));  
-// }
-
-
-
-//print_r($data['reflesh']);die();
+ 
 $this->load->view('Dashboard_General_View');
 }
+
+////tester s'il ya  entré du  nouvelle donnee
+public function check_new()
+{
+	//$sql='SELECT COUNT(*) AS rdv FROM vacc_rdv WHERE NEW_RECORD=0';
+	$critaire_reload_vehi=$this->Model->getRequeteOne('SELECT `VEHICULE_ID`,`DATA_NEW` FROM `vehicule` WHERE 1 and `DATA_NEW`=1');
+	$critaire_reload_chauff=$this->Model->getRequeteOne('SELECT `CHAUFFEUR_ID`,`DATA_NEW` FROM `chauffeur` WHERE 1 and `DATA_NEW`=1');
+     $reload_chauff_affect=$this->Model->getRequeteOne('SELECT `CHAUFFEUR_VEHICULE_ID`,`DATA_NEW` FROM `chauffeur_vehicule` WHERE 1 AND `DATA_NEW`=1');
+
+	$send1=0;
+	$send2=0;
+    $send3=0;
+
+	// if (!empty($critaire_reload_vehi || $critaire_reload_chauff || $reload_chauff_affect))
+
+    if (!empty($critaire_reload_vehi ))
+	{
+		$send1=1;
+	  $update=$this->Model->update('vehicule',array('DATA_NEW'=>1),array('DATA_NEW'=>0));
+	}
+	    if (!empty($critaire_reload_chauff ))
+	{
+		$send2=1;
+	  	 $update2=$this->Model->update('chauffeur',array('DATA_NEW'=>1),array('DATA_NEW'=>0));
+	}  
+
+	if (!empty($reload_chauff_affect ))
+	{
+		$send3=1;
+     $update3=$this->Model->update('chauffeur_vehicule',array('DATA_NEW'=>1),array('DATA_NEW'=>0));
+	}
+
+	$output=array('new1'=>$send1,'new2'=>$send2,'new3'=>$send3);
+
+	echo json_encode($output);
+  
+}
+
+
 
 
 //detail pour le rapport1:vehicules statut
