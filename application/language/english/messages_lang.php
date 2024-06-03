@@ -236,6 +236,7 @@ $lang['active_demande'] = 'To activate';
 
 //PART 2
 //Module Administration
+$lang['profil_min']='Profile';
 $lang['disc_avec']='Discussion with';
 $lang['msg_depart']='Tell us how we can help you.';
 $lang['plc_hlder']='Enter your message here..';

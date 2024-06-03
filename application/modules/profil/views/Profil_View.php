@@ -91,15 +91,15 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Profil</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"><?=lang('profil_min')?></button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Modifier</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit"><?=lang('btn_modifier')?></button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Modifier le mot de passe</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"><?=lang('btn_modif_mot_de_passe')?></button>
                 </li>
 
               </ul>
@@ -108,25 +108,25 @@
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
 
-                  <h5 class="card-title">A propos</h5>
+                  <h5 class="card-title"><?=lang('mot_a_propos')?></h5>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Nom & Prénom</div>
+                    <div class="col-lg-3 col-md-4 label "><?=lang('td_nom_prenom')?></div>
                     <div class="col-lg-9 col-md-8"><?=$utilisateur['IDENTIFICATION']?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">E-mail</div>
+                    <div class="col-lg-3 col-md-4 label"><?=lang('input_email')?></div>
                     <div class="col-lg-9 col-md-8"><?=$utilisateur['USER_NAME']?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Téléphone</div>
+                    <div class="col-lg-3 col-md-4 label"><?=lang('input_tlphone')?></div>
                     <div class="col-lg-9 col-md-8"><?=$utilisateur['TELEPHONE']?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Pays</div>
+                    <div class="col-lg-3 col-md-4 label"><?=lang('input_pays')?></div>
                     <div class="col-lg-9 col-md-8"><?=$utilisateur['CommonName']?></div>
                   </div>
 
@@ -134,7 +134,7 @@
                   if ($utilisateur['COUNTRY_ID']==28) {?>
 
                     <div class="row">
-                      <div class="col-lg-3 col-md-4 label">Localité</div>
+                      <div class="col-lg-3 col-md-4 label"><?=lang('td_localite')?></div>
                       <div class="col-lg-9 col-md-8"><?=$utilisateur['PROVINCE_NAME'].' / '.$utilisateur['COMMUNE_NAME'].' / '.$utilisateur['ZONE_NAME'].' / '.$utilisateur['COLLINE_NAME']?></div>
                     </div>
                     
@@ -146,7 +146,7 @@
                   if (!empty($utilisateur['PERSONNE_REFERENCE'])) {?>
 
                     <div class="row">
-                      <div class="col-lg-3 col-md-4 label">Personne de référence</div>
+                      <div class="col-lg-3 col-md-4 label"><?=lang('input_pers_reference')?></div>
                       <div class="col-lg-9 col-md-8"><?=$utilisateur['PERSONNE_REFERENCE']?></div>
                     </div>
 
@@ -157,13 +157,13 @@
                   <?php
                   if ($utilisateur['TYPE_PROPRIETAIRE_ID']==1) {?>
                     <div class="row">
-                      <div class="col-lg-3 col-md-4 label">NIF</div>
+                      <div class="col-lg-3 col-md-4 label"><?=lang('input_nif')?></div>
                       <div class="col-lg-9 col-md-8"><?=$utilisateur['CNI_OU_NIF']?></div>
                     </div>
                     <?php
                   }else{?>
                     <div class="row">
-                      <div class="col-lg-3 col-md-4 label">CNI</div>
+                      <div class="col-lg-3 col-md-4 label"><?=lang('mot_cni')?></div>
                       <div class="col-lg-9 col-md-8"><?=$utilisateur['CNI_OU_NIF']?></div>
                     </div>
                     <?php
@@ -172,7 +172,7 @@
 
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Documents</div>
+                    <div class="col-lg-3 col-md-4 label"><?=lang('btn_doc')?></div>
                     <div class="col-lg-9 col-md-8"><button onclick="modal_doc();" class="btn-outline rounded-pill" style="background-color:cadetblue;"><i class="bi bi-eye"></i></button></div>
                   </div>
 
@@ -209,7 +209,7 @@
                   </div> -->
 
                   <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nom</label>
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_nom')?></label>
                     <div class="col-md-8 col-lg-9">
                       <input name="NOM_PROPRIETAIRE" type="text" class="form-control" id="NOM_PROPRIETAIRE" value="<?=$proprietaire['NOM_PROPRIETAIRE']?>">
                     </div>
@@ -217,7 +217,7 @@
 
                   </div>
                   <div class="row mb-3" id="div_prenom">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Prénom</label>
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_prenom')?></label>
                     <div class="col-md-8 col-lg-9">
                       <input name="PRENOM_PROPRIETAIRE" type="text" class="form-control" id="PRENOM_PROPRIETAIRE" value="<?=$proprietaire['PRENOM_PROPRIETAIRE']?>">
                     </div>
@@ -227,7 +227,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                    <label for="company" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_email')?></label>
                     <div class="col-md-8 col-lg-9">
                       <input name="EMAIL" type="text" class="form-control" id="EMAIL" value="<?=$proprietaire['EMAIL']?>">
                     </div>
@@ -236,7 +236,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Téléphone</label>
+                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_tlphone')?></label>
                     <div class="col-md-8 col-lg-9">
                       <input class="form-control bg-light" type='tel' name="TELEPHONE" id="TELEPHONE" value="<?=$proprietaire['TELEPHONE']?>" pattern="^[0-9-+\s()]*$"/>
                     </div>
@@ -246,7 +246,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Personne de référence</label>
+                    <label for="Job" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_pers_reference')?></label>
                     <div class="col-md-8 col-lg-9">
                       <input name="PERSONNE_REFERENCE" type="text" class="form-control" id="PERSONNE_REFERENCE" value="<?=$proprietaire['PERSONNE_REFERENCE']?>">
                     </div>
@@ -255,7 +255,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_pays')?></label>
                     <div class="col-md-8 col-lg-9">
                       <select class="form-control" id="COUNTRY_ID" name="COUNTRY_ID">
                         <?=$html1?>
@@ -266,7 +266,7 @@
                   </div>
 
                   <div class="row mb-3" id="div_prov">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Province</label>
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_province')?></label>
                     <div class="col-md-8 col-lg-9">
                       <select class="form-control" id="PROVINCE_ID" name="PROVINCE_ID">
                         <?=$html2?>
@@ -276,7 +276,7 @@
                   </div>
 
                   <div class="row mb-3" id="div_com">
-                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Commune</label>
+                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_commune')?></label>
                     <div class="col-md-8 col-lg-9">
                       <select class="form-control" id="COMMUNE_ID" name="COMMUNE_ID">
                         <?=$html3?>
@@ -287,7 +287,7 @@
                   </div>
 
                   <div class="row mb-3" id="div_zon">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">zone</label>
+                    <label for="Email" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_zone')?></label>
                     <div class="col-md-8 col-lg-9">
                       <select class="form-control" id="ZONE_ID" name="ZONE_ID">
                         <?=$html4?>
@@ -298,7 +298,7 @@
                   </div>
 
                   <div class="row mb-3" id="div_col">
-                    <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Colline</label>
+                    <label for="Twitter" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_colline')?></label>
                     <div class="col-md-8 col-lg-9">
                       <select class="form-control" id="COLLINE_ID" name="COLLINE_ID">
                         <?=$html5?>
@@ -309,9 +309,9 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Adresse</label>
+                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label"><?=lang('input_adresse')?></label>
                     <div class="col-md-8 col-lg-9">
-                     <input class="form-control" name="ADRESSE" id="ADRESSE" placeholder='Adresse' value="<?=$proprietaire['ADRESSE']?>"/>
+                     <input class="form-control" name="ADRESSE" id="ADRESSE" value="<?=$proprietaire['ADRESSE']?>"/>
                    </div>
                    <center><font id="error_ADRESSE" color="red"></font></center>
 
@@ -328,7 +328,7 @@
               </form>
               <div class="row">
                 <div class="col-md-12">
-                  <button onclick="submit_form_form();" style="float:right;" class="btn btn-outline-primary rounded-pill">Modifier</button>
+                  <button onclick="submit_form_form();" style="float:right;" class="btn btn-outline-primary rounded-pill"><?=lang('btn_modifier')?></button>
                 </div>
 
               </div><!-- End Profile Edit Form -->
@@ -340,7 +340,7 @@
               <form id="form_password" enctype="multipart/form-data" method="post" action="<?=base_url('profil/Profil/edit_pwd')?>">
                 <input type="hidden" name="PASSWORD_OLD" id="PASSWORD_OLD" value="<?=$utilisateur['PASSWORD']?>">
                 <div class="row mb-3">
-                  <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mot de passe actuel</label>
+                  <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label"><?=lang('passw_actuel')?></label>
                   <div class="col-md-8 col-lg-9">
                     <input name="PASSWORD" type="password" class="form-control" id="PASSWORD" onchange="check_pwd();">
                   </div>
@@ -351,12 +351,12 @@
                 <div class="row mb-3">
                   <div class="form-check ml-2">
                     <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password()" style="border-radius:2px; float: right;">
-                    <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher mot de passe</label>
+                    <label class="form-check-label" for="basic_checkbox_1" style="color:white;"><?=lang('affich_password')?></label>
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nouveau mot de passe</label>
+                  <label for="newPassword" class="col-md-4 col-lg-3 col-form-label"><?=lang('nveau_mot_passe')?></label>
                   <div class="col-md-8 col-lg-9">
                     <input name="NEW_PASSWORD" type="password" class="form-control" id="NEW_PASSWORD">
                   </div>
@@ -367,11 +367,11 @@
                 <div class="row mb-3">
                   <div class="form-check ml-2">
                     <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password1()" style="border-radius:2px; float: right;">
-                    <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher mot de passe</label>
+                    <label class="form-check-label" for="basic_checkbox_1" style="color:white;"><?=lang('affich_password')?></label>
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmation du nouveau mot de passe</label>
+                  <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label"><?=lang('confirmation_mot_passe')?></label>
                   <div class="col-md-8 col-lg-9">
                     <input name="NEW_NEW_PASSWORD" type="password" class="form-control" id="NEW_NEW_PASSWORD">
                   </div>
@@ -383,7 +383,7 @@
 
                   <div class="form-check ml-2">
                     <input class="form-check-input" type="checkbox" id="basic_checkbox_1" onclick="show_password2()" style="border-radius:2px; float: right;">
-                    <label class="form-check-label" for="basic_checkbox_1" style="color:white;">Afficher mot de passe</label>
+                    <label class="form-check-label" for="basic_checkbox_1" style="color:white;"><?=lang('affich_password')?></label>
                   </div>
                 </div>
 
@@ -391,7 +391,7 @@
               </form><!-- End Change Password Form -->
               <div class="row">
                 <div class="col-md-12">
-                  <button onclick="submit_form();" style="float:right;" class="btn btn-outline-primary rounded-pill">Modifier</button>
+                  <button onclick="submit_form();" style="float:right;" class="btn btn-outline-primary rounded-pill"><?=lang('btn_modifier')?></button>
                 </div>
 
               </div>
@@ -419,7 +419,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class='modal-header' style='background:cadetblue;color:white;'>            
-        <h5 class="modal-title">Détail</h5>
+        <h5 class="modal-title"><?=lang('btn_detail')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -533,7 +533,7 @@
     if($('#PASSWORD').val()=='')
     {
       statut=2;
-      $('#errorPASSWORD').html('Le champ est obligatoire');
+      $('#errorPASSWORD').html('<?=lang('msg_validation')?>');
     }else{
       $('#errorPASSWORD').html('');
     }
@@ -542,7 +542,7 @@
     if($('#NEW_PASSWORD').val()=='')
     {
       statut=2;
-      $('#errorNEW_PASSWORD').html('Le champ est obligatoire');
+      $('#errorNEW_PASSWORD').html('<?=lang('msg_validation')?>');
     }else{
       $('#errorNEW_PASSWORD').html('');
     }
@@ -550,7 +550,7 @@
     if($('#NEW_NEW_PASSWORD').val()=='')
     {
       statut=2;
-      $('#errorNEW_NEW_PASSWORD').html('Le champ est obligatoire');
+      $('#errorNEW_NEW_PASSWORD').html('<?=lang('msg_validation')?>');
     }else{
       $('#errorNEW_NEW_PASSWORD').html('');
 
@@ -558,7 +558,7 @@
       {
         statut=2;
 
-        $('#errorNEW_NEW_PASSWORD').html('Les mots de passe ne correspondent pas');
+        $('#errorNEW_NEW_PASSWORD').html('mot_passe_ps_correspondant');
       }
       else
       {
@@ -592,7 +592,7 @@
       },
       error: function (jqXHR, textStatus, errorThrown)
       {
-        alert('Erreur');
+        alert('<?=lang('msg_erreur')?>');
       }
     });
   }
@@ -606,7 +606,7 @@
     if($('#NOM_PROPRIETAIRE').val()=='')
     {
       statut=2;
-      $('#error_NOM_PROPRIETAIRE').html('Le champ est obligatoire');
+      $('#error_NOM_PROPRIETAIRE').html('<?=lang('msg_validation')?>');
     }else{
       $('#error_NOM_PROPRIETAIRE').html('');
     }
@@ -614,7 +614,7 @@
     if($('#PRENOM_PROPRIETAIRE').val()=='')
     {
       statut=2;
-      $('#error_PRENOM_PROPRIETAIRE').html('Le champ est obligatoire');
+      $('#error_PRENOM_PROPRIETAIRE').html('<?=lang('msg_validation')?>');
     }else{
       $('#error_PRENOM_PROPRIETAIRE').html('');
     }
@@ -622,7 +622,7 @@
     if($('#EMAIL').val()=='')
     {
       statut=2;
-      $('#error_EMAIL').html('Le champ est obligatoire');
+      $('#error_EMAIL').html('<?=lang('msg_validation')?>');
     }else{
       $('#error_EMAIL').html('');
     }
@@ -630,7 +630,7 @@
     if($('#TELEPHONE').val()=='')
     {
       statut=2;
-      $('#error_TELEPHONE').html('Le champ est obligatoire');
+      $('#error_TELEPHONE').html('<?=lang('msg_validation')?>');
     }else{
       $('#error_TELEPHONE').html('');
     }
@@ -638,7 +638,7 @@
     if($('#COUNTRY_ID').val()=='')
     {
       statut=2;
-      $('#error_COUNTRY_ID').html('Le champ est obligatoire');
+      $('#error_COUNTRY_ID').html('<?=lang('msg_validation')?>');
     }else{
       $('#error_COUNTRY_ID').html('');
     }
@@ -648,7 +648,7 @@
      if($('#PROVINCE_ID').val()=='')
      {
       statut=2;
-      $('#error_PROVINCE_ID').html('Le champ est obligatoire');
+      $('#error_PROVINCE_ID').html('<?=lang('msg_validation')?>');
     }else{
       $('#error_PROVINCE_ID').html('');
     }
@@ -656,7 +656,7 @@
     if($('#COMMUNE_ID').val()=='')
     {
       statut=2;
-      $('#error_COMMUNE_ID').html('Le champ est obligatoire');
+      $('#error_COMMUNE_ID').html('<?=lang('msg_validation')?>');
     }else{
       $('#error_COMMUNE_ID').html('');
     }
@@ -664,7 +664,7 @@
     if($('#ZONE_ID').val()=='')
     {
       statut=2;
-      $('#error_ZONE_ID').html('Le champ est obligatoire');
+      $('#error_ZONE_ID').html('<?=lang('msg_validation')?>');
     }else{
       $('#error_ZONE_ID').html('');
     }
@@ -675,7 +675,7 @@
   if($('#ADRESSE').val()=='')
   {
     statut=2;
-    $('#error_ADRESSE').html('Le champ est obligatoire');
+    $('#error_ADRESSE').html('<?=lang('msg_validation')?>');
   }else{
     $('#error_ADRESSE').html('');
   }
@@ -684,7 +684,7 @@
   if($('#CNI_OU_NIF').val()=='')
   {
     statut=2;
-    $('#error_CNI_OU_NIF').html('Le champ est obligatoire');
+    $('#error_CNI_OU_NIF').html('<?=lang('msg_validation')?>');
   }else{
     $('#error_CNI_OU_NIF').html('');
   }

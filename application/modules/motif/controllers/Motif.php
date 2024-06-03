@@ -25,7 +25,7 @@ class Motif extends CI_Controller
 
   function index()
   {
-    $data['title'] = 'Motif activation / désactivation';
+    $data['title'] = 'motif_activ_desactiv';
 
     // $data['categorie'] = $this->Model->getRequete('SELECT ID_CATEGORIE,DESC_CATEGORIE FROM categorie_motif WHERE 1');
 
@@ -72,7 +72,7 @@ class Motif extends CI_Controller
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
       ';
-      $option.='<a class="btn-md" href="#" onClick="edit_motif('.$row->ID_MOTIF.')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier</a>';
+      $option.='<a class="btn-md" href="#" onClick="edit_motif('.$row->ID_MOTIF.')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;'.lang('btn_modifier').'</a>';
       $option .= " </ul>
       </div>";
       $sub_array[]=$option;
@@ -105,7 +105,7 @@ class Motif extends CI_Controller
 
     $EXIST=$this->Model->getRequeteOne("SELECT * FROM `motif` WHERE `DESC_MOTIF`='".$DESC_MOTIF."';");
     $reponse=0;
-    $message=' Pas d\'enregistrement';
+    $message=''.lang('mot_pas_enreg').'';
 
     if(empty($EXIST))
     {
@@ -114,13 +114,13 @@ class Motif extends CI_Controller
         'ID_TYPE'=>$ID_TYPE,
         'DESC_MOTIF'=>$DESC_MOTIF);
       $this->Model->create('motif',$data_insert);
-      $message=' '."L'enregistrement est fait avec succès".' ';
+      $message=' '.lang('msg_enreg_ft_success').' ';
       $reponse=1;
     }
     else if (!empty($EXIST))
     {
       $reponse=2;
-      $message='Ce motif existe déjà !';
+      $message=''.lang('motif_existe_dja').'';
     }
 
     $output = array('status'=>$reponse,'message' =>$message );
@@ -148,7 +148,7 @@ class Motif extends CI_Controller
 
     $type = $this->Model->getRequete('SELECT ID_TYPE,DESC_TYPE FROM type_motif WHERE 1');
 
-    $html_type='<option value="">Séléctionner</option>';
+    $html_type='<option value="">'.lang('selectionner').'</option>';
     foreach ($type as $key)
     {
       $selected='';
@@ -175,7 +175,7 @@ class Motif extends CI_Controller
 
     $EXIST=$this->Model->getRequeteOne("SELECT * FROM `motif` WHERE `DESC_MOTIF`='".$DESC_MOTIF."' AND ID_MOTIF != '".$ID_MOTIF."' ;");
     $reponse=0;
-    $message=' Pas d\'enregistrement';
+    $message=''.lang('mot_pas_enreg').'';
 
     if(empty($EXIST))
     {
@@ -189,13 +189,13 @@ class Motif extends CI_Controller
 
       $update=$this->Model->update($table,array('ID_MOTIF'=>$ID_MOTIF),$data_update);
 
-      $message=' '."La modification est faite avec succès".' ';
+      $message=' '.lang('msg_success_modif').' ';
       $reponse=1;
     }
     else if (!empty($EXIST))
     {
       $reponse=2;
-      $message='Ce motif existe déjà !';
+      $message=''.lang('motif_existe_dja').'';
     }
 
     $output = array('status'=>$reponse,'message' =>$message );

@@ -115,7 +115,7 @@ class Dashboard extends CI_Controller
 		$HEURE2 = $this->input->post('HEURE2');
 		$CODE_COURSE = $this->input->post('CODE_COURSE');
 
-
+		// print_r($CODE);die();
 		$distance_finale=0;
 		$distance_arrondie=0;
 		$score_finale=0;
@@ -153,7 +153,7 @@ class Dashboard extends CI_Controller
 
 		if (!empty($CODE_COURSE)) 
 		{
-			$critere1.=' AND md5(tracking_data.CODE_COURSE) ="'.$CODE_COURSE.'"';
+			$critere1.=' AND md5(tracking_data.CODE_COURSE) ="'.$CODE_COURSE.'" AND md5(tracking_data.device_uid)="'.$CODE.'"';
 			
 
 		}
@@ -187,6 +187,8 @@ class Dashboard extends CI_Controller
 		$my_selectget_data=str_replace('\n', '', $my_selectget_data);
 		$my_selectget_data=str_replace('\"', '', $my_selectget_data);
 		$get_data = $this->ModelPs->getRequete($proce_requete, $my_selectget_data);
+
+		// print_r($get_data);die();
 
 		//Requete pour recuperer partout ou il ya eu exces de vitesse
 		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour', 'tracking_data', ' vitesse >= 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
@@ -389,7 +391,7 @@ class Dashboard extends CI_Controller
 			$tabl_prime=array();
 
 			foreach ($get_data_arret_prime as $value_get_arret_prim) {
-				$my_selectone_element_prim = $this->getBindParms('id,date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,ignition,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_prim['CODE_COURSE'].'" ' , '`id` ASC');
+				$my_selectone_element_prim = $this->getBindParms('id,date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,ignition,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_prim['CODE_COURSE'].'" and md5(tracking_data.device_uid)="'.$CODE.'" ' , '`id` ASC');
 				$my_selectone_element_prim=str_replace('\"', '"', $my_selectone_element_prim);
 				$my_selectone_element_prim=str_replace('\n', '', $my_selectone_element_prim);
 				$my_selectone_element_prim=str_replace('\"', '', $my_selectone_element_prim);
@@ -397,7 +399,7 @@ class Dashboard extends CI_Controller
 				$one_element_prim = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_prim);
 
 				
-				$my_select_date_compare2_prim = $this->getBindParms('date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_prim['CODE_COURSE'].'" ', 'id DESC');
+				$my_select_date_compare2_prim = $this->getBindParms('date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', ' CODE_COURSE="'.$value_get_arret_prim['CODE_COURSE'].'" and md5(tracking_data.device_uid)="'.$CODE.'" ', 'id DESC');
 				$my_select_date_compare2_prim=str_replace('\"', '"', $my_select_date_compare2_prim);
 				$my_select_date_compare2_prim=str_replace('\n', '', $my_select_date_compare2_prim);
 				$my_select_date_compare2_prim=str_replace('\"', '', $my_select_date_compare2_prim);
@@ -483,7 +485,7 @@ class Dashboard extends CI_Controller
 
 				//geofence
 
-				$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" ' , '`id` ASC');
+				$my_select_geo_el = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" and md5(tracking_data.device_uid)="'.$CODE.'"' , '`id` ASC');
 				$my_select_geo_el=str_replace('\"', '"', $my_select_geo_el);
 				$my_select_geo_el=str_replace('\n', '', $my_select_geo_el);
 				$my_select_geo_el=str_replace('\"', '', $my_select_geo_el);
@@ -642,7 +644,6 @@ class Dashboard extends CI_Controller
 								});
 
 								</script>';
-
 
 
 

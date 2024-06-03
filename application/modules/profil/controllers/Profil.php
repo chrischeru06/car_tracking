@@ -48,7 +48,7 @@ class Profil extends CI_Controller
 		$pay = $this->getBindParms('CommonName,COUNTRY_ID', 'countries', '1', 'CommonName ASC');
 		$pays =$this->ModelPs->getRequete($proce_requete, $pay);
 
-		$html1='<option value="">--- Sélectionner ----</option>';
+		$html1='<option value="">--- '.lang('selectionner').' ----</option>';
 		if(!empty($pays) && !empty($proprietaire['COUNTRY_ID']))
 		{
 			foreach($pays as $key1)
@@ -67,7 +67,7 @@ class Profil extends CI_Controller
 		$my_select_provinces = $this->getBindParms('PROVINCE_ID,PROVINCE_NAME', 'provinces', '1', '`PROVINCE_NAME` ASC');
 		$provinces = $this->ModelPs->getRequete($proce_requete, $my_select_provinces);
 
-		$html2='<option value="">--- Sélectionner ----</option>';
+		$html2='<option value="">--- '.lang('selectionner').' ----</option>';
 		if(!empty($provinces) && !empty($proprietaire['PROVINCE_ID']))
 		{
 			foreach($provinces as $key2)
@@ -88,7 +88,7 @@ class Profil extends CI_Controller
 			$my_select_communes = $this->getBindParms('COMMUNE_ID,COMMUNE_NAME', 'communes', '1 AND PROVINCE_ID='.$proprietaire['PROVINCE_ID'].'', '`COMMUNE_NAME` ASC');
 			$communes = $this->ModelPs->getRequete($proce_requete, $my_select_communes);
 
-			$html3='<option value="">--- Sélectionner ----</option>';
+			$html3='<option value="">--- '.lang('selectionner').' ----</option>';
 
 
 			foreach($communes as $key3)
@@ -113,7 +113,7 @@ class Profil extends CI_Controller
 			$my_select_zones = $this->getBindParms('ZONE_ID,ZONE_NAME', 'zones', '1 AND COMMUNE_ID='.$proprietaire['COMMUNE_ID'].'', '`ZONE_NAME` ASC');
 			$zones = $this->ModelPs->getRequete($proce_requete, $my_select_zones);
 
-			$html4='<option value="">--- Sélectionner ----</option>';
+			$html4='<option value="">--- '.lang('selectionner').' ----</option>';
 
 
 			foreach($zones as $key4)
@@ -137,7 +137,7 @@ class Profil extends CI_Controller
 			$my_select_collines = $this->getBindParms('COLLINE_ID,COLLINE_NAME', 'collines', '1 AND ZONE_ID='.$proprietaire['ZONE_ID'].'', '`COLLINE_NAME` ASC');
 			$collines = $this->ModelPs->getRequete($proce_requete, $my_select_collines);
 
-			$html5='<option value="">--- Sélectionner ----</option>';
+			$html5='<option value="">--- '.lang('selectionner').' ----</option>';
 
 
 			foreach($collines as $key5)
@@ -186,7 +186,7 @@ class Profil extends CI_Controller
 		);
 
 		$update=$this->Model->update($table,array('USER_ID'=>$USER_ID),$data_updaate);
-		$message['message']='<div class="alert alert-success text-center" id="message">Votre mot de passe a été modifié avec succès</div>';
+		$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif').'</div>';
 		$this->session->set_flashdata($message);
 
 
@@ -203,7 +203,7 @@ class Profil extends CI_Controller
 
 		if ($verif_pwd['PASSWORD']!=md5($PASSWORD)) {
 
-			$html='Le mot de passe est incorrect!';
+			$html=''.lang('incorrect_pssword').'!';
 
 			
 		}else{
@@ -308,7 +308,7 @@ class Profil extends CI_Controller
 			$update=$this->Model->update($table,array('PROPRIETAIRE_ID'=>$PROPRIETAIRE_ID),$data_updaate);
 		}
 
-		$message['message']='<div class="alert alert-success text-center" id="message">Modification faite avec succès</div>';
+		$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif').'</div>';
 		$this->session->set_flashdata($message);
 
 

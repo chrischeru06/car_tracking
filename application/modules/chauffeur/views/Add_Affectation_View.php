@@ -52,7 +52,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1 style="color:  #899bbd;">Choisir la zone d'affectation du chauffeur <a id="NOM_CHAUFF" class="capitalize-first"></a>&nbsp;&nbsp;<a id="PRENOM_CHAUFF" class="capitalize-first"></a></h1>
+      <h1 style="color:  #899bbd;"><?=lang('choisir_zone_affect')?> <a id="NOM_CHAUFF" class="capitalize-first"></a>&nbsp;&nbsp;<a id="PRENOM_CHAUFF" class="capitalize-first"></a></h1>
       <nav>
         <ol class="breadcrumb">
           <!-- <li class="breadcrumb-item"><a href="">Affecter</a></li> -->
@@ -178,7 +178,7 @@
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-          alert('Erreur');
+          alert('<?=lang('msg_erreur')?>');
         }
       });
      }
@@ -228,7 +228,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      
-          <h5 class="modal-title" style="color: rgba(255, 255, 255, 0.8);">ATTRIBUER LE VEHICULE AU CHAUFFEUR <a id="NOM" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"></a>&nbsp;&nbsp;<a id="PRENOM" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"></a></h5>
+          <h5 class="modal-title" style="color: rgba(255, 255, 255, 0.8);"><?=lang('attribue_veh_modal')?> <a id="NOM" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"></a>&nbsp;&nbsp;<a id="PRENOM" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"></a></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -238,13 +238,13 @@
                 <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
                 <!--  <input type="hidden" name="code_vehicule" id="code_vehicule">  -->
                 <div class="col-md-6">
-                  <label for="description" class="text-dark">Véhicule</label>
+                  <label for="description" class="text-dark"><?=lang('mot_vehicule')?></label>
                   <select class="form-control" id="VEHICULE_ID" name="VEHICULE_ID">
                   </select>
                   <span id="errorVEHICULE_ID" class="text-danger"></span>
                 </div>
                 <div class="col-md-6" id="coord">
-                  <label>Coordonnées</label>
+                  <label><?=lang('input_coordonnes')?></label>
                   <input class="form-control" required readonly type="text" name="COORD" id="COORD" placeholder="Coordonnées gps" >
                   <font color="red" id="error_nom"></font>
                   <?php echo form_error('COORD', '<div class="text-danger">', '</div>'); ?>
@@ -254,19 +254,19 @@
               <br>
               <div class="row">
                 <div class="col-md-6">
-                  <label type="date" class="text-dark">Date début</label>
+                  <label type="date" class="text-dark"><?=lang('input_date_deb')?></label>
                   <input type="date" name="DATE_DEBUT_AFFECTATION" autocomplete="off" id="DATE_DEBUT_AFFECTATION" value="<?= set_value('DATE_DEBUT_AFFECTATION') ?>" onchange="get_date_fin(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
                   <span id="errorDATE_DEBUT_AFFECTATION" class="text-danger"></span>
                 </div>
                 <div class="col-md-6">
-                  <label type="date" class="text-dark">Date fin</label>
+                  <label type="date" class="text-dark"><?=lang('input_date_fin')?></label>
                   <input type="date" name="DATE_FIN_AFFECTATION" autocomplete="off" id="DATE_FIN_AFFECTATION" value="<?= set_value('DATE_FIN_AFFECTATION') ?>"  onchange="get_dates_deb(this.value)" class="form-control"  min="<?= date('Y-m-d')?>">
                   <span id="errorDATE_FIN_AFFECTATION" class="text-danger"></span>
                 </div>
               </div>
             </div> 
             <div class="modal-footer">
-              <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="Attribuer" onclick="save_chauffeur_affect();" />
+              <input type="button"class="btn btn-outline-primary rounded-pill " type="button" id="btn_add" value="<?=lang('btn_affecter')?>" onclick="save_chauffeur_affect();" />
               <!--  <input type="button" class="btn btn-light" data-dismiss="modal" id="cancel" value="Fermer"/> -->
 
             </div>
@@ -287,22 +287,22 @@
 
       if($('#code_vehicule').val()=='')
       {
-        $('#errorVEHICULE_ID').html('Actualise ta page');
+        $('#errorVEHICULE_ID').html('<?=lang('msg_actualise_pge')?>');
         statut=2;
       }
 
       if($('#VEHICULE_ID').val()=='')
       {
-        $('#errorVEHICULE_ID').html('Le champ est obligatoire');
+        $('#errorVEHICULE_ID').html('<?=lang('msg_validation')?>');
         statut=2;
       }
       if($('#DATE_DEBUT_AFFECTATION').val()=='')
       {
-        $('#errorDATE_DEBUT_AFFECTATION').html('Le champ est obligatoire');
+        $('#errorDATE_DEBUT_AFFECTATION').html('<?=lang('msg_validation')?>');
         statut=2;
       } if($('#DATE_FIN_AFFECTATION').val()=='')
       {
-        $('#errorDATE_FIN_AFFECTATION').html('Le champ est obligatoire');
+        $('#errorDATE_FIN_AFFECTATION').html('<?=lang('msg_validation')?>');
         statut=2;
       }
 
@@ -327,7 +327,7 @@
               {
                 icon: 'success',
                 title: 'Success',
-                text: 'Affectation faite avec succès',
+                text: '<?=lang('msg_succes_affectation')?>',
                 timer: 1500,
               }).then(() =>
               {
@@ -340,7 +340,7 @@
               {
                 icon: 'success',
                 title: 'Success',
-                text: 'Le chauffeur possède déjà une voiture ',
+                text: '<?=lang('msg_chauffeur_possede_veh')?> ',
                 timer: 1500,
               }).then(() =>
               {
@@ -351,9 +351,9 @@
             {
               Swal.fire(
               {
-                icon: 'success',
-                title: 'Success',
-                text: 'Affectation échouée',
+                icon: 'Error',
+                title: '<?=lang('msg_erreur')?>',
+                text: '<?=lang('msg_echec_affectation')?>',
                 timer: 1500,
               }).then(() =>
               {
