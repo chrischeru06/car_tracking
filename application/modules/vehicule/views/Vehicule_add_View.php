@@ -4,6 +4,9 @@
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </head>
 
 <body>
@@ -90,7 +93,7 @@
                       <div class="form-group">
                         <label ><small><?=lang('label_marque')?></small><span  style="color:red;">*</span></label>
 
-                        <select class="form-control" name="ID_MARQUE" id="ID_MARQUE" onchange="get_modele();">
+                        <select class="form-control select2" name="ID_MARQUE" id="ID_MARQUE" onchange="get_modele();">
                           <option value="" selected>-- <?=lang('selectionner')?> --</option>
                           <?php
                           foreach ($marque as $marque)
@@ -289,7 +292,7 @@
 
                     <input class="form-control" type="hidden" name="PHOTO" id="PHOTO"  value="<?=$vehicule_data['PHOTO'];?>">
 
-                    <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='<?=lang('title_file')?>'>
+                    <input type="file" class="form-control" name="PHOTO_OUT" id="PHOTO_OUT" value="<?=set_value('PHOTO_OUT')?>" accept=".png,.PNG,.jpg,.JPG,.JPEG,.jpeg" class="form-control" title='<?=lang('title_file')?>'>
                     <font color='red'><?php echo form_error('PHOTO_OUT'); ?></font>
                     <span id="errorPHOTO_OUT" class="text-danger"></span>
                   </div>
@@ -297,7 +300,7 @@
                   <div class="col-md-4">
                     <label> <small><?=lang('label_photo_assurance')?></small><span  style="color:red;">*</span></label>
                     <input class="form-control" type="hidden" name="FILE_ASSURANCE_OLD" id="FILE_ASSURANCE_OLD"  value="<?=$vehicule_data['FILE_ASSURANCE'];?>">
-                    <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='<?=lang('title_file')?>'>
+                    <input type="file" class="form-control" name="FILE_ASSURANCE" id="FILE_ASSURANCE" value="<?=set_value('FILE_ASSURANCE')?>" accept=".png,.PNG,.jpg,.JPG,.JPEG,.jpeg,.pdf,.PDF" class="form-control" title='<?=lang('title_file')?>'>
                     <font color='red'><?php echo form_error('FILE_ASSURANCE'); ?></font>
                     <span id="errorFILE_ASSURANCE" class="text-danger"></span>
                   </div>
@@ -305,7 +308,7 @@
                   <div class="col-md-4">
                     <label> <small><?=lang('label_photo_ctrl_technique')?></small><span  style="color:red;">*</span></label>
                     <input class="form-control" type="hidden" name="FILE_CONTRO_TECHNIQUE_OLD" id="FILE_CONTRO_TECHNIQUE_OLD"  value="<?=$vehicule_data['FILE_CONTRO_TECHNIQUE'];?>">
-                    <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                    <input type="file" class="form-control" name="FILE_CONTRO_TECHNIQUE" id="FILE_CONTRO_TECHNIQUE" value="<?=set_value('FILE_CONTRO_TECHNIQUE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF'>
                     <font color='red'><?php echo form_error('FILE_CONTRO_TECHNIQUE'); ?></font>
                     <span id="errorFILE_CONTRO_TECHNIQUE" class="text-danger"></span>
                   </div>
