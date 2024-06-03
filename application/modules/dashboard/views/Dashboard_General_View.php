@@ -15,6 +15,8 @@
 
 <body>
 
+
+
   <!-- ======= Header ======= -->
   <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
   <!-- End Header -->
