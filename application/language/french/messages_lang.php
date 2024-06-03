@@ -336,6 +336,14 @@ $lang['veh_accident_mot']='Véhicules en accident';
 $lang['veh_eteint_mot']='Véhicules éteints';
 $lang['veh_allum_mot']='Véhicules allumés';
 $lang['veh_stationne_mot']='Véhicules stationnés';
+//
+$lang['veh_enreg_enreg']='Véhicules enregistrés';
+$lang['voir_plus_mot']='Voir plus';
+$lang['title_list_veh']='Liste des véhicules';
+$lang['title_list_veh']='Liste des véhicules';
+
+
+//
 $lang['voir_moins_mot']='Voir moins';
 $lang['modal_list_proprio']='Liste des propriétaires';
 $lang['cons_mot']='CONSOMMATION';
