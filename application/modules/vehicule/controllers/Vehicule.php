@@ -1698,11 +1698,10 @@
 							$personal_req=str_replace('\n', '', $personal_req);
 							$personal_req=str_replace('\"', '', $personal_req);
 							$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
-							$heure_exces=$this->notifications->ago($personal['date_depass'],$maintenant);
+							if (!empty($personal)) {
+								$heure_exces=$this->notifications->ago($personal['date_depass'],$maintenant);
 
-
-
-							$html.='
+								$html.='
 							<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyexces['device_uid'])). '" style="color:black;">
 							<li class="notification-item">
 							<i class="bi bi-exclamation-circle text-warning"></i>
@@ -1719,6 +1718,13 @@
 							<hr class="dropdown-divider">
 							</li>
 							'; 
+							
+							}
+							
+
+
+							
+							
 						}
 						$nbre_exces_vit=count($anomalies_exces_vitesse);
 					}
