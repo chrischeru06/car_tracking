@@ -155,7 +155,6 @@ class Dashboard extends CI_Controller
 		{
 			$critere1.=' AND md5(tracking_data.CODE_COURSE) ="'.$CODE_COURSE.'" AND md5(tracking_data.device_uid)="'.$CODE.'"';
 			
-
 		}
 		
 
