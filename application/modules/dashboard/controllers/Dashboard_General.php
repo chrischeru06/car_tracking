@@ -33,11 +33,48 @@ return $color;
 }
 function index()
 {
-$reflesh=base_url();
-$data['reflesh']=$reflesh;
-//print_r($data['reflesh']);die();
-$this->load->view('Dashboard_General_View',$data);
+ 
+$this->load->view('Dashboard_General_View');
 }
+
+////tester s'il ya  entré du  nouvelle donnee
+public function check_new()
+{
+	//$sql='SELECT COUNT(*) AS rdv FROM vacc_rdv WHERE NEW_RECORD=0';
+	$critaire_reload_vehi=$this->Model->getRequeteOne('SELECT `VEHICULE_ID`,`DATA_NEW` FROM `vehicule` WHERE 1 and `DATA_NEW`=1');
+	$critaire_reload_chauff=$this->Model->getRequeteOne('SELECT `CHAUFFEUR_ID`,`DATA_NEW` FROM `chauffeur` WHERE 1 and `DATA_NEW`=1');
+     $reload_chauff_affect=$this->Model->getRequeteOne('SELECT `CHAUFFEUR_VEHICULE_ID`,`DATA_NEW` FROM `chauffeur_vehicule` WHERE 1 AND `DATA_NEW`=1');
+
+	$send1=0;
+	$send2=0;
+    $send3=0;
+
+	// if (!empty($critaire_reload_vehi || $critaire_reload_chauff || $reload_chauff_affect))
+
+    if (!empty($critaire_reload_vehi ))
+	{
+		$send1=1;
+	  $update=$this->Model->update('vehicule',array('DATA_NEW'=>1),array('DATA_NEW'=>0));
+	}
+	    if (!empty($critaire_reload_chauff ))
+	{
+		$send2=1;
+	  	 $update2=$this->Model->update('chauffeur',array('DATA_NEW'=>1),array('DATA_NEW'=>0));
+	}  
+
+	if (!empty($reload_chauff_affect ))
+	{
+		$send3=1;
+     $update3=$this->Model->update('chauffeur_vehicule',array('DATA_NEW'=>1),array('DATA_NEW'=>0));
+	}
+
+	$output=array('new1'=>$send1,'new2'=>$send2,'new3'=>$send3);
+
+	echo json_encode($output);
+  
+}
+
+
 
 
 //detail pour le rapport1:vehicules statut
@@ -202,7 +239,7 @@ $break=explode(".",$KEY3);
 $ID=$KEY3;
 $var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 
-$query_principal= 'SELECT distinct VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1';
+$query_principal= 'SELECT distinct VEHICULE_ID,vehicule.CODE,DESC_MARQUE,DESC_MODELE,PLAQUE,COULEUR,KILOMETRAGE,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS desc_proprio,vehicule.IS_ACTIVE,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) AS desc_chauffeur FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv,tracking_data.ignition AS IGN FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1) tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code left JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE left JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE left JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CODE = vehicule.CODE LEFT JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID  WHERE 1';
 if ($PROFIL_ID==1) {
 $critaire1='';
 }else{
@@ -223,7 +260,14 @@ $order_by = isset($_POST['order']) ? ' ORDER BY '.$_POST['order']['0']['column']
 }
 $search=!empty($_POST['search']['value']) ? (" AND (CODE LIKE '%$var_search%' OR DESC_MARQUE LIKE '%$var_search%' OR DESC_MODELE LIKE '%$var_search%' OR PLAQUE LIKE '%$var_search%' OR COULEUR LIKE '%$var_search%' OR KILOMETRAGE LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%')"):'';
 
-$critaire=" AND  tracking_data_deriv2.mouv=".$ID;
+$critaire=" ";
+if ($ID==1) {
+
+$critaire=" AND tracking_data_deriv2.IGN=1 and tracking_data_deriv2.mouv=1";
+ }else{
+ $critaire=	" AND ((tracking_data_deriv2.IGN=0 and tracking_data_deriv2.mouv=1) OR ( tracking_data_deriv2.IGN=1 and tracking_data_deriv2.mouv=0) OR ( tracking_data_deriv2.IGN=0 and tracking_data_deriv2.mouv=0))";
+}
+
 $query_secondaire=$query_principal.'  '.$critaire1.' '.$critaire.' '.$search.' '.$order_by.'   '.$limit;
 $query_filter=$query_principal.'  '.$critaire1.' '.$critaire.' '.$search;
 $fetch_data = $this->Model->datatable($query_secondaire);
@@ -863,6 +907,15 @@ data:[".$donnees2."]
 </script>";
 
 //rapport3:vehicule en mouvement vs stationnement
+// $vehicule_mouvet_stationnema=$this->Model->getRequete("SELECT DISTINCT `mouvement` as ID_mouv,if(mouvement=1,'Véhicule en mouvement','Véhicule en stationnement') as statut FROM `tracking_data` WHERE 1");
+
+// $donnees3="";
+// foreach ($vehicule_mouvet_stationnema as  $value) 
+// {
+// $color=$this->getcolor();
+// $key_id3=($value['ID_mouv']>0) ? $value['ID_mouv'] : "0" ;
+// $vehicule_mouvet_=$this->Model->getRequeteOne("SELECT count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE tracking_data.mouvement=".$value['ID_mouv'].") tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1");
+
 $vehicule_mouvet_stationnema=$this->Model->getRequete("SELECT DISTINCT `mouvement` as ID_mouv,if(mouvement=1,'Véhicule en mouvement','Véhicule en stationnement') as statut FROM `tracking_data` WHERE 1");
 
 $donnees3="";
@@ -870,7 +923,15 @@ foreach ($vehicule_mouvet_stationnema as  $value)
 {
 $color=$this->getcolor();
 $key_id3=($value['ID_mouv']>0) ? $value['ID_mouv'] : "0" ;
-$vehicule_mouvet_=$this->Model->getRequeteOne("SELECT count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE tracking_data.mouvement=".$value['ID_mouv'].") tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1");
+
+if($value['ID_mouv']==1){
+$crt_s=	" AND tracking_data.ignition=1 and tracking_data.mouvement=1";
+}else{
+$crt_s=	" AND ((tracking_data.ignition=0 and tracking_data.mouvement=1) OR ( tracking_data.ignition=1 and tracking_data.mouvement=0) OR ( tracking_data.ignition=0 and tracking_data.mouvement=0)) ";
+}
+
+
+$vehicule_mouvet_=$this->Model->getRequeteOne("SELECT count(`VEHICULE_ID`) as NBR FROM `vehicule` JOIN (SELECT tracking_data.`device_uid` as code,tracking_data.id,tracking_data.mouvement as mouv FROM `tracking_data` JOIN (SELECT  max(`id`) as id_max,`device_uid` FROM `tracking_data` WHERE 1 GROUP by device_uid) as tracking_data_deriv ON tracking_data.id=tracking_data_deriv.id_max WHERE 1 ".$crt_s.") tracking_data_deriv2 ON vehicule.CODE=tracking_data_deriv2.code WHERE 1");
 $somme3=0;
 if ($vehicule_mouvet_) 
 {

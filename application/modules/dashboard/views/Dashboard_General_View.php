@@ -11,10 +11,11 @@
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
   <script src="https://code.highcharts.com/modules/lollipop.js"></script>
 
-
 </head>
 
 <body>
+
+
 
   <!-- ======= Header ======= -->
   <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
@@ -23,7 +24,6 @@
   <!-- ======= Sidebar ======= -->
   <?php include VIEWPATH . 'includes/menu_left.php'; ?>
   <!-- End Sidebar-->
-  <?php header("refresh:180; url=$reflesh/dashboard/Dashboard_General");?>
 
 
   <main id="main" class="main">
@@ -257,7 +257,6 @@
 <script>
   function get_rapport()
   {
-
     $.ajax(
     {
       url : "<?=base_url()?>dashboard/Dashboard_General/get_rapport",
@@ -274,12 +273,44 @@
         $('#nouveau5').html(data.rapp5);
         $('#nouveau6').html(data.rapp6);
         $('#nouveau7').html(data.rapp7);
-
-
-
-
-
       },            
     });  
   }
 </script>
+
+ 
+
+
+<script type="text/javascript">
+
+
+    $(document).ready(function(){
+            setInterval(function() {
+            check_new();
+         },1000);
+      });
+                  
+     </script>
+
+<script type="text/javascript">
+
+   function check_new() {
+        $.ajax({
+          url : "<?=base_url()?>dashboard/Dashboard_General/check_new",
+          type : "GET",
+          dataType: "JSON",
+          cache:false,
+          success:function(data) {
+           
+
+            if(data.new1==1 || data.new2==1 || data.new3==1) {
+            window.location.href="<?= base_url('dashboard/Dashboard_General'); ?>";
+              
+            }
+          }
+        });
+      }
+
+
+ </script>
+
