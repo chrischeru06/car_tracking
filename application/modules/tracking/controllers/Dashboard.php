@@ -580,7 +580,7 @@ class Dashboard extends CI_Controller
 					$mark_v=$mark_v.$keytabl[9].'<>'.$keytabl[8].'<>'.$keytabl[11].'<>'.$keytabl[10].'<>'.$keytabl[12].'<>@';
 
 
-					if($keytabl[16]==1){
+					if($keytabl[16]>=500){
 						// $valeur_ceinture='<div class="fa fa-check" style="color:green"></div>';
 						$valeur_ceinture='<label style="color:green">ON</label>';
 
