@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-	
 	<?php include VIEWPATH . 'includes/header.php'; ?>
 
 	<script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
