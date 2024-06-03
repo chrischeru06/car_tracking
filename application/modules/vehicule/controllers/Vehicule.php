@@ -1693,12 +1693,12 @@
 					if (!empty($anomalies_exces_vitesse)) {
 						foreach ($anomalies_exces_vitesse as $keyexces) {
 
-							$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
+							$personal_req = $this->getBindParms('device_uid,date as date_depass,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
 							$personal_req=str_replace('\"', '"', $personal_req);
 							$personal_req=str_replace('\n', '', $personal_req);
 							$personal_req=str_replace('\"', '', $personal_req);
 							$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
-							$heure_exces=$this->notifications->ago($personal['date'],$maintenant);
+							$heure_exces=$this->notifications->ago($personal['date_depass'],$maintenant);
 
 
 
@@ -1734,12 +1734,12 @@
 					if (!empty($anomalies_accident)) {
 						foreach ($anomalies_accident as $keyaccident) {
 
-							$personal_req = $this->getBindParms('device_uid,date,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
+							$personal_req = $this->getBindParms('device_uid,date_depass,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyaccident['device_uid'].'"','id ASC');
 							$personal_req=str_replace('\"', '"', $personal_req);
 							$personal_req=str_replace('\n', '', $personal_req);
 							$personal_req=str_replace('\"', '', $personal_req);
 							$personal = $this->ModelPs->getRequeteOne($psgetrequete, $personal_req);
-							$heure_accident=$this->notifications->ago($personal['date'],$maintenant);
+							$heure_accident=$this->notifications->ago($personal['date_depass'],$maintenant);
 
 
 

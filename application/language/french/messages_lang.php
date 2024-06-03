@@ -215,6 +215,7 @@ $lang['ms_veh']='Mes véhicules';
 
 //PART 2
 //Module Administration
+$lang['profil_min']='Profil';
 $lang['disc_avec']='Discussion avec';
 $lang['msg_depart']='Dites nous en quoi nous pouvons vous aider.';
 $lang['plc_hlder']='Entrez votre message ici...';
@@ -311,14 +312,13 @@ $lang['dtl_chauffeur']='Détails du chauffeur';
 $lang['dte_naiss']='Date naissance';
 $lang['info_vehicule_veh']='Information&nbsp;véhicule';
 $lang['dtl_veh']='Détails du véhicule';
-$lang['msg_retrait_veh_success']='Vous avez bien retiré la voiture';
+$lang['msg_retrait_veh_success']='Vous avez bien retiré le véhicule';
 $lang['unique_veh']='Le téléphone doit être unique';
 $lang['unique_numero']='Le numéro doit être unique';
 $lang['unique_mail']='Le mail doit être unique';
 $lang['unique_permis']='Le permis doit être unique';
 
 //FIN PART 2
-
 
 //PART 3
 //Centre de situation
@@ -341,6 +341,33 @@ $lang['veh_enreg_enreg']='Véhicules enregistrés';
 $lang['voir_plus_mot']='Voir plus';
 $lang['title_list_veh']='Liste des véhicules';
 $lang['title_list_veh']='Liste des véhicules';
+$lang['label_numero_chassis']='Numéro chassis';
+$lang['depasse_zone']='Il a dépassé la zone';
+$lang['mot_ceinture']='Ceinture';
+$lang['mot_climatiseur']='Climatiseur';
+$lang['mot_darret']='d\'arrêt';
+$lang['vitesse_exces']='Excès de vitesse';
+$lang['choisir_zone_affect']='Choisir la zone d\'affectation du chauffeur';
+$lang['attribue_veh_modal']='ATTRIBUER LE VEHICULE AU CHAUFFEUR';
+$lang['motif_activ_desactiv']='Motif activation / désactivation';
+$lang['mot_pas_enreg']='Pas d\'enregistrement';
+$lang['motif_existe_dja']='Ce motif existe déjà !';
+$lang['motif_list']='Liste des motifs';
+$lang['modif_motif']='Modification du motif';
+$lang['input_type_motif']='Type de motif';
+$lang['modal_ajout_motif']='Ajout d\'un motif';
+$lang['list_type']='TYPE';
+$lang['list_description']='DESCRIPTION';
+$lang['enreg_en_cours']='Enregistrement en cours';
+$lang['mot_en_cours']='En cours';
+$lang['mot_a_propos']='A propos';
+$lang['passw_actuel']='Mot de passe actuel';
+$lang['affich_password']='Afficher mot de passe';
+$lang['title_modif_chauff']='Modification d\'un chauffeur';
+$lang['title_modif_chauff']='Véhicule approuvé';
+
+
+
 
 
 //

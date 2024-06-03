@@ -117,24 +117,25 @@
 				<ul class="dropdown-menu dropdown-menu-left">
 				';
 
-				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur_New/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;Modifier</a></li>";
+				$option .= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur_New/getOne/'. $row->CHAUFFEUR_ID) . "'><span class='bi bi-pencil h5'></span>&nbsp;".lang('btn_modifier')."</a></li>";
+
 
 				// $option.= "<li><a class='btn-md' href='#' data-toggle='modal' data-target='#info_chauf" . $row->CHAUFFEUR_ID. "'><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>"
-				$option.= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;Détails</a></li>";
+				$option.= "<li><a class='btn-md' href='" . base_url('chauffeur/Chauffeur_New/Detail/'.md5($row->CHAUFFEUR_ID)). "'><i class='bi bi-info-square h5' ></i>&nbsp;".lang('btn_detail')."</a></li>";
 
 
 
 
 				if($row->STATUT_VEHICULE==1 && $row->IS_ACTIVE==1)
 				{
-					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;Affecter le chauffeur</a></li>';
+					$option.='<li><a class="btn-md" onClick="attribue_voiture('.$row->CHAUFFEUR_ID.',\''.$row->NOM.'\',\''.$row->PRENOM.'\')"><i class="bi bi-plus h5" ></i>&nbsp;'.lang('chauffeur_affecter').'</a></li>';
 					
 				}
 				if ($row->STATUT_VEHICULE==2 && $row->IS_ACTIVE==1)
 				{
-					$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;Retirer&nbsp;voiture</a></li>";
+					$option .= "<li><a class='btn-md' data-toggle='modal' data-target='#modal_retirer" . $row->CHAUFFEUR_ID . "'><span class='fa fa-minus h5' ></span>&nbsp;".lang('btn_retirer_veh')."</a></li>";
 
-					$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;Modifier affectation</a></li>';
+					$option.='<li><a class="btn-md" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;'.lang('btn_modif_affect').'</a></li>';
 
 				}
 				if($row->IS_ACTIVE==1){
@@ -143,7 +144,7 @@
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
 					<table>
-					<td><label class="text-primary">Activé</label></td>
+					<td><label class="text-primary">'.lang('label_active_acc').'</label></td>
 					<td><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="myFunction_desactive(' . $row->CHAUFFEUR_ID . ','.$row->STATUT_VEHICULE.')" checked>
 					<span class="slider round"></span>
@@ -159,7 +160,7 @@
 					<input type = "hidden" value="'.$row->IS_ACTIVE.'" id="status">
 
 					<table>
-					<td><label class="text-danger">Désactivé</label></td>
+					<td><label class="text-danger">'.lang('label_desactive_acc').'</label></td>
 					<td><label class="switch"> 
 					<input type="checkbox" id="myCheck" onclick="myFunction(' . $row->CHAUFFEUR_ID . ')">
 					<span class="slider round"></span>
@@ -182,9 +183,9 @@
 				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
 				</div>
 				<div class='modal-body'>
-				<center><h5>Voulez-vous retirer la voiture à <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
+				<center><h5>".lang('msg_retirer_veh')." <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
 				<div class='modal-footer'>
-				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur_New/retirer_voit/'.$row->CHAUFFEUR_ID)."' >Retirer</a>
+				<a class='btn btn-outline-danger rounded-pill' href='".base_url('chauffeur/Chauffeur_New/retirer_voit/'.$row->CHAUFFEUR_ID)."' >".lang('btn_retirer')."</a>
 				</div>
 				</div>
 				</div>
@@ -253,7 +254,7 @@
 		function get_communes($ID_PROVINCE=0)
 		{
 			$communes = $this->Model->getRequete('SELECT `COMMUNE_ID`, `COMMUNE_NAME` FROM `communes` WHERE PROVINCE_ID='.$ID_PROVINCE.' ORDER BY COMMUNE_NAME ASC');
-			$html='<option value="">---sélectionner---</option>';
+			$html='<option value="">---'.lang('selectionner').'---</option>';
 			foreach ($communes as $key)
 			{
 				$html.='<option value="'.$key['COMMUNE_ID'].'">'.$key['COMMUNE_NAME'].'</option>';
@@ -265,7 +266,7 @@
 		function get_zones($ID_COMMUNE=0)
 		{
 			$zones = $this->Model->getRequete('SELECT `ZONE_ID`, `ZONE_NAME` FROM `zones` WHERE COMMUNE_ID='.$ID_COMMUNE.' ORDER BY ZONE_NAME ASC');
-			$html='<option value="">---sélectionner---</option>';
+			$html='<option value="">---'.lang('selectionner').'---</option>';
 			foreach ($zones as $key)
 			{
 				$html.='<option value="'.$key['ZONE_ID'].'">'.$key['ZONE_NAME'].'</option>';
@@ -277,7 +278,7 @@
 		function get_collines($ID_ZONE=0)
 		{
 			$collines = $this->Model->getRequete('SELECT `COLLINE_ID`, `COLLINE_NAME` FROM `collines` WHERE ZONE_ID='.$ID_ZONE.' ORDER BY COLLINE_NAME ASC');
-			$html='<option value="">---sélectionner---</option>';
+			$html='<option value="">---'.lang('selectionner').'---</option>';
 			foreach ($collines as $key)
 			{
 				$html.='<option value="'.$key['COLLINE_ID'].'">'.$key['COLLINE_NAME'].'</option>';
@@ -319,7 +320,7 @@
 	function get_all_voiture()
 	{
 		$all_voiture = $this->Model->getRequete("SELECT vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE,vehicule.PLAQUE,vehicule.CODE FROM vehicule JOIN vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule.ID_MODELE=vehicule_modele.ID_MODELE WHERE 1 AND vehicule.STATUT=1");
-		$html='<option value="">--- Sélectionner ----</option>';
+		$html='<option value="">--- '.lang('selectionner').' ----</option>';
 		if(!empty($all_voiture))
 		{
 			foreach($all_voiture as $key)
@@ -330,7 +331,7 @@
 
 		$all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
 
-		$html1='<option value="">--- Sélectionner ----</option>';
+		$html1='<option value="">--- '.lang('selectionner').' ----</option>';
 		if(!empty($all_zone_affectation))
 		{
 			foreach($all_zone_affectation as $key1)
@@ -352,7 +353,7 @@
 	   // print_r($zone_affect);exit();
 		$all_zone_affectation = $this->Model->getRequete("SELECT `CHAUFF_ZONE_AFFECTATION_ID`,`DESCR_ZONE_AFFECTATION` FROM `chauffeur_zone_affectation` WHERE 1");
 
-		$html1='<option value="">--- Sélectionner ----</option>';
+		$html1='<option value="">--- '.lang('selectionner').' ----</option>';
 		if(!empty($all_zone_affectation))
 		{
 			foreach($all_zone_affectation as $key1)
@@ -456,7 +457,7 @@
 		$this->Model->update('chauffeur_vehicule',array('CHAUFFEUR_ID'=>$chauf_v['CHAUFFEUR_ID']),array('STATUT_AFFECT'=>2));
 
 		
-		$data['message'] = '<div class="alert alert-success text-center" id="message">' . " Vous avez bien retiré la voiture" . '</div>';
+		$data['message'] = '<div class="alert alert-success text-center" id="message">' . lang('msg_retrait_veh_success') . '</div>';
 		$this->session->set_flashdata($data);
 		redirect(base_url('chauffeur/Chauffeur_New'));
 
@@ -479,43 +480,43 @@
 	function add()
 	{
 		$table ='chauffeur';
-		$this->form_validation->set_rules('nom','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('prenom','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('adresse_physique','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('numero_telephone','','trim|required|is_unique[chauffeur.numero_telephone]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le téléphone doit être unique</font>'));
+		$this->form_validation->set_rules('nom','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('prenom','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('adresse_physique','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('numero_telephone','','trim|required|is_unique[chauffeur.numero_telephone]',array('required'=>'<font style="color:red;font-size:15px;">'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('unique_veh').'</font>'));
     	// Gestion numero carte d'identite doit etre unique
-		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required|is_unique[chauffeur.NUMERO_CARTE_IDENTITE]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le numéro doit être unique</font>'));
+		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required|is_unique[chauffeur.NUMERO_CARTE_IDENTITE]',array('required'=>'<font style="color:red;font-size:15px;">'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('unique_numero').'</font>'));
 			// Gestion nmail qui doit etre unique
-		$this->form_validation->set_rules('adresse_email','','trim|required|is_unique[chauffeur.ADRESSE_MAIL]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le mail doit être unique</font>'));
-		$this->form_validation->set_rules('CONFIRMATION_EMAIL','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('personne_contact_telephone','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('adresse_email','','trim|required|is_unique[chauffeur.ADRESSE_MAIL]',array('required'=>'<font style="color:red;font-size:15px;">'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('unique_mail').'</font>'));
+		$this->form_validation->set_rules('CONFIRMATION_EMAIL','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('personne_contact_telephone','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('NUMERO_PERMIS','','trim|required|is_unique[chauffeur.NUMERO_PERMIS]',array('required'=>'<font style="color:red;font-size:15px;">Le champs est obligatoire</font>','is_unique'=>'<font style="color:red;font-size:15px;">*Le permis doit être unique</font>'));
-		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('NUMERO_PERMIS','','trim|required|is_unique[chauffeur.NUMERO_PERMIS]',array('required'=>'<font style="color:red;font-size:15px;">'.lang('msg_validation').'</font>','is_unique'=>'<font style="color:red;font-size:15px;">*'.lang('unique_permis').'</font>'));
+		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
-		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
 
-		$this->form_validation->set_rules('date_naissance','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('date_expiration','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('GENRE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('date_naissance','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('date_expiration','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('GENRE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
 		if(!isset($_FILES['fichier_carte_identite']) || empty($_FILES['fichier_carte_identite']['name']))
 		{
-			$this->form_validation->set_rules('fichier_carte_identite',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+			$this->form_validation->set_rules('fichier_carte_identite',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		}
 
 		if(!isset($_FILES['photo_passport']) || empty($_FILES['photo_passport']['name']))
 		{
-			$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+			$this->form_validation->set_rules('photo_passport',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		}
 		if(!isset($_FILES['file_permis']) || empty($_FILES['file_permis']['name']))
 		{
-			$this->form_validation->set_rules('file_permis',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+			$this->form_validation->set_rules('file_permis',' ', 'trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		}
 
 		if($this->form_validation->run() == FALSE)
@@ -555,7 +556,7 @@
 			{
 
 
-				$data['message']='<div class="alert alert-success text-center" id="message">Ajout effectuer avec succès</div>';
+				$data['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_enreg_ft_success').'</div>';
 				$this->session->set_flashdata($data);
 				redirect(base_url('chauffeur/Chauffeur_New/index'));
 			}
@@ -591,15 +592,15 @@
 		$id = $this->input->post('CHAUFFEUR_ID');
 		//print_r($id);exit();
 
-		$this->form_validation->set_rules('NOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('PRENOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('ADRESSE_PHYSIQUE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('NUMERO_TELEPHONE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
-		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">Le champ est Obligatoire</font>'));
+		$this->form_validation->set_rules('NOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('PRENOM','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('ADRESSE_PHYSIQUE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('NUMERO_TELEPHONE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('NUMERO_CARTE_IDENTITE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('PROVINCE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('COMMUNE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('ZONE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('COLLINE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 
 		$FILE_CARTE_IDENTITE = $this->input->post('FILE_CARTE_IDENTITE_OLD');
 		if(empty($_FILES['FILE_CARTE_IDENTITE']['name']))
@@ -654,7 +655,7 @@
 				'PHOTO_PASSPORT' => $file3
 			);
 			$this->Model->update('chauffeur', array('CHAUFFEUR_ID' => $id), $Array);
-			$datas['message'] = '<div class="alert alert-success text-center" id="message">La modification s\'est faite avec succès</div>';
+			$datas['message'] = '<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif').'</div>';
 			$this->session->set_flashdata($datas);
 			redirect(base_url('chauffeur/Chauffeur_New/index'));
 		}
@@ -1325,7 +1326,7 @@
 					}else{
 						$ch_color='border: solid 1px rgba(220, 53, 69, 1);';
 						$card_card1='<div class="card">
-						<center><h5 class="card-title" style="font-size: .8rem; color:#dc3545;"><span class="fa fa-warning text-danger"></span> Il a dépassé la zone<span style="font-size: .8rem;"></span></h5></center>
+						<center><h5 class="card-title" style="font-size: .8rem; color:#dc3545;"><span class="fa fa-warning text-danger"></span> '.lang('depasse_zone').'<span style="font-size: .8rem;"></span></h5></center>
 
 						</div>';
 						$alert='<div style="top: 10px;position: absolute;right: 10px;font-size: .8rem; color:#dc3545;"><span class="fa fa-warning text-danger"></span></div>';
@@ -1388,7 +1389,7 @@
 									<div class="jss511"><sup class="jss507">'.$keytabl[13].'</sup><span class="jss510 jss512">'.$keytabl[4].'<span class="jss494">:'.$keytabl[5].'&nbsp;</span></span><span class="jss517"><label id="getplacesname'.$getplacesname.'"></label></span></div><div class="jss513">'.$keytabl[0].'<span style="float: right;">'.$keytabl[15].' km</span></div><div class="jss511"><sup class="jss507">'.$keytabl[14].'</sup><span class="jss510 jss514">'.$keytabl[6].'<span class="jss494">:'.$keytabl[7].'</span></span><span class="jss518"><label id="getplacesname1'.$getplacesname1.'"></label></span>
 									</div>
 									</div>
-									<span class="jss510" style="color:#7D7E7F;">Ceinture<span class="jss494">&nbsp;&nbsp;'.$valeur_ceinture.'</span></span><span class="jss518" style="color:#7D7E7F;">Climatiseur&nbsp;&nbsp;'.$valeur_clim.'</span>
+									<span class="jss510" style="color:#7D7E7F;">'.lang('mot_ceinture').'<span class="jss494">&nbsp;&nbsp;'.$valeur_ceinture.'</span></span><span class="jss518" style="color:#7D7E7F;">'.lang('mot_climatiseur').'&nbsp;&nbsp;'.$valeur_clim.'</span>
 									</div>							
 									</div>
 									</div>
@@ -1401,7 +1402,7 @@
 									<div class="jss111">
 									<div class="jss112" style="width: 78px; font-size: 11px; font-weight: 500;"><p><sup class="jss500 jss501"> '.$keytabl[13].'</sup>'.$keytabl[4].'<span class="jss119">:'.$keytabl[5].'</span></p><span style="display: block; height: 2px;"></span><p style="position: relative;"><sup class="jss500 jss501">'.$keytabl[14].'</sup>'.$keytabl[6].'<span class="jss119">:'.$keytabl[7].'&nbsp;</span></p>
 									</div>
-									<div class="jss112 jss113" style="width: 61%;"><span class="jss114" style="padding: 0px;"> <label id="getplacesname'.$getplacesname.'"></label></span><p class="jss515">'.$keytabl[0].' d\'arrêt </p>
+									<div class="jss112 jss113" style="width: 61%;"><span class="jss114" style="padding: 0px;"> <label id="getplacesname'.$getplacesname.'"></label></span><p class="jss515">'.$keytabl[0].' '.lang('mot_darret').' </p>
 									</div>
 									</div>
 									</div>
@@ -1434,7 +1435,7 @@
 
 					}else{
 
-						$carburant='N/A  ';
+						$carburant='N/A ';
 					}
 
 
@@ -1526,7 +1527,7 @@
 											'type': 'Feature',
 											'properties': {
 												'description':
-												'<span class=\"fa fa-warning\">&nbsp;&nbsp;Excès de vitesse</span>&nbsp;&nbsp;".$value_data_exces_vitesse['vitesse']." Km/h<br><i class=\"fa fa-clock-o \">&nbsp;&nbsp;".$value_data_exces_vitesse['hour']."</p>'
+												'<span class=\"fa fa-warning\">&nbsp;&nbsp;".lang('vitesse_exces')."</span>&nbsp;&nbsp;".$value_data_exces_vitesse['vitesse']." Km/h<br><i class=\"fa fa-clock-o \">&nbsp;&nbsp;".$value_data_exces_vitesse['hour']."</p>'
 												},
 												'geometry': {
 													'type': 'Point',
@@ -1565,7 +1566,7 @@
 													'type': 'Feature',
 													'properties': {
 														'description':
-														'<font  style=\"color:red;\">Accident !</font><br><i class=\"fa fa-clock-o\" style=\"color:red;\">&nbsp;&nbsp;".$keyget_data_accident['hour']."</i>'
+														'<font  style=\"color:red;\">".lang('h_accident')." !</font><br><i class=\"fa fa-clock-o\" style=\"color:red;\">&nbsp;&nbsp;".$keyget_data_accident['hour']."</i>'
 														},
 														'geometry': {
 															'type': 'Point',
@@ -1635,10 +1636,10 @@
 		$ZONE_ID = $this->input->post('ZONE_ID');
 		$COLLINE_ID = $this->input->post('COLLINE_ID');
 
-		$html_prov ="<option value='0'>Sélectionner</option>";
-		$html_com ="<option value='0'>Sélectionner</option>";
-		$html_zon ="<option value='0'>Sélectionner</option>";
-		$html_coll ="<option value='0'>Sélectionner</option>";
+		$html_prov ="<option value='0'>".lang('selectionner')."</option>";
+		$html_com ="<option value='0'>".lang('selectionner')."</option>";
+		$html_zon ="<option value='0'>".lang('selectionner')."</option>";
+		$html_coll ="<option value='0'>".lang('selectionner')."</option>";
 		
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 

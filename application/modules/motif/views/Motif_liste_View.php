@@ -96,7 +96,7 @@ input:checked + .slider:before {
          <table>
           <tr>
             <td>  
-              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Liste des motifs</h4>
+              <h4 class="text-dark text-center" style="margin-bottom: 1px;"><?=lang('motif_list')?></h4>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                
@@ -110,7 +110,7 @@ input:checked + .slider:before {
     </div>
     <div class="col-md-2">
 
-      <a class="btn btn-outline-primary rounded-pill" onclick="popup_modal();" class="nav-link position-relative"><i class="bi bi-plus"></i> Nouveau</a>
+      <a class="btn btn-outline-primary rounded-pill" onclick="popup_modal();" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
 
     </div>
   </div>
@@ -124,7 +124,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Modification du motif</h5>
+        <h5 class="modal-title"><?=lang('modif_motif')?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -143,7 +143,7 @@ input:checked + .slider:before {
             </div> -->
 
             <div class="col-md-12" id="div_type">
-              <label class="text-dark">Type de motif <font color="red">*</font></label>
+              <label class="text-dark"><?=lang('input_type_motif')?> <font color="red">*</font></label>
               <select class="form-control" id="ID_TYPE1" name="ID_TYPE1" >
 
               </select>
@@ -152,7 +152,7 @@ input:checked + .slider:before {
             </div>
 
             <div class="col-md-12" id="div_desc">
-              <label class="text-dark">Motif <font color="red">*</font></label>
+              <label class="text-dark"><?=lang('label_motif')?> <font color="red">*</font></label>
               <input type="text" name="DESC_MOTIF1" id="DESC_MOTIF1" class="form-control">
               <font class="text-danger" id="error_motif1"></font>
             </div>
@@ -160,7 +160,7 @@ input:checked + .slider:before {
           </div>
           <div class="modal-footer">
            
-              <button type="button" class="btn btn-outline-primary rounded-pill " id="btnSave1" onclick="valider1()">  Modifier</button>
+              <button type="button" class="btn btn-outline-primary rounded-pill " id="btnSave1" onclick="valider1()">  <?=lang('btn_modifier')?></button>
           </div>
         </form>
 
@@ -175,7 +175,7 @@ input:checked + .slider:before {
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
         <div class='modal-header' style='background:cadetblue;color:white;'>      
-        <h5 class="modal-title">Ajout d'un motif </h5>
+        <h5 class="modal-title"><?=lang('modal_ajout_motif')?> </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -199,9 +199,9 @@ input:checked + .slider:before {
               </div> -->
 
               <div class="col-md-12" id="div_type">
-                <label class="text-dark">Type de motif <font color="red">*</font></label>
+                <label class="text-dark"><?=lang('input_type_motif')?> <font color="red">*</font></label>
                 <select class="form-control" id="ID_TYPE" name="ID_TYPE" >
-                  <option value="">-- Sélectionner --</option>
+                  <option value="">-- <?=lang('selectionner')?> --</option>
                   <?php
                   foreach ($type as $key) 
                   {
@@ -214,7 +214,7 @@ input:checked + .slider:before {
               </div>
 
               <div class="col-md-12" id="div_desc">
-                <label class="text-dark">Motif <font color="red">*</font></label>
+                <label class="text-dark"><?=lang('label_motif')?> <font color="red">*</font></label>
                 <textarea cols='50' rows='7' name='DESC_MOTIF' id='DESC_MOTIF' class='form-control'></textarea> <br>
                 <font class="text-danger" id="error_motif"></font>
               </div>
@@ -224,7 +224,7 @@ input:checked + .slider:before {
 
               <div class="modal-footer">
            
-              <button type="button" class="btn btn-outline-primary rounded-pill " id="btnSave1" onclick="valider()">  Enregistrer</button>
+              <button type="button" class="btn btn-outline-primary rounded-pill " id="btnSave1" onclick="valider()">  <?=lang('btn_enregistrer')?></button>
            </div>
           </form>
        </div>
@@ -265,9 +265,9 @@ input:checked + .slider:before {
                     <tr>
                       <td>#</td>
                       <!-- <td class="text-dark"><b>CATEGORIE</b> </td> -->
-                      <td class="text-dark"><b>TYPE</b> </td>
-                      <td class="text-dark"><b>DESCRIPTION</b> </td>
-                      <td class="text-dark"><b>Action</b></td>
+                      <td class="text-dark"><b><?=lang('list_type')?></b> </td>
+                      <td class="text-dark"><b><?=lang('list_description')?></b> </td>
+                      <td class="text-dark"><b><?=lang('list_action')?></b></td>
                     </tr>
                   </thead >
                         <tbody class="text-dark">
@@ -388,19 +388,19 @@ input:checked + .slider:before {
     // {
       if(ID_TYPE=="")
       {
-        $("#error_type_motif").text("Le champ est obligatoire !");
+        $("#error_type_motif").text("<?=lang('msg_validation')?> !");
         statut = 2;
       }else{$("#error_type_motif").text("");}
     // }
     
     if(DESC_MOTIF=="")
     {
-      $("#error_motif").text("Le champ est obligatoire !");
+      $("#error_motif").text("<?=lang('msg_validation')?> !");
       statut = 2;
     }else{$("#error_motif").text("");}
     if(statut==1)
     {
-      $('#btnSave').text('Enregistrement Encours.....');
+      $('#btnSave').text('<?=lang('enreg_en_cours')?>.....');
       $('#btnSave').attr("disabled",true);
       var url;   
       url="<?php echo base_url('motif/Motif/save')?>";
@@ -435,13 +435,13 @@ input:checked + .slider:before {
              $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); 
            }
          }
-         $('#btnSave').text('Enregistrer');
+         $('#btnSave').text('<?=lang('btn_enregistrer')?>');
          $('#btnSave').attr('disabled',false); 
        },
        error: function (jqXHR, textStatus,photo, errorThrown)
        {
-         alert('Erreur s\'est produite');
-         $('#btnSave').text('Enregistrer');
+         alert('<?=lang('erreur_produite')?>');
+         $('#btnSave').text('<?=lang('btn_enregistrer')?>');
          $('#btnSave').attr('disabled',false);
        }
      });
@@ -468,21 +468,21 @@ input:checked + .slider:before {
     // {
       if(ID_TYPE1=="")
       {
-        $("#error_type_motif1").text("Le champ est obligatoire !");
+        $("#error_type_motif1").text("<?=lang('msg_validation')?> !");
         statut = 2;
       }else{$("#error_type_motif1").text("");}
     // }
 
     if(DESC_MOTIF1=="")
     {
-      $("#error_motif1").text("Le champ est obligatoire !");
+      $("#error_motif1").text("<?=lang('msg_validation')?> !");
       statut = 2;
     }else{$("#error_motif1").text("");}
 
 
     if(statut==1)
     {
-      $('#btnSave1').text('Encours...');
+      $('#btnSave1').text('<?=lang('mot_en_cours')?>...');
       $('#btnSave1').attr("disabled",true);
       var url;   
       url="<?php echo base_url('motif/Motif/update')?>";
@@ -517,13 +517,13 @@ input:checked + .slider:before {
              $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); 
            }
          }
-         $('#btnSave1').text('Modifier');
+         $('#btnSave1').text('<?=lang('btn_modifier')?>');
          $('#btnSave1').attr('disabled',false); 
        },
        error: function (jqXHR, textStatus,photo, errorThrown)
        {
-         alert('Erreur s\'est produite');
-         $('#btnSave1').text('Modifier');
+         alert('<?=lang('erreur_produite')?>');
+         $('#btnSave1').text('<?=lang('btn_modifier')?>');
          $('#btnSave1').attr('disabled',false);
        }
      });
@@ -549,7 +549,7 @@ input:checked + .slider:before {
         $('#DESC_MOTIF1').val(data.DESC_MOTIF);
       },
       error: function(jqXHR, textStatus, errorThrown) {
-        console.log('Erreur : ' + textStatus);
+        console.log('<?=lang('msg_erreur')?> : ' + textStatus);
       }
     });
   }

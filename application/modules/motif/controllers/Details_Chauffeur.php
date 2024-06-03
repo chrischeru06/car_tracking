@@ -1,9 +1,5 @@
 <?php
-/** RUGAMBA Jean Vainqueur
-*Titre : infos perso, affections, présences et cartes d'un agent SBG
-*Téléphone : (+257) 62 47 19 15
-*Email : jean.vainqueur@mediabox.bi
-*Gestion des agents
+/** 
 * 
 */
 class Details_Chauffeur extends CI_Controller
