@@ -446,6 +446,13 @@ class Dashboard extends CI_Controller
 				$my_selectone_element_moins=str_replace('\"', '', $my_selectone_element_moins);
 
 				$min_arret_plus_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);
+				if (empty($min_arret_plus_plus)) {
+					$my_selectone_element_moins = $this->getBindParms('id', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" AND id >= "'.$one_element['id'].'" ' , '`id` ASC');
+				$my_selectone_element_moins=str_replace('\"', '"', $my_selectone_element_moins);
+				$my_selectone_element_moins=str_replace('\n', '', $my_selectone_element_moins);
+				$my_selectone_element_moins=str_replace('\"', '', $my_selectone_element_moins);
+
+				$min_arret_plus_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);				}
 
 				
 				// print_r($date_compare2);die();
