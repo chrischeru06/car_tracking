@@ -318,13 +318,17 @@
                     if($infos_vehicule['TYPE_PROPRIETAIRE_ID'] == 1)
                     {
                       ?>
-                      hh
+                      <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>"  title="<?=lang('title_visualisation')?>">
+                      <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['LOGO'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                    </a>
                       <?php
                     }
                     else
                     {
                       ?>
+                      <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($infos_vehicule['PROPRIETAIRE_ID'])?>"  title="<?=lang('title_visualisation')?>">
                       <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['photo_pro'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                    </a>
                       <?php
                     }
                     ?>
@@ -340,7 +344,9 @@
                     {
                       ?>
                       <font>
+                        <a href="<?= base_url()?>chauffeur/Chauffeur_New/Detail/<?=md5($infos_vehicule['CHAUFFEUR_ID'])?>" class="" title="<?=lang('title_visualisation')?>">
                         <img src="<?= isset($infos_vehicule['photo_chauf'])?base_url('/upload/chauffeur/'.$infos_vehicule['photo_chauf']):base_url('/upload/iconecartracking-02.png')?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                      </a>
                         <i class="text-muted small pt-2 ps-1 fa fa-"></i><font class="text-muted small pt-2 ps-1"><?=lang('p_chauffeur')?></font><br>
                       </font>
                       
