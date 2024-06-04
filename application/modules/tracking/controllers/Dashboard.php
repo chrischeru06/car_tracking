@@ -324,6 +324,7 @@ class Dashboard extends CI_Controller
 
 			}
 			$nvldistance_arrondie=round($nvldistance);
+
 		}
 		
 
@@ -427,7 +428,7 @@ class Dashboard extends CI_Controller
 			}
 		}
 		$distdislegend=0;
-		$get_data_arret = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE CODE_COURSE IS NOT NULL and  md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE');
+		$get_data_arret = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE CODE_COURSE IS NOT NULL and  md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE ORDER BY id DESC');
 		$dataplace = '';
 		$dataplace1 = '';
 		$card_card1='';
