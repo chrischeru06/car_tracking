@@ -121,7 +121,7 @@ class Dashboard extends CI_Controller
 		$score_finale=0;
 		$critere='';
 		$critere1='';
-
+		$aujourdhui=date('Y-m-d');;
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_heure1 = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', 'HEURE_ID="'.$HEURE1.'"', '`HEURE_ID` ASC');
@@ -142,6 +142,9 @@ class Dashboard extends CI_Controller
 			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_SELECT.'" AND "'.$DATE_DAT_FIN.'" ';
 
 
+		}else{
+
+			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")= "'.$aujourdhui.'"';
 		}
 
 		if (!empty($HEURE1) && !empty($HEURE2)) 
