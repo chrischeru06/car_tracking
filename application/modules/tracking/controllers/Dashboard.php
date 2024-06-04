@@ -452,7 +452,8 @@ class Dashboard extends CI_Controller
 				$my_selectone_element_moins=str_replace('\n', '', $my_selectone_element_moins);
 				$my_selectone_element_moins=str_replace('\"', '', $my_selectone_element_moins);
 
-				$min_arret_plus_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);				}
+				$min_arret_plus_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element_moins);				
+			}
 
 				
 				// print_r($date_compare2);die();
@@ -776,7 +777,7 @@ class Dashboard extends CI_Controller
 							$vitesse_exces = '';
 							$geojsonexces='';
 
-							if ($CODE_COURSE!='') {
+							// if ($CODE_COURSE!='') {
 								if(!empty($get_data)){
 
 
@@ -830,13 +831,13 @@ class Dashboard extends CI_Controller
 										}
 							// $vitesse_exces.='@';
 							// $vitesse_exces = str_replace(',@', "", $vitesse_exces);
-									}else{
+									// }else{
 
-										$track.= '';
-										$vitesse_exces.= '[1,1]';
+									// 	$track.= '';
+									// 	$vitesse_exces.= '[1,1]';
 
 
-									}
+									// }
 									$accident='';
 									$geojsonaccident='';
 									if(!empty($track)){
