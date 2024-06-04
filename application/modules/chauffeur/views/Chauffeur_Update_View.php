@@ -489,11 +489,11 @@
         $(this).val($(this).val().replace(/[^a-z-\s]/gi, '').toUpperCase());
       });
 
-      $("#NUMERO_CARTE_IDENTITE").on('input', function()
-      {
-        // $('#error_NUMERO_CARTE_IDENTITE').hide();
-        $(this).val($(this).val().replace(/[^0-9/.]*$/gi, ''));
-      });
+      // $("#NUMERO_CARTE_IDENTITE").on('input', function()
+      // {
+      //   $('#error_NUMERO_CARTE_IDENTITE').hide();
+      //   $(this).val($(this).val().replace(/[^0-9/.]*$/gi, ''));
+      // });
 
 
       $("#ADRESSE_PHYSIQUE").keypress(function(event)
