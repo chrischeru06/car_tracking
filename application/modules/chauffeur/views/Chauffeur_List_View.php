@@ -9,18 +9,18 @@
       background-color: rgba(210, 232, 249,100);
       border-radius: 5px;
     }
-  .dashboard .table-responsive .dropdown .dropdown-menu  li {
-   margin: 1rem 0; 
-   padding: 10px 0 10px 40px;
-}
+    .dashboard .table-responsive .dropdown .dropdown-menu  li {
+     margin: 1rem 0; 
+     padding: 10px 0 10px 40px;
+   }
 
-    /* The switch - the box around the slider */
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 30px;
-      height: 20px;
-    }
+   /* The switch - the box around the slider */
+   .switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+  }
 
 /* Hide default HTML checkbox */
 .switch input {
@@ -97,8 +97,8 @@ input:checked + .slider:before {
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-</div>
-    <div class="pagetitle">
+  </div>
+  <div class="pagetitle">
    <div class="row page-titles mx-0">
     <div class="col-sm-10 p-md-0">
       <div class="welcome-text">
@@ -300,38 +300,37 @@ input:checked + .slider:before {
 
               <div class="table-responsive" style="padding-top: 20px;">
 
-                <table id="mytable" class="table table-hover" style="padding-top: 20px;">
-                 <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
-                  <tr>
+                <table id="mytable" class="table table-hover" style="width:100%;">
+                  <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
+                    <tr>
 
-                    <th class="text-dark">#</th>
-                    <th class="text-dark"><?=lang('th_chauffeur')?></th>
-                    <th class="text-dark"><?=lang('th_tlphone')?></th>
-                    <th class="text-dark"><?=lang('th_email')?></th>
-                    <th class="text-dark"><?=lang('th_statut')?></th>
-                    <th class="text-dark"><?=lang('th_options')?></th>
-                  </tr>
-                </thead>
-                
-                <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                </tbody>
+                      <th class="text-dark">#</th>
+                      <th class="text-dark"><?=lang('th_chauffeur')?></th>
+                      <th class="text-dark"><?=lang('th_tlphone')?></th>
+                      <th class="text-dark"><?=lang('th_email')?></th>
+                      <th class="text-dark"><?=lang('th_statut')?></th>
+                      <th class="text-dark"><?=lang('th_options')?></th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                  </tbody>
+                </table>
+              </div>
 
-              </table>
             </div>
 
           </div>
-
         </div>
+
+
+
       </div>
-
-
-
     </div>
+
+
+
   </div>
-
-
-
-</div>
 </section>
 
 </main><!-- End #main -->
@@ -555,8 +554,8 @@ input:checked + .slider:before {
   function myFunction(CHAUFFEUR_ID) {
   // Get the checkbox
     var checkBox = document.getElementById("myCheck");
-   var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_I').val(CHAUFFEUR_ID);
-  $('#Modal_activation').modal('show');
+    var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_I').val(CHAUFFEUR_ID);
+    $('#Modal_activation').modal('show');
 
   // Get the output text
 
@@ -584,78 +583,78 @@ input:checked + .slider:before {
   // Get the checkbox
   //STATUT_VEHICULE:debut tester si le chauffeur a une voiture pour le desactiver
    var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_ID').val(CHAUFFEUR_ID);
-    $('#Modal_desactivation').modal('show');
-    if (STATUT_VEHICULE==2) 
+   $('#Modal_desactivation').modal('show');
+   if (STATUT_VEHICULE==2) 
+   {
+    var url="<?= base_url('chauffeur/Chauffeur/retirer_voiture')?>";
+    $.ajax(
     {
-      var url="<?= base_url('chauffeur/Chauffeur/retirer_voiture')?>";
-      $.ajax(
-      {
-        url: url,
-        type: 'POST',
-        dataType:'JSON',
-        // data: form_data ,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data)
-        {
-          if(data==2)
-          {
-            Swal.fire(
-            {
-              icon: 'error',
-              title: '<?=lang('msg_erreur')?>',
-              text: '<?=lang('modal_retirer_cond')?>',
-              timer: 3000,
-            }).then(() =>
-            {
-              window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
-            });
-          }
-        }
-      });
-      //STATUT_VEHICULE:fin tester si le chauffeur a une voiture pour le desactiver
-    }else
-    {
-    //debut desactiver le chauffeur
-     var checkBox = document.getElementById("myCheck");
-     var status=$('#status').val();
-
-     status=1;
-
-     var form_data = new FormData($("#myform_check")[0]);
-     $.ajax(
-     {
-      url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
-
+      url: url,
       type: 'POST',
       dataType:'JSON',
-      data: form_data ,
+        // data: form_data ,
       contentType: false,
       cache: false,
       processData: false,
       success: function(data)
       {
-        window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+        if(data==2)
+        {
+          Swal.fire(
+          {
+            icon: 'error',
+            title: '<?=lang('msg_erreur')?>',
+            text: '<?=lang('modal_retirer_cond')?>',
+            timer: 3000,
+          }).then(() =>
+          {
+            window.location.reload('<?=base_url('chauffeur/Chauffeur')?>');
+          });
+        }
       }
     });
-   }
+      //STATUT_VEHICULE:fin tester si le chauffeur a une voiture pour le desactiver
+  }else
+  {
+    //debut desactiver le chauffeur
+   var checkBox = document.getElementById("myCheck");
+   var status=$('#status').val();
+
+   status=1;
+
+   var form_data = new FormData($("#myform_check")[0]);
+   $.ajax(
+   {
+    url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
+
+    type: 'POST',
+    dataType:'JSON',
+    data: form_data ,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function(data)
+    {
+      window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+    }
+  });
+ }
 //fin desactiver le chauffeur
 
- }
+}
 
 </script>
 <script>
 
-function save_motif_active() {
+  function save_motif_active() {
   //activation
- var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_I').val();
+   var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_I').val();
 
-  var statut=1;
-  $('#errorID_MOTIF').html('');
+   var statut=1;
+   $('#errorID_MOTIF').html('');
 
-  if($('#ID_MOTIF').val()=='')
-  {
+   if($('#ID_MOTIF').val()=='')
+   {
     $('#errorID_MOTIF').html('<?=lang('msg_validation')?>');
     statut=2;
   }
@@ -700,49 +699,49 @@ function save_motif_active() {
 function save_motif_desactive() {
   //desactivation
  var CHAUFFEUR_ID=$('#CHAUFFEUR_ID_ID').val();
-  var statut=1;
-  $('#errorID_MOTIF_des').html('');
+ var statut=1;
+ $('#errorID_MOTIF_des').html('');
 
-  if($('#ID_MOTIF_des').val()=='')
+ if($('#ID_MOTIF_des').val()=='')
+ {
+  $('#errorID_MOTIF_des').html('<?=lang('msg_validation')?>');
+  statut=2;
+}
+if (statut==1) {
+ var checkBox = document.getElementById("myCheck");
+ var status=$('#status').val();
+
+ status = 1;
+
+ var form_data = new FormData($("#desactive_form")[0]);
+ $.ajax(
+ {
+  url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
+  type: 'POST',
+  dataType:'JSON',
+  data: form_data ,
+  contentType: false,
+  cache: false,
+  processData: false,
+  success: function(data)
   {
-    $('#errorID_MOTIF_des').html('<?=lang('msg_validation')?>');
-    statut=2;
-  }
-  if (statut==1) {
-   var checkBox = document.getElementById("myCheck");
-   var status=$('#status').val();
 
-   status = 1;
-
-   var form_data = new FormData($("#desactive_form")[0]);
-   $.ajax(
+   if(data.status==1)
    {
-    url:"<?=base_url()?>chauffeur/Chauffeur/active_desactive/"+status+'/'+CHAUFFEUR_ID,
-    type: 'POST',
-    dataType:'JSON',
-    data: form_data ,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data)
+    Swal.fire(
     {
-
-     if(data.status==1)
-     {
-      Swal.fire(
-      {
-        icon: 'success',
-        title: 'Success',
-        text: '<?=lang('swal_desactive_proprio')?>',
-        timer: 1500,
-      }).then(() =>
-      {
-       window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
-     });
-    }
+      icon: 'success',
+      title: 'Success',
+      text: '<?=lang('swal_desactive_proprio')?>',
+      timer: 1500,
+    }).then(() =>
+    {
+     window.location.href='<?=base_url('')?>chauffeur/Chauffeur';
+   });
   }
+}
 });
- }
+}
 }
 </script>
 
