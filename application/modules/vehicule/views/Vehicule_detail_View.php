@@ -318,7 +318,7 @@
                     if($infos_vehicule['TYPE_PROPRIETAIRE_ID'] == 1)
                     {
                       ?>
-                      <img src="<?=base_url('/upload/proprietaire/photopassport/'.$infos_vehicule['LOGO'])?>" style="width: 40px;height: 40px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                      hh
                       <?php
                     }
                     else
