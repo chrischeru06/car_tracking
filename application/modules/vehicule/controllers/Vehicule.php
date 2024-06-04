@@ -1198,7 +1198,7 @@
 				</div>
 				<div class='modal-body'>
 
-				<img src = '".base_url('upload/photo_vehicule/'.$row->FILE_ASSURANCE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->FILE_ASSURANCE)."'   style='border-radius: 5px;height:500px;width: 100%;'>
 
 				</div>
 				</div>
@@ -1297,7 +1297,7 @@
 				</div>
 				<div class='modal-body'>
 
-				<img src = '".base_url('upload/photo_vehicule/'.$row->FILE_CONTRO_TECHNIQUE)."' height='100%'  width='100%'  style= 'border-radius:20px;'>
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->FILE_CONTRO_TECHNIQUE)."'  style='border-radius: 5px;height:500px;width: 100%;'>
 
 				</div>
 				</div>
