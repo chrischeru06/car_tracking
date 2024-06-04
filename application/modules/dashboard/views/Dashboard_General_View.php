@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
@@ -12,10 +11,7 @@
   <script src="https://code.highcharts.com/modules/lollipop.js"></script>
 
 </head>
-
 <body>
-
-
 
   <!-- ======= Header ======= -->
   <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
@@ -24,6 +20,7 @@
   <!-- ======= Sidebar ======= -->
   <?php include VIEWPATH . 'includes/menu_left.php'; ?>
   <!-- End Sidebar-->
+
 
 
   <main id="main" class="main">
@@ -257,6 +254,7 @@
 <script>
   function get_rapport()
   {
+
     $.ajax(
     {
       url : "<?=base_url()?>dashboard/Dashboard_General/get_rapport",
@@ -273,13 +271,15 @@
         $('#nouveau5').html(data.rapp5);
         $('#nouveau6').html(data.rapp6);
         $('#nouveau7').html(data.rapp7);
+
+
+
+
+
       },            
     });  
   }
 </script>
-
- 
-
 
 <script type="text/javascript">
 
