@@ -159,7 +159,8 @@ else if ($this->session->PROFIL_ID == 2) {
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_chauffeur">
+        <!-- <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_chauffeur"> -->
+          <a class="nav-link collapsed" href="<?=base_url()?>chauffeur/Chauffeur">
           <i class="bi bi-person"></i>
           <span><?=lang('Chauffeurs_lng')?></span>
         </a>

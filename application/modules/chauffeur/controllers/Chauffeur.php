@@ -41,10 +41,18 @@
 		//Fonction pour l'affichage
 		function listing()
 		{
+			$USER_ID=$this->session->userdata('USER_ID');
+
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 			$var_search = str_replace("'", "\'", $var_search);
 			$group = "";
+
 			$critaire = "";
+
+			if($this->session->PROFIL_ID == 2) // Si c'est le proprietaire
+			{
+				$critaire = " AND chauffeur_vehicule.STATUT_AFFECT=1 AND users.USER_ID=".$USER_ID;
+			}
 			$limit = 'LIMIT 0,1000';
 			if ($_POST['length'] != -1) {
 				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
@@ -68,7 +76,7 @@
 				OR chauffeur.NUMERO_CARTE_IDENTITE LIKE "%' . $var_search . '%"
 				OR chauffeur.DATE_INSERTION LIKE "%' . $var_search . '%")') : '';
 
-			$query_principal='SELECT CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,chauffeur.FILE_PERMIS FROM chauffeur LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
+			$query_principal='SELECT chauffeur.CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,chauffeur.FILE_PERMIS FROM chauffeur LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CHAUFFEUR_ID = chauffeur.CHAUFFEUR_ID LEFT JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE LEFT JOIN users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
 
             //condition pour le query principale
 			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
