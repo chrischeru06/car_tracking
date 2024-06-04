@@ -121,7 +121,7 @@ class Dashboard extends CI_Controller
 		$score_finale=0;
 		$critere='';
 		$critere1='';
-
+		$aujourdhui=date('Y-m-d');;
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_heure1 = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', 'HEURE_ID="'.$HEURE1.'"', '`HEURE_ID` ASC');
@@ -142,6 +142,9 @@ class Dashboard extends CI_Controller
 			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_SELECT.'" AND "'.$DATE_DAT_FIN.'" ';
 
 
+		}else{
+
+			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")= "'.$aujourdhui.'"';
 		}
 
 		if (!empty($HEURE1) && !empty($HEURE2)) 
@@ -278,7 +281,13 @@ class Dashboard extends CI_Controller
 		$max_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmax_arret);
 
 
-		$my_selectmin_arret_plus = $this->getBindParms('id as arret_min_deux', 'tracking_data', '1 AND id = (SELECT MIN(id) FROM tracking_data WHERE id NOT IN (SELECT MIN(id) FROM tracking_data)) AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.'' , '`id` ASC');
+		// $my_selectmin_arret_plus = $this->getBindParms('id as arret_min_deux', 'tracking_data', '1 AND id = (SELECT MIN(id) FROM tracking_data WHERE id NOT IN (SELECT MIN(id) FROM tracking_data)) AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.'' , '`id` ASC');
+		// $my_selectmin_arret_plus=str_replace('\"', '"', $my_selectmin_arret_plus);
+		// $my_selectmin_arret_plus=str_replace('\n', '', $my_selectmin_arret_plus);
+		// $my_selectmin_arret_plus=str_replace('\"', '', $my_selectmin_arret_plus);
+		// $min_arret_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret_plus);
+
+		$my_selectmin_arret_plus = $this->getBindParms('MIN(id) as arret_min_deux', 'tracking_data', '1 AND id NOT IN (SELECT MIN(id) FROM tracking_data) AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.'' , '`id` ASC');
 		$my_selectmin_arret_plus=str_replace('\"', '"', $my_selectmin_arret_plus);
 		$my_selectmin_arret_plus=str_replace('\n', '', $my_selectmin_arret_plus);
 		$my_selectmin_arret_plus=str_replace('\"', '', $my_selectmin_arret_plus);
