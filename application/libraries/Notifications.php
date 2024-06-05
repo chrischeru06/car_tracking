@@ -10,21 +10,21 @@ class Notifications
     public function __construct()
     {
         $this->CI = & get_instance();
-      $this->CI->load->library('email');
-      $this->CI->load->model('Model');
+        $this->CI->load->library('email');
+        $this->CI->load->model('Model');
     }
 
 
-function pluralize( $count, $text )
-{ if($text!='mois'){
-    return $count . ( ( $count == 1 ) ? ( " $text" ) : ( " ${text}s" ) );
-}else{
-   return $count . ( ( $count == 1 ) ? ( " $text" ) : ( " ${text}" ) );
+    function pluralize( $count, $text )
+    { if($text!='mois'){
+        return $count . ( ( $count == 1 ) ? ( " $text" ) : ( " ${text}s" ) );
+    }else{
+       return $count . ( ( $count == 1 ) ? ( " $text" ) : ( " ${text}" ) );
 
-}
+   }
 }
 
-  function date_manage($nb_jr = 0,$date_semi=0){
+function date_manage($nb_jr = 0,$date_semi=0){
 
     $your_date = strtotime("+".$nb_jr." day", strtotime($date_semi));
 
@@ -33,6 +33,32 @@ function pluralize( $count, $text )
 
     return date('d-m-Y',strtotime($new_date));
 }
+
+function heure_manage($nb_h = 0,$date_semi=0){
+
+    $your_date = strtotime("+".$nb_h." day", strtotime($date_semi));
+
+    $new_date = date("H:i", $your_date++);
+
+
+    return date('H:i',strtotime($new_date));
+}
+
+function ajouterDeuxHeures($heure,$minutes) {
+    $heure1=60*$heure;
+    $heure2=60*2;
+    $total_minutes = $heure1 + $heure2 + $minutes;
+    
+    // Calculer les heures et les minutes
+    $heures = floor($total_minutes / 60);
+    $minutes = $total_minutes % 60;
+    
+    // Formater le résultat
+    $nouvelle_heure = sprintf("%02d:%02d", $heures, $minutes);
+    
+    return $nouvelle_heure;
+}
+
 
 function ago($date1,$date2)
 {
@@ -82,19 +108,19 @@ function send_mail($emailTo = array(), $subjet, $cc_emails = array(), $message, 
   if (!empty($attach)) {
     foreach ($attach as $att)
       $this->CI->email->attach($att);
-  }
-  $this->CI->email->send();
+}
+$this->CI->email->send();
        /* if (!$this->CI->email->send()) {
             show_error($this->CI->email->print_debugger());
         } 
         else;*/
        // echo $this->CI->email->print_debugger();
 
-      }
+    }
 
 
-   public function smtp_mail($emailTo,$subjet,$cc_emails=NULL,$message,$attach=NULL)
-   {     
+    public function smtp_mail($emailTo,$subjet,$cc_emails=NULL,$message,$attach=NULL)
+    {     
         $this->CI = & get_instance();
         $this->CI->load->library('email');
         $config['protocol'] = 'smtp';
@@ -121,31 +147,31 @@ function send_mail($emailTo = array(), $subjet, $cc_emails = array(), $message, 
         $this->CI->email->to($emailTo);
         //$this->CI->email->bcc('ismael@mediabox.bi');
 
-          if (!empty($cc_emails)) {
+        if (!empty($cc_emails)) {
           foreach ($cc_emails as $key => $value) {
-          $this->CI->email->cc($value);
+              $this->CI->email->cc($value);
           }
-          }
-         
-        $this->CI->email->subject($subjet);
-        $this->CI->email->message($message);
-        
-        if(!empty($attach))
-          {
-            $this->email->attach($attach);
-         }
+      }
 
-        if (!$this->CI->email->send()) {
-            show_error($this->CI->email->print_debugger());
-        } else
-            echo $this->CI->email->print_debugger();
-   }
+      $this->CI->email->subject($subjet);
+      $this->CI->email->message($message);
 
-   public function send_sms($string_tel = NULL,$string_msg)
-   {
-        $data = '{"urns": ["' . $string_tel . '"],"text":"' . $string_msg . '"}';
+      if(!empty($attach))
+      {
+        $this->email->attach($attach);
+    }
 
-        $header = array();
+    if (!$this->CI->email->send()) {
+        show_error($this->CI->email->print_debugger());
+    } else
+    echo $this->CI->email->print_debugger();
+}
+
+public function send_sms($string_tel = NULL,$string_msg)
+{
+    $data = '{"urns": ["' . $string_tel . '"],"text":"' . $string_msg . '"}';
+
+    $header = array();
         $header [0] = 'Authorization:Token 8ae3e567ec75aeac4fab42a43c64edf52f0eb736';  //pas d'espace entre Authori et : et Token
         $header [1] = 'Content-Type:application/json';
         $curl = curl_init();
@@ -159,80 +185,77 @@ function send_mail($emailTo = array(), $subjet, $cc_emails = array(), $message, 
        // $result = json_decode($result);
 
         return $result;
-   }
+    }
 
 
-   public function generate_UIID($taille)
-   {
+    public function generate_UIID($taille)
+    {
      $Caracteres = '0123456789'; 
-      $QuantidadeCaracteres = strlen($Caracteres); 
-      $QuantidadeCaracteres--; 
+     $QuantidadeCaracteres = strlen($Caracteres); 
+     $QuantidadeCaracteres--; 
 
-      $Hash=NULL; 
-        for($x=1;$x<=$taille;$x++){ 
-            $Posicao = rand(0,$QuantidadeCaracteres); 
-            $Hash .= substr($Caracteres,$Posicao,1); 
-        }
+     $Hash=NULL; 
+     for($x=1;$x<=$taille;$x++){ 
+        $Posicao = rand(0,$QuantidadeCaracteres); 
+        $Hash .= substr($Caracteres,$Posicao,1); 
+    }
 
-        return $Hash; 
-   }
+    return $Hash; 
+}
 
-    public function generate_password($taille)
-   {
-     $Caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVXWYZ0123456789,.@{-_/#'; 
-      $QuantidadeCaracteres = strlen($Caracteres); 
-      $QuantidadeCaracteres--; 
+public function generate_password($taille)
+{
+ $Caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVXWYZ0123456789,.@{-_/#'; 
+ $QuantidadeCaracteres = strlen($Caracteres); 
+ $QuantidadeCaracteres--; 
 
-      $Hash=NULL; 
-        for($x=1;$x<=$taille;$x++){ 
-            $Posicao = rand(0,$QuantidadeCaracteres); 
-            $Hash .= substr($Caracteres,$Posicao,1); 
-        }
-        return $Hash; 
-   }
+ $Hash=NULL; 
+ for($x=1;$x<=$taille;$x++){ 
+    $Posicao = rand(0,$QuantidadeCaracteres); 
+    $Hash .= substr($Caracteres,$Posicao,1); 
+}
+return $Hash; 
+}
 
 
 
 
 function sendMessage($phone = null, $message = null){
 
-      $phones = str_replace(" ", "", $phone);
-      $phon = str_replace("+", "", $phones);
-      $phone = trim($phon);
-      
-      $methode = "sendMessage";
-      $data =  array('phone'=>$phone, 'body'=>$message);
+  $phones = str_replace(" ", "", $phone);
+  $phon = str_replace("+", "", $phones);
+  $phone = trim($phon);
 
-      $header = array();
-      $instance = "instance449097";
-      $token = "oxlisbyj3z9sqtfy";
+  $methode = "sendMessage";
+  $data =  array('phone'=>$phone, 'body'=>$message);
+
+  $header = array();
+  $instance = "instance449097";
+  $token = "oxlisbyj3z9sqtfy";
       //https://api.chat-api.com/instance449097/message?token=oxlisbyj3z9sqtfy
-      $url = "https://api.chat-api.com/".$instance."/".$methode."?token=".$token;
-      $header[1] = 'Content-Type:application/json';
+  $url = "https://api.chat-api.com/".$instance."/".$methode."?token=".$token;
+  $header[1] = 'Content-Type:application/json';
 
-      $curl = curl_init();
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-      curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-      $response = curl_exec($curl);
-      $err = curl_error($curl);
-      curl_close($curl);
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($curl, CURLOPT_POST, true);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+  curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+  $response = curl_exec($curl);
+  $err = curl_error($curl);
+  curl_close($curl);
 
-      if ($err) {
-        return 205;
-      } else {
-        $respo =  json_decode($response);
+  if ($err) {
+    return 205;
+} else {
+    $respo =  json_decode($response);
         // $result = ($respo->sent =="true") ?  200 : 205;
-        return $respo;
-      }
+    return $respo;
+}
 
 
-    }
-
-
-
+}
 
 
 
@@ -241,12 +264,15 @@ function sendMessage($phone = null, $message = null){
 
 
 
-   
+
+
+
+
 
 
    //notification sur whatsapp
-   public function whatsapp($phone,$message)
-   {
+public function whatsapp($phone,$message)
+{
 // {
 //   "created": true,
 //   "message": null,
@@ -256,7 +282,7 @@ function sendMessage($phone = null, $message = null){
     $data = [
     'phone' =>"'".$phone."'", // Receivers phone
     'body' => "".$message."" // Message
-            ];
+];
 
     $json = json_encode($data); // Encode data to JSON
     // URL for request POST /message
@@ -267,92 +293,92 @@ function sendMessage($phone = null, $message = null){
         'method'  => 'POST',
         'header'  => 'Content-type: application/json',
         'content' => $json
-        ]
-        ]);
+    ]
+]);
      // Send a request
-     $result = file_get_contents($url, false, $options);
+    $result = file_get_contents($url, false, $options);
 
 
-   }
+}
     //Fonction pour la generation de code automatique
-   
-    function generate_code($taille = 0){
 
-     $Caracteres = '0123456789'; 
-      $QuantidadeCaracteres = strlen($Caracteres); 
-      $QuantidadeCaracteres--; 
+function generate_code($taille = 0){
 
-      $Hash=NULL; 
-        for($x=1;$x<=$taille;$x++){ 
-            $Posicao = rand(0,$QuantidadeCaracteres); 
-            $Hash .= substr($Caracteres,$Posicao,1); 
-        }
+ $Caracteres = '0123456789'; 
+ $QuantidadeCaracteres = strlen($Caracteres); 
+ $QuantidadeCaracteres--; 
 
-        return $Hash;
+ $Hash=NULL; 
+ for($x=1;$x<=$taille;$x++){ 
+    $Posicao = rand(0,$QuantidadeCaracteres); 
+    $Hash .= substr($Caracteres,$Posicao,1); 
+}
 
-   }
+return $Hash;
 
-
+}
 
 
-   function pointLocation() {
+
+
+function pointLocation() {
 }
 
 function pointInPolygon($point, $polygon, $pointOnVertex = true) {
-$this->pointOnVertex = $pointOnVertex;
+    $this->pointOnVertex = $pointOnVertex;
 
 // Transform string coordinates into arrays with x and y values
-$point = $this->pointStringToCoordinates($point);
-$vertices = array();
-foreach ($polygon as $vertex) {
-$vertices[] = $this->pointStringToCoordinates($vertex);
-}
+    $point = $this->pointStringToCoordinates($point);
+    $vertices = array();
+    foreach ($polygon as $vertex) {
+        $vertices[] = $this->pointStringToCoordinates($vertex);
+    }
 
 // Check if the point sits exactly on a vertex
-if ($this->pointOnVertex == true and $this->pointOnVertex($point, $vertices) == true) {
-return "vertex";
-}
+    if ($this->pointOnVertex == true and $this->pointOnVertex($point, $vertices) == true) {
+        return "vertex";
+    }
 
 // Check if the point is inside the polygon or on the boundary
-$intersections = 0;
-$vertices_count = count($vertices);
+    $intersections = 0;
+    $vertices_count = count($vertices);
 
-for ($i=1; $i < $vertices_count; $i++) {
-$vertex1 = $vertices[$i-1];
-$vertex2 = $vertices[$i];
+    for ($i=1; $i < $vertices_count; $i++) {
+        $vertex1 = $vertices[$i-1];
+        $vertex2 = $vertices[$i];
 if ($vertex1['y'] == $vertex2['y'] and $vertex1['y'] == $point['y'] and $point['x'] > min($vertex1['x'], $vertex2['x']) and $point['x'] < max($vertex1['x'], $vertex2['x'])) { // Check if point is on an horizontal polygon boundary
-return "boundary";
+    return "boundary";
 }
 if ($point['y'] > min($vertex1['y'], $vertex2['y']) and $point['y'] <= max($vertex1['y'], $vertex2['y']) and $point['x'] <= max($vertex1['x'], $vertex2['x']) and $vertex1['y'] != $vertex2['y']) {
-$xinters = ($point['y'] - $vertex1['y']) * ($vertex2['x'] - $vertex1['x']) / ($vertex2['y'] - $vertex1['y']) + $vertex1['x'];
+    $xinters = ($point['y'] - $vertex1['y']) * ($vertex2['x'] - $vertex1['x']) / ($vertex2['y'] - $vertex1['y']) + $vertex1['x'];
 if ($xinters == $point['x']) { // Check if point is on the polygon boundary (other than horizontal)
-return "boundary";
+    return "boundary";
 }
 if ($vertex1['x'] == $vertex2['x'] || $point['x'] <= $xinters) {
-$intersections++;
+    $intersections++;
 }
 }
 }
 // If the number of edges we passed through is odd, then it's in the polygon.
 if ($intersections % 2 != 0) {
-return "inside";
+    return "inside";
 } else {
-return "outside";
+    return "outside";
 }
 }
 
 function pointOnVertex($point, $vertices) {
-foreach($vertices as $vertex) {
-if ($point == $vertex) {
-return true;
-}
-}
+    foreach($vertices as $vertex) {
+        if ($point == $vertex) {
+            return true;
+        }
+    }
 
 }
 
 function pointStringToCoordinates($pointString) {
-$coordinates = explode(" ", $pointString);
-return array("x" => $coordinates[0], "y" => $coordinates[1]);
+    $coordinates = explode(" ", $pointString);
+    return array("x" => $coordinates[0], "y" => $coordinates[1]);
 }
 
 }
