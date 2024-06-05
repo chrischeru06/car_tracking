@@ -121,7 +121,7 @@
 
    /* curseur*/
 
-  cursor:pointer;
+   cursor:pointer;
 
 
  }
@@ -139,7 +139,7 @@
 
    /* curseur*/
 
-  cursor:pointer;
+   cursor:pointer;
 
  }
 
@@ -148,12 +148,12 @@
   margin: 0 0 .1rem 0;
 
   /* noms qui depassent l'espace prevu*/
-   overflow-x: auto;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
+  overflow-x: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
-   /* curseur*/
+  /* curseur*/
 
   cursor:pointer;
 }
@@ -198,11 +198,12 @@ font-family: 'Open Sans', sans-serif;
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
-<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+<!-- <script src="https://unpkg.com/@turf/turf/turf.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src='https://cdn.jsdelivr.net/npm/mapbox-gl-fontawesome-markers@0.0.1/dist/index.js'></script>
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 
 
 </head>
@@ -549,6 +550,10 @@ font-family: 'Open Sans', sans-serif;
 
 
       <input type="hidden" id="ignition">
+      <!-- <textarea type="text" id="coord"></textarea> -->
+
+      
+
       
 
 
@@ -566,9 +571,12 @@ font-family: 'Open Sans', sans-serif;
 
   $(document).ready(function(){
 
-    change_carte();   
+    change_carte(); 
+
 
   });
+
+
 
   mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlubWJ4IiwiYSI6ImNrMDc0dnBzNzA3c3gzZmx2bnpqb2NwNXgifQ.D6Fm6UO9bWViernvxZFW_A';
   const map = new mapboxgl.Map({
@@ -919,6 +927,8 @@ for (const input of inputs) {
     },
     success:function(data) {
 
+      // alert(data.distance_finale)
+
       $('#distance_finale').html(data.distance_finale);
       $('#carburant').html(data.carburant);
       $('#DATE_DAT').html(data.DATE);
@@ -927,6 +937,32 @@ for (const input of inputs) {
       // $('#ligne_arret').html(data.ligne_arret);
       $('#score').html(data.score_finale);
       $('#vitesse_max').html(data.vitesse_max);
+      var calcul_distance_exact = {
+        'type': 'FeatureCollection',
+        'features': [
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': [data.track_dist]
+          },
+          'properties': {},
+        }
+        ]
+      };
+
+      $('#coord').val(data.track_dist);
+
+
+      var distance_vrai = turf.length(calcul_distance_exact);
+
+      var distfin = distance_vrai.toLocaleString();
+
+      // alert(distfin)
+
+      // $('#distance_finale').val(distfin);
+
+
 
     },
     error:function() {

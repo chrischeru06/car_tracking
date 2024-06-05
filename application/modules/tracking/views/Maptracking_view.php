@@ -304,6 +304,7 @@ z-index: 100;
 
 #button-container { position: absolute; top: 95%; right: 10px; z-index: 1; }
 </style>
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 
 
 <div class="card" style="border-radius: 20px;">
@@ -313,38 +314,38 @@ z-index: 100;
   <div class="card-body">
     <div class="row">
 
-        <!-- <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-default me-md-2" type="button" style="background-color: cadetblue; color:white;"> -->
-      <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-outline-primary" type="button"> <font class="fa fa-list"></font>
-      </button>
-      
+      <!-- <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-default me-md-2" type="button" style="background-color: cadetblue; color:white;"> -->
+        <button onclick="open_popup()" type="button"  id="btn_list" class="btn btn-outline-primary" type="button"> <font class="fa fa-list"></font>
+        </button>
 
-      <div id="map_maps" style="width: 100%;height: 720px;">
-        <div id='button-container'>
-          <button id='toggle-button' class="btn btn-outline-primary">Visibilité du polygone</button>
-           <!-- <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border:none;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button> -->
-        </div>
 
-        <div class="map-overlay top">
-          <!-- <div class="scroller"> -->
-            <div class="map-overlay-inner">
-              <button onclick="close_popup()" style="float: right;" class="btn btn-outline-primary" type="button">X</button>
-              <!-- <button onclick="close_popup()" style="float: right; background-color: cadetblue; color: white;" class="btn btn-default me-md-2" type="button">X</button> -->
+        <div id="map_maps" style="width: 100%;height: 720px;">
+          <div id='button-container'>
+            <button id='toggle-button' class="btn btn-outline-primary">Visibilité du polygone</button>
+            <!-- <button id='toggle-button' class="bouton-transparent" style="background-color: cadetblue; color:white; border:none;opacity: 0.5;box-shadow: 0px 2px 4px white;">Visibilité du polygone</button> -->
+          </div>
 
-              <h5 class="card-title">Résumés des courses </h5>
-              <?=$card_card1?>
-              <?=$card_card?>
+          <div class="map-overlay top">
+            <!-- <div class="scroller"> -->
+              <div class="map-overlay-inner">
+                <button onclick="close_popup()" style="float: right;" class="btn btn-outline-primary" type="button">X</button>
+                <!-- <button onclick="close_popup()" style="float: right; background-color: cadetblue; color: white;" class="btn btn-default me-md-2" type="button">X</button> -->
 
-              <br>
-              <div class="card">
-                <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
+                <h5 class="card-title">Résumés des courses </h5>
+                <?=$card_card1?>
+                <?=$card_card?>
+
+                <br>
+                <div class="card">
+                  <h5 class="card-title" style="font-size: .8rem;">Distance parcourue<span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
+
+                </div>
+
 
               </div>
-
-
+              <!-- </div> -->
             </div>
-            <!-- </div> -->
           </div>
-        </div>
 
        <!--  <div id="meno">
 
@@ -400,8 +401,54 @@ z-index: 100;
 
    </script> 
    <?=$dataplace;?>
+   <?=$datadist;?>
 
    <script type="text/javascript">
+    //  $(document).ready(function(){
+
+    //   get_dist_real();   
+
+    // });
+
+
+    //  function get_dist_real() {
+
+    //   const calcul_distance_exact = {
+    //     type: "Feature",
+    //     geometry: {
+    //       type: "LineString",
+    //       properties: {},
+    //       coordinates: [<?php echo $track_dist; ?>]
+    //     }
+    //   };
+    //   const distance_vrai = turf.length(calcul_distance_exact);
+    //   const distfin = distance_vrai.toLocaleString();
+
+    //   var findist=distfin
+
+    //     alert(`Total distance: ${findist} km`) 
+
+    //   $.ajax({
+    //    url:"<?=base_url('tracking/Dashboard/tracking_chauffeur_filtres/')?>"+findist,
+    //    type : "POST",
+    //    dataType: "json",
+    //    cache:false,     
+    //    data: {
+    //       // findist: findist
+
+    //    },
+
+    //    beforeSend:function () { 
+
+    //    },
+    //    success:function(data) {
+
+    //     // alert(data)
+
+    //    }
+    //  });
+
+    // }
 
     mapboxgl.accessToken =
     "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
@@ -428,6 +475,7 @@ z-index: 100;
         }
       };
       
+      
 
       map_map.addSource('LineString', {
         'type': 'geojson',
@@ -448,12 +496,10 @@ z-index: 100;
         }
       });
 
-      ;
-
-
-
-
     });
+
+
+
     var polygonVisible = true;
     map_map.on('load', () => {
 
@@ -464,11 +510,11 @@ z-index: 100;
 
         'type': 'geojson',
         'data': {
-                'type': 'FeatureCollection',
-                'features': [
-                  <?php echo $limites ?>
-                    ]
-            }
+          'type': 'FeatureCollection',
+          'features': [
+            <?php echo $limites ?>
+            ]
+        }
       });
 
         // Add a new layer to visualize the polygon.
@@ -484,11 +530,11 @@ z-index: 100;
             });
       // Add a black outline around the polygon.
       map_map.addLayer({
-            'id': 'outline',
-            'type': 'line',
-            'source': 'provinces',
-            'layout': {},
-            'paint': {
+        'id': 'outline',
+        'type': 'line',
+        'source': 'provinces',
+        'layout': {},
+        'paint': {
           'line-color': '#f40a0a',//rouge, noir:#000
           'line-width': 3
         }
@@ -501,8 +547,8 @@ z-index: 100;
           polygonVisible = false;
         } else {
           map_map.addLayer({
-        'id': 'provinces',
-        'type': 'fill',
+            'id': 'provinces',
+            'type': 'fill',
             'source': 'provinces', // reference the data source
             'layout': {},
             'paint': {
