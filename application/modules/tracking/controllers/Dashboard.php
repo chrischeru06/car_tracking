@@ -1027,7 +1027,7 @@ class Dashboard extends CI_Controller
 												$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
 						// $my_selectget_data= $this->getBindParms(' id,latitude,longitude', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND `id` = (SELECT MAX(`id`) FROM tracking_data ) ' , '`id` ASC');
-												$my_selectget_data= $this->getBindParms('id,latitude,longitude,ignition,vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND  `id` = (SELECT MAX(`id`) FROM tracking_data)' , '`id` ASC');
+												$my_selectget_data= $this->getBindParms('id,latitude,longitude,ignition,vitesse', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" AND  `id` = (SELECT MAX(`id`) FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'")' , '`id` ASC');
 												$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 												$my_selectget_data=str_replace('\n', '', $my_selectget_data);
 												$my_selectget_data=str_replace('\"', '', $my_selectget_data);

@@ -960,7 +960,7 @@ for (const input of inputs) {
 
       // alert(distfin)
 
-      // $('#distance_finale').val(distfin);
+      // $('#distance_finale').html(distfin);
 
 
 
