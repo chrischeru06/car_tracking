@@ -24,7 +24,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<style>
-		#map {width: 102%;height: 600px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;z-index: 1;}
+		#map {width: 102%;height: 500px;border-radius: 20px; margin-top: -14px; margin-bottom: -10px;margin-left:-10px;z-index: 1;}
 
 		.mapbox-improve-map{
 			display: none;
@@ -109,6 +109,34 @@
 			border-radius: 5px;
 		}
 
+		.map-overlay {
+
+			position: absolute;
+			width: 120px;
+			height: 120px;
+			top: 15px;
+			right: 17px;
+			padding: 5px;
+			z-index: 100;
+		}
+
+		.legend{
+			font-size: 10px;
+		}
+	
+
+		#btn_list {
+			font-size: 10px;
+			z-index: 200;
+			position:absolute;
+			top:20px;
+			left: 94%;
+			width: 40px;
+		}
+		body{
+			font-size: 15px;
+		}
+
 
 	</style>
 </head>
@@ -124,32 +152,32 @@
 	<!-- End Sidebar-->
 
 	<main id="main" class="main">
-     <div class="pagetitle">
-		<div class="row">
-			<div class="col-sm-10 p-md-0">
-				<div class="welcome-text">
-					<table>
-						<tr>
-							<td>  
-								<h1 class=""><font class="bi bi-grid" style="font-size:18px;"></font> <?=lang('Centre_situation_lng')?></h1>
-								<nav aria-label="breadcrumb">
-									<ol class="breadcrumb">
-										<li class="breadcrumb-item"><a href="#"><?=lang('Centre_situation_lng')?></a></li>
-										<li class="breadcrumb-item"><a href="#"><?=lang('mot_carte')?></a></li>
-										<!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
-									</ol>
-								</nav>
-							</td>
-						</tr>
-					</table>
+		<div class="pagetitle">
+			<div class="row">
+				<div class="col-sm-10 p-md-0">
+					<div class="welcome-text">
+						<table>
+							<tr>
+								<td>  
+									<h1 class=""><font class="bi bi-grid" style="font-size:18px;"></font> <?=lang('Centre_situation_lng')?></h1>
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item"><a href="#"><?=lang('Centre_situation_lng')?></a></li>
+											<li class="breadcrumb-item"><a href="#"><?=lang('mot_carte')?></a></li>
+											<!-- <li class="breadcrumb-item active" aria-current="page">Saving slides</li> -->
+										</ol>
+									</nav>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-2">
+
+					<!-- <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a> -->
+
 				</div>
 			</div>
-			<div class="col-md-2">
-
-				<!-- <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> Liste</a> -->
-
-			</div>
-		</div>
 		</div>
 
 		<!-----------------filtre-------------------------->
@@ -167,7 +195,7 @@
 						<div class="form-group">
 							<label><?=lang('title_proprio_list')?></label>
 
-							<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();" style="border-radius:15px;">
+							<select class="form-control select2" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();" style="border-radius:15px;">
 								<option value="" selected>-- <?=lang('selectionner')?> --</option>
 								<?php
 								foreach ($proprio as $key_pro)
@@ -585,6 +613,7 @@
 		<section class="section">
 			<!-- <div class="container text-center"> -->
 				<div class="row">
+
 					<div class="text-left col-sm-12">
 						<div class="card" style="border-radius: 20px;">
 							<!-- <h5 class="card-title">Centre de situation</h5> -->
@@ -593,10 +622,40 @@
 							<div class="card-body">
 								<div class="row">
 
-									<div class="col-md-12">
-										<div id="mapView">
+									<label class="btn btn-outline-secondary rounded-pill" title="Légende" onclick="open_popup();" id="btn_list"><i class="fa fa-list"></i></label>
+
+									<div class="map-overlay top card">
+										<!-- <div class="scroller"> -->
+											<div class="map-overlay-inner">
+												<font onclick="close_popup()" style="float: right;font-size: 10px;" class="btn btn-outline-secondary rounded-pill fa fa-close " type="button"></font>
+
+												<h5 class="card-title legend">Légende</h5>
+
+												<table class="table table-borderless legend">
+													<tr>
+														<td class="small text-muted"><label style="border: solid 2px green;width: 10px;height: 10px;border-radius: 50%;"></label>
+														</td>
+														<td class="small text-muted"><font>Véhicule allumé</font></td>
+													</tr>
+
+													<tr>
+														<td class="small text-muted"><label style="border: solid 2px red;width: 10px;height: 10px;border-radius: 50%;"></label>
+														</td>
+														<td class="small text-muted"><font>Véhicule éteint</font></td>
+													</tr>
+													
+												</table>
+
+												
+
+											</div>
+											<!-- </div> -->
 										</div>
-									</div>
+
+										<div class="col-md-12">
+											<div id="mapView">
+											</div>
+										</div>
 
 									<!-- <div class="col-md-3">
 										<h3>Légende</h3><hr>
@@ -956,8 +1015,27 @@
 
 		$('.autres_infos').hide();
 		$('#voirMoins').hide();
+		$('#btn_list').hide();
+
+		// $('.select2').select2();
 
 	});
+
+
+	function close_popup() {
+		document.getElementsByClassName('map-overlay')[0].style.display = 'none';
+		$("#btn_list").show();
+	}
+
+	function open_popup() {
+		$("#btn_list").hide();
+
+          //document.getElementsByClassName('map-overlay')[0].style.display = 'block';
+
+		$('.map-overlay').toggle('slow', function() {
+              // Animation complete.
+		});
+	}
 
 </script>
 
@@ -1700,4 +1778,46 @@
 		</script>
 
 
-		</html>
+<!-- 
+		<script>
+
+			const selectElement = document.getElementById("PROPRIETAIRE_ID");
+			const options = selectElement.options;
+
+			const filterOptions = (searchTerm) => {
+				const filteredOptions = Array.from(options).filter((option) =>
+					option.text.toLowerCase().includes(searchTerm.toLowerCase())
+					);
+
+  // Clear existing options
+				for (let i = options.length - 1; i >= 0; i--) {
+					selectElement.remove(i);
+				}
+
+  // Add filtered options
+				filteredOptions.forEach((option) => {
+					selectElement.add(option);
+				});
+			};
+
+			selectElement.addEventListener("input", (event) => {
+				const searchTerm = event.target.value;
+
+				if (searchTerm.length >= 2) {
+					filterOptions(searchTerm);
+				} else {
+    // Reset options if search term is empty or too short
+					for (let i = options.length - 1; i >= 0; i--) {
+						selectElement.remove(i);
+					}
+
+					options.forEach((option) => {
+						selectElement.add(option);
+					});
+				}
+});  // Le script
+
+</script> -->
+
+
+</html>

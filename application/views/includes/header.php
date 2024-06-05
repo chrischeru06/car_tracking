@@ -42,3 +42,14 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<!-- Select 2 -->
+
+
+<!-- <link href="template/dist/css/select2.min.css" rel="stylesheet" />
+<script src="template/dist/js/select2.min.js"></script> -->
+
+<link rel="stylesheet" href="<?= base_url() ?>template/dist/select2/css/select2.min.css">
+<script src="<?= base_url() ?>template/dist/select2/js/select2.full.min.js"></script>
+<script src="<?= base_url() ?>template/js/plugins-init/select2-init.js"></script>
