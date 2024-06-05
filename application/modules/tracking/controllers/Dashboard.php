@@ -256,7 +256,7 @@ class Dashboard extends CI_Controller
 			}
 
 			$distance_finale=$distance;
-			$distance_arrondie=round($distance_finale);
+			$distance_arrondie=round($distance_finale,2);
 
 
 		}
@@ -339,7 +339,7 @@ class Dashboard extends CI_Controller
 
 
 			}
-			$nvldistance_arrondie=round($nvldistance);
+			$nvldistance_arrondie=round($nvldistance,2);
 
 		}
 		
@@ -621,7 +621,7 @@ class Dashboard extends CI_Controller
 						}
 					}
 
-					$tabl[]=[$this->notifications->ago($one_element['date_vu'],$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM'],$depasse_zone,$all_dist_elt,$one_element['heure'],$one_element['minute'],$date_compare2['heure'],$date_compare2['minute']];
+					$tabl[]=[$this->notifications->ago($one_element['date_vu'],$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend,2),$one_element['CEINTURE'],$one_element['CLIM'],$depasse_zone,$all_dist_elt,$one_element['heure'],$one_element['minute'],$date_compare2['heure'],$date_compare2['minute']];
 
 
 				}
