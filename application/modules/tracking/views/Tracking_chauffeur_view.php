@@ -952,7 +952,7 @@ for (const input of inputs) {
       };
 
       $('#coord').val(data.track_dist);
-
+      // alert(data.track_dist)
 
       var distance_vrai = turf.length(calcul_distance_exact);
 

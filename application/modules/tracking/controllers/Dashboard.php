@@ -78,7 +78,6 @@ class Dashboard extends CI_Controller
 
 		// }
 		
-		
 
 		$my_selectvehicule = $this->getBindParms('VEHICULE_ID,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE,vehicule.CODE,vehicule.KILOMETRAGE', 'vehicule join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND md5(vehicule.CODE) ="'.$CODE_VEH.'"', '`VEHICULE_ID` ASC');
 		$my_selectvehicule=str_replace('\"', '"', $my_selectvehicule);
@@ -261,6 +260,20 @@ class Dashboard extends CI_Controller
 
 
 		}
+// print_r($get_chauffeur['KILOMETRAGE']);die();
+		//calcul du carburant consommé
+						if(!empty($get_chauffeur['KILOMETRAGE'])){
+							$carburant_val=$get_chauffeur['KILOMETRAGE'];
+							$carburant_before=$get_chauffeur['KILOMETRAGE'] * $distance_arrondie;
+
+							$carburant = round($carburant_before,2);
+
+
+						}else{
+							$carburant_val='N/A';
+
+							$carburant='N/A';
+						}
 
 
 		//calcul de la distance	par filtre	
@@ -480,13 +493,13 @@ class Dashboard extends CI_Controller
 					" ;
 					
 
-					$my_selectone_element = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'md5(tracking_data.device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'"' , '`id` ASC');
+					$my_selectone_element = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H") as heure,date_format(tracking_data.date,"%i") as minute,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'md5(tracking_data.device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'"' , '`id` ASC');
 					$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
 					$my_selectone_element=str_replace('\n', '', $my_selectone_element);
 					$my_selectone_element=str_replace('\"', '', $my_selectone_element);
 					$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
 
-					$my_select_date_compare2 = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', 'md5(tracking_data.device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE="'.$value_get_arret_code['CODE_COURSE'].'" ', 'id DESC');
+					$my_select_date_compare2 = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H") as heure,date_format(tracking_data.date,"%i") as minute,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', 'md5(tracking_data.device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE="'.$value_get_arret_code['CODE_COURSE'].'" ', 'id DESC');
 					$my_select_date_compare2=str_replace('\"', '"', $my_select_date_compare2);
 					$my_select_date_compare2=str_replace('\n', '', $my_select_date_compare2);
 					$my_select_date_compare2=str_replace('\"', '', $my_select_date_compare2);
@@ -608,7 +621,7 @@ class Dashboard extends CI_Controller
 						}
 					}
 
-					$tabl[]=[$this->notifications->ago($one_element['date_vu'],$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM'],$depasse_zone,$all_dist_elt];
+					$tabl[]=[$this->notifications->ago($one_element['date_vu'],$date_compare2['date_vu']),$one_element['code_course_crypt'],$one_element['date_vu'],$date_compare2['date_vu'],$one_element['hour'],$one_element['sec'],$date_compare2['hour'],$date_compare2['sec'],$one_element['latitude'],$one_element['longitude'],$date_compare2['latitude'],$date_compare2['longitude'],$one_element['ignition'],$one_element['day_month'],$date_compare2['day_month'],round($distdislegend),$one_element['CEINTURE'],$one_element['CLIM'],$depasse_zone,$all_dist_elt,$one_element['heure'],$one_element['minute'],$date_compare2['heure'],$date_compare2['minute']];
 
 
 				}
@@ -630,6 +643,8 @@ class Dashboard extends CI_Controller
 
 						$getplacesname++;
 						$getplacesname1++;
+						$new_hour=$this->notifications->ajouterDeuxHeures($keytabl[20],$keytabl[21]);
+						$new_hour1=$this->notifications->ajouterDeuxHeures($keytabl[22],$keytabl[23]);
 
 
 						$mark_v=$mark_v.$keytabl[9].'<>'.$keytabl[8].'<>'.$keytabl[11].'<>'.$keytabl[10].'<>'.$keytabl[12].'<>@';
@@ -707,13 +722,15 @@ class Dashboard extends CI_Controller
 									</script>';
 
 
-									$datadist.= '<script>
-									
+									$datadist.= '
+									<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+									<script>
+									$(document).ready(function() {
 									var distance_vrai = turf.length('.$keytabl[19].');
 									var distfin = distance_vrai.toLocaleString();
 
 									$("#distfinal'.$distfinal.'").html(distfin)
-
+									});
 									</script>';
 
 										// print_r($dataplace);die();
@@ -731,7 +748,7 @@ class Dashboard extends CI_Controller
 										</div>
 										<div class="jss503">
 										<div class="jss509">'.$alert.'
-										<div class="jss511"><sup class="jss507">'.$keytabl[13].'</sup><span class="jss510 jss512">'.$keytabl[4].'<span class="jss494">:'.$keytabl[5].'&nbsp;</span></span><span class="jss517"><label id="getplacesname'.$getplacesname.'"></label></span></div><div class="jss513">'.$keytabl[0].'<span style="float: right;">'.$keytabl[15].'km</span></div><div class="jss511"><sup class="jss507">'.$keytabl[14].'</sup><span class="jss510 jss514">'.$keytabl[6].'<span class="jss494">:'.$keytabl[7].'</span></span><span class="jss518"><label id="getplacesname1'.$getplacesname1.'"></label></span>
+										<div class="jss511"><sup class="jss507">'.$keytabl[13].'</sup><span class="jss510 jss512">'.$new_hour.'<span class="jss494">:'.$keytabl[5].'&nbsp;</span></span><span class="jss517"><label id="getplacesname'.$getplacesname.'"></label></span></div><div class="jss513">'.$keytabl[0].'<span style="float: right;">'.$keytabl[15].'km</span></div><div class="jss511"><sup class="jss507">'.$keytabl[14].'</sup><span class="jss510 jss514">'.$new_hour1.'<span class="jss494">:'.$keytabl[7].'</span></span><span class="jss518"><label id="getplacesname1'.$getplacesname1.'"></label></span>
 										</div>
 										</div>
 										<span class="jss510" style="color:#7D7E7F;">Ceinture<span class="jss494">&nbsp;&nbsp;'.$valeur_ceinture.'</span></span><span class="jss518" style="color:#7D7E7F;">Climatiseur&nbsp;&nbsp;'.$valeur_clim.'</span>
@@ -745,7 +762,7 @@ class Dashboard extends CI_Controller
 										$card_card.='<div class="card"  onclick="change_carte(\''.$keytabl[1].'\')">
 										<div class="jss110" style="cursor: pointer;'.$ch_color.'" >'.$alert.'
 										<div class="jss111">
-										<div class="jss112" style="width: 78px; font-size: 11px; font-weight: 500;"><p><sup class="jss500 jss501"> '.$keytabl[13].'</sup>'.$keytabl[4].'<span class="jss119">:'.$keytabl[5].'</span></p><span style="display: block; height: 2px;"></span><p style="position: relative;"><sup class="jss500 jss501">'.$keytabl[14].'</sup>'.$keytabl[6].'<span class="jss119">:'.$keytabl[7].'&nbsp;</span></p>
+										<div class="jss112" style="width: 78px; font-size: 11px; font-weight: 500;"><p><sup class="jss500 jss501"> '.$keytabl[13].'</sup>'.$new_hour.'<span class="jss119">:'.$keytabl[5].'</span></p><span style="display: block; height: 2px;"></span><p style="position: relative;"><sup class="jss500 jss501">'.$keytabl[14].'</sup>'.$new_hour1.'<span class="jss119">:'.$keytabl[7].'&nbsp;</span></p>
 										</div>
 										<div class="jss112 jss113" style="width: 61%;"><span class="jss114" style="padding: 0px;"> <label id="getplacesname'.$getplacesname.'"></label></span><p class="jss515">'.$keytabl[0].' d\'arrêt </p>
 										</div>
@@ -770,18 +787,7 @@ class Dashboard extends CI_Controller
 
 
 
-					//calcul du carburant consommé
-						if(!empty($get_chauffeur['KILOMETRAGE'])){
-
-							$carburant_before=$get_chauffeur['KILOMETRAGE'] * $nvldistance_arrondie;
-
-							$carburant = round($carburant_before);
-
-
-						}else{
-
-							$carburant='N/A  ';
-						}
+					
 
 
 
@@ -976,6 +982,7 @@ class Dashboard extends CI_Controller
 												$data['card_card1'] = $card_card1;
 												$data['datadist']=$datadist;
 
+
 												$map_filtre = $this->load->view('Maptracking_view',$data,TRUE);
 												// print_r($track_dist);die();
 												$output = array(
@@ -986,7 +993,8 @@ class Dashboard extends CI_Controller
 													"map_filtre"=>$map_filtre,
 													"score_finale"=>$point_final,
 													"vitesse_max"=>$vitesse_max['max_vitesse'],
-													"track_dist"=>$track_dist
+													"track_dist"=>$track_dist,
+
 
 
 												);
