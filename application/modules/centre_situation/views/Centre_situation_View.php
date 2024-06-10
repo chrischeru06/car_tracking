@@ -114,8 +114,8 @@
 			position: absolute;
 			width: 120px;
 			height: 120px;
-			top: 15px;
-			right: 17px;
+			top: 20px;
+			right: 25px;
 			padding: 5px;
 			z-index: 100;
 		}
@@ -130,7 +130,7 @@
 			z-index: 200;
 			position:absolute;
 			top:20px;
-			left: 94%;
+			right: 24px;
 			width: 40px;
 		}
 		body{
@@ -195,7 +195,7 @@
 						<div class="form-group">
 							<label><?=lang('title_proprio_list')?></label>
 
-							<select class="form-control select2" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();" style="border-radius:15px;">
+							<select class="form-control" name="PROPRIETAIRE_ID" id="PROPRIETAIRE_ID" onchange="getmap();get_vehicule();" style="border-radius:15px;">
 								<option value="" selected>-- <?=lang('selectionner')?> --</option>
 								<?php
 								foreach ($proprio as $key_pro)
@@ -276,14 +276,14 @@
 
 								<div class="col-lg-4">
 									<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-									<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-08.png')?>">
+									<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-08.png')?>">
 								</div>
 
 								<div class="col-lg-2">
 									<strong class="card-title" id="nbr_proprietaire" style="position:relative;top: 10px;margin-left:0%;">0</strong>
 								</div>
 								<div class="col-lg-6">
-									<b class="small pt-2 ps-1" style="position:relative;top: 10px;margin-left:-10%;"><?=lang('proprio_enreg')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
+									<b class="small pt-2 ps-1" style="position:relative;top: 10px;margin-left:0%;"><?=lang('proprio_enreg')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
 								</div>
 
 							</div>
@@ -309,7 +309,7 @@
 
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-01.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-01.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -335,7 +335,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-10.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-10.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -359,7 +359,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-13.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-13.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -383,7 +383,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-03.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-03.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -408,7 +408,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-04.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-04.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -434,11 +434,11 @@
 
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-02.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-02.png')?>">
 							</div>
 
 							<div class="col-lg-2">
-								<strong class="card-title" id="nbrChauffeur" style="position:relative;top: 10px;margin-left:0%;">145</strong>
+								<strong class="card-title" id="nbrChauffeur" style="position:relative;top: 10px;margin-left:0%;">0</strong>
 							</div>
 							<div class="col-lg-6">
 								<b class="small pt-2 ps-1" style="position:relative;top: 10px;"><?=lang('chauff_enreg_mot')?><i  title="<?=lang('title_voir_liste')?>" ></i></b>
@@ -459,7 +459,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-06.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-06.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -483,7 +483,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-05.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-05.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -508,7 +508,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-07.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-07.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -538,7 +538,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-09.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-09.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -561,7 +561,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-lg-4">
 								<!-- <i class="fa fa-user-circle-o text-dark" style="font-size: 50px;margin-top: 17px;"></i> -->
-								<img class="card-icon" style="width: 100%;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-11.png')?>">
+								<img class="card-icon" style="width: 50px;margin-bottom: -30%;margin-left:0%;" class="img-fluid" src="<?=base_url('upload/iconecartracking-11.png')?>">
 							</div>
 
 							<div class="col-lg-2">
@@ -1016,8 +1016,6 @@
 		$('.autres_infos').hide();
 		$('#voirMoins').hide();
 		$('#btn_list').hide();
-
-		// $('.select2').select2();
 
 	});
 

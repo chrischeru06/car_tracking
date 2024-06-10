@@ -140,7 +140,7 @@ input:checked + .slider:before {
       <div class="row">
 
         <div class="col-md-5">
-          <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('filtre_val_doc')?></label>
+          <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('filtre_val_doc')?>&nbsp;<span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;">0</span></label>
           <select class="form-control" id="CHECK_VALIDE" name="CHECK_VALIDE" onchange="listing();get_nbr_vehicule();">
             <option value="0"> <?=lang('selectionner')?></option>
             <option value="1"> <?=lang('select_veh_ass_valide')?> </option>
@@ -156,9 +156,9 @@ input:checked + .slider:before {
 
         </div>
 
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:6px;left:-23px;">0</span>
-        </div>
+        </div> -->
 
 
       </div>
