@@ -667,7 +667,7 @@ z-index: 100;
 
           })
         .catch(error => {
-          console.log('<?=lang('erreur_produite')?> :', error);
+          console.log('Une erreur s\'est produite', error);
         });
 
 
@@ -694,7 +694,7 @@ z-index: 100;
 
           })
           .catch(error => {
-            console.log('<?=lang('erreur_produite')?> :', error);
+            console.log('Une erreur s\'est produite :', error);
           });
 
 
