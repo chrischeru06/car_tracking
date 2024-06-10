@@ -189,7 +189,7 @@
                     <!-- <div class="col-xl-2">
                     </div> -->
 
-                    <div class="col-xl-8 table-responsive" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    <div class="col-xl-8 table-responsive">
 
                       <tr>
                         <td>
@@ -231,6 +231,8 @@
                       </tr>
 
                       <table class="table table-borderless">
+
+                        <tbody style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
 
                         <tr>
                           <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;<?=lang('td_nom_prenom')?></td>
@@ -276,7 +278,7 @@
                           <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('LOCALITE')"></font></td>
                         </tr>
 
-
+                      </tbody>
                       </table>
 
                     </div>

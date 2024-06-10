@@ -136,16 +136,16 @@ input:checked + .slider:before {
                     <div class="row text-dark">
 
                       <div class="col-md-3">
-                        <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('title_proprio_list')?></label>
+                        <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('title_proprio_list')?> <font class="badge bg-primary rounded-pill nbr_proprio" style="font-size:10px;"></font></label>
                         <select class="form-control" id="TYPE_PROPRIETAIRE_ID" name="TYPE_PROPRIETAIRE_ID" onchange="change_type_personne();get_nbr_proprio();">
                           <option value="0"><?=lang('selectionner')?></option>
                           <option value="1"><?=lang('select_pers_morale')?></option>
                           <option value="2"><?=lang('select_pers_physique')?></option>
                         </select>
                       </div>
-                      <div class="col-md-1">
+                      <!-- <div class="col-md-1">
                         <span class="badge bg-primary rounded-pill nbr_proprio" style="font-size:10px;position:relative;top:6px;left:-23px;"></span>
-                      </div>
+                      </div> -->
                       <div class="col-md-3">
                         <label class="text-dark" style="font-weight: 1000; color:#454545">Statut</label>
                         <select class="form-control" id="IS_ACTIVE" name="IS_ACTIVE" onchange="change_activation();get_nbr_proprio();">
