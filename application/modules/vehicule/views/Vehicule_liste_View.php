@@ -957,6 +957,20 @@ if(statut<2)
     }else{$('#error_FILE_ASSURANCE').text('');}
 
 
+    var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
+
+      var fileInputFILE_ASSURANCE = document.getElementById('FILE_ASSURANCE');
+      var fileFILE_ASSURANCE = fileInputFILE_ASSURANCE.files[0];
+
+      var fileSizeFILE_ASSURANCE = fileFILE_ASSURANCE.size; // Taille du fichier en octets
+
+      if(fileSizeFILE_ASSURANCE > maxSize)
+      {
+        statut=2;
+        $('#error_FILE_ASSURANCE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_FILE_ASSURANCE').html('');}
+
+
   }
   else if(ACTION == 2)
   {
@@ -978,6 +992,20 @@ if(statut<2)
       $('#error_FILE_CONTRO_TECHNIQUE').text('<?=lang('msg_validation')?>');
       statut = 2;
     }else{$('#error_FILE_CONTRO_TECHNIQUE').text('');}
+
+
+    var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
+
+      var fileInputFILE_CONTRO_TECHNIQUE = document.getElementById('FILE_CONTRO_TECHNIQUE');
+      var fileFILE_CONTRO_TECHNIQUE = fileInputFILE_CONTRO_TECHNIQUE.files[0];
+
+      var fileSizeFILE_CONTRO_TECHNIQUE = fileFILE_CONTRO_TECHNIQUE.size; // Taille du fichier en octets
+
+      if(fileSizeFILE_CONTRO_TECHNIQUE > maxSize)
+      {
+        statut=2;
+        $('#error_FILE_CONTRO_TECHNIQUE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_FILE_CONTRO_TECHNIQUE').html('');}
 
   }
 

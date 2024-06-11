@@ -5,7 +5,7 @@
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </head>
 
@@ -25,7 +25,7 @@
     <div class="col-sm-10">
       <div class="welcome-text">
        <center>
-        
+
         <!-- <div class="col-md-4"> -->
 
 
@@ -49,34 +49,34 @@
               </tr>
             </table>
             <!-- </div> -->
-          <!-- </div> -->
-        </center>
+            <!-- </div> -->
+          </center>
+        </div>
       </div>
-    </div>
-    <div class="col-md-2">
+      <div class="col-md-2">
 
-     <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> <?=lang('title_list')?></a>
+       <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> <?=lang('title_list')?></a>
 
+     </div>
    </div>
- </div>
 
- <section class="section">
-   <!-- <div class="container text-center"> -->
-    <div class="row">
-      <div class="text-left col-sm-12">
-        <div class="card" style="border-radius: 20px;">
+   <section class="section">
+     <!-- <div class="container text-center"> -->
+      <div class="row">
+        <div class="text-left col-sm-12">
+          <div class="card" style="border-radius: 20px;">
 
-          <br>
+            <br>
 
-          <div class="card-body">
+            <div class="card-body">
 
-            <?= $this->session->flashdata('message'); ?>
-            <!-- <div class="row"> -->
-              <form id="add_form" enctype="multipart/form-data" method="post" action="<?=base_url('vehicule/Vehicule/save')?>">
-                <fieldset class="border p-2">
-                  <legend  class="float-none w-auto p-2"><?=lang('btn_info_gnl')?></legend>
-                  <div  class="row text-dark">
-                    <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule_data['VEHICULE_ID']?>">
+              <?= $this->session->flashdata('message'); ?>
+              <!-- <div class="row"> -->
+                <form id="add_form" enctype="multipart/form-data" method="post" action="<?=base_url('vehicule/Vehicule/save')?>">
+                  <fieldset class="border p-2">
+                    <legend  class="float-none w-auto p-2"><?=lang('btn_info_gnl')?></legend>
+                    <div  class="row text-dark">
+                      <input type="hidden" name="VEHICULE_ID" id="VEHICULE_ID" value="<?=$vehicule_data['VEHICULE_ID']?>">
                     <!-- <div class="col-md-4">
                       <div class="form-group">
                         <label ><small> Code (device uid)</small><span  style="color:red;">*</span></label>
@@ -451,10 +451,36 @@
         $('#errorPHOTO_OUT').html('<?=lang('msg_validation')?>');
       }else{$('#errorPHOTO_OUT').html('');}
 
+
+      var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
+
+      var fileInputPHOTO_OUT = document.getElementById('PHOTO_OUT');
+      var filePHOTO_OUT = fileInputPHOTO_OUT.files[0];
+
+      var fileSizePHOTO_OUT = filePHOTO_OUT.size; // Taille du fichier en octets
+
+      if(fileSizePHOTO_OUT > maxSize)
+      {
+        statut=2;
+        $('#errorPHOTO_OUT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorPHOTO_OUT').html('');}
+
       if($('#FILE_ASSURANCE').val()=='')
       {
         statut=2;
         $('#errorFILE_ASSURANCE').html('<?=lang('msg_validation')?>');
+      }else{$('#errorFILE_ASSURANCE').html('');}
+
+
+      var fileInputFILE_ASSURANCE = document.getElementById('FILE_ASSURANCE');
+      var fileFILE_ASSURANCE = fileInputFILE_ASSURANCE.files[0];
+
+      var fileSizeFILE_ASSURANCE = fileFILE_ASSURANCE.size; // Taille du fichier en octets
+
+      if(fileSizeFILE_ASSURANCE > maxSize)
+      {
+        statut=2;
+        $('#errorFILE_ASSURANCE').html('La taille du fichier ne doit pas dépasser 2 Mo');
       }else{$('#errorFILE_ASSURANCE').html('');}
 
       if($('#FILE_CONTRO_TECHNIQUE').val()=='')
@@ -462,9 +488,71 @@
         statut=2;
         $('#errorFILE_CONTRO_TECHNIQUE').html('<?=lang('msg_validation')?>');
       }else{$('#errorFILE_CONTRO_TECHNIQUE').html('');}
+
+      var fileInputFILE_CONTRO_TECHNIQUE = document.getElementById('FILE_CONTRO_TECHNIQUE');
+      var fileFILE_CONTRO_TECHNIQUE = fileInputFILE_CONTRO_TECHNIQUE.files[0];
+
+      var fileSizeFILE_CONTRO_TECHNIQUE = fileFILE_CONTRO_TECHNIQUE.size; // Taille du fichier en octets
+
+      if(fileSizeFILE_CONTRO_TECHNIQUE > maxSize)
+      {
+        statut=2;
+        $('#errorFILE_CONTRO_TECHNIQUE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorFILE_CONTRO_TECHNIQUE').html('');}
+
+    }
+    else if($('#VEHICULE_ID').val() !='')  // Modification
+    {
+      var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
+
+      if($('#PHOTO_OUT').val() != '')
+      {
+        var fileInputPHOTO_OUT = document.getElementById('PHOTO_OUT');
+        var filePHOTO_OUT = fileInputPHOTO_OUT.files[0];
+
+        var fileSizePHOTO_OUT = filePHOTO_OUT.size; // Taille du fichier en octets
+
+        if(fileSizePHOTO_OUT > maxSize)
+        {
+          statut=2;
+          $('#errorPHOTO_OUT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorPHOTO_OUT').html('');}
+      }
+
+
+      if($('#FILE_ASSURANCE').val() != '')
+      {
+        var fileInputFILE_ASSURANCE = document.getElementById('FILE_ASSURANCE');
+        var fileFILE_ASSURANCE = fileInputFILE_ASSURANCE.files[0];
+
+        var fileSizeFILE_ASSURANCE = fileFILE_ASSURANCE.size; // Taille du fichier en octets
+
+        if(fileSizeFILE_ASSURANCE > maxSize)
+        {
+          statut=2;
+          $('#errorFILE_ASSURANCE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorFILE_ASSURANCE').html('');}
+      }
+
+
+      if($('#FILE_CONTRO_TECHNIQUE').val() != '')
+      {
+        var fileInputFILE_CONTRO_TECHNIQUE = document.getElementById('FILE_CONTRO_TECHNIQUE');
+        var fileFILE_CONTRO_TECHNIQUE = fileInputFILE_CONTRO_TECHNIQUE.files[0];
+
+        var fileSizeFILE_CONTRO_TECHNIQUE = fileFILE_CONTRO_TECHNIQUE.size; // Taille du fichier en octets
+
+        if(fileSizeFILE_CONTRO_TECHNIQUE > maxSize)
+        {
+          statut=2;
+          $('#errorFILE_CONTRO_TECHNIQUE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorFILE_CONTRO_TECHNIQUE').html('');}
+      }
+      
+
     }
 
-    
+
 
     if($('#PROPRIETAIRE_ID').val()=='')
     {
@@ -499,7 +587,7 @@
     }else{$('#error_DATE_FIN_CONTROTECHNIK').html('');}
 
     var VEHICULE_ID = $('#VEHICULE_ID').val();
-    // var CODE = $('#CODE').val();
+// var CODE = $('#CODE').val();
     var PLAQUE = $('#PLAQUE').val();
 
       // if(VEHICULE_ID != "")
