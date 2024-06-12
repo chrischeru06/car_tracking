@@ -114,7 +114,8 @@
 			position: absolute;
 			width: 120px;
 			height: 120px;
-			top: 20px;
+/*			top:20px;*/
+            bottom: 0px;
 			right: 25px;
 			padding: 5px;
 			z-index: 100;
@@ -129,7 +130,8 @@
 			font-size: 10px;
 			z-index: 200;
 			position:absolute;
-			top:20px;
+/*			top:20px;*/
+            bottom: 20px;
 			right: 24px;
 			width: 40px;
 		}
@@ -731,7 +733,7 @@
       				<div class="row">
 
       					<div class="col-md-5">
-      						<label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('filtre_val_doc')?></label>
+      						<label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('filtre_val_doc')?>&nbsp;<span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;">0</span></label>
       						<select class="form-control" id="CHECK_VALIDE" name="CHECK_VALIDE" onchange="GetVehicule($('#type_vehicule').val());get_nbr_vehicule($('#type_vehicule').val());">
       							<option value="0"> <?=lang('selectionner')?></option>
       							<option value="1"> <?=lang('select_veh_ass_valide')?> </option>
@@ -745,12 +747,6 @@
 
       						<label class="fa fa-ban text-danger" id="close" style="position: relative;top: -33%;left: 93%;"></label>
 
-      					</div>
-
-      					<div class="col-md-6">
-      						<span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:6px;left:-23px;">4</span>
-
-      						<input type="hidden" id="type_vehicule">
       					</div>
 
 

@@ -206,9 +206,9 @@
                 </select>
                 <font color="red" id="errorpays"></font>
               </div>
-               <br>
-               <br>
-               <br>
+              <br>
+              <br>
+              <br>
               <div class="col-md-4">
                 <div class="form-group">
                   <label style="font-weight: 1000; color:#454545"><b><?=lang('input_tlphone')?></b><span  style="color:red;">*</span></label>
@@ -604,6 +604,8 @@ function submit_form()
   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   var statut=1;
 
+  var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
+
   if ($('#ITU-T_Telephone_Code_1').val()=='') {
     $('#errorpays').text("<?=lang('msg_validation')?>");
     statut=2;
@@ -751,79 +753,219 @@ function submit_form()
     if(rc.files.length === 0 && $('FILE_RC_OLD').val()=='')
     {
       statut=2;
-      $('#FILE_RC_OLD').text("<?=lang('msg_validation')?>");
+      $('#error_FICHIER_RC').text("<?=lang('msg_validation')?>");
     }else{
       $('#error_FICHIER_RC').text('');
-
     }
+
+
     if(nif.files.length === 0 && $('#FILE_NIF_OLD').val()=='')
     {
       statut=2;
       $('#error_FILE_NIF').text("<?=lang('msg_validation')?>");
     }else{
       $('#error_FILE_NIF').text('');
+    }
+
+    var fileLogo = logo.files[0];
+
+      var fileSizeLogo = fileLogo.size; // Taille du fichier en octets
+
+      if(fileSizeLogo > maxSize)
+      {
+        statut=2;
+        $('#error_LOGO').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_LOGO').html('');}
+
+      var fileRC = rc.files[0];
+
+      var fileSizeRC = fileRC.size; // Taille du fichier en octets
+
+      if(fileSizeRC > maxSize)
+      {
+        statut=2;
+        $('#error_FICHIER_RC').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_FICHIER_RC').html('');}
+
+
+      var fileNIF = nif.files[0];
+
+      var fileSizeNIF = fileNIF.size; // Taille du fichier en octets
+
+      if(fileSizeNIF > maxSize)
+      {
+        statut=2;
+        $('#error_FILE_NIF').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_FILE_NIF').html('');}
+
+
+      if($('#PROPRIETAIRE_ID').val() != '') //Modification perso moral
+      {
+
+
+        if($('#LOGO').val() != '')
+        {
+
+          var fileLogo = logo.files[0];
+
+          var fileSizeLogo = fileLogo.size; // Taille du fichier en octets
+
+          if(fileSizeLogo > maxSize)
+          {
+            statut=2;
+            $('#error_LOGO').html('La taille du fichier ne doit pas dépasser 2 Mo');
+          }else{$('#error_LOGO').html('');}
+        }
+
+
+        if($('#FILE_RC').val() != '')
+        {
+          var fileRC = rc.files[0];
+
+          var fileSizeRC = fileRC.size; // Taille du fichier en octets
+
+          if(fileSizeRC > maxSize)
+          {
+            statut=2;
+            $('#error_FICHIER_RC').html('La taille du fichier ne doit pas dépasser 2 Mo');
+          }else{$('#error_FICHIER_RC').html('');}
+        }
+
+
+        if($('#FILE_NIF').val() != '')
+        {
+          var fileNIF = nif.files[0];
+
+          var fileSizeNIF = fileNIF.size; // Taille du fichier en octets
+
+          if(fileSizeNIF > maxSize)
+          {
+            statut=2;
+            $('#error_FILE_NIF').html('La taille du fichier ne doit pas dépasser 2 Mo');
+          }else{$('#error_FILE_NIF').html('');}
+        }
+
+
+
+      }
+
 
     }
-  }
+
+
 //input type_physique
-  if($('#TYPE_PROPRIETAIRE_ID').val()==2)
-  {
-    if($('#PRENOM_PROPRIETAIRE').val()=='')
+    if($('#TYPE_PROPRIETAIRE_ID').val()==2)
     {
-      statut=2;
-      $('#errorPRENOM_PROPRIETAIRE').html('<?=lang('msg_validation')?>');
-    }else{
-      $('#errorPRENOM_PROPRIETAIRE').html('');
+      if($('#PRENOM_PROPRIETAIRE').val()=='')
+      {
+        statut=2;
+        $('#errorPRENOM_PROPRIETAIRE').html('<?=lang('msg_validation')?>');
+      }else{
+        $('#errorPRENOM_PROPRIETAIRE').html('');
+      }
+
+
+      if(photopassport.files.length === 0 && $('#photo_passport_old').val()=='')
+      {
+        statut=2;
+        $('#error_photo_passport').text("<?=lang('msg_validation')?>");
+      }else{
+        $('#error_photo_passport').html('');
+      }
+
+      if(file_cni_passport.files.length === 0 && $('#FILE_CNI_PASSPORT_OLD').val()=='')
+      {
+        statut=2;
+        $('#error_FILE_CNI_PASSPORT').text("<?=lang('msg_validation')?>");
+      }else{
+        $('#error_FILE_CNI_PASSPORT').html('');
+      }
+
+      var filePhotopassport = photopassport.files[0];
+
+      var fileSizePhotopassport = filePhotopassport.size; // Taille du fichier en octets
+
+      if(fileSizePhotopassport > maxSize)
+      {
+        statut=2;
+        $('#error_photo_passport').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_photo_passport').html('');}
+
+
+      var fileCNI_passport = file_cni_passport.files[0];
+
+      var fileSizeCNI_passport = fileCNI_passport.size; // Taille du fichier en octets
+
+      if(fileSizeCNI_passport > maxSize)
+      {
+        statut=2;
+        $('#error_FILE_CNI_PASSPORT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_FILE_CNI_PASSPORT').html('');}
+
+
+
+      if($('#PROPRIETAIRE_ID').val() != '') //Modification perso physique
+      {
+
+        if($('#photo_passport').val() != '')
+        {
+          var filePhotopassport = photopassport.files[0];
+
+          var fileSizePhotopassport = filePhotopassport.size; // Taille du fichier en octets
+
+          if(fileSizePhotopassport > maxSize)
+          {
+            statut=2;
+            $('#error_photo_passport').html('La taille du fichier ne doit pas dépasser 2 Mo');
+          }else{$('#error_photo_passport').html('');}
+        }
+
+        if($('#FILE_CNI_PASSPORT').val() != '')
+        {
+          var fileCNI_passport = file_cni_passport.files[0];
+
+          var fileSizeCNI_passport = fileCNI_passport.size; // Taille du fichier en octets
+
+          if(fileSizeCNI_passport > maxSize)
+          {
+            statut=2;
+            $('#error_FILE_CNI_PASSPORT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+          }else{$('#error_FILE_CNI_PASSPORT').html('');}
+        }
+
+
+      }
+
+
     }
 
-    if(photopassport.files.length === 0 && $('#photo_passport_old').val()=='')
-    {
-      statut=2;
-      $('#error_photo_passport').text("<?=lang('msg_validation')?>");
-    }else{
-      $('#error_photo_passport').html('');
 
-    }
-
-    if(file_cni_passport.files.length === 0 && $('#FILE_CNI_PASSPORT_OLD').val()=='')
-    {
-      statut=2;
-      $('#error_FILE_CNI_PASSPORT').text("<?=lang('msg_validation')?>");
-    }else{
-      $('#error_FILE_CNI_PASSPORT').html('');
-
-    }
-
-    
-  }
-
-  
 
       // alert(statut)
 
-  if(statut==1)
-  {
-    $('#add_form').submit();
+    if(statut==1)
+    {
+      $('#add_form').submit();
+    }
   }
-}
 
 
-function localisation(){
-  var COUNTRY_ID=$('#COUNTRY_ID').val() ;
+  function localisation(){
+    var COUNTRY_ID=$('#COUNTRY_ID').val() ;
 
-  if (COUNTRY_ID==28) {
-   $('#div_prov').attr('hidden',false);
-   $('#div_com').attr('hidden',false);
-   $('#div_zon').attr('hidden',false);
-   $('#div_col').attr('hidden',false);
+    if (COUNTRY_ID==28) {
+     $('#div_prov').attr('hidden',false);
+     $('#div_com').attr('hidden',false);
+     $('#div_zon').attr('hidden',false);
+     $('#div_col').attr('hidden',false);
 
- }else{
-  $('#div_prov').attr('hidden',true); 
-  $('#div_com').attr('hidden',true);  
-  $('#div_zon').attr('hidden',true);  
-  $('#div_col').attr('hidden',true);  
+   }else{
+    $('#div_prov').attr('hidden',true); 
+    $('#div_com').attr('hidden',true);  
+    $('#div_zon').attr('hidden',true);  
+    $('#div_col').attr('hidden',true);  
 
-}
+  }
 
 }
 </script>
