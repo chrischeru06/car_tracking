@@ -255,52 +255,86 @@ margin: 0px 0;
     z-index: 100;
   }
 
-  .map-overlay .map-overlay-inner {
-    background-color: #fff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-    padding: 10px;
-    margin-bottom: 10px;
-    overflow-y: scroll;
-    height: 600px;
-    width: 100%;
-  }
+  .map-overlay2 {
 
-  .map-overlay-inner fieldset {
-    display: flex;
-    justify-content: space-between;
-    border: none;
+   position: absolute;
+   width: 170px;
+   height: 100px;
+   top: 150px;
+   right: 17px;
+   padding: 10px;
+   z-index: 100;
+ }
 
-  }
 
-  .map-overlay-inner label {
-    font-weight: bold;
-    margin-right: 10px;
-  }
+ .map-overlay .map-overlay-inner {
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+  overflow-y: scroll;
+  height: 600px;
+  width: 100%;
+}
 
-  .map-overlay-inner .select-fieldset {
-    display: block;
-  }
+.map-overlay-inner fieldset {
+  display: flex;
+  justify-content: space-between;
+  border: none;
 
-  .map-overlay-inner .select-fieldset label {
-    display: block;
-    margin-bottom: 5px;
-  }
+}
 
-  .map-overlay-inner .select-fieldset select {
-    width: 100%;
-  }
+.map-overlay-inner label {
+  font-weight: bold;
+  margin-right: 10px;
+}
 
-  #btn_list{
+.map-overlay-inner .select-fieldset {
+  display: block;
+}
 
-    position: absolute;
-    width: 50px; 
-    margin-top: 8px;
-    margin-left: 8px;
+.map-overlay-inner .select-fieldset label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.map-overlay-inner .select-fieldset select {
+  width: 100%;
+}
+
+#btn_list{
+
+  position: absolute;
+  width: 50px; 
+  margin-top: 8px;
+  margin-left: 8px;
 /*        padding: 10px;*/
 z-index: 100;
 
 }
+#btn_list2{
+
+ font-size: 10px;
+ z-index: 200;
+ position:absolute;
+ top:150px;
+ left: 95%;
+ width: 40px;
+
+}
+
+.ligne-rouge {
+  width: 10px; /* largeur de la ligne */
+  height: 2px; /* épaisseur de la ligne */
+  background-color: #FF0000; /* couleur de la ligne (rouge) */
+  display: block; /* assure que la ligne occupe un espace */
+}
+
+.legend{
+  font-size: 10px;
+}
+
 
 #button-container { position: absolute; top: 95%; right: 10px; z-index: 1; }
 </style>
@@ -345,7 +379,35 @@ z-index: 100;
               </div>
               <!-- </div> -->
             </div>
-          </div>
+
+            
+            <button onclick="open_popup2()" type="button"  id="btn_list2" class="btn btn-outline-primary" type="button"> <font class="fa fa-list"></font>
+            </button>
+
+            <div class="map-overlay2 top card" >
+              <!-- <div class="scroller"> -->
+                <div class="map-overlay2-inner">
+                  <font onclick="close_popup2()" style="float: right;font-size: 10px;" class="btn btn-outline-secondary rounded-pill fa fa-close " type="button"></font>
+
+
+                  <table class="table table-borderless legend">
+                    <tr>
+                      <td class="small text-muted"><a class="ligne-rouge"></a>
+
+                      </td>
+                      <td class="small text-muted">Exces de Vitesse</td>
+                    </tr>
+
+
+
+                  </table>
+
+
+
+                </div>
+                <!-- </div> -->
+              </div>
+            </div>
 
        <!--  <div id="meno">
 
@@ -376,9 +438,17 @@ z-index: 100;
     <script type="text/javascript">
 
       $(document).ready(function() {
+        document.getElementsByClassName('map-overlay2')[0].style.display = 'none';
+
         $("#btn_list").hide();
+        $('#btn_list2').hide();
+
+
+
+
+
       });
-      
+
       function close_popup() {
 
        document.getElementsByClassName('map-overlay')[0].style.display = 'none';
@@ -399,11 +469,28 @@ z-index: 100;
        });
      }
 
-   </script> 
-   <?=$dataplace;?>
-   <?=$datadist;?>
 
-   <script type="text/javascript">
+     function close_popup2() {
+      document.getElementsByClassName('map-overlay2')[0].style.display = 'none';
+      $("#btn_list2").show();
+    }
+
+    function open_popup2() {
+      $("#btn_list2").hide();
+
+          //document.getElementsByClassName('map-overlay')[0].style.display = 'block';
+
+      $('.map-overlay2').toggle('slow', function() {
+              // Animation complete.
+      });
+    }
+
+  </script> 
+  <?=$dataplace;?>
+  <?=$datadist;?>
+  <?=$datadistall;?>
+
+  <script type="text/javascript">
     //  $(document).ready(function(){
 
     //   get_dist_real();   
@@ -569,25 +656,73 @@ z-index: 100;
           polygonVisible = true;
         }
       });
+      
       const geojsonexces = {
-        'type': 'FeatureCollection',
-        'features': [<?php echo $geojsonexces?>]
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          properties: {},
+          coordinates: [<?php echo $vitesse_exces; ?>]
+        }
       };
       map_map.addSource('point', {
         'type': 'geojson',
         'data': geojsonexces
       });
 
+
+      
+
       map_map.addLayer({
         'id': 'point',
-        'type': 'circle',
+        'type': 'line',
         'source': 'point',
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
         'paint': {
-          'circle-color': '#fcbb07',
-          'circle-radius': 6
+          'line-color': '#FF0000',
+          'line-width': 4,
+          'line-opacity': 0.7
         }
       });
 
+      //Debut popup on click exces de vitesse
+      // When a click event occurs on a feature in the places layer, open a popup at the
+        // location of the feature, with description HTML from its properties.
+      map_map.on('click', 'point', (a) => {
+        document.getElementsByClassName('map-overlay2')[0].style.display = 'block';
+            // Copy coordinates array.
+        const coordinates = a.features[0].geometry.coordinates.slice();
+        const description = a.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+        while (Math.abs(a.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += a.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(description)
+        .addTo(map_map);
+        
+
+      });
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+      map_map.on('mouseenter', 'point', () => {
+        map_map.getCanvas().style.cursor = 'pointer';
+      });
+
+        // Change it back to a pointer when it leaves.
+      map_map.on('mouseleave', 'point', () => {
+        map_map.getCanvas().style.cursor = '';
+      });
+
+///fin
     //Points pour accident
       const geojsonaccident = {
         'type': 'FeatureCollection',
@@ -612,25 +747,8 @@ z-index: 100;
         closeOnClick: false
       });
 
-      map_map.on('mouseenter', 'point', (e) => {
-            // Change the cursor style as a UI indicator.
-        map_map.getCanvas().style.cursor = 'pointer';
+      
 
-            // Copy coordinates array.
-        const coordinates = e.features[0].geometry.coordinates.slice();
-        const description = e.features[0].properties.description;
-
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-            // Populate the popup and set its coordinates
-            // based on the feature found.
-        popupup.setLngLat(coordinates).setHTML(description).addTo(map_map);
-      });
 
       map_map.on('mouseleave', 'pointaccident', () => {
         map_map.getCanvas().style.cursor = '';
@@ -657,13 +775,6 @@ z-index: 100;
         popupup.setLngLat(coordinates).setHTML(description).addTo(map_map);
       });
 
-      map_map.on('mouseleave', 'point', () => {
-        map_map.getCanvas().style.cursor = '';
-        popupup.remove();
-      });
-
-
-
       var donn='<?= $mark_vprim ?>';
 
       var donn=donn.split('@');
@@ -671,6 +782,8 @@ z-index: 100;
       for (var i = 0; i<(donn.length) - 1; i++) {
 
         var index=donn[i].split('<>');
+          if(index[4]==0){
+
         var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
         fetch(apiUrl)
         .then(response => response.json())
@@ -680,28 +793,20 @@ z-index: 100;
             '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[6] +''
             );
           const popupParking = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;' + index[5] +'&nbsp;&nbsp;-&nbsp;&nbsp;' + index[6] +''
+            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;' + index[8] +'&nbsp;&nbsp;-&nbsp;&nbsp;' + index[7] +''
             );
           var couleur='';
-          if(index[4]==0){
-              couleur='#0000FF';//bleu
+          couleur='#0000FF';//bleu
 
               const marker2 = new FontawesomeMarker({
                 icon: 'fa fa-product-hunt',
                 iconColor: 'white',
-                color: '#0000FF',//rouge
+                color: '#0000FF',//bleu
 
               })
 
 
               .setLngLat([index[2],index[3]]).setPopup(popupParking).addTo(map_map);
-              
-            }else{
-              couleur='#FF0000';//rouge
-              const marker2 = new mapboxgl.Marker({ color: couleur})
-              .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
-
-            }
 
             
 
@@ -716,17 +821,38 @@ z-index: 100;
           console.log('Une erreur s\'est produite :', error);
         });
 
-
+}
         if(index[4]!=0){
 
           var apiUrl_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
+          var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
+            fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          adress = data.features[0].place_name;
+          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[7] +''
+            );
+          
+          var couleur='';
+         couleur='#FF0000';//rouge
+              const marker2 = new mapboxgl.Marker({ color: couleur})
+              .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
+            
 
+            map_map.flyTo({
+              center: [index[2], index[3]],
+              speed: 0.5
+            });
+
+
+          })
           fetch(apiUrl_url)
           .then(response => response.json())
           .then(data => {
             adresse = data.features[0].place_name;
             const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[5] +''
+              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[8] +''
               );
 
             const marker1 = new mapboxgl.Marker({ color:'#00FF00'})//vert
