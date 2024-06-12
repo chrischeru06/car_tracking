@@ -234,51 +234,51 @@
 
                         <tbody style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
 
-                        <tr>
-                          <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;<?=lang('td_nom_prenom')?></td>
-                          <td class="text-muted"><b>
-                            <?=$chauff['NOM'].' '.$chauff['PRENOM']?></b>
-                          </td>
-                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('NOM')"></font></td>
-                        </tr>
+                          <tr>
+                            <td class="text-muted"><span class="fa fa-user"></span>&nbsp;&nbsp;<?=lang('td_nom_prenom')?></td>
+                            <td class="text-muted"><b>
+                              <?=$chauff['NOM'].' '.$chauff['PRENOM']?></b>
+                            </td>
+                            <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('NOM')"></font></td>
+                          </tr>
 
-                        <tr>
-                          <td class="text-muted"><span class="fa fa-book"></span>&nbsp;&nbsp;<?=lang('mot_cni')?></td>
-                          <td class="text-muted"><b><?=$chauff['NUMERO_CARTE_IDENTITE']?></b></td>
-                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('CNI')"></font></td>
-                        </tr>
+                          <tr>
+                            <td class="text-muted"><span class="fa fa-book"></span>&nbsp;&nbsp;<?=lang('mot_cni')?></td>
+                            <td class="text-muted"><b><?=$chauff['NUMERO_CARTE_IDENTITE']?></b></td>
+                            <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('CNI')"></font></td>
+                          </tr>
 
-                        <tr>
-                          <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;<?=lang('input_email')?></td>
-                          <td class="text-muted"><b><?=$chauff['ADRESSE_MAIL']?></b></td>
-                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('EMAIL')"></font></td>
-                        </tr>
+                          <tr>
+                            <td class="text-muted"><span class="fa fa-envelope-o"></span>&nbsp;&nbsp;<?=lang('input_email')?></td>
+                            <td class="text-muted"><b><?=$chauff['ADRESSE_MAIL']?></b></td>
+                            <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('EMAIL')"></font></td>
+                          </tr>
 
-                        <tr>
-                          <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;<?=lang('input_tlphone')?></td>
-                          <td class="text-muted"><b><?=$chauff['NUMERO_TELEPHONE']?></b></td>
-                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('TELEPHONE')"></font></td>
-                        </tr>
+                          <tr>
+                            <td class="text-muted"><span class="fa fa-phone"></span>&nbsp;&nbsp;<?=lang('input_tlphone')?></td>
+                            <td class="text-muted"><b><?=$chauff['NUMERO_TELEPHONE']?></b></td>
+                            <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('TELEPHONE')"></font></td>
+                          </tr>
 
-                        <tr>
-                          <td class="text-muted"><span class="fa fa-calendar"></span>&nbsp;&nbsp;<?=lang('date_naissance')?></td>
-                          <td class="text-muted"><b><?=$chauff['DATE_NAISSANCE']?></b></td>
-                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('DATE_NAISSANCE')"></font></td>
-                        </tr>
+                          <tr>
+                            <td class="text-muted"><span class="fa fa-calendar"></span>&nbsp;&nbsp;<?=lang('date_naissance')?></td>
+                            <td class="text-muted"><b><?=$chauff['DATE_NAISSANCE']?></b></td>
+                            <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('DATE_NAISSANCE')"></font></td>
+                          </tr>
 
-                        <tr>
-                          <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;<?=lang('input_adresse')?></td>
-                          <td class="text-muted"><b><?=$chauff['ADRESSE_PHYSIQUE']?></b></td>
-                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('ADRESSE')"></font></td>
-                        </tr>
+                          <tr>
+                            <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;<?=lang('input_adresse')?></td>
+                            <td class="text-muted"><b><?=$chauff['ADRESSE_PHYSIQUE']?></b></td>
+                            <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('ADRESSE')"></font></td>
+                          </tr>
 
-                        <tr>
-                          <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;<?=lang('td_localite')?></td>
-                          <td class="text-muted"><b><?=$chauff['PROVINCE_NAME'].' / '.$chauff['COMMUNE_NAME'].' / '.$chauff['ZONE_NAME'].' / '.$chauff['COLLINE_NAME']?></b></td>
-                          <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('LOCALITE')"></font></td>
-                        </tr>
+                          <tr>
+                            <td class="text-muted"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;<?=lang('td_localite')?></td>
+                            <td class="text-muted"><b><?=$chauff['PROVINCE_NAME'].' / '.$chauff['COMMUNE_NAME'].' / '.$chauff['ZONE_NAME'].' / '.$chauff['COLLINE_NAME']?></b></td>
+                            <td class="text-muted"><font class="bi bi-pencil" onclick="get_modif('LOCALITE')"></font></td>
+                          </tr>
 
-                      </tbody>
+                        </tbody>
                       </table>
 
                     </div>
@@ -339,8 +339,31 @@
                             <th><?=$info_vehicul['PLAQUE']?></th>
                           </tr>
                           <tr>
-                            <td><img src='<?=base_url("upload/proprietaire/photopassport/".$info_vehicul['PHOTO_PASSPORT'])?>' style="width: 15px;height: 15px;border-radius: 50%;cursor: pointer;" onclick='show_image_proprio();' title="Propriétaire">&nbsp;<?=lang('title_proprio_list')?></td>
-                            <th><?=$info_vehicul['name']?></th>
+                            <td>
+
+                              <?php
+                              if($info_vehicul['TYPE_PROPRIETAIRE_ID'] == 1)
+                              {
+                                ?>
+                                <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($info_vehicul['PROPRIETAIRE_ID'])?>"  title="<?=lang('title_visualisation')?>">
+                                  <img src="<?=base_url('/upload/proprietaire/photopassport/'.$info_vehicul['LOGO'])?>" style="width: 15px;height: 15px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                                </a>
+                                <?=lang('title_proprio_list')?>
+                                <?php
+                              }
+                              else
+                              {
+                                ?>
+                                <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($info_vehicul['PROPRIETAIRE_ID'])?>"  title="<?=lang('title_visualisation')?>">
+                                  <img src="<?=base_url('/upload/proprietaire/photopassport/'.$info_vehicul['photo_pro'])?>" style="width: 15px;height: 15px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
+                                </a>
+                                <?=lang('title_proprio_list')?
+                                <?php
+                              }
+                              ?>
+
+                            </td>
+                            <th><?=$info_vehicul['proprio_desc']?></th>
                           </tr>
                         </table>
                       </div>
