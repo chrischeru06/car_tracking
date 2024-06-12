@@ -206,6 +206,7 @@ font-family: 'Open Sans', sans-serif;
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 
 
+
 </head>
 
 <body>
@@ -393,7 +394,7 @@ font-family: 'Open Sans', sans-serif;
             <div class="card" style="border-radius: 10%">
               <div class="card-body">
                 <h5 class="card-title" style="font-size:.8rem;">Distance parcourue <span style="font-size:.6rem;">| Km</span></h5>
-
+                <div style="float: right;top: 150px;color: #012970;font-size:.8rem;"><a id="lieu_arret1"></a></div>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle" >
                     <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
@@ -402,6 +403,8 @@ font-family: 'Open Sans', sans-serif;
                     <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
                   </div>
                 </div>
+                <div style="float: right;top: 250px;color: #710101;font-size:.8rem;"><a id="lieu_arret"></a></div>
+
               </div>
             </div>
           </div>
@@ -564,7 +567,7 @@ font-family: 'Open Sans', sans-serif;
 </main><!-- End #main -->
 
 <?php include VIEWPATH . 'includes/footer.php'; ?>
-
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 </body>
 
 <script>
@@ -937,31 +940,84 @@ for (const input of inputs) {
       // $('#ligne_arret').html(data.ligne_arret);
       $('#score').html(data.score_finale);
       $('#vitesse_max').html(data.vitesse_max);
-      var calcul_distance_exact = {
-        'type': 'FeatureCollection',
-        'features': [
-        {
-          'type': 'Feature',
-          'geometry': {
-            'type': 'LineString',
-            'coordinates': [data.track_dist]
-          },
-          'properties': {},
+      
+      // alert(data.mark_vprim)
+      var donna=data.mark_vprim;
+
+      var donna=donna.split('@');
+
+      for (var i = 0; i<(donna.length) - 1; i++) {
+
+        var indexa=donna[i].split('<>');
+        if(indexa[4]==0){
+
+          var apiUrla = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + indexa[2] + ',' + indexa[3] + '.json?access_token=' + mapboxgl.accessToken;
+          fetch(apiUrla)
+          .then(response => response.json())
+          .then(data => {
+            adressa = data.features[0];
+            name2=adressa.text;
+              name3='';
+            $('#lieu_arret').html(name2);
+            $('#lieu_arret1').html(name3);
+
+
+
+
+          })
+          .catch(error => {
+            console.log('Une erreur s\'est produite :', error);
+          });
         }
-        ]
-      };
 
-      $('#coord').val(data.track_dist);
-      // alert(data.track_dist)
+        if(indexa[4]!=0){
 
-      var distance_vrai = turf.length(calcul_distance_exact);
+          var apiUrl_urla = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + indexa[0] + ',' + indexa[1] + '.json?access_token=' + mapboxgl.accessToken;
+          var apiUrlaa = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + indexa[2] + ',' + indexa[3] + '.json?access_token=' + mapboxgl.accessToken;
+          fetch(apiUrl_urla)
+          .then(response => response.json())
+          .then(data => {
+            adressee = data.features[0];
+            name1=adressee.text;
+            $('#lieu_arret1').html(name1);
 
-      var distfin = distance_vrai.toLocaleString();
 
-      // alert(distfin)
 
-      // $('#distance_finale').html(distfin);
+          })
+          .catch(error => {
+            console.log('Une erreur s\'est produite :', error);
+          });
 
+          fetch(apiUrlaa)
+          .then(response => response.json())
+          .then(data => {
+            adresseee = data.features[0];
+            name11=adresseee.text;
+            $('#lieu_arret').html(name11);
+
+
+
+          })
+          .catch(error => {
+            console.log('Une erreur s\'est produite :', error);
+          });
+
+        }
+      }
+      // if (data.all_dist_eltt!='') {   
+      // var distance_vrai = turf.length(data.all_dist_eltt);
+      //      alert(distance_vrai)
+
+      //  distance_vrai2 = distance_vrai.toLocaleString();
+      // $('#distance_finale').html(distance_vrai2);
+
+
+      // }else{
+      //   distance_vrai2=0;
+
+      // $('#distance_finale').html(distance_vrai2);
+      // }
+      
 
 
     },
