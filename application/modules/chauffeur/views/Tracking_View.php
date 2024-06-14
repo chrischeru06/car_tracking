@@ -1,3 +1,11 @@
+<!-- 
+ Code modifié par CERUBALA CHRISTIAN WANN'Y
+LE 14/06/2024
+Ce code permet de visualiser l'historique des chauffeurs
+les modifications on été faites pour la partie des informations générales 
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -109,7 +117,7 @@
   }
   .profil-info .profil-text p.profil-name{
    font-weight: 900;
-   font-size:1rem;
+   font-size:13px;
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
 
@@ -144,7 +152,7 @@
  }
 
  .profil-info .profil-text p.profil-phone{
-  font-size: 1rem;
+  font-size: 10px;
   margin: 0 0 .1rem 0;
 
   /* noms qui depassent l'espace prevu*/
@@ -159,8 +167,13 @@
 }
 .profil-info .profil-img img{
   width:5rem;
-  height: auto;
+  height: 80px;
 
+}
+/* nouveau styles pour l'afichage de l'historiques du traject chauffeur */
+.text-success small pt-1 fw-boldd {
+
+  font-size:4rem;
 }
 
 
@@ -235,7 +248,7 @@ font-family: 'Open Sans', sans-serif;
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6"style=" width: auto;">
       </div>
       <div class="col-md-3">
         <div class="justify-content-sm-end d-flex">
@@ -245,7 +258,7 @@ font-family: 'Open Sans', sans-serif;
       </div>
     </div>
   </div><!-- End Page Title -->
-  <div class="row">
+  <div class="row"style="width:auto">
     <div class="form-group col-md-3">
       <label class="form-label"><?=lang('input_date_deb')?></label>
       <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" name="DATE_DAT" id="DATE_DAT" value="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" onchange="change_carte();viderh();">
@@ -299,12 +312,12 @@ font-family: 'Open Sans', sans-serif;
           <div class="card-body">
             <center><h5 class="card-title"><?=lang('btn_info_gnl')?></h5></center>
             <div class="row">
-              <div class="col-lg-6">
-                <div class="row" style="padding:0px 20px 20px;">
-                 <div class="col-lg-12">
+              <div class="col-lg-6"style="width:44%">
+                <div class="row" style="padding:0px 10px 20px;">
+                 <div class="col-lg-12"style="width:250px">
                   <div class="card" style="">
 
-                    <div class="card-body p-0">
+                    <div class="card-body p-0"style="height:110px">
                      <div class="row profil-info">
                       <div class="col-md-4 profil-img">
 
@@ -324,7 +337,7 @@ font-family: 'Open Sans', sans-serif;
                           <?php
                         }?>
                       </div>
-                      <div class="col-md-8 profil-text">
+                      <div class="col-md-8 profil-text" style="padding-top:10px">
                        <?php
                        if(!empty($get_chauffeur)){?>
 
@@ -351,9 +364,9 @@ font-family: 'Open Sans', sans-serif;
           </div>
         </div>
         <!-- <br> -->
-        <div class="row">
-          <div class="col-lg-12" style="padding:0px 20px 20px;">
-            <div class="card" style="" >
+        <div class="row"style="margin-left: 250px;margin-top: -130px;width: 250px;">
+          <div class="col-lg-12">
+            <div class="card" style="height: 110px;margin-top: -30px;" >
               <div class="card-body p-0">
                 <div class="row profil-info">
                   <div class="col-md-4 profil-img">
@@ -374,7 +387,7 @@ font-family: 'Open Sans', sans-serif;
                     }?>
 
                   </div>
-                  <div class="col-md-8 profil-text">
+                  <div class="col-md-8 profil-text"style="padding-top:10px">
 
                     <p class="profil-name" title="<?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?>"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
                     <p class="profil-phone" title="<?=$get_vehicule['PLAQUE']?>"> <i class="bi bi-textarea-resize"></i><?=$get_vehicule['PLAQUE']?></p>
@@ -392,38 +405,38 @@ font-family: 'Open Sans', sans-serif;
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-6"style="width:56%">
         <div class="row">
-         <div class="col-md-6">
+         <div class="col-md-6"style=" width: auto;">
           <div class="card" style="">
             <div class="card-body">
-              <h5 class="card-title" style="font-size:.8rem;"><?=lang('dist_parcourue')?> <span style="font-size:.6rem;">| Km</span></h5>
+              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('dist_parcourue')?> <span style="font-size:.5rem;">| Km</span></h5>
 
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center"style="width:100px">
                 <div class="card-icon rounded-circle" >
-                  <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                  <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
                 </div>
                 <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"><a id="distance_finale"></a> Km</span></h6>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6"style=" width: auto;">
 
 
           <div class="card" style="border-radius: 10%">
             <div class="card-body">
-              <h5 class="card-title" style="font-size:.8rem;"><?=lang('carburant_mot')?> <span style="font-size:.6rem;">| <?=lang('consomme_mot')?></span></h5>
+              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('carburant_mot')?> <span style="font-size:.5rem;">| <?=lang('consomme_mot')?></span></h5>
 
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center"style="width:100px">
                 <div class="card-icon rounded-circle">
-                  <img style="background-color: #829b35;" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
+                  <img style="background-color: #829b35;" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
                 </div>
                 <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-bold"> <a id="carburant"></a> <?=lang('litre_mot')?></span></h6>
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="carburant"></a> <?=lang('litre_mot')?></span></h6>
 
 
                 </div>
@@ -432,22 +445,22 @@ font-family: 'Open Sans', sans-serif;
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row"style="margin-left: 300px;margin-top: -143px;">
 
 
-        <div class="col-md-6">
+        <div class="col-md-6"style=" width: auto;">
 
 
-          <div class="card" style="border-radius: 10%">
+          <div class="card" style="border-radius: 10%;">
             <div class="card-body">
-              <h5 class="card-title" style="font-size:.8rem;"><?=lang('vitesse_max')?> <span style="font-size:.6rem;">| Max</span></h5>
+              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('vitesse_max')?> <span style="font-size:.5rem;">| Max</span></h5>
 
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center"style="width:100px">
                 <div class="card-icon rounded-circle">
-                  <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
+                  <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
                 </div>
                 <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-bold"> <a id="vitesse_max"></a> Km/h</span></h6>
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="vitesse_max"></a> 111Km/h</span></h6>
 
 
                 </div>
@@ -456,19 +469,19 @@ font-family: 'Open Sans', sans-serif;
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6"style=" width: auto;">
 
 
-          <div class="card" style="border-radius: 10%">
-            <div class="card-body">
-              <h5 class="card-title" style="font-size:.8rem;">Score <span style="font-size:.6rem;">| 20</span></h5>
+          <div class="card" style="border-radius: 10%;">
+            <div class="card-body"style="height: 100px;">
+              <h5 class="card-titlee" style="font-size: .6rem;padding-top: 15px;">Score <span style="font-size:.5rem;">| 20</span></h5>
 
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center"style="width:100px">
                 <div class="card-icon rounded-circle">
-                  <img style="background-color: #829b35;" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/score.png')?>">
+                  <img style="background-color: #829b35;" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/score.png')?>">
                 </div>
                 <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-bold"> <a id="score"></a> Points</span></h6>
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="score"></a> Points</span></h6>
                 </div>
               </div>
             </div>
@@ -483,8 +496,6 @@ font-family: 'Open Sans', sans-serif;
 </div>
 </div>
 </div>
-
-
 
 </div>
 
