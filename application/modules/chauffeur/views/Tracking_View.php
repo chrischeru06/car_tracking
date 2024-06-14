@@ -460,7 +460,7 @@ font-family: 'Open Sans', sans-serif;
                   <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
                 </div>
                 <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="vitesse_max"></a> 111Km/h</span></h6>
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="vitesse_max"></a> Km/h</span></h6>
 
 
                 </div>
