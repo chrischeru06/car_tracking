@@ -16,7 +16,7 @@
   <!-- End Sidebar-->
 
   <main id="main" class="main">
-  
+
 
     <section class="section dashboard">
       <!--  <div class="container text-center"> -->
@@ -29,10 +29,10 @@
               
               <div class="card-body text-left">
 
-                 <?= $this->session->flashdata('message'); ?>
+               <?= $this->session->flashdata('message'); ?>
 
-                <!-- <div class="row"> -->
-                   <form enctype="multipart/form-data" name="myform" id="myform" method="post" class="form-horizontal" action="<?= base_url('chauffeur/Chauffeur/update'); ?>" >
+               <!-- <div class="row"> -->
+                 <form enctype="multipart/form-data" name="myform" id="myform" method="post" class="form-horizontal" action="<?= base_url('chauffeur/Chauffeur/update'); ?>" >
                   <input type="hidden" class="form-control" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID" value="<?php echo $membre['CHAUFFEUR_ID'];?>">
 
                   <div class="row">
@@ -77,157 +77,157 @@
                     <?php echo form_error('GENRE_ID', '<div class="text-danger">', '</div>'); ?>
                   </div>  -->
 
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_adresse')?>/<?=lang('mot_rue')?> <font color="red">*</font></label>
-                      <input type="text" name="ADRESSE_PHYSIQUE" autocomplete="off" id="ADRESSE_PHYSIQUE" value="<?=$membre['ADRESSE_PHYSIQUE'] ?>"  class="form-control" placeholder="<?=lang('input_adresse')?>/<?=lang('mot_rue')?>">
-                      <font id="error_ADRESSE_PHYSIQUE" color="red"></font>
-                      <?php echo form_error('ADRESSE_PHYSIQUE', '<div class="text-danger">', '</div>'); ?> 
-                    </div><br><br><br>
+                  <div class="col-md-4">
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_adresse')?>/<?=lang('mot_rue')?> <font color="red">*</font></label>
+                    <input type="text" name="ADRESSE_PHYSIQUE" autocomplete="off" id="ADRESSE_PHYSIQUE" value="<?=$membre['ADRESSE_PHYSIQUE'] ?>"  class="form-control" placeholder="<?=lang('input_adresse')?>/<?=lang('mot_rue')?>">
+                    <font id="error_ADRESSE_PHYSIQUE" color="red"></font>
+                    <?php echo form_error('ADRESSE_PHYSIQUE', '<div class="text-danger">', '</div>'); ?> 
+                  </div><br><br><br>
 
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_tlphone')?> <font color="red">*</font></label>
-                      <input type="phone" name="NUMERO_TELEPHONE" autocomplete="off" id="NUMERO_TELEPHONE" value="<?=$membre['NUMERO_TELEPHONE']?>"  class="form-control">
-                      <font id="error_NUMERO_TELEPHONE" color="red"></font>
-                      <?php echo form_error('NUMERO_TELEPHONE', '<div class="text-danger">', '</div>'); ?>
-                    </div>
+                  <div class="col-md-4">
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_tlphone')?> <font color="red">*</font></label>
+                    <input type="phone" name="NUMERO_TELEPHONE" autocomplete="off" id="NUMERO_TELEPHONE" value="<?=$membre['NUMERO_TELEPHONE']?>"  class="form-control">
+                    <font id="error_NUMERO_TELEPHONE" color="red"></font>
+                    <?php echo form_error('NUMERO_TELEPHONE', '<div class="text-danger">', '</div>'); ?>
+                  </div>
 
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_email')?></label>
-                      <input type="text" name="ADRESSE_MAIL" autocomplete="off" id="ADRESSE_MAIL" value="<?=$membre['ADRESSE_MAIL']?>" placeholder="<?=lang('input_email')?>" class="form-control">
-                      <font id="error_ADRESSE_MAIL" color="red"></font>
-                    </div>
+                  <div class="col-md-4">
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_email')?></label>
+                    <input type="text" name="ADRESSE_MAIL" autocomplete="off" id="ADRESSE_MAIL" value="<?=$membre['ADRESSE_MAIL']?>" placeholder="<?=lang('input_email')?>" class="form-control">
+                    <font id="error_ADRESSE_MAIL" color="red"></font>
+                  </div>
 
-                    <div class="col-md-4">
-                      <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_conf_mail')?></label>
-                      <input type="text" name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL" value="<?=$membre['ADRESSE_MAIL']?>" placeholder="<?=lang('input_conf_mail')?>" class="form-control">
-                      <font id="error_CONFIRMATION_EMAIL" color="red"></font>
-                    </div><br><br><br>
+                  <div class="col-md-4">
+                    <label class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_conf_mail')?></label>
+                    <input type="text" name="CONFIRMATION_EMAIL" id="CONFIRMATION_EMAIL" value="<?=$membre['ADRESSE_MAIL']?>" placeholder="<?=lang('input_conf_mail')?>" class="form-control">
+                    <font id="error_CONFIRMATION_EMAIL" color="red"></font>
+                  </div><br><br><br>
 
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark"style="font-weight: 1000; color:#454545"><?=lang('n_identite')?> <font color="red">*</font></label>
-                      <input type="text" name="NUMERO_CARTE_IDENTITE" autocomplete="off" id="NUMERO_CARTE_IDENTITE" placeholder="<?=lang('n_identite')?>" value="<?=$membre['NUMERO_CARTE_IDENTITE']?>"  class="form-control">
-                      <font id="error_NUMERO_CARTE_IDENTITE" color="red"></font>
-                      <?php echo form_error('NUMERO_CARTE_IDENTITE', '<div class="text-danger">', '</div>'); ?> 
-                    </div>
+                  <div class="col-md-4">
+                    <label for="FName" class="text-dark"style="font-weight: 1000; color:#454545"><?=lang('n_identite')?> <font color="red">*</font></label>
+                    <input type="text" name="NUMERO_CARTE_IDENTITE" autocomplete="off" id="NUMERO_CARTE_IDENTITE" placeholder="<?=lang('n_identite')?>" value="<?=$membre['NUMERO_CARTE_IDENTITE']?>"  class="form-control">
+                    <font id="error_NUMERO_CARTE_IDENTITE" color="red"></font>
+                    <?php echo form_error('NUMERO_CARTE_IDENTITE', '<div class="text-danger">', '</div>'); ?> 
+                  </div>
 
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_prsonne_contact')?></label>
-                      <input type="phone" name="PERSONNE_CONTACT_TELEPHONE" autocomplete="off" id="PERSONNE_CONTACT_TELEPHONE" value="<?=$membre['PERSONNE_CONTACT_TELEPHONE']?>"  class="form-control">
-                      <font id="error_PERSONNE_CONTACT_TELEPHONE" color="red"></font>
-                    </div>
+                  <div class="col-md-4">
+                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_prsonne_contact')?></label>
+                    <input type="phone" name="PERSONNE_CONTACT_TELEPHONE" autocomplete="off" id="PERSONNE_CONTACT_TELEPHONE" value="<?=$membre['PERSONNE_CONTACT_TELEPHONE']?>"  class="form-control">
+                    <font id="error_PERSONNE_CONTACT_TELEPHONE" color="red"></font>
+                  </div>
 
-                    <div class="col-md-4">
-                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_province')?> <font color="red">*</font></label>
-                      <select class="form-control" name="PROVINCE_ID" id="PROVINCE_ID" onchange="get_communes();">
-                        <option selected value="">---<?=lang('selectionner')?>---</option>
-                        <?php 
-                        $pro=$this->Model->getOne('provinces',array('PROVINCE_ID' =>$membre['PROVINCE_ID']  ));
-                        foreach ($provinces as $value)
+                  <div class="col-md-4">
+                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_province')?> <font color="red">*</font></label>
+                    <select class="form-control" name="PROVINCE_ID" id="PROVINCE_ID" onchange="get_communes();">
+                      <option selected value="">---<?=lang('selectionner')?>---</option>
+                      <?php 
+                      $pro=$this->Model->getOne('provinces',array('PROVINCE_ID' =>$membre['PROVINCE_ID']  ));
+                      foreach ($provinces as $value)
+                      {
+                        if ($value['PROVINCE_ID'] ==$pro['PROVINCE_ID'])
                         {
-                          if ($value['PROVINCE_ID'] ==$pro['PROVINCE_ID'])
-                          {
-                            ?>
-                            <option value="<?=$value['PROVINCE_ID']?>" selected><?=$value['PROVINCE_NAME']?></option>
-                            <?php
-                          }
-                          else
-                          {
-                            ?>
-                            <option value="<?=$value['PROVINCE_ID']?>"><?=$value['PROVINCE_NAME']?></option>
-                            <?php
-                          }
+                          ?>
+                          <option value="<?=$value['PROVINCE_ID']?>" selected><?=$value['PROVINCE_NAME']?></option>
+                          <?php
                         }
-                        ?>
-                      </select>
-                      <font id="error_prov" color="red"></font>
-                      <?php echo form_error('PROVINCE_ID', '<div class="text-danger">', '</div>'); ?>
-                    </div><br><br><br>
-
-                    <div class="col-md-4">
-                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_commune')?> <font color="red">*</font></label>
-                      <select class="form-control" name="COMMUNE_ID" id="COMMUNE_ID" onchange="get_zones();">
-                        <option value="">---<?=lang('selectionner')?>---</option>
-                        <?php
-                        foreach ($communes as $value)
+                        else
                         {
-                          if ($value['COMMUNE_ID']==$membre['COMMUNE_ID'])
-                          {
-                            ?>
-                            <option value="<?= $value['COMMUNE_ID']?>" selected><?=$value['COMMUNE_NAME']?></option>
-                            <?php
-                          }
-                          else
-                          {
-                            ?>
-                            <option value="<?=$value['COMMUNE_ID']?>"><?=$value['COMMUNE_NAME']?></option>
-                            <?php
-                          }
+                          ?>
+                          <option value="<?=$value['PROVINCE_ID']?>"><?=$value['PROVINCE_NAME']?></option>
+                          <?php
                         }
-                        ?>
-                      </select>
-                      <font id="error_com" color="red"></font>
-                      <?php echo form_error('COMMUNE_ID', '<div class="text-danger">', '</div>'); ?>
-                    </div>
+                      }
+                      ?>
+                    </select>
+                    <font id="error_prov" color="red"></font>
+                    <?php echo form_error('PROVINCE_ID', '<div class="text-danger">', '</div>'); ?>
+                  </div><br><br><br>
 
-                    <div class="col-md-4">
-                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_zone')?> <font color="red">*</font></label>
-                      <select class="form-control" name="ZONE_ID" id="ZONE_ID" onchange="get_collines();">
-                        <option value="">---<?=lang('selectionner')?>---</option>
-                        <?php 
-
-                        foreach ($zones as $value)
+                  <div class="col-md-4">
+                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_commune')?> <font color="red">*</font></label>
+                    <select class="form-control" name="COMMUNE_ID" id="COMMUNE_ID" onchange="get_zones();">
+                      <option value="">---<?=lang('selectionner')?>---</option>
+                      <?php
+                      foreach ($communes as $value)
+                      {
+                        if ($value['COMMUNE_ID']==$membre['COMMUNE_ID'])
                         {
-                          if ($value['ZONE_ID']==$membre['ZONE_ID']) {
-                            ?>
-                            <option value="<?= $value['ZONE_ID']?>" selected><?=$value['ZONE_NAME']?></option>
-                            <?php
-                          }
-                          else
-                          {
-                            ?>
-                            <option value="<?=$value['ZONE_ID']?>"><?=$value['ZONE_NAME']?></option>
-                            <?php
-                          }
+                          ?>
+                          <option value="<?= $value['COMMUNE_ID']?>" selected><?=$value['COMMUNE_NAME']?></option>
+                          <?php
                         }
-                        ?>
-                      </select>
-                      <font id="error_zon" color="red"></font>
-                      <?php echo form_error('ZONE_ID', '<div class="text-danger">', '</div>'); ?>
-                    </div>
-
-                    <div class="col-md-4">
-                      <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_colline')?> <font color="red">*</font></label>
-                      <select class="form-control" name="COLLINE_ID" id="COLLINE_ID">
-                        <option value="">---<?=lang('selectionner')?>---</option>
-                        <?php 
-
-                        foreach ($collines as $value)
+                        else
                         {
-                          if ($value['COLLINE_ID']==$membre['COLLINE_ID'])
-                          {
-                            ?>
-                            <option value="<?= $value['COLLINE_ID']?>" selected><?=$value['COLLINE_NAME']?></option>
-                            <?php
-                          }
-                          else
-                          {
-                            ?>
-                            <option value="<?=$value['COLLINE_ID']?>"><?=$value['COLLINE_NAME']?></option>
-                            <?php
-                          }
+                          ?>
+                          <option value="<?=$value['COMMUNE_ID']?>"><?=$value['COMMUNE_NAME']?></option>
+                          <?php
                         }
-                        ?>
-                      </select>
-                      <font id="error_col" color="red"></font>
-                      <?php echo form_error('COLLINE_ID', '<div class="text-danger">', '</div>'); ?>
-                    </div><br><br><br>
+                      }
+                      ?>
+                    </select>
+                    <font id="error_com" color="red"></font>
+                    <?php echo form_error('COMMUNE_ID', '<div class="text-danger">', '</div>'); ?>
+                  </div>
 
-                    <div class="col-md-4">
-                      <label for="description" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('carte_identite')?> <font color="red">*</font></label>
-                      <input type="hidden"  name="FILE_CARTE_IDENTITE_OLD" id="FILE_CARTE_IDENTITE_OLD" value="<?=$membre['FILE_CARTE_IDENTITE']?>">
-                      <input type="file" class="form-control" id="FILE_CARTE_IDENTITE" name="FILE_CARTE_IDENTITE" value="<?=$membre['FILE_CARTE_IDENTITE']?>" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
-                      <font id="fichier_identite_complete_error" color="red"></font>
-                    </div>
+                  <div class="col-md-4">
+                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_zone')?> <font color="red">*</font></label>
+                    <select class="form-control" name="ZONE_ID" id="ZONE_ID" onchange="get_collines();">
+                      <option value="">---<?=lang('selectionner')?>---</option>
+                      <?php 
+
+                      foreach ($zones as $value)
+                      {
+                        if ($value['ZONE_ID']==$membre['ZONE_ID']) {
+                          ?>
+                          <option value="<?= $value['ZONE_ID']?>" selected><?=$value['ZONE_NAME']?></option>
+                          <?php
+                        }
+                        else
+                        {
+                          ?>
+                          <option value="<?=$value['ZONE_ID']?>"><?=$value['ZONE_NAME']?></option>
+                          <?php
+                        }
+                      }
+                      ?>
+                    </select>
+                    <font id="error_zon" color="red"></font>
+                    <?php echo form_error('ZONE_ID', '<div class="text-danger">', '</div>'); ?>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="Ftype" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_colline')?> <font color="red">*</font></label>
+                    <select class="form-control" name="COLLINE_ID" id="COLLINE_ID">
+                      <option value="">---<?=lang('selectionner')?>---</option>
+                      <?php 
+
+                      foreach ($collines as $value)
+                      {
+                        if ($value['COLLINE_ID']==$membre['COLLINE_ID'])
+                        {
+                          ?>
+                          <option value="<?= $value['COLLINE_ID']?>" selected><?=$value['COLLINE_NAME']?></option>
+                          <?php
+                        }
+                        else
+                        {
+                          ?>
+                          <option value="<?=$value['COLLINE_ID']?>"><?=$value['COLLINE_NAME']?></option>
+                          <?php
+                        }
+                      }
+                      ?>
+                    </select>
+                    <font id="error_col" color="red"></font>
+                    <?php echo form_error('COLLINE_ID', '<div class="text-danger">', '</div>'); ?>
+                  </div><br><br><br>
+
+                  <div class="col-md-4">
+                    <label for="description" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('carte_identite')?> <font color="red">*</font></label>
+                    <input type="hidden"  name="FILE_CARTE_IDENTITE_OLD" id="FILE_CARTE_IDENTITE_OLD" value="<?=$membre['FILE_CARTE_IDENTITE']?>">
+                    <input type="file" class="form-control" id="FILE_CARTE_IDENTITE" name="FILE_CARTE_IDENTITE" value="<?=$membre['FILE_CARTE_IDENTITE']?>" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg'>
+                    <font id="fichier_identite_complete_error" color="red"></font>
+                  </div>
 
                   <!--   <div class="col-md-4">
                       <label for="description" class="text-dark" style="font-weight: 1000; color:#454545">Casier judiciaire <font color="red">*</font></label>
@@ -235,14 +235,14 @@
                       <input type="file" class="form-control" id="FILE_CASIER_JUDICIAIRE" name="FILE_CASIER_JUDICIAIRE" value="<?=$membre['FILE_CASIER_JUDICIAIRE']?>">
                       <font id="error_fichier_casier_judiciaire" color="red"></font>
                     </div> -->
-                     <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_permis_conduire')?> <font color="red">*</font></label>
-                    <input type="text" name="NUMERO_PERMIS" autocomplete="off" 
-                    id="NUMERO_PERMIS" value="<?=$membre['NUMERO_PERMIS']?>"   class="form-control">
-                    <font id="error_NUMERO_PERMIS" color="red"></font>
-                    <?php echo form_error('NUMERO_PERMIS', '<div class="text-danger">', '</div>'); ?>
-                  </div>
-                   <div class="col-md-4">
+                    <div class="col-md-4" class="text-dark">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('n_permis_conduire')?> <font color="red">*</font></label>
+                      <input type="text" name="NUMERO_PERMIS" autocomplete="off" 
+                      id="NUMERO_PERMIS" value="<?=$membre['NUMERO_PERMIS']?>"   class="form-control">
+                      <font id="error_NUMERO_PERMIS" color="red"></font>
+                      <?php echo form_error('NUMERO_PERMIS', '<div class="text-danger">', '</div>'); ?>
+                    </div>
+                    <div class="col-md-4">
                       <label for="description" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('phto_permis_conduire')?> <font color="red">*</font></label>
                       <input type="hidden"  name="file_permis_OLD" id="file_permis_OLD" value="<?=$membre['file_permis']?>">
 
@@ -253,7 +253,7 @@
                     <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545"><?=lang('input_photo_passport')?> <font color="red">*</font></label>
                       <input type="hidden"  name="PHOTO_PASSPORT_OLD" id="PHOTO_PASSPORT_OLD" value="<?=$membre['PHOTO_PASSPORT']?>">
-                     <!--  <input type="hidden"  name="CODE_AGENT" id="CODE_AGENT" value="<?=$membre['CODE_AGENT']?>"> -->
+                      <!--  <input type="hidden"  name="CODE_AGENT" id="CODE_AGENT" value="<?=$membre['CODE_AGENT']?>"> -->
                       <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_PASSPORT" autocomplete="off" id="PHOTO_PASSPORT" value="<?=$membre['PHOTO_PASSPORT']?>"  class="form-control" title='<?=lang('title_file')?>'>
                       <font id="error_photo_passport" color="red"></font>
                       <?php echo form_error('PHOTO_PASSPORT', '<div class="text-danger">', '</div>'); ?> 
@@ -264,230 +264,277 @@
                 <div class="col-md-12" style="margin-top:50px;">
                   <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span><?=lang('btn_modifier')?></button>
                 </div>
-             
-              
-                  <!-- </div> -->
 
-                </div>
+
+                <!-- </div> -->
+
               </div>
             </div>
           </div>
-      <!--   </div> -->
-    </section>
+        </div>
+        <!--   </div> -->
+      </section>
 
-  </main><!-- End #main -->
+    </main><!-- End #main -->
 
-  <?php include VIEWPATH . 'includes/footer.php'; ?>
+    <?php include VIEWPATH . 'includes/footer.php'; ?>
 
-</body>
-
-  <script>
-     function submit_form()
-      {
-        const photopassport = document.getElementById('PHOTO_PASSPORT');
-        const fichier_carte_identite = document.getElementById('FILE_CARTE_IDENTITE');
-        const fichier_casier_judiciaire = document.getElementById('FILE_CASIER_JUDICIAIRE');
-        var mail = document.getElementById("ADRESSE_MAIL").value;
-        var mail2 = document.getElementById("CONFIRMATION_EMAIL").value;
-        var form = document.getElementById("myform");
-        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-        var statut=1;
-        $('#error_com').html('');
-        $('#error_zon').html('');
-        $('#error_col').html('');
-        $('#error_NOM').html('');
-        $('#error_prov').html('');
-        $('#error_PRENOM').html('');
-        $('#error_ADRESSE_MAIL').html('');
-        $('#error_ADRESSE_PHYSIQUE').html('');
-        $('#error_NUMERO_TELEPHONE').html('');
-        $('#error_CONFIRMATION_EMAIL').html('');
-        $('#error_NUMERO_CARTE_IDENTITE').html('');
-        $('#error_photo_passport').html('');
-        $('#fichier_identite_complete_error').html('');
-        $('#error_fichier_casier_judiciaire').html('');
-
-        if($('#NOM').val()=='')
-        {
-          statut=2;
-          $('#error_NOM').html('<?=lang('msg_validation')?>');
-        }
-
-        if($('#PRENOM').val()=='')
-        {
-          statut=2;
-          $('#error_PRENOM').html('<?=lang('msg_validation')?>');
-        }
-
-        if($('#ADRESSE_PHYSIQUE').val()=='')
-        {
-          statut=2;
-          $('#error_ADRESSE_PHYSIQUE').html('<?=lang('msg_validation')?>');
-        }
-
-        if($('#NUMERO_TELEPHONE').val()=='')
-        {
-          statut=2;
-          $('#error_NUMERO_TELEPHONE').html('<?=lang('msg_validation')?>');
-        }
-
-        if($('#ADRESSE_MAIL').val()!='')
-        {
-          if(!emailReg.test($('#ADRESSE_MAIL').val()))
-          {
-            $('#error_ADRESSE_MAIL').html('<?=lang('msg_validation_mail')?>');
-            statut=2
-          }
-
-          if($('#CONFIRMATION_EMAIL').val()!=$('#ADRESSE_MAIL').val())
-          {
-            statut=2;
-            $('#error_CONFIRMATION_EMAIL').html('<?=lang('msg_validation_mail_correspondance')?> !');
-          }
-        }
-
-        if($('#NUMERO_CARTE_IDENTITE').val()=='')
-        {
-          statut=2;
-          $('#error_NUMERO_CARTE_IDENTITE').html('<?=lang('msg_validation')?>');
-        }
-
-        if($('#PROVINCE_ID').val()=='')
-        {
-          statut=2;
-          $('#error_prov').html('<?=lang('msg_validation')?>');
-        }
-
-        if($('#COMMUNE_ID').val()=='')
-        {
-          statut=2;
-          $('#error_com').html('<?=lang('msg_validation')?>');
-        }
-
-        if($('#ZONE_ID').val()=='')
-        {
-          statut=2;
-          $('#error_zon').html('<?=lang('msg_validation')?>');
-        }
-
-        if($('#COLLINE_ID').val()=='')
-        {
-          statut=2;
-          $('#error_col').html('<?=lang('msg_validation')?>');
-        }
-
-        if(statut==1)
-        {
-          $('#myform').submit();
-        }
-      }
-
-      function get_communes()
-      {
-        var PROVINCE_ID=$('#PROVINCE_ID').val();
-
-        if(PROVINCE_ID==0)
-        {
-          $('#COMMUNE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-          $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-        }
-        else
-        {
-          $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-          $.ajax(
-          {
-            url:"<?=base_url()?>chauffeur/Chauffeur/get_communes/"+PROVINCE_ID,
-            type:"GET",
-            dataType:"JSON",
-            success: function(data)
-            {
-              $('#COMMUNE_ID').html(data);
-              get_zones()
-            }
-          });
-        }
-      }
-
-      function get_zones()
-      {
-        var COMMUNE_ID =$('#COMMUNE_ID').val();
-        if(COMMUNE_ID=='')
-        {
-          $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-        }
-        else
-        {
-          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-          $.ajax(
-          {
-            url:"<?=base_url()?>chauffeur/Chauffeur/get_zones/"+COMMUNE_ID,
-            type:"GET",
-            dataType:"JSON",
-            success: function(data)
-            {
-              $('#ZONE_ID').html(data);
-              get_collines()
-            }
-          });
-        }
-      }
-
-      function get_collines()
-      {
-        var ZONE_ID=$('#ZONE_ID').val();
-        if(ZONE_ID=='')
-        {
-          $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
-        }
-        else
-        {
-          $.ajax(
-          {
-            url:"<?=base_url()?>chauffeur/Chauffeur/get_collines/"+ZONE_ID,
-            type:"GET",
-            dataType:"JSON",
-            success: function(data)
-            {
-              $('#COLLINE_ID').html(data);
-            }
-          });
-        }
-      }
-  </script>
+  </body>
 
   <script>
-      var province = document.getElementById('PROVINCE_ID');
-      var province_error = document.getElementById('error_prov');
-      var colline = document.getElementById('COLLINE_ID');
-      var colline_error = document.getElementById('error_col');
-      var zone = document.getElementById('ZONE_ID');
-      var zone_error = document.getElementById('error_zon');
-      var comm = document.getElementById('COMMUNE_ID');
-      var commune_error = document.getElementById('error_com');
-      $('#COMMUNE_ID').change(function(){
-        commune_error.innerHTML ="";
-      });
+   function submit_form()
+   {
+    const photopassport = document.getElementById('PHOTO_PASSPORT');
+    const fichier_carte_identite = document.getElementById('FILE_CARTE_IDENTITE');
+    const file_permis = document.getElementById('file_permis');
 
-      $('#ZONE_ID').change(function(){
-        zone_error.innerHTML ="";
-      });
+    var mail = document.getElementById("ADRESSE_MAIL").value;
+    var mail2 = document.getElementById("CONFIRMATION_EMAIL").value;
+    var form = document.getElementById("myform");
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    var statut=1;
+    $('#error_com').html('');
+    $('#error_zon').html('');
+    $('#error_col').html('');
+    $('#error_NOM').html('');
+    $('#error_prov').html('');
+    $('#error_PRENOM').html('');
+    $('#error_ADRESSE_MAIL').html('');
+    $('#error_ADRESSE_PHYSIQUE').html('');
+    $('#error_NUMERO_TELEPHONE').html('');
+    $('#error_CONFIRMATION_EMAIL').html('');
+    $('#error_NUMERO_CARTE_IDENTITE').html('');
+    $('#error_photo_passport').html('');
+    $('#fichier_identite_complete_error').html('');
+    $('#error_fichier_casier_judiciaire').html('');
 
-      $('#COLLINE_ID').change(function(){
-        colline_error.innerHTML ="";
-      });
+    if($('#NOM').val()=='')
+    {
+      statut=2;
+      $('#error_NOM').html('<?=lang('msg_validation')?>');
+    }
 
-      $('#PROVINCE_ID').change(function(){
-        province_error.innerHTML ="";
-      });
+    if($('#PRENOM').val()=='')
+    {
+      statut=2;
+      $('#error_PRENOM').html('<?=lang('msg_validation')?>');
+    }
 
+    if($('#ADRESSE_PHYSIQUE').val()=='')
+    {
+      statut=2;
+      $('#error_ADRESSE_PHYSIQUE').html('<?=lang('msg_validation')?>');
+    }
 
-      $("#NOM,#PRENOM").on('input paste change keyup', function()
+    if($('#NUMERO_TELEPHONE').val()=='')
+    {
+      statut=2;
+      $('#error_NUMERO_TELEPHONE').html('<?=lang('msg_validation')?>');
+    }
+
+    if($('#ADRESSE_MAIL').val()!='')
+    {
+      if(!emailReg.test($('#ADRESSE_MAIL').val()))
       {
-        $(this).val($(this).val().replace(/[^a-z-\s]/gi, '').toUpperCase());
+        $('#error_ADRESSE_MAIL').html('<?=lang('msg_validation_mail')?>');
+        statut=2
+      }
+
+      if($('#CONFIRMATION_EMAIL').val()!=$('#ADRESSE_MAIL').val())
+      {
+        statut=2;
+        $('#error_CONFIRMATION_EMAIL').html('<?=lang('msg_validation_mail_correspondance')?> !');
+      }
+    }
+
+    if($('#NUMERO_CARTE_IDENTITE').val()=='')
+    {
+      statut=2;
+      $('#error_NUMERO_CARTE_IDENTITE').html('<?=lang('msg_validation')?>');
+    }
+
+    if($('#PROVINCE_ID').val()=='')
+    {
+      statut=2;
+      $('#error_prov').html('<?=lang('msg_validation')?>');
+    }
+
+    if($('#COMMUNE_ID').val()=='')
+    {
+      statut=2;
+      $('#error_com').html('<?=lang('msg_validation')?>');
+    }
+
+    if($('#ZONE_ID').val()=='')
+    {
+      statut=2;
+      $('#error_zon').html('<?=lang('msg_validation')?>');
+    }
+
+    if($('#COLLINE_ID').val()=='')
+    {
+      statut=2;
+      $('#error_col').html('<?=lang('msg_validation')?>');
+    }
+
+    var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
+
+    if($('#FILE_CARTE_IDENTITE').val() != '')
+    {
+      var fileCarte_identite = fichier_carte_identite.files[0];
+
+      var fileSizeCarte_identite = fileCarte_identite.size; // Taille du fichier en octets
+
+      if(fileSizeCarte_identite > maxSize)
+      {
+        statut=2;
+        $('#fichier_identite_complete_error').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#fichier_identite_complete_error').html('');}
+    }
+
+
+    if($('#file_permis').val() != '')
+    {
+      var filePermis = file_permis.files[0];
+
+      var fileSizePermis = filePermis.size; // Taille du fichier en octets
+
+      if(fileSizePermis > maxSize)
+      {
+        statut=2;
+        $('#file_permis_error').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#file_permis_error').html('');}
+    }
+
+
+    if($('#PHOTO_PASSPORT').val() != '')
+    {
+      var filePhotopassport = photopassport.files[0];
+
+      var fileSizePhotopassport = filePhotopassport.size; // Taille du fichier en octets
+
+      if(fileSizePhotopassport > maxSize)
+      {
+        statut=2;
+        $('#error_photo_passport').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_photo_passport').html('');}
+    }
+
+
+
+
+    if(statut==1)
+    {
+      $('#myform').submit();
+    }
+  }
+
+  function get_communes()
+  {
+    var PROVINCE_ID=$('#PROVINCE_ID').val();
+
+    if(PROVINCE_ID==0)
+    {
+      $('#COMMUNE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+      $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+      $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+    }
+    else
+    {
+      $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+      $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+      $.ajax(
+      {
+        url:"<?=base_url()?>chauffeur/Chauffeur/get_communes/"+PROVINCE_ID,
+        type:"GET",
+        dataType:"JSON",
+        success: function(data)
+        {
+          $('#COMMUNE_ID').html(data);
+          get_zones()
+        }
       });
+    }
+  }
+
+  function get_zones()
+  {
+    var COMMUNE_ID =$('#COMMUNE_ID').val();
+    if(COMMUNE_ID=='')
+    {
+      $('#ZONE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+      $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+    }
+    else
+    {
+      $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+      $.ajax(
+      {
+        url:"<?=base_url()?>chauffeur/Chauffeur/get_zones/"+COMMUNE_ID,
+        type:"GET",
+        dataType:"JSON",
+        success: function(data)
+        {
+          $('#ZONE_ID').html(data);
+          get_collines()
+        }
+      });
+    }
+  }
+
+  function get_collines()
+  {
+    var ZONE_ID=$('#ZONE_ID').val();
+    if(ZONE_ID=='')
+    {
+      $('#COLLINE_ID').html('<option value="">---<?=lang('selectionner')?>---</option>');
+    }
+    else
+    {
+      $.ajax(
+      {
+        url:"<?=base_url()?>chauffeur/Chauffeur/get_collines/"+ZONE_ID,
+        type:"GET",
+        dataType:"JSON",
+        success: function(data)
+        {
+          $('#COLLINE_ID').html(data);
+        }
+      });
+    }
+  }
+</script>
+
+<script>
+  var province = document.getElementById('PROVINCE_ID');
+  var province_error = document.getElementById('error_prov');
+  var colline = document.getElementById('COLLINE_ID');
+  var colline_error = document.getElementById('error_col');
+  var zone = document.getElementById('ZONE_ID');
+  var zone_error = document.getElementById('error_zon');
+  var comm = document.getElementById('COMMUNE_ID');
+  var commune_error = document.getElementById('error_com');
+  $('#COMMUNE_ID').change(function(){
+    commune_error.innerHTML ="";
+  });
+
+  $('#ZONE_ID').change(function(){
+    zone_error.innerHTML ="";
+  });
+
+  $('#COLLINE_ID').change(function(){
+    colline_error.innerHTML ="";
+  });
+
+  $('#PROVINCE_ID').change(function(){
+    province_error.innerHTML ="";
+  });
+
+
+  $("#NOM,#PRENOM").on('input paste change keyup', function()
+  {
+    $(this).val($(this).val().replace(/[^a-z-\s]/gi, '').toUpperCase());
+  });
 
       // $("#NUMERO_CARTE_IDENTITE").on('input', function()
       // {
@@ -496,134 +543,134 @@
       // });
 
 
-      $("#ADRESSE_PHYSIQUE").keypress(function(event)
-      {
+  $("#ADRESSE_PHYSIQUE").keypress(function(event)
+  {
         // $('#error_ADRESSE_PHYSIQUE').hide();
-        var character = String.fromCharCode(event.keyCode);
-        return isValid(character);     
-      });
+    var character = String.fromCharCode(event.keyCode);
+    return isValid(character);     
+  });
 
-      function isValid(str)
-      {
-        return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
-      }
+  function isValid(str)
+  {
+    return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+  }
 
-      $('#NUMERO_TELEPHONE').on('input change',function()
-      {
-        $(this).val($(this).val().replace(/[^0-9]*$/gi, ''));
-        $(this).val($(this).val().replace(' ', ''));
-        var subStr = this.value.substring(0,1);
+  $('#NUMERO_TELEPHONE').on('input change',function()
+  {
+    $(this).val($(this).val().replace(/[^0-9]*$/gi, ''));
+    $(this).val($(this).val().replace(' ', ''));
+    var subStr = this.value.substring(0,1);
 
-        if (subStr != '+')
-        {
-          $('[name = "NUMERO_TELEPHONE"]').val('+257');
-        }
-
-        if(this.value.substring(0,4)=="+257")
-        {
-          if($(this).val().length == 12)
-          {
-            $('#errorNUMERO_TELEPHONE').text('');
-          }
-          else
-          {
-            $('#errorNUMERO_TELEPHONE').text('<?=lang('tel_invalide')?> !');
-            if($(this).val().length > 12)
-            {
-              $(this).val(this.value.substring(0,12));
-              $('#errorNUMERO_TELEPHONE').text('');
-            }
-          }
-        }
-        else
-        {
-          if ($(this).val().length > 12)
-          {
-            $('#errorNUMERO_TELEPHONE').text('');
-          }
-          else
-          {
-            $('#errorNUMERO_TELEPHONE').text('<?=lang('tel_invalide')?>!');
-          }        
-        } 
-      });
-
-
-    $('#PERSONNE_CONTACT_TELEPHONE').on('input change',function()
+    if (subStr != '+')
     {
-      $('#error_PERSONNE_CONTACT_TELEPHONE').html();
-      $(this).val($(this).val().replace(/[^0-9]*$/gi, ''));
-      $(this).val($(this).val().replace(' ', ''));
-      var subStr = this.value.substring(0,1);
+      $('[name = "NUMERO_TELEPHONE"]').val('+257');
+    }
 
-      if (subStr != '+')
+    if(this.value.substring(0,4)=="+257")
+    {
+      if($(this).val().length == 12)
       {
-        $('[name = "PERSONNE_CONTACT_TELEPHONE"]').val('+257');
-      }
-
-      if(this.value.substring(0,4)=="+257")
-      {
-        if($(this).val().length == 12)
-        {
-          $('#error_PERSONNE_CONTACT_TELEPHONE').text('');
-        }
-        else
-        {
-          $('#error_PERSONNE_CONTACT_TELEPHONE').text('<?=lang('tel_invalide')?>!');
-          if($(this).val().length > 12)
-          {
-            $(this).val(this.value.substring(0,12));
-            $('#error_PERSONNE_CONTACT_TELEPHONE').text('');
-          }
-
-        }
+        $('#errorNUMERO_TELEPHONE').text('');
       }
       else
       {
-        if ($(this).val().length > 12)
+        $('#errorNUMERO_TELEPHONE').text('<?=lang('tel_invalide')?> !');
+        if($(this).val().length > 12)
         {
+          $(this).val(this.value.substring(0,12));
+          $('#errorNUMERO_TELEPHONE').text('');
+        }
+      }
+    }
+    else
+    {
+      if ($(this).val().length > 12)
+      {
+        $('#errorNUMERO_TELEPHONE').text('');
+      }
+      else
+      {
+        $('#errorNUMERO_TELEPHONE').text('<?=lang('tel_invalide')?>!');
+      }        
+    } 
+  });
+
+
+  $('#PERSONNE_CONTACT_TELEPHONE').on('input change',function()
+  {
+    $('#error_PERSONNE_CONTACT_TELEPHONE').html();
+    $(this).val($(this).val().replace(/[^0-9]*$/gi, ''));
+    $(this).val($(this).val().replace(' ', ''));
+    var subStr = this.value.substring(0,1);
+
+    if (subStr != '+')
+    {
+      $('[name = "PERSONNE_CONTACT_TELEPHONE"]').val('+257');
+    }
+
+    if(this.value.substring(0,4)=="+257")
+    {
+      if($(this).val().length == 12)
+      {
+        $('#error_PERSONNE_CONTACT_TELEPHONE').text('');
+      }
+      else
+      {
+        $('#error_PERSONNE_CONTACT_TELEPHONE').text('<?=lang('tel_invalide')?>!');
+        if($(this).val().length > 12)
+        {
+          $(this).val(this.value.substring(0,12));
           $('#error_PERSONNE_CONTACT_TELEPHONE').text('');
         }
-        else
-        {
-          $('#error_PERSONNE_CONTACT_TELEPHONE').text('<?=lang('tel_invalide')?>!');
-        }        
+
       }
-    });
-    </script>
-
-   <script type="text/javascript">
-    function verif_date()
+    }
+    else
     {
-      var DATE_NAISSANCE = $('#date_naissance').val();
-      $.ajax(
-          {
-            type: "POST",
-            url:"<?=base_url()?>chauffeur/Chauffeur/verif_date/",
-            dataType: 'JSON',
-            data:{
-              DATE_NAISSANCE:DATE_NAISSANCE
-            },
+      if ($(this).val().length > 12)
+      {
+        $('#error_PERSONNE_CONTACT_TELEPHONE').text('');
+      }
+      else
+      {
+        $('#error_PERSONNE_CONTACT_TELEPHONE').text('<?=lang('tel_invalide')?>!');
+      }        
+    }
+  });
+</script>
 
-            success: function(data){
+<script type="text/javascript">
+  function verif_date()
+  {
+    var DATE_NAISSANCE = $('#date_naissance').val();
+    $.ajax(
+    {
+      type: "POST",
+      url:"<?=base_url()?>chauffeur/Chauffeur/verif_date/",
+      dataType: 'JSON',
+      data:{
+        DATE_NAISSANCE:DATE_NAISSANCE
+      },
 
-              if(data < 18 )
-          {
-            $('#error_date_naissance').text("<?=lang('validation_age')?> !");
-          }
-          else
-            {$('#error_date_naissance').text("");
+      success: function(data){
+
+        if(data < 18 )
+        {
+          $('#error_date_naissance').text("<?=lang('validation_age')?> !");
         }
+        else
+          {$('#error_date_naissance').text("");
+      }
 
       
 
-        
-        }
-      });
 
     }
+  });
 
-  </script>
+  }
+
+</script>
 
 
 </html>

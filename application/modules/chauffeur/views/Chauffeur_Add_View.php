@@ -482,6 +482,45 @@
         $('#error_photo_passport').text("<?=lang('msg_validation')?>");
       }
 
+
+      var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
+
+      var fileCarte_identite = fichier_carte_identite.files[0];
+
+      var fileSizeCarte_identite = fileCarte_identite.size; // Taille du fichier en octets
+
+      if(fileSizeCarte_identite > maxSize)
+      {
+        statut=2;
+        $('#error_fichier_carte_identite').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_fichier_carte_identite').html('');}
+
+
+
+      var filePermis = file_permis.files[0];
+
+      var fileSizePermis = filePermis.size; // Taille du fichier en octets
+
+      if(fileSizePermis > maxSize)
+      {
+        statut=2;
+        $('#error_file_permis').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_file_permis').html('');}
+
+
+
+      var filePhotopassport = photopassport.files[0];
+
+      var fileSizePhotopassport = filePhotopassport.size; // Taille du fichier en octets
+
+      if(fileSizePhotopassport > maxSize)
+      {
+        statut=2;
+        $('#error_photo_passport').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_photo_passport').html('');}
+
+
+
       if($('#date_naissance').val()==''){
         statut=2;
         $('#error_date_naissance').text("<?=lang('msg_validation')?>");
