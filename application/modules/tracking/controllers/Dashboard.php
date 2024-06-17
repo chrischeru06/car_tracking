@@ -657,20 +657,20 @@ class Dashboard extends CI_Controller
 
 						if($keytabl[16]>=500){
 						// $valeur_ceinture='<div class="fa fa-check" style="color:green"></div>';
-							$valeur_ceinture='<label style="color:green">ON</label>';
+							$valeur_ceinture='<label style="color:green">'.lang('mot_active').'</label>';
 
 						}else{
 						// $valeur_ceinture='<div class="fa fa-close" style="color:red"></div>';
-							$valeur_ceinture='<label style="color:#dc3545">OFF</label>';
+							$valeur_ceinture='<label style="color:#dc3545">'.lang('mot_desactive').'</label>';
 
 						}
 						if($keytabl[17]==1){
 						// $valeur_clim='<div class="fa fa-check" style="color:green"></div>';
-							$valeur_clim='<label style="color:green">ON</label>';
+							$valeur_clim='<label style="color:green">'.lang('mot_active').'</label>';
 
 						}else{
 						// $valeur_clim='<div class="fa fa-close" style="color:red"></div>';
-							$valeur_clim='<label style="color:#dc3545">OFF</label>';
+							$valeur_clim='<label style="color:#dc3545">'.lang('mot_desactive').'</label>';
 
 						}
 						$lat = $keytabl[8];
@@ -683,7 +683,7 @@ class Dashboard extends CI_Controller
 						}else{
 							$ch_color='border: solid 1px rgba(220, 53, 69, 1);';
 							$card_card1='<div class="card">
-							<center><h5 class="card-title" style="font-size: .8rem; color:#dc3545;"><span class="fa fa-warning text-danger"></span> Il a dépassé la zone<span style="font-size: .8rem;"></span></h5></center>
+							<center><h5 class="card-title" style="font-size: .8rem; color:#dc3545;"><span class="fa fa-warning text-danger"></span> '.lang('mot_depasse_zon').'<span style="font-size: .8rem;"></span></h5></center>
 
 							</div>';
 							$alert='<div style="top: 10px;position: absolute;right: 10px;font-size: .8rem; color:#dc3545;"><span class="fa fa-warning text-danger"></span></div>';
@@ -756,7 +756,7 @@ class Dashboard extends CI_Controller
 											<div class="jss511"><sup class="jss507">'.$keytabl[13].'</sup><span class="jss510 jss512">'.$new_hour.'<span class="jss494">:'.$keytabl[5].'&nbsp;</span></span><span class="jss517"><label id="getplacesname'.$getplacesname.'"></label></span></div><div class="jss513">'.$keytabl[0].'<span style="float: right;"><a id="distfinal'.$distfinal.'"></a> km</span></div><div class="jss511"><sup class="jss507">'.$keytabl[14].'</sup><span class="jss510 jss514">'.$new_hour1.'<span class="jss494">:'.$keytabl[7].'</span></span><span class="jss518"><label id="getplacesname1'.$getplacesname1.'"></label></span>
 											</div>
 											</div>
-											<span class="jss510" style="color:#7D7E7F;">Ceinture<span class="jss494">&nbsp;&nbsp;'.$valeur_ceinture.'</span></span><span class="jss518" style="color:#7D7E7F;">Climatiseur&nbsp;&nbsp;'.$valeur_clim.'</span>
+											<span class="jss510" style="color:#7D7E7F;">'.lang('mot_ceinture').'<span class="jss494">&nbsp;&nbsp;'.$valeur_ceinture.'</span></span><span class="jss518" style="color:#7D7E7F;">'.lang('mot_climatiseur').'&nbsp;&nbsp;'.$valeur_clim.'</span>
 											</div>							
 											</div>
 											</div>
@@ -769,7 +769,7 @@ class Dashboard extends CI_Controller
 											<div class="jss111">
 											<div class="jss112" style="width: 78px; font-size: 11px; font-weight: 500;"><p><sup class="jss500 jss501"> '.$keytabl[13].'</sup>'.$new_hour.'<span class="jss119">:'.$keytabl[5].'</span></p><span style="display: block; height: 2px;"></span><p style="position: relative;"><sup class="jss500 jss501">'.$keytabl[14].'</sup>'.$new_hour1.'<span class="jss119">:'.$keytabl[7].'&nbsp;</span></p>
 											</div>
-											<div class="jss112 jss113" style="width: 61%;"><span class="jss114" style="padding: 0px;"> <label id="getplacesname'.$getplacesname.'"></label></span><p class="jss515">'.$keytabl[0].' d\'arrêt </p>
+											<div class="jss112 jss113" style="width: 61%;"><span class="jss114" style="padding: 0px;"> <label id="getplacesname'.$getplacesname.'"></label></span><p class="jss515">'.$keytabl[0].' '.lang('mot_darret').' </p>
 											</div>
 											</div>
 											</div>
@@ -883,7 +883,7 @@ class Dashboard extends CI_Controller
 													'type': 'Feature',
 													'properties': {
 														'description':
-														'<span class=\"fa fa-warning\">&nbsp;&nbsp;Excès de vitesse</span>&nbsp;&nbsp;".$value_data_exces_vitesse['vitesse']." Km/h<br><i class=\"fa fa-clock-o \">&nbsp;&nbsp;".$value_data_exces_vitesse['hour']."</p>'
+														'<span class=\"fa fa-warning\">&nbsp;&nbsp;".lang('vitesse_exces')."</span>&nbsp;&nbsp;".$value_data_exces_vitesse['vitesse']." Km/h<br><i class=\"fa fa-clock-o \">&nbsp;&nbsp;".$value_data_exces_vitesse['hour']."</p>'
 														},
 														'geometry': {
 															'type': 'LineString',
@@ -1098,7 +1098,7 @@ class Dashboard extends CI_Controller
 					//Fonction pour la selection des heures
 															function get_heures()
 															{
-																$html="<option value=''>Séléctionner</option>";
+																$html="<option value=''>".lang('selectionner')."</option>";
 
 																$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
@@ -1151,20 +1151,20 @@ class Dashboard extends CI_Controller
 																		$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
 
 								//Notification au proprietaire du vehicule
-																		$mess="Cher(e) <b>".$get_proprio['NOM_PROPRIETAIRE']." ".$get_proprio['PRENOM_PROPRIETAIRE']."</b>,<br><br>
+																		$mess="".lang('mot_cher')." <b>".$get_proprio['NOM_PROPRIETAIRE']." ".$get_proprio['PRENOM_PROPRIETAIRE']."</b>,<br><br>
 
-																		Votre véhicule ".$get_proprio['DESC_MARQUE']." / ".$get_proprio['DESC_MODELE']." ayant ".$get_proprio['PLAQUE']." comme plaque d'immatriculation  est en train d'être conduit  à ".$get_data['vitesse']." Km/h !<br>
-																		Veuillez contacter votre chauffeur ".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']." !
+																		".lang('mot_votre_veh')." ".$get_proprio['DESC_MARQUE']." / ".$get_proprio['DESC_MODELE']." ".lang('mot_ayant')." ".$get_proprio['PLAQUE']." ".lang('mot_phrase')." ".$get_data['vitesse']." Km/h !<br>
+																		".lang('mot_phrase_vllez_contacter')." ".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']." !
 																		";
-																		$subjet="Excès de vitesse";
+																		$subjet="".lang('vitesse_exces')."";
 																		$message1=$this->notifications->send_mail(array($get_proprio['EMAIL']),$subjet,array(),$mess,array());
 								//Notification au chauffeur
-																		$mess2="Cher(e) <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b>,<br><br>
-																		Vous êtes entrain de conduire à une vitesse de ".$get_data['vitesse']." Km/h <br>
-																		Veuillez ralentir pour votre sécurité!
+																		$mess2="".lang('mot_cher')." <b>".$get_chauffeur['NOM']." ".$get_chauffeur['PRENOM']."</b>,<br><br>
+																		".lang('mot_msg_vit_exces')." ".$get_data['vitesse']." Km/h <br>
+																		".lang('mot_msg_ralentir')."
 
 																		";
-																		$subjet="Excès de vitesse";
+																		$subjet="".lang('vitesse_exces')."";
 																		$message2=$this->notifications->send_mail(array($get_chauffeur['ADRESSE_MAIL']),$subjet,array(),$mess2,array());
 
 																		$update=$this->Model->update('tracking_data',array('id'=>$get_data['maximum']),array('MESSAGE'=>1));
@@ -1193,18 +1193,18 @@ class Dashboard extends CI_Controller
 																	$your_date_new_technik = strtotime("-".$nb_jr_new." day", strtotime($key['date_fin_contr_technik']));
 																	$new_date_new_technik = date("Y-m-d", $your_date_new_technik++);
 																	if ($DATE_JOUR==$new_date_new) {
-																		$subjet="Assurance expirée";
+																		$subjet="".lang('mot_assurance_exp')."";
 
 																		$email = $key['EMAIL'];
-																		$message="Cher propriétaire du véhicule ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE']." ,Votre assurance expirera demain le '".$key['date_fin_format']."'!<br> veuillez la renouveler !";
+																		$message="".lang('mot_cher_proprio')." ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE']." ,".lang('mot_msg_assur_exp')." '".$key['date_fin_format']."'!<br> ".lang('mot_veuillez_renvler')." !";
 																		$this->notifications->send_mail(array($email),$subjet,array(),$message,array());
 																	}
 																	if($DATE_JOUR==$new_date_new_technik){
 
-																		$subjet="Contrôle technique expiré";
+																		$subjet="".lang('mot_ctrl_technique_exp')."";
 
 																		$email = $key['EMAIL'];
-																		$message="Cher propriétaire  du véhicule ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE'].",Votre Contrôle technique expirera demain le '".$key['date_fin_contr_technikformat']."'! <br> veuillez la renouveler !";
+																		$message="".lang('mot_cher_proprio')." ".$key['DESC_MARQUE']." / ".$key['DESC_MODELE']." : ".$key['PLAQUE'].",".lang('msg_ctrl_technique_exp')." '".$key['date_fin_contr_technikformat']."'! <br> ".lang('mot_veuillez_renvler')." !";
 																		$this->notifications->send_mail(array($email),$subjet,array(),$message,array());
 
 																	}

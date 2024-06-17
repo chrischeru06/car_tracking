@@ -336,6 +336,8 @@ $lang['veh_accident_mot']='Véhicules en accident';
 $lang['veh_eteint_mot']='Véhicules éteints';
 $lang['veh_allum_mot']='Véhicules allumés';
 $lang['veh_stationne_mot']='Véhicules stationnés';
+$lang['mot_darret']='d\'arrêt';
+
 //
 $lang['veh_enreg_enreg']='Véhicules enregistrés';
 $lang['voir_plus_mot']='Voir plus';
@@ -345,7 +347,6 @@ $lang['label_numero_chassis']='Numéro chassis';
 $lang['depasse_zone']='Il a dépassé la zone';
 $lang['mot_ceinture']='Ceinture';
 $lang['mot_climatiseur']='Climatiseur';
-$lang['mot_darret']='d\'arrêt';
 $lang['vitesse_exces']='Excès de vitesse';
 $lang['choisir_zone_affect']='Choisir la zone d\'affectation du chauffeur';
 $lang['attribue_veh_modal']='ATTRIBUER LE VEHICULE AU CHAUFFEUR';
@@ -365,12 +366,33 @@ $lang['passw_actuel']='Mot de passe actuel';
 $lang['affich_password']='Afficher mot de passe';
 $lang['title_modif_chauff']='Modification d\'un chauffeur';
 $lang['title_modif_chauff']='Véhicule approuvé';
+//MODULE: TRACKING
+$lang['mot_depasse_zon']='Il a dépassé la zone';
+$lang['mot_cher']='Cher(e)';
+$lang['mot_votre_veh']='Votre véhicule';
+$lang['mot_ayant']='ayant';
+$lang['mot_phrase']='comme plaque d\'immatriculation  est en train d\'être conduit  à';
+$lang['mot_phrase_vllez_contacter']='Veuillez contacter votre chauffeur';
+$lang['mot_msg_vit_exces']='Vous êtes entrain de conduire à une vitesse de';
+$lang['mot_msg_ralentir']='Veuillez ralentir pour votre sécurité!';
+$lang['mot_assurance_exp']='Assurance expirée';
+$lang['mot_cher_proprio']='Cher propriétaire du véhicule';
+$lang['mot_msg_assur_exp']='Votre assurance expirera demain le';
+$lang['mot_veuillez_renvler']='veuillez la renouveler';
+$lang['mot_ctrl_technique_exp']='Contrôle technique expiré';
+$lang['msg_ctrl_technique_exp']='Votre Contrôle technique expirera demain le';
+$lang['title_adresse_veh']='Adresse du véhicule';
+
+
+
 
 
 
 
 
 //
+$lang['mot_active']='ON';
+$lang['mot_desactive']='OFF';
 $lang['voir_moins_mot']='Voir moins';
 $lang['modal_list_proprio']='Liste des propriétaires';
 $lang['cons_mot']='CONSOMMATION';
@@ -456,6 +478,11 @@ $lang['mois'] = 'Mois';
 $lang['jr'] = 'Jr';
 $lang['desactive_demande'] = 'Désactiver';
 $lang['active_demande'] = 'Activer';
+$lang['veh_eteint']='Véhicule&nbsp;éteint';
+$lang['veh_mvt']='Véhicule&nbsp;en&nbsp;mouvement';
+
+
+
 
 
 
