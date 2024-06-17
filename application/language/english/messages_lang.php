@@ -398,6 +398,13 @@ $lang['echec_enregistrement']='Registration failure';
 $lang['succes_msg_activ_des']='has been successfully done';
 $lang['title_device_activ']='device activated';
 $lang['title_device_des']='device deactivated';
+$lang['mot_active']='ON';
+$lang['mot_desactive']='OFF';
+$lang['mot_darret']='of stop';
+$lang['veh_eteint']='Vehicle&nbsp;off';
+$lang['veh_mvt']='Vehicle&nbsp;in&nbsp;motion';
+
+
 
 
 //FIN PART 3
