@@ -357,7 +357,7 @@
                                 <a href="<?= base_url()?>proprietaire/Proprietaire/Detail/<?=md5($info_vehicul['PROPRIETAIRE_ID'])?>"  title="<?=lang('title_visualisation')?>">
                                   <img src="<?=base_url('/upload/proprietaire/photopassport/'.$info_vehicul['photo_pro'])?>" style="width: 15px;height: 15px;border-radius: 50%;margin-top: -5px;" class="zoomable-image">
                                 </a>
-                                <?=lang('title_proprio_list')?
+                                <?=lang('title_proprio_list')?>
                                 <?php
                               }
                               ?>
