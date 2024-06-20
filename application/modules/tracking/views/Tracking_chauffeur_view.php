@@ -938,16 +938,12 @@ for (const input of inputs) {
     success:function(data) {
 
 
-      // $('#distance_finale').html(data.distance_finale);
-      // $('#carburant').html(data.carburant);
       $('#DATE_DAT').html(data.DATE);
       $('#CODE').html(data.CODE);
       $('#map_filtre').html(data.map_filtre);
-      // $('#ligne_arret').html(data.ligne_arret);
       $('#score').html(data.score_finale);
       $('#vitesse_max').html(data.vitesse_max);
       
-      // alert(data.mark_vprim)
       var donna=data.mark_vprim;
 
       var donna=donna.split('@');

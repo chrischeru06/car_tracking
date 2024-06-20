@@ -605,7 +605,7 @@ class Dashboard extends CI_Controller
 					$distfinal=0;
 					foreach ($tabl as $keytabl) 
 					{
-
+						$distfinal++;
 						$getplacesname++;
 						$getplacesname1++;
 						$new_hour=$this->notifications->ajouterDeuxHeures($keytabl[20],$keytabl[21]);
