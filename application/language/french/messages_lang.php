@@ -382,6 +382,12 @@ $lang['mot_veuillez_renvler']='veuillez la renouveler';
 $lang['mot_ctrl_technique_exp']='Contrôle technique expiré';
 $lang['msg_ctrl_technique_exp']='Votre Contrôle technique expirera demain le';
 $lang['title_adresse_veh']='Adresse du véhicule';
+$lang['msg_taille_fich']='La taille du fichier ne doit pas dépasser 2 Mo';
+$lang['phto_prmis']='Photo permis de conduire';
+$lang['date_exp_permis']='Date expiration du permis de conduire';
+
+
+
 
 
 
