@@ -774,7 +774,7 @@ function submit_form()
       if(fileSizeLogo > maxSize)
       {
         statut=2;
-        $('#error_LOGO').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        $('#error_LOGO').html('<?=lang('msg_taille_fich')?>');
       }else{$('#error_LOGO').html('');}
 
       var fileRC = rc.files[0];
@@ -784,7 +784,7 @@ function submit_form()
       if(fileSizeRC > maxSize)
       {
         statut=2;
-        $('#error_FICHIER_RC').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        $('#error_FICHIER_RC').html('<?=lang('msg_taille_fich')?>');
       }else{$('#error_FICHIER_RC').html('');}
 
 
@@ -795,7 +795,7 @@ function submit_form()
       if(fileSizeNIF > maxSize)
       {
         statut=2;
-        $('#error_FILE_NIF').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        $('#error_FILE_NIF').html('<?=lang('msg_taille_fich')?>');
       }else{$('#error_FILE_NIF').html('');}
 
 
@@ -813,7 +813,7 @@ function submit_form()
           if(fileSizeLogo > maxSize)
           {
             statut=2;
-            $('#error_LOGO').html('La taille du fichier ne doit pas dépasser 2 Mo');
+            $('#error_LOGO').html('<?=lang('msg_taille_fich')?>');
           }else{$('#error_LOGO').html('');}
         }
 
@@ -827,7 +827,7 @@ function submit_form()
           if(fileSizeRC > maxSize)
           {
             statut=2;
-            $('#error_FICHIER_RC').html('La taille du fichier ne doit pas dépasser 2 Mo');
+            $('#error_FICHIER_RC').html('<?=lang('msg_taille_fich')?>');
           }else{$('#error_FICHIER_RC').html('');}
         }
 
@@ -841,7 +841,7 @@ function submit_form()
           if(fileSizeNIF > maxSize)
           {
             statut=2;
-            $('#error_FILE_NIF').html('La taille du fichier ne doit pas dépasser 2 Mo');
+            $('#error_FILE_NIF').html('<?=lang('msg_taille_fich')?>');
           }else{$('#error_FILE_NIF').html('');}
         }
 
@@ -888,7 +888,7 @@ function submit_form()
       if(fileSizePhotopassport > maxSize)
       {
         statut=2;
-        $('#error_photo_passport').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        $('#error_photo_passport').html('<?=lang('msg_taille_fich')?>');
       }else{$('#error_photo_passport').html('');}
 
 
@@ -899,7 +899,7 @@ function submit_form()
       if(fileSizeCNI_passport > maxSize)
       {
         statut=2;
-        $('#error_FILE_CNI_PASSPORT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        $('#error_FILE_CNI_PASSPORT').html('<?=lang('msg_taille_fich')?>');
       }else{$('#error_FILE_CNI_PASSPORT').html('');}
 
 
@@ -916,7 +916,7 @@ function submit_form()
           if(fileSizePhotopassport > maxSize)
           {
             statut=2;
-            $('#error_photo_passport').html('La taille du fichier ne doit pas dépasser 2 Mo');
+            $('#error_photo_passport').html('<?=lang('msg_taille_fich')?>');
           }else{$('#error_photo_passport').html('');}
         }
 
@@ -929,7 +929,7 @@ function submit_form()
           if(fileSizeCNI_passport > maxSize)
           {
             statut=2;
-            $('#error_FILE_CNI_PASSPORT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+            $('#error_FILE_CNI_PASSPORT').html('<?=lang('msg_taille_fich')?>');
           }else{$('#error_FILE_CNI_PASSPORT').html('');}
         }
 

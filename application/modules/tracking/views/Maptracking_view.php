@@ -371,7 +371,8 @@ z-index: 100;
 
                 <br>
                 <div class="card">
-                  <h5 class="card-title" style="font-size: .8rem;"><?=lang('dist_parcourue')?><span style="font-size: .8rem;"> <?=$distance_finale?> Km</span></h5>
+                  <!-- <h5 class="card-title" style="font-size: .8rem;"><?=lang('dist_parcourue')?> ancienne<span style="font-size: .8rem;"> <?=$distafin?> Km</span></h5> -->
+                  <?=$card_card2?>
 
                 </div>
 
@@ -488,54 +489,11 @@ z-index: 100;
   </script> 
   <?=$dataplace;?>
   <?=$datadist;?>
-  <?=$datadistall;?>
+  <?=$calcul_card_dist_fin;?>
+  
 
   <script type="text/javascript">
-    //  $(document).ready(function(){
-
-    //   get_dist_real();   
-
-    // });
-
-
-    //  function get_dist_real() {
-
-    //   const calcul_distance_exact = {
-    //     type: "Feature",
-    //     geometry: {
-    //       type: "LineString",
-    //       properties: {},
-    //       coordinates: [<?php echo $track_dist; ?>]
-    //     }
-    //   };
-    //   const distance_vrai = turf.length(calcul_distance_exact);
-    //   const distfin = distance_vrai.toLocaleString();
-
-    //   var findist=distfin
-
-    //     alert(`Total distance: ${findist} km`) 
-
-    //   $.ajax({
-    //    url:"<?=base_url('tracking/Dashboard/tracking_chauffeur_filtres/')?>"+findist,
-    //    type : "POST",
-    //    dataType: "json",
-    //    cache:false,     
-    //    data: {
-    //       // findist: findist
-
-    //    },
-
-    //    beforeSend:function () { 
-
-    //    },
-    //    success:function(data) {
-
-    //     // alert(data)
-
-    //    }
-    //  });
-
-    // }
+    
 
     mapboxgl.accessToken =
     "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
