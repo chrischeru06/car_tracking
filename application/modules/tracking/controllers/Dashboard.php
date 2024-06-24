@@ -843,7 +843,7 @@ class Dashboard extends CI_Controller
 														'<span class=\"fa fa-warning\">&nbsp;&nbsp;".lang('vitesse_exces')."</span>&nbsp;&nbsp;".$value_data_exces_vitesse['vitesse']." Km/h<br><i class=\"fa fa-clock-o \">&nbsp;&nbsp;".$value_data_exces_vitesse['hour']."</p>'
 														},
 														'geometry': {
-															'type': 'LineString',
+															'type': 'Point',
 															'coordinates': [".$value_data_exces_vitesse['longitude'].", ".$value_data_exces_vitesse['latitude']."]
 														}
 														},

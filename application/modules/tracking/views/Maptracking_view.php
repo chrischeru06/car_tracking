@@ -646,10 +646,31 @@ z-index: 100;
         }
       });
 
+      map_map.addSource('pointpoint', {
+        'type': 'geojson',
+        'data': {
+                'type': 'FeatureCollection',
+                'features': [<?=$geojsonexces;?>]
+              }
+      });
+
+
+      
+
+      map_map.addLayer({
+        'id': 'pointpoint',
+        'type': 'circle',
+        'source': 'pointpoint',
+        'paint': {
+          'circle-radius': 6,
+          'circle-color': '#B42222'
+        }
+      });
+
       //Debut popup on click exces de vitesse
       // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
-      map_map.on('click', 'point', (a) => {
+      map_map.on('click', 'pointpoint', (a) => {
         document.getElementsByClassName('map-overlay2')[0].style.display = 'block';
             // Copy coordinates array.
         const coordinates = a.features[0].geometry.coordinates.slice();
