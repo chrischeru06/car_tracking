@@ -372,8 +372,9 @@
 							$PROPRIETAIRE_ID = md5($track_data['PROPRIETAIRE_ID']);
 							$CHAUFFEUR_ID = md5($track_data['CHAUFFEUR_ID']);
 							$mouvement = $track_data['mouvement'];
+							$ignition = $track_data['ignition'];
 
-							$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>'.$accident.'<>'.$VEHICULE_TRACK.'<>'.$PROPRIETAIRE_ID.'<>'.$CHAUFFEUR_ID.'<>'.$photo_pro.'<>'.$photo_chauf.'<>'.$mouvement.'<>'.$LOGO.'<>@';
+							$donnees_vehicule = $donnees_vehicule.$VEHICULE_ID.'<>'.$latitude.'<>'.$longitude.'<>'.$CODE.'<>'.$DESC_MARQUE.'<>'.$DESC_MODELE.'<>'.$PLAQUE.'<>'.$COULEUR.'<>'.$KILOMETRAGE.'<>'.$proprio_desc.'<>'.$PHOTO.'<>'.md5($CODE).'<>'.$chauffeur_desc.'<>'.$IS_ACTIVE.'<>'.$id.'<>'.$accident.'<>'.$VEHICULE_TRACK.'<>'.$PROPRIETAIRE_ID.'<>'.$CHAUFFEUR_ID.'<>'.$photo_pro.'<>'.$photo_chauf.'<>'.$mouvement.'<>'.$LOGO.'<>'.$ignition.'<>@';
 						}
 					}
 				}
