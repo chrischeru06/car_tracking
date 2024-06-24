@@ -92,10 +92,12 @@
 		// }
 
 		var className = '';
-		if(index[21] == 1){
+		if(index[23] == 1)  // Véhicule alumé
+		{
 			className = 'custom-marker-icon';
 		}
-		else{
+		else  // Véhicule éteint
+		{
 			className = 'custom-marker-icon2';
 		}
 
