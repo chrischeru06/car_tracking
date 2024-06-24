@@ -1691,7 +1691,15 @@
 					$anomalies_exces_vitesse =$this->Model->getRequete('SELECT device_uid FROM tracking_data WHERE 1 and vitesse>=50 and STATUT_NOTIF=1 and DATE_FORMAT(`date`,"%Y-%m-%d")="'.$today.'" GROUP BY device_uid');
 					$nbre_exces_vit=0;
 					if (!empty($anomalies_exces_vitesse)) {
+						
 						foreach ($anomalies_exces_vitesse as $keyexces) {
+
+							$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND device_uid ="'.$keyexces['device_uid'].'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$today.'"' , '`id` ASC');
+									$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
+									$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
+									$my_selectvitesse_max=str_replace('\"', '', $my_selectvitesse_max);
+
+									$vitesse_max = $this->ModelPs->getRequeteOne($psgetrequete, $my_selectvitesse_max);
 
 							$personal_req = $this->getBindParms('device_uid,date as date_depass,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
 							$personal_req=str_replace('\"', '"', $personal_req);
@@ -1707,6 +1715,7 @@
 							<i class="bi bi-exclamation-circle text-warning"></i>
 							<div>
 							<h4 class="text-warning">'.lang('h_exces_vitesse').'</h4>
+							<p> Max : '.$vitesse_max['max_vitesse'].' Km/h</p>
 							<p>'.lang('title_proprio_list').': '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
 							<p>'.lang('p_chauffeur').' : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
 							<p>'.lang('label_plaque').' : '.$personal['PLAQUE'].'</p>
