@@ -190,6 +190,16 @@ backdrop-filter:blur(60px); */
 padding: 10px;
 font-family: 'Open Sans', sans-serif;
 }
+
+
+  .arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 20px solid black; /* Ajustez la couleur et la taille selon vos besoins */
+  }
+
 </style>
 
 
@@ -397,6 +407,7 @@ font-family: 'Open Sans', sans-serif;
             <div class="card-body">
               <h5 class="card-title" style="font-size:.8rem;"><?=lang('dist_parcourue')?> <span style="font-size:.6rem;">| Km</span></h5>
               <div style="float: right;top: 150px;color: #012970;font-size:.8rem;"><a id="lieu_arret1"></a></div>
+              
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle" >
                   <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="50px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
@@ -404,7 +415,10 @@ font-family: 'Open Sans', sans-serif;
                 <div class="ps-3">
                   <h6><span class="text-success small pt-1 fw-bold"><a id="distance_finale"></a> Km</span></h6>
                 </div>
+                <div style="position:relative;left: 40px; top: 5px;" id="fleche">&darr;</div>
               </div>
+
+
               <div style="float: right;top: 250px;color: #710101;font-size:.8rem;"><a id="lieu_arret"></a></div>
 
             </div>
@@ -490,10 +504,10 @@ font-family: 'Open Sans', sans-serif;
 
           <input id="streets-v12" type="radio" name="rtoggle" value="streets" checked="checked">
           <label for="streets-v12">streets</label>&nbsp;&nbsp;
-          <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite">
+          <!-- <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite"> -->
           <!-- See a list of Mapbox-hosted public styles at -->
           <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-          <label for="satellite-streets-v12">satellite</label>&nbsp;&nbsp;
+          <!-- <label for="satellite-streets-v12">satellite</label>&nbsp;&nbsp; -->
             <!-- <input id="light-v11" type="radio" name="rtoggle" value="light">
             <label for="light-v11">lumineux</label>&nbsp;&nbsp;
             <input id="dark-v11" type="radio" name="rtoggle" value="dark">
@@ -577,6 +591,7 @@ font-family: 'Open Sans', sans-serif;
 <script>
 
   $(document).ready(function(){
+            $('#fleche').hide();
 
     change_carte(); 
 
@@ -982,6 +997,10 @@ for (const input of inputs) {
             adressee = data.features[0];
             name1=adressee.text;
             $('#lieu_arret1').html(name1);
+            $('#fleche').show();
+
+
+            
 
 
 
@@ -1022,8 +1041,15 @@ for (const input of inputs) {
         let chaineAvecPoints = distance_vrai3.replace(/,/g, ".");
 
          var consommation = Number(data.carburant_val) * chaineAvecPoints;
+         if(consommation!=0){
+          var cons_arrondi=consommation.toFixed(2);
+         $('#carburant').html(cons_arrondi);
 
+         }else{
          $('#carburant').html(consommation);
+
+         }
+
 
        }else{
         var consommation = 'N/A';

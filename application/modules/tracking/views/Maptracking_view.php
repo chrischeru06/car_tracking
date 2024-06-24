@@ -371,7 +371,7 @@ z-index: 100;
 
                 <br>
                 <div class="card">
-                  <!-- <h5 class="card-title" style="font-size: .8rem;"><?=lang('dist_parcourue')?> ancienne<span style="font-size: .8rem;"> <?=$distafin?> Km</span></h5> -->
+                 
                   <?=$card_card2?>
 
                 </div>

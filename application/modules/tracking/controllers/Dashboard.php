@@ -754,7 +754,7 @@ class Dashboard extends CI_Controller
 
 
 							//delimitation : geofencing
-							$my_selectprovinces = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ', '1 AND md5(CODE) ="'.$CODE.'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
+							$my_selectprovinces = $this->getBindParms('chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID,COORD', 'chauffeur_vehicule join chauffeur_zone_affectation on chauffeur_zone_affectation.CHAUFFEUR_VEHICULE_ID =chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND md5(CODE) ="'.$CODE.'" ' , 'chauffeur_vehicule.CHAUFFEUR_VEHICULE_ID ASC');
 							$my_selectprovinces=str_replace('\"', '"', $my_selectprovinces);
 							$my_selectprovinces=str_replace('\n', '', $my_selectprovinces);
 							$my_selectprovinces=str_replace('\"', '', $my_selectprovinces);
