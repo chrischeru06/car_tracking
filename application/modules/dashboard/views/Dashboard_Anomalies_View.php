@@ -22,7 +22,7 @@
   <!-- ======= Sidebar ======= -->
   <?php include VIEWPATH . 'includes/menu_left.php'; ?>
   <!-- End Sidebar-->
-<!--   <?php header("refresh:180; url=$reflesh/dashboard/Dashboard_Anomalies");?> -->
+
 
 
 

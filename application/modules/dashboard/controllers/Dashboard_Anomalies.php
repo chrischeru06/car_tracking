@@ -37,11 +37,8 @@ function out_application()
   }
   function index()
   {
-    
-    $reflesh=base_url();
-    $data['reflesh']=$reflesh;
-     //print_r($data['reflesh']);die();
-    $this->load->view('Dashboard_Anomalies_View',$data);
+  
+    $this->load->view('Dashboard_Anomalies_View');
   }
 
    //detail pour le rapport2:vehicules par exces vs normal
@@ -316,25 +313,25 @@ function out_application()
     $my_selectget_arret_date=str_replace('\"', '', $my_selectget_arret_date);
     $get_arret_date = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret_date);
 
-    $vehicule_exces=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `accident`=1 '.$critere.')') ;
+    $vehicule_accident=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `accident`=1 '.$critere.')') ;
 
-      $vehicule_normal=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM  vehicule  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' and vehicule.VEHICULE_ID not in (SELECT DISTINCT vehicule.VEHICULE_ID   FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `accident`=1))') ;
+      $vehicule_sans_accident=$this->Model->getRequeteOne('SELECT COUNT( DISTINCT vehicule.VEHICULE_ID ) as nbr  FROM  vehicule  join tracking_data on vehicule.CODE=tracking_data.device_uid WHERE 1 '.$critere.' and vehicule.VEHICULE_ID not in (SELECT DISTINCT vehicule.VEHICULE_ID   FROM `tracking_data`  join vehicule on tracking_data.device_uid=vehicule.CODE WHERE 1 and tracking_data.CODE_COURSE in (SELECT DISTINCT(tracking_data.CODE_COURSE) FROM `tracking_data` WHERE 1 and `accident`=1))') ;
 
 
     $donnees9="";
     $test=0;
      $color=$this->getcolor();
-     if (!empty($vehicule_exces))
+     if (!empty($vehicule_accident))
      {
 
-      $test9=$vehicule_exces['nbr'];  
+      $test9=$vehicule_accident['nbr'];  
      }
      $donnees9.="{name:'Accident', y:".$test9.",color:'".$color."',key9:1},";
       $donnees91="";
     $test91=0;
-     if (!empty($vehicule_normal))
+     if (!empty($vehicule_sans_accident))
      {
-      $test91=$vehicule_normal['nbr'];  
+      $test91=$vehicule_sans_accident['nbr'];  
      }
      $donnees91.="{name:'Sans accident', y:".$test91.",color:'".$color."',key9:0},";
   
