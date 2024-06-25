@@ -129,13 +129,13 @@ foreach ($fetch_data as $row)
 $u++;
 $intrant=array();
 $intrant[] ="<strong class='text-dark'/>".$u;
-if(!empty($row->CODE)){
-$intrant[] ="<strong class='text-dark'/>".$row->CODE;
-}else{
+// if(!empty($row->CODE)){
+// $intrant[] ="<strong class='text-dark'/>".$row->CODE;
+// }else{
 
-$intrant[] ="<strong class='text-dark'/> N/A";
+// $intrant[] ="<strong class='text-dark'/> N/A";
 
-} 
+// } 
 $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
 $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
 $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
@@ -204,13 +204,13 @@ $u++;
 $intrant=array();
 $desc_chauffeur=$this->Model->getRequeteOne(' SELECT CONCAT(`NOM`,"&nbsp;",`PRENOM`) AS desc_cho FROM `chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = chauffeur_vehicule.CHAUFFEUR_ID WHERE 1 and STATUT_AFFECT=1 and chauffeur_vehicule.CODE="'.$row->CODE.'"');
 $intrant[] ="<strong class='text-dark'/>".$u;
-if (!empty($row->CODE)) {
-$intrant[] ="<strong class='text-dark'/>".$row->CODE;
+// if (!empty($row->CODE)) {
+// $intrant[] ="<strong class='text-dark'/>".$row->CODE;
 
-}else{
-$intrant[] ="<strong class='text-dark'> N/A </strong>";
+// }else{
+// $intrant[] ="<strong class='text-dark'> N/A </strong>";
 
-} 
+// } 
 $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
 $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
 $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
@@ -288,13 +288,13 @@ foreach ($fetch_data as $row)
 $u++;
 $intrant=array();
 $intrant[] ="<strong class='text-dark'/>".$u; 
-if (!empty($row->CODE)) {
-$intrant[] ="<strong class='text-dark'/>".$row->CODE;
+// if (!empty($row->CODE)) {
+// $intrant[] ="<strong class='text-dark'/>".$row->CODE;
 
-}else{
-$intrant[] ="<strong class='text-dark'> N/A </strong>";
+// }else{
+// $intrant[] ="<strong class='text-dark'> N/A </strong>";
 
-}
+// }
 $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
 $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
 $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
@@ -358,13 +358,13 @@ foreach ($fetch_data as $row)
 $u++;
 $intrant=array();
 $intrant[] ="<strong class='text-dark'/>".$u;
-if (!empty($row->CODE)) {
-$intrant[] ="<strong class='text-dark'/>".$row->CODE;
+// if (!empty($row->CODE)) {
+// $intrant[] ="<strong class='text-dark'/>".$row->CODE;
 
-} else{
-$intrant[] ="<strong class='text-dark'> N/A </strong>";
+// } else{
+// $intrant[] ="<strong class='text-dark'> N/A </strong>";
 
-}
+// }
 $intrant[] ="<strong class='text-dark'/>".$row->DESC_MARQUE;
 $intrant[] ="<strong class='text-dark'/>".$row->DESC_MODELE;
 $intrant[] ="<strong class='text-dark'/>".$row->PLAQUE;
@@ -949,7 +949,7 @@ $somme3=$vehicule_mouvet_['NBR'] ;
 
 
 }
-$donnees3.="{name:'".$value['statut']." (". $somme3.")', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";    
+$donnees3.="{name:'".$value['statut']."', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";    
 
 }
 
@@ -1079,7 +1079,7 @@ text: \"Mediabox\"
 
 series: [
 {
-name:' total:',
+name:' total',
 data:[".$donnees3."]
 }]
 });
@@ -1100,7 +1100,7 @@ if ($vehicule_allu_ett)
 {
 $somme4=$vehicule_allu_ett['NBR'] ;
 }
-$donnees4.="{name:'".$value['statut']." (". $somme4.")', y:". $somme4.",color:'".$color."',key4:'". $key_id4."'},";    
+$donnees4.="{name:'".$value['statut']." ', y:". $somme4.",color:'".$color."',key4:'". $key_id4."'},";    
 
 }
 $rapp4="<script type=\"text/javascript\">
@@ -1227,7 +1227,7 @@ text: \"Mediabox\"
 
 series: [
 {
-name:' total:(".$total4.")',
+name:' total',
 data:[".$donnees4."]
 }]
 });
@@ -2238,7 +2238,7 @@ $somme3=$vehicule_mouvet_['NBR'] ;
 
 
 }
-$donnees3.="{name:'".$value['statut']." (". $somme3.")', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";    
+$donnees3.="{name:'".$value['statut']." ', y:". $somme3.",color:'".$color."',key3:'". $key_id3."'},";    
 
 }
 
@@ -2368,7 +2368,7 @@ click: function()
 
       series: [
       {
-       name:' total:',
+       name:' total',
        data:[".$donnees3."]
        }]
        });
@@ -2389,7 +2389,7 @@ click: function()
         {
          $somme4=$vehicule_allu_ett['NBR'] ;
        }
-       $donnees4.="{name:'".$value['statut']." (". $somme4.")', y:". $somme4.",color:'".$color."',key4:'". $key_id4."'},";    
+       $donnees4.="{name:'".$value['statut']."', y:". $somme4.",color:'".$color."',key4:'". $key_id4."'},";    
 
      }
      $rapp4="<script type=\"text/javascript\">
@@ -2516,7 +2516,7 @@ text: \"Mediabox\"
 
 series: [
 {
-name:' total:(".$total4.")',
+name:' total',
 data:[".$donnees4."]
 }]
 });
