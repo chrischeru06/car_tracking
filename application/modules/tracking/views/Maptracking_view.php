@@ -615,36 +615,36 @@ z-index: 100;
         }
       });
       
-      const geojsonexces = {
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          properties: {},
-          coordinates: [<?php echo $vitesse_exces; ?>]
-        }
-      };
-      map_map.addSource('point', {
-        'type': 'geojson',
-        'data': geojsonexces
-      });
+      // const geojsonexces = {
+      //   type: "Feature",
+      //   geometry: {
+      //     type: "LineString",
+      //     properties: {},
+      //     coordinates: [<?php echo $vitesse_exces; ?>]
+      //   }
+      // };
+      // map_map.addSource('point', {
+      //   'type': 'geojson',
+      //   'data': geojsonexces
+      // });
 
 
       
 
-      map_map.addLayer({
-        'id': 'point',
-        'type': 'line',
-        'source': 'point',
-        'layout': {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        'paint': {
-          'line-color': '#FF0000',
-          'line-width': 4,
-          'line-opacity': 0.7
-        }
-      });
+      // map_map.addLayer({
+      //   'id': 'point',
+      //   'type': 'line',
+      //   'source': 'point',
+      //   'layout': {
+      //     'line-join': 'round',
+      //     'line-cap': 'round'
+      //   },
+      //   'paint': {
+      //     'line-color': '#FF0000',
+      //     'line-width': 4,
+      //     'line-opacity': 0.7
+      //   }
+      // });
 
       map_map.addSource('pointpoint', {
         'type': 'geojson',
@@ -658,7 +658,7 @@ z-index: 100;
       
 
       map_map.addLayer({
-        'id': 'pointpoint',
+        'id': 'pointpointlayer',
         'type': 'circle',
         'source': 'pointpoint',
         'paint': {
@@ -670,8 +670,8 @@ z-index: 100;
       //Debut popup on click exces de vitesse
       // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
-      map_map.on('click', 'pointpoint', (a) => {
-        document.getElementsByClassName('map-overlay2')[0].style.display = 'block';
+      map_map.on('click', 'pointpointlayer', (a) => {
+        // document.getElementsByClassName('map-overlay2')[0].style.display = 'block';
             // Copy coordinates array.
         const coordinates = a.features[0].geometry.coordinates.slice();
         const description = a.features[0].properties.description;
@@ -692,12 +692,12 @@ z-index: 100;
       });
 
         // Change the cursor to a pointer when the mouse is over the places layer.
-      map_map.on('mouseenter', 'point', () => {
+      map_map.on('mouseenter', 'pointpointlayer', () => {
         map_map.getCanvas().style.cursor = 'pointer';
       });
 
         // Change it back to a pointer when it leaves.
-      map_map.on('mouseleave', 'point', () => {
+      map_map.on('mouseleave', 'pointpointlayer', () => {
         map_map.getCanvas().style.cursor = '';
       });
 
