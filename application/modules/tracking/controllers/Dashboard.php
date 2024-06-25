@@ -192,7 +192,7 @@ class Dashboard extends CI_Controller
 
 
 		//Requete pour recuperer partout ou il ya eu exces de vitesse
-		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour', 'tracking_data', ' vitesse >= 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%H") as houronly,date_format(tracking_data.date,"%i") as minonly', 'tracking_data', ' vitesse >= 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
 		$my_selectget_exces_vitesse=str_replace('\"', '"', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\"', '"', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\n', '', $my_selectget_exces_vitesse);
@@ -835,12 +835,15 @@ class Dashboard extends CI_Controller
 										if (!empty($get_data_exces_vitesse)) {
 
 											foreach ($get_data_exces_vitesse as $value_data_exces_vitesse) {
+
+		$new_hourr=$this->notifications->ajouterDeuxHeures($value_data_exces_vitesse['houronly'],$value_data_exces_vitesse['minonly']);
+
 												$vitesse_exces.='['.$value_data_exces_vitesse['longitude'].','.$value_data_exces_vitesse['latitude'].'],';
 												$geojsonexces.="{
 													'type': 'Feature',
 													'properties': {
 														'description':
-														'<span class=\"fa fa-warning\">&nbsp;&nbsp;".lang('vitesse_exces')."</span>&nbsp;&nbsp;".$value_data_exces_vitesse['vitesse']." Km/h<br><i class=\"fa fa-clock-o \">&nbsp;&nbsp;".$value_data_exces_vitesse['hour']."</p>'
+														'<span class=\"fa fa-warning\">&nbsp;&nbsp;".lang('vitesse_exces')."</span>&nbsp;&nbsp;".$value_data_exces_vitesse['vitesse']." Km/h<br><i class=\"fa fa-clock-o \">&nbsp;&nbsp;".$new_hourr."</p>'
 														},
 														'geometry': {
 															'type': 'Point',
