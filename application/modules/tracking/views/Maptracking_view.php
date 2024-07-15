@@ -11,10 +11,24 @@
     -progress: [object Object];
     flex-flow: column;
     overflow-y: auto;
+  transition: all .800ms ease-in-out;
+
 /*    border: solid 1px rgba(128, 128, 128, 0.3);*/
 }
-.jss408:hover {
+/*.jss408:hover {
   border: solid 1px rgb(128, 128, 128);
+}*/
+.jss408:hover{
+  border: solid 1px rgb(128, 128, 128,0.5);
+  background: #EDEDED;
+
+}
+.jss408:active {
+  transform: scale(0.94);
+  background: #EDEDED;
+  box-shadow: rgba(0, 0, 0, 0.44) 0px 3px 8px;
+
+
 }
 .jss408:focus {
   color:#4154f1;
@@ -136,9 +150,18 @@
   position: relative;
   background: #fff;
 /*  border: solid 1px rgba(128, 128, 128, 0.3);*/
+transition: all .800ms ease-in-out;
 }
 .jss110:hover{
-  border: solid 1px rgb(128, 128, 128);
+  border: solid 1px rgb(128, 128, 128,0.5);
+  background: #EDEDED;
+
+}
+.jss110:active {
+  transform: scale(0.94);
+  background: #EDEDED;
+  box-shadow: rgba(0, 0, 0, 0.44) 0px 3px 8px;
+  
 
 }
 .jss501 {
@@ -772,10 +795,11 @@ z-index: 100;
             '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[6] +''
             );
           const popupParking = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;' + index[8] +'&nbsp;&nbsp;-&nbsp;&nbsp;' + index[7] +''
+            '<a><img src="<?= base_url()?>/upload/chauffeur/'+ index[10] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;&nbsp;'+index[9]+'</a><br><i class="bi bi-textarea-resize"></i>&nbsp;&nbsp;&nbsp;'+ index[11] +'<br><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;' + index[8] +'&nbsp;&nbsp;-&nbsp;&nbsp;' + index[7] +''
             );
           var couleur='';
           couleur='#0000FF';//bleu
+
 
               const marker2 = new FontawesomeMarker({
                 icon: 'fa fa-product-hunt',
@@ -810,7 +834,7 @@ z-index: 100;
         .then(data => {
           adress = data.features[0].place_name;
           const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[7] +''
+            '<a><img src="<?= base_url()?>/upload/chauffeur/'+ index[10] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;&nbsp;'+index[9]+'</a><br><i class="bi bi-textarea-resize"></i>&nbsp;&nbsp;&nbsp;'+ index[11] +'<br><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[7] +''
             );
           
           var couleur='';
@@ -831,7 +855,7 @@ z-index: 100;
           .then(data => {
             adresse = data.features[0].place_name;
             const popupup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[8] +''
+              '<a><img src="<?= base_url()?>/upload/chauffeur/'+ index[10] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;&nbsp;'+index[9]+'</a><br><i class="bi bi-textarea-resize"></i>&nbsp;&nbsp;&nbsp;'+ index[11] +'<br><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adresse +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[8] +''
               );
 
             const marker1 = new mapboxgl.Marker({ color:'#00FF00'})//vert

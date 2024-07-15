@@ -412,7 +412,7 @@ class Dashboard extends CI_Controller
 			$tabl_prime=array();
 
 			foreach ($get_data_arret_prime as $value_get_arret_prim) {
-				$my_selectone_element_prim = $this->getBindParms('id,date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%H") as houronly,date_format(tracking_data.date,"%i") as minonly,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,ignition,latitude,longitude', 'tracking_data', 'CODE_COURSE= "'.$value_get_arret_prim['CODE_COURSE'].'" and md5(tracking_data.device_uid)="'.$CODE.'" ' , '`id` ASC');
+				$my_selectone_element_prim = $this->getBindParms('id,date as date_actu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%H") as houronly,date_format(tracking_data.date,"%i") as minonly,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,ignition,latitude,longitude,concat(chauffeur.NOM," ",chauffeur.PRENOM) as nom_chauff,chauffeur.PHOTO_PASSPORT,vehicule.PLAQUE', 'tracking_data join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule on vehicule.CODE=tracking_data.device_uid', 'CODE_COURSE= "'.$value_get_arret_prim['CODE_COURSE'].'" and chauffeur_vehicule.STATUT_AFFECT=1 and md5(tracking_data.device_uid)="'.$CODE.'" ' , '`id` ASC');
 				$my_selectone_element_prim=str_replace('\"', '"', $my_selectone_element_prim);
 				$my_selectone_element_prim=str_replace('\n', '', $my_selectone_element_prim);
 				$my_selectone_element_prim=str_replace('\"', '', $my_selectone_element_prim);
@@ -426,7 +426,7 @@ class Dashboard extends CI_Controller
 				$my_select_date_compare2_prim=str_replace('\"', '', $my_select_date_compare2_prim);
 				$date_compare2_prim = $this->ModelPs->getRequeteOne($proce_requete, $my_select_date_compare2_prim);
 
-				$tabl_prime[]=[$this->notifications->ago($one_element_prim['date_actu'],$date_compare2_prim['date_actu']),$one_element_prim['CODE_COURSE'],$one_element_prim['date_actu'],$date_compare2_prim['date_actu'],$one_element_prim['hour'],$one_element_prim['sec'],$date_compare2_prim['hour'],$date_compare2_prim['sec'],$one_element_prim['latitude'],$one_element_prim['longitude'],$date_compare2_prim['latitude'],$date_compare2_prim['longitude'],$one_element_prim['ignition'],$one_element_prim['day_month'],$date_compare2_prim['day_month'],$date_compare2_prim['houronly'],$date_compare2_prim['minonly'],$one_element_prim['houronly'],$one_element_prim['minonly']];
+				$tabl_prime[]=[$this->notifications->ago($one_element_prim['date_actu'],$date_compare2_prim['date_actu']),$one_element_prim['CODE_COURSE'],$one_element_prim['date_actu'],$date_compare2_prim['date_actu'],$one_element_prim['hour'],$one_element_prim['sec'],$date_compare2_prim['hour'],$date_compare2_prim['sec'],$one_element_prim['latitude'],$one_element_prim['longitude'],$date_compare2_prim['latitude'],$date_compare2_prim['longitude'],$one_element_prim['ignition'],$one_element_prim['day_month'],$date_compare2_prim['day_month'],$date_compare2_prim['houronly'],$date_compare2_prim['minonly'],$one_element_prim['houronly'],$one_element_prim['minonly'],$one_element_prim['nom_chauff'],$one_element_prim['PHOTO_PASSPORT'],$one_element_prim['PLAQUE']];
 				
 
 
@@ -439,7 +439,7 @@ class Dashboard extends CI_Controller
 					$new_hour12=$this->notifications->ajouterDeuxHeures($keytablprim[17],$keytablprim[18]);
 
 
-					$mark_vprim=$mark_vprim.$keytablprim[9].'<>'.$keytablprim[8].'<>'.$keytablprim[11].'<>'.$keytablprim[10].'<>'.$keytablprim[12].'<>'.$keytablprim[4].'<>'.$keytablprim[6].'<>'.$new_hour11.'<>'.$new_hour12.'<>@';
+					$mark_vprim=$mark_vprim.$keytablprim[9].'<>'.$keytablprim[8].'<>'.$keytablprim[11].'<>'.$keytablprim[10].'<>'.$keytablprim[12].'<>'.$keytablprim[4].'<>'.$keytablprim[6].'<>'.$new_hour11.'<>'.$new_hour12.'<>'.$keytablprim[19].'<>'.$keytablprim[20].'<>'.$keytablprim[21].'<>@';
 
 				}
 			}
@@ -486,13 +486,13 @@ class Dashboard extends CI_Controller
 					" ;
 					
 
-					$my_selectone_element = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H") as heure,date_format(tracking_data.date,"%i") as minute,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'md5(tracking_data.device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'"' , '`id` ASC');
+					$my_selectone_element = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H") as heure,date_format(tracking_data.date,"%i") as minute,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d / %m / %Y") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'md5(tracking_data.device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'"' , '`id` ASC');
 					$my_selectone_element=str_replace('\"', '"', $my_selectone_element);
 					$my_selectone_element=str_replace('\n', '', $my_selectone_element);
 					$my_selectone_element=str_replace('\"', '', $my_selectone_element);
 					$one_element = $this->ModelPs->getRequeteOne($proce_requete, $my_selectone_element);
 
-					$my_select_date_compare2 = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H") as heure,date_format(tracking_data.date,"%i") as minute,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d %m") as day_month', 'tracking_data', 'md5(tracking_data.device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE="'.$value_get_arret_code['CODE_COURSE'].'" ', 'id DESC');
+					$my_select_date_compare2 = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H") as heure,date_format(tracking_data.date,"%i") as minute,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,latitude,longitude,date_format(tracking_data.date,"%d / %m / %Y") as day_month', 'tracking_data', 'md5(tracking_data.device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE="'.$value_get_arret_code['CODE_COURSE'].'" ', 'id DESC');
 					$my_select_date_compare2=str_replace('\"', '"', $my_select_date_compare2);
 					$my_select_date_compare2=str_replace('\n', '', $my_select_date_compare2);
 					$my_select_date_compare2=str_replace('\"', '', $my_select_date_compare2);
@@ -703,6 +703,7 @@ class Dashboard extends CI_Controller
 											$('#distfinal".$distfinal."').html(distfinavecPoints)
 											});
 											</script>";
+
 
 											$card_card.='<div class="card" onclick="change_carte(\''.$keytabl[1].'\')">
 											<div class="jss408" style="'.$ch_color.'">
