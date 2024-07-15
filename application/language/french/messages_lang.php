@@ -367,7 +367,7 @@ $lang['affich_password']='Afficher mot de passe';
 $lang['title_modif_chauff']='Modification d\'un chauffeur';
 $lang['title_modif_chauff']='Véhicule approuvé';
 //MODULE: TRACKING
-$lang['mot_depasse_zon']='Il a dépassé la zone';
+$lang['mot_depasse_zon']='Hors Zone';
 $lang['mot_cher']='Cher(e)';
 $lang['mot_votre_veh']='Votre véhicule';
 $lang['mot_ayant']='ayant';

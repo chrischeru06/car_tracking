@@ -31,7 +31,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <a href="<?= base_url()?>centre_situation/Centre_situation" class="logo d-flex align-items-center">
       <img src="<?= base_url()?>upload/Car_tracking_png-01.png" alt="" >
-      <span class="d-none d-lg-block">Mediatracking</span>
+      <span class="d-none d-lg-block">Wasili Cartracking System</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -99,6 +99,7 @@
       <?php
     }else{?>
 
+
       <li class="nav-item dropdown">
 
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
@@ -106,7 +107,7 @@
           <span class="badge bg-primary badge-number" id="compteur"></span>
         </a><!-- End Notification Icon -->
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" style="z-index: 100;">
           <li class="dropdown-header">
             Vous avez <a id="compteur2"></a> nouvelles notifications
             <!-- <a href="<?=base_url()?>vehicule/Vehicule"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a> -->
