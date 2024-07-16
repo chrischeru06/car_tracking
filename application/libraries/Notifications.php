@@ -59,6 +59,22 @@ function ajouterDeuxHeures($heure,$minutes) {
     return $nouvelle_heure;
 }
 
+function addtwohours($heure){
+$duree_a_ajouter = "2 hours";
+    // Convertir l'heure initiale en timestamp
+$timestamp_initial = strtotime($heure);
+
+// Ajouter la durée spécifiée au timestamp initial
+$nouveau_timestamp = strtotime($duree_a_ajouter, $timestamp_initial);
+
+// Formater le nouveau timestamp en heure
+$nouvelle_heure = date("H:i", $nouveau_timestamp);
+
+// Afficher le résultat
+return $nouvelle_heure;
+
+}
+
 
 function ago($date1,$date2)
 {
