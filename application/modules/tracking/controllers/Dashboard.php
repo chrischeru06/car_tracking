@@ -459,10 +459,11 @@ class Dashboard extends CI_Controller
 			$all_dist_elt='';
 			$long='';
 			$lat='';
-			$coordon='';
 
 			
 			foreach ($get_data_arret as $value_get_arret_code) {
+			$coordon='';
+				
 
 				$my_selectall_element = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'md5(device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" AND ignition=1' , '`id` ASC');
 				$my_selectall_element=str_replace('\"', '"', $my_selectall_element);
@@ -593,7 +594,7 @@ class Dashboard extends CI_Controller
 				}
 
 				$data['tabl'] = $tabl;
-
+				// print_r($tabl);die();
 
 
 				$v=1;
