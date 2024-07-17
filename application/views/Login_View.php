@@ -32,7 +32,7 @@ a:hover {
              <img src="<?= base_url()?>/upload/Car_tracking_png-03.png" height="60">
                 <b  class="logo d-flex align-items-center w-auto" >
 
-                  <span class="d-none d-lg-block"><label style="color: white;">WASILI CARTRACKING SYSTEM</label></span>
+                  <span class="d-none d-lg-block"><label style="color: white;">WASILI TRACKING</label></span>
                 </b>
               </div><!-- End Logo -->
 
