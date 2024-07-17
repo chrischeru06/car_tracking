@@ -119,7 +119,7 @@
                   <div class="col-md-4" id="div_rc"<?=$div_personne_moral?>>
                     <div class="form-group">
                       <label style="font-weight: 1000; color:#454545"><b><?=lang('input_rc')?></b><span  style="color:red;">*</span></label>
-                      <input class="form-control" name="RC" id="RC" type="text" placeholder="<?=lang('input_rc')?>"> value="<?=$proprietaire['RC']?>"/>
+                      <input class="form-control" name="RC" id="RC" type="text" placeholder="<?=lang('input_rc')?>" value="<?=$proprietaire['RC']?>"/>
                     </div>
                     <span id="errorRC" class="text-danger"></span>
                     <?php echo form_error('RC','<div class="text-danger">', '</div>'); ?>

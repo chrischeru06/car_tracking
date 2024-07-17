@@ -147,7 +147,7 @@ class Users extends CI_Controller
 			<span class="caret"></span></a>
 			<ul class="dropdown-menu dropdown-menu-left">
 			';
-			if ($row->IDENTIFICATION!='ADMIN') {
+			if ($row->IDENTIFICATION!='ADMIN' || $row->IDENTIFICATION!='admin') {
 				$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOne/'.md5($row->USER_ID)). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;".lang('btn_modifier')."</a></li>";
 				$option .= "<li><a class='btn-md' href='#' data-toggle='modal'
 				data-target='#mydelete" . $row->USER_ID . "'><span class='bi bi-trash h5'></span>&nbsp;&nbsp;".lang('btn_supprimer')."</a></li>";
@@ -304,7 +304,6 @@ class Users extends CI_Controller
 		$data['div_personne_moral']=$div_personne_moral;
 		$data['div_personne_physique']=$div_personne_physique;
 		$data['div_photo']=$div_photo;
-
 		$data['communes']=$communes;
 		$data['zones']=$zones;
 		$data['collines']=$collines;
