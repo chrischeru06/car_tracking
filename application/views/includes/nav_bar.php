@@ -31,7 +31,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <a href="<?= base_url()?>centre_situation/Centre_situation" class="logo d-flex align-items-center">
       <img src="<?= base_url()?>upload/Car_tracking_png-01.png" alt="" >
-      <span class="d-none d-lg-block">Wasili Cartracking System</span>
+      <span class="d-none d-lg-block">Wasili Tracking</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
