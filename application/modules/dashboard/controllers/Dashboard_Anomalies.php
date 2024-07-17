@@ -647,8 +647,8 @@ function out_application()
     $nvldistance=0;
    foreach ($vehicule_code as $key) 
    {
-      $min_arret=$this->Model->getRequeteOne('SELECT MIN(id) as minimum FROM `tracking_data` WHERE 1 '.$critere.' and tracking_data.device_uid='.$key['CODE']);
-      $max_arret=$this->Model->getRequeteOne('SELECT MAX(id) as maximum FROM `tracking_data` WHERE 1 '.$critere.' and tracking_data.device_uid='.$key['CODE']);
+      $min_arret=$this->Model->getRequeteOne('SELECT MIN(id) as minimum FROM `tracking_data` WHERE 1 '.$critere.' and tracking_data.device_uid="'.$key['CODE'].'"');
+      $max_arret=$this->Model->getRequeteOne('SELECT MAX(id) as maximum FROM `tracking_data` WHERE 1 '.$critere.' and tracking_data.device_uid="'.$key['CODE'].'"');
       
             
       $min_arret_plus=$min_arret['minimum']+1;
@@ -1477,8 +1477,8 @@ function out_application()
     $nvldistance=0;
    foreach ($vehicule_code as $key) 
    {
-      $min_arret=$this->Model->getRequeteOne('SELECT MIN(id) as minimum FROM `tracking_data` JOIN vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID WHERE 1 '.$critere.' and tracking_data.device_uid='.$key['CODE']);
-      $max_arret=$this->Model->getRequeteOne('SELECT MAX(id) as maximum FROM `tracking_data` JOIN vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID WHERE 1 '.$critere.' and tracking_data.device_uid='.$key['CODE']);
+      $min_arret=$this->Model->getRequeteOne('SELECT MIN(id) as minimum FROM `tracking_data` JOIN vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID WHERE 1 '.$critere.' and tracking_data.device_uid="'.$key['CODE'].'"');
+      $max_arret=$this->Model->getRequeteOne('SELECT MAX(id) as maximum FROM `tracking_data` JOIN vehicule ON vehicule.CODE=tracking_data.device_uid join users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID WHERE 1 '.$critere.' and tracking_data.device_uid="'.$key['CODE'].'"');
       
             
       $min_arret_plus=$min_arret['minimum']+1;
