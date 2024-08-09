@@ -685,8 +685,10 @@ z-index: 100;
         'type': 'circle',
         'source': 'pointpoint',
         'paint': {
-          'circle-radius': 6,
-          'circle-color': '#B42222'
+          'circle-radius': 9,
+          'circle-color': '#B42222',
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#fff'
         }
       });
 

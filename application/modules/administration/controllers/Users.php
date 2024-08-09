@@ -55,7 +55,7 @@ class Users extends CI_Controller
 		$search = !empty($_POST['search']['value']) ? (' AND (users.IDENTIFICATION LIKE "%' . $var_search . '%" 
 			OR users.TELEPHONE LIKE "%' . $var_search . '%" OR USER_NAME LIKE "%' . $var_search . '%" OR DESCRIPTION_PROFIL LIKE "%' . $var_search . '%")') : '';
 
-		$query_principal='SELECT users.USER_ID,users.IDENTIFICATION,users.TELEPHONE,users.USER_NAME,profil.DESCRIPTION_PROFIL as profile,STATUT,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT,proprietaire.PROPRIETAIRE_ID FROM `users` join profil on users.PROFIL_ID=profil.PROFIL_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID WHERE 1';
+		$query_principal='SELECT users.USER_ID,users.IDENTIFICATION,users.TELEPHONE,users.USER_NAME,profil.DESCRIPTION_PROFIL as profile,STATUT,proprietaire.TYPE_PROPRIETAIRE_ID,proprietaire.PHOTO_PASSPORT,proprietaire.PROPRIETAIRE_ID,profil.PROFIL_ID FROM `users` join profil on users.PROFIL_ID=profil.PROFIL_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID WHERE 1';
 		$critaire = '' ;
 		
         //condition pour le query principale
@@ -147,7 +147,7 @@ class Users extends CI_Controller
 			<span class="caret"></span></a>
 			<ul class="dropdown-menu dropdown-menu-left">
 			';
-			if ($row->IDENTIFICATION!='ADMIN' || $row->IDENTIFICATION!='admin') {
+			if ($row->PROFIL_ID!=1) {
 				$option .= "<li><a class='btn-md' href='" . base_url('administration/Users/getOne/'.md5($row->USER_ID)). "'><span class='bi bi-pencil h5'></span>&nbsp;&nbsp;".lang('btn_modifier')."</a></li>";
 				$option .= "<li><a class='btn-md' href='#' data-toggle='modal'
 				data-target='#mydelete" . $row->USER_ID . "'><span class='bi bi-trash h5'></span>&nbsp;&nbsp;".lang('btn_supprimer')."</a></li>";
