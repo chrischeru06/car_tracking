@@ -1,4 +1,310 @@
-<section class="section">
+<!-- 
+ Code modifié par CERUBALA CHRISTIAN WANN'Y
+LE 14/06/2024
+Ce code permet de visualiser l'historique des chauffeurs
+les modifications on été faites pour la partie des informations générales 
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <?php include VIEWPATH . 'includes/header.php'; ?>
+
+  <style>
+   body {
+    margin: 0;
+    padding: 0;
+  }
+  #map {top:-35px;bottom:0; width:100%;height:800px;z-index: 1; }
+
+  #animation-phase-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: white;
+    padding: 10px;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+  }
+
+
+  #animation-phase {
+    margin-left: 5px;
+    font-weight: 600;
+    font-size: 30px;
+  }
+
+
+  .mapboxgl-ctrl-logo{
+    display: none !important;
+  }
+  
+  .mapboxgl-ctrl-attrib-inner{
+    display: none !important;
+  }
+
+  .mapboxgl-ctrl mapboxgl-ctrl-attrib{
+    display: none !important;
+  }
+
+  /* Activity */
+  .dashboard .activity {
+    font-size: 14px;
+  }
+  .dashboard .activity .activity-item .activite-label {
+    color: #888;
+    position: relative;
+    flex-shrink: 0;
+    flex-grow: 0;
+    min-width: 64px;
+  }
+  .dashboard .activity .activity-item .activite-label::before {
+    content: "";
+    position: absolute;
+    right: -11px;
+    width: 4px;
+    top: 0;
+    bottom: 0;
+    background-color: #eceefe;
+  }
+  .dashboard .activity .activity-item .activity-badge {
+    margin-top: 3px;
+    z-index: 1;
+    font-size: 11px;
+    line-height: 0;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 3px solid #fff;
+    flex-grow: 0;
+  }
+  .dashboard .activity .activity-item .activity-content {
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+  .dashboard .activity .activity-item:first-child .activite-label::before {
+    top: 5px;
+  }
+  .dashboard .activity .activity-item:last-child .activity-content {
+    padding-bottom: 0;
+  }
+
+  .scroller {
+    height: 1000%;
+    position: absolute;
+    overflow-y: scroll;
+    border-radius: 2px;
+  }
+
+  /*.table-responsive {
+        width: 300px;
+        border-radius: 10px;
+    }*/
+
+    .profil-info{
+     padding: .3rem;
+
+   }
+
+   .profil-info .profil-text .bi{
+
+    margin-right: .5rem;
+    margin-left: .2rem;
+
+  }
+  .profil-info .profil-text p.profil-name{
+   font-weight: 900;
+   font-size:13px;
+   margin: 0 0 .1rem 0;
+   margin-left: .4rem;
+
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+   cursor:pointer;
+
+ }
+ .mena .profil-info .profil-text p.profil-name{
+   font-weight: 900;
+   font-size:1rem;
+   margin: 0 0 .1rem 0;
+   margin-left: .4rem;
+
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+   cursor:pointer;
+
+
+ }
+
+ .profil-info .profil-text p.profil-phone{
+  font-size: 10px;
+  margin: 0 0 .1rem 0;
+
+  /* noms qui depassent l'espace prevu*/
+  overflow-x: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* curseur*/
+
+  cursor:pointer;
+}
+.profil-info .profil-img img{
+  width:5rem;
+  height: 80px;
+
+}
+/* nouveau styles pour l'afichage de l'historiques du traject chauffeur */
+.text-success small pt-1 fw-boldd {
+
+  font-size:4rem;
+}
+
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font:
+  12px/20px 'Helvetica Neue',
+  Arial,
+  Helvetica,
+  sans-serif;
+}
+
+#mena {
+/*  position: absolute;*/
+/*  font-weight: 900;*/
+font-size:.6rem;
+/*  margin: 0 0 0rem 0;*/
+/*  margin-left: .4rem;*/
+font-family: 'Open Sans', sans-serif;
+}
+#meno {
+  position: absolute;
+/*  background: #efefef;*/
+/*-webkit-backdrop-filter:blur(15px);
+backdrop-filter:blur(60px); */ 
+
+padding: 10px;
+font-family: 'Open Sans', sans-serif;
+}
+</style>
+
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src='https://cdn.jsdelivr.net/npm/mapbox-gl-fontawesome-markers@0.0.1/dist/index.js'></script>
+
+
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+  <!-- ======= Header ======= -->
+  <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
+  <!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <?php include VIEWPATH . 'includes/menu_left.php'; ?>
+  <!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+   <div class="pagetitle">
+    <div class="row">
+      <div class="col-md-6">
+
+        <h1><?=lang('resum_du_parcours')?></h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><?=lang('p_chauffeur')?></a></li>
+            <!-- <li class="breadcrumb-item active">Liste</li> -->
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6"style=" width: auto;">
+      </div>
+      <div class="col-md-3">
+        <div class="justify-content-sm-end d-flex">
+          <h1><?=lang('estimation_parcours')?></h1>
+          
+        </div>
+      </div>
+    </div>
+  </div><!-- End Page Title -->
+  <div class="row"style="width:auto">
+    <div class="form-group col-md-3">
+      <label class="form-label"><?=lang('input_date_deb')?></label>
+      <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" name="DATE_DAT" id="DATE_DAT" value="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" onchange="change_carte();viderh();">
+    </div>
+    <div class="form-group col-md-3">
+      <label class="form-label"><?=lang('input_date_fin')?></label>
+      <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" onchange="change_carte();">
+    </div>
+    <div class="form-group col-md-3">
+      <label class="form-label"><?=lang('hrs_dbut')?></label>
+      <select class="form-control" name="HEURE1" id="HEURE1">
+        <option value=""><?=lang('selectionner')?></option>
+        <?php
+        foreach ($heure_trajet as $key_heure_trajet)
+        {
+          ?>
+          <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+          <?php
+        }
+        ?>
+      </select>
+
+    </div>
+
+
+    <div class="form-group col-md-3">
+      <label class="form-label"><?=lang('hrs_fin')?></label>
+      <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
+        <option value=""><?=lang('selectionner')?></option>
+        <?php
+        foreach ($heure_trajet as $key_heure_trajet)
+        {
+          ?>
+          <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+          <?php
+        }
+        ?>
+      </select>
+
+    </div>
+  </div>
+  <br>
+  <input type="hidden" name="CODE" id="CODE" value="<?=$CODE_VEH?>">
+  <input type="hidden" name="CHAUFFEUR_VEHICULE_ID" id="CHAUFFEUR_VEHICULE_ID" value="<?=$CHAUFFEUR_VEHICULE_ID?>">
+
+  <section class="section">
     <div class="row align-items-top">
       <div class="col-md-12">
 
@@ -213,3 +519,125 @@
 
 </div>
 </section>
+
+</main><!-- End #main -->
+
+<?php include VIEWPATH . 'includes/footer.php'; ?>
+
+</body>
+
+<script>
+
+  $(document).ready(function(){
+
+    change_carte();   
+
+  });
+
+</script>
+
+
+<script>
+  function viderh(){
+
+   $('#HEURE1').html('');
+   $('#HEURE2').html('');
+
+   $.ajax(
+   {
+    url:"<?=base_url('tracking/Dashboard/get_heures/')?>",
+    type: "GET",
+    dataType:"JSON",
+    success: function(data)
+    {
+      $('#HEURE1').html(data);
+      $('#HEURE2').html(data);
+
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+      alert('<?=lang('msg_erreur')?>');
+    }
+  });
+ }
+ function change_carte(CODE_COURSE='') {
+  var DATE_DAT = $('#DATE_DAT').val(); 
+  var DATE_DAT_FIN = $('#DATE_DAT_FIN').val(); 
+  var CODE = $('#CODE').val(); 
+  var HEURE1 = $('#HEURE1').val(); 
+  var HEURE2 = $('#HEURE2').val(); 
+  var CODE_COURSE = CODE_COURSE; 
+  var CHAUFFEUR_VEHICULE_ID=$('#CHAUFFEUR_VEHICULE_ID').val();
+  //alert(CODE_COURSE)
+
+  $.ajax({
+    url : "<?=base_url()?>chauffeur/Chauffeur_New/tracking_chauffeur_filtres/",
+    type : "POST",
+    dataType: "JSON",
+    cache:false,
+    data: {
+      DATE_DAT:DATE_DAT,
+      CODE:CODE,
+      HEURE1:HEURE1,
+      HEURE2:HEURE2,
+      DATE_DAT_FIN:DATE_DAT_FIN,
+      CODE_COURSE:CODE_COURSE,
+      CHAUFFEUR_VEHICULE_ID:CHAUFFEUR_VEHICULE_ID
+    },
+    beforeSend:function () { 
+
+    },
+    success:function(data) {
+
+      $('#distance_finale').html(data.distance_finale);
+      $('#carburant').html(data.carburant);
+      $('#DATE_DAT').html(data.DATE);
+      $('#CODE').html(data.CODE);
+      $('#map_filtre').html(data.map_filtre);
+      // $('#ligne_arret').html(data.ligne_arret);
+      $('#score').html(data.score_finale);
+      $('#vitesse_max').html(data.vitesse_max);
+
+    },
+    error:function() {
+
+
+    }
+  });
+
+}
+
+function change_trajet(CODE_COURSE){
+
+  var CODE_COURSE = CODE_COURSE; 
+
+  $.ajax({
+    url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
+    type : "POST",
+    dataType: "JSON",
+    cache:false,
+    data: {
+      CODE_COURSE:CODE_COURSE,
+
+    },
+    beforeSend:function () { 
+
+    },
+    success:function(data) {
+
+    },
+    error:function() {
+
+
+    }
+  });
+
+
+
+}
+
+</script>
+
+
+
+</html>
