@@ -98,78 +98,30 @@ les modifications on été faites pour la partie des informations générales
     overflow-y: scroll;
     border-radius: 2px;
   }
-
-  /*.table-responsive {
-        width: 300px;
-        border-radius: 10px;
-    }*/
-
-    .profil-info{
-     padding: .3rem;
-
-   }
-
-   .profil-info .profil-text .bi{
-
-    margin-right: .5rem;
-    margin-left: .2rem;
-
-  }
-  .profil-info .profil-text p.profil-name{
-   font-weight: 900;
-   font-size:13px;
-   margin: 0 0 .1rem 0;
-   margin-left: .4rem;
-
-   /* noms qui depassent l'espace prevu*/
-   overflow-x: auto;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-
-   /* curseur*/
-
-   cursor:pointer;
-
- }
- .mena .profil-info .profil-text p.profil-name{
-   font-weight: 900;
-   font-size:1rem;
-   margin: 0 0 .1rem 0;
-   margin-left: .4rem;
-
-   /* noms qui depassent l'espace prevu*/
-   overflow-x: auto;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-
-   /* curseur*/
-
-   cursor:pointer;
-
-
- }
-
- .profil-info .profil-text p.profil-phone{
-  font-size: 10px;
-  margin: 0 0 .1rem 0;
-
-  /* noms qui depassent l'espace prevu*/
-  overflow-x: auto;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  /* curseur*/
-
-  cursor:pointer;
+   /* Optional: CSS for better alignment and responsiveness */
+.profil-img img {
+    max-width: 100px;
+    max-height: 100px;
 }
-.profil-info .profil-img img{
-  width:5rem;
-  height: 80px;
 
+.profil-text {
+    font-size: 0.8rem;
 }
+
+.card-title {
+    font-size: 0.8rem;
+}
+
+.card-icon img {
+    max-width: 30px;
+}
+
+@media (max-width: 768px) {
+    .row.d-flex.justify-content-between {
+        flex-direction: column;
+    }
+}
+
 /* nouveau styles pour l'afichage de l'historiques du traject chauffeur */
 .text-success small pt-1 fw-boldd {
 
