@@ -204,6 +204,33 @@ padding: 10px;
 font-family: 'Open Sans', sans-serif;
 
 }
+   .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .card {
+    flex: 1 1 250px;
+    max-width: 250px;
+    height: 110px; /* Ensures all cards have the same height */
+  }
+
+  /* Adjust the layout for smaller screens */
+  @media (max-width: 1200px) {
+    .card {
+      flex: 1 1 calc(50% - 10px); /* 2 cards per row on medium screens */
+      max-width: calc(50% - 10px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      flex: 1 1 100%; /* 1 card per row on small screens */
+      max-width: 100%;
+    }
+  }
 </style>
 
 
@@ -313,15 +340,12 @@ font-family: 'Open Sans', sans-serif;
         <center><h5 class="card-title"><?=lang('btn_info_gnl')?></h5></center>
         <div class="row">
           <div class="col-lg-6 d-flex flex-wrap">
-            <div class="card mb-3" style="flex: 1 1 250px; max-width: 250px;">
+            <!-- Driver Info Card -->
+            <div class="card mb-3">
               <div class="card-body p-0 d-flex" style="height:110px">
                 <div class="profil-info d-flex">
                   <div class="profil-img">
-                    <?php if(!empty($get_chauffeur['PHOTO_PASSPORT'])): ?>
-                      <img class="img img-fluid rounded" style="background-color: white;" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
-                    <?php else: ?>
-                      <img class="img img-fluid rounded" style="background-color: #829b35;" src="<?=base_url('upload/phavatar.png')?>">
-                    <?php endif; ?>
+                    <img class="img img-fluid rounded" style="background-color: white;" src="<?=!empty($get_chauffeur['PHOTO_PASSPORT']) ? base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT']) : base_url('upload/phavatar.png')?>">
                   </div>
                   <div class="profil-text" style="padding-left: 10px; padding-top: 10px;">
                     <?php if(!empty($get_chauffeur)): ?>
@@ -337,15 +361,12 @@ font-family: 'Open Sans', sans-serif;
               </div>
             </div>
 
-            <div class="card mb-3" style="flex: 1 1 250px; max-width: 250px;">
+            <!-- Vehicle Info Card -->
+            <div class="card mb-3">
               <div class="card-body p-0 d-flex" style="height:110px">
                 <div class="profil-info d-flex">
                   <div class="profil-img">
-                    <?php if(!empty($get_vehicule['PHOTO'])): ?>
-                      <img class="img img-fluid rounded" style="background-color: white;" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">
-                    <?php else: ?>
-                      <img class="img img-fluid rounded" src="<?=base_url('upload/car.png')?>">
-                    <?php endif; ?>
+                    <img class="img img-fluid rounded" style="background-color: white;" src="<?=!empty($get_vehicule['PHOTO']) ? base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO']) : base_url('upload/car.png')?>">
                   </div>
                   <div class="profil-text" style="padding-left: 10px; padding-top: 10px;">
                     <p class="profil-name" title="<?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?>"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
@@ -359,7 +380,8 @@ font-family: 'Open Sans', sans-serif;
           </div>
 
           <div class="col-lg-6 d-flex flex-wrap">
-            <div class="card mb-3" style="flex: 1 1 100px; max-width: 100px;">
+            <!-- Distance Card -->
+            <div class="card mb-3">
               <div class="card-body">
                 <h5 class="card-title" style="font-size: .6rem;"><?=lang('dist_parcourue')?> <span style="font-size: .5rem;">| Km</span></h5>
                 <div class="d-flex align-items-center">
@@ -373,7 +395,8 @@ font-family: 'Open Sans', sans-serif;
               </div>
             </div>
 
-            <div class="card mb-3" style="flex: 1 1 100px; max-width: 100px;">
+            <!-- Fuel Card -->
+            <div class="card mb-3">
               <div class="card-body">
                 <h5 class="card-title" style="font-size: .6rem;"><?=lang('carburant_mot')?> <span style="font-size:.5rem;">| <?=lang('consomme_mot')?></span></h5>
                 <div class="d-flex align-items-center">
@@ -387,7 +410,8 @@ font-family: 'Open Sans', sans-serif;
               </div>
             </div>
 
-            <div class="card mb-3" style="flex: 1 1 100px; max-width: 100px;">
+            <!-- Speed Card -->
+            <div class="card mb-3">
               <div class="card-body">
                 <h5 class="card-title" style="font-size: .6rem;"><?=lang('vitesse_max')?> <span style="font-size:.5rem;">| Max</span></h5>
                 <div class="d-flex align-items-center">
@@ -401,9 +425,10 @@ font-family: 'Open Sans', sans-serif;
               </div>
             </div>
 
-            <div class="card mb-3" style="flex: 1 1 100px; max-width: 100px;">
+            <!-- Score Card -->
+            <div class="card mb-3">
               <div class="card-body">
-                <h5 class="card-titlee" style="font-size: .6rem; padding-top: 15px;">Score <span style="font-size:.5rem;">| 20</span></h5>
+                <h5 class="card-title" style="font-size: .6rem; padding-top: 15px;">Score <span style="font-size:.5rem;">| 20</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle">
                     <img class="img-fluid" width="30px" height="auto" style="background-color: #829b35;" src="<?=base_url('/upload/score.png')?>">
@@ -419,14 +444,6 @@ font-family: 'Open Sans', sans-serif;
       </div>
     </div>
   </div>
-</div>
-
-</div>
-
-</div>
-</div>
-</div>
-
 </div>
 
 <div class="row align-items-top">
