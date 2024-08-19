@@ -38,7 +38,7 @@ les modifications on été faites pour la partie des informations générales
     font-size: 30px;
   }
 
-
+  
   .mapboxgl-ctrl-logo{
     display: none !important;
   }
@@ -99,77 +99,6 @@ les modifications on été faites pour la partie des informations générales
     border-radius: 2px;
   }
 
-  /*.table-responsive {
-        width: 300px;
-        border-radius: 10px;
-    }*/
-
-    .profil-info{
-     padding: .3rem;
-
-   }
-
-   .profil-info .profil-text .bi{
-
-    margin-right: .5rem;
-    margin-left: .2rem;
-
-  }
-  .profil-info .profil-text p.profil-name{
-   font-weight: 900;
-   font-size:13px;
-   margin: 0 0 .1rem 0;
-   margin-left: .4rem;
-
-   /* noms qui depassent l'espace prevu*/
-   overflow-x: auto;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-
-   /* curseur*/
-
-   cursor:pointer;
-
- }
- .mena .profil-info .profil-text p.profil-name{
-   font-weight: 900;
-   font-size:1rem;
-   margin: 0 0 .1rem 0;
-   margin-left: .4rem;
-
-   /* noms qui depassent l'espace prevu*/
-   overflow-x: auto;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-
-   /* curseur*/
-
-   cursor:pointer;
-
-
- }
-
- .profil-info .profil-text p.profil-phone{
-  font-size: 10px;
-  margin: 0 0 .1rem 0;
-
-  /* noms qui depassent l'espace prevu*/
-  overflow-x: auto;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  /* curseur*/
-
-  cursor:pointer;
-}
-.profil-info .profil-img img{
-  width:5rem;
-  height: 80px;
-
-}
 /* nouveau styles pour l'afichage de l'historiques du traject chauffeur */
 .text-success small pt-1 fw-boldd {
 
@@ -202,52 +131,112 @@ backdrop-filter:blur(60px); */
 
 padding: 10px;
 font-family: 'Open Sans', sans-serif;
- /* Responsive Styles */
- @media (max-width: 1200px) {
-      .card {
-        margin: 0 auto;
-      }
+.card-body img {
+      max-width: 100%;
+      height: auto;
     }
 
+    .profil-info {
+      padding: .3rem;
+    }
+
+    .profil-info .profil-text .bi {
+      margin-right: .5rem;
+      margin-left: .2rem;
+    }
+
+    .profil-info .profil-text p.profil-name {
+      font-weight: 900;
+      font-size: 1rem;
+      margin: 0 0 .1rem 0;
+      margin-left: .4rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    .profil-info .profil-text p.profil-phone {
+      font-size: 0.875rem;
+      margin: 0 0 .1rem 0;
+      overflow-x: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    .profil-info .profil-img img {
+      width: 100%;
+      border-radius: 10%;
+      background-color: white;
+    }
+
+    .card-title {
+      font-size: 1rem;
+    }
+
+    .card-icon img {
+      border-radius: 10%;
+      background-color: #829b35;
+    }
+
+    /* Responsive Styles */
     @media (max-width: 992px) {
-      .col-md-6, .col-md-3 {
+      .card {
+        margin-bottom: 1rem;
+      }
+
+      .col-md-6,
+      .col-md-4 {
         width: 100%;
       }
-      .profil-info .profil-text p.profil-name {
-        font-size: 11px;
-      }
-      .profil-info .profil-text p.profil-phone {
-        font-size: 9px;
-      }
-      .text-success small.pt-1.fw-boldd {
-        font-size: 2rem;
-      }
-      .card-title {
-        font-size: .5rem;
-      }
-    }
 
-    @media (max-width: 768px) {
-      .profil-info .profil-img img {
-        width: 4rem;
-        height: 60px;
+      .row {
+        margin-left: 0;
+        margin-right: 0;
       }
-      .text-success small.pt-1.fw-boldd {
-        font-size: 1.5rem;
+      
+      .card-body {
+        padding: 0.5rem;
+      }
+      
+      .profil-info .profil-text p.profil-name {
+        font-size: 0.875rem;
+      }
+
+      .profil-info .profil-text p.profil-phone {
+        font-size: 0.75rem;
+      }
+      
+      .card-title {
+        font-size: 0.875rem;
+      }
+      
+      .card-icon img {
+        width: 24px;
       }
     }
 
     @media (max-width: 576px) {
+      .card-title {
+        font-size: 0.75rem;
+      }
+      
+      .card-icon img {
+        width: 20px;
+      }
+
       .profil-info .profil-text p.profil-name {
-        font-size: 10px;
+        font-size: 0.75rem;
       }
+
       .profil-info .profil-text p.profil-phone {
-        font-size: 8px;
-      }
-      .text-success small.pt-1.fw-boldd {
-        font-size: 1rem;
+        font-size: 0.625rem;
       }
     }
+
 }
 </style>
 
@@ -353,181 +342,130 @@ font-family: 'Open Sans', sans-serif;
   <section class="section">
     <div class="row align-items-top">
       <div class="col-md-12">
-
         <div class="card">
           <div class="card-body">
-            <center><h5 class="card-title"><?=lang('btn_info_gnl')?></h5></center>
+            <center><h5 class="card-title"><?= lang('btn_info_gnl') ?></h5></center>
             <div class="row">
-              <div class="col-lg-6"style="width:44%">
-                <div class="row" style="padding:0px 10px 20px;">
-                 <div class="col-lg-12"style="width:250px">
-                  <div class="card" style="">
-
-                    <div class="card-body p-0"style="height:110px">
-                     <div class="row profil-info">
-                      <div class="col-md-4 profil-img">
-
-                        <?php
-                        if(!empty($get_chauffeur['PHOTO_PASSPORT']))
-                        {
-                          ?>
-                          <img class="img" style="border-radius: 10%;background-color: white;" class="img-fluid" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
-
-
-                          <?php
-                        }
-                        else if(empty($get_chauffeur['PHOTO_PASSPORT']))
-                        {
-                          ?>
-                          <img class="img" style="background-color: #829b35;border-radius: 10%" class="img-fluid" src="<?=base_url('upload/phavatar.png')?>">
-                          <?php
-                        }?>
+              <div class="col-lg-6">
+                <div class="row" style="padding: 0px 10px 20px;">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body p-0">
+                        <div class="row profil-info">
+                          <div class="col-md-4 profil-img">
+                            <?php if (!empty($get_chauffeur['PHOTO_PASSPORT'])): ?>
+                              <img class="img-fluid" src="<?= base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT']) ?>" alt="Chauffeur Photo">
+                            <?php else: ?>
+                              <img class="img-fluid" src="<?= base_url('upload/phavatar.png') ?>" alt="Default Avatar">
+                            <?php endif; ?>
+                          </div>
+                          <div class="col-md-8 profil-text" style="padding-top: 10px;">
+                            <?php if (!empty($get_chauffeur)): ?>
+                              <p class="profil-name" title="<?= $get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM'] ?>"><?= $get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM'] ?></p>
+                              <p class="profil-phone" title="<?= $get_chauffeur['NUMERO_TELEPHONE'] ?>"> <span class="bi bi-phone"></span>&nbsp;<?= $get_chauffeur['NUMERO_TELEPHONE'] ?></p>
+                              <p class="profil-phone" title="<?= $get_chauffeur['ADRESSE_MAIL'] ?>"><i class="bi bi-envelope"></i>&nbsp;<?= $get_chauffeur['ADRESSE_MAIL'] ?></p>
+                              <p class="profil-phone" title="<?= $get_chauffeur['ADRESSE_PHYSIQUE'] ?>"><i class="bi bi-geo-fill"></i>&nbsp;<?= $get_chauffeur['ADRESSE_PHYSIQUE'] ?></p>
+                            <?php else: ?>
+                              <p class="profil-name" style="color: red;" title="<?= lang('chauf_non_affect') ?>"> <?= lang('chauf_non_affect') ?></p>
+                            <?php endif; ?>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col-md-8 profil-text" style="padding-top:10px">
-                       <?php
-                       if(!empty($get_chauffeur)){?>
-
-                        <p class="profil-name" title="<?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?>"><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></p>
-                        <p class="profil-phone" title="<?=$get_chauffeur['NUMERO_TELEPHONE']?>"> <span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></p>
-                        <p class="profil-phone" title="<?=$get_chauffeur['ADRESSE_MAIL']?>"><i class="bi bi-envelope"></i>&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?></p>
-                        <p class="profil-phone" title="<?=$get_chauffeur['ADRESSE_PHYSIQUE']?>"><i class="bi bi-geo-fill"></i>&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?></p>
-
-
-                        <?php
-                      }else{?>
-                        <p class="profil-name" style="color: red;" title="<?=lang('chauf_non_affect')?>"> <?=lang('chauf_non_affect')?>
-                      </p>
-
-                      <?php
-                    }
-                    ?>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-lg-12">
+                        <div class="card">
+                          <div class="card-body p-0">
+                            <div class="row profil-info">
+                              <div class="col-md-4 profil-img">
+                                <?php if (!empty($get_vehicule['PHOTO'])): ?>
+                                  <img class="img-fluid" src="<?= base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO']) ?>" alt="Vehicle Photo">
+                                <?php else: ?>
+                                  <img class="img-fluid" src="<?= base_url('upload/car.png') ?>" alt="Default Vehicle Image">
+                                <?php endif; ?>
+                              </div>
+                              <div class="col-md-8 profil-text" style="padding-top: 10px;">
+                                <p class="profil-name" title="<?= $get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE'] ?>"><?= $get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE'] ?></p>
+                                <p class="profil-phone" title="<?= $get_vehicule['PLAQUE'] ?>"> <i class="bi bi-textarea-resize"></i><?= $get_vehicule['PLAQUE'] ?></p>
+                                <p class="profil-phone" title="<?= empty($get_vehicule['COULEUR']) ? 'N/A' : $get_vehicule['COULEUR'] ?>"> <i class="bi bi-palette"></i><?= empty($get_vehicule['COULEUR']) ? 'N/A' : $get_vehicule['COULEUR'] ?></p>
+                                <p class="profil-phone" title="<?= empty($get_vehicule['KILOMETRAGE']) ? 'N/A' : $get_vehicule['KILOMETRAGE'].' litres / Km' ?>"> <i class="bi bi-vector-pen"></i> <?= empty($get_vehicule['KILOMETRAGE']) ? 'N/A' : $get_vehicule['KILOMETRAGE'].' litres / Km' ?></p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div>
-                </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <!-- <br> -->
-        <div class="row"style="margin-left: 250px;margin-top: -130px;width: 250px;">
-          <div class="col-lg-12">
-            <div class="card" style="height: 110px;margin-top: -30px;" >
-              <div class="card-body p-0">
-                <div class="row profil-info">
-                  <div class="col-md-4 profil-img">
 
-                    <?php
-                    if(!empty($get_vehicule['PHOTO']))
-                    {
-                      ?>
-                      <img class="img"  style="background-color: white;border-radius: 10%;" class="img-fluid" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">
-                      <?php
-                    }
-                    else if(empty($get_vehicule['PHOTO']))
-                    {
-                      ?>
-                      <img class="img" style="border-radius: 10%;" class="img-fluid"  src="<?=base_url('upload/car.png')?>">
-
-                      <?php
-                    }?>
-
+              <div class="col-lg-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title"><?= lang('dist_parcourue') ?> <span style="font-size: .5rem;">| Km</span></h5>
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle">
+                            <img class="img-fluid" width="30" height="auto" src="<?= base_url('/upload/distance.jpg') ?>" alt="Distance Icon">
+                          </div>
+                          <div class="ps-3">
+                            <h6><span class="text-success small pt-1 fw-boldd"><a id="distance_finale"></a> Km</span></h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-8 profil-text"style="padding-top:10px">
 
-                    <p class="profil-name" title="<?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?>"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
-                    <p class="profil-phone" title="<?=$get_vehicule['PLAQUE']?>"> <i class="bi bi-textarea-resize"></i><?=$get_vehicule['PLAQUE']?></p>
-                    <p class="profil-phone" title="<?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
-                    <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?>"> <i class="bi bi-palette"></i><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
-                    <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?></p>
-                    <p class="profil-phone" title="<?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
-                    <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?>"><i class="bi bi-vector-pen"></i> <?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
-                    <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?></p>
+                  <div class="col-md-6">
+                    <div class="card" style="border-radius: 10%;">
+                      <div class="card-body">
+                        <h5 class="card-title"><?= lang('carburant_mot') ?> <span style="font-size: .5rem;">| <?= lang('consomme_mot') ?></span></h5>
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle">
+                            <img class="img-fluid" width="30" height="auto" src="<?= base_url('/upload/carburant_color.jfif') ?>" alt="Fuel Icon">
+                          </div>
+                          <div class="ps-3">
+                            <h6><span class="text-success small pt-1 fw-boldd"> <a id="carburant"></a> <?= lang('litre_mot') ?></span></h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6"style="width:56%">
-        <div class="row">
-         <div class="col-md-6"style=" width: auto;">
-          <div class="card" style="">
-            <div class="card-body">
-              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('dist_parcourue')?> <span style="font-size:.5rem;">| Km</span></h5>
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <div class="card" style="border-radius: 10%;">
+                      <div class="card-body">
+                        <h5 class="card-title"><?= lang('vitesse_max') ?> <span style="font-size: .5rem;">| Max</span></h5>
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle">
+                            <img class="img-fluid" width="30" height="auto" src="<?= base_url('/upload/vitesse.png') ?>" alt="Speed Icon">
+                          </div>
+                          <div class="ps-3">
+                            <h6><span class="text-success small pt-1 fw-boldd"> <a id="vitesse_max"></a> Km/h</span></h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="d-flex align-items-center"style="width:100px">
-                <div class="card-icon rounded-circle" >
-                  <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
-                </div>
-                <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"><a id="distance_finale"></a> Km</span></h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6"style=" width: auto;">
-
-
-          <div class="card" style="border-radius: 10%">
-            <div class="card-body">
-              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('carburant_mot')?> <span style="font-size:.5rem;">| <?=lang('consomme_mot')?></span></h5>
-
-              <div class="d-flex align-items-center"style="width:100px">
-                <div class="card-icon rounded-circle">
-                  <img style="background-color: #829b35;" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
-                </div>
-                <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="carburant"></a> <?=lang('litre_mot')?></span></h6>
-
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row"style="margin-left: 300px;margin-top: -143px;">
-
-
-        <div class="col-md-6"style=" width: auto;">
-
-
-          <div class="card" style="border-radius: 10%;">
-            <div class="card-body">
-              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('vitesse_max')?> <span style="font-size:.5rem;">| Max</span></h5>
-
-              <div class="d-flex align-items-center"style="width:100px">
-                <div class="card-icon rounded-circle">
-                  <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
-                </div>
-                <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="vitesse_max"></a> Km/h</span></h6>
-
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6"style=" width: auto;">
-
-
-          <div class="card" style="border-radius: 10%;">
-            <div class="card-body"style="height: 100px;">
-              <h5 class="card-titlee" style="font-size: .6rem;padding-top: 15px;">Score <span style="font-size:.5rem;">| 20</span></h5>
-
-              <div class="d-flex align-items-center"style="width:100px">
-                <div class="card-icon rounded-circle">
-                  <img style="background-color: #829b35;" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/score.png')?>">
-                </div>
-                <div class="ps-3">
-                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="score"></a> Points</span></h6>
+                  <div class="col-md-6">
+                    <div class="card" style="border-radius: 10%;">
+                      <div class="card-body" style="height: 100px;">
+                        <h5 class="card-title" style="padding-top: 15px;">Score <span style="font-size: .5rem;">| 20</span></h5>
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle">
+                            <img class="img-fluid" width="30" height="auto" src="<?= base_url('/upload/score.png') ?>" alt="Score Icon">
+                          </div>
+                          <div class="ps-3">
+                            <h6><span class="text-success small pt-1 fw-boldd"> <a id="score"></a> Points</span></h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -536,14 +474,6 @@ font-family: 'Open Sans', sans-serif;
       </div>
     </div>
 
-  </div>
-</div>
-
-</div>
-</div>
-</div>
-
-</div>
 
 <div class="row align-items-top">
   <div class="col-lg-12">
