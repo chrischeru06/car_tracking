@@ -13,7 +13,7 @@ les modifications on été faites pour la partie des informations générales
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
   <style>
-   body {
+      body {
     margin: 0;
     padding: 0;
   }
@@ -98,39 +98,78 @@ les modifications on été faites pour la partie des informations générales
     overflow-y: scroll;
     border-radius: 2px;
   }
-    .flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
-  }
 
-  .card {
-    flex: 1 1 calc(16.66% - 10px); /* Each card takes up approximately 1/6th of the row */
-    max-width: calc(16.66% - 10px);
-  }
+  /*.table-responsive {
+        width: 300px;
+        border-radius: 10px;
+    }*/
 
-  /* Adjust the layout for smaller screens */
-  @media (max-width: 1200px) {
-    .card {
-      flex: 1 1 calc(33.33% - 10px); /* 3 cards per row on medium screens */
-      max-width: calc(33.33% - 10px);
-    }
-  }
+    .profil-info{
+     padding: .3rem;
 
-  @media (max-width: 768px) {
-    .card {
-      flex: 1 1 calc(50% - 10px); /* 2 cards per row on small screens */
-      max-width: calc(50% - 10px);
-    }
-  }
+   }
 
-  @media (max-width: 576px) {
-    .card {
-      flex: 1 1 100%; /* 1 card per row on extra small screens */
-      max-width: 100%;
-    }
+   .profil-info .profil-text .bi{
+
+    margin-right: .5rem;
+    margin-left: .2rem;
+
   }
+  .profil-info .profil-text p.profil-name{
+   font-weight: 900;
+   font-size:13px;
+   margin: 0 0 .1rem 0;
+   margin-left: .4rem;
+
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+   cursor:pointer;
+
+ }
+ .mena .profil-info .profil-text p.profil-name{
+   font-weight: 900;
+   font-size:1rem;
+   margin: 0 0 .1rem 0;
+   margin-left: .4rem;
+
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   /* curseur*/
+
+   cursor:pointer;
+
+
+ }
+
+ .profil-info .profil-text p.profil-phone{
+  font-size: 10px;
+  margin: 0 0 .1rem 0;
+
+  /* noms qui depassent l'espace prevu*/
+  overflow-x: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* curseur*/
+
+  cursor:pointer;
+}
+.profil-info .profil-img img{
+  width:5rem;
+  height: 80px;
+
+}
 /* nouveau styles pour l'afichage de l'historiques du traject chauffeur */
 .text-success small pt-1 fw-boldd {
 
