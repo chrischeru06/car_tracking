@@ -203,6 +203,39 @@ backdrop-filter:blur(60px); */
 padding: 10px;
 font-family: 'Open Sans', sans-serif;
 }
+     .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .card {
+    flex: 1 1 calc(16.66% - 10px); /* Each card takes up approximately 1/6th of the row */
+    max-width: calc(16.66% - 10px);
+  }
+
+  /* Adjust the layout for smaller screens */
+  @media (max-width: 1200px) {
+    .card {
+      flex: 1 1 calc(33.33% - 10px); /* 3 cards per row on medium screens */
+      max-width: calc(33.33% - 10px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      flex: 1 1 calc(50% - 10px); /* 2 cards per row on small screens */
+      max-width: calc(50% - 10px);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .card {
+      flex: 1 1 100%; /* 1 card per row on extra small screens */
+      max-width: 100%;
+    }
+  }
 </style>
 
 
