@@ -1,10 +1,3 @@
-<!-- 
- Code modifié par CERUBALA CHRISTIAN WANN'Y
-LE 14/06/2024
-Ce code permet de visualiser l'historique des chauffeurs
-les modifications on été faites pour la partie des informations générales 
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +14,7 @@ les modifications on été faites pour la partie des informations générales
       top: -35px;
       bottom: 0;
       width: 100%;
-      height: 800px;
+      height: 100vh;
       z-index: 1;
     }
 
@@ -43,19 +36,12 @@ les modifications on été faites pour la partie des informations générales
       font-size: 30px;
     }
 
-    .mapboxgl-ctrl-logo {
+    .mapboxgl-ctrl-logo,
+    .mapboxgl-ctrl-attrib-inner,
+    .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
       display: none !important;
     }
 
-    .mapboxgl-ctrl-attrib-inner {
-      display: none !important;
-    }
-
-    .mapboxgl-ctrl mapboxgl-ctrl-attrib {
-      display: none !important;
-    }
-
-    /* Activity */
     .dashboard .activity {
       font-size: 14px;
     }
@@ -103,7 +89,7 @@ les modifications on été faites pour la partie des informations générales
     }
 
     .scroller {
-      height: 1000%;
+      height: 100%;
       position: absolute;
       overflow-y: scroll;
       border-radius: 2px;
@@ -111,6 +97,8 @@ les modifications on été faites pour la partie des informations générales
 
     .profil-info {
       padding: .3rem;
+      display: flex;
+      align-items: center;
     }
 
     .profil-info .profil-text .bi {
@@ -118,55 +106,26 @@ les modifications on été faites pour la partie des informations générales
       margin-left: .2rem;
     }
 
-    .profil-info .profil-text p.profil-name {
-      font-weight: 900;
+    .profil-info .profil-text p.profil-name,
+    .profil-info .profil-text p.profil-phone {
       font-size: 13px;
       margin: 0 0 .1rem 0;
       margin-left: .4rem;
-
-      /* noms qui depassent l'espace prevu*/
-      overflow-x: auto;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-
-      /* curseur*/
-      cursor: pointer;
-    }
-
-    .mena .profil-info .profil-text p.profil-name {
-      font-weight: 900;
-      font-size: 1rem;
-      margin: 0 0 .1rem 0;
-      margin-left: .4rem;
-
-      /* noms qui depassent l'espace prevu*/
-      overflow-x: auto;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      /* curseur*/
-      cursor: pointer;
-    }
-
-    .profil-info .profil-text p.profil-phone {
-      font-size: 10px;
-      margin: 0 0 .1rem 0;
-
-      /* noms qui depassent l'espace prevu*/
-      overflow-x: auto;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      /* curseur*/
       cursor: pointer;
     }
 
     .profil-info .profil-img img {
-      width: 5rem;
-      height: 80px;
+      width: 4rem;
+      height: auto;
+      border-radius: 10%;
+      background-color: white;
+    }
+
+    .text-success small.pt-1.fw-bold {
+      font-size: 1rem;
     }
 
     .mapboxgl-popup {
@@ -175,30 +134,30 @@ les modifications on été faites pour la partie des informations générales
     }
 
     #mena {
-      font-size: .6rem;
+      font-size: .8rem;
       font-family: 'Open Sans', sans-serif;
     }
 
     #meno {
-      position: absolute;
       padding: 10px;
       font-family: 'Open Sans', sans-serif;
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 767px) {
-      .profil-info .profil-text p.profil-name,
-      .mena .profil-info .profil-text p.profil-name {
-        font-size: 12px;
+    @media (max-width: 768px) {
+      .profil-info .profil-img img {
+        width: 3rem;
+      }
+
+      .profil-info .profil-text p.profil-name {
+        font-size: 1rem;
       }
 
       .profil-info .profil-text p.profil-phone {
-        font-size: 8px;
+        font-size: 0.9rem;
       }
 
-      .profil-info .profil-img img {
-        width: 4rem;
-        height: 60px;
+      .text-success small.pt-1.fw-bold {
+        font-size: 0.8rem;
       }
 
       .card-title {
@@ -207,109 +166,44 @@ les modifications on été faites pour la partie des informations générales
 
       .card-icon img {
         width: 20px;
-        height: auto;
-      }
-
-      .ps-3 h6 span {
-        font-size: 0.4rem;
-      }
-
-      .card-body {
-        padding: 10px;
       }
 
       .col-md-6 {
         width: 100%;
-        margin-bottom: 15px;
       }
 
-      #main {
-        padding-left: 10px;
-        padding-right: 10px;
+      #map {
+        height: 60vh;
       }
     }
 
-    @media (min-width: 768px) and (max-width: 1023px) {
-      .profil-info .profil-text p.profil-name,
-      .mena .profil-info .profil-text p.profil-name {
-        font-size: 14px;
+    @media (max-width: 576px) {
+      .profil-info .profil-img img {
+        width: 2.5rem;
+      }
+
+      .profil-info .profil-text p.profil-name {
+        font-size: 0.9rem;
       }
 
       .profil-info .profil-text p.profil-phone {
-        font-size: 10px;
+        font-size: 0.8rem;
       }
 
-      .profil-info .profil-img img {
-        width: 4.5rem;
-        height: 70px;
-      }
-
-      .card-title {
-        font-size: 1rem;
-      }
-
-      .card-icon img {
-        width: 25px;
-        height: auto;
-      }
-
-      .ps-3 h6 span {
-        font-size: 0.5rem;
-      }
-
-      .card-body {
-        padding: 15px;
-      }
-
-      .col-md-6 {
-        width: 50%;
-      }
-
-      #main {
-        padding-left: 15px;
-        padding-right: 15px;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .profil-info .profil-text p.profil-name,
-      .mena .profil-info .profil-text p.profil-name {
-        font-size: 1rem;
-      }
-
-      .profil-info .profil-text p.profil-phone {
-        font-size: 12px;
-      }
-
-      .profil-info .profil-img img {
-        width: 5rem;
-        height: 80px;
+      .text-success small.pt-1.fw-bold {
+        font-size: 0.7rem;
       }
 
       .card-title {
-        font-size: 1.2rem;
+        font-size: 0.7rem;
       }
 
       .card-icon img {
-        width: 30px;
-        height: auto;
+        width: 15px;
       }
 
-      .ps-3 h6 span {
-        font-size: 0.6rem;
-      }
-
-      .card-body {
-        padding: 20px;
-      }
-
-      .col-md-6 {
-        width: 50%;
-      }
-
-      #main {
-        padding-left: 20px;
-        padding-right: 20px;
+      #map {
+        height: 50vh;
       }
     }
   </style>
@@ -320,72 +214,81 @@ les modifications on été faites pour la partie des informations générales
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
   <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src='https://cdn.jsdelivr.net/npm/mapbox-gl-fontawesome-markers@0.0.1/dist/index.js'></script>
 </head>
 
 <body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <div id="map"></div>
-  <div id="animation-phase-container">
-    <span id="animation-phase">Initial phase</span>
-  </div>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
 
-  <div class="col-lg-4 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title" id="mena"><i class="bi bi-person-circle"></i> Chauffeur Informations</h5>
-        <div class="profil-info d-flex align-items-center">
-          <div class="profil-img">
-            <img src="<?php echo base_url(); ?>assets/img/chauffeurs/<?php echo $chauffeurs[0]['photo'] ?>" alt="Chauffeur Photo">
-          </div>
-          <div class="profil-text">
-            <p class="profil-name" id="profil-name"><i class="bi bi-person"></i> <?php echo $chauffeurs[0]['nom']; ?></p>
-            <p class="profil-phone" id="profil-phone"><i class="bi bi-telephone"></i> <?php echo $chauffeurs[0]['telephone']; ?></p>
+  <!-- Header -->
+  <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
+  <!-- End Header -->
+
+  <!-- Sidebar -->
+  <?php include VIEWPATH . 'includes/menu_left.php'; ?>
+  <!-- End Sidebar-->
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <div class="row">
+        <div class="col-md-6">
+          <h1><?= lang('resum_du_parcours') ?></h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#"><?= lang('p_chauffeur') ?></a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-3">
+          <div class="d-flex justify-content-sm-end">
+            <h1><?= lang('estimation_parcours') ?></h1>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </div><!-- End Page Title -->
 
-  <div class="col-lg-4 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title" id="mena"><i class="bi bi-person-circle"></i> Chauffeur Informations</h5>
-        <div class="profil-info d-flex align-items-center">
-          <div class="profil-img">
-            <img src="<?php echo base_url(); ?>assets/img/chauffeurs/<?php echo $chauffeurs[0]['photo'] ?>" alt="Chauffeur Photo">
-          </div>
-          <div class="profil-text">
-            <p class="profil-name" id="profil-name"><i class="bi bi-person"></i> <?php echo $chauffeurs[0]['nom']; ?></p>
-            <p class="profil-phone" id="profil-phone"><i class="bi bi-telephone"></i> <?php echo $chauffeurs[0]['telephone']; ?></p>
-          </div>
-        </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label class="form-label"><?= lang('input_date_deb') ?></label>
+        <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION'] ?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION'] ?>" name="DATE_DAT" id="DATE_DAT" value="<?= $date_affectation['DATE_DEBUT_AFFECTATION'] ?>" onchange="change_carte(); viderh();">
+      </div>
+      <div class="form-group col-md-3">
+        <label class="form-label"><?= lang('input_date_fin') ?></label>
+        <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION'] ?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION'] ?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= $date_affectation['DATE_FIN_AFFECTATION'] ?>" onchange="change_carte();">
+      </div>
+      <div class="form-group col-md-3">
+        <label class="form-label"><?= lang('hrs_dbut') ?></label>
+        <select class="form-control" name="HEURE1" id="HEURE1">
+          <option value=""><?= lang('selectionner') ?></option>
+          <?php foreach ($heure_trajet as $heure) : ?>
+            <option value="<?= $heure['HEURE'] ?>" <?= $heure['HEURE'] == $heure_debut ? 'selected' : '' ?>><?= $heure['HEURE'] ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label class="form-label"><?= lang('hrs_fin') ?></label>
+        <select class="form-control" name="HEURE2" id="HEURE2">
+          <option value=""><?= lang('selectionner') ?></option>
+          <?php foreach ($heure_trajet as $heure) : ?>
+            <option value="<?= $heure['HEURE'] ?>" <?= $heure['HEURE'] == $heure_fin ? 'selected' : '' ?>><?= $heure['HEURE'] ?></option>
+          <?php endforeach; ?>
+        </select>
       </div>
     </div>
-  </div>
-
-  <script>
-    mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
-    const map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [YOUR_LONGITUDE, YOUR_LATITUDE],
-      zoom: 12
-    });
-
-    const animationPhases = ['Initial phase', 'Phase 1', 'Phase 2', 'Final phase'];
-    let phaseIndex = 0;
-
-    function updateAnimationPhase() {
-      document.getElementById('animation-phase').textContent = animationPhases[phaseIndex];
-      phaseIndex = (phaseIndex + 1) % animationPhases.length;
-    }
-
-    setInterval(updateAnimationPhase, 3000);
-  </script>
+    <div id="map"></div>
+    <div id="animation-phase-container">
+      <div id="mena"><?= lang('estimation_parcours') ?>:</div>
+      <div id="animation-phase"><?= lang('parcours_en_cours') ?></div>
+    </div>
+  </main><!-- End #main -->
 </body>
 
 </html>
