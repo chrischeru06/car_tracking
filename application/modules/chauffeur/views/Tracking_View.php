@@ -252,7 +252,7 @@ font-family: 'Open Sans', sans-serif;
       </div>
       <div class="col-md-3">
         <div class="justify-content-sm-end d-flex">
-          <h1><?=lang('estimation_parcours')?>Maintenance ongoing</h1>
+          <h1><?=lang('estimation_parcours')?></h1>
           
         </div>
       </div>
