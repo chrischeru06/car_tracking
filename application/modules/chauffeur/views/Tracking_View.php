@@ -1,3 +1,11 @@
+<!-- 
+ Code modifié par CERUBALA CHRISTIAN WANN'Y
+LE 14/06/2024
+Ce code permet de visualiser l'historique des chauffeurs
+les modifications on été faites pour la partie des informations générales 
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,317 +13,677 @@
   <?php include VIEWPATH . 'includes/header.php'; ?>
 
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Open Sans', sans-serif;
-    }
+   body {
+    margin: 0;
+    padding: 0;
+  }
+  #map {top:-35px;bottom:0; width:100%;height:800px;z-index: 1; }
 
-    #map {
-      top: -35px;
-      bottom: 0;
-      width: 100%;
-      height: 400px;
-      z-index: 1;
-    }
+  #animation-phase-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: white;
+    padding: 10px;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+  }
 
-    #animation-phase-container {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: white;
-      padding: 10px;
-      font-family: sans-serif;
-      display: flex;
-      align-items: center;
-      border-radius: 8px;
-    }
 
-    #animation-phase {
-      margin-left: 5px;
-      font-weight: 600;
-      font-size: 30px;
-    }
+  #animation-phase {
+    margin-left: 5px;
+    font-weight: 600;
+    font-size: 30px;
+  }
 
-    .mapboxgl-ctrl-logo,
-    .mapboxgl-ctrl-attrib-inner,
-    .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
-      display: none !important;
-    }
 
-    .dashboard .activity {
-      font-size: 14px;
-    }
+  .mapboxgl-ctrl-logo{
+    display: none !important;
+  }
+  
+  .mapboxgl-ctrl-attrib-inner{
+    display: none !important;
+  }
 
-    .dashboard .activity .activity-item .activite-label {
-      color: #888;
-      position: relative;
-      flex-shrink: 0;
-      flex-grow: 0;
-      min-width: 64px;
-    }
+  .mapboxgl-ctrl mapboxgl-ctrl-attrib{
+    display: none !important;
+  }
 
-    .dashboard .activity .activity-item .activite-label::before {
-      content: "";
-      position: absolute;
-      right: -11px;
-      width: 4px;
-      top: 0;
-      bottom: 0;
-      background-color: #eceefe;
-    }
+  /* Activity */
+  .dashboard .activity {
+    font-size: 14px;
+  }
+  .dashboard .activity .activity-item .activite-label {
+    color: #888;
+    position: relative;
+    flex-shrink: 0;
+    flex-grow: 0;
+    min-width: 64px;
+  }
+  .dashboard .activity .activity-item .activite-label::before {
+    content: "";
+    position: absolute;
+    right: -11px;
+    width: 4px;
+    top: 0;
+    bottom: 0;
+    background-color: #eceefe;
+  }
+  .dashboard .activity .activity-item .activity-badge {
+    margin-top: 3px;
+    z-index: 1;
+    font-size: 11px;
+    line-height: 0;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 3px solid #fff;
+    flex-grow: 0;
+  }
+  .dashboard .activity .activity-item .activity-content {
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+  .dashboard .activity .activity-item:first-child .activite-label::before {
+    top: 5px;
+  }
+  .dashboard .activity .activity-item:last-child .activity-content {
+    padding-bottom: 0;
+  }
 
-    .dashboard .activity .activity-item .activity-badge {
-      margin-top: 3px;
-      z-index: 1;
-      font-size: 11px;
-      line-height: 0;
-      border-radius: 50%;
-      flex-shrink: 0;
-      border: 3px solid #fff;
-      flex-grow: 0;
-    }
+  .scroller {
+    height: 1000%;
+    position: absolute;
+    overflow-y: scroll;
+    border-radius: 2px;
+  }
 
-    .dashboard .activity .activity-item .activity-content {
-      padding-left: 10px;
-      padding-bottom: 20px;
-    }
+  /*.table-responsive {
+        width: 300px;
+        border-radius: 10px;
+    }*/
 
-    .dashboard .activity .activity-item:first-child .activite-label::before {
-      top: 5px;
-    }
+    .profil-info{
+     padding: .3rem;
 
-    .dashboard .activity .activity-item:last-child .activity-content {
-      padding-bottom: 0;
-    }
+   }
 
-    .scroller {
-      height: 1000%;
-      position: absolute;
-      overflow-y: scroll;
-      border-radius: 2px;
-    }
+   .profil-info .profil-text .bi{
 
-    .profil-info {
-      padding: .3rem;
-    }
+    margin-right: .5rem;
+    margin-left: .2rem;
 
-    .profil-info .profil-text .bi {
-      margin-right: .5rem;
-      margin-left: .2rem;
-    }
+  }
+  .profil-info .profil-text p.profil-name{
+   font-weight: 900;
+   font-size:13px;
+   margin: 0 0 .1rem 0;
+   margin-left: .4rem;
 
-    .profil-info .profil-text p.profil-name {
-      font-weight: 900;
-      font-size: 13px;
-      margin: 0 0 .1rem 0;
-      margin-left: .4rem;
-      overflow-x: auto;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-    }
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
 
-    .mena .profil-info .profil-text p.profil-name {
-      font-weight: 900;
-      font-size: 1rem;
-      margin: 0 0 .1rem 0;
-      margin-left: .4rem;
-      overflow-x: auto;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-    }
+   /* curseur*/
 
-    .profil-info .profil-text p.profil-phone {
-      font-size: 10px;
-      margin: 0 0 .1rem 0;
-      overflow-x: auto;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-    }
+   cursor:pointer;
 
-    .profil-info .profil-img img {
-      width: 5rem;
-      height: 80px;
-    }
+ }
+ .mena .profil-info .profil-text p.profil-name{
+   font-weight: 900;
+   font-size:1rem;
+   margin: 0 0 .1rem 0;
+   margin-left: .4rem;
 
-    .text-success small.pt-1.fw-boldd {
-      font-size: 4rem;
-    }
+   /* noms qui depassent l'espace prevu*/
+   overflow-x: auto;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
 
-    .mapboxgl-popup {
-      max-width: 400px;
-      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    }
+   /* curseur*/
 
-    #mena {
-      font-size: .6rem;
-      font-family: 'Open Sans', sans-serif;
-    }
+   cursor:pointer;
 
-    #meno {
-      padding: 10px;
-      font-family: 'Open Sans', sans-serif;
-    }
 
-    .card-body img {
-      max-width: 100%;
-      height: auto;
-    }
+ }
 
-    /* Responsive Styles */
-    @media (max-width: 768px) {
+ .profil-info .profil-text p.profil-phone{
+  font-size: 10px;
+  margin: 0 0 .1rem 0;
+
+  /* noms qui depassent l'espace prevu*/
+  overflow-x: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* curseur*/
+
+  cursor:pointer;
+}
+.profil-info .profil-img img{
+  width:5rem;
+  height: 80px;
+
+}
+/* nouveau styles pour l'afichage de l'historiques du traject chauffeur */
+.text-success small pt-1 fw-boldd {
+
+  font-size:4rem;
+}
+
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font:
+  12px/20px 'Helvetica Neue',
+  Arial,
+  Helvetica,
+  sans-serif;
+}
+
+#mena {
+/*  position: absolute;*/
+/*  font-weight: 900;*/
+font-size:.6rem;
+/*  margin: 0 0 0rem 0;*/
+/*  margin-left: .4rem;*/
+font-family: 'Open Sans', sans-serif;
+}
+#meno {
+  position: absolute;
+/*  background: #efefef;*/
+/*-webkit-backdrop-filter:blur(15px);
+backdrop-filter:blur(60px); */ 
+
+padding: 10px;
+font-family: 'Open Sans', sans-serif;
+ /* Responsive Styles */
+ @media (max-width: 1200px) {
       .card {
-        margin: 0;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .col-md-6, .col-md-3 {
         width: 100%;
       }
-
-      .col-md-3, .col-md-6 {
-        width: 100%;
-        padding: 0.5rem;
+      .profil-info .profil-text p.profil-name {
+        font-size: 11px;
       }
-
-      .profil-info .profil-img img {
-        width: 4rem;
-        height: auto;
+      .profil-info .profil-text p.profil-phone {
+        font-size: 9px;
       }
-
-      #map {
-        height: 300px;
-      }
-
-      .card-title {
-        font-size: 1rem;
-      }
-
       .text-success small.pt-1.fw-boldd {
         font-size: 2rem;
       }
+      .card-title {
+        font-size: .5rem;
+      }
     }
 
-    @media (max-width: 576px) {
-      .card-body img {
-        max-width: 100%;
-        height: auto;
+    @media (max-width: 768px) {
+      .profil-info .profil-img img {
+        width: 4rem;
+        height: 60px;
       }
-
-      .card-title {
-        font-size: 0.875rem;
-      }
-
       .text-success small.pt-1.fw-boldd {
         font-size: 1.5rem;
       }
     }
-  </style>
 
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
-  <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-  <script src='https://cdn.jsdelivr.net/npm/mapbox-gl-fontawesome-markers@0.0.1/dist/index.js'></script>
+    @media (max-width: 576px) {
+      .profil-info .profil-text p.profil-name {
+        font-size: 10px;
+      }
+      .profil-info .profil-text p.profil-phone {
+        font-size: 8px;
+      }
+      .text-success small.pt-1.fw-boldd {
+        font-size: 1rem;
+      }
+    }
+}
+</style>
+
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src='https://cdn.jsdelivr.net/npm/mapbox-gl-fontawesome-markers@0.0.1/dist/index.js'></script>
+
+
 </head>
 
 <body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
-
+  <!-- ======= Header ======= -->
   <?php include VIEWPATH . 'includes/nav_bar.php'; ?>
+  <!-- End Header -->
 
+  <!-- ======= Sidebar ======= -->
   <?php include VIEWPATH . 'includes/menu_left.php'; ?>
+  <!-- End Sidebar-->
 
   <main id="main" class="main">
-    <div class="pagetitle">
-      <div class="row">
-        <div class="col-md-6">
-          <h1><?= lang('resum_du_parcours') ?></h1>
-          <nav>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#"><?= lang('p_chauffeur') ?></a></li>
-            </ol>
-          </nav>
-        </div>
-        <div class="col-md-6">
-          <div class="justify-content-sm-end d-flex">
-            <h1><?= lang('estimation_parcours') ?></h1>
-          </div>
+
+   <div class="pagetitle">
+    <div class="row">
+      <div class="col-md-6">
+
+        <h1><?=lang('resum_du_parcours')?></h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><?=lang('p_chauffeur')?></a></li>
+            <!-- <li class="breadcrumb-item active">Liste</li> -->
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6"style=" width: auto;">
+      </div>
+      <div class="col-md-3">
+        <div class="justify-content-sm-end d-flex">
+          <h1><?=lang('estimation_parcours')?></h1>
+          
         </div>
       </div>
     </div>
+  </div><!-- End Page Title -->
+  <div class="row"style="width:auto">
+    <div class="form-group col-md-3">
+      <label class="form-label"><?=lang('input_date_deb')?></label>
+      <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" name="DATE_DAT" id="DATE_DAT" value="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" onchange="change_carte();viderh();">
+    </div>
+    <div class="form-group col-md-3">
+      <label class="form-label"><?=lang('input_date_fin')?></label>
+      <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION']?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= $date_affectation['DATE_FIN_AFFECTATION']?>" onchange="change_carte();">
+    </div>
+    <div class="form-group col-md-3">
+      <label class="form-label"><?=lang('hrs_dbut')?></label>
+      <select class="form-control" name="HEURE1" id="HEURE1">
+        <option value=""><?=lang('selectionner')?></option>
+        <?php
+        foreach ($heure_trajet as $key_heure_trajet)
+        {
+          ?>
+          <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+          <?php
+        }
+        ?>
+      </select>
 
-    <div class="row">
-      <div class="form-group col-md-3">
-        <label class="form-label"><?= lang('input_date_deb') ?></label>
-        <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION'] ?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION'] ?>" name="DATE_DAT" id="DATE_DAT" value="<?= $date_affectation['DATE_DEBUT_AFFECTATION'] ?>" onchange="change_carte();viderh();">
-      </div>
-      <div class="form-group col-md-3">
-        <label class="form-label"><?= lang('input_date_fin') ?></label>
-        <input class="form-control" type="date" min="<?= $date_affectation['DATE_DEBUT_AFFECTATION'] ?>" max="<?= $date_affectation['DATE_FIN_AFFECTATION'] ?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= $date_affectation['DATE_FIN_AFFECTATION'] ?>" onchange="change_carte();">
-      </div>
-      <div class="form-group col-md-3">
-        <label class="form-label"><?= lang('input_pilote') ?></label>
-        <select class="form-select" id="ID_PERSONNE" name="ID_PERSONNE" onchange="change_carte();">
-          <option value=""><?= lang('input_sle') ?></option>
-          <?php foreach ($pilotes as $pilote) : ?>
-            <option value="<?= $pilote['ID_PERSONNE'] ?>"><?= $pilote['NOM_PERSONNE'] ?></option>
-          <?php endforeach; ?>
-        </select>
-      </div>
-      <div class="form-group col-md-3">
-        <label class="form-label"><?= lang('input_pointeur') ?></label>
-        <select class="form-select" id="ID_POINT" name="ID_POINT" onchange="change_carte();">
-          <option value=""><?= lang('input_sle') ?></option>
-          <?php foreach ($points as $point) : ?>
-            <option value="<?= $point['ID_POINT'] ?>"><?= $point['LIBELLE_POINT'] ?></option>
-          <?php endforeach; ?>
-        </select>
-      </div>
     </div>
 
-    <div class="row">
-      <div class="col-lg-12">
+
+    <div class="form-group col-md-3">
+      <label class="form-label"><?=lang('hrs_fin')?></label>
+      <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
+        <option value=""><?=lang('selectionner')?></option>
+        <?php
+        foreach ($heure_trajet as $key_heure_trajet)
+        {
+          ?>
+          <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+          <?php
+        }
+        ?>
+      </select>
+
+    </div>
+  </div>
+  <br>
+  <input type="hidden" name="CODE" id="CODE" value="<?=$CODE_VEH?>">
+  <input type="hidden" name="CHAUFFEUR_VEHICULE_ID" id="CHAUFFEUR_VEHICULE_ID" value="<?=$CHAUFFEUR_VEHICULE_ID?>">
+
+  <section class="section">
+    <div class="row align-items-top">
+      <div class="col-md-12">
+
         <div class="card">
           <div class="card-body">
-            <div id="map"></div>
+            <center><h5 class="card-title"><?=lang('btn_info_gnl')?></h5></center>
+            <div class="row">
+              <div class="col-lg-6"style="width:44%">
+                <div class="row" style="padding:0px 10px 20px;">
+                 <div class="col-lg-12"style="width:250px">
+                  <div class="card" style="">
+
+                    <div class="card-body p-0"style="height:110px">
+                     <div class="row profil-info">
+                      <div class="col-md-4 profil-img">
+
+                        <?php
+                        if(!empty($get_chauffeur['PHOTO_PASSPORT']))
+                        {
+                          ?>
+                          <img class="img" style="border-radius: 10%;background-color: white;" class="img-fluid" src="<?=base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT'])?>">
+
+
+                          <?php
+                        }
+                        else if(empty($get_chauffeur['PHOTO_PASSPORT']))
+                        {
+                          ?>
+                          <img class="img" style="background-color: #829b35;border-radius: 10%" class="img-fluid" src="<?=base_url('upload/phavatar.png')?>">
+                          <?php
+                        }?>
+                      </div>
+                      <div class="col-md-8 profil-text" style="padding-top:10px">
+                       <?php
+                       if(!empty($get_chauffeur)){?>
+
+                        <p class="profil-name" title="<?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?>"><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></p>
+                        <p class="profil-phone" title="<?=$get_chauffeur['NUMERO_TELEPHONE']?>"> <span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></p>
+                        <p class="profil-phone" title="<?=$get_chauffeur['ADRESSE_MAIL']?>"><i class="bi bi-envelope"></i>&nbsp;<?=$get_chauffeur['ADRESSE_MAIL']?></p>
+                        <p class="profil-phone" title="<?=$get_chauffeur['ADRESSE_PHYSIQUE']?>"><i class="bi bi-geo-fill"></i>&nbsp;<?=$get_chauffeur['ADRESSE_PHYSIQUE']?></p>
+
+
+                        <?php
+                      }else{?>
+                        <p class="profil-name" style="color: red;" title="<?=lang('chauf_non_affect')?>"> <?=lang('chauf_non_affect')?>
+                      </p>
+
+                      <?php
+                    }
+                    ?>
+                  </div>
+                </div>
+                <div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <br> -->
+        <div class="row"style="margin-left: 250px;margin-top: -130px;width: 250px;">
+          <div class="col-lg-12">
+            <div class="card" style="height: 110px;margin-top: -30px;" >
+              <div class="card-body p-0">
+                <div class="row profil-info">
+                  <div class="col-md-4 profil-img">
+
+                    <?php
+                    if(!empty($get_vehicule['PHOTO']))
+                    {
+                      ?>
+                      <img class="img"  style="background-color: white;border-radius: 10%;" class="img-fluid" src="<?=base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO'])?>">
+                      <?php
+                    }
+                    else if(empty($get_vehicule['PHOTO']))
+                    {
+                      ?>
+                      <img class="img" style="border-radius: 10%;" class="img-fluid"  src="<?=base_url('upload/car.png')?>">
+
+                      <?php
+                    }?>
+
+                  </div>
+                  <div class="col-md-8 profil-text"style="padding-top:10px">
+
+                    <p class="profil-name" title="<?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?>"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
+                    <p class="profil-phone" title="<?=$get_vehicule['PLAQUE']?>"> <i class="bi bi-textarea-resize"></i><?=$get_vehicule['PLAQUE']?></p>
+                    <p class="profil-phone" title="<?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
+                    <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?>"> <i class="bi bi-palette"></i><?php if(empty($get_vehicule['COULEUR'])){?> N/A <?php } ?>
+                    <?php if(!empty($get_vehicule['COULEUR'])){?>  <?= $get_vehicule['COULEUR']?> <?php } ?></p>
+                    <p class="profil-phone" title="<?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
+                    <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?>"><i class="bi bi-vector-pen"></i> <?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
+                    <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?></p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6"style="width:56%">
+        <div class="row">
+         <div class="col-md-6"style=" width: auto;">
+          <div class="card" style="">
+            <div class="card-body">
+              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('dist_parcourue')?> <span style="font-size:.5rem;">| Km</span></h5>
+
+              <div class="d-flex align-items-center"style="width:100px">
+                <div class="card-icon rounded-circle" >
+                  <img style="background-color: #829b35;border-radius: 10%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/distance.jpg')?>">
+                </div>
+                <div class="ps-3">
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"><a id="distance_finale"></a> Km</span></h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6"style=" width: auto;">
+
+
+          <div class="card" style="border-radius: 10%">
+            <div class="card-body">
+              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('carburant_mot')?> <span style="font-size:.5rem;">| <?=lang('consomme_mot')?></span></h5>
+
+              <div class="d-flex align-items-center"style="width:100px">
+                <div class="card-icon rounded-circle">
+                  <img style="background-color: #829b35;" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/carburant_color.jfif')?>">
+                </div>
+                <div class="ps-3">
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="carburant"></a> <?=lang('litre_mot')?></span></h6>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row"style="margin-left: 300px;margin-top: -143px;">
+
+
+        <div class="col-md-6"style=" width: auto;">
+
+
+          <div class="card" style="border-radius: 10%;">
+            <div class="card-body">
+              <h5 class="card-title" style="font-size:.6rem;width:100px"><?=lang('vitesse_max')?> <span style="font-size:.5rem;">| Max</span></h5>
+
+              <div class="d-flex align-items-center"style="width:100px">
+                <div class="card-icon rounded-circle">
+                  <img style="background-color: #829b35;border-radius: 50%" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/vitesse.png')?>">
+                </div>
+                <div class="ps-3">
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="vitesse_max"></a> Km/h</span></h6>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6"style=" width: auto;">
+
+
+          <div class="card" style="border-radius: 10%;">
+            <div class="card-body"style="height: 100px;">
+              <h5 class="card-titlee" style="font-size: .6rem;padding-top: 15px;">Score <span style="font-size:.5rem;">| 20</span></h5>
+
+              <div class="d-flex align-items-center"style="width:100px">
+                <div class="card-icon rounded-circle">
+                  <img style="background-color: #829b35;" class="img-fluid" width="30px" height="auto" src="<?=base_url('/upload/score.png')?>">
+                </div>
+                <div class="ps-3">
+                  <h6><span class="text-success small pt-1 fw-boldd"style="font-size:.5rem"> <a id="score"></a> Points</span></h6>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </main>
 
-  <?php include VIEWPATH . 'includes/footer.php'; ?>
+  </div>
+</div>
 
-  <script>
-    mapboxgl.accessToken = '<?= env('MAPBOX_KEY') ?>';
-    var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [0, 0],
-      zoom: 2
-    });
+</div>
+</div>
+</div>
 
-    function change_carte() {
-      // Your code to update the map based on input values
-    }
+</div>
 
-    function viderh() {
-      // Your code for the viderh function
-    }
+<div class="row align-items-top">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <center><h6 class="card-title"><?=lang('trajet_parcouru')?></h6></center>
+        <div id="map_filtre" ></div>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize map on page load
-    });
-  </script>
+      </div>
+    </div>
+  </div>
+
+
+
+  <input type="hidden" id="ignition">
+
+
+
+
+</div>
+</section>
+
+</main><!-- End #main -->
+
+<?php include VIEWPATH . 'includes/footer.php'; ?>
+
 </body>
+
+<script>
+
+  $(document).ready(function(){
+
+    change_carte();   
+
+  });
+
+</script>
+
+
+<script>
+  function viderh(){
+
+   $('#HEURE1').html('');
+   $('#HEURE2').html('');
+
+   $.ajax(
+   {
+    url:"<?=base_url('tracking/Dashboard/get_heures/')?>",
+    type: "GET",
+    dataType:"JSON",
+    success: function(data)
+    {
+      $('#HEURE1').html(data);
+      $('#HEURE2').html(data);
+
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+      alert('<?=lang('msg_erreur')?>');
+    }
+  });
+ }
+ function change_carte(CODE_COURSE='') {
+  var DATE_DAT = $('#DATE_DAT').val(); 
+  var DATE_DAT_FIN = $('#DATE_DAT_FIN').val(); 
+  var CODE = $('#CODE').val(); 
+  var HEURE1 = $('#HEURE1').val(); 
+  var HEURE2 = $('#HEURE2').val(); 
+  var CODE_COURSE = CODE_COURSE; 
+  var CHAUFFEUR_VEHICULE_ID=$('#CHAUFFEUR_VEHICULE_ID').val();
+  //alert(CODE_COURSE)
+
+  $.ajax({
+    url : "<?=base_url()?>chauffeur/Chauffeur_New/tracking_chauffeur_filtres/",
+    type : "POST",
+    dataType: "JSON",
+    cache:false,
+    data: {
+      DATE_DAT:DATE_DAT,
+      CODE:CODE,
+      HEURE1:HEURE1,
+      HEURE2:HEURE2,
+      DATE_DAT_FIN:DATE_DAT_FIN,
+      CODE_COURSE:CODE_COURSE,
+      CHAUFFEUR_VEHICULE_ID:CHAUFFEUR_VEHICULE_ID
+    },
+    beforeSend:function () { 
+
+    },
+    success:function(data) {
+
+      $('#distance_finale').html(data.distance_finale);
+      $('#carburant').html(data.carburant);
+      $('#DATE_DAT').html(data.DATE);
+      $('#CODE').html(data.CODE);
+      $('#map_filtre').html(data.map_filtre);
+      // $('#ligne_arret').html(data.ligne_arret);
+      $('#score').html(data.score_finale);
+      $('#vitesse_max').html(data.vitesse_max);
+
+    },
+    error:function() {
+
+
+    }
+  });
+
+}
+
+function change_trajet(CODE_COURSE){
+
+  var CODE_COURSE = CODE_COURSE; 
+
+  $.ajax({
+    url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
+    type : "POST",
+    dataType: "JSON",
+    cache:false,
+    data: {
+      CODE_COURSE:CODE_COURSE,
+
+    },
+    beforeSend:function () { 
+
+    },
+    success:function(data) {
+
+    },
+    error:function() {
+
+
+    }
+  });
+
+
+
+}
+
+</script>
+
+
 
 </html>
