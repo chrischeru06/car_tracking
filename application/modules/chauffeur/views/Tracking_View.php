@@ -257,7 +257,7 @@ font-family: 'Open Sans', sans-serif;
   <input type="hidden" name="CHAUFFEUR_VEHICULE_ID" id="CHAUFFEUR_VEHICULE_ID" value="<?=$CHAUFFEUR_VEHICULE_ID?>">
 
   <section class="section">
-  <div class="row align-items-top">
+ <div class="row align-items-top">
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
@@ -267,8 +267,8 @@ font-family: 'Open Sans', sans-serif;
         <div class="d-flex flex-wrap justify-content-between gap-3">
           
           <!-- Driver Info Card -->
-          <div class="card flex-grow-1" style="max-width: 48%;">
-            <div class="card-body p-0 d-flex">
+          <div class="card flex-grow-1" style="flex-basis: 100%; max-width: 48%;">
+            <div class="card-body p-0 d-flex flex-md-row flex-column">
               <div class="profil-img flex-shrink-0">
                 <img class="img-fluid rounded" style="border-radius: 10%; background-color: white;" 
                 src="<?= !empty($get_chauffeur['PHOTO_PASSPORT']) ? base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT']) : base_url('upload/phavatar.png') ?>" alt="Driver Image">
@@ -287,8 +287,8 @@ font-family: 'Open Sans', sans-serif;
           </div>
 
           <!-- Vehicle Info Card -->
-          <div class="card flex-grow-1" style="max-width: 48%;">
-            <div class="card-body p-0 d-flex">
+          <div class="card flex-grow-1" style="flex-basis: 100%; max-width: 48%;">
+            <div class="card-body p-0 d-flex flex-md-row flex-column">
               <div class="profil-img flex-shrink-0">
                 <img class="img-fluid rounded" style="border-radius: 10%; background-color: white;" 
                 src="<?= !empty($get_vehicule['PHOTO']) ? base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO']) : base_url('upload/car.png') ?>" alt="Vehicle Image">
@@ -303,7 +303,7 @@ font-family: 'Open Sans', sans-serif;
           </div>
 
           <!-- Distance Card -->
-          <div class="card" style="flex-grow: 1; max-width: 24%;">
+          <div class="card flex-grow-1" style="flex-basis: 100%; max-width: 24%;">
             <div class="card-body">
               <h5 class="card-title" style="font-size:.6rem;"><?= lang('dist_parcourue') ?> <span style="font-size:.5rem;">| Km</span></h5>
               <div class="d-flex align-items-center">
@@ -318,7 +318,7 @@ font-family: 'Open Sans', sans-serif;
           </div>
 
           <!-- Fuel Card -->
-          <div class="card" style="flex-grow: 1; max-width: 24%;">
+          <div class="card flex-grow-1" style="flex-basis: 100%; max-width: 24%;">
             <div class="card-body">
               <h5 class="card-title" style="font-size:.6rem;"><?= lang('carburant_mot') ?> <span style="font-size:.5rem;">| <?= lang('consomme_mot') ?></span></h5>
               <div class="d-flex align-items-center">
@@ -333,7 +333,7 @@ font-family: 'Open Sans', sans-serif;
           </div>
 
           <!-- Speed Card -->
-          <div class="card" style="flex-grow: 1; max-width: 24%;">
+          <div class="card flex-grow-1" style="flex-basis: 100%; max-width: 24%;">
             <div class="card-body">
               <h5 class="card-title" style="font-size:.6rem;"><?= lang('vitesse_max') ?> <span style="font-size:.5rem;">| Max</span></h5>
               <div class="d-flex align-items-center">
@@ -348,7 +348,7 @@ font-family: 'Open Sans', sans-serif;
           </div>
 
           <!-- Score Card -->
-          <div class="card" style="flex-grow: 1; max-width: 24%;">
+          <div class="card flex-grow-1" style="flex-basis: 100%; max-width: 24%;">
             <div class="card-body">
               <h5 class="card-title" style="font-size:.6rem;"><?= lang('score') ?> <span style="font-size:.5rem;">| 20</span></h5>
               <div class="d-flex align-items-center">
@@ -367,7 +367,6 @@ font-family: 'Open Sans', sans-serif;
     </div>
   </div>
 </div>
-
 
 <div class="row align-items-top">
   <div class="col-lg-12">
