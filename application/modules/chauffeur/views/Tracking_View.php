@@ -134,7 +134,7 @@ les modifications on été faites pour la partie des informations générales
  }
  .mena .profil-info .profil-text p.profil-name{
    font-weight: 80;
-   font-size:10px;
+   font-size:11px;
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
 
@@ -316,9 +316,9 @@ font-family: 'Open Sans', sans-serif;
           
           <!-- Driver Info Section -->
           <div class="card" style="flex: 1; min-width: 250px; height: 110px;">
-            <div class="card-body p-0 d-flex">
-              <div class="profil-img">
-                <img class="img-fluid rounded" style="background-color: white;height: 80px;" src="<?=!empty($get_chauffeur['PHOTO_PASSPORT']) ? base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT']) : base_url('upload/phavatar.png')?>">
+            <div class="card-body p-0 d-flex"style="height:200px">
+              <div class="profil-img" sytle="height:80px;">
+                <img class="img-fluid rounded" style="background-color: white;height:80px;" src="<?=!empty($get_chauffeur['PHOTO_PASSPORT']) ? base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT']) : base_url('upload/phavatar.png')?>">
               </div>
               <div class="profil-text" style="padding-left: 10px; padding-top: 10px;width:200px">
                 <?php if (!empty($get_chauffeur)): ?>
