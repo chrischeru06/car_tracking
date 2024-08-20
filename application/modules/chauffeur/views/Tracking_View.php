@@ -337,9 +337,9 @@ font-family: 'Open Sans', sans-serif;
           <div class="card" style="flex: 1; min-width: 250px; height: 110px;">
             <div class="card-body p-0 d-flex">
               <div class="profil-img">
-                <img class="img-fluid rounded" style="background-color: white;" src="<?=!empty($get_vehicule['PHOTO']) ? base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO']) : base_url('upload/car.png')?>">
+                <img class="img-fluid rounded" style="background-color: white;height:90px;" src="<?=!empty($get_vehicule['PHOTO']) ? base_url('/upload/photo_vehicule/'.$get_vehicule['PHOTO']) : base_url('upload/car.png')?>">
               </div>
-              <div class="profil-text" style="padding-left: 10px; padding-top: 10px;">
+              <div class="profil-text" style="padding-left: 10px;padding-top: 10px;width: 170px;margin-bottom: 0rem;f;font-size: 9px;">
                 <p class="profil-name" title="<?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?>"><?=$get_vehicule['DESC_MARQUE'].' / '. $get_vehicule['DESC_MODELE']?></p>
                 <p class="profil-phone" title="<?=$get_vehicule['PLAQUE']?>"><i class="bi bi-textarea-resize"></i><?=$get_vehicule['PLAQUE']?></p>
                 <p class="profil-phone" title="<?=!empty($get_vehicule['COULEUR']) ? $get_vehicule['COULEUR'] : 'N/A'; ?>"><i class="bi bi-palette"></i> <?=!empty($get_vehicule['COULEUR']) ? $get_vehicule['COULEUR'] : 'N/A'; ?></p>
