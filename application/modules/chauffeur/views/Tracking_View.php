@@ -116,7 +116,7 @@ les modifications on été faites pour la partie des informations générales
 
   }
   .profil-info .profil-text p.profil-name{
-   font-weight: 900;
+   font-weight: 80;
    font-size:13px;
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
@@ -133,7 +133,7 @@ les modifications on été faites pour la partie des informations générales
 
  }
  .mena .profil-info .profil-text p.profil-name{
-   font-weight: 900;
+   font-weight: 80;
    font-size:1rem;
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
@@ -152,7 +152,7 @@ les modifications on été faites pour la partie des informations générales
  }
 
  .profil-info .profil-text p.profil-phone{
-  font-size: 10px;
+  font-size: 6px;
   margin: 0 0 .1rem 0;
 
   /* noms qui depassent l'espace prevu*/
@@ -167,7 +167,7 @@ les modifications on été faites pour la partie des informations générales
 }
 .profil-info .profil-img img{
   width:5rem;
-  height: 80px;
+  height: 40px;
 
 }
 /* nouveau styles pour l'afichage de l'historiques du traject chauffeur */
