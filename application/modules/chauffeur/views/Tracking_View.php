@@ -203,6 +203,10 @@ backdrop-filter:blur(60px); */
 padding: 10px;
 font-family: 'Open Sans', sans-serif;
 }
+   p {
+    margin-top: 0;
+    margin-bottom: 0rem;
+}
 </style>
 
 
