@@ -117,7 +117,7 @@ les modifications on été faites pour la partie des informations générales
   }
   .profil-info .profil-text p.profil-name{
    font-weight: 80;
-   font-size:13px;
+   font-size:10px;
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
 
@@ -134,7 +134,7 @@ les modifications on été faites pour la partie des informations générales
  }
  .mena .profil-info .profil-text p.profil-name{
    font-weight: 80;
-   font-size:1rem;
+   font-size:10px;
    margin: 0 0 .1rem 0;
    margin-left: .4rem;
 
@@ -152,7 +152,7 @@ les modifications on été faites pour la partie des informations générales
  }
 
  .profil-info .profil-text p.profil-phone{
-  font-size: 6px;
+  font-size: 10px;
   margin: 0 0 .1rem 0;
 
   /* noms qui depassent l'espace prevu*/
@@ -173,7 +173,7 @@ les modifications on été faites pour la partie des informations générales
 /* nouveau styles pour l'afichage de l'historiques du traject chauffeur */
 .text-success small pt-1 fw-boldd {
 
-  font-size:4rem;
+  font-size:10px;
 }
 
 
@@ -318,9 +318,9 @@ font-family: 'Open Sans', sans-serif;
           <div class="card" style="flex: 1; min-width: 250px; height: 110px;">
             <div class="card-body p-0 d-flex">
               <div class="profil-img">
-                <img class="img-fluid rounded" style="background-color: white;" src="<?=!empty($get_chauffeur['PHOTO_PASSPORT']) ? base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT']) : base_url('upload/phavatar.png')?>">
+                <img class="img-fluid rounded" style="background-color: white;height: 80px;" src="<?=!empty($get_chauffeur['PHOTO_PASSPORT']) ? base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT']) : base_url('upload/phavatar.png')?>">
               </div>
-              <div class="profil-text" style="padding-left: 10px; padding-top: 10px;">
+              <div class="profil-text" style="padding-left: 10px; padding-top: 10px;width:200px">
                 <?php if (!empty($get_chauffeur)): ?>
                 <p class="profil-name" title="<?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?>"><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></p>
                 <p class="profil-phone" title="<?=$get_chauffeur['NUMERO_TELEPHONE']?>"><span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></p>
