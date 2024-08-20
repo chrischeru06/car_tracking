@@ -320,7 +320,7 @@ font-family: 'Open Sans', sans-serif;
               <div class="profil-img" sytle="height:80px;">
                 <img class="img-fluid rounded" style="background-color: white;height:80px;" src="<?=!empty($get_chauffeur['PHOTO_PASSPORT']) ? base_url('/upload/chauffeur/'.$get_chauffeur['PHOTO_PASSPORT']) : base_url('upload/phavatar.png')?>">
               </div>
-              <div class="profil-text" style="padding-left: 10px; padding-top: 10px;width:200px">
+              <div class="profil-text" style="padding-left: 10px; padding-top: 10px;width:200px;margin-top: 0;margin-bottom: 0rem;font-size: 11px;">
                 <?php if (!empty($get_chauffeur)): ?>
                 <p class="profil-name" title="<?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?>"><?=$get_chauffeur['NOM'].'&nbsp;'. $get_chauffeur['PRENOM']?></p>
                 <p class="profil-phone" title="<?=$get_chauffeur['NUMERO_TELEPHONE']?>"><span class="bi bi-phone"></span>&nbsp;<?=$get_chauffeur['NUMERO_TELEPHONE']?></p>
