@@ -440,6 +440,35 @@ $lang['succes_msg_activ_des']='a été faite avec succès';
 $lang['title_device_activ']='device activé';
 $lang['title_device_des']='device désactivé';
 
+//neda le 21082024
+$lang['etat_vehicul']='Etat du véhicule';
+$lang['img_avant']='IMAGE&nbsp;&nbspAVANT';
+$lang['img_avant_title']='Image de l\'avant du véhicule ';
+$lang['img_arriere']='IMAGE&nbsp;&nbspARRIERE';
+$lang['img_avant_title2']='Image de l \'arrière du véhicule';
+$lang['img_lat_gauche']='LATERALE&nbsp;&nbspGAUCHE';
+$lang['img_avant_title3']='Image latérale gauche';
+$lang['img_lat_droite']='LATERALE&nbsp;&nbspDROITE';
+$lang['img_avant_title4']='Image latérale droite';
+$lang['tableau_voiture']='TABLEAU&nbsp;&nbspVEHICULE';
+$lang['img_avant_title5']='Tableau de bord du véhicule';
+
+$lang['img_siege_av']='SIEGE&nbsp;&nbspAVANT';
+$lang['img_avant_title6']='Siège avant du véhicule';
+$lang['siege_arriere']='SIEGE&nbsp;&nbspARRIERE';
+$lang['img_avant_title7']='Siège arrière du véhicule';
+$lang['operationfaite']='OPERATION';
+$lang['vehicul_pris']='Prise de vehicule';
+$lang['vehicul_remis']='Remise de vehicule';
+$lang['anomalies']='Anomalies';
+
+
+
+
+
+
+
+
 
 
 
