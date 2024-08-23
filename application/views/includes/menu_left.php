@@ -108,12 +108,17 @@ if ($this->session->PROFIL_ID == 1) {
       <span><?=lang('Sim_management_lng')?></span>
     </a>
   </li>
+   <li class="nav-item">
+    <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Liste_Etat_Vehicule">
+      <i class="fa fa-car"></i>
+      <span><?=lang('etat_vehicul')?></span>
+    </a>
+  </li>
 
 
 </ul>
 
 </aside>
-
 <?php 
 }
         // # Codes profil

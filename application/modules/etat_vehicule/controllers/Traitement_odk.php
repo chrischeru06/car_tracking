@@ -187,7 +187,8 @@ class Traitement_odk extends CI_Controller {
                 ]
             ]);
 
-            $src_file = 'C:/xampp/htdocs/car_tracking/upload/image_url';
+            // $src_file = 'C:/xampp/htdocs/car_tracking/upload/image_url';
+            $src_file = '/var/www/html/car_tracking_v2/upload/image_url';
 
             if(!is_dir($src_file)){
                 mkdir($src_file ,0777 ,TRUE);
