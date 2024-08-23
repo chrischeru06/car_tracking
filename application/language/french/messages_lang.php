@@ -460,7 +460,10 @@ $lang['img_avant_title7']='Siège arrière du véhicule';
 $lang['operationfaite']='OPERATION';
 $lang['vehicul_pris']='Prise de vehicule';
 $lang['vehicul_remis']='Remise de vehicule';
+$lang['anomalie']='ANOMALIE';
 $lang['anomalies']='Anomalies';
+
+
 
 
 
