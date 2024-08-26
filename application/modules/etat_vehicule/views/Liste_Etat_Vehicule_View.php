@@ -168,7 +168,7 @@ input:checked + .slider:before {
                     <th class="text-dark"><?=lang('tableau_voiture')?></th>
                     <th class="text-dark"><?=lang('img_siege_av')?></th>
                     <th class="text-dark"><?=lang('siege_arriere')?></th>
-                    <th class="text-dark"><?=lang('operationfaite')?></th>
+                    <!-- <th class="text-dark"><?=lang('operationfaite')?></th> -->
                     <!--<th class="text-dark">Anomalie</th> -->
                     </tr>
                     </thead>
@@ -197,7 +197,7 @@ input:checked + .slider:before {
                     <th class="text-dark"><?=lang('tableau_voiture')?></th>
                     <th class="text-dark"><?=lang('img_siege_av')?></th>
                     <th class="text-dark"><?=lang('siege_arriere')?></th>
-                    <th class="text-dark"><?=lang('operationfaite')?></th>
+                    <!-- <th class="text-dark"><?=lang('operationfaite')?></th> -->
                     <!--<th class="text-dark">Anomalie</th> -->
                     </tr>
                     </thead>
@@ -224,7 +224,7 @@ input:checked + .slider:before {
                     <th class="text-dark"><?=lang('th_chauffeur')?></th>
 
                     <!-- <th class="text-dark">Opération</th> -->
-                    <th class="text-dark"><?=lang('operationfaite')?></th>
+                    <!-- <th class="text-dark"><?=lang('operationfaite')?></th> -->
 
                     <th class="text-dark"><?=lang('anomalie')?></th>
                     </tr>
