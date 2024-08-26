@@ -81,26 +81,6 @@
 				{
               $sub_array[] = $row->NOM_CHAUFFEUR.'  '.$row->PRENOM_CHAUFFEUR;
 				
-				// $sub_array[] = $row->IMAGE_AVANT;
-				
-				// 	$sub_array[] = ' <tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->ID_ETAT. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_AVANT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
-
-				// </div>
-				// <div class="modal fade" id="mypicture' .$row->ID_ETAT. '">
-				// <div class="modal-dialog modal-dialog-centered ">
-				// <div class="modal-content">
-				// <div class="modal-header" style="background:cadetblue;color:white;">
-				// <button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				// </div>
-				// <div class="modal-body">
-				// <center><img src = "'.base_url('upload/image_url/'.$row->IMAGE_AVANT).'"" height="50%"  width="50%" ></center>
-				// </div>
-				// </div>
-				// </div>
-				// </div>
-				// ';
-
-
 				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->ID_ETAT. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_AVANT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
 
 				<div class="modal fade" id="mypicture' .$row->ID_ETAT.'" style="border-radius:100px;">
@@ -249,12 +229,12 @@
 				</div>
 				</div>
 				';
-				$sub_array[] = $row->DESC_OPERATION;
+				// $sub_array[] = $row->DESC_OPERATION;
 				}else
 				{
 				$sub_array[] = $row->NOM_CHAUFFEUR.'  '.$row->PRENOM_CHAUFFEUR;
 				
-				$sub_array[] = $row->DESC_OPERATION;
+				// $sub_array[] = $row->DESC_OPERATION;
 				$sub_array[] = $row->DESC_ANOMALIE;
 
 			}
