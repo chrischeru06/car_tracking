@@ -190,13 +190,17 @@
 
                 <div class="col-md-12 <?php if($this->session->userdata('PROFIL_ID') == 1){echo "table-responsive";}?>">
 
-                  <table class="table table-borderless" style="width:108%">
+                  <table class="table table-borderless" style="width:123%">
                     <tr>
                       <td>
                        <ul class="nav nav-tabs nav-tabs-bordered">
 
                         <li class="nav-item">
                           <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#info_generales"><i class="fa fa-info-circle"></i> <?=lang('btn_info_gnl')?></button>
+                        </li>
+
+                        <li class="nav-item">
+                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#etat_vehicule"><i class="fa fa-cog"></i> Etat véhicule</button>
                         </li>
 
                         <li class="nav-item">
@@ -497,6 +501,38 @@
 
          </div>
 
+         <div class="tab-pane fade " id="etat_vehicule">
+
+              <div class="row">
+
+                <div class="table-responsive">
+
+                  <table id="table_etat_vehicule" class="table table-hover text-dark" style="width:100%">
+                    <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
+                      <tr>
+                        <th class="text-dark">#</th>
+                        <th class="text-dark">IMAGE&nbsp;AVANT</th>
+                        <th class="text-dark">IMAGE&nbsp;ARRIERE</th>
+                        <th class="text-dark">IMAGE&nbsp;LATERALE&nbsp;GAUCHE</th>
+                        <th class="text-dark">IMAGE&nbsp;LATERALE&nbsp;DROITE</th>
+                        <th class="text-dark">IMAGE&nbsp;TABLEAU&nbsp;DE&nbsp;BORD</th>
+                        <th class="text-dark">IMAGE&nbsp;SIEGE&nbsp;AVANT</th>
+                        <th class="text-dark">IMAGE&nbsp;SIEGE&nbsp;ARRIERE</th>
+                        <th class="text-dark"><?=lang('list_profil_enreg')?></th>
+                        <th class="text-dark"><?=lang('list_dte_enregistrement')?></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    </tbody>
+                  </table>
+                  
+                </div>
+                
+              </div>
+
+            </div>
+
          <div class="tab-pane fade " id="assurance">
 
               <!-- <div class="row">
@@ -717,6 +753,7 @@
     $(document).ready(function(){
 
       getmap();
+      liste_etat_vehicule();
       liste_assurance();
       liste_controle();
       liste_active_desactive();
@@ -754,6 +791,62 @@
       });
     }
 
+  </script>
+
+   <script >
+  //Fonction pour afficher l'historique d'etat du vehicule
+    function liste_etat_vehicule()
+    {
+
+      var VEHICULE_ID = $('#VEHICULE_TRACK').val();
+
+      var row_count ="1000000";
+      $("#table_etat_vehicule").DataTable({
+        "destroy" : true,
+        "processing":true,
+        "serverSide":true,
+        "destroy":true,
+        "oreder":[[ 1, 'asc' ]],
+        "ajax":{
+          url: "<?php echo base_url('/vehicule/Vehicule/liste_etat_vehicule');?>", 
+          type:"POST",
+          data : {VEHICULE_ID:VEHICULE_ID},
+          beforeSend : function() {
+          }
+        },
+        lengthMenu: [[10,50, 100, -1], [10,50, 100, "All"]],
+        pageLength: 10,
+        "columnDefs":[{
+          "targets":[],
+          "orderable":false
+        }],
+        dom: 'Bfrtlip',
+        buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'  ],
+        language: {
+          "sProcessing":     "Traitement en cours...",
+          "sSearch":         "Recherche&nbsp;:",
+          "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+          "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+          "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+          "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+          "sInfoPostFix":    "",
+          "sLoadingRecords": "Chargement en cours...",
+          "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+          "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+          "oPaginate": {
+            "sFirst":      "Premier",
+            "sPrevious":   "Pr&eacute;c&eacute;dent",
+            "sNext":       "Suivant",
+            "sLast":       "Dernier"
+          },
+          "oAria": {
+            "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+            "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+          }
+        }
+      });
+
+    }
   </script>
 
   <script >
