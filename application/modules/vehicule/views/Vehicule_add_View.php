@@ -312,7 +312,100 @@
                     <font color='red'><?php echo form_error('FILE_CONTRO_TECHNIQUE'); ?></font>
                     <span id="errorFILE_CONTRO_TECHNIQUE" class="text-danger"></span>
                   </div>
+
                   <input type="hidden" name="USER_ID" id="USER_ID" value="<?=$this->session->userdata('USER_ID')?>">
+
+                  <div class="col-md-4">
+
+                    <label> <small>Image avant</small><span  style="color:red;">*</span></label>
+
+                    <input class="form-control" type="hidden" name="IMAGE_AVANT_OLD" id="IMAGE_AVANT_OLD"  value="<?=$vehicule_data['IMAGE_AVANT'];?>">
+
+                    <input type="file" class="form-control" name="IMAGE_AVANT" id="IMAGE_AVANT" value="<?=set_value('IMAGE_AVANT')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF'>
+
+                    <font color='red'><?php echo form_error('IMAGE_AVANT'); ?></font>
+                    <span id="errorIMAGE_AVANT" class="text-danger"></span>
+
+                  </div>
+
+                  <div class="col-md-4">
+
+                    <label> <small>Image arrière</small><span  style="color:red;">*</span></label>
+
+                    <input class="form-control" type="hidden" name="IMAGE_ARRIERE_OLD" id="IMAGE_ARRIERE_OLD"  value="<?=$vehicule_data['IMAGE_ARRIERE'];?>">
+
+                    <input type="file" class="form-control" name="IMAGE_ARRIERE" id="IMAGE_ARRIERE" value="<?=set_value('IMAGE_ARRIERE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF'>
+
+                    <font color='red'><?php echo form_error('IMAGE_ARRIERE'); ?></font>
+                    <span id="errorIMAGE_ARRIERE" class="text-danger"></span>
+
+                  </div>
+
+                  <div class="col-md-4">
+
+                    <label> <small>Image latérale gauche </small><span  style="color:red;">*</span></label>
+
+                    <input class="form-control" type="hidden" name="IMAGE_LATERALE_GAUCHE_OLD" id="IMAGE_LATERALE_GAUCHE_OLD"  value="<?=$vehicule_data['IMAGE_LATERALE_GAUCHE'];?>">
+
+                    <input type="file" class="form-control" name="IMAGE_LATERALE_GAUCHE" id="IMAGE_LATERALE_GAUCHE" value="<?=set_value('IMAGE_LATERALE_GAUCHE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF'>
+
+                    <font color='red'><?php echo form_error('IMAGE_LATERALE_GAUCHE'); ?></font>
+                    <span id="errorIMAGE_LATERALE_GAUCHE" class="text-danger"></span>
+
+                  </div>
+
+                  <div class="col-md-4">
+
+                    <label> <small>Image latérale droite </small><span  style="color:red;">*</span></label>
+
+                    <input class="form-control" type="hidden" name="IMAGE_LATERALE_DROITE_OLD" id="IMAGE_LATERALE_DROITE_OLD"  value="<?=$vehicule_data['IMAGE_LATERALE_DROITE'];?>">
+
+                    <input type="file" class="form-control" name="IMAGE_LATERALE_DROITE" id="IMAGE_LATERALE_DROITE" value="<?=set_value('IMAGE_LATERALE_DROITE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF'>
+
+                    <font color='red'><?php echo form_error('IMAGE_LATERALE_DROITE'); ?></font>
+                    <span id="errorIMAGE_LATERALE_DROITE" class="text-danger"></span>
+
+                  </div>
+
+                  <div class="col-md-4">
+
+                    <label> <small>Image tableau de bord </small><span  style="color:red;">*</span></label>
+
+                    <input class="form-control" type="hidden" name="IMAGE_TABLEAU_DE_BORD_OLD" id="IMAGE_TABLEAU_DE_BORD_OLD"  value="<?=$vehicule_data['IMAGE_TABLEAU_DE_BORD'];?>">
+
+                    <input type="file" class="form-control" name="IMAGE_TABLEAU_DE_BORD" id="IMAGE_TABLEAU_DE_BORD" value="<?=set_value('IMAGE_TABLEAU_DE_BORD')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF'>
+
+                    <font color='red'><?php echo form_error('IMAGE_TABLEAU_DE_BORD'); ?></font>
+                    <span id="errorIMAGE_TABLEAU_DE_BORD" class="text-danger"></span>
+
+                  </div>
+
+                  <div class="col-md-4">
+
+                    <label> <small>Image siège avant </small><span  style="color:red;">*</span></label>
+
+                    <input class="form-control" type="hidden" name="IMAGE_SIEGE_AVANT_OLD" id="IMAGE_SIEGE_AVANT_OLD"  value="<?=$vehicule_data['IMAGE_SIEGE_AVANT'];?>">
+
+                    <input type="file" class="form-control" name="IMAGE_SIEGE_AVANT" id="IMAGE_SIEGE_AVANT" value="<?=set_value('IMAGE_SIEGE_AVANT')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF'>
+
+                    <font color='red'><?php echo form_error('IMAGE_SIEGE_AVANT'); ?></font>
+                    <span id="errorIMAGE_SIEGE_AVANT" class="text-danger"></span>
+
+                  </div>
+
+                  <div class="col-md-4">
+
+                    <label> <small>Image siège arrière </small><span  style="color:red;">*</span></label>
+
+                    <input class="form-control" type="hidden" name="IMAGE_SIEGE_ARRIERE_OLD" id="IMAGE_SIEGE_ARRIERE_OLD"  value="<?=$vehicule_data['IMAGE_SIEGE_ARRIERE'];?>">
+
+                    <input type="file" class="form-control" name="IMAGE_SIEGE_ARRIERE" id="IMAGE_SIEGE_ARRIERE" value="<?=set_value('IMAGE_SIEGE_ARRIERE')?>" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF" class="form-control" title='Veuillez mettre une photo avec extension:  .png,.PNG,.jpg,.JPG,.JEPG,.jepg,.pdf,.PDF'>
+
+                    <font color='red'><?php echo form_error('IMAGE_SIEGE_ARRIERE'); ?></font>
+                    <span id="errorIMAGE_SIEGE_ARRIERE" class="text-danger"></span>
+
+                  </div>
+
                 </div>
                 <br>
               </fieldset><br><br>
@@ -500,6 +593,133 @@
         $('#errorFILE_CONTRO_TECHNIQUE').html('La taille du fichier ne doit pas dépasser 2 Mo');
       }else{$('#errorFILE_CONTRO_TECHNIQUE').html('');}
 
+
+      if($('#IMAGE_AVANT').val()=='')
+      {
+        statut=2;
+        $('#errorIMAGE_AVANT').html('<?=lang('msg_validation')?>');
+      }else{$('#errorIMAGE_AVANT').html('');}
+
+      var fileInputIMAGE_AVANT = document.getElementById('IMAGE_AVANT');
+      var fileIMAGE_AVANT = fileInputIMAGE_AVANT.files[0];
+
+      var fileSizeIMAGE_AVANT = fileIMAGE_AVANT.size; // Taille du fichier en octets
+
+      if(fileSizeIMAGE_AVANT > maxSize)
+      {
+        statut=2;
+        $('#errorIMAGE_AVANT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorIMAGE_AVANT').html('');}
+
+
+      if($('#IMAGE_ARRIERE').val()=='')
+      {
+        statut=2;
+        $('#errorIMAGE_ARRIERE').html('<?=lang('msg_validation')?>');
+      }else{$('#errorIMAGE_ARRIERE').html('');}
+
+      var fileInputIMAGE_ARRIERE = document.getElementById('IMAGE_ARRIERE');
+      var fileIMAGE_ARRIERE = fileInputIMAGE_ARRIERE.files[0];
+
+      var fileSizeIMAGE_ARRIERE = fileIMAGE_ARRIERE.size; // Taille du fichier en octets
+
+      if(fileSizeIMAGE_ARRIERE > maxSize)
+      {
+        statut=2;
+        $('#errorIMAGE_ARRIERE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorIMAGE_ARRIERE').html('');}
+
+
+      if($('#IMAGE_LATERALE_GAUCHE').val()=='')
+      {
+        statut=2;
+        $('#errorIMAGE_LATERALE_GAUCHE').html('<?=lang('msg_validation')?>');
+      }else{$('#errorIMAGE_LATERALE_GAUCHE').html('');}
+
+      var fileInputIMAGE_LATERALE_GAUCHE = document.getElementById('IMAGE_LATERALE_GAUCHE');
+      var fileIMAGE_LATERALE_GAUCHE = fileInputIMAGE_LATERALE_GAUCHE.files[0];
+
+      var fileSizeIMAGE_LATERALE_GAUCHE = fileIMAGE_LATERALE_GAUCHE.size; // Taille du fichier en octets
+
+      if(fileSizeIMAGE_LATERALE_GAUCHE > maxSize)
+      {
+        statut=2;
+        $('#errorIMAGE_LATERALE_GAUCHE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorIMAGE_LATERALE_GAUCHE').html('');}
+
+
+      if($('#IMAGE_LATERALE_DROITE').val()=='')
+      {
+        statut=2;
+        $('#errorIMAGE_LATERALE_DROITE').html('<?=lang('msg_validation')?>');
+      }else{$('#errorIMAGE_LATERALE_DROITE').html('');}
+
+      var fileInputIMAGE_LATERALE_DROITE = document.getElementById('IMAGE_LATERALE_DROITE');
+      var fileIMAGE_LATERALE_DROITE = fileInputIMAGE_LATERALE_DROITE.files[0];
+
+      var fileSizeIMAGE_LATERALE_DROITE = fileIMAGE_LATERALE_DROITE.size; // Taille du fichier en octets
+
+      if(fileSizeIMAGE_LATERALE_DROITE > maxSize)
+      {
+        statut=2;
+        $('#errorIMAGE_LATERALE_DROITE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorIMAGE_LATERALE_DROITE').html('');}
+
+
+      if($('#IMAGE_TABLEAU_DE_BORD').val()=='')
+      {
+        statut=2;
+        $('#errorIMAGE_TABLEAU_DE_BORD').html('<?=lang('msg_validation')?>');
+      }else{$('#errorIMAGE_TABLEAU_DE_BORD').html('');}
+
+      var fileInputIMAGE_TABLEAU_DE_BORD = document.getElementById('IMAGE_TABLEAU_DE_BORD');
+      var fileIMAGE_TABLEAU_DE_BORD = fileInputIMAGE_TABLEAU_DE_BORD.files[0];
+
+      var fileSizeIMAGE_TABLEAU_DE_BORD = fileIMAGE_TABLEAU_DE_BORD.size; // Taille du fichier en octets
+
+      if(fileSizeIMAGE_TABLEAU_DE_BORD > maxSize)
+      {
+        statut=2;
+        $('#errorIMAGE_TABLEAU_DE_BORD').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorIMAGE_TABLEAU_DE_BORD').html('');}
+
+
+      if($('#IMAGE_SIEGE_AVANT').val()=='')
+      {
+        statut=2;
+        $('#errorIMAGE_SIEGE_AVANT').html('<?=lang('msg_validation')?>');
+      }else{$('#errorIMAGE_SIEGE_AVANT').html('');}
+
+      var fileInputIMAGE_SIEGE_AVANT = document.getElementById('IMAGE_SIEGE_AVANT');
+      var fileIMAGE_SIEGE_AVANT = fileInputIMAGE_SIEGE_AVANT.files[0];
+
+      var fileSizeIMAGE_SIEGE_AVANT = fileIMAGE_SIEGE_AVANT.size; // Taille du fichier en octets
+
+      if(fileSizeIMAGE_SIEGE_AVANT > maxSize)
+      {
+        statut=2;
+        $('#errorIMAGE_SIEGE_AVANT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorIMAGE_SIEGE_AVANT').html('');}
+
+
+      if($('#IMAGE_SIEGE_ARRIERE').val()=='')
+      {
+        statut=2;
+        $('#errorIMAGE_SIEGE_ARRIERE').html('<?=lang('msg_validation')?>');
+      }else{$('#errorIMAGE_SIEGE_ARRIERE').html('');}
+
+      var fileInputIMAGE_SIEGE_ARRIERE = document.getElementById('IMAGE_SIEGE_ARRIERE');
+      var fileIMAGE_SIEGE_ARRIERE = fileInputIMAGE_SIEGE_ARRIERE.files[0];
+
+      var fileSizeIMAGE_SIEGE_ARRIERE = fileIMAGE_SIEGE_ARRIERE.size; // Taille du fichier en octets
+
+      if(fileSizeIMAGE_SIEGE_ARRIERE > maxSize)
+      {
+        statut=2;
+        $('#errorIMAGE_SIEGE_ARRIERE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#errorIMAGE_SIEGE_ARRIERE').html('');}
+
+
     }
     else if($('#VEHICULE_ID').val() !='')  // Modification
     {
@@ -548,47 +768,146 @@
           $('#errorFILE_CONTRO_TECHNIQUE').html('La taille du fichier ne doit pas dépasser 2 Mo');
         }else{$('#errorFILE_CONTRO_TECHNIQUE').html('');}
       }
-      
-
-    }
 
 
+      if($('#IMAGE_AVANT').val() != '')
+      {
+        var fileInputIMAGE_AVANT = document.getElementById('IMAGE_AVANT');
+        var fileIMAGE_AVANT = fileInputIMAGE_AVANT.files[0];
 
-    if($('#PROPRIETAIRE_ID').val()=='')
-    {
-      statut=2;
-      $('#errorPROPRIETAIRE_ID').html('<?=lang('msg_validation')?>');
-    }else{$('#errorPROPRIETAIRE_ID').html('');}
+        var fileSizeIMAGE_AVANT = fileIMAGE_AVANT.size; // Taille du fichier en octets
+
+        if(fileSizeIMAGE_AVANT > maxSize)
+        {
+          statut=2;
+          $('#errorIMAGE_AVANT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorIMAGE_AVANT').html('');}
+      }
+
+      if($('#IMAGE_ARRIERE').val() != '')
+      {
+        var fileInputIMAGE_ARRIERE = document.getElementById('IMAGE_ARRIERE');
+        var fileIMAGE_ARRIERE = fileInputIMAGE_ARRIERE.files[0];
+
+        var fileSizeIMAGE_ARRIERE = fileIMAGE_ARRIERE.size; // Taille du fichier en octets
+
+        if(fileSizeIMAGE_ARRIERE > maxSize)
+        {
+          statut=2;
+          $('#errorIMAGE_ARRIERE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorIMAGE_ARRIERE').html('');}
+      }
+
+      if($('#IMAGE_LATERALE_GAUCHE').val() != '')
+      {
+        var fileInputIMAGE_LATERALE_GAUCHE = document.getElementById('IMAGE_LATERALE_GAUCHE');
+        var fileIMAGE_LATERALE_GAUCHE = fileInputIMAGE_LATERALE_GAUCHE.files[0];
+
+        var fileSizeIMAGE_LATERALE_GAUCHE = fileIMAGE_LATERALE_GAUCHE.size; // Taille du fichier en octets
+
+        if(fileSizeIMAGE_LATERALE_GAUCHE > maxSize)
+        {
+          statut=2;
+          $('#errorIMAGE_LATERALE_GAUCHE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorIMAGE_LATERALE_GAUCHE').html('');}
+      }
+
+      if($('#IMAGE_LATERALE_DROITE').val() != '')
+      {
+        var fileInputIMAGE_LATERALE_DROITE = document.getElementById('IMAGE_LATERALE_DROITE');
+        var fileIMAGE_LATERALE_DROITE = fileInputIMAGE_LATERALE_DROITE.files[0];
+
+        var fileSizeIMAGE_LATERALE_DROITE = fileIMAGE_LATERALE_DROITE.size; // Taille du fichier en octets
+
+        if(fileSizeIMAGE_LATERALE_DROITE > maxSize)
+        {
+          statut=2;
+          $('#errorIMAGE_LATERALE_DROITE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorIMAGE_LATERALE_DROITE').html('');}
+      }
+
+      if($('#IMAGE_TABLEAU_DE_BORD').val() != '')
+      {
+        var fileInputIMAGE_TABLEAU_DE_BORD = document.getElementById('IMAGE_TABLEAU_DE_BORD');
+        var fileIMAGE_TABLEAU_DE_BORD = fileInputIMAGE_TABLEAU_DE_BORD.files[0];
+
+        var fileSizeIMAGE_TABLEAU_DE_BORD = fileIMAGE_TABLEAU_DE_BORD.size; // Taille du fichier en octets
+
+        if(fileSizeIMAGE_TABLEAU_DE_BORD > maxSize)
+        {
+          statut=2;
+          $('#errorIMAGE_TABLEAU_DE_BORD').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorIMAGE_TABLEAU_DE_BORD').html('');}
+      }
+
+      if($('#IMAGE_SIEGE_AVANT').val() != '')
+      {
+        var fileInputIMAGE_SIEGE_AVANT = document.getElementById('IMAGE_SIEGE_AVANT');
+        var fileIMAGE_SIEGE_AVANT = fileInputIMAGE_SIEGE_AVANT.files[0];
+
+        var fileSizeIMAGE_SIEGE_AVANT = fileIMAGE_SIEGE_AVANT.size; // Taille du fichier en octets
+
+        if(fileSizeIMAGE_SIEGE_AVANT > maxSize)
+        {
+          statut=2;
+          $('#errorIMAGE_SIEGE_AVANT').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorIMAGE_SIEGE_AVANT').html('');}
+      }
+
+      if($('#IMAGE_SIEGE_ARRIERE').val() != '')
+      {
+        var fileInputIMAGE_SIEGE_ARRIERE = document.getElementById('IMAGE_SIEGE_ARRIERE');
+        var fileIMAGE_SIEGE_ARRIERE = fileInputIMAGE_SIEGE_ARRIERE.files[0];
+
+        var fileSizeIMAGE_SIEGE_ARRIERE = fileIMAGE_SIEGE_ARRIERE.size; // Taille du fichier en octets
+
+        if(fileSizeIMAGE_SIEGE_ARRIERE > maxSize)
+        {
+          statut=2;
+          $('#errorIMAGE_SIEGE_ARRIERE').html('La taille du fichier ne doit pas dépasser 2 Mo');
+        }else{$('#errorIMAGE_SIEGE_ARRIERE').html('');}
+      }
 
 
-    if($('#DATE_DEBUT_ASSURANCE').val()=='')
-    {
-      statut=2;
-      $('#error_DATE_DEBUT_ASSURANCE').html('<?=lang('msg_validation')?>');
-    }else{$('#error_DATE_DEBUT_ASSURANCE').html('');}
+  }
 
 
-    if($('#DATE_FIN_ASSURANCE').val()=='')
-    {
-      statut=2;
-      $('#error_DATE_FIN_ASSURANCE').html('<?=lang('msg_validation')?>');
-    }else{$('#error_DATE_FIN_ASSURANCE').html('');}
 
-    if($('#DATE_DEBUT_CONTROTECHNIK').val()=='')
-    {
-      statut=2;
-      $('#error_DATE_DEBUT_CONTROTECHNIK').html('<?=lang('msg_validation')?>');
-    }else{$('#error_DATE_DEBUT_CONTROTECHNIK').html('');}
+  if($('#PROPRIETAIRE_ID').val()=='')
+  {
+    statut=2;
+    $('#errorPROPRIETAIRE_ID').html('<?=lang('msg_validation')?>');
+  }else{$('#errorPROPRIETAIRE_ID').html('');}
 
-    if($('#DATE_FIN_CONTROTECHNIK').val()=='')
-    {
-      statut=2;
-      $('#error_DATE_FIN_CONTROTECHNIK').html('<?=lang('msg_validation')?>');
-    }else{$('#error_DATE_FIN_CONTROTECHNIK').html('');}
 
-    var VEHICULE_ID = $('#VEHICULE_ID').val();
+  if($('#DATE_DEBUT_ASSURANCE').val()=='')
+  {
+    statut=2;
+    $('#error_DATE_DEBUT_ASSURANCE').html('<?=lang('msg_validation')?>');
+  }else{$('#error_DATE_DEBUT_ASSURANCE').html('');}
+
+
+  if($('#DATE_FIN_ASSURANCE').val()=='')
+  {
+    statut=2;
+    $('#error_DATE_FIN_ASSURANCE').html('<?=lang('msg_validation')?>');
+  }else{$('#error_DATE_FIN_ASSURANCE').html('');}
+
+  if($('#DATE_DEBUT_CONTROTECHNIK').val()=='')
+  {
+    statut=2;
+    $('#error_DATE_DEBUT_CONTROTECHNIK').html('<?=lang('msg_validation')?>');
+  }else{$('#error_DATE_DEBUT_CONTROTECHNIK').html('');}
+
+  if($('#DATE_FIN_CONTROTECHNIK').val()=='')
+  {
+    statut=2;
+    $('#error_DATE_FIN_CONTROTECHNIK').html('<?=lang('msg_validation')?>');
+  }else{$('#error_DATE_FIN_CONTROTECHNIK').html('');}
+
+  var VEHICULE_ID = $('#VEHICULE_ID').val();
 // var CODE = $('#CODE').val();
-    var PLAQUE = $('#PLAQUE').val();
+  var PLAQUE = $('#PLAQUE').val();
 
       // if(VEHICULE_ID != "")
       // {
@@ -615,11 +934,11 @@
 
       // alert(statut)
 
-    if(statut==1)
-    {
-      $('#add_form').submit();
-    }
+  if(statut==1)
+  {
+    $('#add_form').submit();
   }
+}
 
 </script>
 

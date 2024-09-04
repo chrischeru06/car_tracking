@@ -565,7 +565,7 @@
 			$data['btn'] = "Enregistrer";
 			$data['title']="Enregistrement du véhicule";
 
-			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL,'ID_ASSUREUR'=>NULL);
+			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL,'ID_ASSUREUR'=>NULL,'IMAGE_AVANT'=>NULL,'IMAGE_ARRIERE'=>NULL,'IMAGE_LATERALE_GAUCHE'=>NULL,'IMAGE_LATERALE_DROITE'=>NULL,'IMAGE_TABLEAU_DE_BORD'=>NULL,'IMAGE_SIEGE_AVANT'=>NULL,'IMAGE_SIEGE_ARRIERE'=>NULL);
 			
 
 			$marque = $this->getBindParms('ID_MARQUE,DESC_MARQUE','vehicule_marque',' 1 ','DESC_MARQUE ASC');
@@ -586,7 +586,7 @@
 				$data['btn'] = "Modifier";
 				$data['title'] = "Modification du véhicule";
 
-				$vehicule = $this->Model->getRequeteOne("SELECT vehicule.VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,vehicule.DATE_FIN_CONTROTECHNIK,vehicule.DATE_FIN_ASSURANCE,vehicule.DATE_DEBUT_ASSURANCE,vehicule.DATE_DEBUT_CONTROTECHNIK,vehicule.FILE_CONTRO_TECHNIQUE,vehicule.FILE_ASSURANCE,vehicule.ID_ASSUREUR FROM vehicule LEFT JOIN historique_assurance ON historique_assurance.VEHICULE_ID = vehicule.VEHICULE_ID WHERE md5(vehicule.VEHICULE_ID)='".$VEHICULE_ID."'");
+				$vehicule = $this->Model->getRequeteOne("SELECT vehicule.VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,vehicule.DATE_FIN_CONTROTECHNIK,vehicule.DATE_FIN_ASSURANCE,vehicule.DATE_DEBUT_ASSURANCE,vehicule.DATE_DEBUT_CONTROTECHNIK,vehicule.FILE_CONTRO_TECHNIQUE,vehicule.FILE_ASSURANCE,vehicule.ID_ASSUREUR,vehicule.IMAGE_AVANT,vehicule.IMAGE_ARRIERE,vehicule.IMAGE_LATERALE_GAUCHE,vehicule.IMAGE_LATERALE_DROITE,vehicule.IMAGE_TABLEAU_DE_BORD,vehicule.IMAGE_SIEGE_AVANT,vehicule.IMAGE_SIEGE_ARRIERE FROM vehicule LEFT JOIN historique_assurance ON historique_assurance.VEHICULE_ID = vehicule.VEHICULE_ID WHERE md5(vehicule.VEHICULE_ID)='".$VEHICULE_ID."'");
 
 				// if(empty($vehicule))
 				// {
@@ -711,9 +711,38 @@
 				if (empty($_FILES['FILE_CONTRO_TECHNIQUE']['name']))
 				{
 					$this->form_validation->set_rules('FILE_CONTRO_TECHNIQUE','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
-				}if (empty($_FILES['FILE_ASSURANCE']['name']))
+				}
+				if (empty($_FILES['FILE_ASSURANCE']['name']))
 				{
 					$this->form_validation->set_rules('FILE_ASSURANCE','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}
+				if (empty($_FILES['IMAGE_AVANT']['name']))
+				{
+					$this->form_validation->set_rules('IMAGE_AVANT','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}
+				if (empty($_FILES['IMAGE_ARRIERE']['name']))
+				{
+					$this->form_validation->set_rules('IMAGE_ARRIERE','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}
+				if (empty($_FILES['IMAGE_LATERALE_GAUCHE']['name']))
+				{
+					$this->form_validation->set_rules('IMAGE_LATERALE_GAUCHE','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}
+				if (empty($_FILES['IMAGE_LATERALE_DROITE']['name']))
+				{
+					$this->form_validation->set_rules('IMAGE_LATERALE_DROITE','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}
+				if (empty($_FILES['IMAGE_TABLEAU_DE_BORD']['name']))
+				{
+					$this->form_validation->set_rules('IMAGE_TABLEAU_DE_BORD','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}
+				if (empty($_FILES['IMAGE_SIEGE_AVANT']['name']))
+				{
+					$this->form_validation->set_rules('IMAGE_SIEGE_AVANT','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
+				}
+				if (empty($_FILES['IMAGE_SIEGE_ARRIERE']['name']))
+				{
+					$this->form_validation->set_rules('IMAGE_SIEGE_ARRIERE','','trim|required',array('required'=>'<font style="color:red;font-size:14px;">Le champ est obligatoire</font>'));
 				}
 				
 
@@ -726,6 +755,13 @@
 					$PHOTO = $this->upload_file('PHOTO_OUT');
 					$file_controtechnik = $this->upload_file('FILE_CONTRO_TECHNIQUE');
 					$file_assurance = $this->upload_file('FILE_ASSURANCE');
+					$IMAGE_AVANT = $this->upload_file('IMAGE_AVANT');
+					$IMAGE_ARRIERE = $this->upload_file('IMAGE_ARRIERE');
+					$IMAGE_LATERALE_GAUCHE = $this->upload_file('IMAGE_LATERALE_GAUCHE');
+					$IMAGE_LATERALE_DROITE = $this->upload_file('IMAGE_LATERALE_DROITE');
+					$IMAGE_TABLEAU_DE_BORD = $this->upload_file('IMAGE_TABLEAU_DE_BORD');
+					$IMAGE_SIEGE_AVANT = $this->upload_file('IMAGE_SIEGE_AVANT');
+					$IMAGE_SIEGE_ARRIERE = $this->upload_file('IMAGE_SIEGE_ARRIERE');
 
 					$data = array(
 						'ID_ASSUREUR'=>$this->input->post('ID_ASSUREUR'),
@@ -745,6 +781,13 @@
 						'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
 						'FILE_ASSURANCE'=>$file_assurance,
 						'FILE_CONTRO_TECHNIQUE'=>$file_controtechnik,
+						'IMAGE_AVANT'=>$IMAGE_AVANT,
+						'IMAGE_ARRIERE'=>$IMAGE_ARRIERE,
+						'IMAGE_LATERALE_GAUCHE'=>$IMAGE_LATERALE_GAUCHE,
+						'IMAGE_LATERALE_DROITE'=>$IMAGE_LATERALE_DROITE,
+						'IMAGE_TABLEAU_DE_BORD'=>$IMAGE_TABLEAU_DE_BORD,
+						'IMAGE_SIEGE_AVANT'=>$IMAGE_SIEGE_AVANT,
+						'IMAGE_SIEGE_ARRIERE'=>$IMAGE_SIEGE_ARRIERE,
 
 						
 					);
@@ -778,7 +821,22 @@
 
 					$create_controle = $this->Model->create('historique_controle_technique',$data_histo_controle);
 
-					if ($create_assure && $create_controle)
+					// Enregistrement dans la table d'historique d'etat du vehicule
+					$data_histo_etat_vehicule = array(
+						'VEHICULE_ID' => $VEHICULE_ID,
+						'USER_ID' => $this->input->post('USER_ID'),
+						'IMAGE_AVANT'=>$IMAGE_AVANT,
+						'IMAGE_ARRIERE'=>$IMAGE_ARRIERE,
+						'IMAGE_LATERALE_GAUCHE'=>$IMAGE_LATERALE_GAUCHE,
+						'IMAGE_LATERALE_DROITE'=>$IMAGE_LATERALE_DROITE,
+						'IMAGE_TABLEAU_DE_BORD'=>$IMAGE_TABLEAU_DE_BORD,
+						'IMAGE_SIEGE_AVANT'=>$IMAGE_SIEGE_AVANT,
+						'IMAGE_SIEGE_ARRIERE'=>$IMAGE_SIEGE_ARRIERE,
+					);
+
+					$create_etat = $this->Model->create('historique_etat_vehicule',$data_histo_etat_vehicule);
+
+					if ($create_assure && $create_controle && $create_etat)
 					{
 						$message['message']='<div class="alert alert-success text-center" id="message">Enregistrement du vehicule avec succès</div>';
 						$this->session->set_flashdata($message);
@@ -883,6 +941,49 @@
 						}
 
 
+						if (!empty($_FILES["IMAGE_AVANT"]["tmp_name"])) {
+							$IMAGE_AVANT = $this->upload_file('IMAGE_AVANT');
+						}else{
+							$IMAGE_AVANT = $this->input->post('IMAGE_AVANT_OLD');
+						}
+
+						if (!empty($_FILES["IMAGE_ARRIERE"]["tmp_name"])) {
+							$IMAGE_ARRIERE = $this->upload_file('IMAGE_ARRIERE');
+						}else{
+							$IMAGE_ARRIERE = $this->input->post('IMAGE_ARRIERE_OLD');
+						}
+
+						if (!empty($_FILES["IMAGE_LATERALE_GAUCHE"]["tmp_name"])) {
+							$IMAGE_LATERALE_GAUCHE = $this->upload_file('IMAGE_LATERALE_GAUCHE');
+						}else{
+							$IMAGE_LATERALE_GAUCHE = $this->input->post('IMAGE_LATERALE_GAUCHE_OLD');
+						}
+
+						if (!empty($_FILES["IMAGE_LATERALE_DROITE"]["tmp_name"])) {
+							$IMAGE_LATERALE_DROITE = $this->upload_file('IMAGE_LATERALE_DROITE');
+						}else{
+							$IMAGE_LATERALE_DROITE = $this->input->post('IMAGE_LATERALE_DROITE_OLD');
+						}
+
+						if (!empty($_FILES["IMAGE_TABLEAU_DE_BORD"]["tmp_name"])) {
+							$IMAGE_TABLEAU_DE_BORD = $this->upload_file('IMAGE_TABLEAU_DE_BORD');
+						}else{
+							$IMAGE_TABLEAU_DE_BORD = $this->input->post('IMAGE_TABLEAU_DE_BORD_OLD');
+						}
+
+						if (!empty($_FILES["IMAGE_SIEGE_AVANT"]["tmp_name"])) {
+							$IMAGE_SIEGE_AVANT = $this->upload_file('IMAGE_SIEGE_AVANT');
+						}else{
+							$IMAGE_SIEGE_AVANT = $this->input->post('IMAGE_SIEGE_AVANT_OLD');
+						}
+
+						if (!empty($_FILES["IMAGE_SIEGE_ARRIERE"]["tmp_name"])) {
+							$IMAGE_SIEGE_ARRIERE = $this->upload_file('IMAGE_SIEGE_ARRIERE');
+						}else{
+							$IMAGE_SIEGE_ARRIERE = $this->input->post('IMAGE_SIEGE_ARRIERE_OLD');
+						}
+
+
 						$data=array(
 							//'CODE'=>$this->input->post('CODE'),
 							'ID_ASSUREUR'=>$this->input->post('ID_ASSUREUR'),
@@ -904,6 +1005,13 @@
 							'DATE_FIN_ASSURANCE'=>$this->input->post('DATE_FIN_ASSURANCE'),
 							'DATE_DEBUT_CONTROTECHNIK'=>$this->input->post('DATE_DEBUT_CONTROTECHNIK'),
 							'DATE_FIN_CONTROTECHNIK'=>$this->input->post('DATE_FIN_CONTROTECHNIK'),
+							'IMAGE_AVANT'=>$IMAGE_AVANT,
+							'IMAGE_ARRIERE'=>$IMAGE_ARRIERE,
+							'IMAGE_LATERALE_GAUCHE'=>$IMAGE_LATERALE_GAUCHE,
+							'IMAGE_LATERALE_DROITE'=>$IMAGE_LATERALE_DROITE,
+							'IMAGE_TABLEAU_DE_BORD'=>$IMAGE_TABLEAU_DE_BORD,
+							'IMAGE_SIEGE_AVANT'=>$IMAGE_SIEGE_AVANT,
+							'IMAGE_SIEGE_ARRIERE'=>$IMAGE_SIEGE_ARRIERE,
 
 						);
 
@@ -936,7 +1044,23 @@
 
 						$create_controle = $this->Model->create('historique_controle_technique',$data_histo_controle);
 
-						if ($update && $create_assure && $create_controle)
+						// Enregistrement dans la table d'historique d'etat du vehicule
+						$data_histo_etat_vehicule = array(
+							'VEHICULE_ID' => $VEHICULE_ID,
+							'USER_ID' => $this->input->post('USER_ID'),
+							'IMAGE_AVANT'=>$IMAGE_AVANT,
+							'IMAGE_ARRIERE'=>$IMAGE_ARRIERE,
+							'IMAGE_LATERALE_GAUCHE'=>$IMAGE_LATERALE_GAUCHE,
+							'IMAGE_LATERALE_DROITE'=>$IMAGE_LATERALE_DROITE,
+							'IMAGE_TABLEAU_DE_BORD'=>$IMAGE_TABLEAU_DE_BORD,
+							'IMAGE_SIEGE_AVANT'=>$IMAGE_SIEGE_AVANT,
+							'IMAGE_SIEGE_ARRIERE'=>$IMAGE_SIEGE_ARRIERE,
+						);
+
+						$create_etat = $this->Model->create('historique_etat_vehicule',$data_histo_etat_vehicule);
+
+
+						if ($update && $create_assure && $create_controle && $create_etat)
 						{
 							$message['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif_veh').' <i class="fa fa-check"></i></div>';
 							$this->session->set_flashdata($message);
@@ -1120,6 +1244,237 @@
 
 				echo json_encode(array('status' => TRUE));
 			}
+		}
+
+
+		//Fonction pour la liste d'historique d'etat du vehicule
+		function liste_etat_vehicule()
+		{
+			$VEHICULE_ID = $this->input->post('VEHICULE_ID');
+
+			$critaire = '' ;
+
+			$query_principal='SELECT ID_ETAT_VEHICULE,IDENTIFICATION,historique_etat_vehicule.IMAGE_AVANT,historique_etat_vehicule.IMAGE_ARRIERE,historique_etat_vehicule.IMAGE_LATERALE_GAUCHE,historique_etat_vehicule.IMAGE_LATERALE_DROITE,historique_etat_vehicule.IMAGE_LATERALE_DROITE,historique_etat_vehicule.IMAGE_TABLEAU_DE_BORD,historique_etat_vehicule.IMAGE_SIEGE_AVANT,historique_etat_vehicule.IMAGE_SIEGE_ARRIERE,historique_etat_vehicule.DATE_SAVE FROM historique_etat_vehicule JOIN vehicule ON vehicule.VEHICULE_ID = historique_etat_vehicule.VEHICULE_ID JOIN users ON users.USER_ID = historique_etat_vehicule.USER_ID WHERE 1';
+
+			$critaire.= ' AND vehicule.VEHICULE_ID = '.$VEHICULE_ID;
+
+			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
+			$var_search = str_replace("'", "\'", $var_search);
+			$group = "";
+
+			$limit = 'LIMIT 0,1000';
+			if ($_POST['length'] != -1) {
+				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
+			}
+			$order_by='';
+
+			$order_column=array('ID_ETAT_VEHICULE','IMAGE_AVANT','IMAGE_ARRIERE','historique_etat_vehicule.IMAGE_LATERALE_GAUCHE','historique_etat_vehicule.IMAGE_LATERALE_DROITE','historique_etat_vehicule.IMAGE_TABLEAU_DE_BORD');
+
+			if ($_POST['order']['0']['column'] != 0) {
+				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_ETAT_VEHICULE ASC';
+			}
+
+
+
+			$search = !empty($_POST['search']['value']) ? (' AND (`ID_ETAT_VEHICULE` LIKE "%' . $var_search . '%" 
+				OR IDENTIFICATION LIKE "%' . $var_search . '%")') : '';
+
+
+			//condition pour le query principale
+			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
+
+			// condition pour le query filter
+			$conditionsfilter = $critaire . ' ' . $group;
+
+
+			$requetedebase=$query_principal.$conditions;
+			$requetedebasefilter=$query_principal.$conditionsfilter;
+
+
+
+			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
+			// echo $query_secondaire;
+			$fetch_data = $this->ModelPs->datatable($query_secondaire);
+			$data = array();
+			$i=0;
+
+			foreach ($fetch_data as $row) {
+				$i=$i+1;
+
+				$sub_array=array();
+				$sub_array[]=$i;
+
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_AVANT" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_ARRIERE" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_LATERALE_GAUCHE" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_LATERALE_DROITE" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_TABLEAU_DE_BORD" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_SIEGE_AVANT" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+
+				$sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_SIEGE_ARRIERE" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
+
+				$sub_array[]=$row->IDENTIFICATION;
+				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
+
+				$option = " ";
+
+				$option .="
+				<div class='modal fade' id='IMAGE_AVANT" .$row->ID_ETAT_VEHICULE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>IMAGE AVANT</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->IMAGE_AVANT)."'   style='border-radius: 5px;height:500px;width: 100%;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+				
+				";
+
+				$option .="
+				<div class='modal fade' id='IMAGE_ARRIERE" .$row->ID_ETAT_VEHICULE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>IMAGE ARRIERE</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->IMAGE_ARRIERE)."'   style='border-radius: 5px;height:500px;width: 100%;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+				
+				";
+
+				$option .="
+				<div class='modal fade' id='IMAGE_LATERALE_GAUCHE" .$row->ID_ETAT_VEHICULE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>IMAGE LATERALE GAUCHE</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->IMAGE_LATERALE_GAUCHE)."'   style='border-radius: 5px;height:500px;width: 100%;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+				
+				";
+
+				$option .="
+				<div class='modal fade' id='IMAGE_LATERALE_DROITE" .$row->ID_ETAT_VEHICULE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>IMAGE LATERALE DROITE</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->IMAGE_LATERALE_DROITE)."'   style='border-radius: 5px;height:500px;width: 100%;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+				
+				";
+
+				$option .="
+				<div class='modal fade' id='IMAGE_TABLEAU_DE_BORD" .$row->ID_ETAT_VEHICULE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>IMAGE TABLEAU DE BORD</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->IMAGE_TABLEAU_DE_BORD)."'   style='border-radius: 5px;height:500px;width: 100%;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+				
+				";
+
+				$option .="
+				<div class='modal fade' id='IMAGE_SIEGE_AVANT" .$row->ID_ETAT_VEHICULE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>IMAGE SIEGE AVANT</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->IMAGE_SIEGE_AVANT)."'   style='border-radius: 5px;height:500px;width: 100%;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+				
+				";
+
+				$option .="
+				<div class='modal fade' id='IMAGE_SIEGE_ARRIERE" .$row->ID_ETAT_VEHICULE."' style='border-radius:100px;'>
+				<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h6 class='modal-title'>IMAGE SIEGE ARRIERE</h6>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<embed src = '".base_url('upload/photo_vehicule/'.$row->IMAGE_SIEGE_ARRIERE)."'   style='border-radius: 5px;height:500px;width: 100%;'>
+
+				</div>
+				</div>
+				</div>
+				</div>
+				
+				";
+
+				$sub_array[]=$option;
+				$data[]=$sub_array;
+			}
+			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
+			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
+			$output = array(
+				"draw" => intval($_POST['draw']),
+				"recordsTotal" => count($recordsTotal),
+				"recordsFiltered" => count($recordsFiltered),
+				"data" => $data,
+			);
+			echo json_encode($output);
 		}
 
 
@@ -1695,11 +2050,11 @@
 						foreach ($anomalies_exces_vitesse as $keyexces) {
 
 							$my_selectvitesse_max= $this->getBindParms(' MAX(vitesse) AS max_vitesse', 'tracking_data', '1 AND device_uid ="'.$keyexces['device_uid'].'" AND date_format(tracking_data.date,"%Y-%m-%d") ="'.$today.'"' , '`id` ASC');
-									$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
-									$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
-									$my_selectvitesse_max=str_replace('\"', '', $my_selectvitesse_max);
+							$my_selectvitesse_max=str_replace('\"', '"', $my_selectvitesse_max);
+							$my_selectvitesse_max=str_replace('\n', '', $my_selectvitesse_max);
+							$my_selectvitesse_max=str_replace('\"', '', $my_selectvitesse_max);
 
-									$vitesse_max = $this->ModelPs->getRequeteOne($psgetrequete, $my_selectvitesse_max);
+							$vitesse_max = $this->ModelPs->getRequeteOne($psgetrequete, $my_selectvitesse_max);
 
 							$personal_req = $this->getBindParms('device_uid,date as date_depass,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,chauffeur.NOM,chauffeur.PRENOM','tracking_data join vehicule on vehicule.code=tracking_data.device_uid join proprietaire ON proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join chauffeur_vehicule on chauffeur_vehicule.CODE=tracking_data.device_uid join chauffeur on chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID','1 and chauffeur_vehicule.STATUT_AFFECT=1 and device_uid="'.$keyexces['device_uid'].'"','id ASC');
 							$personal_req=str_replace('\"', '"', $personal_req);
@@ -1710,24 +2065,24 @@
 								$heure_exces=$this->notifications->ago($personal['date_depass'],$maintenant);
 
 								$html.='
-							<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyexces['device_uid'])). '" style="color:black;">
-							<li class="notification-item">
-							<i class="bi bi-exclamation-circle text-warning"></i>
-							<div>
-							<h4 class="text-warning">'.lang('h_exces_vitesse').'</h4>
-							<p> Max : '.$vitesse_max['max_vitesse'].' Km/h</p>
-							<p>'.lang('title_proprio_list').': '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
-							<p>'.lang('p_chauffeur').' : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
-							<p>'.lang('label_plaque').' : '.$personal['PLAQUE'].'</p>
-							<p>'.lang('franc_date_il_ya').' '.$heure_exces.' '.lang('angl_date_il_ya').'</p>
-							</div>
-							</li>
-							</a>
-							<li>
-							<hr class="dropdown-divider">
-							</li>
-							'; 
-							
+								<a href="' . base_url('tracking/Dashboard/tracking_chauffeur/'.md5($keyexces['device_uid'])). '" style="color:black;">
+								<li class="notification-item">
+								<i class="bi bi-exclamation-circle text-warning"></i>
+								<div>
+								<h4 class="text-warning">'.lang('h_exces_vitesse').'</h4>
+								<p> Max : '.$vitesse_max['max_vitesse'].' Km/h</p>
+								<p>'.lang('title_proprio_list').': '.$personal['NOM_PROPRIETAIRE'].' '.$personal['PRENOM_PROPRIETAIRE'].'</p>
+								<p>'.lang('p_chauffeur').' : '.$personal['NOM'].' '.$personal['PRENOM'].'</p>
+								<p>'.lang('label_plaque').' : '.$personal['PLAQUE'].'</p>
+								<p>'.lang('franc_date_il_ya').' '.$heure_exces.' '.lang('angl_date_il_ya').'</p>
+								</div>
+								</li>
+								</a>
+								<li>
+								<hr class="dropdown-divider">
+								</li>
+								'; 
+
 							}
 							
 
