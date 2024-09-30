@@ -565,7 +565,7 @@
 			$data['btn'] = "Enregistrer";
 			$data['title']="Enregistrement du véhicule";
 
-			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL,'ID_ASSUREUR'=>NULL,'IMAGE_AVANT'=>NULL,'IMAGE_ARRIERE'=>NULL,'IMAGE_LATERALE_GAUCHE'=>NULL,'IMAGE_LATERALE_DROITE'=>NULL,'IMAGE_TABLEAU_DE_BORD'=>NULL,'IMAGE_SIEGE_AVANT'=>NULL,'IMAGE_SIEGE_ARRIERE'=>NULL);
+			$vehicule = array('VEHICULE_ID'=>NULL,'ID_MARQUE'=>NULL,'ID_MODELE'=>NULL,'CODE'=>NULL,'PLAQUE'=>NULL,'COULEUR'=>NULL,'KILOMETRAGE'=>NULL,'PHOTO'=>NULL,'PROPRIETAIRE_ID'=>NULL,'ANNEE_FABRICATION'=>NULL,'NUMERO_CHASSIS'=>NULL,'USAGE_ID'=>NULL,'DATE_FIN_CONTROTECHNIK'=>NULL,'DATE_FIN_ASSURANCE'=>NULL,'DATE_DEBUT_CONTROTECHNIK'=>NULL,'DATE_DEBUT_ASSURANCE'=>NULL,'FILE_CONTRO_TECHNIQUE'=>NULL,'FILE_ASSURANCE'=>NULL,'ID_ASSUREUR'=>NULL,'IMAGE_AVANT'=>NULL,'IMAGE_ARRIERE'=>NULL,'IMAGE_LATERALE_GAUCHE'=>NULL,'IMAGE_LATERALE_DROITE'=>NULL,'IMAGE_TABLEAU_DE_BORD'=>NULL,'IMAGE_SIEGE_AVANT'=>NULL,'IMAGE_SIEGE_ARRIERE'=>NULL,'SHIFT_ID'=>NULL);
 			
 
 			$marque = $this->getBindParms('ID_MARQUE,DESC_MARQUE','vehicule_marque',' 1 ','DESC_MARQUE ASC');
@@ -580,13 +580,16 @@
 			$assureur = $this->getBindParms('`ID_ASSUREUR`, `ASSURANCE`', 'assureur', '1', '`ASSURANCE` ASC');
 			$assureur = $this->ModelPs->getRequete($psgetrequete, $assureur);
 
+			$shift = $this->getBindParms('`SHIFT_ID`, HEURE_DEBUT,HEURE_FIN', 'shift', '1', '`SHIFT_ID` ASC');
+			$shift = $this->ModelPs->getRequete($psgetrequete, $shift);
+
 
 			if(!empty($VEHICULE_ID))
 			{
 				$data['btn'] = "Modifier";
 				$data['title'] = "Modification du véhicule";
 
-				$vehicule = $this->Model->getRequeteOne("SELECT vehicule.VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,vehicule.DATE_FIN_CONTROTECHNIK,vehicule.DATE_FIN_ASSURANCE,vehicule.DATE_DEBUT_ASSURANCE,vehicule.DATE_DEBUT_CONTROTECHNIK,vehicule.FILE_CONTRO_TECHNIQUE,vehicule.FILE_ASSURANCE,vehicule.ID_ASSUREUR,vehicule.IMAGE_AVANT,vehicule.IMAGE_ARRIERE,vehicule.IMAGE_LATERALE_GAUCHE,vehicule.IMAGE_LATERALE_DROITE,vehicule.IMAGE_TABLEAU_DE_BORD,vehicule.IMAGE_SIEGE_AVANT,vehicule.IMAGE_SIEGE_ARRIERE FROM vehicule LEFT JOIN historique_assurance ON historique_assurance.VEHICULE_ID = vehicule.VEHICULE_ID WHERE md5(vehicule.VEHICULE_ID)='".$VEHICULE_ID."'");
+				$vehicule = $this->Model->getRequeteOne("SELECT vehicule.VEHICULE_ID,ID_MARQUE,ID_MODELE,CODE,PLAQUE,COULEUR,KILOMETRAGE,PHOTO,PROPRIETAIRE_ID,NUMERO_CHASSIS,USAGE_ID,ANNEE_FABRICATION,vehicule.DATE_FIN_CONTROTECHNIK,vehicule.DATE_FIN_ASSURANCE,vehicule.DATE_DEBUT_ASSURANCE,vehicule.DATE_DEBUT_CONTROTECHNIK,vehicule.FILE_CONTRO_TECHNIQUE,vehicule.FILE_ASSURANCE,vehicule.ID_ASSUREUR,vehicule.IMAGE_AVANT,vehicule.IMAGE_ARRIERE,vehicule.IMAGE_LATERALE_GAUCHE,vehicule.IMAGE_LATERALE_DROITE,vehicule.IMAGE_TABLEAU_DE_BORD,vehicule.IMAGE_SIEGE_AVANT,vehicule.IMAGE_SIEGE_ARRIERE,SHIFT_ID FROM vehicule LEFT JOIN historique_assurance ON historique_assurance.VEHICULE_ID = vehicule.VEHICULE_ID WHERE md5(vehicule.VEHICULE_ID)='".$VEHICULE_ID."'");
 
 				// if(empty($vehicule))
 				// {
@@ -624,6 +627,7 @@
 			$data['usage']=$usage;
 			$data['proprio']=$proprio;
 			$data['assureur'] = $assureur;
+			$data['shift'] = $shift;
 
 			// print_r($vehicule);die();
 			$this->load->view('Vehicule_add_View',$data);
@@ -788,6 +792,7 @@
 						'IMAGE_TABLEAU_DE_BORD'=>$IMAGE_TABLEAU_DE_BORD,
 						'IMAGE_SIEGE_AVANT'=>$IMAGE_SIEGE_AVANT,
 						'IMAGE_SIEGE_ARRIERE'=>$IMAGE_SIEGE_ARRIERE,
+						'SHIFT_ID'=>$this->input->post('SHIFT_ID'),
 
 						
 					);
@@ -1012,6 +1017,7 @@
 							'IMAGE_TABLEAU_DE_BORD'=>$IMAGE_TABLEAU_DE_BORD,
 							'IMAGE_SIEGE_AVANT'=>$IMAGE_SIEGE_AVANT,
 							'IMAGE_SIEGE_ARRIERE'=>$IMAGE_SIEGE_ARRIERE,
+							'SHIFT_ID'=>$this->input->post('SHIFT_ID'),
 
 						);
 

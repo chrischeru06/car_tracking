@@ -113,7 +113,8 @@ class Dashboard extends CI_Controller
 		$HEURE1 = $this->input->post('HEURE1');
 		$HEURE2 = $this->input->post('HEURE2');
 		$CODE_COURSE = $this->input->post('CODE_COURSE');
-		
+		$SHIFT = $this->input->post('SHIFT');
+		$SHIFT1 = $this->input->post('SHIFT1');
 
 
 		$distance_finale=0;
@@ -122,6 +123,8 @@ class Dashboard extends CI_Controller
 		$critere='';
 		$critere1='';
 		$aujourdhui=date('Y-m-d');;
+
+		$critere_shift = '';
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_select_heure1 = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', 'HEURE_ID="'.$HEURE1.'"', '`HEURE_ID` ASC');
@@ -159,7 +162,61 @@ class Dashboard extends CI_Controller
 			$critere1.=' AND md5(tracking_data.CODE_COURSE) ="'.$CODE_COURSE.'" AND md5(tracking_data.device_uid)="'.$CODE.'"';
 			
 		}
-		
+
+		$critere_code_v = '';
+
+		if(!empty($CODE) && !empty($SHIFT))
+		{
+			$critere_code_v.= ' AND md5(vehicule.CODE) = "'.$CODE.'"';
+
+			 $psgetrequete = "CALL `getRequete`(?,?,?,?);";
+			
+			$shift = $this->getBindParms('shift.HEURE_DEBUT,shift.HEURE_FIN', 'shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID', '1 '.$critere_code_v.'', ' shift.SHIFT_ID ASC');
+
+			$shift=str_replace('\"', '"', $shift);
+		    $shift=str_replace('\n', '', $shift);
+		    $shift=str_replace('\"', '', $shift);
+
+			$shiftF = $this->ModelPs->getRequeteOne($psgetrequete, $shift);
+
+			// $shift = $this->Model->getRequeteOne('SELECT shift.HEURE_DEBUT,shift.HEURE_FIN FROM shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID WHERE 1 '.$critere_code_v.'');
+
+			if(!empty($shiftF))
+			{
+
+				$critere_shift.= ' AND date_format(tracking_data.`date`,"%H:%i") < "'.$shiftF['HEURE_DEBUT'].'" OR date_format(tracking_data.`date`,"%H:%i") > "'.$shiftF['HEURE_FIN'].'"';
+
+				echo 'test success one';
+			}
+
+		}
+		else if(!empty($CODE) && !empty($SHIFT1))
+		{
+			$critere_code_v.= ' AND md5(vehicule.CODE) = "'.$CODE.'"';
+
+			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+			
+			$shift = $this->getBindParms('shift.HEURE_DEBUT,shift.HEURE_FIN', 'shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID', '1 '.$critere_code_v.'', 'shift.SHIFT_ID ASC');
+
+			$shift=str_replace('\"', '"', $shift);
+		    $shift=str_replace('\n', '', $shift);
+		    $shift=str_replace('\"', '', $shift);
+
+			$shiftF = $this->ModelPs->getRequeteOne($psgetrequete, $shift);
+
+			// $shift = $this->Model->getRequeteOne('SELECT shift.HEURE_DEBUT,shift.HEURE_FIN FROM shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID WHERE 1 '.$critere_code_v.'');
+
+			if(!empty($shiftF))
+			{
+
+				$critere_shift.= ' AND date_format(tracking_data.`date`,"%H:%i") between "'.$shiftF['HEURE_DEBUT'].'" AND "'.$shiftF['HEURE_FIN'].'"';
+
+				echo 'test success two';
+			}
+
+		}
+
+	
 
 		$info = '';
 
@@ -183,7 +240,8 @@ class Dashboard extends CI_Controller
 
 
 		//requete pour recuperer tout le trajet parcouru
-		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+		$my_selectget_data = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' '.$critere_shift.' ', '`id` ASC');
+
 		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\"', '"', $my_selectget_data);
 		$my_selectget_data=str_replace('\n', '', $my_selectget_data);
@@ -192,7 +250,7 @@ class Dashboard extends CI_Controller
 
 
 		//Requete pour recuperer partout ou il ya eu exces de vitesse
-		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as hour,date_format(tracking_data.date,"%H") as houronly,date_format(tracking_data.date,"%i") as minonly', 'tracking_data', ' vitesse >= 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+		$my_selectget_exces_vitesse = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as hour,date_format(tracking_data.date,"%H") as houronly,date_format(tracking_data.date,"%i") as minonly', 'tracking_data', ' vitesse >= 50 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' '.$critere_shift.'', '`id` ASC');
 		$my_selectget_exces_vitesse=str_replace('\"', '"', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\"', '"', $my_selectget_exces_vitesse);
 		$my_selectget_exces_vitesse=str_replace('\n', '', $my_selectget_exces_vitesse);
@@ -200,7 +258,7 @@ class Dashboard extends CI_Controller
 		$get_data_exces_vitesse = $this->ModelPs->getRequete($proce_requete, $my_selectget_exces_vitesse);
 
 		////Requete pour recuperer partout ou il ya eu accident
-		$my_selectget_accident= $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour', 'tracking_data', ' accident=1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+		$my_selectget_accident= $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H %i") as hour', 'tracking_data', ' accident=1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' '.$critere_shift.'', '`id` ASC');
 		$my_selectget_accident=str_replace('\"', '"', $my_selectget_accident);
 		$my_selectget_accident=str_replace('\"', '"', $my_selectget_accident);
 		$my_selectget_accident=str_replace('\n', '', $my_selectget_accident);
@@ -208,7 +266,7 @@ class Dashboard extends CI_Controller
 		$get_data_accident = $this->ModelPs->getRequete($proce_requete, $my_selectget_accident);
 		
 		//requete pour recuperer les arrets
-		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' ', '`id` ASC');
+		$my_selectget_arret = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date,date_format(tracking_data.date,"%H:%i") as heure', 'tracking_data', ' ignition=0 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' '.$critere_shift.'', '`id` ASC');
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\"', '"', $my_selectget_arret);
 		$my_selectget_arret=str_replace('\n', '', $my_selectget_arret);
@@ -273,20 +331,20 @@ class Dashboard extends CI_Controller
 
 
 		//calcul de la distance	par filtre	
-		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.'  AND ignition=0' , '`id` ASC');
+		$my_selectget_arret_date = $this->getBindParms('id,tracking_data.date', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' '.$critere_shift.' AND ignition=0' , '`id` ASC');
 		$my_selectget_arret_date=str_replace('\"', '"', $my_selectget_arret_date);
 		$my_selectget_arret_date=str_replace('\n', '', $my_selectget_arret_date);
 		$my_selectget_arret_date=str_replace('\"', '', $my_selectget_arret_date);
 		$get_arret_date = $this->ModelPs->getRequete($proce_requete, $my_selectget_arret_date);
 		$nvldistance=0;
 
-		$my_selectmin_arret = $this->getBindParms('MIN(id) as minimum', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.' ' , '`id` ASC');
+		$my_selectmin_arret = $this->getBindParms('MIN(id) as minimum', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.' '.$critere_shift.'' , '`id` ASC');
 		$my_selectmin_arret=str_replace('\"', '"', $my_selectmin_arret);
 		$my_selectmin_arret=str_replace('\n', '', $my_selectmin_arret);
 		$my_selectmin_arret=str_replace('\"', '', $my_selectmin_arret);
 		$min_arret = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret);
 
-		$my_selectmax_arret = $this->getBindParms('MAX(id) as maximum', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.'' , '`id` ASC');
+		$my_selectmax_arret = $this->getBindParms('MAX(id) as maximum', 'tracking_data', '1 AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.' '.$critere_shift.'' , '`id` ASC');
 		$my_selectmax_arret=str_replace('\"', '"', $my_selectmax_arret);
 		$my_selectmax_arret=str_replace('\n', '', $my_selectmax_arret);
 		$my_selectmax_arret=str_replace('\"', '', $my_selectmax_arret);
@@ -299,7 +357,7 @@ class Dashboard extends CI_Controller
 		// $my_selectmin_arret_plus=str_replace('\"', '', $my_selectmin_arret_plus);
 		// $min_arret_plus = $this->ModelPs->getRequeteOne($proce_requete, $my_selectmin_arret_plus);
 
-		$my_selectmin_arret_plus = $this->getBindParms('MIN(id) as arret_min_deux', 'tracking_data', '1 AND id NOT IN (SELECT MIN(id) FROM tracking_data) AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.'' , '`id` ASC');
+		$my_selectmin_arret_plus = $this->getBindParms('MIN(id) as arret_min_deux', 'tracking_data', '1 AND id NOT IN (SELECT MIN(id) FROM tracking_data) AND md5(device_uid) ="'.$CODE.'"'.$critere.' '.$critere1.' '.$critere_shift.'' , '`id` ASC');
 		$my_selectmin_arret_plus=str_replace('\"', '"', $my_selectmin_arret_plus);
 		$my_selectmin_arret_plus=str_replace('\n', '', $my_selectmin_arret_plus);
 		$my_selectmin_arret_plus=str_replace('\"', '', $my_selectmin_arret_plus);
@@ -404,7 +462,7 @@ class Dashboard extends CI_Controller
 
 		//le Resume des courses se trouvant sur la carte
 		$card_card='';		
-		$get_data_arret_prime = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' GROUP BY CODE_COURSE');
+		$get_data_arret_prime = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' '.$critere_shift.' GROUP BY CODE_COURSE');
 		$tabl=' ';
 		$mark_v='';
 		$mark_vprim='';
@@ -446,7 +504,7 @@ class Dashboard extends CI_Controller
 		}
 
 		$distdislegend=0;
-		$get_data_arret = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE CODE_COURSE IS NOT NULL and  md5(device_uid) ="'.$CODE.'" '.$critere.'  GROUP BY CODE_COURSE ORDER BY CODE_COURSE DESC');
+		$get_data_arret = $this->Model->getRequete('SELECT CODE_COURSE FROM tracking_data WHERE CODE_COURSE IS NOT NULL and  md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere_shift.'  GROUP BY CODE_COURSE ORDER BY CODE_COURSE DESC');
 		$dataplace = '';
 		$dataplace1 = '';
 		$card_card1='';
@@ -905,7 +963,7 @@ class Dashboard extends CI_Controller
 
 
 											//Calcul de la distance parcourue
-													$my_selectget_parcours = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.' and ignition=1', '`id` ASC');
+													$my_selectget_parcours = $this->getBindParms('`id`,`latitude`,`longitude`,`vitesse`,`altitude`,`angle`,`satellites`,`mouvement`,`gnss_statut`,`device_uid`,`ignition`,date', 'tracking_data', ' md5(device_uid) ="'.$CODE.'" '.$critere.' '.$critere1.''.$critere_shift.' and ignition=1', '`id` ASC');
 													$my_selectget_parcours=str_replace('\"', '"', $my_selectget_parcours);
 													$my_selectget_parcours=str_replace('\"', '"', $my_selectget_parcours);
 													$my_selectget_parcours=str_replace('\n', '', $my_selectget_parcours);

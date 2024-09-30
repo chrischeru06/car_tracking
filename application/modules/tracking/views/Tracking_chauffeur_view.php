@@ -192,13 +192,13 @@ font-family: 'Open Sans', sans-serif;
 }
 
 
-  .arrow-right {
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 20px solid black; /* Ajustez la couleur et la taille selon vos besoins */
-  }
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 20px solid black; /* Ajustez la couleur et la taille selon vos besoins */
+}
 
 </style>
 
@@ -560,6 +560,15 @@ font-family: 'Open Sans', sans-serif;
         <div class="card">
           <div class="card-body">
             <center><h6 class="card-title"><?=lang('trajet_parcouru')?></h6></center>
+            <!-- <div class="row">
+              <div class="col-md-1 text-center">
+                <button onclick="change_carte('SHIFT')" class="btn btn-danger rounded-pill btn-sm fa fa-clock-o" type="button" title="Courses hors des heures de service"></button>
+              </div>
+
+              <div class="col-md-1 text-center">
+                <button onclick="change_carte('SHIFT1')"  class="btn btn-success rounded-pill btn-sm fa fa-clock-o" type="button" title="Courses pendant les heures de service"></button>
+              </div>
+            </div> -->
             <div id="map_filtre" ></div>
 
           </div>
@@ -591,10 +600,12 @@ font-family: 'Open Sans', sans-serif;
 <script>
 
   $(document).ready(function(){
-            $('#fleche').hide();
+    $('#fleche').hide();
 
-    change_carte(); 
+    change_carte();
 
+    // show_shift_error();
+    // show_shift_success();
 
   });
 
@@ -1037,16 +1048,16 @@ for (const input of inputs) {
         // $('#coord').val(data.track_dist);
         $('#dist_finale').val(distance_vrai2);
         if(data.carburant_val!=''){
-        var distance_vrai3=$('#dist_finale').val();
-        let chaineAvecPoints = distance_vrai3.replace(/,/g, ".");
+          var distance_vrai3=$('#dist_finale').val();
+          let chaineAvecPoints = distance_vrai3.replace(/,/g, ".");
 
-         var consommation = Number(data.carburant_val) * chaineAvecPoints;
-         if(consommation!=0){
-          var cons_arrondi=consommation.toFixed(2);
-         $('#carburant').html(cons_arrondi);
+          var consommation = Number(data.carburant_val) * chaineAvecPoints;
+          if(consommation!=0){
+            var cons_arrondi=consommation.toFixed(2);
+            $('#carburant').html(cons_arrondi);
 
-         }else{
-         $('#carburant').html(consommation);
+          }else{
+           $('#carburant').html(consommation);
 
          }
 
@@ -1104,6 +1115,70 @@ function change_trajet(CODE_COURSE){
 
 }
 
+</script>
+
+
+<script type="text/javascript">
+    //Fonction pour verifier les courses hors des heures de service du vehicule
+  function show_shift_error()
+  {
+    var CODE = $('#CODE').val();
+    var SHIFT = 'SHIFT';
+
+    $.ajax({
+      url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
+      type : "POST",
+      dataType: "JSON",
+      cache:false,
+      data: {
+        CODE:CODE,
+        SHIFT:SHIFT,
+
+      },
+      beforeSend:function () { 
+
+      },
+      success:function(data) {
+
+      },
+      error:function() {
+
+
+      }
+    });
+  }
+</script>
+
+
+<script type="text/javascript">
+    //Fonction pour verifier les courses hors des heures de service du vehicule
+  function show_shift_success()
+  {
+    var CODE = $('#CODE').val();
+    var SHIFT1 = 'SHIFT1';
+
+    $.ajax({
+      url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
+      type : "POST",
+      dataType: "JSON",
+      cache:false,
+      data: {
+        CODE:CODE,
+        SHIFT1:SHIFT1,
+
+      },
+      beforeSend:function () { 
+
+      },
+      success:function(data) {
+
+      },
+      error:function() {
+
+
+      }
+    });
+  }
 </script>
 
 

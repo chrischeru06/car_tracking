@@ -11,7 +11,7 @@
     -progress: [object Object];
     flex-flow: column;
     overflow-y: auto;
-  transition: all .800ms ease-in-out;
+    transition: all .800ms ease-in-out;
 
 /*    border: solid 1px rgba(128, 128, 128, 0.3);*/
 }
@@ -389,12 +389,23 @@ z-index: 100;
                 <!-- <button onclick="close_popup()" style="float: right; background-color: cadetblue; color: white;" class="btn btn-default me-md-2" type="button">X</button> -->
 
                 <h5 class="card-title"><?=lang('resume_courses')?> </h5>
+                <input type="hidden" name="CODE" id="CODE" value="<?=$CODE?>">
+
+                    <div class="row">
+                      <div class="col-md-2 text-center">
+                        <button onclick="show_shift_error()" class="btn btn-danger rounded-pill btn-sm fa fa-clock-o" type="button" title="Courses hors des heures de service"></button>
+                      </div>
+
+                      <div class="col-md-2 text-center">
+                        <button onclick="show_shift_success()"  class="btn btn-success rounded-pill btn-sm fa fa-clock-o" type="button" title="Courses pendant les heures de service"></button>
+                      </div>
+                    </div>
+
                 <?=$card_card1?>
                 <?=$card_card?>
 
                 <br>
                 <div class="card">
-                 
                   <?=$card_card2?>
 
                 </div>
@@ -467,8 +478,8 @@ z-index: 100;
         $("#btn_list").hide();
         $('#btn_list2').hide();
 
-
-
+        show_shift_error();
+        show_shift_success();
 
 
       });
@@ -516,7 +527,7 @@ z-index: 100;
   
 
   <script type="text/javascript">
-    
+
 
     mapboxgl.accessToken =
     "pk.eyJ1IjoiY2hyaXN3aG9uZ21hcGJveCIsImEiOiJjbGE5eTB0Y2QwMmt6M3dvYW1ra3pmMnNsIn0.ZfF6uOlFNhl6qoCR7egTSw";
@@ -672,9 +683,9 @@ z-index: 100;
       map_map.addSource('pointpoint', {
         'type': 'geojson',
         'data': {
-                'type': 'FeatureCollection',
-                'features': [<?=$geojsonexces;?>]
-              }
+          'type': 'FeatureCollection',
+          'features': [<?=$geojsonexces;?>]
+        }
       });
 
 
@@ -786,72 +797,72 @@ z-index: 100;
       for (var i = 0; i<(donn.length) - 1; i++) {
 
         var index=donn[i].split('<>');
-          if(index[4]==0){
+        if(index[4]==0){
 
-        var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
-        fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          adress = data.features[0].place_name;
-          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[6] +''
-            );
-          const popupParking = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<a><img src="<?= base_url()?>/upload/chauffeur/'+ index[10] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;&nbsp;'+index[9]+'</a><br><i class="bi bi-textarea-resize"></i>&nbsp;&nbsp;&nbsp;'+ index[11] +'<br><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;' + index[8] +'&nbsp;&nbsp;-&nbsp;&nbsp;' + index[7] +''
-            );
-          var couleur='';
+          var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
+          fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            adress = data.features[0].place_name;
+            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              '<i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[6] +''
+              );
+            const popupParking = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              '<a><img src="<?= base_url()?>/upload/chauffeur/'+ index[10] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;&nbsp;'+index[9]+'</a><br><i class="bi bi-textarea-resize"></i>&nbsp;&nbsp;&nbsp;'+ index[11] +'<br><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;' + index[8] +'&nbsp;&nbsp;-&nbsp;&nbsp;' + index[7] +''
+              );
+            var couleur='';
           couleur='#0000FF';//bleu
 
 
-              const marker2 = new FontawesomeMarker({
-                icon: 'fa fa-product-hunt',
-                iconColor: 'white',
+          const marker2 = new FontawesomeMarker({
+            icon: 'fa fa-product-hunt',
+            iconColor: 'white',
                 color: '#0000FF',//bleu
 
               })
 
 
-              .setLngLat([index[2],index[3]]).setPopup(popupParking).addTo(map_map);
-
-            
-
-            map_map.flyTo({
-              center: [index[2], index[3]],
-              speed: 0.5
-            });
+          .setLngLat([index[2],index[3]]).setPopup(popupParking).addTo(map_map);
 
 
-          })
-        .catch(error => {
-          console.log('Une erreur s\'est produite :', error);
-        });
 
-}
+          map_map.flyTo({
+            center: [index[2], index[3]],
+            speed: 0.5
+          });
+
+
+        })
+          .catch(error => {
+            console.log('Une erreur s\'est produite :', error);
+          });
+
+        }
         if(index[4]!=0){
 
           var apiUrl_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[0] + ',' + index[1] + '.json?access_token=' + mapboxgl.accessToken;
           var apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + index[2] + ',' + index[3] + '.json?access_token=' + mapboxgl.accessToken;
-            fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          adress = data.features[0].place_name;
-          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            '<a><img src="<?= base_url()?>/upload/chauffeur/'+ index[10] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;&nbsp;'+index[9]+'</a><br><i class="bi bi-textarea-resize"></i>&nbsp;&nbsp;&nbsp;'+ index[11] +'<br><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[7] +''
-            );
-          
-          var couleur='';
+          fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            adress = data.features[0].place_name;
+            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              '<a><img src="<?= base_url()?>/upload/chauffeur/'+ index[10] +'" style="width: 15px;height: 15px;border-radius: 50%;" class="zoomable-image" title="Chauffeur">&nbsp;&nbsp;&nbsp;'+index[9]+'</a><br><i class="bi bi-textarea-resize"></i>&nbsp;&nbsp;&nbsp;'+ index[11] +'<br><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;'+ adress +'<br><i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;' + index[7] +''
+              );
+
+            var couleur='';
          couleur='#FF0000';//rouge
-              const marker2 = new mapboxgl.Marker({ color: couleur})
-              .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
-            
-
-            map_map.flyTo({
-              center: [index[2], index[3]],
-              speed: 0.5
-            });
+         const marker2 = new mapboxgl.Marker({ color: couleur})
+         .setLngLat([index[2],index[3]]).setPopup(popup).addTo(map_map);
 
 
-          })
+         map_map.flyTo({
+          center: [index[2], index[3]],
+          speed: 0.5
+        });
+
+
+       })
           fetch(apiUrl_url)
           .then(response => response.json())
           .then(data => {
@@ -887,4 +898,67 @@ z-index: 100;
     });
 
 
+  </script>
+
+  <script type="text/javascript">
+    //Fonction pour verifier les courses hors des heures de service du vehicule
+    function show_shift_error()
+    {
+      var CODE = $('#CODE').val();
+      var SHIFT = 'SHIFT';
+
+      $.ajax({
+        url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
+        type : "POST",
+        dataType: "JSON",
+        cache:false,
+        data: {
+          CODE:CODE,
+          SHIFT:SHIFT,
+
+        },
+        beforeSend:function () { 
+
+        },
+        success:function(data) {
+
+        },
+        error:function() {
+
+
+        }
+      });
+    }
+  </script>
+
+
+  <script type="text/javascript">
+    //Fonction pour verifier les courses hors des heures de service du vehicule
+    function show_shift_success()
+    {
+      var CODE = $('#CODE').val();
+      var SHIFT1 = 'SHIFT1';
+
+      $.ajax({
+        url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
+        type : "POST",
+        dataType: "JSON",
+        cache:false,
+        data: {
+          CODE:CODE,
+          SHIFT1:SHIFT1,
+
+        },
+        beforeSend:function () { 
+
+        },
+        success:function(data) {
+
+        },
+        error:function() {
+
+
+        }
+      });
+    }
   </script>
