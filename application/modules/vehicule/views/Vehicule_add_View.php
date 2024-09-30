@@ -278,6 +278,23 @@
                     <?php echo form_error('DATE_FIN_CONTROTECHNIK', '<div class="text-danger">', '</div>'); ?>
                   </div>
 
+                  <div class="col-md-4" id="assureur">
+                      <label ><small>Heures de service</small><span  style="color:red;"></span></label>
+                      <select class="form-control" name="SHIFT_ID"  id="SHIFT_ID">
+                       <option value="" selected>-- <?=lang('selectionner')?> --</option>
+                       <?php
+                       foreach ($shift as $key)
+                       {
+                        ?>
+                        <option value="<?=$key['SHIFT_ID']?>"<?php if($key['SHIFT_ID']==$vehicule_data['SHIFT_ID']) echo " selected";?>><?=$key['HEURE_DEBUT'].' à '.$key['HEURE_FIN']?></option>
+                        <?php
+                      }
+                      ?>
+
+                    </select>
+                    <font id="error_SHIFT_ID" color="red"></font>
+                  </div>
+
                 </div>
                 
 

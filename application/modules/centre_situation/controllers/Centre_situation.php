@@ -179,7 +179,7 @@
 
              // Recherche des tous les vehicules pour la carte
 
-			$get_vihicule = $this->Model->getRequete('SELECT * FROM vehicule LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1'.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.''.$critere_vehicule_track.'');
+			$get_vihicule = $this->Model->getRequete('SELECT * FROM vehicule LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID LEFT JOIN users ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID WHERE 1 '.$critere_proprietaire.''.$critere_vehicule.''.$critere_user.''.$critere_vehicule_track.'');
 
 			$donnees_vehicule = ' ';
 
