@@ -268,7 +268,7 @@ font-family: 'Open Sans', sans-serif;
       <label class="form-label"><?=lang('input_date_fin')?></label>
       <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= date('Y-m-d')?>" onchange="change_carte();">
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label class="form-label"><?=lang('hrs_dbut')?></label>
       <select class="form-control" name="HEURE1" id="HEURE1">
         <option value=""><?=lang('selectionner')?></option>
@@ -285,7 +285,7 @@ font-family: 'Open Sans', sans-serif;
     </div>
 
 
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label class="form-label"><?=lang('hrs_fin')?></label>
       <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
         <option value=""><?=lang('selectionner')?></option>
@@ -297,6 +297,17 @@ font-family: 'Open Sans', sans-serif;
           <?php
         }
         ?>
+      </select>
+
+    </div>
+
+    <div class="form-group col-md-2">
+      <label class="form-label">Shift service</label>
+      <select class="form-control" name="SHIFT" id="SHIFT"  onchange="change_carte();">
+        <option value=""><?=lang('selectionner')?></option>
+        <option value="1">Courses hors des heures de service</option>
+        <option value="2">Courses pendant les heures de service</option>
+
       </select>
 
     </div>
@@ -941,7 +952,7 @@ for (const input of inputs) {
   var HEURE2 = $('#HEURE2').val(); 
   var CODE_COURSE = CODE_COURSE; 
   var dist_fin= $('#dist_finale').val();
-
+  var SHIFT= $('#SHIFT').val();
 
   $.ajax({
     url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
@@ -955,6 +966,7 @@ for (const input of inputs) {
       HEURE2:HEURE2,
       DATE_DAT_FIN:DATE_DAT_FIN,
       CODE_COURSE:CODE_COURSE,
+      SHIFT:SHIFT,
       
 
     },
@@ -1115,70 +1127,6 @@ function change_trajet(CODE_COURSE){
 
 }
 
-</script>
-
-
-<script type="text/javascript">
-    //Fonction pour verifier les courses hors des heures de service du vehicule
-  function show_shift_error()
-  {
-    var CODE = $('#CODE').val();
-    var SHIFT = 'SHIFT';
-
-    $.ajax({
-      url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
-      type : "POST",
-      dataType: "JSON",
-      cache:false,
-      data: {
-        CODE:CODE,
-        SHIFT:SHIFT,
-
-      },
-      beforeSend:function () { 
-
-      },
-      success:function(data) {
-
-      },
-      error:function() {
-
-
-      }
-    });
-  }
-</script>
-
-
-<script type="text/javascript">
-    //Fonction pour verifier les courses hors des heures de service du vehicule
-  function show_shift_success()
-  {
-    var CODE = $('#CODE').val();
-    var SHIFT1 = 'SHIFT1';
-
-    $.ajax({
-      url : "<?=base_url()?>tracking/Dashboard/tracking_chauffeur_filtres/",
-      type : "POST",
-      dataType: "JSON",
-      cache:false,
-      data: {
-        CODE:CODE,
-        SHIFT1:SHIFT1,
-
-      },
-      beforeSend:function () { 
-
-      },
-      success:function(data) {
-
-      },
-      error:function() {
-
-
-      }
-    });
-  }
 </script>
 
 

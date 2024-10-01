@@ -113,8 +113,10 @@ class Dashboard extends CI_Controller
 		$HEURE1 = $this->input->post('HEURE1');
 		$HEURE2 = $this->input->post('HEURE2');
 		$CODE_COURSE = $this->input->post('CODE_COURSE');
+
 		$SHIFT = $this->input->post('SHIFT');
-		$SHIFT1 = $this->input->post('SHIFT1');
+
+		// $SHIFT1 = $this->input->post('SHIFT1');
 
 
 		$distance_finale=0;
@@ -157,15 +159,10 @@ class Dashboard extends CI_Controller
 
 		}
 
-		if (!empty($CODE_COURSE)) 
-		{
-			$critere1.=' AND md5(tracking_data.CODE_COURSE) ="'.$CODE_COURSE.'" AND md5(tracking_data.device_uid)="'.$CODE.'"';
-			
-		}
 
 		$critere_code_v = '';
 
-		if(!empty($CODE) && !empty($SHIFT))
+		if(!empty($SHIFT) && $SHIFT == 1)
 		{
 			$critere_code_v.= ' AND md5(vehicule.CODE) = "'.$CODE.'"';
 
@@ -190,7 +187,7 @@ class Dashboard extends CI_Controller
 			}
 
 		}
-		else if(!empty($CODE) && !empty($SHIFT1))
+		else if(!empty($SHIFT) && $SHIFT == 2)
 		{
 			$critere_code_v.= ' AND md5(vehicule.CODE) = "'.$CODE.'"';
 
@@ -214,6 +211,13 @@ class Dashboard extends CI_Controller
 				echo 'test success two';
 			}
 
+		}
+
+
+		if (!empty($CODE_COURSE)) 
+		{
+			$critere1.=' AND md5(tracking_data.CODE_COURSE) ="'.$CODE_COURSE.'" AND md5(tracking_data.device_uid)="'.$CODE.'"';
+			
 		}
 
 	
@@ -1038,6 +1042,7 @@ class Dashboard extends CI_Controller
 														$data['carburant'] = $carburant;
 														$data['CODE'] = $CODE;
 														$data['DATE'] = $DATE_SELECT;
+														$data['DATE_DAT_FIN'] = $DATE_DAT_FIN;
 														$data['score'] = $score_finale;
 														$data['limites']=$limites;
 														$data['card_card']=$card_card;
