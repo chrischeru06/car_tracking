@@ -390,8 +390,10 @@ z-index: 100;
 
                 <h5 class="card-title"><?=lang('resume_courses')?> </h5>
                 <input type="hidden" name="CODE" id="CODE" value="<?=$CODE?>">
+                <input type="hidden" name="DATE_DAT" id="DATE_DAT" value="<?=$DATE?>">
+                <input type="hidden" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?=$DATE_DAT_FIN?>">
 
-                    <div class="row">
+                    <!-- <div class="row">
                       <div class="col-md-2 text-center">
                         <button onclick="show_shift_error()" class="btn btn-danger rounded-pill btn-sm fa fa-clock-o" type="button" title="Courses hors des heures de service"></button>
                       </div>
@@ -399,7 +401,7 @@ z-index: 100;
                       <div class="col-md-2 text-center">
                         <button onclick="show_shift_success()"  class="btn btn-success rounded-pill btn-sm fa fa-clock-o" type="button" title="Courses pendant les heures de service"></button>
                       </div>
-                    </div>
+                    </div> -->
 
                 <?=$card_card1?>
                 <?=$card_card?>
@@ -937,6 +939,8 @@ z-index: 100;
     function show_shift_success()
     {
       var CODE = $('#CODE').val();
+      var DATE_DAT = $('#DATE_DAT').val();
+      var DATE_DAT_FIN = $('#DATE_DAT_FIN').val();
       var SHIFT1 = 'SHIFT1';
 
       $.ajax({
@@ -947,6 +951,8 @@ z-index: 100;
         data: {
           CODE:CODE,
           SHIFT1:SHIFT1,
+          DATE_DAT:DATE_DAT,
+          DATE_DAT_FIN:DATE_DAT_FIN,
 
         },
         beforeSend:function () { 
