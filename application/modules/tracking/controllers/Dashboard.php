@@ -88,6 +88,16 @@ class Dashboard extends CI_Controller
 		$my_select_heure_trajet = $this->getBindParms('`HEURE_ID`,`HEURE`', 'heure', '1', '`HEURE_ID` ASC');
 		$heure_trajet = $this->ModelPs->getRequete($proce_requete, $my_select_heure_trajet);
 
+		$psgetrequete = "CALL `getRequete`(?,?,?,?);";
+
+		$shift = $this->getBindParms('shift.HEURE_DEBUT,shift.HEURE_FIN', 'shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID', '1 AND md5(vehicule.CODE) = "'.$CODE.'"', ' shift.SHIFT_ID ASC');
+
+		$shift=str_replace('\"', '"', $shift);
+		$shift=str_replace('\n', '', $shift);
+		$shift=str_replace('\"', '', $shift);
+
+		$data['shift'] = $this->ModelPs->getRequeteOne($psgetrequete, $shift);
+
 
 		$data['get_chauffeur']=$get_chauffeur;
 		$data['heure_trajet']=$heure_trajet;
@@ -166,13 +176,13 @@ class Dashboard extends CI_Controller
 		{
 			$critere_code_v.= ' AND md5(vehicule.CODE) = "'.$CODE.'"';
 
-			 $psgetrequete = "CALL `getRequete`(?,?,?,?);";
+			$psgetrequete = "CALL `getRequete`(?,?,?,?);";
 			
 			$shift = $this->getBindParms('shift.HEURE_DEBUT,shift.HEURE_FIN', 'shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID', '1 '.$critere_code_v.'', ' shift.SHIFT_ID ASC');
 
 			$shift=str_replace('\"', '"', $shift);
-		    $shift=str_replace('\n', '', $shift);
-		    $shift=str_replace('\"', '', $shift);
+			$shift=str_replace('\n', '', $shift);
+			$shift=str_replace('\"', '', $shift);
 
 			$shiftF = $this->ModelPs->getRequeteOne($psgetrequete, $shift);
 
@@ -196,8 +206,8 @@ class Dashboard extends CI_Controller
 			$shift = $this->getBindParms('shift.HEURE_DEBUT,shift.HEURE_FIN', 'shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID', '1 '.$critere_code_v.'', 'shift.SHIFT_ID ASC');
 
 			$shift=str_replace('\"', '"', $shift);
-		    $shift=str_replace('\n', '', $shift);
-		    $shift=str_replace('\"', '', $shift);
+			$shift=str_replace('\n', '', $shift);
+			$shift=str_replace('\"', '', $shift);
 
 			$shiftF = $this->ModelPs->getRequeteOne($psgetrequete, $shift);
 
@@ -220,7 +230,7 @@ class Dashboard extends CI_Controller
 			
 		}
 
-	
+
 
 		$info = '';
 
@@ -525,7 +535,7 @@ class Dashboard extends CI_Controller
 
 			//print_r($get_data_arret);die();
 			foreach ($get_data_arret as $value_get_arret_code) {
-			$coordon='';
+				$coordon='';
 
 
 				$my_selectall_element = $this->getBindParms('id,tracking_data.date as date_vu,date_format(tracking_data.date,"%H %i") as hour,date_format(tracking_data.date,"%s") as sec,date_format(tracking_data.date,"%d %m") as day_month,CODE_COURSE,md5(CODE_COURSE) as code_course_crypt,ignition,latitude,longitude,CEINTURE,CLIM', 'tracking_data', 'md5(device_uid)="'.$CODE.'" AND CODE_COURSE IS NOT NULL AND CODE_COURSE= "'.$value_get_arret_code['CODE_COURSE'].'" AND ignition=1' , '`id` ASC');
@@ -902,7 +912,7 @@ class Dashboard extends CI_Controller
 
 											foreach ($get_data_exces_vitesse as $value_data_exces_vitesse) {
 
-		$new_hourr=$this->notifications->addtwohours($value_data_exces_vitesse['hour']);
+												$new_hourr=$this->notifications->addtwohours($value_data_exces_vitesse['hour']);
 
 												$vitesse_exces.='['.$value_data_exces_vitesse['longitude'].','.$value_data_exces_vitesse['latitude'].'],';
 												$geojsonexces.="{
