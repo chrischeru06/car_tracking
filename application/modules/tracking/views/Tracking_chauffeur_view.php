@@ -268,60 +268,104 @@ font-family: 'Open Sans', sans-serif;
       <label class="form-label"><?=lang('input_date_fin')?></label>
       <input class="form-control" type="date" max="<?= date('Y-m-d')?>" name="DATE_DAT_FIN" id="DATE_DAT_FIN" value="<?= date('Y-m-d')?>" onchange="change_carte();">
     </div>
-    <div class="form-group col-md-2">
-      <label class="form-label"><?=lang('hrs_dbut')?></label>
-      <select class="form-control" name="HEURE1" id="HEURE1">
-        <option value=""><?=lang('selectionner')?></option>
-        <?php
-        foreach ($heure_trajet as $key_heure_trajet)
-        {
-          ?>
-          <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+
+    <?php if(!empty($shift)){?>
+
+      <div class="form-group col-md-2">
+        <label class="form-label"><?=lang('hrs_dbut')?></label>
+        <select class="form-control" name="HEURE1" id="HEURE1">
+          <option value=""><?=lang('selectionner')?></option>
           <?php
-        }
-        ?>
-      </select>
-
-    </div>
-
-
-    <div class="form-group col-md-2">
-      <label class="form-label"><?=lang('hrs_fin')?></label>
-      <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
-        <option value=""><?=lang('selectionner')?></option>
-        <?php
-        foreach ($heure_trajet as $key_heure_trajet)
-        {
+          foreach ($heure_trajet as $key_heure_trajet)
+          {
+            ?>
+            <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+            <?php
+          }
           ?>
-          <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+        </select>
+
+      </div>
+
+
+      <div class="form-group col-md-2">
+        <label class="form-label"><?=lang('hrs_fin')?></label>
+        <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
+          <option value=""><?=lang('selectionner')?></option>
           <?php
-        }
-        ?>
-      </select>
+          foreach ($heure_trajet as $key_heure_trajet)
+          {
+            ?>
+            <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+            <?php
+          }
+          ?>
+        </select>
 
-    </div>
+      </div>
 
-    <div class="form-group col-md-2">
-      <label class="form-label">Shift service</label>
-      <select class="form-control" name="SHIFT" id="SHIFT"  onchange="change_carte();">
-        <option value=""><?=lang('selectionner')?></option>
-        <option value="1">Courses hors des heures de service</option>
-        <option value="2">Courses pendant les heures de service</option>
+      <div class="form-group col-md-2">
+        <label class="form-label">Shift service</label>
+        <select class="form-control" name="SHIFT" id="SHIFT"  onchange="change_carte();">
+          <option value=""><?=lang('selectionner')?></option>
+          <option value="1">Courses hors des heures de service</option>
+          <option value="2">Courses pendant les heures de service</option>
 
-      </select>
+        </select>
 
-    </div>
-  </div>
-  <br>
-  <input type="hidden" name="CODE" id="CODE" value="<?=$CODE_VEH?>">
-  <section class="section">
-    <div class="row align-items-top">
-      <div class="col-md-6">
+      </div>
+      <?php
+    }
+    else
+    {
+      ?>
+      <div class="form-group col-md-3">
+        <label class="form-label"><?=lang('hrs_dbut')?></label>
+        <select class="form-control" name="HEURE1" id="HEURE1">
+          <option value=""><?=lang('selectionner')?></option>
+          <?php
+          foreach ($heure_trajet as $key_heure_trajet)
+          {
+            ?>
+            <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+            <?php
+          }
+          ?>
+        </select>
 
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><?=lang('btn_info_gnl')?></h5>
-            <div class="row">
+      </div>
+
+
+      <div class="form-group col-md-3">
+        <label class="form-label"><?=lang('hrs_fin')?></label>
+        <select class="form-control" name="HEURE2" id="HEURE2"  onchange="change_carte();" onclick="change_carte();">
+          <option value=""><?=lang('selectionner')?></option>
+          <?php
+          foreach ($heure_trajet as $key_heure_trajet)
+          {
+            ?>
+            <option value="<?=$key_heure_trajet['HEURE_ID']?>"><?=$key_heure_trajet['HEURE']?></option>
+            <?php
+          }
+          ?>
+        </select>
+
+      </div>
+      <?php
+    }
+    ?>
+  }
+</div>
+<br>
+<input type="hidden" name="CODE" id="CODE" value="<?=$CODE_VEH?>">
+<section class="section">
+  <div class="row align-items-top">
+    <div class="col-md-6">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><?=lang('btn_info_gnl')?></h5>
+          <div class="row">
               <!-- <div class="col-lg-3">
               </div> -->
               <div class="col-md-6">
@@ -405,6 +449,9 @@ font-family: 'Open Sans', sans-serif;
                   <p class="profil-phone" title="<?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
                   <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?>"><i class="bi bi-vector-pen"></i> <?php if(empty($get_vehicule['KILOMETRAGE'])){?> N/A <?php } ?>
                   <?php if(!empty($get_vehicule['KILOMETRAGE'])){?>  <?= $get_vehicule['KILOMETRAGE']?> litres / Km <?php } ?></p>
+
+                  <p class="profil-phone" title="<?php if(empty($shift)){ echo 'Heures service N/A';} else {echo 'Heures service '. $shift['HEURE_DEBUT'].' à '.$shift['HEURE_FIN'];} ?>">&nbsp;&nbsp;<i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php if(empty($shift)){ echo 'N/A';} else {echo $shift['HEURE_DEBUT'].' à '.$shift['HEURE_FIN'];} ?></p>
+
                 </div>
               </div>
 
