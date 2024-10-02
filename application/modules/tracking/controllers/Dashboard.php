@@ -181,7 +181,7 @@ class Dashboard extends CI_Controller
 			if(!empty($shiftF))
 			{
 
-				$critere_shift.= ' AND date_format(tracking_data.`date`,"%H:%i") < "'.$shiftF['HEURE_DEBUT'].'" OR date_format(tracking_data.`date`,"%H:%i") > "'.$shiftF['HEURE_FIN'].'"';
+				$critere_shift.= ' AND (date_format(tracking_data.`date`,"%H:%i") < "'.$shiftF['HEURE_DEBUT'].'" OR date_format(tracking_data.`date`,"%H:%i") > "'.$shiftF['HEURE_FIN'].'")';
 
 				//echo 'test success one';
 			}
@@ -206,7 +206,7 @@ class Dashboard extends CI_Controller
 			if(!empty($shiftF))
 			{
 
-				$critere_shift.= ' AND date_format(tracking_data.`date`,"%H:%i") between "'.$shiftF['HEURE_DEBUT'].'" AND "'.$shiftF['HEURE_FIN'].'"';
+				$critere_shift.= ' AND (date_format(tracking_data.`date`,"%H:%i") between "'.$shiftF['HEURE_DEBUT'].'" AND "'.$shiftF['HEURE_FIN'].'")';
 
 				//echo 'test success two';
 			}
@@ -521,8 +521,9 @@ class Dashboard extends CI_Controller
 			$all_dist_elt='';
 			$long='';
 			$lat='';
+			//print_r($CODE);die();
 
-			
+			//print_r($get_data_arret);die();
 			foreach ($get_data_arret as $value_get_arret_code) {
 			$coordon='';
 
@@ -656,7 +657,7 @@ class Dashboard extends CI_Controller
 				}
 
 				$data['tabl'] = $tabl;
-				// print_r($tabl);die();
+				 //print_r($tabl);die();
 
 
 				$v=1;
