@@ -183,7 +183,7 @@ class Dashboard extends CI_Controller
 
 				$critere_shift.= ' AND date_format(tracking_data.`date`,"%H:%i") < "'.$shiftF['HEURE_DEBUT'].'" OR date_format(tracking_data.`date`,"%H:%i") > "'.$shiftF['HEURE_FIN'].'"';
 
-				echo 'test success one';
+				//echo 'test success one';
 			}
 
 		}
@@ -208,7 +208,7 @@ class Dashboard extends CI_Controller
 
 				$critere_shift.= ' AND date_format(tracking_data.`date`,"%H:%i") between "'.$shiftF['HEURE_DEBUT'].'" AND "'.$shiftF['HEURE_FIN'].'"';
 
-				echo 'test success two';
+				//echo 'test success two';
 			}
 
 		}
