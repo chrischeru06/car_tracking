@@ -14,7 +14,6 @@ class Dashboard extends CI_Controller
 		parent::__construct();
 		$this->out_application();
 		$this->load->helper('email');
-
 	}
 	//Fonction pour rediriger sur la page de connexion si une fois la session est perdue
 	function out_application()
@@ -25,7 +24,6 @@ class Dashboard extends CI_Controller
 
 		}
 	}
-
 
 	//Fonction pour afficher le dashbboard pour tracker le chauffeur 
 	function tracking_chauffeur($CODE){
@@ -41,9 +39,7 @@ class Dashboard extends CI_Controller
 		if(empty($DATE_SELECT)){
 
 			$DATE_SELECT=date('Y-m-d');
-
 		}
-
 
 		$info = '';
 
@@ -67,8 +63,6 @@ class Dashboard extends CI_Controller
 		$my_selectget_chauffeur=str_replace('\n', '', $my_selectget_chauffeur);
 		$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
 		$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
-
-		// }
 		
 
 		$my_selectvehicule = $this->getBindParms('VEHICULE_ID,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE,vehicule.CODE,vehicule.KILOMETRAGE', 'vehicule join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND md5(vehicule.CODE) ="'.$CODE_VEH.'"', '`VEHICULE_ID` ASC');
@@ -96,10 +90,7 @@ class Dashboard extends CI_Controller
 		$data['get_vehicule']=$get_vehicule;
 		
 
-
-
 		$this->load->view('Tracking_chauffeur_view',$data);
-
 
 	}
 
