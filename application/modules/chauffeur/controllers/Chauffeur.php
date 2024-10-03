@@ -115,7 +115,6 @@
 
 				';
 
-
 				//fin modal
 
 				// $sub_array[] = $row->ADRESSE_PHYSIQUE;
@@ -941,7 +940,37 @@
 				'GENRE_ID' => $this->input->post('GENRE_ID')
 			);
 			
-			$inser = $this->Model->create($table,$data_insert);
+			$CHAUFFEUR_ID = $this->Model->insert_last_id($table,$data_insert);
+
+			
+			 $password=$this->notifications->generate_password(8);
+			 $NOM_CHAUFF=$this->input->post('nom');
+			$email=$this->input->post('adresse_email');
+			
+			$data_insert_users = array(
+		     'IDENTIFICATION'=>$this->input->post('nom')." ".$this->input->post('prenom'),
+				'USER_NAME'=>$this->input->post('adresse_email'),
+				'PASSWORD'=>md5($password),
+				'PROFIL_ID'=>3,
+				'TELEPHONE'=>$this->input->post('numero_telephone'),
+				'CHAUFFEUR_ID'=>$CHAUFFEUR_ID,
+			); 
+			// print_r($data_insert_users);exit();
+			$table_users = 'users';
+			$done=$this->Model->create($table_users,$data_insert_users);
+			
+			if($done>0)
+					{
+						$mess="Cher(e) <b>".$NOM_CHAUFF."</b>,<br><br>
+						Bienvenue sur la plateforme CAR TRACKING.<br>
+						Pour vous connecter, prière de bien vouloir utiliser vos identifiants de connexion ci-dessous:<br>
+						- Nom d'utilisateur : <b>$email</b><br>
+						- Mot de passe : <b>$password</b>";
+						$subjet="Notification d'enregistrement";
+						$this->notifications->send_mail(array($email),$subjet,array(),$mess,array());
+					}
+					// print_r($mess);exit();
+
 			// if($CHAUFFEUR_ID>0)
 			// {
 			if($inser)

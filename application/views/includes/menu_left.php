@@ -203,6 +203,37 @@ else if ($this->session->PROFIL_ID == 2) {
 
 <?php 
 }
+
+else if ($this->session->PROFIL_ID == 3) { 
+  ?>
+
+
+
+    <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
+
+      <ul class="sidebar-nav" id="sidebar-nav">
+    
+      <li class="nav-item">
+        <!-- <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_chauffeur"> -->
+          <a class="nav-link collapsed" href="<?=base_url()?>chauffeur/Chauffeur">
+          <i class="bi bi-person"></i>
+          <span><?=lang('Chauffeurs_lng')?></span>
+        </a>
+      </li>
+    <li class="nav-item">
+    <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Liste_Etat_Vehicule">
+      <i class="fa fa-car"></i>
+      <span><?=lang('etat_vehicul')?></span>
+    </a>
+  </li>
+
+      
+</ul>
+
+</aside>
+
+<?php 
+}
 else
 {
   redirect(base_url('Login/logout'));
