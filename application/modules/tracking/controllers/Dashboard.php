@@ -189,8 +189,7 @@ class Dashboard extends CI_Controller
 			if(!empty($shiftF))
 			{
 
-				$critere_shift.= ' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) < "' . $shiftF['HEURE_DEBUT'] . '" 
-                    OR TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) > "' . $shiftF['HEURE_FIN'] . '")';
+				$critere_shift.=' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) < "'.$shiftF['HEURE_DEBUT'].'" OR TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) > "'.$shiftF['HEURE_FIN'].'")';
 			}
 
 		}
@@ -211,8 +210,7 @@ class Dashboard extends CI_Controller
 			if(!empty($shiftF))
 			{
 
-				$critere_shift.= ' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) BETWEEN "' . $shiftF['HEURE_DEBUT'] . '" 
-                     AND "' . $shiftF['HEURE_FIN'] . '")';
+				$critere_shift.=' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) BETWEEN "'.$shiftF['HEURE_DEBUT'].'" AND "'.$shiftF['HEURE_FIN'].'")';
 			}
 
 		}
