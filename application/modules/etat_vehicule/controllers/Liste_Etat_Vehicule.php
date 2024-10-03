@@ -34,6 +34,17 @@
 		//Fonction pour l'affichage
 		function listing()
 		{
+		  // $USER_ID = $this->session->userdata('USER_ID');
+		  // $chauff=$this->Model->getRequeteOne('SELECT `USER_ID`,`CHAUFFEUR_ID`,`PROFIL_ID` FROM `users` WHERE USER_ID='.$USER_ID);
+		  // $critaire2='';
+		  // if($chauff['PROFIL_ID']==1)
+		  // {
+    //        $critaire2='';
+		  // }else{
+		  // 	 $critaire2='etat_vehicule.CHAUFFEUR_ID=='.$chauff['CHAUFFEUR_ID'];
+		  // }
+
+
           $ID_OPERATION=$this->input->post('ID_OPERATION');
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 			$var_search = str_replace("'", "\'", $var_search);
