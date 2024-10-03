@@ -186,14 +186,11 @@ class Dashboard extends CI_Controller
 
 			$shiftF = $this->ModelPs->getRequeteOne($psgetrequete, $shift);
 
-			// $shift = $this->Model->getRequeteOne('SELECT shift.HEURE_DEBUT,shift.HEURE_FIN FROM shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID WHERE 1 '.$critere_code_v.'');
-
 			if(!empty($shiftF))
 			{
 
-				$critere_shift.= ' AND (date_format(tracking_data.`date`,"%H:%i") < "'.$shiftF['HEURE_DEBUT'].'" OR date_format(tracking_data.`date`,"%H:%i") > "'.$shiftF['HEURE_FIN'].'")';
-
-				//echo 'test success one';
+				$critere_shift.= ' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) < "' . $shiftF['HEURE_DEBUT'] . '" 
+                    OR TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) > "' . $shiftF['HEURE_FIN'] . '")';
 			}
 
 		}
@@ -211,14 +208,11 @@ class Dashboard extends CI_Controller
 
 			$shiftF = $this->ModelPs->getRequeteOne($psgetrequete, $shift);
 
-			// $shift = $this->Model->getRequeteOne('SELECT shift.HEURE_DEBUT,shift.HEURE_FIN FROM shift JOIN vehicule ON vehicule.SHIFT_ID = shift.SHIFT_ID WHERE 1 '.$critere_code_v.'');
-
 			if(!empty($shiftF))
 			{
 
-				$critere_shift.= ' AND (date_format(tracking_data.`date`,"%H:%i") between "'.$shiftF['HEURE_DEBUT'].'" AND "'.$shiftF['HEURE_FIN'].'")';
-
-				//echo 'test success two';
+				$critere_shift.= ' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) BETWEEN "' . $shiftF['HEURE_DEBUT'] . '" 
+                     AND "' . $shiftF['HEURE_FIN'] . '")';
 			}
 
 		}

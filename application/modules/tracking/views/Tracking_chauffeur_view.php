@@ -354,7 +354,6 @@ font-family: 'Open Sans', sans-serif;
       <?php
     }
     ?>
-  }
 </div>
 <br>
 <input type="hidden" name="CODE" id="CODE" value="<?=$CODE_VEH?>">
