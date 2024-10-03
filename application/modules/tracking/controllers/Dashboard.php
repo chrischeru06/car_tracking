@@ -138,8 +138,6 @@ class Dashboard extends CI_Controller
 		if(!empty($DATE_SELECT) && !empty($DATE_DAT_FIN)){
 
 			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_SELECT.'" AND "'.$DATE_DAT_FIN.'" ';
-
-
 		}else{
 
 			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")= "'.$aujourdhui.'"';
@@ -148,10 +146,7 @@ class Dashboard extends CI_Controller
 		if (!empty($HEURE1) && !empty($HEURE2)) 
 		{
 			$critere.=' AND date_format(tracking_data.`date`,"%H:%i:%s") between "'.$heure_select1['HEURE'].'" AND "'.$my_select_heure2['HEURE'].'" ';
-			
-
 		}
-
 
 		$critere_code_v = '';
 

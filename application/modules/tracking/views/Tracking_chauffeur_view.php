@@ -610,11 +610,6 @@ font-family: 'Open Sans', sans-serif;
 
       <!-- <textarea type="text" id="coord"></textarea> -->
 
-
-      
-
-
-
     </div>
   </section>
 
