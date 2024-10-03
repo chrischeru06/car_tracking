@@ -580,28 +580,6 @@ font-family: 'Open Sans', sans-serif;
               </div>
             </div>
           </div>
-          
-          <!-- <section class="section dashboard" > -->
-            <!-- <div class="table-responsive">     
-              <table class="table-borderless">
-                <thead>
-
-
-                  <th><h5 style="padding: 0px 0 0px 0; font-size: 18px;font-weight: 500;color: #012970;font-family: 'Poppins', sans-serif;">Légende </h5></th>
-                </thead>
-                <tbody>
-
-                  <tr>
-                    <td><i class="bi bi-dot" style="color:red; font-size: 50px;"></i></td>
-                    <td>Véhicule&nbsp;éteint</td>
-
-                    <td><i class="bi bi-dot" style="color:blue; font-size: 50px;"></i></td>
-                    <td>Véhicule&nbsp;en&nbsp;mouvement</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div> -->
-            <!-- </section> -->
             
 
           </div>
@@ -617,15 +595,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="card">
           <div class="card-body">
             <center><h6 class="card-title"><?=lang('trajet_parcouru')?></h6></center>
-            <!-- <div class="row">
-              <div class="col-md-1 text-center">
-                <button onclick="change_carte('SHIFT')" class="btn btn-danger rounded-pill btn-sm fa fa-clock-o" type="button" title="Courses hors des heures de service"></button>
-              </div>
 
-              <div class="col-md-1 text-center">
-                <button onclick="change_carte('SHIFT1')"  class="btn btn-success rounded-pill btn-sm fa fa-clock-o" type="button" title="Courses pendant les heures de service"></button>
-              </div>
-            </div> -->
             <div id="map_filtre" ></div>
 
           </div>
@@ -639,11 +609,6 @@ font-family: 'Open Sans', sans-serif;
 
 
       <!-- <textarea type="text" id="coord"></textarea> -->
-
-
-      
-
-
 
     </div>
   </section>

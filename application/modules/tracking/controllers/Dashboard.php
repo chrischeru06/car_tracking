@@ -14,7 +14,6 @@ class Dashboard extends CI_Controller
 		parent::__construct();
 		$this->out_application();
 		$this->load->helper('email');
-
 	}
 	//Fonction pour rediriger sur la page de connexion si une fois la session est perdue
 	function out_application()
@@ -25,7 +24,6 @@ class Dashboard extends CI_Controller
 
 		}
 	}
-
 
 	//Fonction pour afficher le dashbboard pour tracker le chauffeur 
 	function tracking_chauffeur($CODE){
@@ -41,9 +39,7 @@ class Dashboard extends CI_Controller
 		if(empty($DATE_SELECT)){
 
 			$DATE_SELECT=date('Y-m-d');
-
 		}
-
 
 		$info = '';
 
@@ -60,14 +56,6 @@ class Dashboard extends CI_Controller
 		$CODE_VEH=$this->uri->segment(4);
 		$data['CODE_VEH']=$CODE_VEH;
 		$CHAUFFEUR_ID=$this->uri->segment(5);
-		// if (!empty($CHAUFFEUR_ID)) {
-		// 	$proce_requete = "CALL `getRequete`(?,?,?,?);";
-		// 	$my_selectget_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND md5(chauffeur_vehicule.CHAUFFEUR_ID) ="'.$CHAUFFEUR_ID.'" and md5(chauffeur_vehicule.CODE) ="'.$CODE_VEH.'"', '`CHAUFFEUR_VEHICULE_ID` ASC');
-		// 	$my_selectget_chauffeur=str_replace('\"', '"', $my_selectget_chauffeur);
-		// 	$my_selectget_chauffeur=str_replace('\n', '', $my_selectget_chauffeur);
-		// 	$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
-		// 	$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
-		// }else{
 
 		$proce_requete = "CALL `getRequete`(?,?,?,?);";
 		$my_selectget_chauffeur = $this->getBindParms('`CHAUFFEUR_VEHICULE_ID`,chauffeur_vehicule. `CODE`, chauffeur_vehicule.`CHAUFFEUR_ID`, chauffeur_vehicule.`DATE_INSERTION`,`NOM`,`PRENOM`,`ADRESSE_PHYSIQUE`,`NUMERO_TELEPHONE`,`DATE_NAISSANCE`,`ADRESSE_MAIL`,`NUMERO_CARTE_IDENTITE`,`FILE_CARTE_IDENTITE`,`FILE_IDENTITE_COMPLETE`,`FILE_CASIER_JUDICIAIRE`,`NUMERO_PERMIS`,`FILE_PERMIS`,`PERSONNE_CONTACT_TELEPHONE`,`PROVINCE_ID`,`COMMUNE_ID`,`ZONE_ID`,`COLLINE_ID`,PHOTO_PASSPORT,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE', '`chauffeur_vehicule` JOIN chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID join vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND chauffeur_vehicule.STATUT_AFFECT=1 AND md5(chauffeur_vehicule.CODE) ="'.$CODE_VEH.'"', '`CHAUFFEUR_VEHICULE_ID` ASC');
@@ -75,8 +63,6 @@ class Dashboard extends CI_Controller
 		$my_selectget_chauffeur=str_replace('\n', '', $my_selectget_chauffeur);
 		$my_selectget_chauffeur=str_replace('\"', '', $my_selectget_chauffeur);
 		$get_chauffeur = $this->ModelPs->getRequeteOne($proce_requete, $my_selectget_chauffeur);
-
-		// }
 		
 
 		$my_selectvehicule = $this->getBindParms('VEHICULE_ID,vehicule.PLAQUE,vehicule.PHOTO,vehicule.COULEUR,vehicule_modele.DESC_MODELE,vehicule_marque.DESC_MARQUE,vehicule.CODE,vehicule.KILOMETRAGE', 'vehicule join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join vehicule_marque on vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE', '1 AND md5(vehicule.CODE) ="'.$CODE_VEH.'"', '`VEHICULE_ID` ASC');
@@ -104,10 +90,7 @@ class Dashboard extends CI_Controller
 		$data['get_vehicule']=$get_vehicule;
 		
 
-
-
 		$this->load->view('Tracking_chauffeur_view',$data);
-
 
 	}
 
@@ -155,8 +138,6 @@ class Dashboard extends CI_Controller
 		if(!empty($DATE_SELECT) && !empty($DATE_DAT_FIN)){
 
 			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")between "'.$DATE_SELECT.'" AND "'.$DATE_DAT_FIN.'" ';
-
-
 		}else{
 
 			$critere.=' AND date_format(tracking_data.date,"%Y-%m-%d")= "'.$aujourdhui.'"';
@@ -165,10 +146,7 @@ class Dashboard extends CI_Controller
 		if (!empty($HEURE1) && !empty($HEURE2)) 
 		{
 			$critere.=' AND date_format(tracking_data.`date`,"%H:%i:%s") between "'.$heure_select1['HEURE'].'" AND "'.$my_select_heure2['HEURE'].'" ';
-			
-
 		}
-
 
 		$critere_code_v = '';
 
@@ -189,8 +167,7 @@ class Dashboard extends CI_Controller
 			if(!empty($shiftF))
 			{
 
-				$critere_shift.= ' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) < "' . $shiftF['HEURE_DEBUT'] . '" 
-                    OR TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) > "' . $shiftF['HEURE_FIN'] . '")';
+				$critere_shift.=' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) < "'.$shiftF['HEURE_DEBUT'].'" OR TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) > "'.$shiftF['HEURE_FIN'].'")';
 			}
 
 		}
@@ -211,8 +188,7 @@ class Dashboard extends CI_Controller
 			if(!empty($shiftF))
 			{
 
-				$critere_shift.= ' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) BETWEEN "' . $shiftF['HEURE_DEBUT'] . '" 
-                     AND "' . $shiftF['HEURE_FIN'] . '")';
+				$critere_shift.=' AND (TIME(DATE_ADD(tracking_data.`date`, INTERVAL 2 HOUR)) BETWEEN "'.$shiftF['HEURE_DEBUT'].'" AND "'.$shiftF['HEURE_FIN'].'")';
 			}
 
 		}
