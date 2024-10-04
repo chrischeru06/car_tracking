@@ -94,195 +94,59 @@
 				$sub_array[] = $row->DATE_COURSE;
 				$sub_array[] = $row->DESC_MOTIF;
 				// $sub_array[] = $row->DATE_COURSE;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->PHOTO_KILOMETAGE.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
-
-				<div class="modal fade" id="mypicture' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Kilometrage de départ</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->PHOTO_KILOMETAGE).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
-				// $sub_array[] = $row->PHOTO_CARBURANT_RETOUR;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture2' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->PHOTO_CARBURANT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
-
-				<div class="modal fade" id="mypicture2' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Carburant de départ</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->PHOTO_CARBURANT).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
+				
+				$source = !empty($row->PHOTO_KILOMETAGE) ? base_url('upload/image_url/'.$row->PHOTO_KILOMETAGE) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
+			  //PHOTO_CARBURANT
+				$source = !empty($row->PHOTO_CARBURANT) ? base_url('upload/image_url/'.$row->PHOTO_CARBURANT) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 		
 				// $sub_array[] = $row->IMAGE_AVANT;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture3' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_AVANT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
+			    $source = !empty($row->IMAGE_AVANT) ? base_url('upload/image_url/'.$row->IMAGE_AVANT) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 
-				<div class="modal fade" id="mypicture3' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Image avant</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->IMAGE_AVANT).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
-			
+				
 				// $sub_array[] = $row->IMAGE_ARRIERE;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture4' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_ARRIERE.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
 
-				<div class="modal fade" id="mypicture4' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Image arrière</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->IMAGE_ARRIERE).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
+				$source = !empty($row->IMAGE_ARRIERE) ? base_url('upload/image_url/'.$row->IMAGE_ARRIERE) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 
 			
 			// $sub_array[] = $row->IMAGE_LATERALE_GAUCHE;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture5' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_LATERALE_GAUCHE.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
-
-				<div class="modal fade" id="mypicture5' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Latérale gauche</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->IMAGE_LATERALE_GAUCHE).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
+			$source = !empty($row->IMAGE_LATERALE_GAUCHE) ? base_url('upload/image_url/'.$row->IMAGE_LATERALE_GAUCHE) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
+				
 
 				
 
 
              // $sub_array[] = $row->IMAGE_LATERALE_DROITE;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture6' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_LATERALE_DROITE.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
-
-				<div class="modal fade" id="mypicture6' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Latérale droite</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->IMAGE_LATERALE_DROITE).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
+			$source = !empty($row->IMAGE_LATERALE_DROITE) ? base_url('upload/image_url/'.$row->IMAGE_LATERALE_DROITE) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 				
 				// $sub_array[] = $row->IMAGE_TABLEAU_DE_BORD;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture7' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_TABLEAU_DE_BORD.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
+			$source = !empty($row->IMAGE_TABLEAU_DE_BORD) ? base_url('upload/image_url/'.$row->IMAGE_TABLEAU_DE_BORD) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 
-				<div class="modal fade" id="mypicture7' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Tableau de bord</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->IMAGE_TABLEAU_DE_BORD).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
                 // $sub_array[] = $row->IMAGE_SIEGE_AVANT;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture8' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_SIEGE_AVANT.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
+			$source = !empty($row->IMAGE_SIEGE_AVANT) ? base_url('upload/image_url/'.$row->IMAGE_SIEGE_AVANT) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 
-				<div class="modal fade" id="mypicture8' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Siège avant</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->IMAGE_SIEGE_AVANT).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
-
+				
 				// $sub_array[] = $row->IMAGE_SIEGE_ARRIERE;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture9' . $row->ID_SORTIE. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->IMAGE_SIEGE_ARRIERE.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
+				$source = !empty($row->IMAGE_SIEGE_ARRIERE) ? base_url('upload/image_url/'.$row->IMAGE_SIEGE_ARRIERE) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 
-				<div class="modal fade" id="mypicture9' .$row->ID_SORTIE.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Siege arriere</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->IMAGE_SIEGE_ARRIERE).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
+				
 				if($row->IS_VALIDATED==0)
 				{
 					$sub_array[] ='Pas validé';
@@ -354,9 +218,9 @@
 
 	
 
-	// Recuperation des fichiers(pdf)
-    public function upload_document($nom_file,$nom_champ)
-	{
+	   // Recuperation des fichiers(pdf)
+       public function upload_document($nom_file,$nom_champ)
+	   {
 			$rep_doc =FCPATH.'upload/image_url/';
 			$fichier=uniqid();
 			$file_extension = pathinfo($nom_champ, PATHINFO_EXTENSION);
@@ -369,7 +233,7 @@
 		move_uploaded_file($nom_file, $rep_doc.$fichier.".".$file_extension);
 		$pathfile=$fichier.".".$file_extension;
 		return $pathfile;
-	}
+	   }
 
 
   	//Fonction pour inserer dans la BD
@@ -503,46 +367,128 @@
 		//Fonction pour recuperer une ligne 
 	function getOne($id)
 	{
-		$membre = $this->Model->getRequeteOne('SELECT `ID_RETOUR`,`VEHICULE_ID`,`CHAUFFEUR_ID`,`HEURE_RETOUR`,`PHOTO_KILOMETRAGE_RETOUR`,`PHOTO_CARBURANT_RETOUR`,`COMMENTAIRE_ANOMALIE`,`COMMENTAIRE_VALIDATION` FROM `retour_vehicule` WHERE ID_SORTIE='.$id);
+		$membre = $this->Model->getRequeteOne('SELECT `ID_SORTIE`,`VEHICULE_ID`,`CHAUFFEUR_ID`,`DESTINATION`,`HEURE_DEPART`,`HEURE_ESTIMATIVE_RETOUR`,`PHOTO_KILOMETAGE`,`PHOTO_CARBURANT`,`ID_MOTIF_DEP`,`DATE_COURSE`,`IMAGE_AVANT`,`IMAGE_ARRIERE`,`IMAGE_LATERALE_GAUCHE`,`IMAGE_LATERALE_DROITE`,`IMAGE_TABLEAU_DE_BORD`,`IMAGE_SIEGE_AVANT`,`IMAGE_SIEGE_ARRIERE`,`DATE_SAVE`,`COMMENTAIRE` FROM `sortie_vehicule` WHERE  ID_SORTIE='.$id);
 		$data['membre'] = $membre;
-
-		// $data['provinces'] = $this->Model->getRequete('SELECT PROVINCE_ID, PROVINCE_NAME FROM provinces WHERE 1 ORDER BY PROVINCE_NAME ASC');
 
 		$data['chauffeuri'] = $this->Model->getRequete('SELECT CHAUFFEUR_ID, CONCAT(`NOM`," ",`PRENOM`)  AS chauffeur_desc FROM chauffeur WHERE 1 ORDER BY NOM ASC');
 		$data['vehiculee'] = $this->Model->getRequete('SELECT `VEHICULE_ID`,`CODE` FROM `vehicule` WHERE 1 ORDER BY CODE ASC');
+		$data['motif'] = $this->Model->getRequete('SELECT `ID_MOTIF_DEP`,`DESC_MOTIF` FROM `motif_deplacement` WHERE 1 ORDER BY DESC_MOTIF ASC');
 		$data['title'] = "Modification d'une sortie du vehicule";
-		$this->load->view('Retour_Vehicule_Update_View',$data);
+		$this->load->view('Sortie_Vehicule_Update_View',$data);
 	}
 
 	function update()
 	{
-		$id = $this->input->post('ID_RETOUR');
+		$id = $this->input->post('ID_SORTIE');
 		//print_r($id);exit();
 
 		$this->form_validation->set_rules('VEHICULE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		$this->form_validation->set_rules('CHAUFFEUR_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
-		$this->form_validation->set_rules('HEURE_RETOUR','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
-		$this->form_validation->set_rules('COMMENTAIRE_ANOMALIE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
-		$this->form_validation->set_rules('COMMENTAIRE_VALIDATION','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('DESTINATION','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('HEURE_DEPART','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('HEURE_ESTIMATIVE_RETOUR','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		
+		$this->form_validation->set_rules('ID_MOTIF_DEP','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('DATE_COURSE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('COMMENTAIRE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>')); 
+		
+           
+             
 
-		$PHOTO_KILOMETRAGE_RETOUR = $this->input->post('PHOTO_KILOMETRAGE_RETOUR_OLD');
-		if(empty($_FILES['PHOTO_KILOMETRAGE_RETOUR']['name']))
+		$PHOTO_CARBURANT = $this->input->post('PHOTO_CARBURANT_OLD');
+		if(empty($_FILES['PHOTO_CARBURANT']['name']))
 		{
-			$file = $this->input->post('PHOTO_KILOMETRAGE_RETOUR_OLD');	
+			$file = $this->input->post('PHOTO_CARBURANT_OLD');	
 		}
 		else
 		{
-			$file = $this->upload_document($_FILES['PHOTO_KILOMETRAGE_RETOUR']['tmp_name'],$_FILES['PHOTO_KILOMETRAGE_RETOUR']['name']);
+			$file = $this->upload_document($_FILES['PHOTO_CARBURANT']['tmp_name'],$_FILES['PHOTO_CARBURANT']['name']);
 		}
-
-		$PHOTO_CARBURANT_RETOUR = $this->input->post('PHOTO_CARBURANT_RETOUR_OLD');
-		if(empty($_FILES['PHOTO_CARBURANT_RETOUR']['name']))
+		$PHOTO_KILOMETAGE = $this->input->post('PHOTO_KILOMETAGE_OLD');
+		if(empty($_FILES['PHOTO_KILOMETAGE']['name']))
 		{
-			$file2 = $this->input->post('PHOTO_CARBURANT_RETOUR_OLD');
+			$file2 = $this->input->post('PHOTO_KILOMETAGE_OLD');
 		}
 		else
 		{
-			$file2 = $this->upload_document($_FILES['PHOTO_CARBURANT_RETOUR']['tmp_name'],$_FILES['PHOTO_CARBURANT_RETOUR']['name']);
+			$file2 = $this->upload_document($_FILES['PHOTO_KILOMETAGE']['tmp_name'],$_FILES['PHOTO_KILOMETAGE']['name']);
+		}
+		
+
+		$IMAGE_SIEGE_ARRIERE = $this->input->post('IMAGE_SIEGE_ARRIERE_OLD');
+		if(empty($_FILES['IMAGE_SIEGE_ARRIERE']['name']))
+		{
+			$file3 = $this->input->post('IMAGE_SIEGE_ARRIERE_OLD');
+		}
+		else
+		{
+			$file3 = $this->upload_document($_FILES['IMAGE_SIEGE_ARRIERE']['tmp_name'],$_FILES['IMAGE_SIEGE_ARRIERE']['name']);
+		} 
+           
+
+		$IMAGE_SIEGE_AVANT = $this->input->post('IMAGE_SIEGE_AVANT_OLD');
+		if(empty($_FILES['IMAGE_SIEGE_AVANT']['name']))
+		{
+			$file4 = $this->input->post('IMAGE_SIEGE_AVANT_OLD');
+		}
+		else
+		{
+			$file4 = $this->upload_document($_FILES['IMAGE_SIEGE_AVANT']['tmp_name'],$_FILES['IMAGE_SIEGE_AVANT']['name']);
+		}
+             
+
+		$IMAGE_TABLEAU_DE_BORD = $this->input->post('IMAGE_TABLEAU_DE_BORD_OLD');
+		if(empty($_FILES['IMAGE_TABLEAU_DE_BORD']['name']))
+		{
+			$file5 = $this->input->post('IMAGE_TABLEAU_DE_BORD_OLD');
+		}
+		else
+		{
+			$file5 = $this->upload_document($_FILES['IMAGE_TABLEAU_DE_BORD']['tmp_name'],$_FILES['IMAGE_TABLEAU_DE_BORD']['name']);
+		}
+              
+
+		$IMAGE_LATERALE_DROITE = $this->input->post('IMAGE_LATERALE_DROITE_OLD');
+		if(empty($_FILES['IMAGE_LATERALE_DROITE']['name']))
+		{
+			$file6 = $this->input->post('IMAGE_LATERALE_DROITE_OLD');
+		}
+		else
+		{
+			$file6 = $this->upload_document($_FILES['IMAGE_LATERALE_DROITE']['tmp_name'],$_FILES['IMAGE_LATERALE_DROITE']['name']);
+		}
+          
+
+		$IMAGE_LATERALE_GAUCHE = $this->input->post('IMAGE_LATERALE_GAUCHE_OLD');
+		if(empty($_FILES['IMAGE_LATERALE_GAUCHE']['name']))
+		{
+			$file7 = $this->input->post('IMAGE_LATERALE_GAUCHE_OLD');
+		}
+		else
+		{
+			$file7 = $this->upload_document($_FILES['IMAGE_LATERALE_GAUCHE']['tmp_name'],$_FILES['IMAGE_LATERALE_GAUCHE']['name']);
+		}
+              
+
+		$IMAGE_ARRIERE = $this->input->post('IMAGE_ARRIERE_OLD');
+		if(empty($_FILES['IMAGE_ARRIERE']['name']))
+		{
+			$file8 = $this->input->post('IMAGE_ARRIERE_OLD');
+		}
+		else
+		{
+			$file8 = $this->upload_document($_FILES['IMAGE_ARRIERE']['tmp_name'],$_FILES['IMAGE_ARRIERE']['name']);
+		}
+             
+
+		$IMAGE_AVANT = $this->input->post('IMAGE_AVANT_OLD');
+		if(empty($_FILES['IMAGE_AVANT']['name']))
+		{
+			$file9 = $this->input->post('IMAGE_AVANT_OLD');
+		}
+		else
+		{
+			$file9 = $this->upload_document($_FILES['IMAGE_AVANT']['tmp_name'],$_FILES['IMAGE_AVANT']['name']);
 		}
 
 	
@@ -555,17 +501,29 @@
 			$Array = array(
 				'VEHICULE_ID' => $this->input->post('VEHICULE_ID'),
 				'CHAUFFEUR_ID' => $this->input->post('CHAUFFEUR_ID'),
-				'HEURE_RETOUR' => $this->input->post('HEURE_RETOUR'),
-				'COMMENTAIRE_ANOMALIE' => $this->input->post('COMMENTAIRE_ANOMALIE'),
-				'COMMENTAIRE_VALIDATION' => $this->input->post('COMMENTAIRE_VALIDATION'),
-				'PHOTO_KILOMETRAGE_RETOUR' => $file,
-				'PHOTO_CARBURANT_RETOUR' => $file2,
+				'DESTINATION' => $this->input->post('DESTINATION'),
+				'HEURE_DEPART' => $this->input->post('HEURE_DEPART'),
+				'HEURE_ESTIMATIVE_RETOUR'=> $this->input->post('HEURE_ESTIMATIVE_RETOUR'),
+				'ID_MOTIF_DEP' => $this->input->post('ID_MOTIF_DEP'),
+				'DATE_COURSE' => $this->input->post('DATE_COURSE'),
+				'COMMENTAIRE' => $this->input->post('COMMENTAIRE'),
+                 'PHOTO_CARBURANT' => $file,
+                 'PHOTO_KILOMETAGE' => $file2,
+                 'IMAGE_SIEGE_ARRIERE' => $file3,
+                 'IMAGE_SIEGE_AVANT' => $file4,
+                 'IMAGE_TABLEAU_DE_BORD' => $file5,
+                 'IMAGE_LATERALE_DROITE' => $file6,
+                 'IMAGE_LATERALE_GAUCHE' => $file7,
+
+                'IMAGE_ARRIERE' => $file8,
+				'IMAGE_AVANT' => $file9,
+				
 				
 			);
-			$this->Model->update('retour_vehicule', array('ID_RETOUR' => $id), $Array);
+			$this->Model->update('sortie_vehicule', array('ID_SORTIE' => $id), $Array);
 			$datas['message'] = '<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif').'</div>';
 			$this->session->set_flashdata($datas);
-			redirect(base_url('etat_vehicule/Retour_Vehicule/index'));
+			redirect(base_url('etat_vehicule/Sortie_Vehicule/index'));
 		}
 	}
 

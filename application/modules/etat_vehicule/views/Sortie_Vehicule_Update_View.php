@@ -91,6 +91,52 @@
                     <font id="error_CHAUFFEUR_ID" color="red"></font>
                     <?php echo form_error('CHAUFFEUR_ID', '<div class="text-danger">', '</div>'); ?>
                     </div><br><br><br>
+                     <div class="col-md-4">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Destination <font color="red">*</font></label>
+                      <input type="text" name="DESTINATION" autocomplete="off" id="DESTINATION" value="<?=$membre['DESTINATION']?>"  class="form-control" placeholder="Destination">
+                      <font id="error_DESTINATION" color="red"></font>
+                      <?php echo form_error('DESTINATION', '<div class="text-danger">', '</div>'); ?>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure départ <font color="red">*</font></label>
+                      <input type="text" name="HEURE_DEPART" autocomplete="off" id="HEURE_DEPART" value="<?=$membre['HEURE_DEPART']?>"  class="form-control" placeholder="Heure départ">
+                      <font id="error_HEURE_DEPART" color="red"></font>
+                      <?php echo form_error('HEURE_DEPART', '<div class="text-danger">', '</div>'); ?>
+                    </div>
+                      <div class="col-md-4">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure retour <font color="red">*</font></label>
+                      <input type="text" name="HEURE_ESTIMATIVE_RETOUR" autocomplete="off" id="HEURE_ESTIMATIVE_RETOUR" value="<?=$membre['HEURE_ESTIMATIVE_RETOUR']?>"   class="form-control" placeholder="Heure retour">
+                      <font id="err_HEURE_ESTIMATIVE_RETOUR" color="red"></font>
+                      <?php echo form_error('HEURE_ESTIMATIVE_RETOUR', '<div class="text-danger">', '</div>'); ?>
+                    </div><br><br><br>
+                         <div class="col-md-4">
+                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Motif deplacement <font color="red">*</font></label>
+                      <select class="form-control" name="ID_MOTIF_DEP" id="ID_MOTIF_DEP">
+                       <option value="">---<?=lang('selectionner')?>---</option>
+                       <?php 
+                        $moti=$this->Model->getOne('motif_deplacement',array('ID_MOTIF_DEP' =>$membre['ID_MOTIF_DEP']));
+                       foreach ($motif as $value) 
+                       {
+
+                        if ($value['ID_MOTIF_DEP']==$moti['ID_MOTIF_DEP'])
+                        {
+                          ?>
+                          <option value="<?=$value['ID_MOTIF_DEP']?>" selected><?=$value['DESC_MOTIF']?></option>
+                          <?php
+                        }
+                        else
+                        {
+                          ?>
+                          <option value="<?=$value['CHAUFFEUR_ID']?>"><?=$value['DESC_MOTIF']?></option>
+                          <?php
+                        }
+                        
+                      }
+                      ?>
+                    </select>
+                    <font id="error_ID_MOTIF_DEP" color="red"></font>
+                    <?php echo form_error('ID_MOTIF_DEP', '<div class="text-danger">', '</div>'); ?>
+                  </div>
 
                      <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Date course <font color="red">*</font></label>
@@ -243,18 +289,6 @@
     $('#error_IMAGE_LATERALE_DROITE').html('');
     $('#error_DATE_COURSE').html('');
 
-
-   // error_IMAGE_SIEGE_ARRIERE,IMAGE_SIEGE_ARRIERE 
-   //            error_IMAGE_SIEGE_AVANT,IMAGE_SIEGE_AVANT
-   //            error_IMAGE_TABLEAU_DE_BORD,IMAGE_TABLEAU_DE_BORD
-   //            error_IMAGE_LATERALE_DROITE,IMAGE_LATERALE_DROITE
-   //            error_IMAGE_LATERALE_GAUCHE,IMAGE_LATERALE_GAUCHE
-   //            error_IMAGE_ARRIERE,IMAGE_ARRIERE
-   //            error_IMAGE_AVANT,IMAGE_AVANT
-   //            PHOTO_KILOMETAGE_error,PHOTO_KILOMETAGE
-   //            error_PHOTO_CARBURANT,PHOTO_CARBURANT
-   //            error_COMMENTAIRE,COMMENTAIRE
-   //            error_DATE_COURSE,DATE_COURSE
 
     if($('#DATE_COURSE').val()=='')
     {
