@@ -3,6 +3,56 @@
 
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
+
+  <link href="<?=base_url()?>photoviewer-master/dist/photoviewer.css" rel="stylesheet">
+
+  <style>
+    .photoviewer-modal {
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: 0 0 6px 2px rgba(0, 0, 0, .3);
+    }
+
+    .photoviewer-header .photoviewer-toolbar {
+      background-color: rgba(0, 0, 0, .5);
+    }
+
+    .photoviewer-stage {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, .85);
+      border: none;
+    }
+
+    .photoviewer-footer .photoviewer-toolbar {
+      background-color: rgba(0, 0, 0, .5);
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .photoviewer-header,
+    .photoviewer-footer {
+      border-radius: 0;
+      pointer-events: none;
+    }
+
+    .photoviewer-title {
+      color: #ccc;
+    }
+
+    .photoviewer-button {
+      color: #ccc;
+      pointer-events: auto;
+    }
+
+    .photoviewer-header .photoviewer-button:hover,
+    .photoviewer-footer .photoviewer-button:hover {
+      color: white;
+    }
+  </style>
   <style type="text/css">
 
     .btn-md:hover{
@@ -206,6 +256,38 @@ input:checked + .slider:before {
 <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
+<script src="<?=base_url()?>photoviewer-master/dist/photoviewer.js"></script>
+
+<script>
+    $(document).ready(function () {
+  // Déléguer l'événement de clic pour les éléments générés dynamiquement
+  $(document).on('click', '[data-gallery=photoviewer]', function (e) {
+    e.preventDefault();
+
+    var items = [];
+
+    // Ajouter chaque élément à l'array `items`
+    $('[data-gallery=photoviewer]').each(function () {
+      items.push({
+        src: $(this).attr('href'),
+        title: $(this).attr('data-title')
+      });
+    });
+
+    // Obtenir l'index de l'élément cliqué
+    var index = $(this).index('[data-gallery=photoviewer]');
+
+    // Initialiser le PhotoViewer avec les éléments et définir l'index
+    var options = {
+      index: index // Définir l'index pour démarrer à partir de l'élément cliqué
+    };
+
+    new PhotoViewer(items, options);
+  });
+});
+
+
+</script>
 
 
 <script>

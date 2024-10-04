@@ -40,7 +40,7 @@
     </div>
     <div class="col-md-2">
 
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('etat_vehicule/Retour_Vehicule')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('title_list')?></a>
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('etat_vehicule/Sortie_Vehicule')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('title_list')?></a>
 
     </div>
   </div>
