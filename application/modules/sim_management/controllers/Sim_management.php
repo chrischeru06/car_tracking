@@ -907,7 +907,6 @@ class Sim_management extends CI_Controller
 			    GROUP BY statut,device.DEVICE_ID
 			');
 
-
 			$total=0;
 			$donnees1="";
 			$color = '';

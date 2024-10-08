@@ -371,9 +371,7 @@ input:checked + .slider:before {
                       <th class=""><?=lang('th_proprio')?></th>
                       <th class="">INSTALLATION</th>
                       <th class="">RESEAU</th>
-                      <!-- <th class=""><//?=lang('mot_numero')?></th> -->
                       <th class="">ECHEANCE</th>
-                      <!-- <th class=""><//?=lang('dte_expiration_th')?></th> -->
                       <th class=""><?=lang('th_statut')?></th>
                       <th class=""><?=lang('validation_val')?></th>
                       <th class="">ENREGISTREMENT</th>
@@ -407,9 +405,7 @@ input:checked + .slider:before {
                       <th class=""><?=lang('th_proprio')?></th>
                       <th class="">INSTALLATION</th>
                       <th class="">RESEAU</th>
-                      <!-- <th class=""><//?=lang('mot_numero')?></th> -->
                       <th class="">ECHEANCE</th>
-                      <!-- <th class=""><//?=lang('dte_expiration_th')?></th> -->
                       <th class=""><?=lang('th_statut')?></th>
                       <th class=""><?=lang('validation_val')?></th>
                       <th class="">ENREGISTREMENT</th>
