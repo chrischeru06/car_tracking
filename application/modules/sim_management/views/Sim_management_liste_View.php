@@ -218,7 +218,7 @@ input:checked + .slider:before {
                         <td class="text-small text-muted"><label style="border: solid 1px green;width: 2px;height: 30px;"></label>
                         </td>
                         <td class="text-small text-muted">
-                          <font><b id="nbrValide">2</b><br>Forfaits valides</font>
+                          <font><b id="nbrValide">0</b><br>Forfaits valides</font>
                         </td>
                       </tr>
 
@@ -226,7 +226,7 @@ input:checked + .slider:before {
                         <td class="text-small text-muted"><label style="border: solid 1px red;width: 2px;height: 30px;"></label>
                         </td>
                         <td class="text-small text-muted">
-                          <font><b id="nbrExpire">1</b><br>Forfaits expirés</font>
+                          <font><b id="nbrExpire">0</b><br>Forfaits expirés</font>
                         </td>
                       </tr>
 
@@ -234,7 +234,7 @@ input:checked + .slider:before {
                         <td class="text-small text-muted"><label style="border: solid 1px yellow;width: 2px;height: 30px;"></label>
                         </td>
                         <td class="text-small text-muted">
-                          <font><b id="nbrProcheExp">1</b><br>Proches d'expiration</font>
+                          <font><b id="nbrProcheExp">0</b><br>Proches d'expiration</font>
                         </td>
                       </tr>
 
