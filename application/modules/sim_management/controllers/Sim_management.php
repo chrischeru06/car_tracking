@@ -31,9 +31,12 @@ class Sim_management extends CI_Controller
 	}
 
 
-	//Fonction pour l'affichage
+	//Fonction pour l'affichage 
 	function listing()
 	{
+		$CHECK_VALIDE = $this->input->post('CHECK_VALIDE');
+		$date_now = date('Y-m-d');
+
 		$query_principal="SELECT DISTINCT device.DEVICE_ID,device.CODE,CONCAT(DESC_MARQUE,' - ',DESC_MODELE,' - ',PLAQUE) AS vehicule,proprietaire.PROPRIETAIRE_ID,if(TYPE_PROPRIETAIRE_ID = 2,CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,TYPE_PROPRIETAIRE_ID,LOGO,PHOTO_PASSPORT,DATE_INSTALL,DESC_OPERATEUR,NUMERO,DATE_ACTIVE_MEGA,DATE_EXPIRE_MEGA,device.IS_ACTIVE,device.DATE_SAVE FROM device JOIN operateur_reseau ON operateur_reseau.OPERATEUR_ID = device.OPERATEUR_ID JOIN vehicule ON vehicule.VEHICULE_ID = device.VEHICULE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID  WHERE 1";
 
 
@@ -48,9 +51,24 @@ class Sim_management extends CI_Controller
 		$order_by='';
 		$order_column=array('device.CODE','vehicule','proprio_desc','DATE_INSTALL','DESC_OPERATEUR','NUMERO','DATE_ACTIVE_MEGA','DATE_EXPIRE_MEGA','device.IS_ACTIVE','device.DATE_SAVE');
 
-		$order_by = ' ORDER BY device.DEVICE_ID DESC';
-
 		$critaire = '';
+
+		$critaire = '' ;
+
+		if($CHECK_VALIDE == 1) // Forfaits valides
+		{
+			$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+		}
+		else if($CHECK_VALIDE == 2) // Forfaits expirés
+		{
+			$critaire = ' AND DATE_EXPIRE_MEGA < "'.$date_now.'"';
+		}
+		else if($CHECK_VALIDE == 3) // Forfaits proche à expirer (-4jrs)
+		{
+			$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+		}
+
+		$order_by = ' ORDER BY device.DEVICE_ID DESC';
 
 		$search=!empty($_POST['search']['value']) ? (" AND (device.CODE LIKE '%$var_search%' OR CONCAT(DESC_MARQUE,' - ',DESC_MODELE,' - ',PLAQUE) LIKE '%$var_search%' OR CONCAT(NOM_PROPRIETAIRE,' ',PRENOM_PROPRIETAIRE) LIKE '%$var_search%' OR NOM_PROPRIETAIRE LIKE '%$var_search%' OR DATE_INSTALL LIKE '%$var_search%' OR DESC_OPERATEUR LIKE '%$var_search%' OR NUMERO LIKE '%$var_search%' OR DATE_ACTIVE_MEGA LIKE '%$var_search%' OR DATE_EXPIRE_MEGA LIKE '%$var_search%' OR device.DATE_SAVE LIKE '%$var_search%' )"):'';
 
@@ -82,20 +100,24 @@ class Sim_management extends CI_Controller
 				style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->proprio_desc . '</td></tr></tbody></a>
 				';
 			}
-			elseif(!empty($row->LOGO)){
+			else if($row->TYPE_PROPRIETAIRE_ID == 1 && !empty($row->LOGO)){
 
 				$sub_array[] = '<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></td><td> '.'     '.' ' . $row->proprio_desc . '</td></tr></tbody></a>';
 			}
-			else
+			else if(!empty($row->PHOTO_PASSPORT))
 			{
 				$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></td><td> '.'     '.' ' . $row->proprio_desc . '</td></tr></tbody></a>';
 			}
+			else
+			{
+				$sub_array[] ='<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><i class="bi bi-info-square h5" ></i>
+				style="border-radius:50%;width:30px;height:30px" class="bi bi-user round text-dark"> '.'  &nbsp;   '.' ' . $row->proprio_desc . '</td></tr></tbody></a>
+				';
+			}
 
 			$sub_array[]=date('d-m-Y',strtotime($row->DATE_INSTALL));
-			$sub_array[]=$row->DESC_OPERATEUR;
-			$sub_array[]=$row->NUMERO;
-			$sub_array[]=date('d-m-Y',strtotime($row->DATE_ACTIVE_MEGA));
-			$sub_array[]=date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA));
+			$sub_array[]=$row->DESC_OPERATEUR.'<br>'.$row->NUMERO;
+			$sub_array[]=date('d-m-Y',strtotime($row->DATE_ACTIVE_MEGA)).' - '.date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA));
 
 			if($row->IS_ACTIVE == 1){
 				//$sub_array[] = '<center><i class="fa fa-check text-success  small" title="device activé"></i></center>';
@@ -133,17 +155,30 @@ class Sim_management extends CI_Controller
 				';
 			}
 
-			if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
+			//validité
+
+			$jrsRestants = $this->notifications->ago($row->DATE_EXPIRE_MEGA,date('Y-m-d'));
+
+			$jrsRestants = explode(" ", $jrsRestants)[0];
+
+
+			if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d') && $jrsRestants > 4)
 			{
-				$sub_array[] = '<center><i class="fa fa-check text-success small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
+				$sub_array[] = '<center><i class="fa fa-check-circle text-success small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
 			}
-			else 
+			else if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) < date('Y-m-d'))
 			{
-				$sub_array[] = '<center><i class="fa fa-close text-danger small" title="'.lang('title_expire').'"></i><font class="text-danger small" title="'.lang('title_expire').'"> </font></center>';
+				$sub_array[] = '<center><i class="fa fa-ban text-danger small" title="'.lang('title_expire').'"></i><font class="text-danger small" title="'.lang('title_expire').'"> </font></center>';
 
 				$option .="<li class='btn-md'>
 				<a class='btn-md' onclick='renouvelerForfait(".$row->DEVICE_ID.")' style='cursor:pointer;'><span class='fa fa fa-rotate-right h2'></span>&nbsp;&nbsp;".lang('renouveler_mga')."</a>
 				</li>";
+			} 
+			else if($jrsRestants <= 4 && date('Y-m-d') <= $row->DATE_EXPIRE_MEGA)
+			{
+				
+
+				$sub_array[] = '<center><i class="fa fa-rotate-right text-warning small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
 
 			}
 
@@ -216,7 +251,7 @@ class Sim_management extends CI_Controller
 	// Appel du formulaire d'enregistrement
 	function ajouter()
 	{
-		
+
 		$data['btn'] = "".lang('btn_enregistrer')."";
 
 		$device = '';
@@ -619,33 +654,33 @@ class Sim_management extends CI_Controller
 				$sub_array[]=$i;
 				$sub_array[]=$row->CODE;
 
-					if(!empty($row->DATE_ACTIVE_MEGA)){
-						$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_ACTIVE_MEGA)).'</center>';
-					}
-					else{
-						$sub_array[]= '<center>N/A</center>';
-					}
+				if(!empty($row->DATE_ACTIVE_MEGA)){
+					$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_ACTIVE_MEGA)).'</center>';
+				}
+				else{
+					$sub_array[]= '<center>N/A</center>';
+				}
 
-					if(!empty($row->DATE_EXPIRE_MEGA)){
-						$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA)).'</center>';
-					}
-					else{
-						$sub_array[]= '<center>N/A</center>';
-					}
+				if(!empty($row->DATE_EXPIRE_MEGA)){
+					$sub_array[]= '<center>'.date('d-m-Y',strtotime($row->DATE_EXPIRE_MEGA)).'</center>';
+				}
+				else{
+					$sub_array[]= '<center>N/A</center>';
+				}
 
-					if(!empty($row->DATE_EXPIRE_MEGA)){
-						if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
-						{
-							$sub_array[] = '<center><i class="fa fa-check text-success small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
-						}
-						else 
-						{
-							$sub_array[] = '<center><i class="fa fa-close text-danger small" title="'.lang('title_expire').'"></i><font class="text-danger small" title="'.lang('title_expire').'"> </font></center>';
-						}
+				if(!empty($row->DATE_EXPIRE_MEGA)){
+					if(date('Y-m-d',strtotime($row->DATE_EXPIRE_MEGA)) >= date('Y-m-d'))
+					{
+						$sub_array[] = '<center><i class="fa fa-check text-success small" title="'.lang('title_valide').'"></i><font class="text-success small" title="'.lang('title_valide').'"> </font></center>';
 					}
-					else{
-						$sub_array[]= '<center>N/A</center>';
+					else 
+					{
+						$sub_array[] = '<center><i class="fa fa-close text-danger small" title="'.lang('title_expire').'"></i><font class="text-danger small" title="'.lang('title_expire').'"> </font></center>';
 					}
+				}
+				else{
+					$sub_array[]= '<center>N/A</center>';
+				}
 
 				$sub_array[]=$row->IDENTIFICATION;
 				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
@@ -788,16 +823,341 @@ class Sim_management extends CI_Controller
 
 		//fonction pour recuperer le nombre des devices
 
-		function get_nbr_device()
+		function get_nbr_device($CHECK_VALIDE = '')
 		{
+			$critaire = '';
+			$date_now = date('Y-m-d');
+
+			if(!empty($CHECK_VALIDE))
+			{
+				if($CHECK_VALIDE == 1) // Forfaits valides
+				{
+					$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+				}
+				else if($CHECK_VALIDE == 2) // Forfaits expirés
+				{
+					$critaire = ' AND DATE_EXPIRE_MEGA < "'.$date_now.'"';
+				}
+				else if($CHECK_VALIDE == 3) // Forfaits proche à expirer (-4jrs)
+				{
+					$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+				}
+			}
+			else
+			{
+				$critaire = '';
+			}  
+
 			$proce_requete = "CALL `getRequete`(?,?,?,?);";
 
-			$device = $this->getBindParms('COUNT(DEVICE_ID) AS nombre', 'device JOIN operateur_reseau ON operateur_reseau.OPERATEUR_ID = device.OPERATEUR_ID JOIN vehicule ON vehicule.VEHICULE_ID = device.VEHICULE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID', ' 1', '`DEVICE_ID` ASC');
+			$device = $this->getBindParms('COUNT(DEVICE_ID) AS nombre', 'device JOIN operateur_reseau ON operateur_reseau.OPERATEUR_ID = device.OPERATEUR_ID JOIN vehicule ON vehicule.VEHICULE_ID = device.VEHICULE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID', ' 1 '.$critaire.'', '`DEVICE_ID` ASC');
+
+			$device = str_replace('\"', '"', $device);
+			$device = str_replace('\n', '', $device);
+			$device = str_replace('\"', '', $device);
 
 			$device = $this->ModelPs->getRequeteOne($proce_requete, $device);
 
 			echo $device['nombre'];
 		}
+
+		public function getcolor() 
+		{
+		    $chars = 'ABCDEF0123456789';
+		    $color = '#';
+		    for ( $i= 0; $i < 6; $i++ )
+		    {
+		      $color.= $chars[rand(0, strlen($chars) -1)];
+		    }
+		    return $color;
+		}
+
+        //Fonction pour afficher la statistique
+		public function get_rapport()
+		{
+			$date_now = date('Y-m-d');
+			$critaire = '' ;
+
+			$CHECK_VALIDE = $this->input->post('CHECK_VALIDE');
+
+			if($CHECK_VALIDE == 1) // Forfaits valides
+			{
+				$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+			}
+			else if($CHECK_VALIDE == 2) // Forfaits expirés
+			{
+				$critaire = ' AND DATE_EXPIRE_MEGA < "'.$date_now.'"';
+			}
+			else if($CHECK_VALIDE == 3) // Forfaits proche à expirer (-4jrs)
+			{
+				$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+			}
+
+			$appareil = $this->Model->getRequete('
+			    SELECT 
+			        device.DEVICE_ID, 
+			        count(device.DEVICE_ID) as NBR, 
+			        CASE 
+			            WHEN device.DATE_EXPIRE_MEGA < "'.$date_now.'" THEN "Forfaits expirés"
+			            WHEN device.DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'", INTERVAL 5 DAY) THEN "Forfait proche à expirer"
+			            ELSE "Forfaits valides"
+			        END as statut
+			    FROM `device`
+			    WHERE 1 '.$critaire.'
+			    GROUP BY statut
+			');
+
+
+			$total=0;
+			$donnees1="";
+			$color = '';
+			$nbrValide = 0;
+			$nbrProcheExp = 0;
+			$nbrExpire = 0;
+			
+			foreach ($appareil as $value) 
+			{
+				if($value['statut'] == 'Forfaits valides')
+				{
+					$color = '#008000'; //verte
+					$nbrValide +=$value['NBR'];
+				}
+				else if($value['statut'] == 'Forfait proche à expirer')
+				{
+					$color = '#FFFF00'; //Jaune
+					$nbrProcheExp +=$value['NBR'];
+				}
+				else if($value['statut'] == 'Forfaits expirés')
+				{
+					$color = '#FF0000'; //Rouge
+					$nbrExpire +=$value['NBR'];
+				}
+				
+
+				$total+=$value['NBR'];
+				$statut = (!empty($value['statut'])) ? $value['statut'] : "Aucun" ;
+				$nb = (!empty($value['NBR'])) ? $value['NBR'] : "0" ;
+				$donnees1.="{name:'".str_replace("'","\'",$statut)."', y:".$nb.",color:'".$color."',key:'".$value['DEVICE_ID']."'},";  
+
+			}
+
+
+			 // script des rapports
+
+    // $rapp="<script type=\"text/javascript\">
+    // Highcharts.chart('container', 
+    // {
+    //  chart: 
+    //  {
+    //    type: 'column'
+    //    },
+    //    title: 
+    //    {
+    //      text: '<b> Rapport status clients'
+    //      },
+    //      subtitle: 
+    //      {
+    //        text: '<b><br> Clients enregistrés</b><br> Total= ".$total." '
+    //        },
+    //        xAxis: 
+    //        {
+    //          type: 'category',
+    //          crosshair: true
+    //          },
+    //          yAxis: 
+    //          {
+    //            min: 0,
+    //            title: 
+    //            {
+    //              text: ''
+    //            }
+    //            },
+    //            tooltip: 
+    //            {
+    //              headerFormat: '<span style=\"font-size:10px\">{point.key}</span><table>',
+    //              pointFormat: '<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td>' +
+    //              '<td style=\"padding:0\"><b>{point.y:.f} </b></td></tr>',
+    //              footerFormat: '</table>',
+    //              shared: true,
+    //              useHTML: true
+    //              },
+    //              plotOptions: 
+    //              {
+    //                column:
+    //                {
+    //                 pointPadding: 0.2,
+    //                 borderWidth: 0,
+    //                 cursor:'pointer',
+    //                 point:
+    //                 {
+    //                  events: 
+    //                  { 
+    //                    click: function()
+    //                    {
+    //                      $(\"#titre\").html(\"LISTE DES CLIENTS \");
+    //                      $(\"#myModal\").modal();
+    //                      var row_count ='1000000';
+    //                      $(\"#mytable\").DataTable({
+    //                        \"processing\":true,
+    //                        \"serverSide\":true,
+    //                        \"bDestroy\": true,
+    //                        \"oreder\":[],
+    //                        \"ajax\":{
+    //                          url:\"".base_url('rapport/Rapport_Client/detail_client_is_actif')."\",
+    //                          type:\"POST\",
+    //                          data:
+    //                          {
+    //                           key:this.key,
+
+    //                         }
+    //                         },
+    //                         lengthMenu: [[10,50, 100, row_count], [10,50, 100, \"All\"]],
+    //                         pageLength: 10,
+    //                         \"columnDefs\":[{
+    //                          \"targets\":[0],
+    //                          \"orderable\":false
+    //                          }],
+    //                          dom: 'Bfrtlip',
+    //                          buttons: [
+    //                          'excel', 'print','pdf'
+    //                          ],
+    //                          language: 
+    //                          {
+    //                            \"sProcessing\":     \"Traitement en cours...\",
+    //                            \"sSearch\":         \"Recherche&nbsp;:\",
+    //                            \"sLengthMenu\":     \"Afficher _MENU_ &eacute;l&eacute;ments\",
+    //                            \"sInfo\":           \"Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments\",
+    //                            \"sInfoEmpty\":      \"Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment\",
+    //                            \"sInfoFiltered\":   \"(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)\",
+    //                            \"sInfoPostFix\":    \"\",
+    //                            \"sLoadingRecords\": \"Chargement en cours...\",
+    //                            \"sZeroRecords\":    \"Aucun &eacute;l&eacute;ment &agrave; afficher\",
+    //                            \"sEmptyTable\":     \"Aucune donn&eacute;e disponible dans le tableau\",
+    //                            \"oPaginate\": {
+    //                              \"sFirst\":      \"Premier\",
+    //                              \"sPrevious\":   \"Pr&eacute;c&eacute;dent\",
+    //                              \"sNext\":       \"Suivant\",
+    //                              \"sLast\":       \"Dernier\"
+    //                              },
+    //                              \"oAria\": {
+    //                               \"sSortAscending\":  \": activer pour trier la colonne par ordre croissant\",
+    //                               \"sSortDescending\": \": activer pour trier la colonne par ordre d&eacute;croissant\"
+    //                             }
+    //                           }
+
+    //                           });
+    //                         }
+    //                       }
+    //                       },
+    //                       dataLabels: 
+    //                       {
+    //                         enabled: true,
+    //                         format: '{point.y:f}'
+    //                         },
+    //                         showInLegend: true
+    //                       }
+    //                       }, 
+    //                       credits: 
+    //                       {
+    //                         enabled: true,
+    //                         href: \"\",
+    //                         text: \"Mediabox\"
+    //                         },
+    //                         series: 
+    //                         [{
+    //                           name: ' ',
+    //                           color: '',
+    //                           data: [".$donnees1."]
+    //                           },
+
+    //                           ]
+
+    //                           });
+    //                           </script>";
+
+
+	$rapp = "<script type=\"text/javascript\">
+Highcharts.chart('container', {
+    chart: {
+        type: 'pie',
+        custom: {},
+        width: 200, // Définir la largeur
+        height: 200, // Définir la hauteur
+        marginTop: 0, // Réduire la marge en haut
+        marginBottom: 0, // Réduire la marge en bas
+        events: {
+            render() {
+                const chart = this,
+                    series = chart.series[0];
+                let customLabel = chart.options.chart.custom.label;
+
+                if (!customLabel) {
+                    customLabel = chart.options.chart.custom.label =
+                        chart.renderer.label(
+                            '<strong>".$total."</strong><br/>' +
+                            'Total'
+                        )
+                            .css({
+                                color: '#000',
+                                textAnchor: 'middle',
+                                fontSize: '14px'
+                            })
+                            .add();
+                }
+
+                const x = series.center[0] + chart.plotLeft,
+                    y = series.center[1] + chart.plotTop - (customLabel.attr('height') / 2);
+
+                customLabel.attr({
+                    x,
+                    y
+                });
+            }
+        }
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    title: {
+        text: null // Masquer le titre
+    },
+    subtitle: {
+        text: null // Masquer le sous-titre
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+    },
+    legend: {
+        enabled: false // Masquer la légende
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            borderRadius: 8,
+            dataLabels: {
+                enabled: false // Désactiver les dataLabels pour ne pas afficher les étiquettes
+            },
+            showInLegend: true
+        }
+    },
+    credits: {
+        enabled: false // Désactiver le texte `Highcharts.com`
+    },
+    series: [{
+        name: 'Soit',
+        colorByPoint: true,
+        innerSize: '75%',
+        data: [".$donnees1."]
+    }]
+});
+</script>";
+
+echo json_encode(array('rapp'=>$rapp,'nbrValide'=>$nbrValide,'nbrProcheExp'=>$nbrProcheExp,'nbrExpire'=>$nbrExpire));
+		}
+
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées
 		public function getBindParms($columnselect, $table, $where, $orderby)
