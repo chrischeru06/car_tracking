@@ -300,15 +300,12 @@ input:checked + .slider:before {
                 <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                   <tr>
                     <th class="">#</th>
-
                     <th class=""><?=lang('list_code')?></th>
                     <th class=""><?=lang('veh_maj_mot')?></th>
                     <th class=""><?=lang('th_proprio')?></th>
                     <th class="">INSTALLATION</th>
                     <th class="">RESEAU</th>
-                    <!-- <th class=""><//?=lang('mot_numero')?></th> -->
                     <th class="">ECHEANCE</th>
-                    <!-- <th class=""><//?=lang('dte_expiration_th')?></th> -->
                     <th class=""><?=lang('th_statut')?></th>
                     <th class=""><?=lang('validation_val')?></th>
                     <th class="">ENREGISTREMENT</th>
@@ -340,9 +337,7 @@ input:checked + .slider:before {
                       <th class=""><?=lang('th_proprio')?></th>
                       <th class="">INSTALLATION</th>
                       <th class="">RESEAU</th>
-                      <!-- <th class=""><//?=lang('mot_numero')?></th> -->
                       <th class="">ECHEANCE</th>
-                      <!-- <th class=""><//?=lang('dte_expiration_th')?></th> -->
                       <th class=""><?=lang('th_statut')?></th>
                       <th class=""><?=lang('validation_val')?></th>
                       <th class="">ENREGISTREMENT</th>
