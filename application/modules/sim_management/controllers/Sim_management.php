@@ -904,7 +904,7 @@ class Sim_management extends CI_Controller
 			        END as statut
 			    FROM `device`
 			    WHERE 1 '.$critaire.'
-			    GROUP BY statut
+			    GROUP BY statut,device.DEVICE_ID
 			');
 
 
