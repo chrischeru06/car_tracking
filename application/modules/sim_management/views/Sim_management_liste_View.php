@@ -218,7 +218,7 @@ input:checked + .slider:before {
                         <td class="text-small text-muted"><label style="border: solid 1px green;width: 2px;height: 30px;"></label>
                         </td>
                         <td class="text-small text-muted">
-                          <font><b id="nbrValide">2</b><br>Forfaits valides</font>
+                          <font><b id="nbrValide">0</b><br>Forfaits valides</font>
                         </td>
                       </tr>
 
@@ -226,7 +226,7 @@ input:checked + .slider:before {
                         <td class="text-small text-muted"><label style="border: solid 1px red;width: 2px;height: 30px;"></label>
                         </td>
                         <td class="text-small text-muted">
-                          <font><b id="nbrExpire">1</b><br>Forfaits expirés</font>
+                          <font><b id="nbrExpire">0</b><br>Forfaits expirés</font>
                         </td>
                       </tr>
 
@@ -234,7 +234,7 @@ input:checked + .slider:before {
                         <td class="text-small text-muted"><label style="border: solid 1px yellow;width: 2px;height: 30px;"></label>
                         </td>
                         <td class="text-small text-muted">
-                          <font><b id="nbrProcheExp">1</b><br>Proches d'expiration</font>
+                          <font><b id="nbrProcheExp">0</b><br>Proches d'expiration</font>
                         </td>
                       </tr>
 
@@ -300,15 +300,12 @@ input:checked + .slider:before {
                 <thead style="font-weight:bold; background-color: rgba(0, 0, 0, 0.075);">
                   <tr>
                     <th class="">#</th>
-
                     <th class=""><?=lang('list_code')?></th>
                     <th class=""><?=lang('veh_maj_mot')?></th>
                     <th class=""><?=lang('th_proprio')?></th>
                     <th class="">INSTALLATION</th>
                     <th class="">RESEAU</th>
-                    <!-- <th class=""><//?=lang('mot_numero')?></th> -->
                     <th class="">ECHEANCE</th>
-                    <!-- <th class=""><//?=lang('dte_expiration_th')?></th> -->
                     <th class=""><?=lang('th_statut')?></th>
                     <th class=""><?=lang('validation_val')?></th>
                     <th class="">ENREGISTREMENT</th>
@@ -340,9 +337,7 @@ input:checked + .slider:before {
                       <th class=""><?=lang('th_proprio')?></th>
                       <th class="">INSTALLATION</th>
                       <th class="">RESEAU</th>
-                      <!-- <th class=""><//?=lang('mot_numero')?></th> -->
                       <th class="">ECHEANCE</th>
-                      <!-- <th class=""><//?=lang('dte_expiration_th')?></th> -->
                       <th class=""><?=lang('th_statut')?></th>
                       <th class=""><?=lang('validation_val')?></th>
                       <th class="">ENREGISTREMENT</th>
@@ -376,9 +371,7 @@ input:checked + .slider:before {
                       <th class=""><?=lang('th_proprio')?></th>
                       <th class="">INSTALLATION</th>
                       <th class="">RESEAU</th>
-                      <!-- <th class=""><//?=lang('mot_numero')?></th> -->
                       <th class="">ECHEANCE</th>
-                      <!-- <th class=""><//?=lang('dte_expiration_th')?></th> -->
                       <th class=""><?=lang('th_statut')?></th>
                       <th class=""><?=lang('validation_val')?></th>
                       <th class="">ENREGISTREMENT</th>
@@ -412,9 +405,7 @@ input:checked + .slider:before {
                       <th class=""><?=lang('th_proprio')?></th>
                       <th class="">INSTALLATION</th>
                       <th class="">RESEAU</th>
-                      <!-- <th class=""><//?=lang('mot_numero')?></th> -->
                       <th class="">ECHEANCE</th>
-                      <!-- <th class=""><//?=lang('dte_expiration_th')?></th> -->
                       <th class=""><?=lang('th_statut')?></th>
                       <th class=""><?=lang('validation_val')?></th>
                       <th class="">ENREGISTREMENT</th>
