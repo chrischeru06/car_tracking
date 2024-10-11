@@ -2284,7 +2284,12 @@
 					$html_device = '';
 					$html_device_exp = '';
 
-					$device = $this->getBindParms('device.DEVICE_ID,device.CODE,device.DATE_EXPIRE_MEGA,NUMERO','device',' 1','device.DEVICE_ID ASC');
+					$device = $this->getBindParms('device.DEVICE_ID,device.CODE,device.DATE_EXPIRE_MEGA,NUMERO,CONCAT(DESC_MARQUE," - " ,DESC_MODELE," - ",PLAQUE) AS vehicule,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','device JOIN vehicule ON vehicule.VEHICULE_ID = device.VEHICULE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID',' 1','device.DEVICE_ID ASC');
+
+					$device=str_replace('\"', '"', $device);
+					$device=str_replace('\n', '', $device);
+					$device=str_replace('\"', '', $device);
+
 					$device = $this->ModelPs->getRequete($psgetrequete, $device);
 
 					if(!empty($device))
@@ -2302,12 +2307,13 @@
 								$nbr_device_proche_exp += 1;
 
 								$html_device.='
-								<a href="' . base_url('sim_management/Sim_management/get_historique/'.md5($key_device['DEVICE_ID']).''). '" style="color:black;">
+								<a href="' . base_url('notification/Notification/'.'').'" style="color:black;">
 								<li class="notification-item">
 								<i class="bi bi-exclamation-circle text-warning"></i>
 								<div>
 								<h4 class="text-warning">'.lang('title_forfait_fin').'</h4>
-								<p>'.lang('p_code_device').' : '.$key_device['CODE'].'</p>
+								<p>Véhicule : '.$key_device['vehicule'].'</p>
+								<p>propriétaire : '.$key_device['proprio_desc'].'</p>
 								<p>'.lang('p_carte_sim').' : '.$key_device['NUMERO'].'</p>
 								<p>'.lang('reste').' '.$jrsRestants.' '.lang('jrs').'</p>
 								</div>
@@ -2317,18 +2323,42 @@
 								<hr class="dropdown-divider">
 								</li>
 								'; 
+
+								$check_notif = $this->getBindParms('ID_NOTIFICATION,DEVICE_ID,ID_CAT_NOTIF,DATE_ENVOIE','notification_app',' 1 AND DEVICE_ID ='.$key_device['DEVICE_ID'].' AND ID_CAT_NOTIF = 1 AND DATE(DATE_ENVOIE) = CURDATE()','ID_NOTIFICATION ASC');
+								$check_notif = $this->ModelPs->getRequeteOne($psgetrequete, $check_notif);
+
+								if(empty($check_notif))
+								{
+									$data_save = array(
+										'DEVICE_ID' => $key_device['DEVICE_ID'],
+										'ID_CAT_NOTIF'=> 1,
+										'MESSAGE' => 'Le forfait du véhicule <b>'.$key_device['vehicule'].'</b> du propriétaire <b>'.$key_device['proprio_desc'].'</b> avec le numéro<br>carte sim <b>'.$key_device['NUMERO'].'</b> va bientôt expiré il ne reste que <b>'.$jrsRestants.'</b> jour(s) pensez à renouveler le forfait',
+									);
+
+									$create = $this->Model->create('notification_app',$data_save);
+
+								// $subjet = "Car tracking Notification";
+
+							    // $email = "mushagalusabypacifique10@gmail.com";
+
+							    // $message = 'Le forfait du véhicule <b>'.$key_device['vehicule'].'</b> du propriétaire <b>'.$key_device['proprio_desc'].'</b> avec le numéro<br>carte sim <b>'.$key_device['NUMERO'].'</b> va bientôt expiré il ne reste que <b>'.$jrsRestants.'</b> jour(s) pensez à renouveler le forfait';
+
+							    // $this->notifications->send_mail(array($email),$subjet,array(),$message,array());
+
+								}
 							}
 							else if($today > $key_device['DATE_EXPIRE_MEGA']) // forfait déjà expiré
 							{
 								$nbr_device_exp += 1;
 
 								$html_device_exp.='
-								<a href="' . base_url('sim_management/Sim_management/get_historique/'.md5($key_device['DEVICE_ID']).''). '" style="color:black;">
+								<a href="' . base_url('notification/Notification/'.'').'" style="color:black;">
 								<li class="notification-item">
 								<i class="bi bi-exclamation-circle text-danger"></i>
 								<div>
 								<h4 class="text-danger">Forfait expriré</h4>
-								<p>'.lang('p_code_device').' : '.$key_device['CODE'].'</p>
+								<p>Véhicule : '.$key_device['vehicule'].'</p>
+								<p>propriétaire : '.$key_device['proprio_desc'].'</p>
 								<p>'.lang('p_carte_sim').' : '.$key_device['NUMERO'].'</p>
 								<p>'.lang('franc_date_il_ya').' '.$jrsRestants.' '.lang('jrs_jrs').' '.lang('angl_date_il_ya').'</p>
 								</div>
@@ -2338,6 +2368,20 @@
 								<hr class="dropdown-divider">
 								</li>
 								';
+
+								$check_notif = $this->getBindParms('ID_NOTIFICATION,DEVICE_ID,ID_CAT_NOTIF,DATE_ENVOIE','notification_app',' 1 AND DEVICE_ID ='.$key_device['DEVICE_ID'].' AND ID_CAT_NOTIF = 2 AND DATE(DATE_ENVOIE) = CURDATE()','ID_NOTIFICATION ASC');
+								$check_notif = $this->ModelPs->getRequeteOne($psgetrequete, $check_notif);
+
+								if(empty($check_notif))
+								{
+									$data_save = array(
+										'DEVICE_ID' => $key_device['DEVICE_ID'],
+										'ID_CAT_NOTIF'=> 2,
+										'MESSAGE' => 'Le forfait du véhicule <b>'.$key_device['vehicule'].'</b> du propriétaire <b>'.$key_device['proprio_desc'].'</b> avec le numéro <br> carte sim <b>'.$key_device['NUMERO'].'</b> est déjà expiré il y a <b>'.$jrsRestants.'</b> jour(s) Veuillez renouveler le forfait',
+									);
+
+									$create = $this->Model->create('notification_app',$data_save);
+								}
 							}
 						}
 					}

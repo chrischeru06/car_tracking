@@ -48,11 +48,11 @@
 
 
       <a href="<?php echo base_url(); ?>Language/index/french" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='french') echo 'active' ?>">
-            <img class="img" src="<?= base_url() ?>upload/fr.jpg">
-          </a>
-          <a href="<?php echo base_url(); ?>Language/index/english" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='english') echo 'active' ?>">
-              <img class="img" src="<?= base_url() ?>upload/en.png">
-            </a>
+        <img class="img" src="<?= base_url() ?>upload/fr.jpg">
+      </a>
+      <a href="<?php echo base_url(); ?>Language/index/english" class="dropdown-item d-flex align-items-center <?php if($this->session->userdata('site_lang')=='english') echo 'active' ?>">
+        <img class="img" src="<?= base_url() ?>upload/en.png">
+      </a>
       
       <?php
 
@@ -387,5 +387,7 @@
 
     };
 
-    setTimeout(goBackend,5000)
+    setInterval(async () => { 
+      goBackend(); 
+    }, 5000);
   </script>
