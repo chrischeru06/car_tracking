@@ -148,22 +148,6 @@ else if ($this->session->PROFIL_ID == 2) {
           </a>
         </li><!-- End Dashboard Nav -->
 
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Mes véhicules</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        
-          <li>
-            <a href="<?=base_url()?>proprietaire/Proprietaire_vehicule">
-              <i class="bi bi-circle"></i><span>Véhicules</span>
-            </a>
-          </li>
-        
-          
-        </ul>
-      </li> --><!-- End Forms Nav -->
-
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url()?>vehicule/Vehicule">
           <i class="bi bi-journal-text"></i>
