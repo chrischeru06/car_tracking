@@ -115,6 +115,13 @@ if ($this->session->PROFIL_ID == 1) {
     </a>
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?=base_url()?>notification/Notification">
+      <i class="bi bi-bell"></i>
+      <span>Notification</span>
+    </a>
+  </li>
+
 
 </ul>
 
