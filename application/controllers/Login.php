@@ -208,6 +208,8 @@ class Login extends CI_Controller
 						redirect(base_url('centre_situation/Centre_situation'));
 					if ($this->session->userdata('CODE_PROFIL') == "CHAUFFEUR") 
 						redirect(base_url('etat_vehicule/Vehicule_Affecte_Chauff'));
+					if ($this->session->userdata('CODE_PROFIL') == "GESTIONNAIRE_VEHICULE") 
+						redirect(base_url('gestionnaire/Espace_Perso_Gestionnaire'));
 
 
 					
