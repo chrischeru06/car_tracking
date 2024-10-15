@@ -1040,7 +1040,6 @@ if(statut<2)
 }
 </script>
 
-
 <script>
  function get_nbr_vehicule()
  {
