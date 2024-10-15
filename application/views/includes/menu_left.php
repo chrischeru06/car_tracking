@@ -74,7 +74,8 @@ if ($this->session->PROFIL_ID == 1) {
           </li>
 
         </ul>
-      </li><!-- End Forms Nav -->
+      </li>
+      <!-- End Forms Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
@@ -207,26 +208,42 @@ else if ($this->session->PROFIL_ID == 2) {
 else if ($this->session->PROFIL_ID == 3) { 
   ?>
 
-
-
     <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
 
       <ul class="sidebar-nav" id="sidebar-nav">
-    
-      <li class="nav-item">
-        <!-- <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_chauffeur"> -->
-          <a class="nav-link collapsed" href="<?=base_url()?>chauffeur/Chauffeur">
-          <i class="bi bi-person"></i>
-          <span><?=lang('Chauffeurs_lng')?></span>
+        <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
+          <i  class="fa fa-car"></i> <span><?=lang('etat_vehicul')?></span><i class="bi bi-chevron-down ms-auto"></i>
+         
+
+
         </a>
-      </li>
-    <li class="nav-item">
-    <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Liste_Etat_Vehicule">
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li class="sou_menu">
+            <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Sortie_Vehicule">
+          <i class="bi bi-person"></i>
+          <span>Prise de véhicule</span>
+        </a>
+          </li>
+          <li class="sou_menu">
+            <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Retour_Vehicule">
       <i class="fa fa-car"></i>
-      <span><?=lang('etat_vehicul')?></span>
+      <span>Remise du véhicule</span>
+    </a>
+   </li>
+
+          
+        
+    </ul>
+  </li>
+   <li class="nav-item">
+    <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Vehicule_Affecte_Chauff">
+      <i class="fa fa-car"></i>
+      <span>Mes véhicules</span>
     </a>
   </li>
-
+    
+     
       
 </ul>
 

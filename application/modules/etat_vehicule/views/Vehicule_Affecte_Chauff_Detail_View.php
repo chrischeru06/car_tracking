@@ -3,6 +3,8 @@
 
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
+
+  <?php include VIEWPATH . 'includes/header.php'; ?>
   <!-- debut ajouter pour afficher bein la photo dans un petit popup -->
   <link href="<?=base_url()?>photoviewer-master/dist/photoviewer.css" rel="stylesheet">
 
@@ -569,8 +571,8 @@
                         <th class="text-dark">IMAGE&nbsp;TABLEAU&nbsp;DE&nbsp;BORD</th>
                         <th class="text-dark">IMAGE&nbsp;SIEGE&nbsp;AVANT</th>
                         <th class="text-dark">IMAGE&nbsp;SIEGE&nbsp;ARRIERE</th>
-                        <th class="text-dark"><?=lang('list_profil_enreg')?></th>
-                        <th class="text-dark"><?=lang('list_dte_enregistrement')?></th>
+                        <!-- <th class="text-dark"><?=lang('list_profil_enreg')?></th>
+                        <th class="text-dark"><?=lang('list_dte_enregistrement')?></th> -->
                         <th></th>
                       </tr>
                     </thead>
@@ -641,7 +643,7 @@
                         <th class="text-dark"><?=lang('list_dte_dbut')?></th>
                         <th class="text-dark"><?=lang('list_dte_fin')?></th>
                         <th class="text-dark"><?=lang('list_assureur')?></th>
-                        <th class="text-dark"><?=lang('list_profil_enreg')?></th>
+                        <!-- <th class="text-dark"><?=lang('list_profil_enreg')?></th> -->
                         <th class="text-dark"><?=lang('list_dte_enregistrement')?></th>
                         <th></th>
                       </tr>
@@ -669,7 +671,7 @@
                       <th class="text-dark"><?=lang('list_doc')?></th>
                       <th class="text-dark"><?=lang('list_dte_dbut')?></th>
                       <th class="text-dark"><?=lang('list_dte_fin')?></th>
-                      <th class="text-dark"><?=lang('list_profil_enreg')?></th>
+                      <!-- <th class="text-dark"><?=lang('list_profil_enreg')?></th> -->
                       <th class="text-dark"><?=lang('list_dte_enregistrement')?></th>
                       <th></th>
                     </tr>
@@ -859,7 +861,7 @@
         "destroy":true,
         "oreder":[[ 1, 'asc' ]],
         "ajax":{
-          url: "<?php echo base_url('/vehicule/Vehicule/liste_etat_vehicule');?>", 
+          url: "<?php echo base_url('/etat_vehicule/Vehicule_Affecte_Chauff/liste_etat_vehicule');?>", 
           type:"POST",
           data : {VEHICULE_ID:VEHICULE_ID},
           beforeSend : function() {
@@ -915,7 +917,7 @@
         "destroy":true,
         "oreder":[[ 1, 'asc' ]],
         "ajax":{
-          url: "<?php echo base_url('/vehicule/Vehicule/liste_assurance');?>", 
+          url: "<?php echo base_url('/etat_vehicule/Vehicule_Affecte_Chauff/liste_assurance');?>", 
           type:"POST",
           data : {VEHICULE_ID:VEHICULE_ID},
           beforeSend : function() {
@@ -972,7 +974,7 @@
         "destroy":true,
         "oreder":[[ 1, 'asc' ]],
         "ajax":{
-          url: "<?php echo base_url('/vehicule/Vehicule/liste_controle');?>", 
+          url: "<?php echo base_url('/etat_vehicule/Vehicule_Affecte_Chauff/liste_controle');?>", 
           type:"POST",
           data : {VEHICULE_ID:VEHICULE_ID},
           beforeSend : function() {
@@ -1070,6 +1072,42 @@
     }
   </script>
 
+  <!-- debut script  pour afficher bien la photo dans un petit popup -->
+  <script src="<?=base_url()?>photoviewer-master/dist/photoviewer.js"></script>
+
+  <script>
+    $(document).ready(function () {
+   // Déléguer l'événement de clic pour les éléments générés  dynamiquement
+   $(document).on('click', '[data-gallery=photoviewer]', function (e) {
+    e.preventDefault();
+
+    var items = [];
+
+    // Ajouter chaque élément à l'array `items`
+    $('[data-gallery=photoviewer]').each(function () {
+      items.push({
+        src: $(this).attr('href'),
+        title: $(this).attr('data-title')
+      });
+    });
+
+    // Obtenir l'index de l'élément cliqué
+    var index = $(this).index('[data-gallery=photoviewer]');
+
+    // Initialiser le PhotoViewer avec les éléments et définir l'index
+    var options = {
+      index: index // Définir l'index pour démarrer à partir de l'élément cliqué
+    };
+
+    new PhotoViewer(items, options);
+    });
+    });
+
+
+</script>
+ <!-- fin script  pour afficher bien la photo dans un petit popup -->
+
+
 
   <script>
     function show_image(VEHICULE_ID)
@@ -1104,43 +1142,6 @@
       $('#Modal_photo_vehicule').modal('show');
     }
   </script>
-   <!-- debut script  pour afficher bien la photo dans un petit popup -->
-<script src="<?=base_url()?>photoviewer-master/dist/photoviewer.js"></script>
-
-<script>
-    $(document).ready(function () {
-   // Déléguer l'événement de clic pour les éléments générés  dynamiquement
-   $(document).on('click', '[data-gallery=photoviewer]', function (e) {
-    e.preventDefault();
-
-    var items = [];
-
-    // Ajouter chaque élément à l'array `items`
-    $('[data-gallery=photoviewer]').each(function () {
-      items.push({
-        src: $(this).attr('href'),
-        title: $(this).attr('data-title')
-      });
-    });
-
-    // Obtenir l'index de l'élément cliqué
-    var index = $(this).index('[data-gallery=photoviewer]');
-
-    // Initialiser le PhotoViewer avec les éléments et définir l'index
-    var options = {
-      index: index // Définir l'index pour démarrer à partir de l'élément cliqué
-    };
-
-    new PhotoViewer(items, options);
-  });
-  });
-
-
-</script>
- <!-- fin script  pour afficher bien la photo dans un petit popup -->
-
-
-
 
 
   <script>
