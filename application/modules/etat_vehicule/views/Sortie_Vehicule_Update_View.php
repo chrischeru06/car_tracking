@@ -99,13 +99,13 @@
                     </div>
                     <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure départ <font color="red">*</font></label>
-                      <input type="text" name="HEURE_DEPART" autocomplete="off" id="HEURE_DEPART" value="<?=$membre['HEURE_DEPART']?>"  class="form-control" placeholder="Heure départ">
+                      <input type="time" name="HEURE_DEPART" autocomplete="off" id="HEURE_DEPART" value="<?=$membre['HEURE_DEPART']?>"  class="form-control" placeholder="Heure départ">
                       <font id="error_HEURE_DEPART" color="red"></font>
                       <?php echo form_error('HEURE_DEPART', '<div class="text-danger">', '</div>'); ?>
                     </div>
                       <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure retour <font color="red">*</font></label>
-                      <input type="text" name="HEURE_ESTIMATIVE_RETOUR" autocomplete="off" id="HEURE_ESTIMATIVE_RETOUR" value="<?=$membre['HEURE_ESTIMATIVE_RETOUR']?>"   class="form-control" placeholder="Heure retour">
+                      <input type="time" name="HEURE_ESTIMATIVE_RETOUR" autocomplete="off" id="HEURE_ESTIMATIVE_RETOUR" value="<?=$membre['HEURE_ESTIMATIVE_RETOUR']?>"   class="form-control" placeholder="Heure retour">
                       <font id="err_HEURE_ESTIMATIVE_RETOUR" color="red"></font>
                       <?php echo form_error('HEURE_ESTIMATIVE_RETOUR', '<div class="text-danger">', '</div>'); ?>
                     </div><br><br><br>

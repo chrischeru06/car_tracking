@@ -3,7 +3,7 @@
 
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
-
+ <!-- debut ajouter pour afficher bein la photo dans un petit popup -->
   <link href="<?=base_url()?>photoviewer-master/dist/photoviewer.css" rel="stylesheet">
 
   <style>
@@ -53,6 +53,7 @@
       color: white;
     }
   </style>
+   <!-- fin ajouter pour afficher bein la photo dans un petit popup -->
   <style type="text/css">
 
     .btn-md:hover{
@@ -256,6 +257,7 @@ input:checked + .slider:before {
 <?php include VIEWPATH . 'includes/footer.php'; ?>
 
 </body>
+ <!-- debut script  pour afficher bien la photo dans un petit popup -->
 <script src="<?=base_url()?>photoviewer-master/dist/photoviewer.js"></script>
 
 <script>
@@ -288,6 +290,7 @@ input:checked + .slider:before {
 
 
 </script>
+ <!-- fin script  pour afficher bien la photo dans un petit popup -->
 
 
 <script>

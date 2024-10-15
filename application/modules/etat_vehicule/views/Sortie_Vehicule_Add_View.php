@@ -113,10 +113,10 @@
                       <input type="text" name="DESTINATION" autocomplete="off" id="DESTINATION" value="<?= set_value('DESTINATION') ?>"  class="form-control" placeholder="Destination">
                       <font id="error_DESTINATION" color="red"></font>
                       <?php echo form_error('DESTINATION', '<div class="text-danger">', '</div>'); ?>
-                    </div>
+                    </div><br><br><br>
                      <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure départ <font color="red">*</font></label>
-                      <input type="text" name="HEURE_DEPART" autocomplete="off" id="HEURE_DEPART" value="<?= set_value('HEURE_DEPART') ?>"  class="form-control" placeholder="Heure départ">
+                      <input type="time" name="HEURE_DEPART" autocomplete="off" id="HEURE_DEPART" value="<?= set_value('HEURE_DEPART') ?>"  class="form-control" placeholder="Heure départ">
                       <font id="error_HEURE_DEPART" color="red"></font>
                       <?php echo form_error('HEURE_DEPART', '<div class="text-danger">', '</div>'); ?>
                     </div>
@@ -124,10 +124,10 @@
 
                     <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure retour <font color="red">*</font></label>
-                      <input type="text" name="HEURE_ESTIMATIVE_RETOUR" autocomplete="off" id="HEURE_ESTIMATIVE_RETOUR" value="<?= set_value('HEURE_ESTIMATIVE_RETOUR') ?>"  class="form-control" placeholder="Heure retour">
+                      <input type="time" name="HEURE_ESTIMATIVE_RETOUR" autocomplete="off" id="HEURE_ESTIMATIVE_RETOUR" value="<?= set_value('HEURE_ESTIMATIVE_RETOUR') ?>"  class="form-control" placeholder="Heure retour">
                       <font id="err_HEURE_ESTIMATIVE_RETOUR" color="red"></font>
                       <?php echo form_error('HEURE_ESTIMATIVE_RETOUR', '<div class="text-danger">', '</div>'); ?>
-                    </div><br><br><br>
+                    </div>
 
 
                        <div class="col-md-4">
@@ -150,7 +150,7 @@
                     </select>
                     <font id="error_ID_MOTIF_DEP" color="red"></font>
                     <?php echo form_error('ID_MOTIF_DEP', '<div class="text-danger">', '</div>'); ?>
-                  </div>
+                  </div><br><br><br>
 
 
                    <div class="col-md-4">
@@ -174,7 +174,7 @@
                     <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="carburant" autocomplete="off" id="carburant" value="<?= set_value('carburant') ?>"  class="form-control" title='carburant retour'>
                     <font id="error_carburant" color="red"></font>
                     <?php echo form_error('carburant', '<div class="text-danger">', '</div>'); ?> 
-                  </div>
+                  </div><br><br><br>
 
 
                    <div class="col-md-4" class="text-dark">
@@ -182,7 +182,7 @@
                     <input type="file" name="photo_kilometrage" autocomplete="off" id="photo_kilometrage" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" value="<?= set_value('photo_kilometrage') ?>"  class="form-control" title='<?=lang('title_file')?>'>
                     <font id="err_photo_kilometrage" color="red"></font>
                     <?php echo form_error('photo_kilometrage', '<div class="text-danger">', '</div>'); ?> 
-                  </div><br><br><br>
+                  </div>
                     <div class="col-md-4">
                     <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Image avant (.png,.jpg,.jepg)<font color="red">*</font></label>
                     <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_avant" autocomplete="off" id="photo_avant" value="<?= set_value('photo_avant') ?>"  class="form-control" title='photo_avant '>
@@ -195,7 +195,7 @@
                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_arriere" autocomplete="off" id="photo_arriere" value="<?= set_value('photo_arriere') ?>"  class="form-control" title='photo_arriere '>
                     <font id="error_photo_arriere" color="red"></font>
                     <?php echo form_error('photo_arriere', '<div class="text-danger">', '</div>'); ?> 
-                  </div>
+                  </div><br><br><br>
                    <div class="col-md-4">
                     <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Laterale gauche (.png,.jpg,.jepg)<font color="red">*</font></label>
 
@@ -218,7 +218,7 @@
                     <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="photo_tableau" autocomplete="off" id="photo_tableau" value="<?= set_value('photo_tableau') ?>"  class="form-control" title='photo_tableau '>
                     <font id="error_photo_tableau" color="red"></font>
                     <?php echo form_error('photo_tableau', '<div class="text-danger">', '</div>'); ?> 
-                  </div>
+                  </div><br><br><br>
 
 
                     <div class="col-md-4">

@@ -89,48 +89,18 @@
 				
 				$sub_array[] = $row->NOM." ".$row->PRENOM;
 				$sub_array[] = $row->HEURE_RETOUR;
-				// $sub_array[] = $row->PHOTO_KILOMETRAGE_RETOUR;
+			  
+				$source = !empty($row->PHOTO_KILOMETRAGE_RETOUR) ? base_url('upload/image_url/'.$row->PHOTO_KILOMETRAGE_RETOUR) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			  href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture' . $row->ID_RETOUR. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->PHOTO_KILOMETRAGE_RETOUR.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
-
-				<div class="modal fade" id="mypicture' .$row->ID_RETOUR.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Kilometrage effectué</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->PHOTO_KILOMETRAGE_RETOUR).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
+				
 				// $sub_array[] = $row->PHOTO_CARBURANT_RETOUR;
-				$sub_array[] ='<tbody><tr><td><a title=" " href="#"  data-toggle="modal" data-target="#mypicture2' . $row->ID_RETOUR. '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/image_url/').$row->PHOTO_CARBURANT_RETOUR.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp  </td></tr></tbody></a>
+			  $source = !empty($row->PHOTO_CARBURANT_RETOUR) ? base_url('upload/image_url/'.$row->PHOTO_CARBURANT_RETOUR) : base_url('upload/images/user.png');
+				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
+			  href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 
-				<div class="modal fade" id="mypicture2' .$row->ID_RETOUR.'" style="border-radius:100px;">
-				<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-
-				<div class="modal-header" style="background:cadetblue;color:white;">
-				<h6 class="modal-title">Carburant retourné</h6>
-				<button type="button" class="btn btn-close text-light" data-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				<embed src = "'.base_url("upload/image_url/".$row->PHOTO_CARBURANT_RETOUR).'"   style="border-radius: 5px;height:500px;width: 100%;">
-
-				</div>
-				</div>
-				</div>
-				</div>
-				';
-			
+				
 				$sub_array[] = $row->COMMENTAIRE_ANOMALIE;
 				// $sub_array[] = $row->IS_VALIDATED;
 				if($row->IS_VALIDATED==0)
