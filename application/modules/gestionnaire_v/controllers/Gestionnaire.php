@@ -4,8 +4,9 @@
 	Email     : byamungu.pacifique@mediabox.bi
 	Telephone : +25772496057
 	Date      : 15/10/2024
+	Desc      : CRUD du Gestionnaire
 */
-	class Gestionnaire_v extends CI_Controller
+	class Gestionnaire extends CI_Controller
 	{
 		function __construct()
 		{
@@ -27,7 +28,7 @@
 		{
 			$data['title'] = 'Liste';
 			
-			$this->load->view('Vehicule_liste_View',$data);
+			$this->load->view('Gestionnaire_liste_view',$data);
 		}
 
 		//Fonction pour l'affichage
