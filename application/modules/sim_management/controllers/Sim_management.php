@@ -57,15 +57,15 @@ class Sim_management extends CI_Controller
 
 		if($CHECK_VALIDE == 1) // Forfaits valides
 		{
-			$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+			$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 4 DAY)';
 		}
 		else if($CHECK_VALIDE == 2) // Forfaits expirés
 		{
 			$critaire = ' AND DATE_EXPIRE_MEGA < "'.$date_now.'"';
 		}
-		else if($CHECK_VALIDE == 3) // Forfaits proche à expirer (-4jrs)
+		else if($CHECK_VALIDE == 3) // Forfaits proche à expirer (-5jrs)
 		{
-			$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+			$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 4 DAY)';
 		}
 
 		$order_by = ' ORDER BY device.DEVICE_ID DESC';
@@ -832,7 +832,7 @@ class Sim_management extends CI_Controller
 			{
 				if($CHECK_VALIDE == 1) // Forfaits valides
 				{
-					$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+					$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 4 DAY)';
 				}
 				else if($CHECK_VALIDE == 2) // Forfaits expirés
 				{
@@ -840,7 +840,7 @@ class Sim_management extends CI_Controller
 				}
 				else if($CHECK_VALIDE == 3) // Forfaits proche à expirer (-4jrs)
 				{
-					$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+					$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 4 DAY)';
 				}
 			}
 			else
@@ -882,7 +882,7 @@ class Sim_management extends CI_Controller
 
 			if($CHECK_VALIDE == 1) // Forfaits valides
 			{
-				$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+				$critaire = ' AND DATE_EXPIRE_MEGA >= "'.$date_now.'" AND DATE_EXPIRE_MEGA > DATE_ADD("'.$date_now.'" , INTERVAL 4 DAY)';
 			}
 			else if($CHECK_VALIDE == 2) // Forfaits expirés
 			{
@@ -890,7 +890,7 @@ class Sim_management extends CI_Controller
 			}
 			else if($CHECK_VALIDE == 3) // Forfaits proche à expirer (-4jrs)
 			{
-				$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 5 DAY)';
+				$critaire = ' AND DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'" , INTERVAL 4 DAY)';
 			}
 
 			$appareil = $this->Model->getRequete('
@@ -899,7 +899,7 @@ class Sim_management extends CI_Controller
 			        count(device.DEVICE_ID) as NBR, 
 			        CASE 
 			            WHEN device.DATE_EXPIRE_MEGA < "'.$date_now.'" THEN "Forfaits expirés"
-			            WHEN device.DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'", INTERVAL 5 DAY) THEN "Forfait proche à expirer"
+			            WHEN device.DATE_EXPIRE_MEGA BETWEEN "'.$date_now.'" AND DATE_ADD("'.$date_now.'", INTERVAL 4 DAY) THEN "Forfait proche à expirer"
 			            ELSE "Forfaits valides"
 			        END as statut
 			    FROM `device`
