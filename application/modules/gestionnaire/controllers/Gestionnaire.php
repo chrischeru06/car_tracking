@@ -44,7 +44,7 @@
 		{
 			$critaire = '' ;
 			
-			$query_principal='SELECT ID_GESTIONNAIRE_VEHICULE,gestionnaire_vehicule.NOM,gestionnaire_vehicule.PRENOM,gestionnaire_vehicule.ADRESSE_PHYSIQUE,gestionnaire_vehicule.NUMERO_TELEPHONE,DESCR_GENRE,gestionnaire_vehicule.ADRESSE_MAIL,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,gestionnaire_vehicule.PHOTO_PROFIL,gestionnaire_vehicule.PROPRIETAIRE_ID,if(TYPE_PROPRIETAIRE_ID=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,proprietaire.PHOTO_PASSPORT,gestionnaire_vehicule.IS_ACTIVE,gestionnaire_vehicule.DATE_INSERTION FROM gestionnaire_vehicule JOIN syst_genre ON syst_genre.GENRE_ID = gestionnaire_vehicule.GENRE_ID JOIN provinces ON provinces.PROVINCE_ID = gestionnaire_vehicule.PROVINCE_ID JOIN communes ON communes.COMMUNE_ID = gestionnaire_vehicule.COMMUNE_ID JOIN zones ON zones.ZONE_ID = gestionnaire_vehicule.ZONE_ID JOIN collines ON collines.COLLINE_ID = gestionnaire_vehicule.COLLINE_ID JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = gestionnaire_vehicule.PROPRIETAIRE_ID  WHERE 1 ';
+			$query_principal='SELECT ID_GESTIONNAIRE_VEHICULE,gestionnaire_vehicule.NOM,gestionnaire_vehicule.PRENOM,gestionnaire_vehicule.ADRESSE_PHYSIQUE,gestionnaire_vehicule.NUMERO_TELEPHONE,DESCR_GENRE,gestionnaire_vehicule.ADRESSE_MAIL,PROVINCE_NAME,COMMUNE_NAME,ZONE_NAME,COLLINE_NAME,gestionnaire_vehicule.PHOTO_PROFIL,gestionnaire_vehicule.PROPRIETAIRE_ID,if(TYPE_PROPRIETAIRE_ID=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,TYPE_PROPRIETAIRE_ID,LOGO,proprietaire.PHOTO_PASSPORT,gestionnaire_vehicule.IS_ACTIVE,gestionnaire_vehicule.DATE_INSERTION FROM gestionnaire_vehicule JOIN syst_genre ON syst_genre.GENRE_ID = gestionnaire_vehicule.GENRE_ID JOIN provinces ON provinces.PROVINCE_ID = gestionnaire_vehicule.PROVINCE_ID JOIN communes ON communes.COMMUNE_ID = gestionnaire_vehicule.COMMUNE_ID JOIN zones ON zones.ZONE_ID = gestionnaire_vehicule.ZONE_ID JOIN collines ON collines.COLLINE_ID = gestionnaire_vehicule.COLLINE_ID JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = gestionnaire_vehicule.PROPRIETAIRE_ID  WHERE 1 ';
 
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
@@ -80,15 +80,32 @@
 
 				$source = !empty($row->PHOTO_PROFIL) ? base_url('upload/gestionnaire/'.$row->PHOTO_PROFIL) : base_url('upload/gestionnaire/user.png');
 
-				$sourcePro = !empty($row->PHOTO_PASSPORT) ? base_url('upload/gestionnaire/'.$row->PHOTO_PASSPORT) : base_url('upload/gestionnaire/user.png');
-
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
 				href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px;" src="' . $source . '"></a></td><td>'.$row->NOM.' '.$row->PRENOM.'</td></tr></tbody></table></a>';
 				$sub_array[]=$row->NUMERO_TELEPHONE;
 				$sub_array[]=$row->ADRESSE_MAIL;
 
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $sourcePro . '" data-gallery="photoviewer" data-title="" data-group="a"
-				href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)) . '"><img alt="Avtar" style="border-radius:50%;width:70px;height:70px;" src="' . $sourcePro . '"></a></td><td><font style="margin-left:-15px;">'.$row->proprio_desc.'</font></td></tr></tbody></table></a>';
+				if($row->TYPE_PROPRIETAIRE_ID == 1 && empty($row->LOGO)){
+					$sub_array[] ='<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><i class="bi bi-info-square h5" ></i>
+					style="border-radius:50%;width:30px;height:30px" class="bi bi-bank round text-dark"> '.'  &nbsp;   '.' ' . $row->proprio_desc . '</td></tr></tbody></a>
+					';
+				}
+				else if($row->TYPE_PROPRIETAIRE_ID == 1 && !empty($row->LOGO)){
+
+					$sub_array[] = '<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->LOGO.'"></td><td> '.'     '.' ' . $row->proprio_desc . '</td></tr></tbody></a>';
+				}
+				else if(!empty($row->PHOTO_PASSPORT))
+				{
+					$sub_array[] = ' <tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><img alt="Avtar" style="border-radius:50%;width:30px;height:30px" src="'.base_url('upload/proprietaire/photopassport/').$row->PHOTO_PASSPORT.'"></td><td> '.'     '.' ' . $row->proprio_desc . '</td></tr></tbody></a>';
+				}
+				else
+				{
+					$sub_array[] ='<tbody><tr><td><a class="btn-md text-dark" href="' . base_url('proprietaire/Proprietaire/Detail/'.md5($row->PROPRIETAIRE_ID)). '"><i class="bi bi-info-square h5" ></i>
+					style="border-radius:50%;width:30px;height:30px" class="bi bi-user round text-dark"> '.'  &nbsp;   '.' ' . $row->proprio_desc . '</td></tr></tbody></a>
+					';
+				}
+
+
 
 				if($row->IS_ACTIVE == 1){
 

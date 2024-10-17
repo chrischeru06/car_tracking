@@ -412,6 +412,7 @@ input:checked + .slider:before {
   </div>
 </div>
 <!-- fin modal motif_activation -->
+
 <!--******** Debut Modal pour motif_desactivationa *********-->
 
 <div class="modal fade" id="Modal_desactivation" tabindex="-1" >
