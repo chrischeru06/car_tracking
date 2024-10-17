@@ -39,7 +39,7 @@
 		  // $critaire2='';
 		  // if($chauff['PROFIL_ID']==1)
 		  // {
-         //        $critaire2='';
+    //        $critaire2='';
 		  // }else{
 		  // 	 $critaire2='etat_vehicule.CHAUFFEUR_ID=='.$chauff['CHAUFFEUR_ID'];
 		  // }

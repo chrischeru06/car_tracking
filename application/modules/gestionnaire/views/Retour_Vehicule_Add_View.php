@@ -63,10 +63,8 @@
                 <!-- <div class="row"> -->
                    <form enctype="multipart/form-data" name="myform" id="myform" method="POST" class="form-horizontal" action="<?= base_url('etat_vehicule/Retour_Vehicule/add'); ?>" >
 
-               
-                <fieldset class="border p-2">
-                <legend  class="float-none w-auto p-2">Information générale</legend>
-                      <div class="row">
+                  <div class="row">
+                   
                     <div class="col-md-4">
                       <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Vehicule <font color="red">*</font></label>
                       <select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID">
@@ -88,7 +86,7 @@
                     <font id="error_VEHICULE_ID" color="red"></font>
                     <?php echo form_error('VEHICULE_ID_error', '<div class="text-danger">', '</div>'); ?>
                   </div>
-                 <!--   <div class="col-md-4">
+                   <div class="col-md-4">
                       <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Chauffeur <font color="red">*</font></label>
                       <select class="form-control" name="CHAUFFEUR_ID" id="VEHICULE_ID">
                        <option value="">---<?=lang('selectionner')?>---</option>
@@ -108,7 +106,7 @@
                     </select>
                     <font id="error_CHAUFFEUR_ID" color="red"></font>
                     <?php echo form_error('CHAUFFEUR_ID', '<div class="text-danger">', '</div>'); ?>
-                  </div> -->
+                  </div>
 
                    <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure retour <font color="red">*</font></label>
@@ -134,7 +132,7 @@
                   </div>
 
                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Commentaire anomalie <font color="red">*</font></label>
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Commentaire <font color="red">*</font></label>
                       <input type="text" name="COMMENTAIRE_ANOMALIE" autocomplete="off" id="COMMENTAIRE_ANOMALIE" value="<?= set_value('COMMENTAIRE_ANOMALIE') ?>"  class="form-control" placeholder="Commentaire anomalie">
                       <font id="error_COMMENTAIRE_ANOMALIE" color="red"></font>
                       <?php echo form_error('COMMENTAIRE_ANOMALIE', '<div class="text-danger">', '</div>'); ?>
@@ -146,56 +144,14 @@
                       <font id="error_COMMENTAIRE_VALIDATION" color="red"></font>
                       <?php echo form_error('COMMENTAIRE_VALIDATION', '<div class="text-danger">', '</div>'); ?>
                     </div>
-                    </div>
-                   </fieldset>
-
-                    <fieldset class="border p-2">
-                <legend  class="float-none w-auto p-2">Question</legend>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <h5>La voiture est encore en bonne état</h5>
-                        </div>
-                           <div class="col-md-4">
-                            <div class="row">
-                           <div class="col-md-6">
-                            <input type="radio" id="oui" name="remarque" value="1">
-
-                            <label for="oui">Oui</label><br>
-                            </div>
-                            <div class="col-md-6">
-                            <input type="radio" id="non" name="remarque" value="2">
-                            <label for="non">Non</label><br><br>
-                          </div>
-                          </div>
-                            
-                          </div>
-   <div class="col-md-4">
-
-    <!-- Champ commentaire caché par défaut -->
-    <div id="commentField">
-        <label for="commentaire">Commentaire :</label><br>
-        <textarea id="commentaire" name="commentaire" rows="2" cols="25"></textarea>
-        <font id="error_commentaire" color="red"></font><br><br>
-    </div>
-
-                           </div>
-                       
-
-                      </div>
-                    </fieldset>
-                     <!-- Bouton envoyer caché par défaut -->
-    
 
 
 
-            
+                </div>
               </form>
-        <div class="col-md-12" style="margin-top:10px;" id="submitButton">
-        <button type="submit" style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span>Envoyer</button>
-    </div>
-            <!--   <div class="col-md-12" style="margin-top:10px;">
+              <div class="col-md-12" style="margin-top:10px;">
                 <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span> <?=lang('btn_enregistrer')?></button>
-              </div> -->
+              </div>
                   <!-- </div> -->
 
                 </div>
@@ -209,36 +165,6 @@
 
   <?php include VIEWPATH . 'includes/footer.php'; ?>
 
-<script>
-  
-   // Fonction pour le chargement de donnees par defaut
-  $(document).ready( function ()
-  {
-  $('#commentField').hide();
-  });
-
-    // Sélectionner les éléments du DOM
-    const ouiRadio = document.getElementById('oui');
-    const nonRadio = document.getElementById('non');
-    const commentField = document.getElementById('commentField');
-    const submitButton = document.getElementById('submitButton');
-
-    // Fonction qui montre le champ de commentaire et le bouton envoyer si "Oui" est sélectionné
-    function toggleElements() {
-        if (ouiRadio.checked) {
-            commentField.style.display = 'none';  // Afficher le champ de commentaire
-            submitButton.style.display = 'block';  // Afficher le bouton envoyer
-        } else if (nonRadio.checked) {
-            commentField.style.display = 'block';   // Cacher le champ de commentaire
-            submitButton.style.display = 'block';  // Toujours afficher le bouton envoyer pour "Non"
-        }
-    }
-
-    // Ajouter des écouteurs d'événements aux boutons radio
-    ouiRadio.addEventListener('change', toggleElements);
-    nonRadio.addEventListener('change', toggleElements);
-</script>
-
 </body>
 
 
@@ -248,9 +174,6 @@
 
       function submit_form()
     {
-      const ouiRadio = document.getElementById('oui');
-      const nonRadio = document.getElementById('non');
-      //alert(nonRadio)
       const kilometrage_retour = document.getElementById('kilometrage_retour');
       const carburant_retour = document.getElementById('carburant_retour');
       var form = document.getElementById("myform");
@@ -302,10 +225,7 @@
         statut=2;
         $('#error_carburant_retour').text("<?=lang('msg_validation')?>");
       }
-      if (nonRadio.checked) {
-        $('#error_commentaire').text("<?=lang('msg_validation')?>");
-      }
-  // error_commentaire,commentaire
+
       // if($('#PHOTO_KILOMETRAGE_RETOUR').val()=='')
       // {
       //   statut=2;

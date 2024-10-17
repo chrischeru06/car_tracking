@@ -194,21 +194,21 @@ class Login extends CI_Controller
 						
 
 						
-					 );
+					);
 
-            // print_r($session);die();
+ // print_r($session);die();
 
-					 $this->session->set_userdata($session);
+					$this->session->set_userdata($session);
 
 
-					 if ($this->session->userdata('CODE_PROFIL') == "ADMIN") 
+					if ($this->session->userdata('CODE_PROFIL') == "ADMIN") 
 						redirect(base_url('centre_situation/Centre_situation'));
 					
-					 if ($this->session->userdata('CODE_PROFIL') == "PROPRIETAIRE") 
+					if ($this->session->userdata('CODE_PROFIL') == "PROPRIETAIRE") 
 						redirect(base_url('centre_situation/Centre_situation'));
-					 if ($this->session->userdata('CODE_PROFIL') == "CHAUFFEUR") 
+					if ($this->session->userdata('CODE_PROFIL') == "CHAUFFEUR") 
 						redirect(base_url('etat_vehicule/Vehicule_Affecte_Chauff'));
-					 if ($this->session->userdata('CODE_PROFIL') == "GESTIONNAIRE_VEHICULE") 
+					if ($this->session->userdata('CODE_PROFIL') == "GESTIONNAIRE_VEHICULE") 
 						redirect(base_url('gestionnaire/Espace_Perso_Gestionnaire'));
 
 

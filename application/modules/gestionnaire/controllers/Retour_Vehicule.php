@@ -164,7 +164,7 @@
 		function ajouter()
 		{
 			$data['title'] = 'Remise du véhicule';
-			// $data['chauffeuri'] = $this->Model->getRequete('SELECT CHAUFFEUR_ID, CONCAT(`NOM`," ",`PRENOM`)  AS chauffeur_desc FROM chauffeur WHERE 1 ORDER BY NOM ASC');
+			$data['chauffeuri'] = $this->Model->getRequete('SELECT CHAUFFEUR_ID, CONCAT(`NOM`," ",`PRENOM`)  AS chauffeur_desc FROM chauffeur WHERE 1 ORDER BY NOM ASC');
 			$data['vehiculee'] = $this->Model->getRequete('SELECT `VEHICULE_ID`,`CODE` FROM `vehicule` WHERE 1 ORDER BY CODE ASC');
 
 			$this->load->view('Retour_Vehicule_Add_View',$data);
@@ -194,9 +194,8 @@
   	//Fonction pour inserer dans la BD
 	function add()
 	{
-		$USER_ID=$this->session->userdata('USER_ID');
 		$this->form_validation->set_rules('VEHICULE_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
-		// $this->form_validation->set_rules('CHAUFFEUR_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
+		$this->form_validation->set_rules('CHAUFFEUR_ID','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		$this->form_validation->set_rules('HEURE_RETOUR','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		$this->form_validation->set_rules('COMMENTAIRE_ANOMALIE','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
 		$this->form_validation->set_rules('COMMENTAIRE_VALIDATION','','trim|required',array('required'=>'<font style="color:red;size:2px;">'.lang('msg_validation').'</font>'));
@@ -218,21 +217,19 @@
 		}
 		else
 		{
-			 $chauff=$this->Model->getRequeteOne('SELECT `USER_ID`,`CHAUFFEUR_ID` FROM `users` WHERE `USER_ID`='.$USER_ID);
-			  $data_insert = array(
+			
+			$data_insert = array(
 				'VEHICULE_ID' => $this->input->post('VEHICULE_ID'),
-				'CHAUFFEUR_ID' =>$chauff['CHAUFFEUR_ID'],
+				'CHAUFFEUR_ID' => $this->input->post('CHAUFFEUR_ID'),
 				'HEURE_RETOUR' => $this->input->post('HEURE_RETOUR'),
 				'COMMENTAIRE_ANOMALIE' => $this->input->post('COMMENTAIRE_ANOMALIE'),
 				'COMMENTAIRE_VALIDATION' => $this->input->post('COMMENTAIRE_VALIDATION'),
-				'COMMENTAIRE' => $this->input->post('commentaire'),
 			
 				'PHOTO_KILOMETRAGE_RETOUR' => $this->upload_document($_FILES['kilometrage_retour']['tmp_name'],$_FILES['kilometrage_retour']['name']),
 
 				'PHOTO_CARBURANT_RETOUR' => $this->upload_document($_FILES['carburant_retour']['tmp_name'],$_FILES['carburant_retour']['name'])
 				
-			 );
-			 //print_r($data_insert);exit();
+			);
 
 			$table ='retour_vehicule';
 			$insert=$this->Model->create($table,$data_insert);

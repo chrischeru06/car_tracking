@@ -3,58 +3,6 @@
 
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
-  <!-- debut ajouter pour afficher bein la photo dans un petit popup -->
-  <link href="<?=base_url()?>photoviewer-master/dist/photoviewer.css" rel="stylesheet">
-
-  <style>
-    .photoviewer-modal {
-      background-color: transparent;
-      border: none;
-      border-radius: 0;
-      box-shadow: 0 0 6px 2px rgba(0, 0, 0, .3);
-    }
-
-    .photoviewer-header .photoviewer-toolbar {
-      background-color: rgba(0, 0, 0, .5);
-    }
-
-    .photoviewer-stage {
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, .85);
-      border: none;
-    }
-
-    .photoviewer-footer .photoviewer-toolbar {
-      background-color: rgba(0, 0, 0, .5);
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
-    }
-
-    .photoviewer-header,
-    .photoviewer-footer {
-      border-radius: 0;
-      pointer-events: none;
-    }
-
-    .photoviewer-title {
-      color: #ccc;
-    }
-
-    .photoviewer-button {
-      color: #ccc;
-      pointer-events: auto;
-    }
-
-    .photoviewer-header .photoviewer-button:hover,
-    .photoviewer-footer .photoviewer-button:hover {
-      color: white;
-    }
-  </style>
-   <!-- fin ajouter pour afficher bein la photo dans un petit popup -->
-
   <style type="text/css">
 
 
@@ -161,11 +109,6 @@ input:checked + .slider:before {
       </center>
     </div>
   </div>
-    <div class="col-md-2">
-
-    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('etat_vehicule/Sortie_Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
-
-  </div>
  
 </div>
 
@@ -182,17 +125,25 @@ input:checked + .slider:before {
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
+
+               <!--  <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#vehicul_pris">Prise de vehicule</button>
+                </li> -->
                 <li class="nav-item">
-                          <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#vehicul_pris">Véhicule en attente de validation</button>
+                          <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#vehicul_pris"><?=lang('vehicul_pris')?></button>
                         </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#vehicul_remis">Véhicule validé</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#vehicul_remis"><?=lang('vehicul_remis')?></button>
                 </li>
                  <li class="nav-item">
-                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#anomalie">Véhicule refusé<span  style="font-size:10px;position:relative;top:-10px;left:-2px;"></span></button>
+                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#anomalie"><?=lang('anomalies')?><span  style="font-size:10px;position:relative;top:-10px;left:-2px;"></span></button>
                 </li>
 
+<!-- 
+                <li class="nav-item">
+                  <button class="nav-link <?php if($ID_OPERATION !=" "){echo "active";}else{echo "";}?>" data-bs-toggle="tab" data-bs-target="#voitures"><?=lang('btn_vehicules')?><span class="badge bg-primary rounded-pill nbr_vehicule" style="font-size:10px;position:relative;top:-10px;left:-2px;">4</span></button>
+                </li> -->
 
               </ul>
 
@@ -207,28 +158,18 @@ input:checked + .slider:before {
                   <table id="mytable" class="table table-hover text-dark" style="width:100%">
                     <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
-                      <th class="text-dark">#</th>
-                      <th class="text-dark"><?=lang('th_chauffeur')?></th>
-                      <th class="text-dark">Destination</th>
+                    <th class="text-dark">#</th>
+                    <th class="text-dark"><?=lang('th_chauffeur')?></th>
 
-                      <th class="text-dark">Heure&nbsp;départ</th>
-                      <th class="text-dark">Heure&nbsp;retour</th>
-                      <th class="text-dark">Date&nbsp;course</th>
-                      <th class="text-dark">Motif&nbsp;course</th>
-
-                      <th class="text-dark">Kilometrage&nbsp;départ</th>
-                      <th class="text-dark">Caburant&nbsp;départ</th>
-                      <th class="text-dark">Image&nbsp;avant</th>
-                      <th class="text-dark">Image&nbsp;arrière</th>
-                      <th class="text-dark">Latérale&nbsp;gauche</th>
-                      <th class="text-dark">Latérale&nbsp;droite</th>
-                      <th class="text-dark">Tableau&nbsp;de&nbsp;bord</th>
-                      <th class="text-dark">Siège&nbsp;avant</th>
-                      <th class="text-dark">Siège&nbsp;arrière</th>
-                      <th class="text-dark">Statut</th>
-
-                      <th class="text-dark">Commentaire</th>
-                      <th class="text-dark">Options</th>
+                    <th class="text-dark"><?=lang('img_avant')?></th>
+                    <th class="text-dark"><?=lang('img_arriere')?></th>
+                    <th class="text-dark"><?=lang('img_lat_gauche')?></th>
+                    <th class="text-dark"><?=lang('img_lat_droite')?> </th>
+                    <th class="text-dark"><?=lang('tableau_voiture')?></th>
+                    <th class="text-dark"><?=lang('img_siege_av')?></th>
+                    <th class="text-dark"><?=lang('siege_arriere')?></th>
+                    <!-- <th class="text-dark"><?=lang('operationfaite')?></th> -->
+                    <!--<th class="text-dark">Anomalie</th> -->
                     </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -247,27 +188,17 @@ input:checked + .slider:before {
                     <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                         <tr>
                     <th class="text-dark">#</th>
-                      <th class="text-dark"><?=lang('th_chauffeur')?></th>
-                      <th class="text-dark">Destination</th>
+                    <th class="text-dark"><?=lang('p_chauffeur')?></th>
 
-                      <th class="text-dark">Heure&nbsp;départ</th>
-                      <th class="text-dark">Heure&nbsp;retour</th>
-                      <th class="text-dark">Date&nbsp;course</th>
-                      <th class="text-dark">Motif&nbsp;course</th>
-
-                      <th class="text-dark">Kilometrage&nbsp;départ</th>
-                      <th class="text-dark">Caburant&nbsp;départ</th>
-                      <th class="text-dark">Image&nbsp;avant</th>
-                      <th class="text-dark">Image&nbsp;arrière</th>
-                      <th class="text-dark">Latérale&nbsp;gauche</th>
-                      <th class="text-dark">Latérale&nbsp;droite</th>
-                      <th class="text-dark">Tableau&nbsp;de&nbsp;bord</th>
-                      <th class="text-dark">Siège&nbsp;avant</th>
-                      <th class="text-dark">Siège&nbsp;arrière</th>
-                      <th class="text-dark">Statut</th>
-
-                      <th class="text-dark">Commentaire</th>
-                      <!-- <th class="text-dark">Options</th> -->
+                    <th class="text-dark"><?=lang('img_avant')?></th>
+                    <th class="text-dark"><?=lang('img_arriere')?></th>
+                    <th class="text-dark"><?=lang('img_lat_gauche')?></th>
+                    <th class="text-dark"><?=lang('img_lat_droite')?> </th>
+                    <th class="text-dark"><?=lang('tableau_voiture')?></th>
+                    <th class="text-dark"><?=lang('img_siege_av')?></th>
+                    <th class="text-dark"><?=lang('siege_arriere')?></th>
+                    <!-- <th class="text-dark"><?=lang('operationfaite')?></th> -->
+                    <!--<th class="text-dark">Anomalie</th> -->
                     </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -289,27 +220,13 @@ input:checked + .slider:before {
                     <thead class="text-dark" style="background-color: rgba(0, 0, 0, 0.075);">
                       <tr>
                     <th class="text-dark">#</th>
-                      <th class="text-dark"><?=lang('th_chauffeur')?></th>
-                      <th class="text-dark">Destination</th>
 
-                      <th class="text-dark">Heure&nbsp;départ</th>
-                      <th class="text-dark">Heure&nbsp;retour</th>
-                      <th class="text-dark">Date&nbsp;course</th>
-                      <th class="text-dark">Motif&nbsp;course</th>
+                    <th class="text-dark"><?=lang('th_chauffeur')?></th>
 
-                      <th class="text-dark">Kilometrage&nbsp;départ</th>
-                      <th class="text-dark">Caburant&nbsp;départ</th>
-                      <th class="text-dark">Image&nbsp;avant</th>
-                      <th class="text-dark">Image&nbsp;arrière</th>
-                      <th class="text-dark">Latérale&nbsp;gauche</th>
-                      <th class="text-dark">Latérale&nbsp;droite</th>
-                      <th class="text-dark">Tableau&nbsp;de&nbsp;bord</th>
-                      <th class="text-dark">Siège&nbsp;avant</th>
-                      <th class="text-dark">Siège&nbsp;arrière</th>
-                      <th class="text-dark">Statut</th>
+                    <!-- <th class="text-dark">Opération</th> -->
+                    <!-- <th class="text-dark"><?=lang('operationfaite')?></th> -->
 
-                      <th class="text-dark">Commentaire</th>
-                      <th class="text-dark">Options</th>
+                    <th class="text-dark"><?=lang('anomalie')?></th>
                     </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -332,7 +249,53 @@ input:checked + .slider:before {
 
 
 
+<!-- Modal photo du vehicule-->
 
+<div class="modal fade" id="Modal_photo_vehicule">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style='background:cadetblue;color:white;'>
+        <h6 class="modal-title"></h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row text-center" style="background-color:rgba(230,230,200,0.3);margin-top:-10px;border-radius:50%;">
+
+          <div class="col-md-4">
+
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomIn()" class="fa fa-plus-circle text-muted"></i>
+
+            <input type="hidden" id="rotation" value="0">
+          </div>
+
+          <div class="col-md-1">
+            <i onclick="zoomOut()" class="fa fa-minus-circle text-muted"></i>
+          </div>
+
+                <div class="col-md-1">
+                  <i onclick="rotate_op()" class="fa fa-rotate-right text-muted"></i>
+                </div>
+
+
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-12" id="image-container">
+                  <img src="" id="phot_v" alt="Description de l'image">
+                </div>
+
+              </div>
+
+            </div>
+            <!-- footer here -->
+          </div>
+        </div>
+      </div>
 
 </main><!-- End #main -->
 
@@ -355,7 +318,7 @@ input:checked + .slider:before {
 
   function liste()
   {
-    // var ID_OPERATION=1;
+    var ID_OPERATION=1;
     $('#message').delay('slow').fadeOut(10000);
     $(document).ready(function()
     {
@@ -367,9 +330,9 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Sortie_Vehicule/listing');?>",
+          url:"<?php echo base_url('etat_vehicule/Liste_Etat_Vehicule/listing');?>",
           type:"POST",
-          data : {}, 
+          data : {ID_OPERATION:ID_OPERATION}, 
         },
         lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
       //pageLength: 10,
@@ -408,13 +371,13 @@ input:checked + .slider:before {
       });
     });
   }
-   function liste2()
+  function liste2()
   {
-    // var ID_OPERATION=1;
+    var row_count=10000;
     $('#message').delay('slow').fadeOut(10000);
     $(document).ready(function()
     {
-      var row_count ="1000000";
+      var ID_OPERATION =2;
 
       $("#mytable2").DataTable({
         "processing":true,
@@ -422,9 +385,13 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Sortie_Vehicule/listing2');?>",
+          url:"<?php echo base_url('etat_vehicule/Liste_Etat_Vehicule/listing');?>",
           type:"POST",
-          data : {}, 
+          data : {ID_OPERATION:ID_OPERATION},
+           beforeSend : function() 
+           {
+
+          } 
         },
         lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
       //pageLength: 10,
@@ -465,11 +432,11 @@ input:checked + .slider:before {
   }
   function liste3()
   {
-    // var ID_OPERATION=1;
+    var row_count=10000;
     $('#message').delay('slow').fadeOut(10000);
     $(document).ready(function()
     {
-      var row_count ="1000000";
+     var ID_OPERATION =3;
 
       $("#mytable3").DataTable({
         "processing":true,
@@ -477,9 +444,9 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Sortie_Vehicule/listing3');?>",
+          url:"<?php echo base_url('etat_vehicule/Liste_Etat_Vehicule/listing');?>",
           type:"POST",
-          data : {}, 
+          data : {ID_OPERATION:ID_OPERATION}, 
         },
         lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
       //pageLength: 10,
@@ -520,40 +487,4 @@ input:checked + .slider:before {
   }
 
 </script>
-
-<script src="<?=base_url()?>photoviewer-master/dist/photoviewer.js"></script>
-
-<script>
-    $(document).ready(function () {
-  // Déléguer l'événement de clic pour les éléments générés dynamiquement
-  $(document).on('click', '[data-gallery=photoviewer]', function (e) {
-    e.preventDefault();
-
-    var items = [];
-
-    // Ajouter chaque élément à l'array `items`
-    $('[data-gallery=photoviewer]').each(function () {
-      items.push({
-        src: $(this).attr('href'),
-        title: $(this).attr('data-title')
-      });
-    });
-
-    // Obtenir l'index de l'élément cliqué
-    var index = $(this).index('[data-gallery=photoviewer]');
-
-    // Initialiser le PhotoViewer avec les éléments et définir l'index
-    var options = {
-      index: index // Définir l'index pour démarrer à partir de l'élément cliqué
-    };
-
-    new PhotoViewer(items, options);
-  });
-});
-
-
-</script>
- <!-- fin script  pour afficher bien la photo dans un petit popup -->
-
-
  </html>
