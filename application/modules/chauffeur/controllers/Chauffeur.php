@@ -943,7 +943,7 @@
 			$CHAUFFEUR_ID = $this->Model->insert_last_id($table,$data_insert);
 
 			
-			 $password=$this->notifications->generate_password(8);
+			 $password=12345;
 			 $NOM_CHAUFF=$this->input->post('nom');
 			$email=$this->input->post('adresse_email');
 			
