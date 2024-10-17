@@ -901,10 +901,6 @@
 			return $bindparams;
 		}
 
-
-		
-
-
 	}
 
 
