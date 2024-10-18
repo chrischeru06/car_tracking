@@ -1402,7 +1402,6 @@
           $('#div_modif_NOM_PRENOM').hide();
           $('#div_modif_PHOTO').hide();
 
-
           $.ajax(
           {
             url:"<?=base_url('gestionnaire/Gestionnaire/get_localite/')?>",
@@ -1508,7 +1507,6 @@
 
         }
       </script>
-
 
       <script>
         // Fonction pour recuperer les collines selon la zone
@@ -1745,7 +1743,6 @@
             }
           });
           }
-
 
         }
       </script>

@@ -204,7 +204,7 @@ else if ($this->session->PROFIL_ID == 3) {
       <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i  class="fa fa-car"></i> <span>Entrée/Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i  class="fa fa-car"></i> <span><?=lang('etat_vehicul')?></span><i class="bi bi-chevron-down ms-auto"></i>
          
 
 
@@ -242,52 +242,7 @@ else if ($this->session->PROFIL_ID == 3) {
 
 <?php 
 }
-elseif ($this->session->PROFIL_ID == 4) { 
-  ?>
-
-    <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
-
-      <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i  class="fa fa-car"></i> <span>Demande à valider</span><i class="bi bi-chevron-down ms-auto"></i>
-         
-
-
-        </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li class="sou_menu">
-            <a class="nav-link collapsed" href="<?=base_url()?>gestionnaire/Sortie_Vehicule">
-          <i class="bi bi-person"></i>
-          <span>Prise de véhicule</span>
-        </a>
-          </li>
-          <li class="sou_menu">
-            <a class="nav-link collapsed" href="<?=base_url()?>gestionnaire/Retour_Vehicule">
-      <i class="fa fa-car"></i>
-      <span>Remise du véhicule</span>
-    </a>
-   </li>
-
-          
-        
-    </ul>
-  </li>
-   <li class="nav-item">
-    <a class="nav-link collapsed" href="<?=base_url()?>gestionnaire/Espace_Perso_Gestionnaire">
-      <i class="fa fa-car"></i>
-      <span>Mes véhicules</span>
-    </a>
-  </li>
-    
-     
-      
-</ul>
-
-</aside>
-
-<?php 
-}else 
+else
 {
   redirect(base_url('Login/logout'));
 }

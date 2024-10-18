@@ -5,7 +5,6 @@
   <?php include VIEWPATH . 'includes/header.php'; ?>
   <link href="<?=base_url()?>photoviewer-master/dist/photoviewer.css" rel="stylesheet">
 
-
   <style type="text/css">
     #eye{
       color: black;

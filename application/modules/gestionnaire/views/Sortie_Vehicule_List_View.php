@@ -161,11 +161,6 @@ input:checked + .slider:before {
       </center>
     </div>
   </div>
-    <div class="col-md-2">
-
-    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('etat_vehicule/Sortie_Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
-
-  </div>
  
 </div>
 
@@ -183,14 +178,14 @@ input:checked + .slider:before {
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
                 <li class="nav-item">
-                          <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#vehicul_pris">Véhicule en attente de validation</button>
+                          <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#vehicul_attente">Véhicule en attente de validation</button>
                         </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#vehicul_remis">Véhicule validé</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#vehicul_valide">Véhicule validé</button>
                 </li>
                  <li class="nav-item">
-                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#anomalie">Véhicule refusé<span  style="font-size:10px;position:relative;top:-10px;left:-2px;"></span></button>
+                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#vehicul_refuse">Véhicule refusé<span  style="font-size:10px;position:relative;top:-10px;left:-2px;"></span></button>
                 </li>
 
 
@@ -201,7 +196,7 @@ input:checked + .slider:before {
              <!-- debut taps1 -->
 
              <!-- <div class="tab-pane fade active" id="vehicul_pris"> -->
-               <div class="tab-pane fade show active" id="vehicul_pris">
+               <div class="tab-pane fade show active" id="vehicul_attente">
                 <div class="table-responsive">
 
                   <table id="mytable" class="table table-hover text-dark" style="width:100%">
@@ -229,6 +224,7 @@ input:checked + .slider:before {
 
                       <th class="text-dark">Commentaire</th>
                       <th class="text-dark">Options</th>
+
                     </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -239,7 +235,7 @@ input:checked + .slider:before {
             <!--  fin taps1 -->
 
              <!--  debut taps2 -->
-               <div class="tab-pane fade  pt-3" id="vehicul_remis">
+               <div class="tab-pane fade  pt-3" id="vehicul_valide">
 
                 <div class="table-responsive">
 
@@ -267,7 +263,8 @@ input:checked + .slider:before {
                       <th class="text-dark">Statut</th>
 
                       <th class="text-dark">Commentaire</th>
-                      <!-- <th class="text-dark">Options</th> -->
+                      <th class="text-dark">Options</th>
+
                     </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -281,7 +278,7 @@ input:checked + .slider:before {
 
               <!--     debut taps3 -->
 
-              <div class="tab-pane fade  pt-3" id="anomalie">
+              <div class="tab-pane fade  pt-3" id="vehicul_refuse">
 
                 <div class="table-responsive">
 
@@ -310,6 +307,7 @@ input:checked + .slider:before {
 
                       <th class="text-dark">Commentaire</th>
                       <th class="text-dark">Options</th>
+
                     </tr>
                     </thead>
                     <tbody class="text-dark" style="overflow-x: auto; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -367,7 +365,7 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Sortie_Vehicule/listing');?>",
+          url:"<?php echo base_url('gestionnaire/Sortie_Vehicule/listing');?>",
           type:"POST",
           data : {}, 
         },
@@ -422,7 +420,7 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Sortie_Vehicule/listing2');?>",
+          url:"<?php echo base_url('gestionnaire/Sortie_Vehicule/listing2');?>",
           type:"POST",
           data : {}, 
         },
@@ -477,7 +475,7 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Sortie_Vehicule/listing3');?>",
+          url:"<?php echo base_url('gestionnaire/Sortie_Vehicule/listing3');?>",
           type:"POST",
           data : {}, 
         },

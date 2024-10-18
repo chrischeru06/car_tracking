@@ -1,11 +1,11 @@
 <?php
- /*
+/*
 	Auteur    : NIYOMWUNGERE Ella Dancilla
 	Email     : ella_dancilla@mediabox.bi
 	Telephone : +25771379943
 	Date      : 03-05/09/2024
 	crud de l'etat du vehicule 
- */
+*/
 	class Sortie_Vehicule extends CI_Controller
 	{
 		function __construct()
@@ -32,22 +32,21 @@
 		}
 
 
-	//Fonction pour l'affichage des vehicule en attente de validation
+			//Fonction pour l'affichage
 		function listing()
 		{
-
 			$USER_ID=$this->session->userdata('USER_ID');
-			$critaire="";
-			if($this->session->userdata('PROFIL_ID') != 1)
-			{
-				$critaire.= ' AND users.USER_ID = '.$USER_ID;
-			}
 
 			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 			$var_search = str_replace("'", "\'", $var_search);
 			$group = "";
 
-			
+			$critaire = "";
+
+			// if($this->session->PROFIL_ID == 2) // Si c'est le proprietaire
+			// {
+			// 	$critaire = " AND chauffeur_vehicule.STATUT_AFFECT=1 AND users.USER_ID=".$USER_ID;
+			// }
 			$limit = 'LIMIT 0,1000';
 			if ($_POST['length'] != -1) {
 				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
@@ -68,8 +67,7 @@
 				OR retour_vehicule.COMMENTAIRE_ANOMALIE LIKE "%' . $var_search . '%"
 				)') : '';
 
-			 $query_principal='SELECT `ID_SORTIE`,`VEHICULE_ID`,chauffeur.NOM,chauffeur.PRENOM,`AUTEUR_COURSE`,`DESTINATION`,`HEURE_DEPART`,`HEURE_ESTIMATIVE_RETOUR`,`PHOTO_KILOMETAGE`,`PHOTO_CARBURANT`,motif_deplacement.DESC_MOTIF,`DATE_COURSE`,`IMAGE_AVANT`,`IMAGE_ARRIERE`,`IMAGE_LATERALE_GAUCHE`,`IMAGE_LATERALE_DROITE`,`IMAGE_TABLEAU_DE_BORD`,`IMAGE_SIEGE_AVANT`,`IMAGE_SIEGE_ARRIERE`,`IS_VALIDATED`,`COMMENTAIRE` FROM `sortie_vehicule` join chauffeur on sortie_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID join motif_deplacement on sortie_vehicule.ID_MOTIF_DEP=motif_deplacement.ID_MOTIF_DEP join users on chauffeur.CHAUFFEUR_ID=users.CHAUFFEUR_ID WHERE  IS_VALIDATED=0';
-
+			$query_principal='SELECT `ID_SORTIE`,`VEHICULE_ID`,chauffeur.NOM,chauffeur.PRENOM,`AUTEUR_COURSE`,`DESTINATION`,`HEURE_DEPART`,`HEURE_ESTIMATIVE_RETOUR`,`PHOTO_KILOMETAGE`,`PHOTO_CARBURANT`,motif_deplacement.DESC_MOTIF,`DATE_COURSE`,`IMAGE_AVANT`,`IMAGE_ARRIERE`,`IMAGE_LATERALE_GAUCHE`,`IMAGE_LATERALE_DROITE`,`IMAGE_TABLEAU_DE_BORD`,`IMAGE_SIEGE_AVANT`,`IMAGE_SIEGE_ARRIERE`,`IS_VALIDATED`,`COMMENTAIRE` FROM `sortie_vehicule` join chauffeur on sortie_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID join motif_deplacement on sortie_vehicule.ID_MOTIF_DEP=motif_deplacement.ID_MOTIF_DEP WHERE 1';
 
             //condition pour le query principale
 			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -88,7 +86,6 @@
 			{
 				$sub_array=array();
 				$sub_array[]=$u++;
-
 				
 				$sub_array[] = $row->NOM." ".$row->PRENOM;
 				 $sub_array[] = $row->DESTINATION;
@@ -152,7 +149,11 @@
 				
 				if($row->IS_VALIDATED==0)
 				{
-					$sub_array[] ='En attente de validation';
+					$sub_array[] ='Pas validé';
+				}elseif ($row->IS_VALIDATED==1) {
+					$sub_array[] ='Validé';
+				}else{
+					$sub_array[] ='Rejeté';
 				}
 				$sub_array[] = $row->COMMENTAIRE;
 
@@ -191,352 +192,6 @@
 			$sub_array[]=$option;
 			$data[] = $sub_array;
 			}
-			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
-			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
-			$output = array(
-				"draw" => intval($_POST['draw']),
-				"recordsTotal" => count($recordsTotal),
-				"recordsFiltered" => count($recordsFiltered),
-				"data" => $data,
-			);
-			echo json_encode($output);
-		}
-
-
-	//Fonction pour l'affichage des vehicule validé
-		function listing2()
-		{
-
-			$USER_ID=$this->session->userdata('USER_ID');
-			$critaire="";
-			if($this->session->userdata('PROFIL_ID') != 1)
-			{
-				$critaire.= ' AND users.USER_ID = '.$USER_ID;
-			}
-
-
-			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-			$var_search = str_replace("'", "\'", $var_search);
-			$group = "";
-
-			
-			$limit = 'LIMIT 0,1000';
-			if ($_POST['length'] != -1) {
-				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
-			}
-			$order_by = '';
-
-			$order_column = array('','vehicule.CODE','chauffeur.NOM','chauffeur.PRENOM','retour_vehicule.HEURE_RETOUR ',' retour_vehicule.COMMENTAIRE_VALIDATION','retour_vehicule.COMMENTAIRE_ANOMALIE');
-
-			if ($_POST['order']['0']['column'] != 0) {
-				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : 'chauffeur.CHAUFFEUR_ID ASC';
-			}
-			$search = !empty($_POST['search']['value']) ? (' AND (chauffeur.NOM LIKE "%' . $var_search . '%" 
-				OR vehicule.CODE LIKE "%' . $var_search . '%"
-				OR chauffeur.NOM LIKE "%' . $var_search . '%" 
-				OR chauffeur.PRENOM LIKE "%' . $var_search . '%" 
-				OR retour_vehicule.HEURE_RETOUR LIKE "%' . $var_search . '%"
-				OR retour_vehicule.COMMENTAIRE_VALIDATION  LIKE "%' . $var_search . '%"
-				OR retour_vehicule.COMMENTAIRE_ANOMALIE LIKE "%' . $var_search . '%"
-				)') : '';
-
-			 $query_principal='SELECT `ID_SORTIE`,`VEHICULE_ID`,chauffeur.NOM,chauffeur.PRENOM,`AUTEUR_COURSE`,`DESTINATION`,`HEURE_DEPART`,`HEURE_ESTIMATIVE_RETOUR`,`PHOTO_KILOMETAGE`,`PHOTO_CARBURANT`,motif_deplacement.DESC_MOTIF,`DATE_COURSE`,`IMAGE_AVANT`,`IMAGE_ARRIERE`,`IMAGE_LATERALE_GAUCHE`,`IMAGE_LATERALE_DROITE`,`IMAGE_TABLEAU_DE_BORD`,`IMAGE_SIEGE_AVANT`,`IMAGE_SIEGE_ARRIERE`,`IS_VALIDATED`,`COMMENTAIRE` FROM `sortie_vehicule` join chauffeur on sortie_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID join motif_deplacement on sortie_vehicule.ID_MOTIF_DEP=motif_deplacement.ID_MOTIF_DEP join users on chauffeur.CHAUFFEUR_ID=users.CHAUFFEUR_ID WHERE IS_VALIDATED=1';
-
-
-            //condition pour le query principale
-			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
-
-          // condition pour le query filter
-			$conditionsfilter = $critaire . ' ' . $group;
-			$requetedebase=$query_principal.$conditions;
-			$requetedebasefilter=$query_principal.$conditionsfilter;
-
-			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
-         // echo $query_secondaire;
-			$fetch_data = $this->ModelPs->datatable($query_secondaire);
-			$data = array();
-			$u=1;
-			foreach ($fetch_data as $row) 
-			{
-				$sub_array=array();
-				$sub_array[]=$u++;
-
-				
-				$sub_array[] = $row->NOM." ".$row->PRENOM;
-				 $sub_array[] = $row->DESTINATION;
-				$sub_array[] = $row->HEURE_DEPART;
-				$sub_array[] = $row->HEURE_ESTIMATIVE_RETOUR;
-				$sub_array[] = $row->DATE_COURSE;
-				$sub_array[] = $row->DESC_MOTIF;
-				// $sub_array[] = $row->DATE_COURSE;
-				
-				$source = !empty($row->PHOTO_KILOMETAGE) ? base_url('upload/image_url/'.$row->PHOTO_KILOMETAGE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-			  //PHOTO_CARBURANT
-				$source = !empty($row->PHOTO_CARBURANT) ? base_url('upload/image_url/'.$row->PHOTO_CARBURANT) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-		
-				// $sub_array[] = $row->IMAGE_AVANT;
-			    $source = !empty($row->IMAGE_AVANT) ? base_url('upload/image_url/'.$row->IMAGE_AVANT) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-				
-				// $sub_array[] = $row->IMAGE_ARRIERE;
-
-				$source = !empty($row->IMAGE_ARRIERE) ? base_url('upload/image_url/'.$row->IMAGE_ARRIERE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-			
-			// $sub_array[] = $row->IMAGE_LATERALE_GAUCHE;
-			$source = !empty($row->IMAGE_LATERALE_GAUCHE) ? base_url('upload/image_url/'.$row->IMAGE_LATERALE_GAUCHE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-				
-
-				
-
-
-             // $sub_array[] = $row->IMAGE_LATERALE_DROITE;
-			$source = !empty($row->IMAGE_LATERALE_DROITE) ? base_url('upload/image_url/'.$row->IMAGE_LATERALE_DROITE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-				
-				// $sub_array[] = $row->IMAGE_TABLEAU_DE_BORD;
-			$source = !empty($row->IMAGE_TABLEAU_DE_BORD) ? base_url('upload/image_url/'.$row->IMAGE_TABLEAU_DE_BORD) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-                // $sub_array[] = $row->IMAGE_SIEGE_AVANT;
-			$source = !empty($row->IMAGE_SIEGE_AVANT) ? base_url('upload/image_url/'.$row->IMAGE_SIEGE_AVANT) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-				
-				// $sub_array[] = $row->IMAGE_SIEGE_ARRIERE;
-				$source = !empty($row->IMAGE_SIEGE_ARRIERE) ? base_url('upload/image_url/'.$row->IMAGE_SIEGE_ARRIERE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-				
-				if ($row->IS_VALIDATED==1) 
-				{
-			    	$sub_array[] ='Validé';
-				}
-				
-				$sub_array[] = $row->COMMENTAIRE;
-
-
-				// $option = '<div class="dropdown text-center" style="color:#fff;">
-				// <a class="btn-sm dropdown-toggle" style="color:white; hover:black; cursor:pointer;" data-toggle="dropdown">
-				// <i class="bi bi-three-dots h5" style="color:blue;"></i>
-				// <span class="caret"></span></a>
-				// <ul class="dropdown-menu dropdown-menu-right">
-				// ';
-
-				// $option .= "<li class='btn-md'>
-				// <a class='btn-md' href='" . base_url('etat_vehicule/Sortie_Vehicule/getOne/'. $row->ID_SORTIE) . "'><i class='bi bi-pencil h5'></i>&nbsp;&nbsp;".lang('btn_modifier')."</a>
-				// </li>";
-				// $option .= "<li class='btn-md'><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_supp" . $row->ID_SORTIE . "'><span class='fa fa-minus h5' ></span>&nbsp;&nbsp;&nbsp;Supprimer</a></li>";
-				// 	$option .= " </ul>
-				// </div>
-				// <div class='modal fade' id='modal_supp" .$row->ID_SORTIE. "'>
-				// <div class='modal-dialog modal-dialog-centered modal-lg'>
-				// <div class='modal-content'>
-				// <div class='modal-header' style='background:cadetblue;color:white;'>
-				// <button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-				// </div>
-				// <div class='modal-body'>
-				// <center><h5>Voulez-vous variment supprimer <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
-				// <div class='modal-footer'>
-				// <a class='btn btn-outline-danger rounded-pill' href='".base_url('etat_vehicule/Sortie_Vehicule/delete/'.$row->ID_SORTIE)."' >Supprimer</a>
-				// </div>
-				// </div>
-				// </div>
-				// </div>
-				// </div>";
-
-			
-		
-			// $sub_array[]=$option;
-			$data[] = $sub_array;
-			}
-			
-			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
-			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
-			$output = array(
-				"draw" => intval($_POST['draw']),
-				"recordsTotal" => count($recordsTotal),
-				"recordsFiltered" => count($recordsFiltered),
-				"data" => $data,
-			);
-			echo json_encode($output);
-		}
-		//Fonction pour l'affichage des vehicule refusé
-		function listing3()
-		{
-
-			$USER_ID=$this->session->userdata('USER_ID');
-			$critaire="";
-			if($this->session->userdata('PROFIL_ID') != 1)
-			{
-				$critaire.= ' AND users.USER_ID = '.$USER_ID;
-			}
-
-
-			$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
-			$var_search = str_replace("'", "\'", $var_search);
-			$group = "";
-
-			
-			$limit = 'LIMIT 0,1000';
-			if ($_POST['length'] != -1) {
-				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
-			}
-			$order_by = '';
-
-			$order_column = array('','vehicule.CODE','chauffeur.NOM','chauffeur.PRENOM','retour_vehicule.HEURE_RETOUR ',' retour_vehicule.COMMENTAIRE_VALIDATION','retour_vehicule.COMMENTAIRE_ANOMALIE');
-
-			if ($_POST['order']['0']['column'] != 0) {
-				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : 'chauffeur.CHAUFFEUR_ID ASC';
-			}
-			$search = !empty($_POST['search']['value']) ? (' AND (chauffeur.NOM LIKE "%' . $var_search . '%" 
-				OR vehicule.CODE LIKE "%' . $var_search . '%"
-				OR chauffeur.NOM LIKE "%' . $var_search . '%" 
-				OR chauffeur.PRENOM LIKE "%' . $var_search . '%" 
-				OR retour_vehicule.HEURE_RETOUR LIKE "%' . $var_search . '%"
-				OR retour_vehicule.COMMENTAIRE_VALIDATION  LIKE "%' . $var_search . '%"
-				OR retour_vehicule.COMMENTAIRE_ANOMALIE LIKE "%' . $var_search . '%"
-				)') : '';
-
-			 $query_principal='SELECT `ID_SORTIE`,`VEHICULE_ID`,chauffeur.NOM,chauffeur.PRENOM,`AUTEUR_COURSE`,`DESTINATION`,`HEURE_DEPART`,`HEURE_ESTIMATIVE_RETOUR`,`PHOTO_KILOMETAGE`,`PHOTO_CARBURANT`,motif_deplacement.DESC_MOTIF,`DATE_COURSE`,`IMAGE_AVANT`,`IMAGE_ARRIERE`,`IMAGE_LATERALE_GAUCHE`,`IMAGE_LATERALE_DROITE`,`IMAGE_TABLEAU_DE_BORD`,`IMAGE_SIEGE_AVANT`,`IMAGE_SIEGE_ARRIERE`,`IS_VALIDATED`,`COMMENTAIRE` FROM `sortie_vehicule` join chauffeur on sortie_vehicule.CHAUFFEUR_ID=chauffeur.CHAUFFEUR_ID join motif_deplacement on sortie_vehicule.ID_MOTIF_DEP=motif_deplacement.ID_MOTIF_DEP join users on chauffeur.CHAUFFEUR_ID=users.CHAUFFEUR_ID WHERE IS_VALIDATED=2';
-
-
-            //condition pour le query principale
-			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
-
-          // condition pour le query filter
-			$conditionsfilter = $critaire . ' ' . $group;
-			$requetedebase=$query_principal.$conditions;
-			$requetedebasefilter=$query_principal.$conditionsfilter;
-
-			$query_secondaire = "CALL `getTable`('".$requetedebase."');";
-         // echo $query_secondaire;
-			$fetch_data = $this->ModelPs->datatable($query_secondaire);
-			$data = array();
-			$u=1;
-			foreach ($fetch_data as $row) 
-			{
-				$sub_array=array();
-				$sub_array[]=$u++;
-
-				
-				$sub_array[] = $row->NOM." ".$row->PRENOM;
-				 $sub_array[] = $row->DESTINATION;
-				$sub_array[] = $row->HEURE_DEPART;
-				$sub_array[] = $row->HEURE_ESTIMATIVE_RETOUR;
-				$sub_array[] = $row->DATE_COURSE;
-				$sub_array[] = $row->DESC_MOTIF;
-				// $sub_array[] = $row->DATE_COURSE;
-				
-				$source = !empty($row->PHOTO_KILOMETAGE) ? base_url('upload/image_url/'.$row->PHOTO_KILOMETAGE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-			  //PHOTO_CARBURANT
-				$source = !empty($row->PHOTO_CARBURANT) ? base_url('upload/image_url/'.$row->PHOTO_CARBURANT) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-		
-				// $sub_array[] = $row->IMAGE_AVANT;
-			    $source = !empty($row->IMAGE_AVANT) ? base_url('upload/image_url/'.$row->IMAGE_AVANT) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-				
-				// $sub_array[] = $row->IMAGE_ARRIERE;
-
-				$source = !empty($row->IMAGE_ARRIERE) ? base_url('upload/image_url/'.$row->IMAGE_ARRIERE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-			
-			// $sub_array[] = $row->IMAGE_LATERALE_GAUCHE;
-			$source = !empty($row->IMAGE_LATERALE_GAUCHE) ? base_url('upload/image_url/'.$row->IMAGE_LATERALE_GAUCHE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-				
-
-				
-
-
-             // $sub_array[] = $row->IMAGE_LATERALE_DROITE;
-			$source = !empty($row->IMAGE_LATERALE_DROITE) ? base_url('upload/image_url/'.$row->IMAGE_LATERALE_DROITE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-				
-				// $sub_array[] = $row->IMAGE_TABLEAU_DE_BORD;
-			$source = !empty($row->IMAGE_TABLEAU_DE_BORD) ? base_url('upload/image_url/'.$row->IMAGE_TABLEAU_DE_BORD) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-                // $sub_array[] = $row->IMAGE_SIEGE_AVANT;
-			$source = !empty($row->IMAGE_SIEGE_AVANT) ? base_url('upload/image_url/'.$row->IMAGE_SIEGE_AVANT) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-				
-				// $sub_array[] = $row->IMAGE_SIEGE_ARRIERE;
-				$source = !empty($row->IMAGE_SIEGE_ARRIERE) ? base_url('upload/image_url/'.$row->IMAGE_SIEGE_ARRIERE) : base_url('upload/images/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-				
-				if ($row->IS_VALIDATED==2) 
-				{
-			    	$sub_array[] ='Rejeté';
-				}
-				
-				$sub_array[] = $row->COMMENTAIRE;
-
-
-				$option = '<div class="dropdown text-center" style="color:#fff;">
-				<a class="btn-sm dropdown-toggle" style="color:white; hover:black; cursor:pointer;" data-toggle="dropdown">
-				<i class="bi bi-three-dots h5" style="color:blue;"></i>
-				<span class="caret"></span></a>
-				<ul class="dropdown-menu dropdown-menu-right">
-				';
-
-				$option .= "<li class='btn-md'>
-				<a class='btn-md' href='" . base_url('etat_vehicule/Sortie_Vehicule/getOne/'. $row->ID_SORTIE) . "'><i class='bi bi-pencil h5'></i>&nbsp;&nbsp;".lang('btn_modifier')."</a>
-				</li>";
-				$option .= "<li class='btn-md'><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_supp" . $row->ID_SORTIE . "'><span class='fa fa-minus h5' ></span>&nbsp;&nbsp;&nbsp;Supprimer</a></li>";
-					$option .= " </ul>
-				</div>
-				<div class='modal fade' id='modal_supp" .$row->ID_SORTIE. "'>
-				<div class='modal-dialog modal-dialog-centered modal-lg'>
-				<div class='modal-content'>
-				<div class='modal-header' style='background:cadetblue;color:white;'>
-				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
-				</div>
-				<div class='modal-body'>
-				<center><h5>Voulez-vous variment supprimer <b>" . $row->NOM .' '.$row->PRENOM. " ? </b></h5></center>
-				<div class='modal-footer'>
-				<a class='btn btn-outline-danger rounded-pill' href='".base_url('etat_vehicule/Sortie_Vehicule/delete/'.$row->ID_SORTIE)."' >Supprimer</a>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>";
-
-			
-		
-			$sub_array[]=$option;
-			$data[] = $sub_array;
-			}
-			
 			$recordsTotal = $this->ModelPs->datatable("CALL `getTable`('" . $query_principal . "')");
 			$recordsFiltered = $this->ModelPs->datatable(" CALL `getTable`('" . $requetedebasefilter . "')");
 			$output = array(
@@ -712,7 +367,7 @@
 		//Fonction pour recuperer une ligne 
 	function getOne($id)
 	{
-		$membre = $this->Model->getRequeteOne('SELECT `ID_SORTIE`,`VEHICULE_ID`,`CHAUFFEUR_ID`,`DESTINATION`,`HEURE_DEPART`,`HEURE_ESTIMATIVE_RETOUR`,`PHOTO_KILOMETAGE`,`PHOTO_CARBURANT`,`ID_MOTIF_DEP`,`DATE_COURSE`,`IMAGE_AVANT`,`IMAGE_ARRIERE`,`IMAGE_LATERALE_GAUCHE`,`IMAGE_LATERALE_DROITE`,`IMAGE_TABLEAU_DE_BORD`,`IMAGE_SIEGE_AVANT`,`IMAGE_SIEGE_ARRIERE`,`DATE_SAVE`,`COMMENTAIRE`,`IS_VALIDATED` FROM `sortie_vehicule` WHERE  ID_SORTIE='.$id);
+		$membre = $this->Model->getRequeteOne('SELECT `ID_SORTIE`,`VEHICULE_ID`,`CHAUFFEUR_ID`,`DESTINATION`,`HEURE_DEPART`,`HEURE_ESTIMATIVE_RETOUR`,`PHOTO_KILOMETAGE`,`PHOTO_CARBURANT`,`ID_MOTIF_DEP`,`DATE_COURSE`,`IMAGE_AVANT`,`IMAGE_ARRIERE`,`IMAGE_LATERALE_GAUCHE`,`IMAGE_LATERALE_DROITE`,`IMAGE_TABLEAU_DE_BORD`,`IMAGE_SIEGE_AVANT`,`IMAGE_SIEGE_ARRIERE`,`DATE_SAVE`,`COMMENTAIRE` FROM `sortie_vehicule` WHERE  ID_SORTIE='.$id);
 		$data['membre'] = $membre;
 
 		$data['chauffeuri'] = $this->Model->getRequete('SELECT CHAUFFEUR_ID, CONCAT(`NOM`," ",`PRENOM`)  AS chauffeur_desc FROM chauffeur WHERE 1 ORDER BY NOM ASC');
@@ -843,10 +498,7 @@
 		}
 		else
 		{
-			$stat = $this->Model->getRequeteOne('SELECT `ID_SORTIE`,IS_VALIDATED FROM sortie_vehicule WHERE  IS_VALIDATED=2');
-			if ($stat['IS_VALIDATED']==2) 
-			{
-				$Array = array(
+			$Array = array(
 				'VEHICULE_ID' => $this->input->post('VEHICULE_ID'),
 				'CHAUFFEUR_ID' => $this->input->post('CHAUFFEUR_ID'),
 				'DESTINATION' => $this->input->post('DESTINATION'),
@@ -862,16 +514,13 @@
                  'IMAGE_TABLEAU_DE_BORD' => $file5,
                  'IMAGE_LATERALE_DROITE' => $file6,
                  'IMAGE_LATERALE_GAUCHE' => $file7,
+
                 'IMAGE_ARRIERE' => $file8,
 				'IMAGE_AVANT' => $file9,
-				'IS_VALIDATED'=>0
 				
 				
 			);
-				// print_r($Array);exit();
 			$this->Model->update('sortie_vehicule', array('ID_SORTIE' => $id), $Array);
-			}
-			
 			$datas['message'] = '<div class="alert alert-success text-center" id="message">'.lang('msg_success_modif').'</div>';
 			$this->session->set_flashdata($datas);
 			redirect(base_url('etat_vehicule/Sortie_Vehicule/index'));
