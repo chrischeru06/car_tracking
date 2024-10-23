@@ -333,6 +333,56 @@ input:checked + .slider:before {
   </div>
 </section>
 
+
+<!--******** Modal pour la l'affectation de chauffeur au proprietaire *********-->
+
+<div class="modal fade" id="Modal_affectation" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class='modal-header' style='background:cadetblue;color:white;'>
+
+        <h5 class="modal-title" id="titre"><?=lang('i_assurance')?> <?=lang('mot_et')?> <?=lang('td_ctrl_technique')?>
+      </h5>
+
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form id="form_affectation" enctype="multipart/form-data" action="#" method="post">
+        <div class="modal-body mb-1">
+          <div class="row">
+
+            <input type="hidden" name="CHAUFFEUR_ID" id="CHAUFFEUR_ID">
+            <input type="hidden" name="ACTION" id="ACTION">
+            <input type="hidden" name="USER_ID" id="USER_ID" value="<?=$this->session->userdata('USER_ID')?>">
+
+            <div class="col-md-12" id="divAffectePro">
+              <label>Propriétaire<font color="red">*</font></label> 
+              <select class="form-control" name="PROPRIETAIRE_ID"  id="PROPRIETAIRE_ID">
+               <option value=""><?=lang('selectionner')?></option>
+
+             </select>
+             <font id="error_PROPRIETAIRE_ID" color="red"></font>
+           </div>
+
+           <div class="col-md-12" id="divAnnuleAffecte">
+            <center><b>Voulez-vous vraiment enregistrer l'opération "<font class="text-danger">annuler l'affectation ?</font>" </b></center>
+          </div>
+
+        </div>
+      </div> 
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-outline-primary rounded-pill" id="btnSave" onclick="save_affectation()"> <i class="fa fa-save"> </i> <?=lang('btn_enregistrer')?></button>
+
+        <button type="reset" class='btn btn-outline-warning rounded-pill' style="float:right;" data-dismiss="modal" id="btnCancel"><i class="fa fa-close"> </i> <?=lang('btn_annuler')?></button>
+
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+</div><!-- End Modal-->
+
 </main><!-- End #main -->
 
 <?php include VIEWPATH . 'includes/footer.php'; ?>
@@ -772,6 +822,105 @@ function get_date_fin_modif()
 function get_dates_deb_modif()
 {
   $("#DATE_DEBUT_AFFECTATION_MOD").prop('min',$("#DATE_FIN_AFFECTATION_MOD").val());
+
+}
+</script>
+
+
+
+<script>
+  //Fonction pour afficher le formulaire de renouvellement assurance et controle technique
+  function affect_to_owner(CHAUFFEUR_ID ='',ACTION = '')
+  {
+    $('#CHAUFFEUR_ID').val(CHAUFFEUR_ID);
+
+    $('#ACTION').val(ACTION);
+
+
+    if($('#ACTION').val() == 1) //Annulation d'Affectation
+    {
+      $('#titre').text('Annuler l\'affectation');
+      $('#divAffectePro').hide();
+      $('#divAnnuleAffecte').show();
+
+    }
+    else if($('#ACTION').val() == 2) //Affectation au proprietaire
+    {
+      $('#titre').text('Affectation au propriétaire');
+      $('#divAffectePro').show();
+      $('#divAnnuleAffecte').hide();
+    }
+
+    $('#Modal_affectation').modal('show');
+
+    $.ajax(
+    {
+      url: "<?= base_url() ?>chauffeur/Chauffeur/select_owner/"+CHAUFFEUR_ID,
+      type: "GET",
+      dataType: "JSON",
+      success: function(data)
+      {
+        if (data) {
+          $('#PROPRIETAIRE_ID').html(data.html_proprio);
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown)
+      {
+        alert('Erreur');
+      }
+    });
+  }
+</script>
+
+
+<script>
+  //Fonction pour proceder à l'enregistrement de l'affectation
+  function save_affectation()
+  {
+    var statut = 1;
+
+    var ACTION = $('#ACTION').val();
+
+    var PROPRIETAIRE_ID = $('#PROPRIETAIRE_ID').val();
+
+    if(ACTION == 2) //Faire l'affecation
+    {
+
+     if(PROPRIETAIRE_ID == '')
+     {
+      $('#error_PROPRIETAIRE_ID').text('<?=lang('msg_validation')?>');
+      statut = 2;
+    }else{$('#error_PROPRIETAIRE_ID').text('');}
+
+  }
+
+  if(statut == 1)
+  {
+    var form_data = new FormData($("#form_affectation")[0]);
+    url = "<?= base_url('chauffeur/Chauffeur/save_affectation/') ?>";
+    $.ajax({
+      url: url,
+      type: 'POST',
+      dataType:'JSON',
+      data: form_data ,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data) {
+        console.log(data)
+                               //alert(data)
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: '<?=lang('msg_enreg_ft_success')?>',
+          timer: 2000,
+        }).then(() => {
+          window.location.reload();
+        })
+        $("#form_affectation")[0].reset();
+      }
+    })
+  }
 
 }
 </script>

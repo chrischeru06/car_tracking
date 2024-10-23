@@ -683,26 +683,29 @@
 	}
 
 
-	//liste de l'Historique des chauffeurs
-	function hist_chauff()
+	//liste d'Historique d'affectation des chauffeurs
+	function histo_affect()
 	{
 
-		$USER_ID=$this->session->userdata('USER_ID');
-		$PROFIL_ID=$this->session->userdata('PROFIL_ID');
+		// $USER_ID=$this->session->userdata('USER_ID');
+		// $PROFIL_ID=$this->session->userdata('PROFIL_ID');
 		
-		$CHAUFFEUR_ID=$this->input->post('CHAUFFEUR_ID');
+		$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID');
 		 // print_r($CHAUFFEUR_ID);die();
+
+		$query_principal='SELECT ID_HISTO_AFFECT_CHAUF,if(TYPE_PROPRIETAIRE_ID = 2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc,IDENTIFICATION,IS_AFFECTED,historique_affect_chauffeur.DATE_SAVE FROM historique_affect_chauffeur JOIN chauffeur ON chauffeur.CHAUFFEUR_ID = historique_affect_chauffeur.CHAUFFEUR_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = historique_affect_chauffeur.PROPRIETAIRE_ID JOIN users ON users.USER_ID = historique_affect_chauffeur.USER_ID WHERE 1 ';
 
 		$var_search = !empty($_POST['search']['value']) ? $_POST['search']['value'] : null;
 		$var_search = str_replace("'", "\'", $var_search);
 		$group = "";
-		$critaire = " ";
-		if ($PROFIL_ID==1) {
-			$critere_veh = " and chauffeur_vehicule.CHAUFFEUR_ID=".$CHAUFFEUR_ID;
-		}else{
-			$critere_veh = " and chauffeur_vehicule.CHAUFFEUR_ID=".$CHAUFFEUR_ID." and users.USER_ID=".$USER_ID;
 
+		$critaire = " ";
+
+		if(!empty($CHAUFFEUR_ID))
+		{
+			$critaire = " AND historique_affect_chauffeur.CHAUFFEUR_ID = ".$CHAUFFEUR_ID;
 		}
+		
 
 		$limit = 'LIMIT 0,1000';
 		if ($_POST['length'] != -1) {
@@ -710,26 +713,19 @@
 		}
 		$order_by = '';
 
-		$order_column = array('','NOM_PROPRIETAIRE','PLAQUE','DESC_MARQUE','DATE_DEBUT_AFFECTATION','DATE_FIN_AFFECTATION');
+		$order_column = array('','NOM_PROPRIETAIRE','PRENOM_PROPRIETAIRE','IDENTIFICATION','IS_AFFECTED','historique_affect_chauffeur.DATE_SAVE');
 
-		if ($_POST['order']['0']['column'] != 0) {
-			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : 'chauffeur.CHAUFFEUR_ID ASC';
-		}
 		$search = !empty($_POST['search']['value']) ? (' AND (NOM_PROPRIETAIRE LIKE "%' . $var_search . '%" 
 			OR PRENOM_PROPRIETAIRE LIKE "%' . $var_search . '%"
-			OR chauffeur_vehicule.CODE LIKE "%' . $var_search . '%" 
-			OR PLAQUE LIKE "%' . $var_search . '%" 
-			OR DESC_MARQUE LIKE "%' . $var_search . '%"
-			OR DESC_MODELE  LIKE "%' . $var_search . '%"
-			OR concat(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE) LIKE "%' . $var_search . '%"
-			OR concat(PRENOM_PROPRIETAIRE," ",NOM_PROPRIETAIRE) LIKE "%' . $var_search . '%")') : '';
+			OR IDENTIFICATION LIKE "%' . $var_search . '%" 
+			OR historique_affect_chauffeur.DATE_SAVE LIKE "%' . $var_search . '%" )') : '';
 
-		if ($PROFIL_ID==1) {
-			$query_principal='SELECT chauffeur_vehicule.CODE,CHAUFFEUR_VEHICULE_ID,DATE_FORMAT(chauffeur_vehicule.`DATE_FIN_AFFECTATION`,"%d-%m-%Y") as date_fin_format,DATE_FORMAT(chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,"%d-%m-%Y") as date_deb_format,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE FROM chauffeur_vehicule join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID  WHERE 1 '.$critere_veh.'';
-		}else{
-
-			$query_principal='SELECT chauffeur_vehicule.`CODE`,CHAUFFEUR_VEHICULE_ID,DATE_FORMAT(chauffeur_vehicule.`DATE_FIN_AFFECTATION`,"%d-%m-%Y") as date_fin_format,DATE_FORMAT(chauffeur_vehicule.`DATE_DEBUT_AFFECTATION`,"%d-%m-%Y") as date_deb_format,vehicule.PLAQUE,proprietaire.NOM_PROPRIETAIRE,proprietaire.PRENOM_PROPRIETAIRE,vehicule_marque.DESC_MARQUE,vehicule_modele.DESC_MODELE FROM `chauffeur_vehicule` join chauffeur ON chauffeur.CHAUFFEUR_ID=chauffeur_vehicule.CHAUFFEUR_ID JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE join vehicule_marque ON vehicule_marque.ID_MARQUE=vehicule.ID_MARQUE join vehicule_modele on vehicule_modele.ID_MODELE=vehicule.ID_MODELE join proprietaire on proprietaire.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID join users ON users.PROPRIETAIRE_ID=proprietaire.PROPRIETAIRE_ID WHERE 1 '.$critere_veh.'';
-
+		if ($_POST['order']['0']['column'] != 0) {
+			$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : 'ID_HISTO_AFFECT_CHAUF ASC';
+		}
+		else
+		{
+			$order_by = ' ORDER BY ID_HISTO_AFFECT_CHAUF ASC';
 		}
 		
 
@@ -753,12 +749,27 @@
 
 			$sub_array=array();
 			$sub_array[]=$u++;
-			$sub_array[] = $row->PLAQUE;
-			$sub_array[] = $row->DESC_MARQUE." / ".$row->DESC_MODELE;
-			$sub_array[] = $row->NOM_PROPRIETAIRE." ".$row->PRENOM_PROPRIETAIRE;
-			$sub_array[] = $row->date_deb_format;
-			$sub_array[] = $row->date_fin_format;
-			$sub_array[]="&nbsp;<a href='".base_url('chauffeur/Chauffeur_New/tracking_chauffeur/').md5($row->CODE).'/'.md5($row->CHAUFFEUR_VEHICULE_ID)."'>&nbsp;&nbsp;&nbsp;<b class='text-center bi bi-eye' id='eye'></b></a>";
+			if($row->IS_AFFECTED == 1)
+			{
+				$sub_array[] = '<font class="text-success">Affecté</font>';
+			}
+			else if($row->IS_AFFECTED == 2)
+			{
+				$sub_array[] = '<font class="text-danger">Non affecté</font>';
+			}
+
+			if(!empty($row->proprio_desc))
+			{
+				$sub_array[] = $row->proprio_desc;
+			}
+			else
+			{
+				$sub_array[] = 'N/A';
+			}
+			
+			$sub_array[] = $row->IDENTIFICATION;
+			$sub_array[] = date('d-m-Y',strtotime($row->DATE_SAVE));
+		
 			$data[]=$sub_array;
 
 			

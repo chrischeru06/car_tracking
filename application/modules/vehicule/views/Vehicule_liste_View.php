@@ -126,7 +126,14 @@ input:checked + .slider:before {
   </div>
   <div class="col-md-2">
 
-    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
+    <?php
+    if($this->session->userdata('PROFIL_ID') == 1 || $this->session->userdata('PROFIL_ID') == 2)//Si c'est l'admin ou le propriétaire
+    {
+      ?>
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('vehicule/Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
+      <?php
+    }
+    ?> 
 
   </div>
 </div>
