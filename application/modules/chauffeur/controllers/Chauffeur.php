@@ -76,7 +76,7 @@
 				OR chauffeur.NUMERO_CARTE_IDENTITE LIKE "%' . $var_search . '%"
 				OR chauffeur.DATE_INSERTION LIKE "%' . $var_search . '%")') : '';
 
-			$query_principal='SELECT chauffeur.CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,chauffeur.FILE_PERMIS FROM chauffeur LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CHAUFFEUR_ID = chauffeur.CHAUFFEUR_ID LEFT JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE LEFT JOIN users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
+			$query_principal='SELECT chauffeur.CHAUFFEUR_ID,chauffeur.PHOTO_PASSPORT,chauffeur.NOM,chauffeur.PRENOM,provinces.PROVINCE_NAME,communes.COMMUNE_NAME,collines.COLLINE_NAME,zones.ZONE_NAME,chauffeur.ADRESSE_PHYSIQUE,chauffeur.NUMERO_TELEPHONE,chauffeur.ADRESSE_MAIL,chauffeur.NUMERO_CARTE_IDENTITE,chauffeur.FILE_CARTE_IDENTITE,chauffeur.PERSONNE_CONTACT_TELEPHONE,chauffeur.DATE_INSERTION,chauffeur.IS_ACTIVE,chauffeur.STATUT_VEHICULE,chauffeur.DATE_NAISSANCE,chauffeur.FILE_PERMIS,chauffeur.PROPRIETAIRE_ID FROM chauffeur LEFT JOIN chauffeur_vehicule ON chauffeur_vehicule.CHAUFFEUR_ID = chauffeur.CHAUFFEUR_ID LEFT JOIN vehicule ON vehicule.CODE=chauffeur_vehicule.CODE LEFT JOIN users ON users.PROPRIETAIRE_ID=vehicule.PROPRIETAIRE_ID LEFT JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID=users.PROPRIETAIRE_ID LEFT JOIN provinces ON chauffeur.PROVINCE_ID=provinces.PROVINCE_ID LEFT JOIN communes ON chauffeur.COMMUNE_ID=communes.COMMUNE_ID LEFT JOIN collines ON chauffeur.COLLINE_ID=collines.COLLINE_ID LEFT JOIN zones ON chauffeur.ZONE_ID=zones.ZONE_ID  WHERE 1';
 
             //condition pour le query principale
 			$conditions = $critaire . ' ' . $search . ' ' . $group . ' ' . $order_by . '   ' . $limit;
@@ -151,6 +151,19 @@
 					$option.='<li class="btn-md"><a class="btn-md" href="#" onClick="modif_affectation(\''.$row->CHAUFFEUR_ID.'\')"><span class="bi bi-pencil h5"></span>&nbsp;&nbsp;'.lang('btn_modif_affect').'</a></li>';
 
 				}
+
+				if(!empty($row->PROPRIETAIRE_ID) && $row->PROPRIETAIRE_ID != "" && $row->PROPRIETAIRE_ID > 0)
+				{
+
+					$option.='<li class="btn-md"><a class="btn-md text-danger" href="#" onClick="affect_to_owner(\''.$row->CHAUFFEUR_ID.'\',1)"><span class="fa fa-close h5"></span>&nbsp;&nbsp;Annuler l\'affectation</a></li>';
+				}
+				else
+				{
+
+					$option.='<li class="btn-md"><a class="btn-md text-primary" href="#" onClick="affect_to_owner(\''.$row->CHAUFFEUR_ID.'\',2)"><span class="fa fa-user-plus h5"></span>&nbsp;&nbsp;Affecter</a></li>';
+				}
+
+
 				if($row->IS_ACTIVE==1){
 					$sub_array[]=' <form enctype="multipart/form-data" name="myform_check" id="myform_check" method="POST" class="form-horizontal">
 
@@ -650,7 +663,7 @@
 			}
 		}
 
-	
+		
 
 		
 		$ouput= array(
@@ -679,7 +692,7 @@
 		// 		{
 		// 			$html1.='<option value="'.$key1['CHAUFF_ZONE_AFFECTATION_ID'].'">'.$key1['DESCR_ZONE_AFFECTATION'].'</option>';
 		// 		}
-				
+		
 		// 	}
 		// }
 		$ouput=array(
@@ -843,7 +856,7 @@
 	function active_desactive($status,$CHAUFFEUR_ID)
 	{
 		$USER_ID = $this->session->userdata('USER_ID');
-	
+		
 		if($status==1)
 		{
 			//desactivation
@@ -943,12 +956,12 @@
 			$CHAUFFEUR_ID = $this->Model->insert_last_id($table,$data_insert);
 
 			
-			 $password=12345;
-			 $NOM_CHAUFF=$this->input->post('nom');
+			$password=12345;
+			$NOM_CHAUFF=$this->input->post('nom');
 			$email=$this->input->post('adresse_email');
 			
 			$data_insert_users = array(
-		     'IDENTIFICATION'=>$this->input->post('nom')." ".$this->input->post('prenom'),
+				'IDENTIFICATION'=>$this->input->post('nom')." ".$this->input->post('prenom'),
 				'USER_NAME'=>$this->input->post('adresse_email'),
 				'PASSWORD'=>md5($password),
 				'PROFIL_ID'=>3,
@@ -960,22 +973,14 @@
 			$done=$this->Model->create($table_users,$data_insert_users);
 			
 			if($done>0)
-					{
-						$mess="Cher(e) <b>".$NOM_CHAUFF."</b>,<br><br>
-						Bienvenue sur la plateforme CAR TRACKING.<br>
-						Pour vous connecter, prière de bien vouloir utiliser vos identifiants de connexion ci-dessous:<br>
-						- Nom d'utilisateur : <b>$email</b><br>
-						- Mot de passe : <b>$password</b>";
-						$subjet="Notification d'enregistrement";
-						$this->notifications->send_mail(array($email),$subjet,array(),$mess,array());
-					}
-					// print_r($mess);exit();
-
-			// if($CHAUFFEUR_ID>0)
-			// {
-			if($inser)
 			{
-
+				$mess="Cher(e) <b>".$NOM_CHAUFF."</b>,<br><br>
+				Bienvenue sur la plateforme CAR TRACKING.<br>
+				Pour vous connecter, prière de bien vouloir utiliser vos identifiants de connexion ci-dessous:<br>
+				- Nom d'utilisateur : <b>$email</b><br>
+				- Mot de passe : <b>$password</b>";
+				$subjet="Notification d'enregistrement";
+				$this->notifications->send_mail(array($email),$subjet,array(),$mess,array());
 
 				$data['message']='<div class="alert alert-success text-center" id="message">'.lang('msg_enreg_ft_success').'</div>';
 				$this->session->set_flashdata($data);
@@ -1158,12 +1163,98 @@
 			$result = $this->Model->update('chauffeur', array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID_modif),array('PHOTO_PASSPORT'=>$file_photo));
 		}
 		
-        if($result){
-        	$status = 1;
-        }
+		if($result){
+			$status = 1;
+		}
 		echo json_encode(array('status'=>$status));
 
 	}
+
+
+	 // Fonction pour selectionner les proprietaires
+		function select_owner($CHAUFFEUR_ID)
+		{
+			$proce_requete = "CALL `getRequete`(?,?,?,?);";
+
+			$proprio = $this->getBindParms('PROPRIETAIRE_ID,if(`TYPE_PROPRIETAIRE_ID`=2,CONCAT(NOM_PROPRIETAIRE," ",PRENOM_PROPRIETAIRE),NOM_PROPRIETAIRE) AS proprio_desc','proprietaire',' 1 ','proprio_desc ASC');
+
+				$proprio=str_replace('\"', '"', $proprio);
+				$proprio=str_replace('\n', '', $proprio);
+				$proprio=str_replace('\"', '', $proprio);
+
+				$all_proprio = $this->ModelPs->getRequete($proce_requete, $proprio);
+
+			$html_proprio = '<option value="">'.lang('selectionner').'</option>';
+			foreach ($all_proprio as $key)
+			{
+				$html_proprio.='<option value="'.$key['PROPRIETAIRE_ID'].'">'.$key['proprio_desc'].' </option>';
+			}
+
+			$array = array('html_proprio'=>$html_proprio);
+			echo json_encode($array);
+		}
+
+
+		//Fonction pour l'enregistrement d'assurance et controle technique
+
+		function save_affectation()
+		{
+			$CHAUFFEUR_ID = $this->input->post('CHAUFFEUR_ID');
+			$PROPRIETAIRE_ID = $this->input->post('PROPRIETAIRE_ID');
+			$USER_ID = $this->input->post('USER_ID');
+
+			$ACTION = $this->input->post('ACTION');
+
+			if($ACTION == 1) // Annulation d'affectation
+			{
+				//Mise à jour ds la table chauffeur
+				$data = array(
+					'PROPRIETAIRE_ID' => null,
+				);
+
+				$table='chauffeur';
+				$this->Model->update($table,array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),$data);
+
+				// Enregistrement dans la table d'historique d'affectation
+
+				$data_histo = array(
+					'CHAUFFEUR_ID' => $CHAUFFEUR_ID,
+					'PROPRIETAIRE_ID'=> null,
+					'USER_ID' => $USER_ID,
+					'IS_AFFECTED' => 2, //non affecté
+				);
+
+				$table2 = 'historique_affect_chauffeur';
+				$create = $this->Model->create($table2,$data_histo);
+
+				echo json_encode(array('status' => TRUE));
+			}
+			else if($ACTION == 2) // Affectation du chauffeur
+			{
+				//Mise à jour ds la table cheuffeur
+				$data = array(
+					'PROPRIETAIRE_ID' => $PROPRIETAIRE_ID,
+				);
+
+				$table='chauffeur';
+				$this->Model->update($table,array('CHAUFFEUR_ID'=>$CHAUFFEUR_ID),$data);
+
+				// Enregistrement dans la table d'historique d'affectation
+
+				$data_histo = array(
+					'CHAUFFEUR_ID' => $CHAUFFEUR_ID,
+					'PROPRIETAIRE_ID' => $PROPRIETAIRE_ID,
+					'USER_ID' => $USER_ID,
+					'IS_AFFECTED' => 1, //affecté
+				);
+
+
+				$table2 = 'historique_affect_chauffeur';
+				$create = $this->Model->create($table2,$data_histo);
+
+				 echo json_encode(array('status' => TRUE));
+			}
+		}
 
 
 	//fonction pour la selection des collonnes de la base de données en utilisant les procedures stockées

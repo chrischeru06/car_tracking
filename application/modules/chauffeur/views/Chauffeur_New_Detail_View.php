@@ -3,6 +3,7 @@
 
 <head>
   <?php include VIEWPATH . 'includes/header.php'; ?>
+  <link href="<?=base_url()?>photoviewer-master/dist/photoviewer.css" rel="stylesheet">
   <style>
     .profile .profile-card img 
     {
@@ -56,6 +57,54 @@
       color: cadetblue;
       background-color: rgba(95, 158, 160,0.3);
       cursor: pointer;
+    }
+  </style>
+
+  <style>
+    .photoviewer-modal {
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: 0 0 6px 2px rgba(0, 0, 0, .3);
+    }
+
+    .photoviewer-header .photoviewer-toolbar {
+      background-color: rgba(0, 0, 0, .5);
+    }
+
+    .photoviewer-stage {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, .85);
+      border: none;
+    }
+
+    .photoviewer-footer .photoviewer-toolbar {
+      background-color: rgba(0, 0, 0, .5);
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .photoviewer-header,
+    .photoviewer-footer {
+      border-radius: 0;
+      pointer-events: none;
+    }
+
+    .photoviewer-title {
+      color: #ccc;
+    }
+
+    .photoviewer-button {
+      color: #ccc;
+      pointer-events: auto;
+    }
+
+    .photoviewer-header .photoviewer-button:hover,
+    .photoviewer-footer .photoviewer-button:hover {
+      color: white;
     }
   </style>
 </head>
@@ -149,7 +198,7 @@
                 ?>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#historique"><?=lang('histo_titre')?></button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#historique"><?=lang('histo_titre')?> d'affectation</button>
                 </li>
 
               </ul>
@@ -167,16 +216,24 @@
                         <?php
                         if(!empty($chauff['PHOTO_PASSPORT']))
                         {
+                          $source =  base_url('upload/chauffeur/'.$chauff['PHOTO_PASSPORT']);
                           ?>
-                          <img style='border-radius: 20px;height:240px;width: 240px;cursor: pointer;' class="" onclick="show_imagechauff();" src='<?=base_url("upload/chauffeur/".$chauff['PHOTO_PASSPORT'])?>'>
-                          <input type="hidden" id="image_pop" value="<?= base_url()?>/upload/chauffeur/<?= $chauff['PHOTO_PASSPORT']?>">
+                          <a title="<?=$source;?>" data-gallery="photoviewer" data-title="" data-group="a"
+                            href="<?=$source;?>" >
+                            <img style='border-radius: 20px;height:240px;width: 240px;cursor: pointer;' class="" onclick="" src='<?=$source;?>'>
+                            <input type="hidden" id="image_pop" value="<?= base_url()?>/upload/chauffeur/<?= $chauff['PHOTO_PASSPORT']?>">
+                          </a>
                           <?php
                         }
                         else if(empty($chauff['PHOTO_PASSPORT']))
                         {
+                          $source =  base_url('upload/img_agent/phavatar.png');
                           ?>
-                          <img style="border-radius: 20px;height: 240px;width: 240px; cursor:pointer;" class="img-fluid" width="65px" height="auto" src="<?=base_url('upload/img_agent/phavatar.png')?>">
-                          <input type="hidden" id="image_pop" value="<?= base_url()?>/upload/img_agent/phavatar.png">
+                          <a title="<?=$source;?>" data-gallery="photoviewer" data-title="" data-group="a"
+                            href="<?=$source;?>" >
+                            <img style="border-radius: 20px;height: 240px;width: 240px; cursor:pointer;" class="img-fluid" width="65px" height="auto" src="<?=$source;?>">
+                            <input type="hidden" id="image_pop" value="<?= base_url()?>/upload/img_agent/phavatar.png">
+                          </a>
                           <?php
                         }
                         ?>
@@ -382,20 +439,44 @@
                       if(!empty($chauff['FILE_PERMIS']))
                       {
                         $extension = pathinfo($chauff['FILE_PERMIS'], PATHINFO_EXTENSION);
-                        ?>
 
-                        <td class="text-center">
+                        if($extension != 'pdf')
+                        {
+                          $source = base_url("upload/chauffeur/".$chauff['FILE_PERMIS']);
+                          ?>
+                          
+                          <td class="text-center">
 
-                          <input type="hidden" id="ext_permis" value="<?=$extension?>">
+                            <input type="hidden" id="ext_permis" value="<?=$extension?>">
 
-                          <font class="card dash_card" onclick="get_document(1,$('#ext_permis').val());">
-                            <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
-                            <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('mot_permis_conduire')?></font>
-                          </font>
+                            <a title="<?=$source;?>" data-gallery="photoviewer" data-title="" data-group="a"
+                              href="<?=$source;?>" >
 
-                        </td>
+                              <font class="card dash_card" onclick="">
+                                <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
+                                <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('mot_permis_conduire')?></font>
+                              </font>
+                            </a>
 
-                        <?php
+                          </td>
+
+                          <?php
+                        }
+                        else
+                        {
+                          ?>
+                          <td class="text-center">
+
+                            <input type="hidden" id="ext_permis" value="<?=$extension?>">
+
+                            <font class="card dash_card" onclick="get_document(1,$('#ext_permis').val());">
+                              <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
+                              <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('mot_permis_conduire')?></font>
+                            </font>
+
+                          </td>
+                          <?php
+                        }
 
 
                       }
@@ -403,18 +484,41 @@
                       if(!empty($chauff['FILE_CARTE_IDENTITE']))
                       {
                         $extension = pathinfo($chauff['FILE_CARTE_IDENTITE'], PATHINFO_EXTENSION);
-                        ?>
-                        <td class="text-center">
 
-                          <input type="hidden" id="ext_carte_id" value="<?=$extension?>">
+                        if($extension != 'pdf')
+                        {
+                          $source = base_url("upload/chauffeur/".$chauff['FILE_CARTE_IDENTITE']);
 
-                          <font class="card dash_card" onclick="get_document(2,$('#ext_carte_id').val());">
-                            <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
-                            <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('mot_ident_carte')?></font>
-                          </font>
-                        </td>
+                          ?>
+                          <td class="text-center">
 
-                        <?php
+                            <input type="hidden" id="ext_carte_id" value="<?=$extension?>">
+
+                            <a title="<?=$source;?>" data-gallery="photoviewer" data-title="" data-group="a"
+                              href="<?=$source;?>" >
+                              <font class="card dash_card" onclick="">
+                                <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
+                                <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('mot_ident_carte')?></font>
+                              </font>
+                            </a>
+                          </td>
+                          <?php
+                        }
+                        else
+                        {
+                          ?>
+                          <td class="text-center">
+
+                            <input type="hidden" id="ext_carte_id" value="<?=$extension?>">
+
+                            <font class="card dash_card" onclick="get_document(2,$('#ext_carte_id').val());">
+                              <i class="small pt-2 ps-1 <?php if($extension == 'pdf'){echo "fa fa-file-pdf-o text-danger";}else{echo "fa fa-file-photo-o text-primary";}?>" style="font-size: 30px;margin-top: 5px;"></i><br>
+                              <font class="text-muted small pt-2 ps-1 dash_v" style="margin-top: -20px;margin-bottom: 10px;"><?=lang('mot_ident_carte')?></font>
+                            </font>
+                          </td>
+                          <?php
+                        }
+
                       }
 
                       ?>
@@ -447,12 +551,10 @@
                               <tr>
 
                                 <th class="text-dark">#</th>
-                                <th class="text-dark"><?=lang('th_plaque')?></th>
-                                <th class="text-dark"><?=lang('th_marque')?>/<?=lang('th_modele')?></th>
-                                <th class="text-dark"><?=lang('th_proprio')?></th>
-                                <th class="text-dark"><?=lang('dbut_affectation')?></th>
-                                <th class="text-dark"><?=lang('fin_affectation')?></th>
-                                <th class="text-dark"><?=lang('resum_parcours')?></th>
+                                <th class="text-dark">STATUT</th>
+                                <th class="text-dark">PROPRIETAIRE</th>
+                                <th class="text-dark">FAIT&nbsp;PAR</th>
+                                <th class="text-dark">DATE</th>
 
                               </tr>
                             </thead>
@@ -539,9 +641,7 @@
 
 </main><!-- End #main -->
 
-<?php include VIEWPATH . 'includes/footer.php'; ?>
 
-</body>
 <!------------------------ Modal detail chauff type physique' ------------------------>
 
 
@@ -873,10 +973,42 @@
   </div>
 </div><!-- End Modal modif-->
 
+<?php include VIEWPATH . 'includes/footer.php'; ?>
+
+<script src="<?=base_url()?>photoviewer-master/dist/photoviewer.js"></script>
+
+</body>
+
 <script >
   $(document).ready(function ()
   {
    liste();
+
+   // Déléguer l'événement de clic pour les éléments générés dynamiquement
+   $(document).on('click', '[data-gallery=photoviewer]', function (e) {
+    e.preventDefault();
+
+    var items = [];
+
+    // Ajouter chaque élément à l'array `items`
+    $('[data-gallery=photoviewer]').each(function () {
+      items.push({
+        src: $(this).attr('href'),
+        title: $(this).attr('data-title')
+      });
+    });
+
+    // Obtenir l'index de l'élément cliqué
+    var index = $(this).index('[data-gallery=photoviewer]');
+
+    // Initialiser le PhotoViewer avec les éléments et définir l'index
+    var options = {
+      index: index // Définir l'index pour démarrer à partir de l'élément cliqué
+    };
+
+    new PhotoViewer(items, options);
+  });
+
  });
 
   function liste()
@@ -895,7 +1027,7 @@
       "oreder": [],
       "ajax":
       {
-        url: "<?php echo base_url('chauffeur/Chauffeur_New/hist_chauff'); ?>",
+        url: "<?php echo base_url('chauffeur/Chauffeur_New/histo_affect'); ?>",
         type: "POST",
         data: {CHAUFFEUR_ID:CHAUFFEUR_ID},
         beforeSend: function()

@@ -103,25 +103,33 @@ if ($this->session->PROFIL_ID == 1) {
     </ul>
   </li><!-- End Tables Nav -->
 
+
   <li class="nav-item">
-    <a class="nav-link collapsed" href="<?=base_url()?>sim_management/Sim_management">
-      <i class="fa fa-cogs"></i>
-      <span><?=lang('Sim_management_lng')?></span>
+    <a class="nav-link collapsed" data-bs-target="#components-sim" data-bs-toggle="collapse" href="<?=base_url()?>administration/Profil">
+      <i class="fa fa-cogs"></i><span><?=lang('Sim_management_lng')?></span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
+    <ul id="components-sim" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <li class="sou_menu">
+        <a href="<?=base_url()?>sim_management/Sim_management">
+          <i class="fa fa-hdd-o" style="font-size:18px;"></i><span><?=lang('device_mot')?></span>
+        </a>
+      </li>
+      <li class="sou_menu">
+        <a href="<?=base_url()?>notification/Notification">
+          <i class="bi bi-bell" style="font-size:18px;"></i><span>Notification</span>
+        </a>
+      </li>
+
+    </ul>
   </li>
-   <li class="nav-item">
+
+  <!-- <li class="nav-item">
     <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Liste_Etat_Vehicule">
       <i class="fa fa-car"></i>
       <span><?=lang('etat_vehicul')?></span>
     </a>
-  </li>
+  </li> -->
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="<?=base_url()?>notification/Notification">
-      <i class="bi bi-bell"></i>
-      <span>Notification</span>
-    </a>
-  </li>
 
 
 </ul>
@@ -149,37 +157,37 @@ else if ($this->session->PROFIL_ID == 2) {
           </a>
         </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="<?=base_url()?>vehicule/Vehicule">
-          <i class="bi bi-journal-text"></i>
-          <span><?=lang('ms_veh')?></span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <!-- <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_chauffeur"> -->
-          <a class="nav-link collapsed" href="<?=base_url()?>chauffeur/Chauffeur">
-          <i class="bi bi-person"></i>
-          <span><?=lang('Chauffeurs_lng')?></span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i class="bi bi-bar-chart"></i><span><?=lang('Tableau_bord_lng')?></span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li class="sou_menu">
-            <a href="<?=base_url()?>dashboard/Dashboard_General">
-              <i class="bi bi-person"></i><span> <?=lang('Gnrl_lng')?></span>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="<?=base_url()?>vehicule/Vehicule">
+            <i class="bi bi-journal-text"></i>
+            <span><?=lang('ms_veh')?></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <!-- <a class="nav-link collapsed" href="<?=base_url()?>proprietaire/Proprietaire_chauffeur"> -->
+            <a class="nav-link collapsed" href="<?=base_url()?>chauffeur/Chauffeur">
+              <i class="bi bi-person"></i>
+              <span><?=lang('Chauffeurs_lng')?></span>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
+              <i class="bi bi-bar-chart"></i><span><?=lang('Tableau_bord_lng')?></span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <li class="sou_menu">
+                <a href="<?=base_url()?>dashboard/Dashboard_General">
+                  <i class="bi bi-person"></i><span> <?=lang('Gnrl_lng')?></span>
+                </a>
+              </li>
         <!-- <li class="sou_menu">
           <a href="<?=base_url()?>dashboard/Dashboard_Anomalies">
             <i class="bi bi-person"></i><span><?=lang('anomalies_lng')?></span>
           </a>
         </li>
- -->
-        
+      -->
+
          <!-- <li>
           <a href="<?=base_url()?>dashboard/Dashboard_Vehicule">
             <i class="bi bi-person"></i><span>Véhicule</span>
@@ -196,97 +204,105 @@ else if ($this->session->PROFIL_ID == 2) {
 <?php 
 }
 
-else if ($this->session->PROFIL_ID == 3) { 
+else if ($this->session->PROFIL_ID == 3) //Si c'est un Chauffeur
+{ 
   ?>
 
-    <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
+  <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
 
-      <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="<?=base_url()?>vehicule/Vehicule">
+          <i class="fa fa-car"></i>
+          <span>Mes véhicules</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i  class="fa fa-car"></i> <span>Entrée/Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
-         
-
-
+          <i  class="fa fa-exchange"></i> <span>Entrée/Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
+
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
           <li class="sou_menu">
-            <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Sortie_Vehicule">
-          <i class="bi bi-person"></i>
-          <span>Prise de véhicule</span>
-        </a>
+            <a href="<?=base_url()?>etat_vehicule/Sortie_Vehicule">
+              <i class="fa fa-long-arrow-left"></i>
+              <span>Prise de véhicule</span>
+            </a>
           </li>
+
           <li class="sou_menu">
-            <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Retour_Vehicule">
-      <i class="fa fa-car"></i>
-      <span>Remise du véhicule</span>
-    </a>
-   </li>
+            <a href="<?=base_url()?>etat_vehicule/Retour_Vehicule">
+              <i class="fa fa-long-arrow-right"></i>
+              <span>Remise du véhicule</span>
+            </a>
+          </li>
 
-          
-        
-    </ul>
-  </li>
-   <li class="nav-item">
-    <a class="nav-link collapsed" href="<?=base_url()?>etat_vehicule/Vehicule_Affecte_Chauff">
-      <i class="fa fa-car"></i>
-      <span>Mes véhicules</span>
-    </a>
-  </li>
-    
-     
+        </ul>
+
+      </li>
+
       
-</ul>
+    </ul>
 
-</aside>
+  </aside>
 
-<?php 
+  <?php 
 }
-elseif ($this->session->PROFIL_ID == 4) { 
+elseif ($this->session->PROFIL_ID == 4) //Si c'est un gestionnaire
+{ 
   ?>
 
-    <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
 
-      <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
+  <aside id="sidebar" class="sidebar" style="background-color: cadetblue;">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="<?=base_url()?>vehicule/Vehicule">
+          <i class="fa fa-car"></i>
+          <span>Mes véhicules</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i  class="fa fa-car"></i> <span>Demande à valider</span><i class="bi bi-chevron-down ms-auto"></i>
-         
-
-
+          <i  class="fa fa-cogs"></i> <span>Gestion véhicule</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
+
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
           <li class="sou_menu">
-            <a class="nav-link collapsed" href="<?=base_url()?>gestionnaire/Sortie_Vehicule">
-          <i class="bi bi-person"></i>
-          <span>Prise de véhicule</span>
-        </a>
+            <a href="<?=base_url()?>gestionnaire/Sortie_Vehicule">
+              <i class="bi bi-person"></i>
+              <span>Prise de véhicule</span>
+            </a>
           </li>
+
           <li class="sou_menu">
-            <a class="nav-link collapsed" href="<?=base_url()?>gestionnaire/Retour_Vehicule">
-      <i class="fa fa-car"></i>
-      <span>Remise du véhicule</span>
-    </a>
-   </li>
+            <a href="<?=base_url()?>gestionnaire/Retour_Vehicule">
+              <i class="fa fa-car"></i>
+              <span>Remise du véhicule</span>
+            </a>
+          </li>
 
           
-        
-    </ul>
-  </li>
-   <li class="nav-item">
-    <a class="nav-link collapsed" href="<?=base_url()?>gestionnaire/Espace_Perso_Gestionnaire">
-      <i class="fa fa-car"></i>
-      <span>Mes véhicules</span>
-    </a>
-  </li>
-    
-     
+
+        </ul>
+      </li>
+
+
+
       
-</ul>
+    </ul>
 
-</aside>
+  </aside>
 
-<?php 
+  <?php 
 }else 
 {
   redirect(base_url('Login/logout'));

@@ -56,9 +56,31 @@
 
 			$date_now = date('Y-m-d');
 
-			if($this->session->userdata('PROFIL_ID') != 1)
+			if($this->session->userdata('PROFIL_ID') == 2) //si c'est le proprietaire
 			{
 				$critaire.= ' AND users.USER_ID = '.$USER_ID;
+			}
+			else if($this->session->userdata('PROFIL_ID') == 3) //Si c'est le chauffeur
+			{
+				$get_chauffeur = $this->Model->getOne('users',array('USER_ID'=>$USER_ID));
+
+				$get_user = $this->Model->getRequeteOne('SELECT users.USER_ID FROM users JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID JOIN chauffeur ON chauffeur.PROPRIETAIRE_ID = proprietaire.PROPRIETAIRE_ID WHERE chauffeur.CHAUFFEUR_ID = '.$get_chauffeur['CHAUFFEUR_ID'].'');
+
+				if(!empty($get_chauffeur) && !empty($get_user))
+				{
+					$critaire.= ' AND users.USER_ID = '.$get_user['USER_ID'];
+				}
+			}
+			else if($this->session->userdata('PROFIL_ID') == 4) //Si c'est le gestionnaire
+			{
+				$get_gestionnaire = $this->Model->getOne('users',array('USER_ID'=>$USER_ID));
+
+				$get_user = $this->Model->getRequeteOne('SELECT users.USER_ID FROM users JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID JOIN gestionnaire_vehicule ON gestionnaire_vehicule.PROPRIETAIRE_ID = proprietaire.PROPRIETAIRE_ID WHERE gestionnaire_vehicule.ID_GESTIONNAIRE_VEHICULE = '.$get_gestionnaire['ID_GESTIONNAIRE_VEHICULE'].'');
+
+				if(!empty($get_gestionnaire) && !empty($get_user))
+				{
+					$critaire.= ' AND users.USER_ID = '.$get_user['USER_ID'];
+				}
 			}
 
 			if($CHECK_VALIDE == 1) // Assurance valide
@@ -223,8 +245,10 @@
 				
 				if ($row->STATUT_VEH_AJOUT == 1 || $row->STATUT_VEH_AJOUT ==2 )
 				{
-					$option .= "<a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-edit'></i>&nbsp;&nbsp;&nbsp;&nbsp;".lang('btn_modifier')."</li></a>";
-					
+					if($this->session->userdata('PROFIL_ID') == 1 || $this->session->userdata('PROFIL_ID') == 2)
+					{
+						$option .= "<a class='btn-md' href='" . base_url('vehicule/Vehicule/ajouter/'.md5($row->VEHICULE_ID)) . "'><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-edit'></i>&nbsp;&nbsp;&nbsp;&nbsp;".lang('btn_modifier')."</li></a>";
+					}
 				}
 
 				if($PROFIL_ID == 1)
@@ -1161,6 +1185,7 @@
 			$assureur = $this->ModelPs->getRequete($proce_requete, $my_select);
 
 			$my_select_vehicul = $this->getBindParms('`ID_ASSUREUR`', 'vehicule', '1 AND VEHICULE_ID='.$VEHICULE_ID_ASSURE, '`ID_ASSUREUR` ASC');
+			
 			$assureur_vehi = $this->ModelPs->getRequeteOne($proce_requete, $my_select_vehicul);
 			$html_assureur='<option value="">'.lang('selectionner').'</option>';
 			foreach ($assureur as $key)
@@ -1312,48 +1337,48 @@
 
 				$source = !empty($row->IMAGE_AVANT) ? base_url('upload/photo_vehicule/'.$row->IMAGE_AVANT) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 				
 
-			
+
 
 				// $sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_ARRIERE" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
 
 				$source = !empty($row->IMAGE_ARRIERE) ? base_url('upload/photo_vehicule/'.$row->IMAGE_ARRIERE) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 
 				// $sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_LATERALE_GAUCHE" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
 				$source = !empty($row->IMAGE_LATERALE_GAUCHE) ? base_url('upload/photo_vehicule/'.$row->IMAGE_LATERALE_GAUCHE) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 
 				// $sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_LATERALE_DROITE" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
 				$source = !empty($row->IMAGE_LATERALE_DROITE) ? base_url('upload/photo_vehicule/'.$row->IMAGE_LATERALE_DROITE) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 
 				// $sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_TABLEAU_DE_BORD" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
 				$source = !empty($row->IMAGE_TABLEAU_DE_BORD) ? base_url('upload/photo_vehicule/'.$row->IMAGE_TABLEAU_DE_BORD) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 
 				// $sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_SIEGE_AVANT" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
 				$source = !empty($row->IMAGE_SIEGE_AVANT) ? base_url('upload/photo_vehicule/'.$row->IMAGE_SIEGE_AVANT) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 
 				// $sub_array[]="<a hre='#' data-toggle='modal' data-target='#IMAGE_SIEGE_ARRIERE" . $row->ID_ETAT_VEHICULE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
 				$source = !empty($row->IMAGE_SIEGE_ARRIERE) ? base_url('upload/photo_vehicule/'.$row->IMAGE_SIEGE_ARRIERE) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 
 				$sub_array[]=$row->IDENTIFICATION;
 				$sub_array[]=date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
 
 				$option = " ";
 
-			
+
 				
 
 
@@ -1431,7 +1456,7 @@
 				// $sub_array[]="<a hre='#' data-toggle='modal' data-target='#mypicture" . $row->ID_HISTORIQUE_ASSURANCE. "'>&nbsp;<b class='text-center fa fa-eye' id='eye'></b></a>";
 				$source = !empty($row->FILE_ASSURANCE) ? base_url('upload/photo_vehicule/'.$row->FILE_ASSURANCE) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 
 
 				$sub_array[]= date('d-m-Y',strtotime($row->DATE_DEBUT_ASSURANCE));
@@ -1517,7 +1542,7 @@
 
 				$source = !empty($row->FILE_CONTRO_TECHNIQUE) ? base_url('upload/photo_vehicule/'.$row->ID_HISTORIQUE_CONTROLE) : base_url('upload/images/user.png');
 				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-			    href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
+				href="'.$source.'" ><b class="text-center fa fa-eye" id="eye"></b></a></td></tr></tbody></table></a>';
 
 				$sub_array[]= date('d-m-Y',strtotime($row->DATE_DEBUT_CONTROTECHNIK));
 				$sub_array[]= date('d-m-Y',strtotime($row->DATE_FIN_CONTROTECHNIK));
@@ -1665,9 +1690,31 @@
 
 			$date_now = date('Y-m-d');
 
-			if($this->session->userdata('PROFIL_ID') != 1)
+			if($this->session->userdata('PROFIL_ID') == 2) //si c'est le proprietaire
 			{
 				$critaire.= ' AND users.USER_ID = '.$USER_ID;
+			}
+			else if($this->session->userdata('PROFIL_ID') == 3) //Si c'est le chauffeur
+			{
+				$get_chauffeur = $this->Model->getOne('users',array('USER_ID'=>$USER_ID));
+
+				$get_user = $this->Model->getRequeteOne('SELECT users.USER_ID FROM users JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID JOIN chauffeur ON chauffeur.PROPRIETAIRE_ID = proprietaire.PROPRIETAIRE_ID WHERE chauffeur.CHAUFFEUR_ID = '.$get_chauffeur['CHAUFFEUR_ID'].'');
+
+				if(!empty($get_chauffeur) && !empty($get_user))
+				{
+					$critaire.= ' AND users.USER_ID = '.$get_user['USER_ID'];
+				}
+			}
+			else if($this->session->userdata('PROFIL_ID') == 4) //Si c'est le gestionnaire
+			{
+				$get_gestionnaire = $this->Model->getOne('users',array('USER_ID'=>$USER_ID));
+
+				$get_user = $this->Model->getRequeteOne('SELECT users.USER_ID FROM users JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = users.PROPRIETAIRE_ID JOIN gestionnaire_vehicule ON gestionnaire_vehicule.PROPRIETAIRE_ID = proprietaire.PROPRIETAIRE_ID WHERE gestionnaire_vehicule.ID_GESTIONNAIRE_VEHICULE = '.$get_gestionnaire['ID_GESTIONNAIRE_VEHICULE'].'');
+
+				if(!empty($get_gestionnaire) && !empty($get_user))
+				{
+					$critaire.= ' AND users.USER_ID = '.$get_user['USER_ID'];
+				}
 			}
 
 			$critaire_doc_valide = '' ;
