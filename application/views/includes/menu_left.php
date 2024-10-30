@@ -73,6 +73,12 @@ if ($this->session->PROFIL_ID == 1) {
             </a>
           </li>
 
+          <li class="sou_menu">
+            <a href="<?=base_url()?>gestionnaire/Gestionnaire">
+              <i class="fa fa-user"></i><span>Gestionnaires</span>
+            </a>
+          </li>
+
         </ul>
       </li>
       <!-- End Forms Nav -->
@@ -130,6 +136,32 @@ if ($this->session->PROFIL_ID == 1) {
     </a>
   </li> -->
 
+  <li class="nav-item">
+
+        <a class="nav-link collapsed" data-bs-target="#etat_vehicule" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
+          <i  class="fa fa-exchange"></i> <span>Entrée/Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+
+        <ul id="etat_vehicule" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li class="sou_menu">
+            <a href="<?=base_url()?>etat_vehicule/Sortie_Vehicule">
+              <i class="fa fa-long-arrow-left" style="font-size:15px;"></i>
+              <span>Sortie du véhicule</span>
+            </a>
+          </li>
+
+          <li class="sou_menu">
+            <a href="<?=base_url()?>etat_vehicule/Retour_Vehicule">
+              <i class="fa fa-long-arrow-right" style="font-size:15px;"></i>
+              <span>Retour du véhicule</span>
+            </a>
+          </li>
+
+        </ul>
+
+      </li>
+
 
 
 </ul>
@@ -172,10 +204,10 @@ else if ($this->session->PROFIL_ID == 2) {
           </li>
 
           <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
+            <a class="nav-link collapsed" data-bs-target="#etat_vehicule" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
               <i class="bi bi-bar-chart"></i><span><?=lang('Tableau_bord_lng')?></span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="etat_vehicule" class="nav-content collapse " data-bs-parent="#sidebar-nav">
               <li class="sou_menu">
                 <a href="<?=base_url()?>dashboard/Dashboard_General">
                   <i class="bi bi-person"></i><span> <?=lang('Gnrl_lng')?></span>
@@ -196,6 +228,32 @@ else if ($this->session->PROFIL_ID == 2) {
       -->
     </ul>
   </li><!-- End Tables Nav -->
+
+  <li class="nav-item">
+
+        <a class="nav-link collapsed" data-bs-target="#etat_v" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
+          <i  class="fa fa-exchange"></i> <span>Entrée/Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li class="sou_menu">
+            <a href="<?=base_url()?>etat_vehicule/Sortie_Vehicule">
+              <i class="fa fa-long-arrow-left" style="font-size:15px;"></i>
+              <span>Sortie du véhicule</span>
+            </a>
+          </li>
+
+          <li class="sou_menu">
+            <a href="<?=base_url()?>etat_vehicule/Retour_Vehicule">
+              <i class="fa fa-long-arrow-right" style="font-size:15px;"></i>
+              <span>Retour du véhicule</span>
+            </a>
+          </li>
+
+        </ul>
+
+      </li>
 
 </ul>
 
@@ -229,15 +287,15 @@ else if ($this->session->PROFIL_ID == 3) //Si c'est un Chauffeur
 
           <li class="sou_menu">
             <a href="<?=base_url()?>etat_vehicule/Sortie_Vehicule">
-              <i class="fa fa-long-arrow-left"></i>
-              <span>Prise de véhicule</span>
+              <i class="fa fa-long-arrow-left" style="font-size:15px;"></i>
+              <span>Sortie du véhicule</span>
             </a>
           </li>
 
           <li class="sou_menu">
             <a href="<?=base_url()?>etat_vehicule/Retour_Vehicule">
-              <i class="fa fa-long-arrow-right"></i>
-              <span>Remise du véhicule</span>
+              <i class="fa fa-long-arrow-right" style="font-size:15px;"></i>
+              <span>Retour du véhicule</span>
             </a>
           </li>
 
@@ -271,28 +329,27 @@ elseif ($this->session->PROFIL_ID == 4) //Si c'est un gestionnaire
       <li class="nav-item">
 
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i  class="fa fa-cogs"></i> <span>Gestion véhicule</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i  class="fa fa-exchange"></i> <span>Entrée/Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
 
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
           <li class="sou_menu">
-            <a href="<?=base_url()?>gestionnaire/Sortie_Vehicule">
-              <i class="bi bi-person"></i>
-              <span>Prise de véhicule</span>
+            <a href="<?=base_url()?>etat_vehicule/Sortie_Vehicule">
+              <i class="fa fa-long-arrow-left" style="font-size:15px;"></i>
+              <span>Sortie du véhicule</span>
             </a>
           </li>
 
           <li class="sou_menu">
-            <a href="<?=base_url()?>gestionnaire/Retour_Vehicule">
-              <i class="fa fa-car"></i>
-              <span>Remise du véhicule</span>
+            <a href="<?=base_url()?>etat_vehicule/Retour_Vehicule">
+              <i class="fa fa-long-arrow-right" style="font-size:15px;"></i>
+              <span>Retour du véhicule</span>
             </a>
           </li>
 
-          
-
         </ul>
+
       </li>
 
 

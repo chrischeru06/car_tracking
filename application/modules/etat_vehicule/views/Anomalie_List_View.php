@@ -157,7 +157,7 @@ input:checked + .slider:before {
           <tr>
 
             <td>  
-              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Retour des véhicules</h4>
+              <h4 class="text-dark text-center" style="margin-bottom: 1px;">Anomalies véhicules</h4>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
 
@@ -171,7 +171,7 @@ input:checked + .slider:before {
   </div>
   <div class="col-md-2">
 
-    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('etat_vehicule/Retour_Vehicule/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
+    <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('etat_vehicule/Anomalie/ajouter')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('btn_nouveau')?></a>
 
   </div>
 
@@ -191,14 +191,14 @@ input:checked + .slider:before {
         <!-- Bordered Tabs -->
         <ul class="nav nav-tabs nav-tabs-bordered">
           <li class="nav-item">
-            <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#vehicul_pris">Véhicule en attente de validation</button>
+            <button class="nav-link active " data-bs-toggle="tab" data-bs-target="#toutes_anomalies">Toutes les anomalies</button>
           </li>
 
           <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#vehicul_remis">Véhicule validé</button>
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pannes">Pannes </button>
           </li>
           <li class="nav-item">
-            <button class="nav-link " data-bs-toggle="tab" data-bs-target="#anomalie">Véhicule refusé<span  style="font-size:10px;position:relative;top:-10px;left:-2px;"></span></button>
+            <button class="nav-link " data-bs-toggle="tab" data-bs-target="#accidents">Accidents<span  style="font-size:10px;position:relative;top:-10px;left:-2px;"></span></button>
           </li>
 
 
@@ -208,8 +208,7 @@ input:checked + .slider:before {
 
          <!-- debut taps1 -->
 
-         <!-- <div class="tab-pane fade active" id="vehicul_pris"> -->
-           <div class="tab-pane fade show active" id="vehicul_pris">
+           <div class="tab-pane fade show active" id="toutes_anomalies">
             <div class="table-responsive">
 
               <?= $this->session->flashdata('message'); ?>
@@ -220,12 +219,12 @@ input:checked + .slider:before {
                     <th class="text-dark">#</th>
                     <th class="text-dark"><?=lang('th_chauffeur')?></th>
                     <th class="text-dark">VEHICULE</th>
-                    <th class="text-dark">HEURE&nbsp;RETOUR</th>
-                    <th class="text-dark">KILOMETRAGE&nbsp;RETOUR</th>
-                    <th class="text-dark">CARBURANT&nbsp;RETOUR</th>
-                    <th class="text-dark">ANOMALIE</th>
-                    <th class="text-dark">STATUT</th>
-                    <th class="text-dark">DATE</th>
+                    <th class="text-dark">TYPE&nbsp;ANOMALIE</th>
+                    <th class="text-dark">COMMENTAIRE&nbsp;PANNE</th>
+                    <th class="text-dark">CIRCONSTANNCES</th>
+                    <th class="text-dark">DATE&nbsp;ANOMALIE</th>
+                    <th class="text-dark">LIEU&nbsp;ANOMALIE</th>
+                    <th class="text-dark">DATE&nbsp;ENREGISTREMENT</th>
 
                     <th class="text-dark">OPTION</th>
                   </tr>
@@ -238,7 +237,7 @@ input:checked + .slider:before {
           <!--  fin taps1 -->
 
           <!--  debut taps2 -->
-          <div class="tab-pane fade  pt-3" id="vehicul_remis">
+          <div class="tab-pane fade  pt-3" id="pannes">
 
             <div class="table-responsive">
 
@@ -248,12 +247,12 @@ input:checked + .slider:before {
                     <th class="text-dark">#</th>
                     <th class="text-dark"><?=lang('th_chauffeur')?></th>
                     <th class="text-dark">VEHICULE</th>
-                    <th class="text-dark">HEURE&nbsp;RETOUR</th>
-                    <th class="text-dark">KILOMETRAGE&nbsp;RETOUR</th>
-                    <th class="text-dark">CARBURANT&nbsp;RETOUR</th>
-                    <th class="text-dark">ANOMALIE</th>
-                    <th class="text-dark">STATUT</th>
-                    <th class="text-dark">DATE</th>
+                    <th class="text-dark">TYPE&nbsp;ANOMALIE</th>
+                    <th class="text-dark">COMMENTAIRE&nbsp;PANNE</th>
+                    <th class="text-dark">CIRCONSTANNCES</th>
+                    <th class="text-dark">DATE&nbsp;ANOMALIE</th>
+                    <th class="text-dark">LIEU&nbsp;ANOMALIE</th>
+                    <th class="text-dark">DATE&nbsp;ENREGISTREMENT</th>
 
                     <th class="text-dark">OPTION</th>
                   </tr>
@@ -269,7 +268,7 @@ input:checked + .slider:before {
 
           <!--     debut taps3 -->
 
-          <div class="tab-pane fade  pt-3" id="anomalie">
+          <div class="tab-pane fade  pt-3" id="accidents">
 
             <div class="table-responsive">
 
@@ -279,12 +278,12 @@ input:checked + .slider:before {
                     <th class="text-dark">#</th>
                     <th class="text-dark"><?=lang('th_chauffeur')?></th>
                     <th class="text-dark">VEHICULE</th>
-                    <th class="text-dark">HEURE&nbsp;RETOUR</th>
-                    <th class="text-dark">KILOMETRAGE&nbsp;RETOUR</th>
-                    <th class="text-dark">CARBURANT&nbsp;RETOUR</th>
-                    <th class="text-dark">ANOMALIE</th>
-                    <th class="text-dark">STATUT</th>
-                    <th class="text-dark">DATE</th>
+                    <th class="text-dark">TYPE&nbsp;ANOMALIE</th>
+                    <th class="text-dark">COMMENTAIRE&nbsp;PANNE</th>
+                    <th class="text-dark">CIRCONSTANNCES</th>
+                    <th class="text-dark">DATE&nbsp;ANOMALIE</th>
+                    <th class="text-dark">LIEU&nbsp;ANOMALIE</th>
+                    <th class="text-dark">DATE&nbsp;ENREGISTREMENT</th>
 
                     <th class="text-dark">OPTION</th>
                   </tr>
@@ -417,7 +416,7 @@ input:checked + .slider:before {
 
   function liste()
   {
-    var IS_VALIDATED = 0;
+    var ID_TYPE_ANOMALIE = 0;
     $('#message').delay('slow').fadeOut(10000);
     $(document).ready(function()
     {
@@ -429,10 +428,10 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Retour_Vehicule/listing');?>",
+          url:"<?php echo base_url('etat_vehicule/Anomalie/listing');?>",
           type:"POST",
           data : {
-          IS_VALIDATED:IS_VALIDATED,
+          ID_TYPE_ANOMALIE:ID_TYPE_ANOMALIE,
         }, 
         },
         lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
@@ -474,7 +473,7 @@ input:checked + .slider:before {
   }
   function liste2()
   {
-    var IS_VALIDATED = 1;
+    var ID_TYPE_ANOMALIE = 1;
     $('#message').delay('slow').fadeOut(10000);
     $(document).ready(function()
     {
@@ -486,10 +485,10 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Retour_Vehicule/listing');?>",
+          url:"<?php echo base_url('etat_vehicule/Anomalie/listing');?>",
           type:"POST",
           data : {
-          IS_VALIDATED:IS_VALIDATED,
+          ID_TYPE_ANOMALIE:ID_TYPE_ANOMALIE,
         }, 
         },
         lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],
@@ -531,7 +530,7 @@ input:checked + .slider:before {
   }
   function liste3()
   {
-    var IS_VALIDATED = 2;
+    var ID_TYPE_ANOMALIE = 2;
     $('#message').delay('slow').fadeOut(10000);
     $(document).ready(function()
     {
@@ -543,10 +542,10 @@ input:checked + .slider:before {
         "serverSide":true,
         "oreder":[[ 0, 'desc' ]],
         "ajax":{
-          url:"<?php echo base_url('etat_vehicule/Retour_Vehicule/listing');?>",
+          url:"<?php echo base_url('etat_vehicule/Anomalie/listing');?>",
           type:"POST",
           data : {
-          IS_VALIDATED:IS_VALIDATED,
+          ID_TYPE_ANOMALIE:ID_TYPE_ANOMALIE,
         }, 
         },
         lengthMenu: [[10,50, 100, row_count], [10,50, 100, "All"]],

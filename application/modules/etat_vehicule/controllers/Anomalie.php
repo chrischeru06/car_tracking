@@ -1,12 +1,12 @@
 <?php
 /*
-	Auteur    : NIYOMWUNGERE Ella Dancilla
-	Email     : ella_dancilla@mediabox.bi
-	Telephone : +25771379943
-	Date      : 03-05/09/2024
-	crud de l'etat du vehicule 
+	Auteur    : Pacifique
+	Email     : byamungu.pacifique@mediabox.bi
+	Telephone : +25772496057
+	Date      : 30/10/2024
+	Desc      : Ihm pour les anomalies des vehicules 
 */
-	class Retour_Vehicule extends CI_Controller
+	class Anomalie extends CI_Controller
 	{
 		function __construct()
 		{
@@ -28,7 +28,7 @@
 		function index()
 		{
 			
-			$this->load->view('Retour_Vehicule_List_View');
+			$this->load->view('Anomalie_List_View');
 		}
 
 
@@ -38,10 +38,17 @@
 
 			$USER_ID = $this->session->userdata('USER_ID');
 			$PROFIL = $this->session->userdata('PROFIL_ID');
-			$IS_VALIDATED = $this->input->post('IS_VALIDATED');
+			$ID_TYPE_ANOMALIE = $this->input->post('ID_TYPE_ANOMALIE');
 			$critaire = "";
 
-			if($PROFIL == 3) //Si c'est le chuffeur
+			$critaire_anomalie = "";
+
+			if($ID_TYPE_ANOMALIE > 0)
+			{
+				$critaire_anomalie .= " AND anomalie_vehicule.ID_TYPE_ANOMALIE =".$ID_TYPE_ANOMALIE;
+			}
+
+			if($PROFIL == 3) //Si c'est le chauffeur
 			{
 				$critaire.= ' AND users.USER_ID = '.$USER_ID;
 			}
@@ -75,23 +82,23 @@
 			}
 			$order_by = '';
 
-			$order_column = array('','chauffeur.NOM','chauffeur.PRENOM','retour_vehicule.HEURE_RETOUR ','retour_vehicule.COMMENTAIRE_ANOMALIE');
+			$order_column = array('','chauffeur.NOM','chauffeur.PRENOM','COMMENTAIRE_PANNE ','CIRCONSTANNCES_ACCIDENT');
 
 			if ($_POST['order']['0']['column'] != 0) {
-				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : 'retour_vehicule.ID_RETOUR DESC DESC';
+				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : 'anomalie_vehicule.ID_ANOMALIE DESC';
 			}
 			else
 			{
-				$order_by = ' ORDER BY retour_vehicule.ID_RETOUR DESC';
+				$order_by = ' ORDER BY anomalie_vehicule.ID_ANOMALIE DESC';
 			}
 
 			$search = !empty($_POST['search']['value']) ? (' AND (chauffeur.NOM LIKE "%' . $var_search . '%" 
 				OR chauffeur.PRENOM LIKE "%' . $var_search . '%" 
-				OR retour_vehicule.HEURE_RETOUR LIKE "%' . $var_search . '%"
-				OR retour_vehicule.COMMENTAIRE_ANOMALIE LIKE "%' . $var_search . '%"
+				OR COMMENTAIRE_PANNE LIKE "%' . $var_search . '%"
+				OR CIRCONSTANNCES_ACCIDENT LIKE "%' . $var_search . '%"
 			)') : '';
 
-			$query_principal='SELECT `ID_RETOUR`,vehicule.VEHICULE_ID,vehicule.PHOTO,CONCAT(DESC_MARQUE," - ",DESC_MODELE," - ",PLAQUE) as desc_vehicule,chauffeur.CHAUFFEUR_ID,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) as desc_chauf,chauffeur.PHOTO_PASSPORT,HEURE_RETOUR,PHOTO_KILOMETRAGE_RETOUR,PHOTO_CARBURANT_RETOUR,COMMENTAIRE_ANOMALIE,IS_VALIDATED,retour_vehicule.DATE_SAVE FROM `retour_vehicule` JOIN chauffeur ON retour_vehicule.CHAUFFEUR_ID = chauffeur.CHAUFFEUR_ID JOIN vehicule ON retour_vehicule.VEHICULE_ID = vehicule.VEHICULE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID JOIN gestionnaire_vehicule ON gestionnaire_vehicule.PROPRIETAIRE_ID = proprietaire.PROPRIETAIRE_ID  JOIN users ON chauffeur.CHAUFFEUR_ID = users.CHAUFFEUR_ID WHERE 1 AND retour_vehicule.IS_VALIDATED = '.$IS_VALIDATED.'';
+			$query_principal='SELECT `ID_ANOMALIE`,vehicule.VEHICULE_ID,vehicule.PHOTO,CONCAT(DESC_MARQUE," - ",DESC_MODELE," - ",PLAQUE) as desc_vehicule,chauffeur.CHAUFFEUR_ID,CONCAT(chauffeur.NOM," ",chauffeur.PRENOM) as desc_chauf,chauffeur.PHOTO_PASSPORT,type_anomalie.DESCRIPTION,COMMENTAIRE_PANNE,DATE_ANOMALIE,LIEU_ANOMALIE,CIRCONSTANNCES_ACCIDENT,anomalie_vehicule.IMAGE_AVANT,anomalie_vehicule.IMAGE_ARRIERE,anomalie_vehicule.IMAGE_LATERALE_GAUCHE,anomalie_vehicule.IMAGE_LATERALE_DROITE,anomalie_vehicule.IMAGE_TABLEAU_DE_BORD,anomalie_vehicule.IMAGE_SIEGE_AVANT,anomalie_vehicule.IMAGE_SIEGE_ARRIERE,anomalie_vehicule.DATE_SAVE FROM `anomalie_vehicule` JOIN type_anomalie ON anomalie_vehicule.ID_TYPE_ANOMALIE = type_anomalie.ID_TYPE_ANOMALIE JOIN chauffeur ON anomalie_vehicule.CHAUFFEUR_ID = chauffeur.CHAUFFEUR_ID JOIN vehicule ON anomalie_vehicule.VEHICULE_ID = vehicule.VEHICULE_ID JOIN vehicule_marque ON vehicule_marque.ID_MARQUE = vehicule.ID_MARQUE JOIN vehicule_modele ON vehicule_modele.ID_MODELE = vehicule.ID_MODELE JOIN proprietaire ON proprietaire.PROPRIETAIRE_ID = vehicule.PROPRIETAIRE_ID JOIN gestionnaire_vehicule ON gestionnaire_vehicule.PROPRIETAIRE_ID = proprietaire.PROPRIETAIRE_ID JOIN users ON chauffeur.CHAUFFEUR_ID = users.CHAUFFEUR_ID WHERE 1 '.$critaire_anomalie.'';
 
 
             //condition pour le query principale
@@ -117,24 +124,30 @@
 
 				$sub_array[] = ' <tbody><tr><td><a title=" " href='.base_url('vehicule/Vehicule/get_detail_vehicule/').$row->VEHICULE_ID.'><img alt="Avtar" style="border-radius:50%;width:30px;height:30px " src="'.base_url('upload/photo_vehicule/').$row->PHOTO.'"></a></td><td> '.' &nbsp;&nbsp;&nbsp;&nbsp   '.' ' . $row->desc_vehicule . '</td></tr></tbody></a>';
 
-				$sub_array[] = $row->HEURE_RETOUR;
+				$sub_array[] = $row->DESCRIPTION;
 				
-				$source = !empty($row->PHOTO_KILOMETRAGE_RETOUR) ? base_url('upload/photo_vehicule/'.$row->PHOTO_KILOMETRAGE_RETOUR) : base_url('upload/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-				href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
 
-				$source = !empty($row->PHOTO_CARBURANT_RETOUR) ? base_url('upload/photo_vehicule/'.$row->PHOTO_CARBURANT_RETOUR) : base_url('upload/user.png');
-				$sub_array[]='<table class="table-borderless"> <tbody><tr><td><a title="' . $source . '" data-gallery="photoviewer" data-title="" data-group="a"
-				href="'.$source.'" ><img alt="Avtar" style="border-radius:50%;width:30px;height:30px ;" src="' . $source . '"></a></td></tr></tbody></table></a>';
-
-				if(empty($row->COMMENTAIRE_ANOMALIE))
+				if(empty($row->COMMENTAIRE_PANNE))
 				{
 					$sub_array[] = '<center>N/A</center>';
 				}
 				else
 				{
-					$sub_array[] = "<center><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_info_supp" . $row->ID_RETOUR . "'><font class='fa fa-eye' id='eye'></font></a></center>";
+					$sub_array[] = "<center><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_panne" . $row->ID_ANOMALIE . "'><font class='fa fa-eye' id='eye'></font></a></center>";
 				}
+
+				if(empty($row->CIRCONSTANNCES_ACCIDENT))
+				{
+					$sub_array[] = '<center>N/A</center>';
+				}
+				else
+				{
+					$sub_array[] = "<center><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_circonstance" . $row->ID_ANOMALIE . "'><font class='fa fa-eye' id='eye'></font></a></center>";
+				}
+
+				$sub_array[] = $row->DATE_ANOMALIE;
+				$sub_array[] = $row->LIEU_ANOMALIE;
+				$sub_array[] = date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
 
 				$option = '<div class="dropdown text-center" style="color:#fff;">
 				<a class="btn-sm dropdown-toggle" style="color:white; hover:black; cursor:pointer;" data-toggle="dropdown">
@@ -145,75 +158,16 @@
 
 				if($PROFIL == 3) // Si c'est le chauffeur
 				{
-					if($row->IS_VALIDATED == 0)
-					{
-						$sub_array[] = '<center><i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title="En attente de validation"></i></center>';
-
-						$option .= "<li class='btn-md'>
-						<a class='btn-md' href='" . base_url('etat_vehicule/Retour_Vehicule/getOne/'. $row->ID_RETOUR) . "'><i class='bi bi-pencil h5'></i>&nbsp;&nbsp;".lang('btn_modifier')."</a>
+					$option .= "<li class='btn-md'>
+						<a class='btn-md' href='" . base_url('etat_vehicule/Retour_Vehicule/getOne/'. $row->ID_ANOMALIE) . "'><i class='bi bi-pencil h5'></i>&nbsp;&nbsp;".lang('btn_modifier')."</a>
 						</li>";
 
-						$option .= "<li class='btn-md'><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_supp" . $row->ID_RETOUR . "'><span class='fa fa-minus h5' ></span>&nbsp;&nbsp;&nbsp;Supprimer</a></li>";
-					}
-					else if($row->IS_VALIDATED == 1)
-					{
-						$sub_array[] = '<center><i class="fa fa-check text-success"  style="" title="demande validée"></i></center>';
-					}
-					else if($row->IS_VALIDATED == 2)
-					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger"  style="" title="demande refusée"></i></center>';
-
-						$option .= "<li class='btn-md'>
-						<a class='btn-md' href='" . base_url('etat_vehicule/Retour_Vehicule/getOne/'. $row->ID_RETOUR) . "'><i class='bi bi-pencil h5'></i>&nbsp;&nbsp;".lang('btn_modifier')."</a>
-						</li>";
-					}
-
-					$option .= "<a class='btn-md' id='' href='#' onclick='get_historique(" . $row->ID_RETOUR . ")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-history'></i>&nbsp;&nbsp;&nbsp;&nbsp;Historique</li></a>";
+						$option .= "<li class='btn-md'><a class='btn-md' href='#' data-toggle='modal' data-target='#modal_supp" . $row->ID_ANOMALIE . "'><span class='fa fa-minus h5' ></span>&nbsp;&nbsp;&nbsp;Supprimer</a></li>";
 				}
-				else if($PROFIL == 4) // Si c'est le gestionnaire
-				{
-					if($row->IS_VALIDATED == 0)
-					{
-						$sub_array[] = '<center><i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title="En attente de validation"></i></center>';
-
-						$option .= "<a class='btn-md' id='' href='#' onclick='traiter_demande(" . $row->ID_RETOUR . ")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='bi bi-pen'></i>&nbsp;&nbsp;&nbsp;&nbsp;".lang('btn_traiter')."</li></a>";
-					}
-					else if($row->IS_VALIDATED == 1)
-					{
-						$sub_array[] = '<center><i class="fa fa-check text-success"  style="" title="demande validée"></i></center>';
-					}
-					else if($row->IS_VALIDATED == 2)
-					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger"  style="" title="demande refusée"></i></center>';
-
-					}
-
-					$option .= "<a class='btn-md' id='' href='#' onclick='get_historique(" . $row->ID_RETOUR . ")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-history'></i>&nbsp;&nbsp;&nbsp;&nbsp;Historique</li></a>";
-				}
-				else // Si c'est l'admin ou le proprietaire
-				{
-					if($row->IS_VALIDATED == 0)
-					{
-						$sub_array[] = '<center><i class="fa fa-spinner fa-spin fa-3x fa-fw" text-warning style="font-size:15px;color: orange;" title="En attente de validation"></i></center>';
-					}
-					else if($row->IS_VALIDATED == 1)
-					{
-						$sub_array[] = '<center><i class="fa fa-check text-success"  style="" title="demande validée"></i></center>';
-					}
-					else if($row->IS_VALIDATED == 2)
-					{
-						$sub_array[] = '<center><i class="fa fa-close text-danger"  style="" title="demande refusée"></i></center>';
-
-					}
-
-					$option .= "<a class='btn-md' id='' href='#' onclick='get_historique(" . $row->ID_RETOUR . ")' ><li class='btn-md'>&nbsp;&nbsp;&nbsp;<i class='fa fa-history'></i>&nbsp;&nbsp;&nbsp;&nbsp;Historique</li></a>";
-				}
-
-				$sub_array[] = date('d-m-Y H:i:s',strtotime($row->DATE_SAVE));
-
+				
 				$option .= " </ul>
 				</div>
-				<div class='modal fade' id='modal_info_supp" .$row->ID_RETOUR . "'>
+				<div class='modal fade' id='modal_panne" .$row->ID_ANOMALIE . "'>
 				<div class='modal-dialog modal-dialog-centered modal-lg'>
 				<div class='modal-content'>
 				<div class='modal-header' style='background:cadetblue;color:white;'>
@@ -223,7 +177,32 @@
 				<div class='modal-body'>
 
 				<center>
-				<p>".$row->COMMENTAIRE_ANOMALIE."</p>
+				<p>".$row->COMMENTAIRE_PANNE."</p>
+				</center>
+
+				<div class='modal-footer'>
+
+				<button type='button' class='btn btn-outline-warning rounded-pill' data-dismiss='modal' aria-label='Close'><font class='fa fa-close'></font> ".lang('modal_btn_quitter')."</button>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>";
+
+
+				$option .= " </ul>
+				</div>
+				<div class='modal fade' id='modal_circonstance" .$row->ID_ANOMALIE . "'>
+				<div class='modal-dialog modal-dialog-centered modal-lg'>
+				<div class='modal-content'>
+				<div class='modal-header' style='background:cadetblue;color:white;'>
+				<h5>Commentaire sur l'anomalie</h5>
+				<button type='button' class='btn btn-close text-light' data-dismiss='modal' aria-label='Close'></button>
+				</div>
+				<div class='modal-body'>
+
+				<center>
+				<p>".$row->CIRCONSTANNCES_ACCIDENT."</p>
 				</center>
 
 				<div class='modal-footer'>
@@ -238,7 +217,7 @@
 				
 				$option .= " </ul>
 				</div>
-				<div class='modal fade' id='modal_supp" .$row->ID_RETOUR. "'>
+				<div class='modal fade' id='modal_supp" .$row->ID_ANOMALIE. "'>
 				<div class='modal-dialog modal-dialog-centered modal-md'>
 				<div class='modal-content'>
 				<div class='modal-header' style='background:cadetblue;color:white;'>
@@ -247,7 +226,7 @@
 				<div class='modal-body'>
 				<center><h5>Voulez-vous variment supprimer cette demande ?</h5></center>
 				<div class='modal-footer'>
-				<a class='btn btn-outline-danger rounded-pill' href='".base_url('etat_vehicule/Retour_Vehicule/delete/'.$row->ID_RETOUR)."' >Supprimer</a>
+				<a class='btn btn-outline-danger rounded-pill' href='".base_url('etat_vehicule/Anomalie/delete/'.$row->ID_ANOMALIE)."' >Supprimer</a>
 				</div>
 				</div>
 				</div>
@@ -270,10 +249,10 @@
 		}
 
 
-	//Fonction pour ajouter les provinces,communes,zones et collines
+	//Fonction pour le formulaire d'Enrégistrement
 		function ajouter()
 		{
-			$data['title'] = 'Enrégistrement retour véhicule';
+			$data['title'] = 'Enrégistrement d\'anomalie';
 			
 			$USER_ID = $this->session->userdata('USER_ID');
 			$PROFIL_ID = $this->session->userdata('PROFIL_ID');
@@ -296,7 +275,9 @@
 
 			$data['vehiculee'] = $vehicule;
 
-			$this->load->view('Retour_Vehicule_Add_View',$data);
+			$data['type_anomalie'] = $this->Model->getRequete('SELECT `ID_TYPE_ANOMALIE`,`DESCRIPTION` FROM `type_anomalie` WHERE 1 AND ID_TYPE_ANOMALIE = 1 OR ID_TYPE_ANOMALIE = 2 ORDER BY DESCRIPTION ASC');
+
+			$this->load->view('Anomalie_Add_View',$data);
 		}
 
 
@@ -387,15 +368,15 @@
 
 	function delete($id)
 	{
-		$table='retour_vehicule';
-		$criteres['ID_RETOUR']=$id;
+		$table='anomalie_vehicule';
+		$criteres['ID_ANOMALIE']=$id;
 		$detete=$this->Model->delete($table,$criteres);
 		echo json_encode($detete);
 		if($detete)
 		{
 			$data['message']='<div class="alert alert-success text-center" id="message">La suppression effectuée avec succès</div>';
 			$this->session->set_flashdata($data);
-			redirect(base_url('etat_vehicule/Retour_Vehicule'));
+			redirect(base_url('etat_vehicule/Anomalie'));
 		}
 	}
 

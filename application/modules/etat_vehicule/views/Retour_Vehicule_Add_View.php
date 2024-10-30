@@ -21,37 +21,37 @@
      <div class="row page-titles mx-0">
       <div class="col-sm-10 p-md-0">
         <div class="welcome-text">
-        <center>
-         <table>
-          <tr>
-          
-            <td>  
-              <h1 class=" text-center" style="margin-bottom: 1px;"><font class="fa fa-plus" style="font-size:18px;"></font> <?=$title?></h1>
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-               
-                </ol>
-              </nav>
-            </td>
-          </tr>
-        </table>
+          <center>
+           <table>
+            <tr>
+
+              <td>  
+                <!-- <h1 class=" text-center" style="margin-bottom: 1px;"><font class="fa fa-plus" style="font-size:18px;"></font> <?=$title?></h1> -->
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+
+                  </ol>
+                </nav>
+              </td>
+            </tr>
+          </table>
         </center>
       </div>
     </div>
     <div class="col-md-2">
 
-      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('etat_vehicule/Retour_Vehicule')?>" class="nav-link position-relative"><i class="bi bi-plus"></i> <?=lang('title_list')?></a>
+      <a class="btn btn-outline-primary rounded-pill" href="<?=base_url('etat_vehicule/Retour_Vehicule')?>" class="nav-link position-relative"><i class="bi bi-list"></i> <?=lang('title_list')?></a>
 
     </div>
   </div>
-  </div>
-    <!-- End Page Title -->
+</div>
+<!-- End Page Title -->
 
-    <section class="section dashboard">
-      <!--  <div class="container text-center"> -->
-        <div class="row">
-          <div class="text-left col-sm-12">
-            <div class="card">
+<section class="section dashboard">
+  <!--  <div class="container text-center"> -->
+    <div class="row">
+      <div class="text-left col-sm-12">
+        <div class="card">
               <!-- <div class="card-header">
                 <h4 class="card-title lead"> <?=$title?></h4>
               </div> -->
@@ -61,147 +61,103 @@
                 <?= $this->session->flashdata('message'); ?>
 
                 <!-- <div class="row"> -->
-                   <form enctype="multipart/form-data" name="myform" id="myform" method="POST" class="form-horizontal" action="<?= base_url('etat_vehicule/Retour_Vehicule/add'); ?>" >
+                 <form enctype="multipart/form-data" name="myform" id="myform" method="POST" class="form-horizontal" action="<?= base_url('etat_vehicule/Retour_Vehicule/add'); ?>" >
 
-               
-                <fieldset class="border p-2">
-                <legend  class="float-none w-auto p-2">Information générale</legend>
-                      <div class="row">
+
+                  <fieldset class="border p-2">
+                    <legend  class="float-none w-auto p-2"><?=$title?></legend>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Véhicule <font color="red">*</font></label>
+                        <select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID">
+                         <option value="">---<?=lang('selectionner')?>---</option>
+                         <?php 
+                         foreach ($vehiculee as $value) 
+                         {
+                           if ($value['VEHICULE_ID']==set_value('VEHICULE_ID')) 
+                            {?>
+                             <option value="<?=$value['VEHICULE_ID']?>" selected><?=$value['desc_vehicule']?></option>
+                             <?php 
+                           }else{?>
+                            <option value="<?=$value['VEHICULE_ID']?>"><?=$value['desc_vehicule']?></option>
+                            <?php
+                          }
+                        }
+                        ?>
+                      </select>
+                      <font id="error_VEHICULE_ID" color="red"></font>
+                      <?php echo form_error('VEHICULE_ID_error', '<div class="text-danger">', '</div>'); ?>
+                    </div>
+
                     <div class="col-md-4">
-                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Vehicule <font color="red">*</font></label>
-                      <select class="form-control" name="VEHICULE_ID" id="VEHICULE_ID">
-                       <option value="">---<?=lang('selectionner')?>---</option>
-                       <?php 
-                       foreach ($vehiculee as $value) 
-                       {
-                         if ($value['VEHICULE_ID']==set_value('CODE')) 
-                          {?>
-                           <option value="<?=$value['VEHICULE_ID']?>" selected=''><?=$value['CODE']?></option>
-                           <?php 
-                         }else{?>
-                          <option value="<?=$value['VEHICULE_ID']?>"><?=$value['CODE']?></option>
-                          <?php
-                        }
-                      }
-                      ?>
-                    </select>
-                    <font id="error_VEHICULE_ID" color="red"></font>
-                    <?php echo form_error('VEHICULE_ID_error', '<div class="text-danger">', '</div>'); ?>
-                  </div>
-                 <!--   <div class="col-md-4">
-                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Chauffeur <font color="red">*</font></label>
-                      <select class="form-control" name="CHAUFFEUR_ID" id="VEHICULE_ID">
-                       <option value="">---<?=lang('selectionner')?>---</option>
-                       <?php 
-                       foreach ($chauffeuri as $value) 
-                       {
-                         if ($value['CHAUFFEUR_ID']==set_value('chauffeur_desc')) 
-                          {?>
-                           <option value="<?=$value['CHAUFFEUR_ID']?>" selected=''><?=$value['chauffeur_desc']?></option>
-                           <?php 
-                         }else{?>
-                          <option value="<?=$value['CHAUFFEUR_ID']?>"><?=$value['chauffeur_desc']?></option>
-                          <?php
-                        }
-                      }
-                      ?>
-                    </select>
-                    <font id="error_CHAUFFEUR_ID" color="red"></font>
-                    <?php echo form_error('CHAUFFEUR_ID', '<div class="text-danger">', '</div>'); ?>
-                  </div> -->
-
-                   <div class="col-md-4">
                       <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure retour <font color="red">*</font></label>
-                      <input type="text" name="HEURE_RETOUR" autocomplete="off" id="prenom" value="<?= set_value('HEURE_RETOUR') ?>"  class="form-control" placeholder="Heure retour">
+                      <input type="time" name="HEURE_RETOUR"  autocomplete="off" id="HEURE_RETOUR" value="<?= set_value('HEURE_RETOUR') ?>"  class="form-control" placeholder="Heure retour">
                       <font id="error_HEURE_RETOUR" color="red"></font>
                       <?php echo form_error('HEURE_RETOUR', '<div class="text-danger">', '</div>'); ?>
                     </div>
-                
 
-                   <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Kilometrage retour (.png,.jpg,.jepg)<font color="red">*</font></label>
-                    <input type="file" name="kilometrage_retour" autocomplete="off" id="kilometrage_retour" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" value="<?= set_value('kilometrage_retour') ?>"  class="form-control" title='<?=lang('title_file')?>'>
-                    <font id="err_kilometrage_retour" color="red"></font>
-                    <?php echo form_error('kilometrage_retour', '<div class="text-danger">', '</div>'); ?> 
-                  </div><br><br><br>
+
+                    <div class="col-md-4" class="text-dark">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Kilometrage au retour<font color="red">*</font></label>
+                      <input type="file" name="PHOTO_KILOMETRAGE_RETOUR" autocomplete="off" id="PHOTO_KILOMETRAGE_RETOUR" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" value="<?= set_value('PHOTO_KILOMETRAGE_RETOUR') ?>"  class="form-control" title='<?=lang('title_file')?>'>
+                      <font id="err_PHOTO_KILOMETRAGE_RETOUR" color="red"></font>
+                      <?php echo form_error('PHOTO_KILOMETRAGE_RETOUR', '<div class="text-danger">', '</div>'); ?>
+                      <br>
+                    </div>
 
                     <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Carburant (.png,.jpg,.jepg)<font color="red">*</font></label>
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Niveau carburant au retour<font color="red">*</font></label>
 
-                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="carburant_retour" autocomplete="off" id="carburant_retour" value="<?= set_value('carburant_retour') ?>"  class="form-control" title='carburant retour'>
-                    <font id="error_carburant_retour" color="red"></font>
-                    <?php echo form_error('carburant_retour', '<div class="text-danger">', '</div>'); ?> 
-                  </div>
-
-                   <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Commentaire anomalie <font color="red">*</font></label>
-                      <input type="text" name="COMMENTAIRE_ANOMALIE" autocomplete="off" id="COMMENTAIRE_ANOMALIE" value="<?= set_value('COMMENTAIRE_ANOMALIE') ?>"  class="form-control" placeholder="Commentaire anomalie">
-                      <font id="error_COMMENTAIRE_ANOMALIE" color="red"></font>
-                      <?php echo form_error('COMMENTAIRE_ANOMALIE', '<div class="text-danger">', '</div>'); ?>
+                      <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="PHOTO_CARBURANT_RETOUR" autocomplete="off" id="PHOTO_CARBURANT_RETOUR" value="<?= set_value('PHOTO_CARBURANT_RETOUR') ?>"  class="form-control" title='<?=lang('title_file')?>'>
+                      <font id="error_PHOTO_CARBURANT_RETOUR" color="red"></font>
+                      <?php echo form_error('PHOTO_CARBURANT_RETOUR', '<div class="text-danger">', '</div>'); ?> 
                     </div>
 
-                   <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Commentaire validation <font color="red">*</font></label>
-                      <input type="text" name="COMMENTAIRE_VALIDATION" autocomplete="off" id="COMMENTAIRE_VALIDATION" value="<?= set_value('COMMENTAIRE_VALIDATION') ?>"  class="form-control" placeholder="Commentaire validation">
-                      <font id="error_COMMENTAIRE_VALIDATION" color="red"></font>
-                      <?php echo form_error('COMMENTAIRE_VALIDATION', '<div class="text-danger">', '</div>'); ?>
-                    </div>
-                    </div>
-                   </fieldset>
+                    <div class="col-md-4" class="text-dark">
+                      <font for="FName" class="text-dark" style="font-weight: 1000; color:#454545">État de la voiture  </font><br>
+                      <small class="text-small text-muted"><b>La voiture est en bon état ?  </b></small>
 
-                    <fieldset class="border p-2">
-                <legend  class="float-none w-auto p-2">Question</legend>
                       <div class="row">
-                        <div class="col-md-4">
-                          <h5>La voiture est encore en bonne état</h5>
+
+                        <div class="col-md-2">
+                          <input type="radio" id="non" name="IS_EXCHANGE" value="1" checked onclick="reply_question();">
+                          <label for="non">Non</label><br><br>
                         </div>
-                           <div class="col-md-4">
-                            <div class="row">
-                           <div class="col-md-6">
-                            <input type="radio" id="oui" name="remarque" value="1">
 
-                            <label for="oui">Oui</label><br>
-                            </div>
-                            <div class="col-md-6">
-                            <input type="radio" id="non" name="remarque" value="2">
-                            <label for="non">Non</label><br><br>
-                          </div>
-                          </div>
-                            
-                          </div>
-   <div class="col-md-4">
-
-    <!-- Champ commentaire caché par défaut -->
-    <div id="commentField">
-        <label for="commentaire">Commentaire :</label><br>
-        <textarea id="commentaire" name="commentaire" rows="2" cols="25"></textarea>
-        <font id="error_commentaire" color="red"></font><br><br>
-    </div>
-
-                           </div>
-                       
+                        <div class="col-md-2">
+                          <input type="radio" id="oui" name="IS_EXCHANGE" value="2" onclick="reply_question();">
+                          <label for="oui">Oui</label><br>
+                        </div> 
 
                       </div>
-                    </fieldset>
-                     <!-- Bouton envoyer caché par défaut -->
-    
+
+                    </div>
+
+                    <div class="col-md-4" id="info_supp" style="display:none;">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Anomalies constatées <font color="red">*</font></label>
+
+                      <textarea class="form-control" type="text" id="COMMENTAIRE_ANOMALIE" name="COMMENTAIRE_ANOMALIE" placeholder="Entrez votre commentaire ici"><?= set_value('COMMENTAIRE_ANOMALIE') ?></textarea>
+                      <font id="error_COMMENTAIRE_ANOMALIE" color="red"></font>
+                      <?php echo form_error('COMMENTAIRE_ANOMALIE', '<div class="text-danger">', '</div>'); ?> 
+                    </div>
+
+                  </div>
+                </fieldset>
 
 
-
-            
               </form>
-        <div class="col-md-12" style="margin-top:10px;" id="submitButton">
-        <button type="submit" style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span>Envoyer</button>
-    </div>
+              <div class="col-md-12" style="margin-top:10px;" id="submitButton">
+                <button type="submit" style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fa fa-save "> </span> <?=lang('btn_enregistrer')?></button>
+              </div>
             <!--   <div class="col-md-12" style="margin-top:10px;">
                 <button style="float: right;" class="btn btn-outline-primary rounded-pill " onclick="submit_form();"><span class="fas "></span> <?=lang('btn_enregistrer')?></button>
               </div> -->
-                  <!-- </div> -->
+              <!-- </div> -->
 
-                </div>
-              </div>
             </div>
           </div>
+        </div>
+      </div>
       <!--   </div> -->
     </section>
 
@@ -209,129 +165,94 @@
 
   <?php include VIEWPATH . 'includes/footer.php'; ?>
 
-<script>
-  
-   // Fonction pour le chargement de donnees par defaut
-  $(document).ready( function ()
-  {
-  $('#commentField').hide();
-  });
-
-    // Sélectionner les éléments du DOM
-    const ouiRadio = document.getElementById('oui');
-    const nonRadio = document.getElementById('non');
-    const commentField = document.getElementById('commentField');
-    const submitButton = document.getElementById('submitButton');
-
-    // Fonction qui montre le champ de commentaire et le bouton envoyer si "Oui" est sélectionné
-    function toggleElements() {
-        if (ouiRadio.checked) {
-            commentField.style.display = 'none';  // Afficher le champ de commentaire
-            submitButton.style.display = 'block';  // Afficher le bouton envoyer
-        } else if (nonRadio.checked) {
-            commentField.style.display = 'block';   // Cacher le champ de commentaire
-            submitButton.style.display = 'block';  // Toujours afficher le bouton envoyer pour "Non"
-        }
-    }
-
-    // Ajouter des écouteurs d'événements aux boutons radio
-    ouiRadio.addEventListener('change', toggleElements);
-    nonRadio.addEventListener('change', toggleElements);
-</script>
-
 </body>
 
+<script >
+  $(document).ready(function(){
 
+    $('#message').delay('slow').fadeOut(10000);
+    // $('#info_supp').hide();
+  })
+</script>
 
-
-  <script>
-
-      function submit_form()
+<script>
+  function reply_question() 
+  {
+    if ($('#non').is(':checked')) 
     {
-      const ouiRadio = document.getElementById('oui');
-      const nonRadio = document.getElementById('non');
-      //alert(nonRadio)
-      const kilometrage_retour = document.getElementById('kilometrage_retour');
-      const carburant_retour = document.getElementById('carburant_retour');
-      var form = document.getElementById("myform");
-      var statut=1;
-      $('#error_VEHICULE_ID').html('');
-      $('#error_CHAUFFEUR_ID').html('');
-      $('#error_HEURE_RETOUR').html('');
-      $('#err_kilometrage_retour').html('');
-      $('#error_carburant_retour').html('');
-      $('#error_COMMENTAIRE_ANOMALIE').html('');
-      $('#error_COMMENTAIRE_VALIDATION').html('');
+      $('#info_supp').hide();
+    } else if ($('#oui').is(':checked')) 
+    {
+      $('#info_supp').show();
+    }
+  }
+</script>
 
-      if($('#VEHICULE_ID').val()=='')
-      {
-        statut=2;
-        $('#error_VEHICULE_ID').html('<?=lang('msg_validation')?>');
-      }
-      if($('#CHAUFFEUR_ID').val()=='')
-      {
-        statut=2;
-        $('#error_CHAUFFEUR_ID').html('<?=lang('msg_validation')?>');
-      }
 
-      if($('#HEURE_RETOUR').val()=='')
-      {
-        statut=2;
-        $('#error_HEURE_RETOUR').html('<?=lang('msg_validation')?>');
-      }
+<script>
 
-       if($('#COMMENTAIRE_ANOMALIE').val()=='')
+  function submit_form()
+  {
+
+    const kilometrage_retour = document.getElementById('PHOTO_KILOMETRAGE_RETOUR');
+    const carburant_retour = document.getElementById('PHOTO_CARBURANT_RETOUR');
+
+    var form = document.getElementById("myform");
+
+    var statut=1;
+
+    $('#error_VEHICULE_ID').html('');
+    $('#error_HEURE_RETOUR').html('');
+    $('#err_PHOTO_KILOMETRAGE_RETOUR').html('');
+    $('#error_PHOTO_CARBURANT_RETOUR').html('');
+    $('#error_COMMENTAIRE_ANOMALIE').html('');
+
+    if($('#VEHICULE_ID').val() == '')
+    {
+      statut=2;
+      $('#error_VEHICULE_ID').html('<?=lang('msg_validation')?>');
+    }
+
+    if($('#HEURE_RETOUR').val() == '')
+    {
+      statut=2;
+      $('#error_HEURE_RETOUR').html('<?=lang('msg_validation')?>');
+    }
+
+    if ($('#oui').is(':checked'))
+    {
+      var commentaire = $('#COMMENTAIRE_ANOMALIE').val().trim();
+
+      if(commentaire.length === 0)
       {
         statut=2;
         $('#error_COMMENTAIRE_ANOMALIE').html('<?=lang('msg_validation')?>');
       }
-       if($('#COMMENTAIRE_VALIDATION').val()=='')
-      {
-        statut=2;
-        $('#error_COMMENTAIRE_VALIDATION').html('<?=lang('msg_validation')?>');
-      }
-      
-      if(kilometrage_retour.files.length === 0)
-      {
-        statut=2;
-        $('#err_kilometrage_retour').text("<?=lang('msg_validation')?>");
-      }
+    }
 
-      if(carburant_retour.files.length === 0)
-      {
-        statut=2;
-        $('#error_carburant_retour').text("<?=lang('msg_validation')?>");
-      }
-      if (nonRadio.checked) {
-        $('#error_commentaire').text("<?=lang('msg_validation')?>");
-      }
-  // error_commentaire,commentaire
-      // if($('#PHOTO_KILOMETRAGE_RETOUR').val()=='')
-      // {
-      //   statut=2;
-      //   $('#err_PHOTO_KILOMETRAGE_RETOUR').html('<?=lang('msg_validation')?>');
-      // }
-      //  if($('#PHOTO_CARBURANT_RETOUR').val()=='')
-      // {
-      //   statut=2;
-      //   $('#error_PHOTO_CARBURANT_RETOUR').html('<?=lang('msg_validation')?>');
-      // }
+    if(kilometrage_retour.files.length === 0)
+    {
+      statut=2;
+      $('#err_PHOTO_KILOMETRAGE_RETOUR').text("<?=lang('msg_validation')?>");
+    }
 
-     
+    if(carburant_retour.files.length === 0)
+    {
+      statut=2;
+      $('#error_PHOTO_CARBURANT_RETOUR').text("<?=lang('msg_validation')?>");
+    }
 
      var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
 
-      var filekilometrage_retour = kilometrage_retour.files[0];
+     var filekilometrage_retour = kilometrage_retour.files[0];
 
       var fileSizekilometrage_retour = filekilometrage_retour.size; // Taille du fichier en octets
 
       if(fileSizekilometrage_retour > maxSize)
       {
         statut=2;
-        $('#err_kilometrage_retour').html('La taille du fichier ne doit pas dépasser 2 Mo');
-      }else{$('#err_kilometrage_retour').html('');}
-
-
+        $('#err_PHOTO_KILOMETRAGE_RETOUR').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#err_PHOTO_KILOMETRAGE_RETOUR').html('');}
 
       var filecarburant_retour = carburant_retour.files[0];
 
@@ -340,8 +261,9 @@
       if(fileSizecarburant_retour > maxSize)
       {
         statut=2;
-        $('#error_carburant_retour').html('La taille du fichier ne doit pas dépasser 2 Mo');
-      }else{$('#error_carburant_retour').html('');}
+        $('#error_PHOTO_CARBURANT_RETOUR').html('La taille du fichier ne doit pas dépasser 2 Mo');
+      }else{$('#error_PHOTO_CARBURANT_RETOUR').html('');}
+
 
       if(statut==1)
       {
@@ -351,48 +273,5 @@
 
   </script>
 
-  <script>
 
-   
-    var phile1 = document.getElementById('kilometrage_retour');
-    var phile2  = document.getElementById('carburant_retour');
-   
-
-    $('#kilometrage_retour,#carburant_retour').change(function()
-    {
-      if(phile1.files.length !==0)
-      {
-        err_kilometrage_retour.innerHTML ="";
-      }
-
-      if(phile2.files.length !==0)
-      {
-        error_carburant_retour.innerHTML ="";
-      }
-    });
-       //pour les caracteres seuelement
-    $("#COMMENTAIRE_ANOMALIE,#COMMENTAIRE_VALIDATION").on('input paste change keyup', function()      
-    {
-      $('#error_COMMENTAIRE_ANOMALIE,#error_COMMENTAIRE_VALIDATION').hide();
-      $(this).val($(this).val().replace(/[^a-z-\s]/gi, '').toUpperCase());
-    });
-     //pour les chifrres
-    // $("#NUMERO_CARTE_IDENTITE").on('input paste change keyup', function()
-    // {
-    //   $('#error_NUMERO_CARTE_IDENTITE').hide();
-    //   $(this).val($(this).val().replace(/[^0-9/.]*$/gi, ''));
-    // });
-
-    $("#HEURE_RETOUR").keypress(function(event)
-    {
-      $('#error_HEURE_RETOUR').hide();
-      var character = String.fromCharCode(event.keyCode);
-      return isValid(character);     
-    });
-   
-  </script>
-
-   
-
-
-</html>
+  </html>
