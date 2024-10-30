@@ -139,7 +139,7 @@ if ($this->session->PROFIL_ID == 1) {
   <li class="nav-item">
 
         <a class="nav-link collapsed" data-bs-target="#etat_vehicule" data-bs-toggle="collapse" href="<?=base_url()?>dashboard/Dashboard_General">
-          <i  class="fa fa-exchange"></i> <span>Entrée/Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i  class="fa fa-cogs"></i> <span>Etat véhicule</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
 
         <ul id="etat_vehicule" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -155,6 +155,13 @@ if ($this->session->PROFIL_ID == 1) {
             <a href="<?=base_url()?>etat_vehicule/Retour_Vehicule">
               <i class="fa fa-long-arrow-right" style="font-size:15px;"></i>
               <span>Retour du véhicule</span>
+            </a>
+          </li>
+
+          <li class="sou_menu">
+            <a href="<?=base_url()?>etat_vehicule/Anomalie">
+              <i class="fa fa-tripadvisor" style="font-size:15px;"></i>
+              <span>Anomalie</span>
             </a>
           </li>
 
