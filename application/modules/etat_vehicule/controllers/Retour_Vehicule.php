@@ -31,11 +31,9 @@
 			$this->load->view('Retour_Vehicule_List_View');
 		}
 
-
 		//Liste des retour vehicules
 		function listing()
 		{
-
 			$USER_ID = $this->session->userdata('USER_ID');
 			$PROFIL = $this->session->userdata('PROFIL_ID');
 			$IS_VALIDATED = $this->input->post('IS_VALIDATED');
@@ -253,7 +251,6 @@
 				</div>
 				</div>
 				</div>";
-
 
 				$sub_array[]=$option;
 				$data[] = $sub_array;
