@@ -254,7 +254,6 @@
   }
 </script>
 
-
 <script>
 
   function submit_form()
@@ -279,7 +278,6 @@
     $('#error_photo_tableau').html('');
     $('#error_siege_avant').html('');
     $('#error_siege_arriere').html('');
-
 
     var maxSize = 2 * 1024 * 1024; // Taille maximale en octets (2 Mo)
 
