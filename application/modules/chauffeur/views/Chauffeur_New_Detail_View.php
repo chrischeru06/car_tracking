@@ -173,9 +173,9 @@
                     <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#info_generales"><?=lang('btn_info_gnl')?></button>
                   </li>
 
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#voitures"><?=lang('info_veh_titre')?></button>
-                  </li>
+                  </li> -->
 
                   <li class="nav-item">
                     <button class="nav-link " data-bs-toggle="tab" data-bs-target="#doc_uploader"><?=lang('btn_doc')?></button>

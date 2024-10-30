@@ -92,107 +92,64 @@
 
 
                     <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Auteur de la course <font color="red">*</font></label>
-                      <input type="text" name="AUTEUR_COURSE" autocomplete="off" id="AUTEUR_COURSE" value="<?= set_value('AUTEUR_COURSE') ?>"  class="form-control" placeholder="Auteur de la course">
-                      <font id="error_AUTEUR_COURSE" color="red"></font>
-                      <?php echo form_error('AUTEUR_COURSE', '<div class="text-danger">', '</div>'); ?>
-                    </div>
-
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Destination <font color="red">*</font></label>
-                      <input type="text" name="DESTINATION" autocomplete="off" id="DESTINATION" value="<?= set_value('DESTINATION') ?>"  class="form-control" placeholder="Destination">
-                      <font id="error_DESTINATION" color="red"></font>
-                      <?php echo form_error('DESTINATION', '<div class="text-danger">', '</div>'); ?><br>
-                    </div>
-
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Date course <font color="red">*</font></label>
-                      <input type="date" name="DATE_COURSE" autocomplete="off" id="DATE_COURSE" value="<?= set_value('DATE_COURSE') ?>" min="<?=date('Y-m-d');?>" class="form-control" placeholder="Date course">
-                      <font id="error_DATE_COURSE" color="red"></font>
-                      <?php echo form_error('DATE_COURSE', '<div class="text-danger">', '</div>'); ?>
-                    </div>
-
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure départ <font color="red">*</font></label>
-                      <input type="time" name="HEURE_DEPART" autocomplete="off" id="HEURE_DEPART" value="<?= set_value('HEURE_DEPART') ?>"  class="form-control" placeholder="Heure départ">
-                      <font id="error_HEURE_DEPART" color="red"></font>
-                      <?php echo form_error('HEURE_DEPART', '<div class="text-danger">', '</div>'); ?>
-                    </div>
-
-
-                    <div class="col-md-4">
-                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Heure retour <font color="red">*</font></label>
-                      <input type="time" name="HEURE_ESTIMATIVE_RETOUR" autocomplete="off" id="HEURE_ESTIMATIVE_RETOUR" value="<?= set_value('HEURE_ESTIMATIVE_RETOUR') ?>"  class="form-control" placeholder="Heure retour">
-                      <font id="err_HEURE_ESTIMATIVE_RETOUR" color="red"></font>
-                      <?php echo form_error('HEURE_ESTIMATIVE_RETOUR', '<div class="text-danger">', '</div>'); ?>
-                      <br>
-                    </div>
-
-
-                    <div class="col-md-4">
-                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Motif deplacement <font color="red">*</font></label>
-                      <select class="form-control" name="ID_MOTIF_DEP" id="ID_MOTIF_DEP">
+                      <label for="genre" class="text-dark" style="font-weight: 1000; color:#454545">Type anomalie <font color="red">*</font></label>
+                      <select class="form-control" name="ID_TYPE_ANOMALIE" id="ID_TYPE_ANOMALIE">
                        <option value="">---<?=lang('selectionner')?>---</option>
                        <?php 
-                       foreach ($motif as $value) 
+                       foreach ($type_anomalie as $value) 
                        {
-                         if ($value['ID_MOTIF_DEP']==set_value('DESC_MOTIF')) 
+                         if ($value['ID_TYPE_ANOMALIE']==set_value('DESCRIPTION')) 
                           {?>
-                           <option value="<?=$value['ID_MOTIF_DEP']?>" selected=''><?=$value['DESC_MOTIF']?></option>
+                           <option value="<?=$value['ID_TYPE_ANOMALIE']?>" selected=''><?=$value['DESCRIPTION']?></option>
                            <?php 
                          }else{?>
-                          <option value="<?=$value['ID_MOTIF_DEP']?>"><?=$value['DESC_MOTIF']?></option>
+                          <option value="<?=$value['ID_TYPE_ANOMALIE']?>"><?=$value['DESCRIPTION']?></option>
                           <?php
                         }
                       }
                       ?>
                     </select>
-                    <font id="error_ID_MOTIF_DEP" color="red"></font>
-                    <?php echo form_error('ID_MOTIF_DEP', '<div class="text-danger">', '</div>'); ?>
+                    <font id="error_ID_TYPE_ANOMALIE" color="red"></font>
+                    <?php echo form_error('ID_TYPE_ANOMALIE', '<div class="text-danger">', '</div>'); ?>
                   </div>
 
-                  <div class="col-md-4">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Niveau carburant au départ  <font color="red">*</font></label>
 
-                    <input type="file" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" name="carburant" autocomplete="off" id="carburant" value="<?= set_value('carburant') ?>"  class="form-control" title='<?=lang('title_file')?>'>
-                    <font id="error_carburant" color="red"></font>
-                    <?php echo form_error('carburant', '<div class="text-danger">', '</div>'); ?> 
-                  </div><br><br><br>
+                  <div class="col-md-4" id="info_supp_panne" style="display:none;">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Indication pannes <font color="red">*</font></label>
 
-
-                  <div class="col-md-4" class="text-dark">
-                    <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Kilométrage au départ   <font color="red">*</font></label>
-                    <input type="file" name="photo_kilometrage" autocomplete="off" id="photo_kilometrage" accept=".png,.PNG,.jpg,.JPG,.JEPG,.jepg" value="<?= set_value('photo_kilometrage') ?>"  class="form-control" title='<?=lang('title_file')?>'>
-                    <font id="err_photo_kilometrage" color="red"></font>
-                    <?php echo form_error('photo_kilometrage', '<div class="text-danger">', '</div>'); ?>
-                    <br>
-                  </div>
-
-                  <div class="col-md-12" class="text-dark">
-                    <font for="FName" class="text-dark" style="font-weight: 1000; color:#454545">État de la voiture  </font><br>
-                    <small class="text-small text-muted"><b>Y’a-t-il un changement sur l’état initial de la voiture ? </b></small>
-
-                    <div class="row">
-
-                      <div class="col-md-1">
-                        <input type="radio" id="non" name="IS_EXCHANGE" value="1" checked onclick="reply_question();">
-                        <label for="non">Non</label><br><br>
-                      </div>
-
-                      <div class="col-md-1">
-                        <input type="radio" id="oui" name="IS_EXCHANGE" value="2" onclick="reply_question();">
-                        <label for="oui">Oui</label><br>
-                      </div> 
-
+                      <textarea class="form-control" type="text" id="COMMENTAIRE_PANNE" name="COMMENTAIRE_PANNE" placeholder="Entrez votre commentaire ici"><?= set_value('COMMENTAIRE_PANNE') ?></textarea>
+                      <font id="error_COMMENTAIRE_PANNE" color="red"></font>
+                      <?php echo form_error('COMMENTAIRE_PANNE', '<div class="text-danger">', '</div>'); ?> 
                     </div>
 
-                  </div>
+
+                    <div class="col-md-4 info_supp_accident" id="" style="display:none;">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Circonstances accidents <font color="red">*</font></label>
+
+                      <textarea class="form-control" type="text" id="CIRCONSTANNCES_ACCIDENT" name="CIRCONSTANNCES_ACCIDENT" placeholder="Entrez votre commentaire ici"><?= set_value('CIRCONSTANNCES_ACCIDENT') ?></textarea>
+                      <font id="error_CIRCONSTANNCES_ACCIDENT" color="red"></font>
+                      <?php echo form_error('CIRCONSTANNCES_ACCIDENT', '<div class="text-danger">', '</div>'); ?> 
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Date d'anomalie <font color="red">*</font></label>
+                      <input type="date" name="DATE_ANOMALIE" autocomplete="off" id="DATE_ANOMALIE" value="<?= set_value('DATE_ANOMALIE') ?>" max="<?=date('Y-m-d');?>" class="form-control" placeholder="Date course">
+                      <font id="error_DATE_ANOMALIE" color="red"></font>
+                      <?php echo form_error('DATE_ANOMALIE', '<div class="text-danger">', '</div>'); ?>
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="FName" class="text-dark" style="font-weight: 1000; color:#454545">Lieu d'anomalie <font color="red">*</font></label>
+                      <input type="text" name="LIEU_ANOMALIE" autocomplete="off" id="LIEU_ANOMALIE" value="<?= set_value('LIEU_ANOMALIE') ?>" class="form-control" placeholder="Lieu d'anomalie">
+                      <font id="error_LIEU_ANOMALIE" color="red"></font>
+                      <?php echo form_error('LIEU_ANOMALIE', '<div class="text-danger">', '</div>'); ?>
+                    </div>
 
                 </div>
               </fieldset>
 
 
-              <fieldset class="border p-2" id="info_supp" style="display:none;">
+              <fieldset class="border p-2 info_supp_accident"  style="display:none;">
                 <legend  class="float-none w-auto p-2">Informations supplémentaires</legend>
 
                 <div class="row">

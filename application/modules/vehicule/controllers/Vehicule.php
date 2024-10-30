@@ -1297,15 +1297,17 @@
 			if ($_POST['length'] != -1) {
 				$limit = 'LIMIT ' . $_POST["start"] . ',' . $_POST["length"];
 			}
-			$order_by='';
+			$order_by = '';
 
 			$order_column=array('ID_ETAT_VEHICULE','IMAGE_AVANT','IMAGE_ARRIERE','historique_etat_vehicule.IMAGE_LATERALE_GAUCHE','historique_etat_vehicule.IMAGE_LATERALE_DROITE','historique_etat_vehicule.IMAGE_TABLEAU_DE_BORD');
 
 			if ($_POST['order']['0']['column'] != 0) {
-				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_ETAT_VEHICULE ASC';
+				$order_by = isset($_POST['order']) ? ' ORDER BY ' . $order_column[$_POST['order']['0']['column']] . '  ' . $_POST['order']['0']['dir'] : ' ID_ETAT_VEHICULE DESC';
 			}
-
-
+			else
+			{
+				$order_by = ' ORDER BY ID_ETAT_VEHICULE DESC';
+			}
 
 			$search = !empty($_POST['search']['value']) ? (' AND (`ID_ETAT_VEHICULE` LIKE "%' . $var_search . '%" 
 				OR IDENTIFICATION LIKE "%' . $var_search . '%")') : '';
